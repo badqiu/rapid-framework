@@ -1,4 +1,4 @@
 #labels Source
 rapid-framework-v1.0 svn : [http://svn.javascud.org/svn/si/webapp-generator/trunk/webapp-generator2]
 
-在此感谢[javascud http://www.javascud.org] 提供的svn空间
+在此感谢[http://www.javascud.org javascud] 提供的svn空间
