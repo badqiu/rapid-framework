@@ -1,14 +1,4 @@
-#summary One-sentence summary of this page.
 #labels Source
+rapid-framework-v1.0 svn : [http://svn.javascud.org/svn/si/webapp-generator/trunk/webapp-generator2]
 
-= Introduction =
-
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+感谢[javascud http://www.javascud.org]提供的svn空间
