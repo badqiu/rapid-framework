@@ -1,0 +1,13 @@
+#labels changelog
+==rapid-framework v1.0.2==
+
+jar升级
+	rapid-xsqlbuilder升级至v1.0.1,中括号[]默认自动进行toString()
+modules/struts2修改
+	struts/javacommon目录调整
+	增加ant任务文件build.xml,install-struts2命令可以快速将web框架切换至struts2
+模板修改
+	template/other/java_hibernate_xml调整目录,增加${subpackage}
+	struts2 的${className}Action.java实现Preparable接口
+其它
+	关键位置增加文档说明及目录增加相关readme说明
