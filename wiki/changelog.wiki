@@ -1,4 +1,4 @@
-#labels changelog
+#labels changelog,Featured
 ==rapid-framework v1.0.2==
 
 jar升级
