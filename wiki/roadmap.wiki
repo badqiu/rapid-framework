@@ -2,11 +2,12 @@
 提供复杂模板，完成多表关联操作
 	重构generator,以便从多个目录加载templJmesa,SimpleList
 整合安全框架
-	基于RBAC的SpringSecurity权限管理
+	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
 数据访问层
 	Ibatis,SpringJDBC,JPA
 整合RichEditor
-        Fckeditor
+        FckEditor
+寻找Tree组件
 
 
 文档
