@@ -1,3 +1,13 @@
+==rapid-framework路线图==
+提供复杂模板，完成多表关联操作
+	重构generator,以便从多个目录加载templJmesa,SimpleList
+整合安全框架
+	基于RBAC的SpringSecurity权限管理
+数据访问层
+	Ibatis,SpringJDBC,JPA
+整合RichEditor
+        Fckeditor
+
 
 文档
 	增加why not说明
@@ -17,40 +27,15 @@
 rapid-validation
 	* 1.整合javaeye tooltip的错误显示效果
 	2.框架独立,不依赖prototype,争取jquery用户
-	3.ajax验证使用异步方式
-类
-	增加spring CustomizeBeanNameGenerator
-	使用范型语法
-其它
-	www.rapid-framework.org.cn上线,已经向redsaga申请通过,但需等网站备案审批
-	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
-	struts2使用一致的URL规则
-	BaseDao,BaseManager等使用java1.5的范型语法
-	提供复杂模板，完成多表关联操作
-	重构generator,以便从多个目录加载template
-	日期转换支持sql.date及sql.time
-	Struts1的动态构造form使用WeakMap优化性能，以避免ClassLoader.formName
-
-
-问:为何代码生成器生成的东西还有些问题?
-答:如果生成的很完美会导致模板比较复杂,难以修改,尤其是页面部分,
-这个更是因人而异,有一个十分精简的模板根据项目再自行修改即可.
-
-问:为何项目默认没有使用国际化(i18n)
-答:在国内,大部分项目都没有国际化需求
-
-问:为什么不智能一点,还需手工配置
-答:现在手工配置的流程可以让你了解系统是如何运作的,框架的目标是不想隐藏这些,让程序员了解每一部分.
-
-
-Rapid-framework Roadmap
-整合其它显示层技术
-	Flex+BlazeDS,Ext2
-增加WEB框架
-	SpringMVC
-增加列表组件
 	
-整合安全框架
-	基于RBAC的SpringSecurity权限管理,rapid
-数据访问层
-	Ibatis,Spring JDBC
+	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
+
+	struts2使用一致的URL规则
+
+	BaseDao,BaseManager等使用java1.5的范型语法
+
+	提供复杂模板，完成多表关联操作
+
+	日期转换支持sql.date及sql.time
+
+	Struts1的动态构造form使用WeakMap优化性能，以避免ClassLoader.forName
