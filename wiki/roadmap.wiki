@@ -45,3 +45,9 @@ rapid-validation
 	日期转换支持sql.date及sql.time
 
 	Struts1的动态构造form使用WeakMap优化性能，以避免ClassLoader.forName
+
+        模板的table css优化
+
+         编写配置系统的ant脚本
+
+         javacommon打成jar包
