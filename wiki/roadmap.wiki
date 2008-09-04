@@ -51,3 +51,5 @@ rapid-validation
          编写配置系统的ant脚本
 
          javacommon打成jar包
+
+javacommon有什么关系，javacommon是你的项目生成后才要用到的把，而generator是你用来生成项目的，很容易让人混淆，而你有没有任何文档说明 
