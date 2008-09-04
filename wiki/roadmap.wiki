@@ -1,24 +1,27 @@
 ==rapid-framework路线图==
-提供复杂模板，完成多表关联操作
-	重构generator,以便从多个目录加载templJmesa,SimpleList
-整合SiteMesh
 
-整合安全框架
+===整合其它显示层技术===
+	Flex+BlazeDS,Ext2
+===增加WEB框架=
+	SpringMVC
+===增加列表组件===
+	Jmesa,SimpleList
+===整合SiteMesh===
+
+===整合安全框架===
 	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
-数据访问层
+===数据访问层===
 	Ibatis,SpringJDBC,JPA
-整合RichEditor
+===整合RichEditor===
         FckEditor
-寻找Tree组件
+===寻找Tree组件===
 
-
-文档
-	增加why not说明
+===模板文件===加why not说明
 
 模板文件
 	修改hiberante_xml使用CompositeId.java
 	增加简单版本的list.jsp,争取不喜欢extremeTable的用户
-	增加freemarker的CURD页面
+	�===rapid-validation===��CURD页面
 
 新组合:争取更多用户
 	JPA,Ibatis,SpringJDBC
@@ -28,7 +31,7 @@
 	Ext2
 
 rapid-validation
-	* 1.整合javaeye tooltip的错误显示效果
+	* 1.===其它===javaeye tooltip的错误显示效果
 	2.框架独立,不依赖prototype,争取jquery用户
 	
 	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
