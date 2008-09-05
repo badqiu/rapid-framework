@@ -56,4 +56,6 @@ rapid-validation
 
          查询页跟列表也整合到一起
 
+         支持sqldate,sqltime转换
+
 javacommon有什么关系，javacommon是你的项目生成后才要用到的把，而generator是你用来生成项目的，很容易让人混淆，而你有没有任何文档说明 
