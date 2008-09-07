@@ -5,12 +5,14 @@
 Add your content here.
 
 
-= Details =
+=插件的目录结构=
+plugin_name
+           --src
+           --web
+           --template
+           --plugin_doc
+           --web_merge.xml
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
 
 ----
 =web.xml的合并=
