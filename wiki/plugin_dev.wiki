@@ -7,7 +7,7 @@
 
 所以依照上面提供的服务,我们只需将*插件的目录结构与项目的目录结构保持一致*,并且对需要在web.xml中插入配置内容的编写 *web_merge.xml* 文件即可. 
 
-以下为插件内容介绍
+以下为插件编写介绍
 ----
 =插件的目录结构=
 {{{
@@ -26,7 +26,7 @@ plugin_name
 }}}
 
 ----
-=web.xml的合并=
+=web_merge.xml文件编写=
 插件安装器会将*web_merge.xml"的内容插入在项目web.xml的</web-app>最后元素之前.
   * web_merge.xml存放位置:放在插件的子目录下,如:${plugin_name}/web_merge.xml
 
