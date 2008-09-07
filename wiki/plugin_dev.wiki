@@ -23,11 +23,11 @@ plugin_name
 
 ----
 =web.xml的合并=
-插件安装提供web.xml的合并功能,如果插件子目录存在 *web_merge.xml* 名称的文件,则插件安装器会将该文件的内容插入在web.xml的</web-app>最后元素之前.
-  * web_merge.xml应该存放在插件的子目录下,如:${plugin_name}/web_merge.xml
+插件安装器会将*web_merge.xml"的内容插入在项目web.xml的</web-app>最后元素之前.
+  * web_merge.xml存放位置:放在插件的子目录下,如:${plugin_name}/web_merge.xml
 
 ==例子==
-===web.xml的在合并之前===
+====web.xml的在合并之前====
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
@@ -37,7 +37,7 @@ plugin_name
 </web-app>
 }}}
 
-===hibernate插件hibernate/web_merge.xml的内容.===
+====hibernate插件hibernate/web_merge.xml的内容.====
 {{{
 	<!--Hibernate Open Session in View Filter-->
 	<filter>
@@ -51,7 +51,7 @@ plugin_name
 	</filter-mapping>
 }}}
 
-===合并后web.xml的内容===
+====合并后web.xml的内容====
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
