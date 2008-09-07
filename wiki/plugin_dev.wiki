@@ -13,9 +13,10 @@ Add your content here.  Format your content with:
   * Automatic links to other wiki pages
 
 ==web.xml的合并==
-插件安装提供web.xml的合并功能,如果插件子目录存在 *web_merge.xml* 名称的文件,则插件安装器会将该文件的内容插入在web.xml的</web-app>元素之前.
+插件安装提供web.xml的合并功能,如果插件子目录存在 *web_merge.xml* 名称的文件,则插件安装器会将该文件的内容插入在web.xml的</web-app>最后元素之前.
+
 以下为示例.
-web.xml为项目中的模板
+# web.xml为项目中的模板
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
@@ -24,7 +25,7 @@ web.xml为项目中的模板
 </web-app>
 }}}
 
-hibernate插件的web_merge.xml内容.hibernate/web_merge.xml
+# hibernate插件的web_merge.xml内容.hibernate/web_merge.xml
 {{{
 	<!--Hibernate Open Session in View Filter-->
 	<filter>
@@ -38,7 +39,7 @@ hibernate插件的web_merge.xml内容.hibernate/web_merge.xml
 	</filter-mapping>
 }}}
 
-合并后生成的内容
+# 合并后web.xml的内容
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.4"
