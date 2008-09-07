@@ -1,9 +1,8 @@
-# 插件开发手册.
+= 插件开发手册 =
 
-= Introduction =
-
-Add your content here.
-
+插件安装器为插件提供两种服务
+   # 拷贝插件目录下的内容至项目根目录
+   # 将插件目录下的web_merge.xml合并至项目的web.xml
 
 =插件的目录结构=
 {{{
@@ -13,6 +12,7 @@ plugin_name
            --template
            --plugin_doc
            --web_merge.xml
+           --build.xml
 }}}
 
 ----
