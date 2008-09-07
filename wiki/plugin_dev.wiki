@@ -6,13 +6,14 @@ Add your content here.
 
 
 =插件的目录结构=
+{{{
 plugin_name
            --src
            --web
            --template
            --plugin_doc
            --web_merge.xml
-
+}}}
 
 ----
 =web.xml的合并=
