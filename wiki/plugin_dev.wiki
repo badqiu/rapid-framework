@@ -27,7 +27,7 @@ plugin_name
 
 ----
 =web_merge.xml文件编写=
-插件安装器会将*web_merge.xml"的内容插入在项目web.xml的</web-app>最后元素之前.
+插件安装器会将*web_merge.xml*的内容插入在项目web.xml的</web-app>最后元素之前.
   * web_merge.xml存放位置:放在插件的子目录下,如:${plugin_name}/web_merge.xml
 
 ==例子==
