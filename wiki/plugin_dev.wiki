@@ -74,3 +74,7 @@ plugin_name
 
 </web-app>
 }}}
+
+----
+==实际的插件目录结构例子==
+[http://rapid-framework.googlecode.com/svn/trunk/images/plugin/plugin_structure.jpg]
