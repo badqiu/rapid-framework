@@ -12,8 +12,8 @@
 {{{
 plugin_name
 	--src			#java源代码目录
-	  --resources   	#存放配置文件
-	    --spring    		#存放spring配置文件,框架会自动加载该目录的xml文件
+	   --resources   		#存放配置文件
+	      --spring    			#存放spring配置文件,框架会自动加载该目录的xml文件
 	--web			#web源代码目录
 	--template		#代码生成器的模板目录
 	   --java_src	           #模板存放java源代码的地方
@@ -21,6 +21,7 @@ plugin_name
 	   --web                   #模板存放web内容的地方
 	--plugin_doc	        #插件的文档,可以放置插件安装的说明,该目录不会被拷贝至根目录
 	web_merge.xml	        #等待合并至web.xml的内容.
+
 }}}
 
 ----
