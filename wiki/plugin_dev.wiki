@@ -1,9 +1,9 @@
 = 插件开发手册 =
 
 ==插件安装器为插件提供如下服务==
-  #存在build.xml的情况
+  # 存在build.xml的情况
   * 如果插件目录下存在ant的build.xml,则运行该运行build.xml,然后结束
-  #不存在build.xml的情况
+  # 不存在build.xml的情况
   * 拷贝插件目录下的内容至项目根目录
   * 将插件目录下的web_merge.xml合并至项目的web.xml
   
