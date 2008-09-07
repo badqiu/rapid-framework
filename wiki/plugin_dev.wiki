@@ -3,18 +3,19 @@
 ==插件安装器为插件提供如下服务==
   * 拷贝插件目录下的内容至项目根目录
   * 将插件目录下的web_merge.xml合并至项目的web.xml
-  
 
+所以依照上面提供的服务,我们只需将插件的目录结构与项目的目录结构保持一致,并且对需要在web.xml中插入配置内容的编写web_merge.xml即可.  
+
+以下为插件内容介绍
 ----
 =插件的目录结构=
 {{{
 plugin_name
-           --src
-           --web
-           --template
-           --plugin_doc
-           --web_merge.xml
-           --build.xml
+           --src                java源代码目录
+           --web                web源代码目录
+           --template           代码生成器的模板目录
+           --plugin_doc         插件的文档,可以放置插件安装的说明,该目录不会被拷贝至根目录
+           --web_merge.xml      等待合并至web.xml的内容.
 }}}
 
 ----
