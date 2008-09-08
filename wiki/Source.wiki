@@ -1,9 +1,8 @@
 #labels Source
 ==SVN==
- * [http://svn.javascud.org/svn/si/webapp-generator/trunk/webapp-generator2 rapid-framework-v1.0]
+ * [http://svn.javascud.org/svn/si/webapp-generator/trunk/webapp-generator2 rapid-framework]
 
 
 
 
 在此感谢[http://www.javascud.org http://www.javascud.org/images/javascud11031.gif] 提供的svn空间
-
