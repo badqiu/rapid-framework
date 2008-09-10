@@ -24,7 +24,7 @@ plugin_name
 	   --web                   #模板存放web内容的地方
 	--plugin_doc	        #插件的文档,可以放置插件安装的说明,该目录不会被拷贝至根目录
 	web_merge.xml	        #等待合并至web.xml的内容.
-
+	guide_merge.html	#等待合并至guide.html的内容.
 }}}
 
 ----
