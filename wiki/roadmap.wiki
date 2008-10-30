@@ -3,7 +3,7 @@
     将发布插件开发文档,便于开发插件.
 
 ==整合其它显示层技术==
-Flex+BlazeDS RemoteObject+Spring
+===Flex+BlazeDS RemoteObject+Spring===
 (BlazeDS其实就是精简的免费版本的LiveCycle ES,完全没有必要购买昂贵的LiveCycle. 还有现在网上spring集成的方式只有一个SpringFactory例子,而框架将改造成BlazeDS+Spring零配置的方式)
 
 ==Ext2的CRUD页面==
