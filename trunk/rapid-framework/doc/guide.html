@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta name="GENERATOR" content="WinCHM">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>代码生成器及系统配置</title>
+<link href="default.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+
+<H1><a href='http://code.google.com/p/rapid-framework/' target="_blank">详细在线文档请点击这里</a></H1> 
+<H1>生成器相关修改</H1>
+	<OL>
+		<LI>修改eclipse项目属性将整个项目修改为"UTF-8"编码
+		<LI>将src/javacommon,src/generator,src/resources加入源代码路径
+		<LI>将generator_lib目录下的文件加入classpath,如果没有你的数据库驱动,请自己添加
+		<LI>修改代码生成器的配置文件generator.properties
+		<LI>以application方式运行generator.GeneratorMain类,运行时直接修改main()方法添加相关表
+		<LI>生成的文件在$outRoot(默认为:d/webapp-generator-output)目录,再根据所需手工拷回至工作目录
+	</OL>
+
+<H1>系统搭建相关配置文件修改</H1>
+<h2>修改 spring 配置文件</h2>
+<pre> 
+<h3>dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
+		修改sessionFactory的annotatedScanPackages以确定要加载的类
+		修改sessionFactory.hibernateProperties相关属性
+		修改context:component-scan节点属性
+<h3>service配置文件: src/resource/spring/applicationContext-service.xml</h3> 
+		修改context:component-scan节点属性
+<h3>resource配置文件: src/resource/spring/applicationContext-resource.xml</h3>
+		修改事务配置aop:config定义的pointcut			
+</pre>
+		
+<h2>修改 数据库连接属性</h2>
+			<pre>src/resources/config/jdbc.properties</pre>
+
+<h2>修改 struts配置文件</h2>
+<pre>
+web/WEB-INF/struts-config.xml
+根据你的包结构修改struts的通配符配置
+</pre> 
+  	
+<H1>模板相关</H1>
+<H2>模板特性</H2>
+<pre>
+特性1: 模板文件的的名称与目录名称可以直接引用相关变量,如${className}.java
+特性2: .include结尾的模板文件会被无条件忽略,不会生成文件,一般用于其它文件包含
+特性3: 以@testExpression结尾的模板文件为有条件忽略,如果testExpression的值在数据模型为true,
+	则生成该文件,生成的文件不会包含@testExpression,反之
+	如${className}Id.java@compositeId
+特性4: 支持插入操作,如模板输出生成的地方已经有该同名的文件存在,
+	并且文件中有包含"webapp-generator-insert-location"标记,
+	则模板生成的内容会插入在该标记之后
+	该特性对如生成的spring配置内容插入spring配置文件十分有用
+</pre>
+
+<H2>主要相关模板讲解</H2>
+<pre>
+custom.include: 包含一些变量的配置
+macro.include: 包含一些公用的FreeMarker macro
+</pre>
+
+<h1>相关文件及目录介绍</h1>
+<pre>
+doc/guide.html		系统搭建及代码生成器使用说明
+plugins/struts2 	目录为struts2的相关代码及配置,将目录手工拷贝至相对应的目录即可切换至struts2
+template			存放代码生成器的模板文件
+generator_lib		代码生成器的相关lib,自带了一些数据库驱动
+web					web内容目录
+src					java源代码目录
+</pre>	
+</body>  	
+</html>
+

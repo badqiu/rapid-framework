@@ -1,0 +1,78 @@
+package cn.org.rapid_framework.util;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+public class CollectionUtils {
+	
+	private CollectionUtils(){}
+	
+	public static LinkedHashSet asLinkedHashSet(Collection c) {
+		return (LinkedHashSet)asTargetTypeCollection(c,LinkedHashSet.class);
+	}
+	
+	public static HashSet asHashSet(Collection c) {
+		return (HashSet)asTargetTypeCollection(c,HashSet.class);
+	}
+	
+	public static ArrayList asArrayList(Collection c) {
+		return (ArrayList)asTargetTypeCollection(c,ArrayList.class);
+	}
+	
+	public static Collection asTargetTypeCollection(Collection c,Class targetCollectionClass) {
+		if(targetCollectionClass == null) 
+			throw new IllegalArgumentException("'targetCollectionClass' must be not null");
+		if(c == null)
+			return null;
+		if(targetCollectionClass.isInstance(c)) 
+			return c;
+		
+		Collection result = null;
+		
+		try {
+			result = (Collection)targetCollectionClass.newInstance();
+		} catch (Exception e) {
+			throw new IllegalArgumentException("targetCollectionClass="+targetCollectionClass.getName()+" is not correct!",e);
+		}
+		
+		result.addAll(c);
+		return result;
+	}
+
+	public static List selectProperty(Collection from,String propertyName) {
+		List result = new ArrayList();
+		for(Object o : from) {
+			try {
+				if(o == null) {
+					result.add(null);
+				}else {
+					Object value = PropertyUtils.getSimpleProperty(o, propertyName);
+					result.add(value);
+				}
+			} catch (IllegalAccessException e) {
+				throw new IllegalArgumentException("Cannot get property by propertyName:"+propertyName+" on object:"+o,e);
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("Cannot get property by propertyName:"+propertyName+" on object:"+o,e.getTargetException());
+			} catch (NoSuchMethodException e) {
+				throw new IllegalArgumentException("Unknown property:"+propertyName,e);
+			}
+		}
+		return result;
+	}
+	
+	public static Object findSingleObject(Collection c) {
+		if(c == null || c.isEmpty())
+			return null;
+		if(c.size() > 1)
+			throw new IllegalStateException("found more than one object when single object requested");
+		return c.iterator().next();
+	}
+
+}
