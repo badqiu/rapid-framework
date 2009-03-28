@@ -30,7 +30,7 @@ public class AsyncWriter extends Writer {
 		public void handle(Throwable e);
 	}
 	
-	class DefaultAsyncExceptinHandler implements AsyncExceptinHandler {
+	public static class DefaultAsyncExceptinHandler implements AsyncExceptinHandler {
 		public void handle(Throwable e) {
 			log.error("Exception during write(): " + e,e);
 		}
