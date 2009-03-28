@@ -36,12 +36,18 @@ public class AsyncWriter extends Writer {
 		}
 	};
 	
+	private static long threadSeqNumber;
+	private static synchronized long nextThreadID() {
+		return ++threadSeqNumber;
+    }
+	
 	private class DataProcessorThread extends Thread {
-
+	    
 		private boolean enabled = true;
 		private boolean hasRuned = false;
 		DataProcessorThread() {
 			setDaemon(true);
+			setName("AsyncWriter.DataProcessorThread-"+nextThreadID());
 		}
 
 		public void run() {
