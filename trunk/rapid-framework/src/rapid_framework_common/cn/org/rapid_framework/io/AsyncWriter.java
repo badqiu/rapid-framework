@@ -17,6 +17,7 @@ public class AsyncWriter extends Writer {
 
 	private static Log log = LogFactory.getLog(AsyncWriter.class);
 	
+	private static final int DEFAULT_QUEUE_CAPACITY = 50000;
 	private final static char[] CLOSED_SIGNEL = new char[0];
 	
 	private Writer out;
@@ -38,13 +39,13 @@ public class AsyncWriter extends Writer {
 	private class DataProcessorThread extends Thread {
 
 		private boolean enabled = true;
-		private boolean hasRun = false;
+		private boolean hasRuned = false;
 		DataProcessorThread() {
 			setDaemon(true);
 		}
 
 		public void run() {
-			hasRun = true;
+			hasRuned = true;
 			char[] buf;
 			while (this.enabled || !queue.isEmpty()) {
 				try {
@@ -68,7 +69,7 @@ public class AsyncWriter extends Writer {
 	}
 
 	public AsyncWriter(Writer out) {
-		this(out,50000);
+		this(out,DEFAULT_QUEUE_CAPACITY);
 	}
 	
 	public AsyncWriter(Writer out,int queueCapacity) {
@@ -91,13 +92,10 @@ public class AsyncWriter extends Writer {
 			} catch (InterruptedException e) {
 				throw new IOException(e);
 			}
-//			if(!queue.offer(toBuffer(buf, offset, length))) {
-//				throw new IOException("cannot offer data to queue,queue is full");
-//			}
 		}
 	}
 
-	private char[] copyBuffer(char[] buf, int offset, int length) {
+	private static char[] copyBuffer(char[] buf, int offset, int length) {
 		char[] offerBuf = new char[length];
 		System.arraycopy(buf, offset, offerBuf, 0, length);
 		return offerBuf;
@@ -117,7 +115,7 @@ public class AsyncWriter extends Writer {
 				//ignore
 			}
 			
-			if(!dataProcessor.hasRun) {
+			if(!dataProcessor.hasRuned) {
 				dataProcessor.run();
 			}
 			
@@ -138,7 +136,6 @@ public class AsyncWriter extends Writer {
 
 	public void setAsyncExceptinHandler(AsyncExceptinHandler asyncExceptinHandler) {
 		if(asyncExceptinHandler == null) throw new NullPointerException();
-		
 		this.asyncExceptinHandler = asyncExceptinHandler;
 	}
 }
