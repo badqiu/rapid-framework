@@ -35,5 +35,6 @@ public class AsyncWriterTest extends TestCase {
 		}
 		writer.close();
 		System.out.println(stringWriter.toString().length());
+		assertEquals(200000,stringWriter.toString().length());
 	}
 }
