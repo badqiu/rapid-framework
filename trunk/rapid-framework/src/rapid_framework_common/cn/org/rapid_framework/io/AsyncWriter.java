@@ -46,8 +46,9 @@ public class AsyncWriter extends Writer {
 
 		public void run() {
 			hasRuned = true;
-			char[] buf;
 			while (this.enabled || !queue.isEmpty()) {
+				
+				char[] buf;
 				try {
 					buf = queue.take();
 				} catch (InterruptedException e) {
