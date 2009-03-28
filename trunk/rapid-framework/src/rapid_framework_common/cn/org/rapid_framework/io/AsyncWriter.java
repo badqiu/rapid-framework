@@ -46,8 +46,8 @@ public class AsyncWriter extends Writer {
 		private boolean enabled = true;
 		private boolean hasRuned = false;
 		DataProcessorThread() {
+			super("AsyncWriter.DataProcessorThread-"+nextThreadID());
 			setDaemon(true);
-			setName("AsyncWriter.DataProcessorThread-"+nextThreadID());
 		}
 
 		public void run() {
