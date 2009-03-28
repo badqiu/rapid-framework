@@ -104,23 +104,25 @@ public class AsyncWriter extends Writer {
 
 	public void close() throws IOException {
 		synchronized (lock) {
-			isClosed = true;
-			dataProcessor.enabled = false;
-			if(queue.isEmpty()) {
-				queue.offer(CLOSED_SIGNEL);
-			}
-			
 			try {
-				dataProcessor.join();
-			} catch (InterruptedException e) {
-				//ignore
+				isClosed = true;
+				dataProcessor.enabled = false;
+				if(queue.isEmpty()) {
+					queue.offer(CLOSED_SIGNEL);
+				}
+				
+				try {
+					dataProcessor.join();
+				} catch (InterruptedException e) {
+					//ignore
+				}
+				
+				if(!dataProcessor.hasRuned) {
+					dataProcessor.run();
+				}
+			}finally {
+				out.close();
 			}
-			
-			if(!dataProcessor.hasRuned) {
-				dataProcessor.run();
-			}
-			
-			out.close();
 		}
 	}
 	
