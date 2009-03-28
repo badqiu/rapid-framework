@@ -70,12 +70,23 @@ public class AsyncWriter extends Writer {
 	}
 
 	public AsyncWriter(Writer out) {
-		this(out,DEFAULT_QUEUE_CAPACITY);
+		this(out,DEFAULT_QUEUE_CAPACITY,Thread.NORM_PRIORITY + 1);
 	}
 	
 	public AsyncWriter(Writer out,int queueCapacity) {
-		this.queue = new ArrayBlockingQueue(queueCapacity);
+		this(out,queueCapacity,Thread.NORM_PRIORITY + 1);
+	}
+	
+	public AsyncWriter(Writer out,int queueCapacity,int dataProcesserThreadPriority) {
+		this(out,new ArrayBlockingQueue(queueCapacity),dataProcesserThreadPriority);
+	}
+	
+	public AsyncWriter(Writer out,BlockingQueue queue,int dataProcesserThreadPriority) {
+		this.queue = queue;
 		this.dataProcessor = new DataProcessorThread();
+		if(dataProcesserThreadPriority != Thread.NORM_PRIORITY) {
+			this.dataProcessor.setPriority(dataProcesserThreadPriority);
+		}
 		this.dataProcessor.start();
 		this.out = out;
 	}
