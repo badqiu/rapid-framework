@@ -8,6 +8,17 @@ import javax.swing.SwingUtilities;
 
 /**
  * 该类主要用于得到异步方法的执行结果.
+ * <pre>
+ * 	AsyncToken token = new AsyncToken();
+ * 	token.addResponder(new IResponder() {
+ *		public void onFault(Throwable fault) {
+ *			//handle fault 
+ *		}
+ *		public void onResult(Object result) {
+ *			//handle result 
+ *		}
+ *	});
+ * </pre>
  * @author badqiu
  */
 public class AsyncToken {
