@@ -34,7 +34,7 @@ public class ${className}Manager extends BaseManager<${className}>{
 		super.save(entity);
 	}
 	public void remove${className}ById(String id) {
-		super.deleteById(id);
+		super.removeById(id);
 	}
 	public void update${className}(${className} entity) {
 		super.update(entity);
