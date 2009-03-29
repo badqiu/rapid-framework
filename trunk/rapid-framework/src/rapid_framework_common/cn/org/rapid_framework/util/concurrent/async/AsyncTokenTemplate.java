@@ -28,6 +28,21 @@ public class AsyncTokenTemplate {
 	public AsyncTokenTemplate() {
 	}
 	
+	public AsyncTokenTemplate(UncaughtExceptionHandler uncaughtExceptionHandler) {
+		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
+	}
+	
+	public UncaughtExceptionHandler getUncaughtExceptionHandler() {
+		return uncaughtExceptionHandler;
+	}
+
+	public void setUncaughtExceptionHandler(
+			UncaughtExceptionHandler uncaughtExceptionHandler) {
+		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
+	}
+
+
+
 	public AsyncTokenTemplate(IResponder responder) {
 		super();
 		this.responders.add(responder);
