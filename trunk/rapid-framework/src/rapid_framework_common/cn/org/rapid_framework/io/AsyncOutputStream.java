@@ -5,8 +5,7 @@ import java.io.OutputStream;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import cn.org.rapid_framework.io.AsyncWriter.AsyncExceptinHandler;
-import cn.org.rapid_framework.io.AsyncWriter.DefaultAsyncExceptinHandler;
+import cn.org.rapid_framework.io.AsyncExceptinHandler.DefaultAsyncExceptinHandler;
 
 public class AsyncOutputStream extends OutputStream{
 	

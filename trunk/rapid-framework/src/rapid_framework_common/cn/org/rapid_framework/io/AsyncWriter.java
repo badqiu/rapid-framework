@@ -8,6 +8,8 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import cn.org.rapid_framework.io.AsyncExceptinHandler.DefaultAsyncExceptinHandler;
+
 /**
  *　异步的writer
  * @author badqiu
@@ -24,18 +26,8 @@ public class AsyncWriter extends Writer {
 	private DataProcessorThread dataProcessor;
 	private boolean isClosed = false;
 	private BlockingQueue<char[]> queue ;
+	
 	private AsyncExceptinHandler asyncExceptinHandler = new DefaultAsyncExceptinHandler();
-		
-	public static interface AsyncExceptinHandler {
-		public void handle(Throwable e);
-	}
-	
-	public static class DefaultAsyncExceptinHandler implements AsyncExceptinHandler {
-		public void handle(Throwable e) {
-			log.error("Exception during write(): " + e,e);
-		}
-	};
-	
 	private static long threadSeqNumber;
 	private static synchronized long nextThreadID() {
 		return ++threadSeqNumber;
