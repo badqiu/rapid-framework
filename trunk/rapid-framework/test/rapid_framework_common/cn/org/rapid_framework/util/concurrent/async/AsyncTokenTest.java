@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.util.concurrent.async.AsyncToken.UncaughtExceptionHandler;
 
 public class AsyncTokenTest extends TestCase {
 
@@ -52,5 +53,29 @@ public class AsyncTokenTest extends TestCase {
 		}catch(IllegalArgumentException e) {
 			assertTrue(true);
 		}
+	}
+	
+	public void testUncaughtExceptionHandler() throws InterruptedException {
+		final RuntimeException caughtException = new RuntimeException();
+		
+		AsyncToken token = new AsyncToken();
+		token.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			public void uncaughtException(IResponder responder, Throwable e) {
+				assertEquals(caughtException,e);
+				System.out.println("caughtException");
+			}
+		});
+		
+		token.setComplete(exception);
+		token.addResponder(new IResponder() {
+			public void onFault(Throwable fault) {
+				assertNull(fault);
+			}
+			public void onResult(Object result) {
+				throw caughtException;
+			}
+		});
+		
+		Thread.sleep(500);
 	}
 }
