@@ -127,6 +127,11 @@ public class AsyncOutputStream extends OutputStream{
 		}
 	}
 	
+	public void setAsyncExceptinHandler(AsyncExceptinHandler asyncExceptinHandler) {
+		if(asyncExceptinHandler == null) throw new NullPointerException();
+		this.asyncExceptinHandler = asyncExceptinHandler;
+	}
+
 	private static byte[] copyBuffer(byte[] buf, int offset, int length) {
 		byte[] offerBuf = new byte[length];
 		System.arraycopy(buf, offset, offerBuf, 0, length);
