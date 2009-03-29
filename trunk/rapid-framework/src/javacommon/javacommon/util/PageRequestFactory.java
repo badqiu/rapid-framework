@@ -14,8 +14,10 @@ import cn.org.rapid_framework.page.PageRequest;
  */
 public class PageRequestFactory {
 	
+	static int DEFAULT_PAGE_SIZE = 20;
+	
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumn,String defaultSortDirection){
-    	PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request),defaultSortColumn,defaultSortDirection);
+		PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumn,defaultSortDirection);
     	info.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
     	return info;
     }
