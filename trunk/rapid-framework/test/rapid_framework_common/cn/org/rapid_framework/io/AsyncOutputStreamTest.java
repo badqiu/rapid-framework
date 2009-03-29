@@ -11,18 +11,18 @@ import edu.emory.mathcs.backport.java.util.concurrent.ArrayBlockingQueue;
 public class AsyncOutputStreamTest extends TestCase {
 
 	ByteArrayOutputStream targetOutput = new ByteArrayOutputStream();
-	OutputStream output = new AsyncOutputStream(targetOutput);
+	OutputStream asyncOutput = new AsyncOutputStream(targetOutput);
 	public void test() throws IOException, InterruptedException {
 		
-		output.write("java".getBytes());
-		output.write("diy".getBytes());
-		output.write(65);
-		output.close();
+		asyncOutput.write("java".getBytes());
+		asyncOutput.write("diy".getBytes());
+		asyncOutput.write(65);
+		asyncOutput.close();
 		
 		assertEquals("javadiyA",new String(targetOutput.toByteArray()));
 		
 		try {
-			output.write("jiy".getBytes());
+			asyncOutput.write("jiy".getBytes());
 			fail();
 		}catch(IOException expected) {
 		}
@@ -30,7 +30,7 @@ public class AsyncOutputStreamTest extends TestCase {
 	
 	public void testNullPointerException() throws IOException {
 		try {
-			output.write(null);
+			asyncOutput.write(null);
 			fail();
 		}catch(NullPointerException expected) {
 			assertTrue(true);
@@ -40,9 +40,9 @@ public class AsyncOutputStreamTest extends TestCase {
 	
 	public void testPerformence() throws IOException {
 		for(int i = 0; i < 200000; i++) {
-			output.write("c".getBytes());
+			asyncOutput.write("c".getBytes());
 		}
-		output.close();
+		asyncOutput.close();
 		System.out.println(new String(targetOutput.toByteArray()));
 		assertEquals(200000,new String(targetOutput.toByteArray()).length());
 	}
