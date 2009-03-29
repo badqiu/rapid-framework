@@ -11,28 +11,28 @@ public class PageUtils {
 		return (pageNumber - 1) * pageSize;
 	}
 	
-	public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int count,int maxPageNumber) {
-		int avg = count / 2;
+	public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int totalCount,int lastPageNumber) {
+		int avg = totalCount / 2;
 		
-		int start = currentPageNumber - avg;
-		if(start <= 0) {
-			start = 1;
+		int startPageNumber = currentPageNumber - avg;
+		if(startPageNumber <= 0) {
+			startPageNumber = 1;
 		}
 		
-		int end = start + count - 1;
-		if(end > maxPageNumber) {
-			end = maxPageNumber;
+		int endPageNumber = startPageNumber + totalCount - 1;
+		if(endPageNumber > lastPageNumber) {
+			endPageNumber = lastPageNumber;
 		}
 		
-		if(end - start < count) {
-			start = end - count;
-			if(start <= 0 ) {
-				start = 1;
+		if(endPageNumber - startPageNumber < totalCount) {
+			startPageNumber = endPageNumber - totalCount;
+			if(startPageNumber <= 0 ) {
+				startPageNumber = 1;
 			}
 		}
 		
 		java.util.List<Integer> result = new java.util.ArrayList();
-		for(int i = start; i <= end; i++) {
+		for(int i = startPageNumber; i <= endPageNumber; i++) {
 			result.add(new Integer(i));
 		}
 		return result;
