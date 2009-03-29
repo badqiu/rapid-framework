@@ -11,21 +11,21 @@ public class PageUtils {
 		return (pageNumber - 1) * pageSize;
 	}
 	
-	public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int totalCount,int lastPageNumber) {
-		int avg = totalCount / 2;
+	public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
+		int avg = count / 2;
 		
 		int startPageNumber = currentPageNumber - avg;
 		if(startPageNumber <= 0) {
 			startPageNumber = 1;
 		}
 		
-		int endPageNumber = startPageNumber + totalCount - 1;
+		int endPageNumber = startPageNumber + count - 1;
 		if(endPageNumber > lastPageNumber) {
 			endPageNumber = lastPageNumber;
 		}
 		
-		if(endPageNumber - startPageNumber < totalCount) {
-			startPageNumber = endPageNumber - totalCount;
+		if(endPageNumber - startPageNumber < count) {
+			startPageNumber = endPageNumber - count;
 			if(startPageNumber <= 0 ) {
 				startPageNumber = 1;
 			}

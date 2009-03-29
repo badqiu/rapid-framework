@@ -154,7 +154,7 @@ public class Page<T> implements Serializable
      * @return
      */
 	public List<Integer> getLinkPageNumbers() {
-		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), 10, getLastPageNumber());
+		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),10);
 	}
 	
 	/**
