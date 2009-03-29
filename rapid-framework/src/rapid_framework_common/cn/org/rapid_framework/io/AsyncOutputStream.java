@@ -91,7 +91,7 @@ public class AsyncOutputStream extends OutputStream{
 		if (b == null)  throw new NullPointerException();
 		synchronized (this) {
 			try {
-				queue.put(copyBuffer(b,off,len));
+				queue.put(ArrayUtils.copyBuffer(b,off,len));
 			} catch (InterruptedException e) {
 				throw new IOException(e);
 			}
@@ -131,13 +131,6 @@ public class AsyncOutputStream extends OutputStream{
 		if(asyncExceptinHandler == null) throw new NullPointerException();
 		this.asyncExceptinHandler = asyncExceptinHandler;
 	}
-
-	private static byte[] copyBuffer(byte[] buf, int offset, int length) {
-		byte[] offerBuf = new byte[length];
-		System.arraycopy(buf, offset, offerBuf, 0, length);
-		return offerBuf;
-	}
-
 
 
 }

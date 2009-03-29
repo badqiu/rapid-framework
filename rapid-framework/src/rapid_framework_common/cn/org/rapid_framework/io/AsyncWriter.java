@@ -98,17 +98,11 @@ public class AsyncWriter extends Writer {
 		if(isClosed) throw new IOException("already closed");
 		synchronized (lock) {
 			try {
-				queue.put(copyBuffer(buf, offset, length));
+				queue.put(ArrayUtils.copyBuffer(buf, offset, length));
 			} catch (InterruptedException e) {
 				throw new IOException(e);
 			}
 		}
-	}
-
-	private static char[] copyBuffer(char[] buf, int offset, int length) {
-		char[] offerBuf = new char[length];
-		System.arraycopy(buf, offset, offerBuf, 0, length);
-		return offerBuf;
 	}
 
 	public void close() throws IOException {
@@ -150,4 +144,5 @@ public class AsyncWriter extends Writer {
 		if(asyncExceptinHandler == null) throw new NullPointerException();
 		this.asyncExceptinHandler = asyncExceptinHandler;
 	}
+
 }
