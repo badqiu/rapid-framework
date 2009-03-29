@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 /**
+ * 该类主要用于得到异步方法的执行结果.
  * @author badqiu
  */
 public class AsyncToken {
