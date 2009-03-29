@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 public interface AsyncExceptinHandler {
+	
 	public void handle(Throwable e);
 	
 	public static class DefaultAsyncExceptinHandler implements AsyncExceptinHandler {
