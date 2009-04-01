@@ -51,7 +51,7 @@ public class MultiThreadTestUtils {
 		}
 		
 		sleepForThreadsStarted();
-		
+		startSignal.countDown();
 		return doneSignal;
 	}
 
