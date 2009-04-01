@@ -4,26 +4,26 @@ import java.util.concurrent.CountDownLatch;
 
 public class MultiThreadTestUtils {
 	
-	public void executeAndWaitForDone(final Runnable task,int threadCount,boolean threadDemeon) throws InterruptedException {
-		CountDownLatch doneSignal = execute(task, threadCount, threadDemeon);
+	public void executeAndWaitForDone(int threadCount,boolean threadDemeon,final Runnable task) throws InterruptedException {
+		CountDownLatch doneSignal = execute(threadCount, threadDemeon, task);
 		doneSignal.await();
 	}
 	
-	public void executeAndWaitForDone(final Runnable task,int threadCount) throws InterruptedException {
-		executeAndWaitForDone(task, threadCount,Thread.currentThread().isDaemon());
+	public void executeAndWaitForDone(int threadCount,final Runnable task) throws InterruptedException {
+		executeAndWaitForDone(threadCount, Thread.currentThread().isDaemon(),task);
 	}
 	
-	public CountDownLatch execute(final Runnable task,int threadCount) {
-		return execute(task, threadCount,Thread.currentThread().isDaemon());
+	public CountDownLatch execute(int threadCount,final Runnable task) {
+		return execute(threadCount, Thread.currentThread().isDaemon(),task);
 	}
 	
 	/**
-	 * @param task
 	 * @param threadCount
 	 * @param threadDemeon
+	 * @param task
 	 * @return 返回doneSignal
 	 */
-	public CountDownLatch execute(final Runnable task,int threadCount,boolean threadDemeon) {
+	public CountDownLatch execute(int threadCount,boolean threadDemeon,final Runnable task) {
 		final CountDownLatch startSignal = new CountDownLatch(1);
 		final CountDownLatch doneSignal = new CountDownLatch(threadCount);
 		for(int i = 0; i < threadCount; i++) {
