@@ -96,13 +96,23 @@ public class AsyncToken {
 			}else {
 				throw e;
 			}
+		}catch(Error e) {
+			if(getUncaughtExceptionHandler() != null) {
+				getUncaughtExceptionHandler().uncaughtException(responder, e);
+			}else {
+				throw e;
+			}
 		}
 	}
 	
 	private void fireResult2Responders() {
 		_isFiredResult = true;
 		for(IResponder r : _responders) {
-			fireResult2Responder(r);
+			try {
+				fireResult2Responder(r);
+			}catch(Throwable e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
