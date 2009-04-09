@@ -12,25 +12,21 @@ import org.springframework.context.ApplicationContextAware;
  * @author badqiu
  *
  */
-public class ApplicationContextHolder implements ApplicationContextAware,DisposableBean{
+public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
 	private static ApplicationContext applicationContext;
-	private static boolean isDestroyed = false;
 	
 	public void setApplicationContext(ApplicationContext context)
 			throws BeansException {
 		if(this.applicationContext != null) {
 			throw new BeanCreationException("ApplicationContextHolder already holded 'applicationContext'.");
 		}
-		this.isDestroyed = false;
 		this.applicationContext = context;
 		log.info("holded applicationContext,displayName:"+applicationContext.getDisplayName());
 	}
 	
 	public static ApplicationContext getApplicationContext() {
-		if(isDestroyed)
-			throw new IllegalStateException("'ApplicationContextHolder already destroyed.");
 		if(applicationContext == null)
 			throw new IllegalStateException("'applicationContext' property is null,ApplicationContextHolder not yet init.");
 		return applicationContext;
@@ -40,10 +36,4 @@ public class ApplicationContextHolder implements ApplicationContextAware,Disposa
 		return getApplicationContext().getBean(beanName);
 	}
 
-	public void destroy() throws Exception {
-		log.info("destroy() ,displayName:"+applicationContext.getDisplayName());
-		this.isDestroyed = true;
-		this.applicationContext = null;
-	}
-	
 }
