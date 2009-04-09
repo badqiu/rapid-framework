@@ -75,4 +75,75 @@ public class CollectionUtils {
 		return c.iterator().next();
 	}
 
+	public static double avg(Collection objects,String propertyName) {
+		List<Number> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return avg(propertyValues);
+	}
+	
+	public static double avg(Collection<Number> values) {
+		if(values == null) return 0;
+		if(values.isEmpty()) return 0;
+		return sum(values) / values.size();
+	}
+	
+	public static double sum(Collection objects,String propertyName) {
+		if(objects.isEmpty()) return 0;
+		List<Number> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return sum(propertyValues);
+	}
+
+	public static double sum(Collection<Number> values) {
+		if(values == null) return 0;
+		if(values.isEmpty()) return 0;
+		
+		double sum = 0;
+		for(Number num : values) {
+			if(num == null) continue;
+			sum += num.doubleValue();
+		}
+		return sum;
+	}
+	
+	public static Object max(Collection objects,String propertyName) {
+		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return max(propertyValues);
+	}
+
+	public static Object max(Collection<Comparable> values) {
+		if(values == null) return null;
+		if(values.size() == 0) return null;
+		
+		Comparable max = null;
+		for(Comparable v : values) {
+			if(max == null) {
+				max = v;
+			}else {
+				if(max.compareTo(v) < 0) {
+					max = v;
+				}
+			}
+		}
+		return max;
+	}
+	
+	public static Object min(Collection objects,String propertyName) {
+		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return min(propertyValues);
+	}
+
+	public static Object min(Collection<Comparable> values) {
+		if(values == null) return null;
+		if(values.size() == 0) return null;
+		Comparable min = null;
+		for(Comparable v : values) {
+			if(min == null) {
+				min = v;
+			}else {
+				if(min.compareTo(v) > 0) {
+					min = v;
+				}
+			}
+		}
+		return min;
+	}
 }
