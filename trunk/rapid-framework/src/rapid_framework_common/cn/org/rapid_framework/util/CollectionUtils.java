@@ -10,7 +10,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-
+/**
+ * @author badqiu
+ */
 public class CollectionUtils {
 	
 	private CollectionUtils(){}

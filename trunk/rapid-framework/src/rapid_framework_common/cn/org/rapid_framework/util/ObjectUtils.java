@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.util;
-
+/**
+ * @author badqiu
+ */
 public class ObjectUtils {
 
 	public static boolean isNullOrEmptyString(Object o) {
