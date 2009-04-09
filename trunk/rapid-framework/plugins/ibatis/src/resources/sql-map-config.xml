@@ -12,6 +12,6 @@
 	    maxRequests="128"
 	    useStatementNamespaces="true"/>
     
-    <!-- 这里无需配置sqlMap,通过spring的配置加载某个目录的多个SqlMap.xml-->
+    <!-- 这里无需配置sqlMap,可以通过spring的配置加载某个目录的多个SqlMap.xml-->
     <sqlMap resource="emptyForIbatisParse_sqlmap.xml"/>
 </sqlMapConfig>
