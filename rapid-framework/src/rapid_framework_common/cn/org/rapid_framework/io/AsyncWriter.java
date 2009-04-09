@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.io;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -12,6 +14,11 @@ import cn.org.rapid_framework.io.AsyncExceptinHandler.DefaultAsyncExceptinHandle
 
 /**
  *　异步的writer
+ * 使用示例:
+ * <pre>
+ * 	BufferedWriter writer = new BufferedWriter(new AsyncWriter(new FileWriter("c:/debug.log")));
+ *	writer.write("xxxxx");
+ * </pre>
  * @author badqiu
  *
  */
