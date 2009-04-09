@@ -3,6 +3,7 @@ package cn.org.rapid_framework.util;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -104,46 +105,4 @@ public class CollectionUtils {
 		return sum;
 	}
 	
-	public static Object max(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
-		return max(propertyValues);
-	}
-
-	public static Object max(Collection<Comparable> values) {
-		if(values == null) return null;
-		if(values.size() == 0) return null;
-		
-		Comparable max = null;
-		for(Comparable v : values) {
-			if(max == null) {
-				max = v;
-			}else {
-				if(max.compareTo(v) < 0) {
-					max = v;
-				}
-			}
-		}
-		return max;
-	}
-	
-	public static Object min(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
-		return min(propertyValues);
-	}
-
-	public static Object min(Collection<Comparable> values) {
-		if(values == null) return null;
-		if(values.size() == 0) return null;
-		Comparable min = null;
-		for(Comparable v : values) {
-			if(min == null) {
-				min = v;
-			}else {
-				if(min.compareTo(v) > 0) {
-					min = v;
-				}
-			}
-		}
-		return min;
-	}
 }

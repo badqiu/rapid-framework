@@ -12,17 +12,7 @@ public class CollectionUtilsTest extends TestCase {
 			values.add(i);
 		}
 	}
-	
-	public void testMin() {
-		assertEquals(new Integer(0),(Integer)CollectionUtils.min(values));
-		assertEquals(null,CollectionUtils.min(null));
-	}
-	
-	public void testMax() {
-		assertEquals(new Integer(9),(Integer)CollectionUtils.max(values));
-		assertEquals(null,CollectionUtils.max(null));
-	}
-	
+		
 	public void testSum() {
 		assertEquals(45,(long)CollectionUtils.sum(values));
 		assertEquals(0,(long)CollectionUtils.sum(new ArrayList()));
