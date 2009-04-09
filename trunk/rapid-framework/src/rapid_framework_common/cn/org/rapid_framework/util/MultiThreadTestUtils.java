@@ -6,19 +6,12 @@ import java.util.concurrent.CountDownLatch;
  * @author badqiu
  */
 public class MultiThreadTestUtils {
+	
 	private MultiThreadTestUtils() {}
 	
-	public static void executeAndWaitForDone(int threadCount,boolean threadDemeon,final Runnable task) throws InterruptedException {
-		CountDownLatch doneSignal = execute(threadCount, threadDemeon, task);
-		doneSignal.await();
-	}
-	
 	public static void executeAndWaitForDone(int threadCount,final Runnable task) throws InterruptedException {
-		executeAndWaitForDone(threadCount, Thread.currentThread().isDaemon(),task);
-	}
-	
-	public static CountDownLatch execute(int threadCount,final Runnable task) {
-		return execute(threadCount, Thread.currentThread().isDaemon(),task);
+		CountDownLatch doneSignal = execute(threadCount, task);
+		doneSignal.await();
 	}
 	
 	/**
@@ -27,7 +20,7 @@ public class MultiThreadTestUtils {
 	 * @param task
 	 * @return 返回doneSignal
 	 */
-	public static CountDownLatch execute(int threadCount,boolean threadDemeon,final Runnable task) {
+	public static CountDownLatch execute(int threadCount,final Runnable task) {
 		final CountDownLatch startSignal = new CountDownLatch(1);
 		final CountDownLatch doneSignal = new CountDownLatch(threadCount);
 		for(int i = 0; i < threadCount; i++) {
@@ -49,7 +42,6 @@ public class MultiThreadTestUtils {
 				}
 			};
 			
-			t.setDaemon(threadDemeon);
 			t.start();
 		}
 		
