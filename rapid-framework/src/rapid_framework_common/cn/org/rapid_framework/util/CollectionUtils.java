@@ -48,6 +48,9 @@ public class CollectionUtils {
 	}
 
 	public static List selectProperty(Collection from,String propertyName) {
+		if(propertyName == null) throw new IllegalArgumentException("'propertyName' must be not null");
+		if(from == null) return null;
+		
 		List result = new ArrayList();
 		for(Object o : from) {
 			try {
@@ -105,4 +108,14 @@ public class CollectionUtils {
 		return sum;
 	}
 	
+	public static Object max(Collection objects,String propertyName) {
+		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return Collections.max(propertyValues);
+	}
+
+	public static Object min(Collection objects,String propertyName) {
+		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		return Collections.min(propertyValues);
+	}
+
 }
