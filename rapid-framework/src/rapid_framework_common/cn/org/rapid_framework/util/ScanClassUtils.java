@@ -12,7 +12,7 @@ import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.util.Assert;
 
 /**
- * 根据class的工具类
+ * 搜索class的工具类
  * @author badqiu
  *
  */
