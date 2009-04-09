@@ -1,5 +1,8 @@
 package cn.org.rapid_framework.io;
 
+/**
+ * @author badqiu
+ */
 class ArrayUtils {
 
 	static byte[] copyBuffer(byte[] buf, int offset, int length) {

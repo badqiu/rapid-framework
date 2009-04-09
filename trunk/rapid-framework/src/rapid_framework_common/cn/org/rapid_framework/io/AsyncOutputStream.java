@@ -1,12 +1,23 @@
 package cn.org.rapid_framework.io;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import cn.org.rapid_framework.io.AsyncExceptinHandler.DefaultAsyncExceptinHandler;
-
+/**
+ * 
+ * 异步的输出流
+ * 使用示例:
+ * <pre>
+ * BufferedOutputStream output = new BufferedOutputStream(new AsyncOutputStream(new FileOutputStream("c:/debug.log")));
+ * output.write("foo".getBytes());
+ * </pre>
+ * @author badqiu
+ */
 public class AsyncOutputStream extends OutputStream{
 	
 	private final static byte[] CLOSED_SIGNEL = new byte[0];

@@ -3,7 +3,9 @@ package cn.org.rapid_framework.io;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
+/**
+ * @author badqiu
+ */
 public interface AsyncExceptinHandler {
 	
 	public void handle(Throwable e);
