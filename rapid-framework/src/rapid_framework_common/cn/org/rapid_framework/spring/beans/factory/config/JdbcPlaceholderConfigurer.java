@@ -73,7 +73,7 @@ public class JdbcPlaceholderConfigurer extends PropertyPlaceholderConfigurer imp
 			}
 			return value;
 		default:
-				throw new IllegalArgumentException("cannot reach this");
+				throw new IllegalArgumentException("error columnCount:"+columnCount+", sql:"+sql);
 		}
 	}
 
