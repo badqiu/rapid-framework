@@ -63,9 +63,9 @@ public class CollectionUtils {
 					result.add(value);
 				}
 			} catch (IllegalAccessException e) {
-				throw new IllegalArgumentException("Cannot get property by propertyName:"+propertyName+" on object:"+o,e);
+				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on object:"+o,e);
 			} catch (InvocationTargetException e) {
-				throw new IllegalArgumentException("Cannot get property by propertyName:"+propertyName+" on object:"+o,e.getTargetException());
+				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on object:"+o,e.getTargetException());
 			} catch (NoSuchMethodException e) {
 				throw new IllegalArgumentException("Unknown property:"+propertyName,e);
 			}
