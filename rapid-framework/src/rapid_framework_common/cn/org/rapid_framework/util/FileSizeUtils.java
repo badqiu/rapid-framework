@@ -41,7 +41,7 @@ public class FileSizeUtils {
 		return String.valueOf(fileSize);
 	}
 
-	static String getHumanReadableFileSize(long fileSize, long unit,String unitName) {
+	private static String getHumanReadableFileSize(long fileSize, long unit,String unitName) {
 		if(fileSize == 0) return "0";
 		
 		if(fileSize / unit >= 1) {
