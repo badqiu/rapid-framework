@@ -22,7 +22,8 @@ public class DateConvertUtils {
 			return null;
 		DateFormat df = new SimpleDateFormat(dateFormat);
 		try {
-			java.util.Date t = targetResultType.getConstructor(long.class).newInstance(df.parse(dateString).getTime());
+			long time = df.parse(dateString).getTime();
+			java.util.Date t = targetResultType.getConstructor(long.class).newInstance(time);
 			return (T)t;
 		} catch (ParseException e) {
 			String errorInfo = "cannot use dateformat:"+dateFormat+" parse datestring:"+dateString;
