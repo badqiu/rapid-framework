@@ -7,7 +7,11 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-
+/**
+ * 用于持有spring的applicationContext,一个系统只能有一个ApplicationContextHolder
+ * @author badqiu
+ *
+ */
 public class ApplicationContextHolder implements ApplicationContextAware,DisposableBean{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);

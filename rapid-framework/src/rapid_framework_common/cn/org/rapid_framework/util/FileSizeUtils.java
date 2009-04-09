@@ -1,7 +1,9 @@
 package cn.org.rapid_framework.util;
 
 import java.text.DecimalFormat;
-
+/**
+ * @author badqiu
+ */
 public class FileSizeUtils {
 	public static long ONE_KB = 1024;
 	public static long ONE_MB = ONE_KB * 1024;

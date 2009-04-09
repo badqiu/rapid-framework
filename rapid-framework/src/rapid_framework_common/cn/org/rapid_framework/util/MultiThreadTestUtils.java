@@ -2,6 +2,9 @@ package cn.org.rapid_framework.util;
 
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * @author badqiu
+ */
 public class MultiThreadTestUtils {
 	private MultiThreadTestUtils() {}
 	

@@ -7,7 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.StringUtils;
-
+/**
+ * @author badqiu
+ */
 public class DateConvertUtils {
 	
 	public static java.util.Date parse(String dateString,String dateFormat) {
