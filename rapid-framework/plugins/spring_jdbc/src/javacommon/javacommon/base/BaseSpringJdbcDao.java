@@ -30,13 +30,11 @@ import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncr
 import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.util.StringUtils;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.page.impl.JdbcScrollPage;
-import cn.org.rapid_framework.util.MapUtils;
 import cn.org.rapid_framework.util.ObjectUtils;
 import cn.org.rapid_framework.util.SqlRemoveUtils;
 /**
@@ -215,6 +213,10 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 	
 	public void flush() {
 		//ignore
+	}
+	
+	public boolean isUnique(Object entity, String uniquePropertyNames) {
+		throw new UnsupportedOperationException();
 	}
 	
 	public void saveOrUpdate(Object entity) {
