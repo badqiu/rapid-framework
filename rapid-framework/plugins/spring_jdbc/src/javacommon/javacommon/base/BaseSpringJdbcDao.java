@@ -63,6 +63,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 	protected void initTemplateConfig() {
 		super.initTemplateConfig();
 		if(dialect == null) throw new IllegalStateException("'dialect' property must be not null");
+		log.info("use jdbc dialect:"+dialect);
 		simpleJdbcTemplate = new SimpleJdbcTemplate(getDataSource());
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 	}
@@ -141,7 +142,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 	}
 
 	private Page pageQuery(String sql, Map paramMap,final int totalCount, int limit, int pageNumber) {
-		if(dialect != null && dialect.supportsLimit()) {
+		if(dialect.supportsLimit()) {
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,limit,totalCount);
 				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),limit);
@@ -157,7 +158,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 		}
 	}
 
-	private Page getJdbcScrollPage(final int pageNumber,final int pageSize,
+	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,
 			String sql,Map filters, final int totalCount) {
 		return (Page)getNamedParameterJdbcTemplate().execute(sql, filters, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps)
