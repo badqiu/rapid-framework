@@ -16,8 +16,8 @@ public class PageRequestFactory {
 	
 	static int DEFAULT_PAGE_SIZE = 20;
 	
-	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumn,String defaultSortDirection){
-		PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumn,defaultSortDirection);
+	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
+		PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumns);
     	info.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
     	return info;
     }

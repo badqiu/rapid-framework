@@ -71,8 +71,8 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 		requestMap.put(tableId+"totalRows", new Integer(page.getTotalCount()));
 	}
 	
-	public PageRequest newPageRequest(String defaultSortColumn,String defaultSortDirection){
-		return PageRequestFactory.newPageRequest(ServletActionContext.getRequest(), defaultSortColumn, defaultSortDirection);
+	public PageRequest newPageRequest(String defaultSortColumns){
+		return PageRequestFactory.newPageRequest(ServletActionContext.getRequest(), defaultSortColumns);
     }
 	
 	public boolean isNullOrEmptyString(Object o) {

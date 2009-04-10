@@ -15,10 +15,8 @@ import ${basepackage}.${subpackage}.web.form.*;
 
 public class ${className}Action extends BaseStrutsAction {
 	
-	//默认排序列
-	protected static final String DEFAULT_SORT_COLUMN = null; 
-	//默认排序方向,asc或是desc
-	protected static final String DEFAULT_SORT_DIRECTION = null; 
+	//默认多列排序,example: username desc,createTime asc
+	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
 	//forward paths
 	protected static final ActionForward QUERY_FORWARD = new ActionForward("${jspFileBasePath}/query.jsp");
@@ -50,7 +48,7 @@ public class ${className}Action extends BaseStrutsAction {
 	 **/
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			  HttpServletResponse response) {
-		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMN,DEFAULT_SORT_DIRECTION);
+		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page,request);
 		return LIST_FORWARD;

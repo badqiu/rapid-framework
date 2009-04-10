@@ -22,7 +22,7 @@ public class ${className}Dao extends BaseHibernateDao<${className}>{
 				+ "/~ and a.${column.columnNameLower} = '[${column.columnNameLower}]' ~/"
 				</#if>
 			</#list>
-				+ "/~ order by [sortingColumn] [sortingDirection] ~/";
+				+ "/~ order by [sortColumns] ~/";
 		return findBy(sql,pageRequest);
 	}
 	

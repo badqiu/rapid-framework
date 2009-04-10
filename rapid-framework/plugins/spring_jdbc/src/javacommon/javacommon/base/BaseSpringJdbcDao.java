@@ -122,11 +122,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest) {
 		Map filters = pageRequest.getFilters();
-		
-		if(StringUtils.hasText(pageRequest.getSortingColumn()))
-			MapUtils.putIfNull(filters, "sortingColumn", pageRequest.getSortingColumn());
-		if(StringUtils.hasText(pageRequest.getSortingDirection()))
-			MapUtils.putIfNull(filters, "sortingDirection", pageRequest.getSortingDirection());
+		filters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = new XsqlBuilder();
 //		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());

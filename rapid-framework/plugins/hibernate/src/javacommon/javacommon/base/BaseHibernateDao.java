@@ -77,11 +77,8 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 				
 				StringBuffer queryString = new StringBuffer(" FROM ").append(getEntityClass().getSimpleName());
 				String countQueryString = "SELECT count(*) " + queryString.toString();
-				if(StringUtils.hasText(pageRequest.getSortingColumn())) {
-					queryString.append(" ORDER BY "+pageRequest.getSortingColumn());
-					if(StringUtils.hasText(pageRequest.getSortingDirection())) {
-						queryString.append(" "+pageRequest.getSortingDirection()+" ");
-					}
+				if(StringUtils.hasText(pageRequest.getSortColumns())) {
+					queryString.append(" ORDER BY "+pageRequest.getSortColumns());
 				}
 				
 				Query query = session.createQuery(queryString.toString());
@@ -98,11 +95,7 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 
 	public Page findBy(final String query,String countQuery,final PageRequest pageRequest) {
 		Map filters = pageRequest.getFilters();
-		
-		if(StringUtils.hasText(pageRequest.getSortingColumn()))
-			MapUtils.putIfNull(filters, "sortingColumn", pageRequest.getSortingColumn());
-		if(StringUtils.hasText(pageRequest.getSortingDirection()))
-			MapUtils.putIfNull(filters, "sortingDirection", pageRequest.getSortingDirection());
+		filters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = newXsqlBuilder();
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
