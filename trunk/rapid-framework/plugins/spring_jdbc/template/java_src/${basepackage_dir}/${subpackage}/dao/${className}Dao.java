@@ -16,10 +16,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ${className}Dao extends BaseSpringJdbcDao{
-
+	
+	static final String selectPrefix = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
+	
 	public Class getEntityClass() {
 		return ${className}.class;
 	}
+	
 	public String getIdentifierPropertyName() {
 		<#if table.singleId>
 		return "${table.idColumn.columnNameLower}";
@@ -33,12 +36,12 @@ public class ${className}Dao extends BaseSpringJdbcDao{
 	}
 	
 	public List findAll() {
-		String sql = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName}";
+		String sql = selectPrefix ;
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
 	}
 
 	public ${className} getById(Serializable id) {
-		String sql = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} where ${table.idColumn.sqlName}=? ";
+		String sql = selectPrefix + " where ${table.idColumn.sqlName}=? ";
 		return getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(${className}.class), id);
 	}
 
@@ -57,7 +60,7 @@ public class ${className}Dao extends BaseSpringJdbcDao{
 	
 	public Page findByPageRequest(PageRequest pageRequest) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
-		String sql = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} as a where 1=1 "
+		String sql = selectPrefix + " as a where 1=1 "
 			<#list table.columns as column>
 			  	<#if column.isNotIdOrVersionField>
 				+ "/~ and a.${column.sqlName} = '[${column.columnNameLower}]' ~/"
@@ -67,14 +70,10 @@ public class ${className}Dao extends BaseSpringJdbcDao{
 		return pageQuery(sql,pageRequest);
 	}
 	
-	public boolean isUnique(Object entity, String uniquePropertyNames) {
-		return false;
-	}
-	
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		String sql = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} where ${column.columnNameLower}=?";
+		String sql =  selectPrefix + " where ${column.columnNameLower}=?";
 		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(User.class), v);
 	}	
 	</#if>
