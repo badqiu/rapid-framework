@@ -1,7 +1,10 @@
 package cn.org.rapid_framework.page;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /**
  * 分页请求信息
@@ -22,31 +25,32 @@ public class PageRequest implements Serializable {
 	 */
 	private int pageSize;
 	/**
-	 * 排序的方向,ASC 或是 DESC
+	 * 排序的多个列,如: username desc
 	 */
-	private String sortingColumn;
-	/**
-	 * 排序的列字段
-	 */
-	private String sortingDirection;
+	private String sortColumns;
+	
+	private List<SortInfo> cacheSortInfos;
 	
 	public PageRequest() {
 	}
 	
 	public PageRequest(int pageNumber, int pageSize, Map filters) {
-		this(pageNumber,pageSize,filters,null,null);
+		this(pageNumber,pageSize,filters,null);
 	}
 	
-	public PageRequest(int pageNumber, int pageSize, String sortingColumn, String sortingDirection) {
-		this(pageNumber,pageSize,new HashMap(),sortingColumn,sortingDirection);
+	public PageRequest(int pageNumber, int pageSize) {
+		this(pageNumber,pageSize,new HashMap());
 	}
 	
-	public PageRequest(int pageNumber, int pageSize, Map filters, String sortingColumn, String sortingDirection) {
+	public PageRequest(int pageNumber, int pageSize,String sortColumns) {
+		this(pageNumber,pageSize,new HashMap(),sortColumns);
+	}
+	
+	public PageRequest(int pageNumber, int pageSize, Map filters,String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
 		this.filters = filters;
-		this.sortingColumn = sortingColumn;
-		this.sortingDirection = sortingDirection;
+		setSortColumns(sortColumns);
 	}
 
 	public Map getFilters() {
@@ -76,20 +80,17 @@ public class PageRequest implements Serializable {
 		this.pageSize = pageSize;
 	}
 
-	public String getSortingColumn() {
-		return sortingColumn;
+	public String getSortColumns() {
+		return sortColumns;
 	}
 
-	public void setSortingColumn(String sortingColumn) {
-		this.sortingColumn = sortingColumn;
+	public void setSortColumns(String sortColumns) {
+		this.sortColumns = sortColumns;
+		this.cacheSortInfos = Collections.unmodifiableList(SortInfo.parseSortColumns(sortColumns));
 	}
 
-	public String getSortingDirection() {
-		return sortingDirection;
-	}
-
-	public void setSortingDirection(String sortingDirection) {
-		this.sortingDirection = sortingDirection;
+	public List<SortInfo> getSortInfos() {
+		return cacheSortInfos;
 	}
 	
 }

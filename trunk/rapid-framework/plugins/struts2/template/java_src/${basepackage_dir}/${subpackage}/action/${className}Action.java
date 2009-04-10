@@ -14,8 +14,8 @@ import com.opensymphony.xwork2.ModelDriven;
 <#include "/java_imports.include">
 
 public class ${className}Action extends BaseStruts2Action implements Preparable,ModelDriven{
-	protected static final String DEFAULT_SORT_COLUMN = null; //默认排序�
-	protected static final String DEFAULT_SORT_DIRECTION = null; //默认排序方向,asc或是desc
+	//默认多列排序,example: username desc,createTime asc
+	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
 	//forward paths
 	protected static final String QUERY_JSP = "${jspFileBasePath}/query.jsp";
@@ -68,7 +68,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	
 	/** 执行搜索 */
 	public String list() {
-		PageRequest pageRequest = newPageRequest(DEFAULT_SORT_COLUMN,DEFAULT_SORT_DIRECTION);
+		PageRequest pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters().put("key",value);     //add custom filter
 		Page page = ${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page);

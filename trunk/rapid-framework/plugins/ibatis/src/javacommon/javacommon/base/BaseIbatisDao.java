@@ -77,8 +77,7 @@ public abstract class BaseIbatisDao<E> extends SqlMapClientDaoSupport implements
 		parameterObject.put("offset", page.getFirstResult());
 		parameterObject.put("pageSize", page.getPageSize());
 		parameterObject.put("lastRows", page.getFirstResult() + page.getPageSize());
-		parameterObject.put("sortingColumn", pageRequest.getSortingColumn());
-		parameterObject.put("sortingDirection", pageRequest.getSortingDirection());
+		parameterObject.put("sortColumns", pageRequest.getSortColumns());
 		
 		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject);
 		page.setThisPageElements(list);

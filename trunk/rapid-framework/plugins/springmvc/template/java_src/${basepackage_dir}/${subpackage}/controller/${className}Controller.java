@@ -15,10 +15,8 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 @Controller
 public class ${className}Controller extends BaseSpringController{
-	//默认排序�?
-	protected static final String DEFAULT_SORT_COLUMN = null; 
-	//默认排序方向,asc或是desc
-	protected static final String DEFAULT_SORT_DIRECTION = null; 
+	//默认多列排序,example: username desc,createTime asc
+	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
 	private ${className}Manager ${classNameLower}Manager;
 	
@@ -45,7 +43,7 @@ public class ${className}Controller extends BaseSpringController{
 	 * 执行搜索 
 	 **/
 	public ModelAndView list(HttpServletRequest request,HttpServletResponse response) {
-		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMN,DEFAULT_SORT_DIRECTION);
+		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page, request);
 		return new ModelAndView("${jspFileBasePath}/list");
