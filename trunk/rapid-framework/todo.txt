@@ -64,6 +64,8 @@ rapid-validation
 
 	struts2重复提交，提示信息
 	
+	ibatis 排序
+	
 rapid-framework为你做好的二件事
 	1.项目脚手架
 	1.配置,
