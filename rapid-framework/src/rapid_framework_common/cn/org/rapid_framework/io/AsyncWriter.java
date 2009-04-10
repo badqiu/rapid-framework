@@ -105,7 +105,7 @@ public class AsyncWriter extends Writer {
 		if(isClosed) throw new IOException("already closed");
 		synchronized (lock) {
 			try {
-				queue.put(ArrayUtils.copyBuffer(buf, offset, length));
+				queue.put(BufferCopyUtils.copyBuffer(buf, offset, length));
 			} catch (InterruptedException e) {
 				throw new IOException(e);
 			}

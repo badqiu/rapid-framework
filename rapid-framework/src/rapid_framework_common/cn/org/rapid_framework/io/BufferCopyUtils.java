@@ -3,7 +3,7 @@ package cn.org.rapid_framework.io;
 /**
  * @author badqiu
  */
-class ArrayUtils {
+class BufferCopyUtils {
 
 	static byte[] copyBuffer(byte[] buf, int offset, int length) {
 		byte[] offerBuf = new byte[length];
