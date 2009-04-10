@@ -29,8 +29,6 @@ public class PageRequest implements Serializable {
 	 */
 	private String sortColumns;
 	
-	private List<SortInfo> cacheSortInfos;
-	
 	public PageRequest() {
 	}
 	
@@ -86,11 +84,10 @@ public class PageRequest implements Serializable {
 
 	public void setSortColumns(String sortColumns) {
 		this.sortColumns = sortColumns;
-		this.cacheSortInfos = Collections.unmodifiableList(SortInfo.parseSortColumns(sortColumns));
 	}
 
 	public List<SortInfo> getSortInfos() {
-		return cacheSortInfos;
+		return Collections.unmodifiableList(SortInfo.parseSortColumns(sortColumns));
 	}
 	
 }
