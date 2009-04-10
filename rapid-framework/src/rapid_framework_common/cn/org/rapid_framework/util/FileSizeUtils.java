@@ -38,7 +38,7 @@ public class FileSizeUtils {
 		if(result != null) {
 			return result;
 		}
-		return String.valueOf(fileSize);
+		return String.valueOf(fileSize)+"B";
 	}
 
 	private static String getHumanReadableFileSize(long fileSize, long unit,String unitName) {
