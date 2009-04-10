@@ -102,7 +102,7 @@ public class AsyncOutputStream extends OutputStream{
 		if (b == null)  throw new NullPointerException();
 		synchronized (this) {
 			try {
-				queue.put(ArrayUtils.copyBuffer(b,off,len));
+				queue.put(BufferCopyUtils.copyBuffer(b,off,len));
 			} catch (InterruptedException e) {
 				throw new IOException(e);
 			}
