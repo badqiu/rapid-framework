@@ -2,6 +2,9 @@ package cn.org.rapid_framework.page;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import junit.framework.TestCase;
 
 public class SortInfoTest extends TestCase {
@@ -34,5 +37,10 @@ public class SortInfoTest extends TestCase {
 		SortInfo sort3 = sortInfos.get(2);
 		assertEquals("sex",sort3.getColumnName());
 		assertEquals("asc",sort3.getSortOrder());
+	}
+	
+	public void testJoinSortInfos() {
+		List<SortInfo> sortInfos = SortInfo.parseSortColumns(" username  desc,age,sex asc ");
+		assertEquals("username desc,age,sex asc",StringUtils.join(sortInfos.iterator(), ","));
 	}
 }
