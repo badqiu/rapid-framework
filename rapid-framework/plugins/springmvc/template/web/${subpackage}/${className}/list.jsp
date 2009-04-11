@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.do','items',document.forms.ec)"/>
 </form>
 
-<ec:table items='page.thisPageElements' var="item" 
+<ec:table items='page.result' var="item" 
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
 	action="<@jspEl 'ctx'/>${strutsActionBasePath}/list.do" autoIncludeParameters="true">
 	<ec:row>
