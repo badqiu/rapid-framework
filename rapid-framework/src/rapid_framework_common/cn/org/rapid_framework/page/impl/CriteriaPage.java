@@ -12,7 +12,7 @@ public class CriteriaPage extends Page{
 
 	public CriteriaPage(Criteria criteria,int pageNumber, int pageSize) {
 		super(pageNumber,pageSize,queryTotalCount(criteria));
-		elements = criteria
+		result = criteria
 			.setFirstResult(getFirstResult())
 			.setMaxResults(this.pageSize).list();
 	}

@@ -24,7 +24,7 @@ public class ListPage extends Page {
     public ListPage(List elements, int pageNumber, int pageSize){
     	super(pageNumber,pageSize,elements.size());
     	List subList = ((List)elements).subList(getThisPageFirstElementNumber() - 1, getThisPageLastElementNumber());
-    	setThisPageElements(subList);
+    	setResult(subList);
     }
 
     public ListPage(List elements, PageRequest p){

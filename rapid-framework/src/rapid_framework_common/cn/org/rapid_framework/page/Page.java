@@ -12,33 +12,33 @@ import java.util.List;
 public class Page<T> implements Serializable
 {
 	
-	protected List<T> elements;
+	protected List<T> result;
 
 	protected int pageSize;
 
 	protected int pageNumber;
 
-	protected int totalElementsCount = 0;
+	protected int totalCount = 0;
 	
 	public Page(PageRequest p, int totalCount) {
 		this(p.getPageNumber(),p.getPageSize(),totalCount);
 	}
 	
-	public Page(int pageNumber,int pageSize,int totalElementsCount) {
-		this(pageNumber,pageSize,totalElementsCount,new ArrayList(0));
+	public Page(int pageNumber,int pageSize,int totalCount) {
+		this(pageNumber,pageSize,totalCount,new ArrayList(0));
 	}
 	
-	public Page(int pageNumber,int pageSize,int totalElementsCount,List<T> thisPageElements) {
+	public Page(int pageNumber,int pageSize,int totalCount,List<T> result) {
 		if(pageSize <= 0) throw new IllegalArgumentException("[pageSize] must great than zero");
 		this.pageSize = pageSize;
-		this.pageNumber = PageUtils.computePageNumber(pageNumber,pageSize,totalElementsCount);
-		this.totalElementsCount = totalElementsCount;
-		setThisPageElements(thisPageElements);
+		this.pageNumber = PageUtils.computePageNumber(pageNumber,pageSize,totalCount);
+		this.totalCount = totalCount;
+		setResult(result);
 	}
 
-	public void setThisPageElements(List<T> elements) {
-		if(elements == null) throw new IllegalArgumentException("'thisPageElements' must be not null");
-		this.elements = elements;
+	public void setResult(List<T> elements) {
+		if(elements == null) throw new IllegalArgumentException("'result' must be not null");
+		this.result = elements;
 	}
 	
     /**
@@ -46,8 +46,8 @@ public class Page<T> implements Serializable
      *
      * @return 当前页数据源
      */
-	public List<T> getThisPageElements() {
-		return (elements);
+	public List<T> getResult() {
+		return result;
 	}
 	
     /**
@@ -89,7 +89,7 @@ public class Page<T> implements Serializable
      * @return 最后一页页码
      */
 	public int getLastPageNumber() {
-		return PageUtils.computeLastPageNumber(totalElementsCount, pageSize);
+		return PageUtils.computeLastPageNumber(totalCount, pageSize);
 	}
     /**
      * 总的数据条目数量，0表示没有数据
@@ -97,7 +97,7 @@ public class Page<T> implements Serializable
      * @return 总数量
      */
 	public int getTotalCount() {
-		return totalElementsCount;
+		return totalCount;
 	}
     /**
      * 获取当前页的首条数据的行编码

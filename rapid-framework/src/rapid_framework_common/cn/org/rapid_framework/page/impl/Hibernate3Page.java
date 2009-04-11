@@ -30,7 +30,7 @@ public class Hibernate3Page extends Page  {
 	 */
 	public Hibernate3Page(Query query, int pageNumber, int pageSize) {
 		super(pageNumber, pageSize,queryTatalCountByScrollableResults(query));
-		elements = query.setFirstResult(
+		result = query.setFirstResult(
 				(this.pageNumber - 1) * this.pageSize).setMaxResults(
 				this.pageSize).list();
 	}
@@ -55,9 +55,9 @@ public class Hibernate3Page extends Page  {
 	public Hibernate3Page(Query selectQuery, Query countQuery, int pageNumber,int pageSize) {
 		super(pageNumber, pageSize, ((Number)countQuery.uniqueResult()).intValue());
 		if(getTotalCount() == 0) {
-			elements = new ArrayList(0);
+			result = new ArrayList(0);
 		}else {
-			elements = selectQuery.setFirstResult(getFirstResult()).setMaxResults(this.pageSize).list();
+			result = selectQuery.setFirstResult(getFirstResult()).setMaxResults(this.pageSize).list();
 		}
 
 	}
