@@ -102,8 +102,8 @@ public class AsyncWriter extends Writer {
 	}
 
 	public void write(char[] buf, int offset, int length) throws IOException {
-		if(isClosed) throw new IOException("already closed");
 		synchronized (lock) {
+			if(isClosed) throw new IOException("already closed");
 			try {
 				queue.put(BufferCopyUtils.copyBuffer(buf, offset, length));
 			} catch (InterruptedException e) {
