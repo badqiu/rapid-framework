@@ -26,7 +26,7 @@ package ${basepackage}.${subpackage}.${className}
 		
 		override public function result(data:Object):void
 		{
-			model.list = data.result.thisPageElements;
+			model.list = data.result.result;
 			if(model.list.length > 0){
 				model.selectedItem = model.list.getItemAt(0) as ${className};
 			}

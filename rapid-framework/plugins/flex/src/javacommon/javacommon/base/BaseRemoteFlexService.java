@@ -21,12 +21,12 @@ public class BaseRemoteFlexService <E>{
 	}
 	
 	public static Page convertPageList2TargetClass(Page page,Class targetClass){
-		List list = page.getThisPageElements();
+		List list = page.getResult();
 		List convertedList = new ArrayList();
 		for(Object o : list) {
 			convertedList.add(copyProperties(targetClass,o));
 		}
-		page.setThisPageElements(convertedList);
+		page.setResult(convertedList);
 		return page;
 	}
 	/**
@@ -35,13 +35,13 @@ public class BaseRemoteFlexService <E>{
 	 * @return
 	 */
 	public static Page convertPageList2BeanSerializerProxy(Page page){
-		List list = page.getThisPageElements();
+		List list = page.getResult();
 		List convertedList = new ArrayList();
 		for(Object o : list) {
 			Object proxy = new HibernateBeanSerializer(o).getProxy();
 			convertedList.add(proxy);
 		}
-		page.setThisPageElements(convertedList);
+		page.setResult(convertedList);
 		return page;
 	}
 	

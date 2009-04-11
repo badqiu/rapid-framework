@@ -21,7 +21,7 @@ package javacommon.flex.page{
 		public var lastPageNumber : Number;
 		public var firstResult : Number;
 
-		public var thisPageElements : ArrayCollection; 
+		public var result : ArrayCollection; 
 		public var linkPageNumbers : ArrayCollection;
 				
 		public var hasPreviousPage : Boolean;
