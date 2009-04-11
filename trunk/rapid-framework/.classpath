@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="generator/src"/>
-	<classpathentry kind="src" path="plugins/flex/src/javacommon"/>
 	<classpathentry kind="src" path="generator/test"/>
 	<classpathentry kind="src" path="src/rapid_framework_common"/>
 	<classpathentry kind="src" path="test/rapid_framework_common"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="src/javacommon"/>
+	<classpathentry kind="src" path="plugins/flex/src/javacommon"/>
 	<classpathentry kind="src" path="plugins/ext/src/javacommon"/>
 	<classpathentry kind="src" path="plugins/spring_jdbc/src/javacommon"/>
 	<classpathentry kind="src" path="plugins/hibernate/src/resources"/>
