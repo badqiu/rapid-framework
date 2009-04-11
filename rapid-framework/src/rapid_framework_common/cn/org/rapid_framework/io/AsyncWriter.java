@@ -107,7 +107,7 @@ public class AsyncWriter extends Writer {
 			try {
 				queue.put(BufferCopyUtils.copyBuffer(buf, offset, length));
 			} catch (InterruptedException e) {
-				throw new IOException(e);
+				throw new IOException("AsyncWriter occer error",e);
 			}
 		}
 	}
