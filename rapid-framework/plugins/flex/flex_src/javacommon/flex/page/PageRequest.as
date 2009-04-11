@@ -13,8 +13,7 @@ package javacommon.flex.page{
 		}
 		public var pageSize:Number;
 		public var pageNumber:Number;
-		public var sortingColumn:String;
-		public var sortingDirection:String;
+		public var sortingColumns:String;
 		
 	}
 	
