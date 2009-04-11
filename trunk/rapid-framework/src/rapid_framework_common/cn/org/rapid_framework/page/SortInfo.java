@@ -54,6 +54,6 @@ public class SortInfo implements Serializable{
 	}
 	
 	public String toString() {
-		return columnName+" "+sortOrder;
+		return columnName + (sortOrder == null ? "" : " " + sortOrder);
 	}
 }
