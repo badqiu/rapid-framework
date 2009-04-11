@@ -147,7 +147,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 				Page page = new Page(pageNumber,limit,totalCount);
 				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),limit);
 				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, new BeanPropertyRowMapper(getEntityClass()));
-				page.setThisPageElements(list);
+				page.setResult(list);
 				return page;
 			}else {
 				String limitSql = dialect.getLimitString(sql, 0, limit);
