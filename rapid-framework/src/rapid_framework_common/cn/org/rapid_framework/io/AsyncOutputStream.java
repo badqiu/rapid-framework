@@ -98,9 +98,9 @@ public class AsyncOutputStream extends OutputStream{
 
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
-		if(isClosed) throw new IOException("output is closed");
 		if (b == null)  throw new NullPointerException();
 		synchronized (this) {
+			if(isClosed) throw new IOException("output is closed");
 			try {
 				queue.put(BufferCopyUtils.copyBuffer(b,off,len));
 			} catch (InterruptedException e) {
