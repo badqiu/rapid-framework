@@ -23,14 +23,14 @@ public class ListPageTest extends TestCase {
 		page = new ListPage(new ArrayList(),1,2);
 		
 		page = new ListPage(elements,-1,2);
-		List thisPage = (List)page.getThisPageElements();
+		List thisPage = (List)page.getResult();
 		assertEquals(2,thisPage.size());
 		assertEquals("1",thisPage.get(0));
 		assertEquals("2",thisPage.get(1));
 		assertEquals(10,page.getLastPageNumber());
 		
 		page = new ListPage(elements,Integer.MAX_VALUE,2);
-		thisPage = (List)page.getThisPageElements();
+		thisPage = (List)page.getResult();
 		assertEquals(2,thisPage.size());
 		assertEquals("19",thisPage.get(0));
 		assertEquals("20",thisPage.get(1));

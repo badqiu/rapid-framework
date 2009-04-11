@@ -46,7 +46,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		
 		assertEquals(pageNumber,page.getThisPageNumber());
 		assertEquals(pageSize,page.getPageSize());
-		List resultList = (List)page.getThisPageElements();
+		List resultList = (List)page.getResult();
 		assertNotNull(resultList);
 		
 		dao.flush();

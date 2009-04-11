@@ -34,13 +34,13 @@ public class JdbcScrollPage extends Page //implements Page
     public JdbcScrollPage(ResultSet rs,RowMapper rowMapper,int pageNumber, int pageSize) throws SQLException
     {
     	super(pageNumber,pageSize,moveToLast(rs));
-        this.elements = extractDataList(rs,rowMapper,pageNumber,pageSize);
+        this.result = extractDataList(rs,rowMapper,pageNumber,pageSize);
     }
 
     public JdbcScrollPage(ResultSet rs,int totalCount,RowMapper rowMapper,int pageNumber, int pageSize) throws SQLException
     {
     	super(pageNumber,pageSize,totalCount);
-        this.elements = extractDataList(rs,rowMapper,pageNumber,pageSize);
+        this.result = extractDataList(rs,rowMapper,pageNumber,pageSize);
     }
     
     public JdbcScrollPage(ResultSet rs,int totalCount,RowMapper rowMapper,PageRequest p) throws SQLException{
