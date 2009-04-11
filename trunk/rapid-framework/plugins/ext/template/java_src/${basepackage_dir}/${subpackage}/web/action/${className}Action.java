@@ -44,7 +44,7 @@ public class ${className}Action extends BaseStrutsAction {
 			limit = Integer.valueOf(strLimit);
 
 		Page page = ${classNameLower}Manager.findByHql(start/limit+1, limit);
-		List<${className}> ${classNameLower}List = (List)page.getThisPageElements();
+		List<${className}> ${classNameLower}List = (List)page.getResult();
 		
 		ListRange<${className}> resultList = new ListRange<${className}>();
 		resultList.setList(${classNameLower}List);

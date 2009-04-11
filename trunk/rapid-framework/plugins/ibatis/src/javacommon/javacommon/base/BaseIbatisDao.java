@@ -80,7 +80,7 @@ public abstract class BaseIbatisDao<E> extends SqlMapClientDaoSupport implements
 		parameterObject.put("sortColumns", pageRequest.getSortColumns());
 		
 		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject);
-		page.setThisPageElements(list);
+		page.setResult(list);
 		return page;
 	}
 	
