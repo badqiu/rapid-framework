@@ -97,7 +97,7 @@
 		<include refid="dynamicWhere"/>    
     </select>
     
-    <!-- 分页查询将传递过来#offset#,#pageSize#,#lastRows#三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现 -->
+    <!-- 分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现 -->
     <select id="pageSelect" resultMap="${classNameLower}Result">
     <![CDATA[
         select 
