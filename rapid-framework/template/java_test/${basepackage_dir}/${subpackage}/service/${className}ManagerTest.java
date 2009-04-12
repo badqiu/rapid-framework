@@ -37,6 +37,7 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 	  			</#if>
 			</#if>
 		</#list>
+		
 		manager.save(obj);
 		manager.getEntityDao().flush();
 		
