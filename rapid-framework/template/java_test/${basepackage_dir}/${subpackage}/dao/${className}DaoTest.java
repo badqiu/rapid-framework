@@ -32,9 +32,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		PageRequest pageRequest = new PageRequest();
 		pageRequest.setPageNumber(pageNumber);
 		pageRequest.setPageSize(pageSize);
-		
-		pageRequest.setSortingColumn(null);
-		pageRequest.setSortingDirection("desc");
+		pageRequest.setSortColumns(null);
 		
 		<#list table.columns as column>
 	  		<#if column.isNotIdOrVersionField>
