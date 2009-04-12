@@ -29,7 +29,8 @@
 			<include name="**/*.jar"/>
 		</fileset>
 		<fileset dir="${tomcat.home}">
-			<include name="**/lib/**.jar"/>
+			<include name="lib/*.jar"/>
+			<include name="common/lib/*.jar"/>
 		</fileset>
 	</path>
 	
