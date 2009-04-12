@@ -16,8 +16,7 @@
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<html:form action="${strutsActionBasePath}/edit.do" method="post">
-	<input type="submit" value="编辑"/>
+<html:form action="${strutsActionBasePath}/list.do" method="post">
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.do'"/>
 
 <#list table.columns as column>

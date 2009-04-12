@@ -20,8 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form action="<@jspEl "ctx"/>/${subpackage}/${className}/edit.do" method="post">
-	<input type="submit" value="编辑"/>
+<form action="<@jspEl "ctx"/>/${subpackage}/${className}/list.do" method="post">
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl "ctx"/>/${subpackage}/${className}/list.do'"/>
 
 <#list table.columns as column>
