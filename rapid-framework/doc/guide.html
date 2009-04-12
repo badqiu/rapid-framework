@@ -22,23 +22,23 @@
 
 <H1>系统搭建相关配置文件修改 - 加<font color=red>(*)号</font>为默认值如果满足则无需修改</H1>
 
-<h2>插件安装</h2>
+<h2>1.插件安装</h2>
 <pre>
 通过ant来安装插件,ant脚本文件:<b>plugins/build.xml</b> (注:通过eclipse打开文件,再打开outline视图,右键点击target即可运行ant任务)
-	任务介绍:
+任务介绍:
 	install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
 	install_xxxxxx : 内置的几个名称用于快速插件安装,避免需要手工输入插件名称.
 	如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
 	(注:插件安装完可以将所有插件删除,直接删除plugins目录即可)
 </pre>
 	
-<h2>修改 数据库连接属性</h2>
+<h2>2.修改 数据库连接属性</h2>
 <pre>
 src/resources/config/jdbc.properties
 该properties文件通过spring applicationContext-resource.xml加载,数据源就是在这个xml文件里面定义
 </pre>
 			
-<h2>修改 spring 配置文件</h2>
+<h2>3.修改 spring 配置文件</h2>
 <pre> 			
 <h3>service配置文件: src/resource/spring/applicationContext-service.xml</h3> 
 	(*)修改context:component-scan节点属性,默认加载com.**.service
@@ -46,7 +46,7 @@ src/resources/config/jdbc.properties
 	(*)修改数据库事务配置aop:config定义的pointcut,默认为pointcut="execution(* com.**.service.*Manager.*(..))"			
 </pre>
 			
-<h2>dao 配置相关修改,<font color=red>三选一</font></h2>
+<h2>4.dao 配置相关修改,<font color=red>三选一</font></h2>
 <pre>
 <h3>hibernate dao</h3>
 	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
@@ -74,7 +74,7 @@ src/resources/config/jdbc.properties
 			手工分配: insertWithAssigned(entity,insertSql)
 </pre>
 			
-<h2>WebFramework 配置文件修改,<font color=red>三选一</font></h2>
+<h2>5.WebFramework 配置文件修改,<font color=red>三选一</font></h2>
 URL规则统一为: /subpackage/Entity/method.do, 如/system/User/list.do
 <pre>
 <h3>strust</h3>
