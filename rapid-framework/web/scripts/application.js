@@ -8,7 +8,7 @@ function disableSubmit(finalResult,submitButtonId) {
 }
 
 function batchDelete(action,checkboxName,form){
-    if (!hasOneCheck(checkboxName)){
+    if (!hasOneChecked(checkboxName)){
             alert('请选择要操作的对象!');
             return;
     }
@@ -18,7 +18,7 @@ function batchDelete(action,checkboxName,form){
     }
 }
 
-function hasOneCheck(name){
+function hasOneChecked(name){
     var items = document.getElementsByName(name);
     if (items.length > 0) {
         for (var i = 0; i < items.length; i++){
