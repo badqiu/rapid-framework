@@ -159,8 +159,8 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 	}
 
 	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,
-			String sql,Map filters, final int totalCount) {
-		return (Page)getNamedParameterJdbcTemplate().execute(sql, filters, new PreparedStatementCallback() {
+			String sql,Map paramMap, final int totalCount) {
+		return (Page)getNamedParameterJdbcTemplate().execute(sql, paramMap, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps)
 					throws SQLException, DataAccessException {
 				ps.setMaxRows(pageSize);
