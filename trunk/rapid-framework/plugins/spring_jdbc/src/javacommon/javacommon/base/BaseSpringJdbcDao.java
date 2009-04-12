@@ -123,15 +123,9 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 		Map filters = pageRequest.getFilters();
 		filters.put("sortColumns", pageRequest.getSortColumns());
 		
-		XsqlBuilder builder = new XsqlBuilder();
-//		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
-		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
-			System.err.println(getClass().getSimpleName()+": 你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
-		}
+		final int totalCount = queryTotalCount(countQuery, filters);
 		
-		final int totalCount = queryTotalCount(countQuery, filters, builder);
-		
-		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
+		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,filters);
 		String sql = queryXsqlResult.getXsql();
 		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
 		int pageSize = pageRequest.getPageSize();
@@ -139,8 +133,17 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 		return pageQuery(sql, acceptedFilters, totalCount, pageSize, pageNumber);
 	}
 
-	private int queryTotalCount(String countQuery, Map filters,XsqlBuilder builder) {
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
+	protected XsqlBuilder getXsqlBuilder() {
+		XsqlBuilder builder = new XsqlBuilder();
+//		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
+		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
+			System.err.println(getClass().getSimpleName()+": 故意报错:你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
+		}
+		return builder;
+	}
+
+	private int queryTotalCount(String countQuery, Map filters) {
+		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filters);
 		final int totalCount = getSimpleJdbcTemplate().queryForInt(SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql()),countQueryXsqlResult.getAcceptedFilters());
 		return totalCount;
 	}
@@ -161,9 +164,12 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount);			
 		}
 	}
-
-	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,
-			String sql,Map paramMap, final int totalCount) {
+	
+	/**
+	 * 通过jdbc 游标进行分页
+	 */
+	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,String sql,Map paramMap, final int totalCount) {
+		
 		return (Page)getNamedParameterJdbcTemplate().execute(sql, paramMap, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps)
 					throws SQLException, DataAccessException {
@@ -172,6 +178,7 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 				return new JdbcScrollPage(rs,totalCount,new BeanPropertyRowMapper(getEntityClass()),pageNumber,pageSize);
 			}
 		});
+		
 	}
 	
 	private void setIdentifierProperty(Object entity, Object id) {
