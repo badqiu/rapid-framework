@@ -15,10 +15,18 @@ import cn.org.rapid_framework.page.PageRequest;
 public class PageRequestFactory {
 	
 	static int DEFAULT_PAGE_SIZE = 10;
+	static int MAX_PAGE_SIZE = 200;
+	
+	static{
+		System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
+	}
 	
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
 		PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumns);
     	info.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
+    	if(info.getPageSize() > MAX_PAGE_SIZE) {
+    		info.setPageSize(MAX_PAGE_SIZE);
+    	}
     	return info;
     }
 }
