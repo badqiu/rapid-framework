@@ -15,6 +15,16 @@
 		</#list>
     </resultMap>
 
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="commonSelectColumnsPrefix">
+	    <![CDATA[
+	    select
+        <#list table.columns as column>
+        	${column.sqlName} <#if column_has_next>,</#if>
+        </#list>
+	    ]]>
+	</sql>
+	
     <insert id="insert" parameterClass="${classNameLower}">
     <![CDATA[
         INSERT INTO
@@ -26,7 +36,7 @@
         <#list table.columns as column>
         	#${column.columnNameLower}# <#if column_has_next>,</#if>
         </#list>        
-        );
+        )
     ]]>
     <!--
     mysql:		type="post" SELECT  select last_insert_id()
@@ -51,7 +61,6 @@
         	<#list table.compositeIdColumns as column>
 	        ${column.columnNameLower} = #${column.columnNameLower}# <#if column_has_next>,</#if>
 	        </#list>
-	        ;
     ]]>
     </update>
 
@@ -65,17 +74,14 @@
     </delete>
     
     <select id="getById" resultMap="${classNameLower}Result">
-    <![CDATA[
-        select 
-        <#list table.columns as column>
-        	${column.sqlName} <#if column_has_next>,</#if>
-        </#list>
-        from ${table.sqlName} 
-        where 
-			<#list table.compositeIdColumns as column>
-	        ${column.columnNameLower} = #${column.columnNameLower}# <#if column_has_next>,</#if>
-	        </#list>
-    ]]>
+	    <include refid="commonSelectColumnsPrefix"/>
+	    <![CDATA[
+	        from ${table.sqlName} 
+	        where 
+				<#list table.compositeIdColumns as column>
+		        ${column.columnNameLower} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+		        </#list>
+	    ]]>
     </select>
 
 	<sql id="dynamicWhere">
@@ -99,13 +105,10 @@
     
     <!-- 分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现,默认为mysql -->
     <select id="pageSelect" resultMap="${classNameLower}Result">
-    <![CDATA[
-        select 
-        <#list table.columns as column>
-        	${column.sqlName} <#if column_has_next>,</#if>
-        </#list>
-        from ${table.sqlName} 
-    ]]>
+    	<include refid="commonSelectColumnsPrefix"/>
+	    <![CDATA[
+	        from ${table.sqlName} 
+	    ]]>
 		<include refid="dynamicWhere"/>
 		<dynamic prepend="ORDER BY">
 			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
@@ -116,13 +119,10 @@
     <#list table.columns as column>
     <#if column.unique && !column.pk>
     <select id="getBy${column.columnName}" resultMap="${classNameLower}Result" parameterClass="${column.javaType}">
-    <![CDATA[
-        select
-        <#list table.columns as column>
-        	${column.sqlName} <#if column_has_next>,</#if>
-        </#list>
-        from ${column.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
-    ]]>
+	    <include refid="commonSelectColumnsPrefix"/>
+	    <![CDATA[
+	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
+	    ]]>
     </select>
     
     </#if>
