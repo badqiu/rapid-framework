@@ -98,10 +98,7 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		Map filters = pageRequest.getFilters();
 		filters.put("sortColumns", pageRequest.getSortColumns());
 		
-		XsqlBuilder builder = newXsqlBuilder();
-		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
-			System.err.println(BaseHibernateDao.class.getSimpleName()+": 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
-		}
+		XsqlBuilder builder = getXsqlBuilder();
 		
 		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
 		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
@@ -109,13 +106,17 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		return findBy(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
 	
-	protected XsqlBuilder newXsqlBuilder() {
+	protected XsqlBuilder getXsqlBuilder() {
 		SessionFactoryImpl sf = (SessionFactoryImpl)(getSessionFactory());
 		Dialect dialect = sf.getDialect();
 		
 		//or SafeSqlProcesserFactory.getMysql();
 		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getFromCacheByHibernateDialect(dialect); 
 		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder(safeSqlProcesser);
+		
+		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
+			System.err.println(BaseHibernateDao.class.getSimpleName()+".getXsqlBuilder(): 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请修改源码使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
+		}
 		return builder;
 	}
 	

@@ -137,7 +137,7 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder();
 //		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
-			System.err.println("BaseSpringJdbcDao 故意报错:你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
+			System.err.println("BaseSpringJdbcDao.getXsqlBuilder(): 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请修改源码使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
 		}
 		return builder;
 	}
