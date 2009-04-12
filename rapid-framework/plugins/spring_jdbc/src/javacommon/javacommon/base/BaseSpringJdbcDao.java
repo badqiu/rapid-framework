@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javacommon.xsqlbuilder.IbatisStyleXsqlBuilder;
 import javacommon.xsqlbuilder.XsqlBuilder;
 import javacommon.xsqlbuilder.XsqlBuilder.XsqlFilterResult;
 import javacommon.xsqlbuilder.safesql.DirectReturnSafeSqlProcesser;
@@ -133,7 +134,8 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 	}
 
 	protected XsqlBuilder getXsqlBuilder() {
-		XsqlBuilder builder = new XsqlBuilder();
+		//ibatis style, #username# $username$
+		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder();
 //		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
 			System.err.println("BaseSpringJdbcDao 故意报错:你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
