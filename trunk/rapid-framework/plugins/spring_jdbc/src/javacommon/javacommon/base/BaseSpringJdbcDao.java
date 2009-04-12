@@ -129,32 +129,36 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 			System.err.println(getClass().getSimpleName()+": 你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
 		}
 		
+		final int totalCount = queryTotalCount(countQuery, filters, builder);
+		
 		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
-		
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
-		final int totalCount = getSimpleJdbcTemplate().queryForInt(SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql()),countQueryXsqlResult.getAcceptedFilters());
-		
 		String sql = queryXsqlResult.getXsql();
 		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
-		int limit = pageRequest.getPageSize();
+		int pageSize = pageRequest.getPageSize();
 		int pageNumber = pageRequest.getPageNumber();
-		return pageQuery(sql, acceptedFilters, totalCount, limit, pageNumber);
+		return pageQuery(sql, acceptedFilters, totalCount, pageSize, pageNumber);
 	}
 
-	private Page pageQuery(String sql, Map paramMap,final int totalCount, int limit, int pageNumber) {
+	private int queryTotalCount(String countQuery, Map filters,XsqlBuilder builder) {
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
+		final int totalCount = getSimpleJdbcTemplate().queryForInt(SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql()),countQueryXsqlResult.getAcceptedFilters());
+		return totalCount;
+	}
+
+	private Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSize, int pageNumber) {
 		if(dialect.supportsLimit()) {
 			if(dialect.supportsLimitOffset()) {
-				Page page = new Page(pageNumber,limit,totalCount);
-				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),limit);
+				Page page = new Page(pageNumber,pageSize,totalCount);
+				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),pageSize);
 				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, new BeanPropertyRowMapper(getEntityClass()));
 				page.setResult(list);
 				return page;
 			}else {
-				String limitSql = dialect.getLimitString(sql, 0, limit);
-				return getJdbcScrollPage(pageNumber,limit, limitSql,paramMap,totalCount);
+				String limitSql = dialect.getLimitString(sql, 0, pageSize);
+				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount);
 			}
 		}else {
-			return getJdbcScrollPage(pageNumber,limit, sql,paramMap,totalCount);			
+			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount);			
 		}
 	}
 
