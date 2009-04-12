@@ -20,11 +20,21 @@
 		<LI>生成的文件在$outRoot(默认为:d/webapp-generator-output)目录,再根据所需手工拷回至工作目录
 	</OL>
 
-<H1>系统搭建相关配置文件修改 - 加(*)号为默认值如果满足则无需修改</H1>
+<H1>系统搭建相关配置文件修改 - 加<font color=red>(*)号</font>为默认值如果满足则无需修改</H1>
 
+<h2>插件安装</h2>
+	<pre>
+		通过ant来安装插件,ant脚本文件:plugins/build.xml (注:通过eclipse打开文件,再打开outline视图,右键点击target即可运行ant任务)
+		任务介绍:
+		install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
+		install_xxxxxx : 内置的几个名称用于快速插件安装,避免需要手工输入插件名称.
+		如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
+	</pre>
+	
 <h2>修改 数据库连接属性</h2>
 	<pre>
-		src/resources/config/jdbc.properties, 该配置文件通过spring application-resources.xml加载
+		src/resources/config/jdbc.properties, 该配置文件通过spring applicationContext-resource.xml加载
+		数据源在这个配置文件里面定义
 	</pre>
 			
 <h2>修改 spring 配置文件</h2>
@@ -35,7 +45,7 @@
 		(*)修改数据库事务配置aop:config定义的pointcut,默认为pointcut="execution(* com.**.service.*Manager.*(..))"			
 </pre>
 			
-<h2>dao 配置相关修改,三选一</h2>
+<h2>dao 配置相关修改,<font color=red>三选一</font></h2>
 <pre>
 <h3>hibernate dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
 		修改sessionFactory.hibernateProperties的数据库方言(Dialect)属性,默认为MysqlDialect
@@ -50,7 +60,7 @@
 		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
 </pre>
 			
-<h2>WebFramework 配置文件修改,三选一</h2>
+<h2>WebFramework 配置文件修改,<font color=red>三选一</font></h2>
 <pre>
 <h3>strust</h3>
 配置文件web/WEB-INF/struts-config.xml
@@ -75,7 +85,7 @@
 特性3: 以@testExpression结尾的模板文件为有条件忽略,如果testExpression的值在数据模型为true,
 	则生成该文件,生成的文件不会包含@testExpression,反之
 	如${className}Id.java@compositeId
-特性4: 支持插入操作,如模板输出生成的地方已经有该同名的文件存在,
+特性4: 支持插入操作,如模板输出生成的地方已经有该<b>同名的文件</b>存在,
 	并且文件中有包含"webapp-generator-insert-location"标记,
 	则模板生成的内容会插入在该标记之后
 	该特性对如生成的spring配置内容插入spring配置文件十分有用
@@ -89,10 +99,12 @@ macro.include: 包含一些公用的FreeMarker macro
 
 <h1>相关文件及目录介绍</h1>
 <pre>
-doc/guide.html		系统搭建及代码生成器使用说明
-plugins/struts2 	目录为struts2的相关代码及配置,将目录手工拷贝至相对应的目录即可切换至struts2
+doc
+--guide.html		系统搭建及代码生成器使用说明
+generator			代码生成器的目录
+plugins 			项目的相关插件目录
+--build.xml			项目的插件安装脚本
 template			存放代码生成器的模板文件
-generator_lib		代码生成器的相关lib,自带了一些数据库驱动
 web					web内容目录
 src					java源代码目录
 </pre>	
