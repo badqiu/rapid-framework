@@ -8,8 +8,6 @@ package ${basepackage}.${subpackage}.dao;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.xml.registry.infomodel.User;
-
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
@@ -82,7 +80,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
 		String sql =  SELECT_PREFIX + " where ${column.columnNameLower}=?";
-		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(User.class), v);
+		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v);
 	}	
 	</#if>
 	</#list>
