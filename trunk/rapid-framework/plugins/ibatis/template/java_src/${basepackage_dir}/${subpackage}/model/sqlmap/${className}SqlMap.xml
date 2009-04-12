@@ -107,6 +107,9 @@
         from ${table.sqlName} 
     ]]>
 		<include refid="dynamicWhere"/>
+		<dynamic prepend="ORDER BY">
+			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
+		</dynamic>
 		limit #offset#,#pageSize#		    
     </select>
 
