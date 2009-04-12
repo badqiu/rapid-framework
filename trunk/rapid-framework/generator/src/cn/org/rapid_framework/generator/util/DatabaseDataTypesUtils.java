@@ -73,6 +73,7 @@ public class DatabaseDataTypesUtils {
       _preferredJavaTypeForSqlType.put(Types.DECIMAL, "java.math.BigDecimal");
       _preferredJavaTypeForSqlType.put(Types.NUMERIC, "java.math.BigDecimal");
       _preferredJavaTypeForSqlType.put(Types.BIT, "java.lang.Boolean");
+      _preferredJavaTypeForSqlType.put(Types.BOOLEAN, "java.lang.Boolean");
       _preferredJavaTypeForSqlType.put(Types.CHAR, "java.lang.String");
       _preferredJavaTypeForSqlType.put(Types.VARCHAR, "java.lang.String");
       // according to resultset.gif, we should use java.io.Reader, but String is more convenient for EJB
