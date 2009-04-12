@@ -15,7 +15,7 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 	
-	<!-- jdbc的方言,用于提供类似hibernate的数据库分页查询,其它方言:OracleDialect,SQLServerDialect,DB2Dialect,PostgreSQLDialect -->
+	<!-- jdbc的方言,提供类似hibernate的数据库分页查询,其它方言:OracleDialect,SQLServerDialect,DB2Dialect,PostgreSQLDialect -->
 	<bean id="dialect" class="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
 	
 	<!--TransactionManager-->
