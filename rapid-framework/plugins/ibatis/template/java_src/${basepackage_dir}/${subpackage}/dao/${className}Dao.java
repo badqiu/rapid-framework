@@ -7,7 +7,6 @@ package ${basepackage}.${subpackage}.dao;
 
 import org.springframework.stereotype.Component;
 
-import com.company.system.model.Blog;
 
 @Component
 public class ${className}Dao extends BaseIbatisDao<${className}>{
@@ -16,7 +15,7 @@ public class ${className}Dao extends BaseIbatisDao<${className}>{
 		return ${className}.class;
 	}
 	
-	public void saveOrUpdate(Blog entity) {
+	public void saveOrUpdate(${className} entity) {
 		if(entity.get${table.idColumn.columnName}() == null) 
 			save(entity);
 		else 
