@@ -23,41 +23,41 @@
 <H1>系统搭建相关配置文件修改 - 加<font color=red>(*)号</font>为默认值如果满足则无需修改</H1>
 
 <h2>插件安装</h2>
-	<pre>
-		通过ant来安装插件,ant脚本文件:plugins/build.xml (注:通过eclipse打开文件,再打开outline视图,右键点击target即可运行ant任务)
-		任务介绍:
-		install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
-		install_xxxxxx : 内置的几个名称用于快速插件安装,避免需要手工输入插件名称.
-		如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
-	</pre>
+<pre>
+通过ant来安装插件,ant脚本文件:<b>plugins/build.xml</b> (注:通过eclipse打开文件,再打开outline视图,右键点击target即可运行ant任务)
+任务介绍:
+install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
+install_xxxxxx : 内置的几个名称用于快速插件安装,避免需要手工输入插件名称.
+如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
+</pre>
 	
 <h2>修改 数据库连接属性</h2>
-	<pre>
-		src/resources/config/jdbc.properties, 该配置文件通过spring applicationContext-resource.xml加载
-		数据源在这个配置文件里面定义
-	</pre>
+<pre>
+src/resources/config/jdbc.properties, 该配置文件通过spring applicationContext-resource.xml加载
+数据源在这个配置文件里面定义
+</pre>
 			
 <h2>修改 spring 配置文件</h2>
 <pre> 			
 <h3>service配置文件: src/resource/spring/applicationContext-service.xml</h3> 
-		(*)修改context:component-scan节点属性,默认加载com.**.service
+	(*)修改context:component-scan节点属性,默认加载com.**.service
 <h3>resource配置文件: src/resource/spring/applicationContext-resource.xml</h3>
-		(*)修改数据库事务配置aop:config定义的pointcut,默认为pointcut="execution(* com.**.service.*Manager.*(..))"			
+	(*)修改数据库事务配置aop:config定义的pointcut,默认为pointcut="execution(* com.**.service.*Manager.*(..))"			
 </pre>
 			
 <h2>dao 配置相关修改,<font color=red>三选一</font></h2>
 <pre>
 <h3>hibernate dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
-		修改sessionFactory.hibernateProperties的数据库方言(Dialect)属性,默认为MysqlDialect
-		(*)修改sessionFactory的annotatedScanPackages以确定要加载的类,默认加载com.**.model
-		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+	修改sessionFactory.hibernateProperties的数据库方言(Dialect)属性,默认为MysqlDialect
+	(*)修改sessionFactory的packagesToScan以确定要加载的@Entity类,默认加载com.**.model
+	(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
 <h3>ibatis dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
-		修改代码生成器模板${className}SqlMap.xml的&lt;select id="pageSelect">节点,以支持分页查询使用不同的数据库物理分页,默认为Mysql
-		(*)修改sqlMapClient的mappingLocations以确定要加载的SqlMap.xml,默认值为:classpath*:/com/**/model/**/*SqlMap.xml
-		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+	修改代码生成器模板${className}SqlMap.xml的&lt;select id="pageSelect">节点,以支持分页查询使用不同的数据库物理分页,默认为Mysql
+	(*)修改sqlMapClient的mappingLocations以确定要加载的SqlMap.xml,默认值为:classpath*:/com/**/model/**/*SqlMap.xml
+	(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
 <h3>spring jdbc dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
-		修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect
-		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+	修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect
+	(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
 </pre>
 			
 <h2>WebFramework 配置文件修改,<font color=red>三选一</font></h2>
@@ -73,8 +73,8 @@
 <h3>spring mvc</h3>
 配置文件:web/WEB-INF/springmvc-servlet.xml
 	修改说明:
-	(*)修改context:component-scan以确定要加载的controller,默认为com.**.controller
-	修改class=ControllerClassNameHandlerMapping节点的pathPrefix以确定URL生成的前缀,URL规则为/pathPrefix/Entity/method.do,类似struts2的nemespace
+	1.修改class=ControllerClassNameHandlerMapping节点的pathPrefix以确定URL生成的前缀,URL规则为/pathPrefix/Entity/method.do,类似struts2的nemespace
+	(*)2.修改context:component-scan以确定要加载的controller,默认为com.**.controller
 </pre> 
   	
 <H1>模板相关</H1>
