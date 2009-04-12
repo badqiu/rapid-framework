@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javacommon.xsqlbuilder.IbatisStyleXsqlBuilder;
 import javacommon.xsqlbuilder.SafeSqlProcesser;
 import javacommon.xsqlbuilder.SafeSqlProcesserFactory;
 import javacommon.xsqlbuilder.XsqlBuilder;
@@ -113,8 +114,9 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		Dialect dialect = sf.getDialect();
 		
 		//or SafeSqlProcesserFactory.getMysql();
-		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getFromCacheByHibernateDialect(dialect); 
-		XsqlBuilder builder = new XsqlBuilder(safeSqlProcesser);
+		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getByHibernateDialect(dialect); 
+		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder();
+		builder.setSafeSqlProcesser(safeSqlProcesser);
 		return builder;
 	}
 	
