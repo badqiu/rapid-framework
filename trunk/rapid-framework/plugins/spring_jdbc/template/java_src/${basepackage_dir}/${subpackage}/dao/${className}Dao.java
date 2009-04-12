@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ${className}Dao extends BaseSpringJdbcDao{
+public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
 	
 	static final String SELECT_PREFIX = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
 	
@@ -29,6 +29,19 @@ public class ${className}Dao extends BaseSpringJdbcDao{
 		<#else>
 		return null;
 		</#if>
+	}
+
+	public void save(${className} entity) {
+		String sql = "insert into ${table.sqlName} " 
+			 + " (<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list>) " 
+			 + " values(<#list table.columns as column>:${column.columnNameLower}<#if column_has_next>,</#if></#list>)";
+		insertWithIdentity(entity,sql);
+	}
+	
+	public void update(${className} entity) {
+		String sql = "update ${table.sqlName} set <#list table.columns as column>${column.sqlName}=:${column.columnNameLower}<#if column_has_next>,</#if></#list> "
+					+ " where ${table.idColumn.sqlName}=:${table.idColumn.columnNameLower}";
+		getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
 	}
 	
 	public void deleteById(Serializable id) {
@@ -45,19 +58,6 @@ public class ${className}Dao extends BaseSpringJdbcDao{
 		return getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(${className}.class), id);
 	}
 
-	public void save(Object entity) {
-		String sql = "insert into ${table.sqlName} " 
-			 + " (<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list>) " 
-			 + " values(<#list table.columns as column>:${column.columnNameLower}<#if column_has_next>,</#if></#list>)";
-		insertWithIdentity(entity,sql);
-	}
-	
-	public void update(Object entity) {
-		String sql = "update ${table.sqlName} set <#list table.columns as column>${column.sqlName}=:${column.columnNameLower}<#if column_has_next>,</#if></#list> "
-					+ " where ${table.idColumn.sqlName}=:${table.idColumn.columnNameLower}";
-		getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
-	}
-	
 	public Page findByPageRequest(PageRequest pageRequest) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
 		String sql = SELECT_PREFIX + " as a where 1=1 "
