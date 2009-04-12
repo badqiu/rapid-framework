@@ -13,33 +13,58 @@
 <H1>生成器相关修改</H1>
 	<OL>
 		<LI>修改eclipse项目属性将整个项目修改为"UTF-8"编码
-		<LI>将src/javacommon,src/generator,src/resources加入源代码路径
-		<LI>将generator_lib目录下的文件加入classpath,如果没有你的数据库驱动,请自己添加
-		<LI>修改代码生成器的配置文件generator.properties
+		<LI>将src/javacommon,src/resources,generator/src加入源代码路径
+		<LI>将generator/lib目录下的文件加入classpath,如果没有你的数据库驱动,请自己添加
+		<LI>修改代码生成器的配置文件generator/src/generator.properties
 		<LI>以application方式运行generator.GeneratorMain类,运行时直接修改main()方法添加相关表
 		<LI>生成的文件在$outRoot(默认为:d/webapp-generator-output)目录,再根据所需手工拷回至工作目录
 	</OL>
 
-<H1>系统搭建相关配置文件修改</H1>
-<h2>修改 spring 配置文件</h2>
-<pre> 
-<h3>dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
-		修改sessionFactory的annotatedScanPackages以确定要加载的类
-		修改sessionFactory.hibernateProperties相关属性
-		修改context:component-scan节点属性
-<h3>service配置文件: src/resource/spring/applicationContext-service.xml</h3> 
-		修改context:component-scan节点属性
-<h3>resource配置文件: src/resource/spring/applicationContext-resource.xml</h3>
-		修改事务配置aop:config定义的pointcut			
-</pre>
-		
-<h2>修改 数据库连接属性</h2>
-			<pre>src/resources/config/jdbc.properties</pre>
+<H1>系统搭建相关配置文件修改 - 加(*)号为默认值如果满足则无需修改</H1>
 
-<h2>修改 struts配置文件</h2>
+<h2>修改 数据库连接属性</h2>
+	<pre>
+		src/resources/config/jdbc.properties, 该配置文件通过spring application-resources.xml加载
+	</pre>
+			
+<h2>修改 spring 配置文件</h2>
+<pre> 			
+<h3>service配置文件: src/resource/spring/applicationContext-service.xml</h3> 
+		(*)修改context:component-scan节点属性,默认加载com.**.service
+<h3>resource配置文件: src/resource/spring/applicationContext-resource.xml</h3>
+		(*)修改数据库事务配置aop:config定义的pointcut,默认为pointcut="execution(* com.**.service.*Manager.*(..))"			
+</pre>
+			
+<h2>dao 配置相关修改,三选一</h2>
 <pre>
-web/WEB-INF/struts-config.xml
+<h3>hibernate dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
+		修改sessionFactory.hibernateProperties的数据库方言(Dialect)属性,默认为MysqlDialect
+		(*)修改sessionFactory的annotatedScanPackages以确定要加载的类,默认加载com.**.model
+		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+<h3>ibatis dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
+		修改代码生成器模板${className}SqlMap.xml的&lt;select id="pageSelect">节点,以支持分页查询使用不同的数据库物理分页,默认为Mysql
+		(*)修改sqlMapClient的mappingLocations以确定要加载的SqlMap.xml,默认值为:classpath*:/com/**/model/**/*SqlMap.xml
+		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+<h3>spring jdbc dao配置文件: src/resource/spring/applicationContext-dao.xml</h3>
+		修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect
+		(*)修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+</pre>
+			
+<h2>WebFramework 配置文件修改,三选一</h2>
+<pre>
+<h3>strust</h3>
+配置文件web/WEB-INF/struts-config.xml
 根据你的包结构修改struts的通配符配置
+<h3>struts2</h3>
+配置文件src/resources/struts.xml
+修改说明:
+ 1.修改pakcage的namespace属性,因为URL访问规则是: /namesapce/Entity/method.do 
+ 2.根据你的包结构修改action节点的class属性 
+<h3>spring mvc</h3>
+配置文件:web/WEB-INF/springmvc-servlet.xml
+	修改说明:
+	(*)修改context:component-scan以确定要加载的controller,默认为com.**.controller
+	修改class=ControllerClassNameHandlerMapping节点的pathPrefix以确定URL生成的前缀,URL规则为/pathPrefix/Entity/method.do,类似struts2的nemespace
 </pre> 
   	
 <H1>模板相关</H1>
