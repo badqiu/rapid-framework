@@ -188,7 +188,10 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 			ReflectionUtils.handleReflectionException(e);
 		}
 	}
-
+	
+	/**
+	 * 适用sqlserver,mysql 自动生成主键
+	 */
 	protected void insertWithIdentity(Object entity,String insertSql) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity) , keyHolder);
@@ -198,7 +201,7 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 	protected void insertWithAutoIncrement(Object entity,String insertSql) {
 		insertWithIdentity(entity,insertSql);
 	}
-	
+
 	protected void insertWithSequence(Object entity,AbstractSequenceMaxValueIncrementer sequenceIncrementer,String insertSql) {
 		Long id = sequenceIncrementer.nextLongValue();
 		setIdentifierProperty(entity, id);
@@ -218,7 +221,11 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 		setIdentifierProperty(entity, uuid);
 		getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity));
 	}
-	
+	/**
+	 * 手工分配ID插入
+	 * @param entity
+	 * @param insertSql
+	 */
 	protected void insertWithAssigned(Object entity,String insertSql) {
 		getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity));
 	}
