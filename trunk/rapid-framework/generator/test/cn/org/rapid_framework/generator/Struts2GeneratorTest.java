@@ -11,7 +11,7 @@ public class Struts2GeneratorTest extends TestCase{
 
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
-		g.outRootDir = "d:/webapp-generate";
+		g.outRootDir = ".";
 		
 		Table table = DbTableFactory.getInstance().getTable("blog");
 		
@@ -20,7 +20,7 @@ public class Struts2GeneratorTest extends TestCase{
 		
 		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
 		
-		Runtime.getRuntime().exec("cmd.exe /c start "+new File(g.outRootDir).getAbsolutePath());
+//		Runtime.getRuntime().exec("cmd.exe /c start "+new File(g.outRootDir).getAbsolutePath());
 	}
 	
 }
