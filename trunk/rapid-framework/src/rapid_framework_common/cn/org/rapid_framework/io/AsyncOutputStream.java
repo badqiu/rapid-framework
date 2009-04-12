@@ -33,6 +33,9 @@ public class AsyncOutputStream extends OutputStream{
 	
 	public AsyncOutputStream(OutputStream output, BlockingQueue queue) {
 		super();
+		if(output == null) throw new NullPointerException();
+		if(queue == null) throw new NullPointerException();
+		
 		this.output = output;
 		this.queue = queue;
 		this.dataProcessor = new DataProcessorThread();

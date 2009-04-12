@@ -87,6 +87,9 @@ public class AsyncWriter extends Writer {
 	}
 	
 	public AsyncWriter(Writer out,BlockingQueue queue,int dataProcesserThreadPriority) {
+		if(out == null) throw new NullPointerException();
+		if(queue == null) throw new NullPointerException();
+		
 		this.queue = queue;
 		this.dataProcessor = new DataProcessorThread();
 		if(dataProcesserThreadPriority != Thread.NORM_PRIORITY) {
