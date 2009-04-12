@@ -114,9 +114,8 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		Dialect dialect = sf.getDialect();
 		
 		//or SafeSqlProcesserFactory.getMysql();
-		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getByHibernateDialect(dialect); 
-		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder();
-		builder.setSafeSqlProcesser(safeSqlProcesser);
+		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getFromCacheByHibernateDialect(dialect); 
+		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder(safeSqlProcesser);
 		return builder;
 	}
 	
