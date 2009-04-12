@@ -13,9 +13,10 @@
         
         <!-- 
         	自动导出包含"@RemoteObject标注及以FlexService结尾"的Spring Bean为RemotingDestination
-        	FlexService可以通过includeEndsWithBeans变量指定
+        	FlexService结尾可以通过includeEndsWithBeans变量指定
         -->
         <service id="spring-remoting-service" class="cn.org.rapid_framework.flex.messaging.services.SpringRemotingDestinationBootstrapService">
+	        <!-- 其它生成的RemotingDestination默认属性 -->
 	        <properties>
 	        	<!-- 
 	        	<service-id></service-id>
