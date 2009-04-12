@@ -25,15 +25,30 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		super.onTearDownInTransaction();
 	}
 	
-	public void testSave() {
+	public void testCrud() {
 		${className} obj = new ${className}();
 		
 		<#list table.columns as column>
 	  		<#if column.isNotIdOrVersionField>
+	  			<#if column.isDateTimeColumn>
+	  	obj.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
+	  			<#else>
 	  	obj.set${column.columnName}(new ${column.javaType}("1"));
+	  			</#if>
 			</#if>
 		</#list>
 		manager.save(obj);
 		manager.getEntityDao().flush();
+		
+		manager.update(obj);
+		manager.getEntityDao().flush();
+		
+		<#if table.compositeId>
+		manager.removeById(obj.getId());
+		manager.getEntityDao().flush();
+		<#else>
+		manager.removeById(obj.get${table.idColumn.columnName}());
+		manager.getEntityDao().flush();
+		</#if>
 	}
 }
