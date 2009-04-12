@@ -22,11 +22,11 @@ public class PageRequestFactory {
 	}
 	
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
-		PageRequest info = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumns);
-    	info.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
-    	if(info.getPageSize() > MAX_PAGE_SIZE) {
-    		info.setPageSize(MAX_PAGE_SIZE);
+		PageRequest result = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,DEFAULT_PAGE_SIZE),defaultSortColumns);
+    	result.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
+    	if(result.getPageSize() > MAX_PAGE_SIZE) {
+    		result.setPageSize(MAX_PAGE_SIZE);
     	}
-    	return info;
+    	return result;
     }
 }
