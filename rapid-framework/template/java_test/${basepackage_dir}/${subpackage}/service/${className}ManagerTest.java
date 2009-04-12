@@ -44,12 +44,17 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		manager.update(obj);
 		manager.getEntityDao().flush();
 		
-		<#if table.compositeId>
+	<#if table.compositeId>
+		assertNotNull(manager.getById(obj.getId()));
+		
 		manager.removeById(obj.getId());
 		manager.getEntityDao().flush();
-		<#else>
+	<#else>
+		assertNotNull(obj.get${table.idColumn.columnName}());
+		
 		manager.removeById(obj.get${table.idColumn.columnName}());
 		manager.getEntityDao().flush();
-		</#if>
+	</#if>
+	
 	}
 }
