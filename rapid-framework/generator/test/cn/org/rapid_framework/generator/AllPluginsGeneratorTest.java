@@ -8,21 +8,23 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.DbTableGeneratorModelProvider;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 
-public class GeneratorTest extends TestCase {
+public class AllPluginsGeneratorTest extends TestCase {
 	
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
 		g.outRootDir = PropertiesProvider.getProperties().getProperty("outRoot");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		File f = new File("plugins");
-		File[] listFiles = f.listFiles();
+		File[] listFiles = new File("plugins").listFiles();
 		for(int i = 0; i < listFiles.length; i++) {
 			File child = listFiles[i];
 			if(child.isHidden() || !child.isDirectory()) {
 				continue;
 			}
-			g.addTemplateRootDir(new File(child,"template").getAbsoluteFile());
+			File pluginTemplate = new File(child,"template").getAbsoluteFile();
+			System.out.println("pluginTemplate:"+pluginTemplate);
+			g.addTemplateRootDir(pluginTemplate);
+			
 		}
 		
 		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
