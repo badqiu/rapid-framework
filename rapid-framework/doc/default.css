@@ -34,22 +34,22 @@ H1 A {
 }
 
 H2 {
-	FONT-SIZE: 18px; MARGIN: 10px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana;PADDING-BOTTOM: 8px; MARGIN: 10px 0px; PADDING-TOP: 0px; BORDER-BOTTOM: #eee 1px solid;
+	FONT-SIZE: 18px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana;PADDING-BOTTOM: 0px; MARGIN: 0px 0px; PADDING-TOP: 0px; BORDER-BOTTOM: #eee 1px solid;
 }
 
 H3 {
-	FONT-SIZE: 16px; MARGIN: 10px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
+	FONT-SIZE: 16px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
 }
 
 H4 {
-	FONT-SIZE: 14px; MARGIN: 10px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
+	FONT-SIZE: 14px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
 }
 
 /*--------------------- code ----------------------*/
 PRE {
 	padding-top: 0px;
 	padding-bottom: 0px;
-	padding-left: 60px;
+	padding-left: 30px;
 	padding-right: 10px;
 	border-right: #cccccc 1px dashed;
 	border-bottom: #cccccc 1px dashed;
