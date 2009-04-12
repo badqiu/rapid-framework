@@ -2,13 +2,14 @@ package javacommon.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.BigDecimalConverter;
 import org.apache.commons.beanutils.converters.BigIntegerConverter;
+import org.apache.commons.beanutils.converters.BooleanConverter;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.beanutils.converters.DoubleConverter;
 import org.apache.commons.beanutils.converters.FloatConverter;
 import org.apache.commons.beanutils.converters.IntegerConverter;
@@ -30,9 +31,13 @@ public class ConvertRegisterHelper {
 	
 	public static void registerConverters() {
 		ConvertUtils.register(new StringConverter(), String.class);
-        ConvertUtils.register(new SqlDateConverter(null),Date.class);
+		//date 
+		ConvertUtils.register(new DateConverter(null),java.util.Date.class);
+        ConvertUtils.register(new SqlDateConverter(null),java.sql.Date.class);
 		ConvertUtils.register(new SqlTimeConverter(null),Time.class);
 		ConvertUtils.register(new SqlTimestampConverter(null),Timestamp.class);
+		//number
+		ConvertUtils.register(new BooleanConverter(null), Boolean.class);
 		ConvertUtils.register(new ShortConverter(null), Short.class);
 		ConvertUtils.register(new IntegerConverter(null), Integer.class);
 		ConvertUtils.register(new LongConverter(null), Long.class);
