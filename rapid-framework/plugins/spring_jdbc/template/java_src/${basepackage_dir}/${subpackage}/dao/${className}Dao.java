@@ -35,7 +35,13 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
 		String sql = "insert into ${table.sqlName} " 
 			 + " (<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list>) " 
 			 + " values(<#list table.columns as column>:${column.columnNameLower}<#if column_has_next>,</#if></#list>)";
-		insertWithIdentity(entity,sql);
+		insertWithIdentity(entity,sql); //for sqlserver and mysql
+		/*
+		insertWithOracleSequence(entity,"sequenceName",sql); //oracle sequence: 
+		insertWithDB2Sequence(entity,"sequenceName",sql); //db2 sequence:
+		insertWithUUID(entity,sql); //uuid
+		insertWithAssigned(entity,sql) //手工分配
+		*/
 	}
 	
 	public void update(${className} entity) {
