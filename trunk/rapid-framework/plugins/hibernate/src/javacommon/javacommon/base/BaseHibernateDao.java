@@ -100,7 +100,7 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		
 		XsqlBuilder builder = newXsqlBuilder();
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
-			System.err.println(BaseHibernateDao.class.getSimpleName()+": 你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
+			System.err.println(BaseHibernateDao.class.getSimpleName()+": 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
 		}
 		
 		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
