@@ -5,7 +5,7 @@
 <meta http-equiv="Expires" content="0"/>
 
 <!-- optional javascript: effects.js,jquery.js -->
-<link href="<c:url value="/styles/default.css"/>" type="text/css" rel="stylesheet">
+<link href="<c:url value="/styles/global.css"/>" type="text/css" rel="stylesheet">
 
 <!-- rapid-validation BEGIN-->
 <link href="<c:url value="/scritps/rapid-validation/validation.css"/>" type="text/css" rel="stylesheet">
