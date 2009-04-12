@@ -17,7 +17,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.id.IdentifierGenerationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.PreparedStatementCallback;
@@ -76,11 +75,11 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 		return namedParameterJdbcTemplate;
 	}
 
-	public Serializable convert2CorrectIdType(Object value) throws SQLException, IdentifierGenerationException {
+	public Serializable convert2CorrectIdType(Object value) throws SQLException {
 		return convert2CorrectIdType(value,getIdentifierPropertyType());
 	}
 	
-	public static Serializable convert2CorrectIdType(Object value,Class type) throws SQLException, IdentifierGenerationException {
+	public static Serializable convert2CorrectIdType(Object value,Class type) throws SQLException {
 		try {
 			return (Serializable)type.getConstructor(String.class).newInstance(value.toString());
 		}catch(Exception e) {
