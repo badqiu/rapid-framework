@@ -7,11 +7,19 @@
 <!-- optional javascript: effects.js,jquery.js -->
 <link href="<c:url value="/styles/default.css"/>" type="text/css" rel="stylesheet">
 
-<!-- rapid-validation -->
+<!-- rapid-validation BEGIN-->
 <link href="<c:url value="/scritps/rapid-validation/validation.css"/>" type="text/css" rel="stylesheet">
 <script src="<c:url value="/scripts/rapid-validation/prototype_for_validation.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/scripts/rapid-validation/effects.js"/>" type="text/javascript"></script>
+
+<!-- show validation error as tooptips -->
+<!-- 
+<script src="<c:url value="/scripts/rapid-validation/tooltips.js"/>" type="text/javascript"></script>
+<link href="<c:url value="/scritps/rapid-validation/tooltips.css"/>" type="text/css" rel="stylesheet">
+ -->
+
 <script src="<c:url value="/scripts/rapid-validation/validation_cn.js"/>" type="text/javascript"></script>
+<!-- rapid-validation END-->
 
 <script src="<c:url value="/scripts/application.js"/>" type="text/javascript"></script>
 <script src="<c:url value="/scripts/jquery.js"/>" type="text/javascript"></script>
