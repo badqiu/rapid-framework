@@ -1,3 +1,4 @@
+具体使用请查看:http://code.google.com/p/rapid-validation/ 中的在线演示
 
 prototype_for_validation.js
 	验证框架从prototype.js抽取出来的最小依赖集.用于与jquery.js兼容.如使用prototype.js则可替换此文件
