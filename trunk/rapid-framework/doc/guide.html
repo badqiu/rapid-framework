@@ -48,7 +48,7 @@ src/resources/config/jdbc.properties
 <h2>dao 配置相关修改,<font color=red>三选一</font></h2>
 <pre>
 <h3>hibernate dao</h3>
-	1.spring配置文件: src/resource/spring/applicationContext-dao.xml
+	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
 		1.1修改sessionFactory.hibernateProperties的数据库方言(Dialect)属性,默认为MysqlDialect
 		(*)1.2修改sessionFactory的packagesToScan以确定要加载的@Entity类,默认加载com.**.model
 		(*)1.3修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
@@ -64,8 +64,9 @@ src/resources/config/jdbc.properties
 		1.1修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect
 		(*)1.2修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
 	2.主键生成策略修改
-		2.1修改${className}Dao.java中的save()方法的insertWithIdentity(entity,sql); 默认适用mysql auto_increment及sqlserver identity
+		2.1修改模板${className}Dao.java中的save()方法; 默认适用mysql auto_increment及sqlserver identity
 		2.2其它生成策略为
+			sqlserver identity: insertWithIdentity(entity,sql);
 			oracle sequence: insertWithOracleSequence(entity,sequenceName,insertSql);
 			db2 sequence: insertWithDB2Sequence(entity,sequenceName,insertSql);
 			uuid: insertWithUUID(entity,insertSql);
