@@ -28,8 +28,8 @@
 		<fileset dir="${dir.src.web}/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
-		<fileset dir="${tomcat.home}/lib">
-			<include name="*.jar"/>
+		<fileset dir="${tomcat.home}">
+			<include name="**/lib/**.jar"/>
 		</fileset>
 	</path>
 	
