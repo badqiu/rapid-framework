@@ -42,7 +42,7 @@ import cn.org.rapid_framework.util.SqlRemoveUtils;
  * @author badqiu
  *
  */
-public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements EntityDao{
+public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements EntityDao<E>{
 
 	protected final Log log = LogFactory.getLog(getClass());
 
@@ -227,11 +227,11 @@ public abstract class BaseSpringJdbcDao extends JdbcDaoSupport implements Entity
 		//ignore
 	}
 	
-	public boolean isUnique(Object entity, String uniquePropertyNames) {
+	public boolean isUnique(E entity, String uniquePropertyNames) {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void saveOrUpdate(Object entity) {
+	public void saveOrUpdate(E entity) {
 		Object id = getIdentifierPropertyValue(entity);
 		if(ObjectUtils.isNullOrEmptyString(id)) {
 			save(entity);
