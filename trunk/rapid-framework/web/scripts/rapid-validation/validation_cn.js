@@ -3,7 +3,7 @@
  * blog: http://badqiu.javaeye.com
  * Project Home: http://code.google.com/p/rapid-validation/
  * Rapid Framework Project Home: http://code.google.com/p/rapid-framework/
- * Version 1.1.0
+ * Version 1.5.1
  */
 
 /*
@@ -19,11 +19,12 @@
 var ValidationDefaultOptions = function(){};
 ValidationDefaultOptions.prototype = {
 	onSubmit : true, //是否监听form的submit事件
+	onReset : true, //是否监听form的reset事件
 	stopOnFirst : false, //表单验证时停留在第一个验证的地方,不继续验证下去
 	immediate : false, //是否实时检查数据的合法性
 	focusOnError : true, //是否出错时将光标指针移到出错的输入框上
 	useTitles : false, //是否使用input的title属性作为出错时的提示信息
-	onFormValidate : function(result, form) {},//Form验证时的回调函数
+	onFormValidate : function(result, form) {return result;},//Form验证时的回调函数,可以修改最终的返回结果
 	onElementValidate : function(result, elm) {} //某个input验证时的回调函数
 }
 
@@ -32,7 +33,12 @@ ValidatorDefaultOptions.prototype = {
 	ignoreEmptyValue : true, //是否忽略空值
 	depends : [] //相关依赖项
 }
- 
+
+//compatible with prototype
+if(typeof Prototype != 'undefined' && (typeof $ != 'undefined')) {
+	$prototype = $;
+}
+
 Validator = Class.create();
 
 Validator.messageSource = {};
@@ -121,7 +127,7 @@ Validator.messageSource['zh-cn'] = [
 ValidationUtils = {
 	isVisible : function(elm) {
 		while(elm && elm.tagName != 'BODY') {
-			if(!$(elm).visible()) return false;
+			if(!$prototype(elm).visible()) return false;
 			elm = elm.parentNode;
 		}
 		return true;
@@ -134,7 +140,7 @@ ValidationUtils = {
 		return null;
 	},
 	getInputValue : function(elm) {
-		var elm = $(elm);
+		var elm = $prototype(elm);
 		if(elm.type.toLowerCase() == 'file') {
 			return elm.value;
 		}else {
@@ -201,7 +207,7 @@ ValidationUtils = {
 	},
 	//document: http://ajaxcn.org/space/start/2006-05-15/2
 	fireSubmit: function(form) {
-	    var form = $(form);
+	    var form = $prototype(form);
 	    if (form.fireEvent) { //for ie
 	    	if(form.fireEvent('onsubmit'))
 	    		form.submit();
@@ -226,24 +232,27 @@ ValidationUtils = {
 		if(Validator.messageSource[lang]) {
 			messageSource = Validator.messageSource[lang];
 		}
-		return messageSource;
+		
+		var results = {};
+		for(var i = 0; i < messageSource.length; i++) {
+			results[messageSource[i][0]] = messageSource[i][1];
+		}
+		return results;
+ 	},
+ 	getI18nMsg : function(key) {
+ 		return ValidationUtils.getMessageSource()[key];
  	}
 }
-
-Validator.messages = {};
-//init i18n messages
-ValidationUtils.getMessageSource().each(function(ms){
-	Validator.messages[ms[0]] = ms[1];
-});
 
 Validator.prototype = {
 	initialize : function(className, test, options) {
 		this.options = Object.extend(new ValidatorDefaultOptions(), options || {});
 		this._test = test ? test : function(v,elm){ return true };
-		this._error = Validator.messages[className] ? Validator.messages[className] : Validator.messages['validation-failed'];
+		this._error = ValidationUtils.getI18nMsg(className) ? ValidationUtils.getI18nMsg(className) : ValidationUtils.getI18nMsg('validation-failed');
 		this.className = className;
 		this._dependsTest = this._dependsTest.bind(this);
-		this._getDependError = this._getDependError.bind(this);
+		this.testAndGetError = this.testAndGetError.bind(this);
+		this.testAndGetDependsError = this.testAndGetDependsError.bind(this);
 	},
 	_dependsTest : function(v,elm) {
 		if(this.options.depends && this.options.depends.length > 0) {
@@ -259,24 +268,30 @@ Validator.prototype = {
 			return false;
 		if(!elm) elm = {}
 		var isEmpty = (this.options.ignoreEmptyValue && ((v == null) || (v.length == 0)));
-		return  isEmpty|| this._test(v,elm,ValidationUtils.getArgumentsByClassName(this.className,elm.className),this);
+		return  isEmpty || this._test(v,elm,ValidationUtils.getArgumentsByClassName(this.className,elm.className),this);
 	},
-	_getDependError : function(v,elm,useTitle) {
-		var dependError = null;
-		$A(this.options.depends).any(function(depend){
-			var validation = Validation.get(depend);
-			if(!validation.test(v,elm))  {
-				dependError = validation.error(v,elm,useTitle)
-				return true;
+	testAndGetDependsError : function(v,elm) {
+		var depends = this.options.depends;
+		if(depends && depends.length > 0) {
+			var dependsError = null;
+			for(var i = 0; i < depends.length; i++) {
+				var dependsError = Validation.get(depends[i]).testAndGetError(v,elm);
+				if(dependsError) return dependsError;
 			}
-			return false;
-		});
-		return dependError;
-	}, 
+		}
+		return null;
+	},	
+	testAndGetError : function(v, elm,useTitle) {
+		var dependsError = this.testAndGetDependsError(v,elm);
+		if(dependsError) return dependsError;
+		
+		if(!elm) elm = {}
+		var isEmpty = (this.options.ignoreEmptyValue && ((v == null) || (v.length == 0)));
+		var result = isEmpty || this._test(v,elm,ValidationUtils.getArgumentsByClassName(this.className,elm.className),this);
+		if(!result) return this.error(v,elm,useTitle);
+		return null;
+	},
 	error : function(v,elm,useTitle) {
-		var dependError = this._getDependError(v,elm,useTitle);
-		if(dependError != null) return dependError;
-
 		var args  = ValidationUtils.getArgumentsByClassName(this.className,elm.className);
 		var error = this._error;
 		if(typeof error == 'string') {
@@ -285,7 +300,7 @@ Validator.prototype = {
 		}else if(typeof error == 'function') {
 			error = error(v,elm,args,this);
 		}else {
-			alert('property "_error" must type of string or function');
+			alert('property "_error" must type of string or function,current type:'+typeof error+" current className:"+this.className);
 		}
 		if(!useTitle) useTitle = elm.className.indexOf('useTitle') >= 0;
 		return useTitle ? ((elm && elm.title) ? elm.title : error) : error;
@@ -297,40 +312,56 @@ var Validation = Class.create();
 Validation.prototype = {
 	initialize : function(form, options){
 		this.options = Object.extend(new ValidationDefaultOptions(), options || {});
-		this.form = $(form);
-		var formId =  ValidationUtils.getElmID($(form));
+		this.form = $prototype(form);
+		var formId =  ValidationUtils.getElmID($prototype(form));
 		Validation.validations[formId] = this;
 		if(this.options.onSubmit) Event.observe(this.form,'submit',this.onSubmit.bind(this),false);
+		if(this.options.onReset) Event.observe(this.form,'reset',this.reset.bind(this),false);
 		if(this.options.immediate) {
 			var useTitles = this.options.useTitles;
 			var callback = this.options.onElementValidate;
-			Form.getElements(this.form).each(function(input) { // Thanks Mike!
+			var elements = $A(Form.getElements(this.form));
+			for(var i = 0; i < elements.length; i++) {
+				var input = elements[i];
 				Event.observe(input, 'blur', function(ev) { Validation.validateElement(Event.element(ev),{useTitle : useTitles, onElementValidate : callback}); });
-			});
+			}
 		}
 	},
 	onSubmit :  function(ev){
 		if(!this.validate()) Event.stop(ev);
 	},
 	validate : function() {
-		var result = false;
+		var result = true;
 		var useTitles = this.options.useTitles;
 		var callback = this.options.onElementValidate;
 		if(this.options.stopOnFirst) {
-			result = Form.getElements(this.form).all(function(elm) { return Validation.validateElement(elm,{useTitle : useTitles, onElementValidate : callback}); });
+			var elements = $A(Form.getElements(this.form));
+			for(var i = 0; i < elements.length; i++) {
+				var elm = elements[i];
+				result = Validation.validateElement(elm,{useTitle : useTitles, onElementValidate : callback});
+				if(!result) break;
+			}
 		} else {
-			result = Form.getElements(this.form).collect(function(elm) { return Validation.validateElement(elm,{useTitle : useTitles, onElementValidate : callback}); }).all();
+			var elements = $A(Form.getElements(this.form));
+			for(var i = 0; i < elements.length; i++) {
+				var elm = elements[i];
+				if(!Validation.validateElement(elm,{useTitle : useTitles, onElementValidate : callback})) {
+					result = false;
+				}
+			}
 		}
+		
 		if(!result && this.options.focusOnError) {
-			var first = Form.getElements(this.form).findAll(function(elm){return $(elm).hasClassName('validation-failed')}).first();
-			if(first.select) first.select();
+			var first = Form.getElements(this.form).findAll(function(elm){return $prototype(elm).hasClassName('validation-failed')})[0];
+			if(first.select) first.select(); 
 			first.focus();
 		}
-		this.options.onFormValidate(result, this.form);
-		return result;
+		return this.options.onFormValidate(result, this.form);
 	},
 	reset : function() {
-		Form.getElements(this.form).each(Validation.reset);
+		var elements = $A(Form.getElements(this.form))
+		for(var i = 0; i < elements.length; i++)
+			Validation.reset(elements[i]);
 	}
 }
 
@@ -340,13 +371,15 @@ Object.extend(Validation, {
 			useTitle : false,
 			onElementValidate : function(result, elm) {}
 		}, options || {});
-		elm = $(elm);
-		var cn = elm.classNames();
-		return cn.all(function(value) {
+		elm = $prototype(elm);
+		var cn = $A(elm.classNames());
+		for(var i = 0; i < cn.length; i++) {
+			var value = cn[i];
 			var test = Validation.test(value,elm,options.useTitle);
 			options.onElementValidate(test, elm);
-			return test;
-		});
+			if(!test) return false;
+		}
+		return true;
 	},
 	newErrorMsgAdvice : function(name,elm,errorMsg) {
 		var advice = '<div class="validation-advice" id="advice-' + name + '-' + ValidationUtils.getElmID(elm) +'" style="display:none">' + errorMsg + '</div>'
@@ -363,11 +396,11 @@ Object.extend(Validation, {
 			default:
 				new Insertion.After(elm, advice);
 	    }
-		advice = $('advice-' + name + '-' + ValidationUtils.getElmID(elm));
+		advice = $prototype('advice-' + name + '-' + ValidationUtils.getElmID(elm));
 		return advice;
 	},
 	showErrorMsg : function(name,elm,errorMsg) {
-		var elm = $(elm);
+		var elm = $prototype(elm);
 		if(typeof Tooltip != 'undefined') {
 			if (!elm.tooltip) {
 				elm.tooltip = new Tooltip(elm, {backgroundColor:"#FC9", borderColor:"#C96", textColor:"#000", textShadowColor:"#FFF"});
@@ -383,7 +416,7 @@ Object.extend(Validation, {
 			}
 			if(advice && !advice.visible()) {
 				if(typeof Effect == 'undefined') {
-					advice.style.display = 'block';
+					advice.style.display = '';
 				} else {
 					new Effect.Appear(advice, {duration : 1 });
 				}			
@@ -395,11 +428,8 @@ Object.extend(Validation, {
 		elm.removeClassName('validation-passed');
 		elm.addClassName('validation-failed');
 	},
-	showErrorMsgByValidator : function(name,elm,useTitle) {
-		Validation.showErrorMsg(name,elm,Validation.get(name).error(ValidationUtils.getInputValue(elm),elm,useTitle));
-	},
 	hideErrorMsg : function(name,elm) {
-		var elm = $(elm);
+		var elm = $prototype(elm);
 		if(typeof Tooltip != 'undefined') {
 			if (elm.tooltip) {
 				elm.tooltip.stop();
@@ -421,12 +451,15 @@ Object.extend(Validation, {
 		elm.addClassName('validation-passed');
 	},
 	_getAdviceProp : function(validatorName) {
-		return '__advice'+validatorName.camelize();
+		return '__advice'+validatorName;
 	},
 	test : function(name, elm, useTitle) {
 		var v = Validation.get(name);
-		if(ValidationUtils.isVisible(elm) && !v.test(ValidationUtils.getInputValue(elm),elm)) {
-			Validation.showErrorMsgByValidator(name,elm,useTitle);
+		var errorMsg = null;
+		if(ValidationUtils.isVisible(elm)) 
+			errorMsg = v.testAndGetError(ValidationUtils.getInputValue(elm),elm,useTitle);
+		if(errorMsg) {
+			Validation.showErrorMsg(name,elm,errorMsg);
 			return false;
 		} else {
 			Validation.hideErrorMsg(name,elm);
@@ -434,12 +467,13 @@ Object.extend(Validation, {
 		}
 	},
 	getAdvice : function(name, elm) {
-		return $('advice-' + name + '-' + ValidationUtils.getElmID(elm)) || $('advice-' + ValidationUtils.getElmID(elm));
+		return $prototype('advice-' + name + '-' + ValidationUtils.getElmID(elm)) || $prototype('advice-' + ValidationUtils.getElmID(elm));
 	},
 	reset : function(elm) {
-		elm = $(elm);
-		var cn = elm.classNames();
-		cn.each(function(value) {
+		elm = $prototype(elm);
+		var cn = $A(elm.classNames());
+		for(var i = 0; i < cn.length; i++) {
+			var value = cn[i];
 			var prop = Validation._getAdviceProp(value);
 			if(elm[prop]) {
 				var advice = Validation.getAdvice(value, elm);
@@ -447,8 +481,8 @@ Object.extend(Validation, {
 				elm[prop] = '';
 			}
 			elm.removeClassName('validation-failed');
-			elm.removeClassName('validation-passed');
-		});
+			elm.removeClassName('validation-passed');			
+		}
 	},
 	add : function(className, test, options) {
 		var nv = {};
@@ -459,9 +493,11 @@ Object.extend(Validation, {
 		Object.extend(Validation.methods, nv);
 	},
 	addAllThese : function(validators) {
-		$A(validators).each(function(value) {
-				Validation.add(value[0], value[1], (value.length > 2 ? value[2] : {}));
-		});
+		var validators = $A(validators);
+		for(var i = 0; i < validators.length; i++) {
+			var value = validators[i];
+			Validation.add(value[0], value[1], (value.length > 2 ? value[2] : {}));
+		}
 	},
 	get : function(name) {
 		var resultMethodName;
@@ -683,7 +719,7 @@ Validation.addAllThese([
 	 */
 	['validate-date', function(v,elm,args,metadata) {
 			var dateFormat = args.singleArgument || 'yyyy-MM-dd';
-			metadata._error = ValidationUtils.format(Validator.messages[metadata.className],[dateFormat,dateFormat.replace('yyyy','2006').replace('MM','03').replace('dd','12')]);
+			metadata._error = ValidationUtils.format(ValidationUtils.getI18nMsg(metadata.className),[dateFormat,dateFormat.replace('yyyy','2006').replace('MM','03').replace('dd','12')]);
 			return ValidationUtils.isDate(v,dateFormat);
 		}],
 	['validate-selection', function(v,elm,args,metadata) {
@@ -718,11 +754,12 @@ Validation.addAllThese([
 
 
 Validation.autoBind = function() {
-	 var forms = document.getElementsByClassName('required-validate');
-	 $A(forms).each(function(form){
-		var validation = new Validation(form,{immediate:true,useTitles:true,stopOnFirst:true});
+	 var forms = $A(document.getElementsByClassName('required-validate'));
+	 for(var i = 0; i < forms.length; i++) {
+	 	var form = forms[i];
+	 	var validation = new Validation(form,{immediate:true,useTitles:true,stopOnFirst:true});
 		Event.observe(form,'reset',function() {validation.reset();},false);
-	 });
+	 }
 };
 
 Event.observe(window,'load',Validation.autoBind,false);
