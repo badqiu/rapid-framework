@@ -8,7 +8,7 @@
 <!-- build file -->
 <!-- ======================================================================= -->
 <project name="rapid-framework" basedir="." default="framework-zip">
-	<property name="version" value="v1.5.0"></property>
+	<property name="version" value="${label}"></property>
 	
 	<property environment="env"/>
 	<property file="build.properties" />
