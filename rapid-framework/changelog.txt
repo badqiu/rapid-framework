@@ -16,6 +16,7 @@ rapid-framework v1.0.3
 	generator重构 
 	为BasePage增加getFirst() getLimit(),重构Page,不使用Hibernate3Page的继承体系
 	为XsqlBuilder增加自动根据Hibernate Dialect得到SafeSqlProcesser
+	为使用IbatisStyleXsqlBuilder,使用$column$，#column#
 增加WEB框架
 	SpringMVC
 	BaseDao,BaseManager等使用java1.5的范型语法
