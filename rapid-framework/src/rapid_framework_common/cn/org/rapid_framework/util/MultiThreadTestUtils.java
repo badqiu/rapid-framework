@@ -22,11 +22,12 @@ public class MultiThreadTestUtils {
 	 */
 	public static CountDownLatch execute(int threadCount,final Runnable task) {
 		final CountDownLatch startSignal = new CountDownLatch(1);
+		final CountDownLatch startedSignal = new CountDownLatch(threadCount);
 		final CountDownLatch doneSignal = new CountDownLatch(threadCount);
 		for(int i = 0; i < threadCount; i++) {
 			Thread t = new Thread(){
 				public void run() {
-					
+					startedSignal.countDown();
 					try {
 						startSignal.await();
 					}catch(InterruptedException e) {
@@ -45,16 +46,13 @@ public class MultiThreadTestUtils {
 			t.start();
 		}
 		
-		sleepForThreadsStarted();
+		try {
+			startedSignal.await();
+		} catch (InterruptedException e) {
+			//ignore
+		}
 		startSignal.countDown();
 		return doneSignal;
 	}
 
-	private static void sleepForThreadsStarted() {
-		try {
-			Thread.sleep(800);
-		} catch (InterruptedException e) {
-			//ignore
-		}
-	}
 }
