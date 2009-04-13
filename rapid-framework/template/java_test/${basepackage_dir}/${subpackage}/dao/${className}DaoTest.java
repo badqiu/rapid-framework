@@ -47,7 +47,6 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		List resultList = (List)page.getResult();
 		assertNotNull(resultList);
 		
-		dao.flush();
 	}
 	
 }
