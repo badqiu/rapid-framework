@@ -9,9 +9,18 @@ public class MultiThreadTestUtils {
 	
 	private MultiThreadTestUtils() {}
 	
-	public static void executeAndWaitForDone(int threadCount,final Runnable task) throws InterruptedException {
+	/**
+	 * 
+	 * @param threadCount
+	 * @param task
+	 * @return costTime
+	 * @throws InterruptedException 
+	 */
+	public static long executeAndWaitForDone(int threadCount,final Runnable task) throws InterruptedException {
 		CountDownLatch doneSignal = execute(threadCount, task);
+		long startTime = System.currentTimeMillis();
 		doneSignal.await();
+		return System.currentTimeMillis() - startTime;
 	}
 	
 	/**
