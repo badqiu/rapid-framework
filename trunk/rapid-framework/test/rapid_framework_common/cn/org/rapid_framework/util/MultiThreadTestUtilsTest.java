@@ -1,10 +1,13 @@
 package cn.org.rapid_framework.util;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CountDownLatch;
-
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import junit.framework.TestCase;
+import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiThreadTestUtilsTest extends TestCase {
 	private AtomicInteger executedCount = new AtomicInteger();
@@ -46,5 +49,36 @@ public class MultiThreadTestUtilsTest extends TestCase {
 		
 		System.out.println("costTime:"+costTime);
 		assertTrue(costTime > 0);
+	}
+	
+	
+	public void testMultiThreadPermenece() throws InterruptedException {
+		Map map = new TreeMap();
+		int steps = 100;
+		for(int i = 1; i < 3000; i = i + steps) {
+			steps = steps + (int)(steps * 0.2);
+			long costTime = execute(i);
+			System.out.println("threadCount:"+ i +" costTime:"+costTime+" nextStep:"+steps);
+			map.put(costTime,i);
+		}
+		System.out.println(map);
+	}
+
+	long MAX_COUNT = 10000;
+	private long execute(int threadCount) throws InterruptedException {
+		final AtomicLong count = new AtomicLong(0);
+		long costTime = MultiThreadTestUtils.executeAndWaitForDone(threadCount, new Runnable() {
+			int selfCount = 0;
+			public void run() {
+				while(true) {
+					if(count.incrementAndGet() > MAX_COUNT) {
+						return;
+					}
+					for(int i = 0; i < 1000000; i++) {
+					}
+				}
+			}
+		});
+		return costTime;
 	}
 }
