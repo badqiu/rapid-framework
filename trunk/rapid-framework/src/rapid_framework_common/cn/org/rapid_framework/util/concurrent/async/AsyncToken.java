@@ -37,11 +37,15 @@ public class AsyncToken {
 	public AsyncToken(UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
-
-	public void addResponder(final IResponder responder) {
-		addResponder(responder,true);
-	}
 	
+	/**
+	 * addResponder(responder,false);
+	 * @param responder
+	 */
+	public void addResponder(final IResponder responder) {
+		addResponder(responder,false);
+	}
+
 	public void addResponder(final IResponder responder,boolean invokeResponderInOtherThread) {
 		_responders.add(responder);
 		
