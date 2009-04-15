@@ -108,11 +108,7 @@ public class AsyncToken {
 	private void fireResult2Responders() {
 		_isFiredResult = true;
 		for(IResponder r : _responders) {
-			try {
-				fireResult2Responder(r);
-			}catch(Throwable e) {
-				e.printStackTrace();
-			}
+			fireResult2Responder(r);
 		}
 	}
 
