@@ -31,4 +31,20 @@ public class MultiThreadTestUtilsTest extends TestCase {
 		System.out.println(executedCount);
 		assertTrue(executedCount.intValue() < expectedCount);
 	}
+	
+	public void testexecuteAndWaitForDone() throws InterruptedException {
+		
+		long costTime = MultiThreadTestUtils.executeAndWaitForDone(expectedCount, new Runnable() {
+			public void run() {
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		System.out.println("costTime:"+costTime);
+		assertTrue(costTime > 0);
+	}
 }
