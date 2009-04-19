@@ -148,7 +148,7 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 		return totalCount;
 	}
 
-	private Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSize, int pageNumber) {
+	public Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSize, int pageNumber) {
 		if(dialect.supportsLimit()) {
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,pageSize,totalCount);
