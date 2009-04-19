@@ -53,6 +53,7 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 	
 	public abstract Class getEntityClass();
 	
+	//用于分页的dialect
 	private Dialect dialect;
 	
 	public void setDialect(Dialect d) {
