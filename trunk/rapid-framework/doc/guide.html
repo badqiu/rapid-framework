@@ -10,7 +10,16 @@
 <body>
 
 <H1><a href='http://code.google.com/p/rapid-framework/' target="_blank">详细在线文档请点击这里</a></H1> 
-<H1>生成器相关修改</H1>
+<H1><a name="generator_config"></a>导航菜单</H1>
+<OL>
+	<UL><a href="#generator_config">生成器配置运行</a></UL>
+	<UL><a href="#system_config">系统搭建相关配置文件修改</a></UL>
+	<UL><a href="#fine_system_config">正确的项目目录配置图</a></UL>
+	<UL><a href="#template_desc">代码生成器模板介绍</a></UL>
+	<UL><a href="#folder_desc">项目目录介绍</a></UL>
+</OL> 
+
+<H1><a name="generator_config"></a>生成器配置运行</H1>
 	<OL>
 		<LI>修改eclipse项目属性将整个项目修改为"UTF-8"编码
 		<LI>将src/javacommon,src/resources,generator/src加入源代码路径
@@ -20,7 +29,7 @@
 		<LI>生成的文件在$outRoot(默认为:d/webapp-generator-output)目录,再根据所需手工拷回至工作目录
 	</OL> 
 
-<H1>系统搭建相关配置文件修改 - 加<font color=red>(*)号</font>为默认值如果满足则无需修改</H1>
+<H1><a name="system_config"></a>系统搭建相关配置文件修改 - 加<font color=red>(*)号</font>为默认值如果满足则无需修改</H1>
 
 <h2>1.插件安装</h2>
 <pre>
@@ -92,10 +101,10 @@ URL规则统一为: /subpackage/Entity/method.do, 如/system/User/list.do
 	(*)2.修改context:component-scan以确定要加载的controller,默认为com.**.controller
 </pre> 
 
-<h1>正确的项目目录配置示例</h1>
+<h1><a name="fine_system_config"></a>正确的项目目录配置示例</h1>
 <img border="0" src="demo_project_eclipse_path_config.jpg">
    	
-<H1>模板相关</H1>
+<H1><a name="template_desc"></a>模板相关</H1>
 <H2>模板特性</H2>
 <pre>
 特性1: 模板文件的的名称与目录名称可以直接引用相关变量,如${className}.java
@@ -115,7 +124,7 @@ custom.include: 包含一些变量的配置
 macro.include: 包含一些公用的FreeMarker macro
 </pre>
 
-<h1>相关文件及目录介绍</h1>
+<h1><a name="folder_desc"></a>相关文件及目录介绍</h1>
 <pre>
 doc
 --guide.html		系统搭建及代码生成器使用说明
