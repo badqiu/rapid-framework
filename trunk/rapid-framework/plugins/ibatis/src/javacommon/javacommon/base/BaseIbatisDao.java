@@ -27,7 +27,7 @@ public abstract class BaseIbatisDao<E> extends SqlMapClientDaoSupport implements
     }
     
 	public void deleteById(Serializable id) {
-		getSqlMapClientTemplate().update(getDeleteQuery(), id);
+		getSqlMapClientTemplate().delete(getDeleteQuery(), id);
 	}
 	
     public void save(E entity) {
