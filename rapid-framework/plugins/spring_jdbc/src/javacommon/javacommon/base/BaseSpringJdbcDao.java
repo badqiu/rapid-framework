@@ -111,7 +111,7 @@ public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements Ent
 	 * @return
 	 */
 	public Page findAll(String tableName,final PageRequest pageRequest) {
-		return pageQuery("select * from "+tableName+" /~ order by {sortingColumn} [sortingDirection] ~/",pageRequest);
+		return pageQuery("select * from "+tableName+" /~ order by {sortColumns} ~/",pageRequest);
 	}
 	
 	public Page pageQuery(String query,PageRequest pageRequest) {
