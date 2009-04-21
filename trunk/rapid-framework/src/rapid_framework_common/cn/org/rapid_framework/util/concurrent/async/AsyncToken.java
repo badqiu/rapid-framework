@@ -19,6 +19,8 @@ import javax.swing.SwingUtilities;
  *		}
  *	});
  * </pre>
+ * 生成token请查看AsyncTokenTemplate
+ * @see AsyncTokenTemplate
  * @author badqiu
  */
 public class AsyncToken<T> {
