@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
+import java.util.Date;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CountDownLatch;
 
 import junit.framework.TestCase;
 
@@ -9,6 +9,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 	private Object RESULT = new Object();
 	private boolean executedResult = false;
 	final AsyncTokenTemplate template = new AsyncTokenTemplate();
+	
 	public void test() throws InterruptedException {
 		final AsyncToken token = new AsyncToken();
 		Thread thread = new Thread(new Runnable() {
@@ -40,5 +41,24 @@ public class AsyncTokenTemplateTest extends TestCase {
 		Thread.sleep(2000 + 500);
 		
 		assertTrue(executedResult);
+	}
+	
+	public void testTemplate() {
+		AsyncToken<Date> token = new AsyncToken();
+		token.addResponder(new IResponder<Date>(){
+			public void onFault(Throwable fault) {
+				
+			}
+
+			public void onResult(Date result) {
+				
+			}
+		});
+		
+		template.execute(token, new Callable<Date>() {
+			public Date call() throws Exception {
+				return null;
+			}
+		});
 	}
 }
