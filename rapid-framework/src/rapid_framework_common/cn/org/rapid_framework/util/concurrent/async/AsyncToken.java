@@ -57,7 +57,7 @@ public class AsyncToken<T> {
 	
 	public AsyncToken(UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
-		init(DEFAULT_TOKEN_GROUP, "Token-"+nextTokenNum(), nextTokenID());
+		init(DEFAULT_TOKEN_GROUP, "T-"+nextTokenNum(), nextTokenID());
 	}
 	
 	public AsyncToken(String tokenGroup,String tokenName) {
