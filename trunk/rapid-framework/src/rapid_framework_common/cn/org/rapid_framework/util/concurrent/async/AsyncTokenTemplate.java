@@ -31,7 +31,7 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken.UncaughtException
  */
 public class AsyncTokenTemplate {
 
-	public void execute(AsyncToken token,Callable task) {
+	public static void execute(AsyncToken token,Callable task) {
 		try {
 			Object result = task.call();
 			token.setComplete(result);
