@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
  * </pre>
  * @author badqiu
  */
-public class AsyncToken {
+public class AsyncToken<T> {
 	public static final String DEFAULT_TOKEN_GROUP = "default";
 	
 	//tokenGroup tokenName tokenDescription tokenId  用于可以增加描述信息
@@ -102,11 +102,11 @@ public class AsyncToken {
 	 * addResponder(responder,false);
 	 * @param responder
 	 */
-	public void addResponder(final IResponder responder) {
+	public void addResponder(final IResponder<T> responder) {
 		addResponder(responder,false);
 	}
 
-	public void addResponder(final IResponder responder,boolean invokeResponderInOtherThread) {
+	public void addResponder(final IResponder<T> responder,boolean invokeResponderInOtherThread) {
 		_responders.add(responder);
 		
 		if(_isFiredResult) {
