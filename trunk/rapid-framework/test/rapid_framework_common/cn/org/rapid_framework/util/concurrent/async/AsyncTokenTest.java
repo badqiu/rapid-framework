@@ -24,6 +24,18 @@ public class AsyncTokenTest extends TestCase {
 		Thread.sleep(500);
 		
 	}
+
+	public void testTokenGroup() throws InterruptedException {
+		AsyncToken token = new AsyncToken("badqiu","badqiu-1");
+		assertEquals(token.getTokenGroup(),"badqiu");
+		assertEquals(token.getTokenName(),"badqiu-1");
+		assertTrue(token.getTokenId()> 0);
+		
+		AsyncToken token2 = new AsyncToken();
+		assertEquals(token.getTokenId()+1,token2.getTokenId());
+		assertEquals(token2.getTokenGroup(),AsyncToken.DEFAULT_TOKEN_GROUP);
+		assertEquals(token2.getTokenName(),"Token-1");
+	}
 	
 	public void testOnResult() throws InterruptedException {
 		AsyncToken token = new AsyncToken();

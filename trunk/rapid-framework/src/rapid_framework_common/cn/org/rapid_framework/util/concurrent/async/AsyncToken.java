@@ -22,6 +22,13 @@ import javax.swing.SwingUtilities;
  * @author badqiu
  */
 public class AsyncToken {
+	public static final String DEFAULT_TOKEN_GROUP = "default";
+	
+	//tokenGroup tokenName tokenDescription tokenId  用于可以增加描述信息
+	private String tokenGroup = DEFAULT_TOKEN_GROUP;
+	private String tokenName;
+	private long tokenId;
+	private String tokenDescription = null;
 	
 	private static UncaughtExceptionHandler defaultUncaughtExceptionHandler;
 	
@@ -31,13 +38,66 @@ public class AsyncToken {
 	private Object _result;
 	private Throwable _fault;
 	private boolean _isFiredResult;
+
 	
-	public AsyncToken(){}
+    private static int tokenNumSeqForTokenName;
+    private static synchronized int nextTokenNum() {
+    	return tokenNumSeqForTokenName++;
+    }
+    private static long tokenIdSequence;
+    private static synchronized long nextTokenID() {
+    	return ++tokenIdSequence;
+    }
+    
+	public AsyncToken(){
+		this(null);
+	}
 	
 	public AsyncToken(UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
+		init(DEFAULT_TOKEN_GROUP, "Token-"+nextTokenNum(), nextTokenID());
 	}
 	
+	public AsyncToken(String tokenGroup,String tokenName) {
+		init(tokenGroup, tokenName, nextTokenID());
+	}
+	
+	private void init(String tokenGroup,String tokenName,long tokenId) {
+		setTokenGroup(tokenGroup);
+		setTokenName(tokenName);
+		this.tokenId = tokenId;
+	}
+	
+	public String getTokenGroup() {
+		return tokenGroup;
+	}
+
+	public void setTokenGroup(String tokenGroup) {
+		if(tokenGroup == null) throw new IllegalArgumentException("'tokenGroup' must be not null");
+		this.tokenGroup = tokenGroup;
+	}
+
+	public String getTokenName() {
+		return tokenName;
+	}
+
+	public void setTokenName(String tokenName) {
+		if(tokenName == null) throw new IllegalArgumentException("'tokenName' must be not null");
+		this.tokenName = tokenName;
+	}
+	
+	public String getTokenDescription() {
+		return tokenDescription;
+	}
+
+	public void setTokenDescription(String tokenDescription) {
+		this.tokenDescription = tokenDescription;
+	}
+
+	public long getTokenId() {
+		return tokenId;
+	}
+
 	/**
 	 * addResponder(responder,false);
 	 * @param responder
