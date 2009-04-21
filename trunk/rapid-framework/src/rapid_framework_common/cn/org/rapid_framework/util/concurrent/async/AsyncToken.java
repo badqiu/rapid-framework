@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 /**
  * 该类主要用于得到异步方法的执行结果.
  * <pre>
- * 	AsyncToken token = new AsyncToken();
+ * 	AsyncToken token = sendEmail();
  * 	token.addResponder(new IResponder() {
  *		public void onFault(Throwable fault) {
  *			//handle fault 
