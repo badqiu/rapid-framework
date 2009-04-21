@@ -13,7 +13,7 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken.UncaughtException
  *		final AsyncToken token = new AsyncToken();
  *		Thread thread = new Thread(new Runnable() {
  *			public void run() {
- *				template.execute(token,new Callable(){
+ *				AsyncTokenTemplate.execute(token,new Callable(){
  *					public Object call() throws Exception {
  *						sendEmail();
  *						//do other something
