@@ -8,13 +8,12 @@ import junit.framework.TestCase;
 public class AsyncTokenTemplateTest extends TestCase {
 	private Object RESULT = new Object();
 	private boolean executedResult = false;
-	final AsyncTokenTemplate template = new AsyncTokenTemplate();
 	
 	public void test() throws InterruptedException {
 		final AsyncToken token = new AsyncToken();
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				template.execute(token,new Callable(){
+				AsyncTokenTemplate.execute(token,new Callable(){
 					public Object call() throws Exception {
 						Thread.sleep(1000 * 3);
 						return RESULT;
@@ -55,7 +54,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 			}
 		});
 		
-		template.execute(token, new Callable<Date>() {
+		AsyncTokenTemplate.execute(token, new Callable<Date>() {
 			public Date call() throws Exception {
 				return null;
 			}
