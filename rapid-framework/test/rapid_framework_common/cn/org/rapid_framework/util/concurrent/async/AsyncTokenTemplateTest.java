@@ -15,7 +15,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 			public void run() {
 				template.execute(token,new Callable(){
 					public Object call() throws Exception {
-						Thread.sleep(1000 * 2);
+						Thread.sleep(1000 * 3);
 						return RESULT;
 					}
 				});
@@ -23,7 +23,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 		});
 		thread.start();
 		
-		Thread.sleep(1000);
+		Thread.sleep(1500);
 		
 		token.addResponder(new IResponder() {
 			public void onFault(Throwable fault) {
@@ -37,7 +37,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 		
 		assertFalse(executedResult);
 		
-		Thread.sleep(1000 + 500);
+		Thread.sleep(2000 + 500);
 		
 		assertTrue(executedResult);
 	}
