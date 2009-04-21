@@ -25,6 +25,8 @@ public class AsyncTokenTemplate {
 	private List<IResponder> responders = new ArrayList(1);
 	private UncaughtExceptionHandler uncaughtExceptionHandler;
 	
+	private String tokenGroup = AsyncToken.DEFAULT_TOKEN_GROUP;
+	
 	public AsyncTokenTemplate() {
 	}
 	
@@ -32,6 +34,13 @@ public class AsyncTokenTemplate {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
 	
+	public AsyncTokenTemplate(String tokenGroup,
+			UncaughtExceptionHandler uncaughtExceptionHandler) {
+		super();
+		setTokenGroup(tokenGroup);
+		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
+	}
+
 	public UncaughtExceptionHandler getUncaughtExceptionHandler() {
 		return uncaughtExceptionHandler;
 	}
@@ -40,8 +49,6 @@ public class AsyncTokenTemplate {
 			UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
 	}
-
-
 
 	public AsyncTokenTemplate(IResponder responder) {
 		super();
@@ -55,14 +62,18 @@ public class AsyncTokenTemplate {
 	public void setResponders(List<IResponder> responders) {
 		this.responders = responders;
 	}
+	
+	public String getTokenGroup() {
+		return tokenGroup;
+	}
+
+	public void setTokenGroup(String tokenGroup) {
+		if(tokenGroup == null) throw new IllegalArgumentException("'tokenGroup' must be not null");
+		this.tokenGroup = tokenGroup;
+	}
 
 	public AsyncToken execute(AsyncTokenCallback callback) {
-		AsyncToken token = new AsyncToken();
-		for(IResponder r : responders) {
-			token.addResponder(r);
-		}
-		token.setUncaughtExceptionHandler(uncaughtExceptionHandler);
-		
+		AsyncToken token = newAsyncToken();
 		try {
 			Object result = callback.execute();
 			token.setComplete(result);
@@ -71,7 +82,28 @@ public class AsyncTokenTemplate {
 		}
 		return token;
 	}
+
+	protected AsyncToken newAsyncToken() {
+		AsyncToken token = new AsyncToken();
+		token.setTokenGroup(tokenGroup);
+		
+		for(IResponder r : responders) {
+			token.addResponder(r);
+		}
+		
+		token.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+		
+		setTokenProperties(token);
+		return token;
+	}
 	
+	/**
+	 * for override to set token properties
+	 * @param token
+	 */
+	protected void setTokenProperties(AsyncToken token) {
+	}
+
 	public static interface AsyncTokenCallback {
 		
 		Object execute() throws Throwable;
