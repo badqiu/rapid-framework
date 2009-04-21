@@ -42,8 +42,8 @@ public class AsyncToken<T> {
 	private boolean _isFiredResult;
 
 	
-    private static int tokenNumSeqForTokenName;
-    private static synchronized int nextTokenNum() {
+    private static long tokenNumSeqForTokenName;
+    private static synchronized long nextTokenNum() {
     	return tokenNumSeqForTokenName++;
     }
     private static long tokenIdSequence;
