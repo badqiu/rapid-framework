@@ -42,7 +42,6 @@ public class JdbcPlaceholderConfigurer extends PropertyPlaceholderConfigurer imp
 		logger.info("spring resolve placeholder sql:"+sql);
 	}
 
-	@Override
 	protected String resolvePlaceholder(String placeholder, Properties props,int systemPropertiesMode) {
 		String value = super.resolvePlaceholder(placeholder, props, systemPropertiesMode);
 		if(value == null) {
