@@ -37,7 +37,7 @@ public class AsyncToken<T> {
 	private List<IResponder> _responders = new ArrayList(2);
 	
 	private UncaughtExceptionHandler uncaughtExceptionHandler;
-	private Object _result;
+	private T _result;
 	private Exception _fault;
 	private boolean _isFiredResult;
 
@@ -183,14 +183,14 @@ public class AsyncToken<T> {
 	}
 	
 	public void setComplete(T result) {
-		if(_isFiredResult) throw new IllegalArgumentException("token already fired");
+		if(_isFiredResult) throw new IllegalStateException("token already fired");
 		this._result = result;
 		fireResult2Responders();
 	}
 	
 	public void setFault(Exception fault) {
 		if(fault == null) throw new NullPointerException();
-		if(_isFiredResult) throw new IllegalArgumentException("token already fired");
+		if(_isFiredResult) throw new IllegalStateException("token already fired");
 		this._fault = fault;
 		fireResult2Responders();
 	}
