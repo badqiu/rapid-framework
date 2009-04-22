@@ -1,7 +1,6 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.util.concurrent.async.AsyncToken.UncaughtExceptionHandler;
 
 public class AsyncTokenTest extends TestCase {
 
