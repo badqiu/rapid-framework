@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -194,9 +193,5 @@ public class AsyncToken<T> {
 		this._fault = fault;
 		fireResult2Responders();
 	}
-	
-	public static interface UncaughtExceptionHandler {
-		void uncaughtException(IResponder responder,Throwable e);
-	}
-	
+		
 }
