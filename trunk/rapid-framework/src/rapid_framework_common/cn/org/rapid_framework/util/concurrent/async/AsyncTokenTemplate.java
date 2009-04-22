@@ -1,10 +1,6 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Callable;
-
-import cn.org.rapid_framework.util.concurrent.async.AsyncToken.UncaughtExceptionHandler;
 
 /**
  * AsyncToken模板方法,用于生成token,使用方法如下:
