@@ -17,6 +17,9 @@ public class FileSizeUtils {
 	}
 	
 	public static String getHumanReadableFileSize(long fileSize) {
+		if(fileSize < 0) {
+			return String.valueOf(fileSize);
+		}
 		String result = getHumanReadableFileSize(fileSize, ONE_PB, "PB");
 		if(result != null) {
 			return result;
