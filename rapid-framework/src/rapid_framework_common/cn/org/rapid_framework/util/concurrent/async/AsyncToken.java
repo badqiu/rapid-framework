@@ -38,7 +38,7 @@ public class AsyncToken<T> {
 	
 	private UncaughtExceptionHandler uncaughtExceptionHandler;
 	private Object _result;
-	private Throwable _fault;
+	private Exception _fault;
 	private boolean _isFiredResult;
 
 	
@@ -182,13 +182,13 @@ public class AsyncToken<T> {
 		setComplete(null);
 	}
 	
-	public void setComplete(Object result) {
+	public void setComplete(T result) {
 		if(_isFiredResult) throw new IllegalArgumentException("token already fired");
 		this._result = result;
 		fireResult2Responders();
 	}
 	
-	public void setFault(Throwable fault) {
+	public void setFault(Exception fault) {
 		if(fault == null) throw new NullPointerException();
 		if(_isFiredResult) throw new IllegalArgumentException("token already fired");
 		this._fault = fault;

@@ -11,7 +11,7 @@ public class AsyncTokenTest extends TestCase {
 		token.setFault(exception);
 		
 		token.addResponder(new IResponder() {
-			public void onFault(Throwable fault) {
+			public void onFault(Exception fault) {
 				System.out.println("onFault()");
 				assertEquals(fault,exception);
 			}
@@ -42,7 +42,7 @@ public class AsyncTokenTest extends TestCase {
 		token.setComplete(exception);
 		
 		token.addResponder(new IResponder() {
-			public void onFault(Throwable fault) {
+			public void onFault(Exception fault) {
 				assertNull(fault);
 			}
 			public void onResult(Object result) {
@@ -70,7 +70,7 @@ public class AsyncTokenTest extends TestCase {
 	public void testUncaughtExceptionHandler() throws InterruptedException {
 		final RuntimeException caughtException = new RuntimeException();
 		
-		AsyncToken token = new AsyncToken();
+		AsyncToken<Exception> token = new AsyncToken();
 		token.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			public void uncaughtException(IResponder responder, Throwable e) {
 				assertEquals(caughtException,e);
@@ -80,11 +80,20 @@ public class AsyncTokenTest extends TestCase {
 		
 		token.setComplete(exception);
 		token.addResponder(new IResponder() {
-			public void onFault(Throwable fault) {
+			public void onFault(Exception fault) {
 				assertNull(fault);
 			}
 			public void onResult(Object result) {
 				throw caughtException;
+			}
+		});
+		token.addResponder(new IResponder<Exception>() {
+			public void onFault(Exception fault) {
+				
+			}
+
+			public void onResult(Exception result) {
+				
 			}
 		});
 		

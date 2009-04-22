@@ -35,7 +35,7 @@ public class AsyncTokenTemplate {
 		try {
 			Object result = task.call();
 			token.setComplete(result);
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			token.setFault(e);
 		}
 	}
