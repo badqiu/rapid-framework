@@ -26,7 +26,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 		Thread.sleep(1500);
 		
 		token.addResponder(new IResponder() {
-			public void onFault(Throwable fault) {
+			public void onFault(Exception fault) {
 				assertNull(fault);
 			}
 			public void onResult(Object result) {
@@ -45,7 +45,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 	public void testTemplate() {
 		AsyncToken<Date> token = new AsyncToken();
 		token.addResponder(new IResponder<Date>(){
-			public void onFault(Throwable fault) {
+			public void onFault(Exception fault) {
 				
 			}
 
@@ -59,5 +59,9 @@ public class AsyncTokenTemplateTest extends TestCase {
 				return null;
 			}
 		});
+		
+		int count = Integer.MAX_VALUE;
+		System.out.println(count);
+		System.out.println(++count);
 	}
 }
