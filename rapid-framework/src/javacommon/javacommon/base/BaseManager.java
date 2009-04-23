@@ -1,5 +1,6 @@
 package javacommon.base;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -7,13 +8,13 @@ import org.apache.commons.logging.LogFactory;
 /**
  * @author badqiu
  */
-public abstract class BaseManager <E>{
+public abstract class BaseManager <E,PK extends Serializable>{
 	
 	protected Log log = LogFactory.getLog(getClass());
 
 	protected abstract EntityDao getEntityDao();
 
-	public E getById(java.io.Serializable id) {
+	public E getById(PK id) {
 		return (E)getEntityDao().getById(id);
 	}
 	
@@ -29,7 +30,7 @@ public abstract class BaseManager <E>{
 		getEntityDao().save(entity);
 	}
 	
-	public void removeById(java.io.Serializable id) {
+	public void removeById(PK id) {
 		getEntityDao().deleteById(id);
 	}
 	

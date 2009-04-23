@@ -5,11 +5,11 @@ import java.util.List;
 /**
  * @author badqiu
  */
-public interface EntityDao <E>{
+public interface EntityDao <E,PK extends Serializable>{
 
-	public Object getById(Serializable id);
+	public Object getById(PK id);
 	
-	public void deleteById(Serializable id);
+	public void deleteById(PK id);
 	
 	public void save(E entity);
 	
