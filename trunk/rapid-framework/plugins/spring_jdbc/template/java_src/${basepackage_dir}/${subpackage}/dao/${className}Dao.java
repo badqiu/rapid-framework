@@ -28,38 +28,45 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		return null;
 		</#if>
 	}
-
+	
+	/**
+	 * return sql for deleteById();
+	 */
+	public String getDeleteByIdSql() {
+		return "delete from ${table.sqlName} where ${table.idColumn.sqlName}=?";
+	}
+	
+	/**
+	 * return sql for getById();
+	 */
+	public String getFindByIdSql() {
+		return SELECT_PREFIX + " where ${table.idColumn.sqlName}=? ";
+	}
+	
 	public void save(${className} entity) {
 		String sql = "insert into ${table.sqlName} " 
 			 + " (<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list>) " 
-			 + " values(<#list table.columns as column>:${column.columnNameLower}<#if column_has_next>,</#if></#list>)";
+			 + " values "
+			 + " (<#list table.columns as column>:${column.columnNameLower}<#if column_has_next>,</#if></#list>)";
 		insertWithIdentity(entity,sql); //for sqlserver and mysql
-		/*
-		insertWithOracleSequence(entity,"sequenceName",sql); //oracle sequence: 
-		insertWithDB2Sequence(entity,"sequenceName",sql); //db2 sequence:
-		insertWithUUID(entity,sql); //uuid
-		insertWithAssigned(entity,sql) //手工分配
-		*/
+		
+		//其它主键生成策略
+		//insertWithOracleSequence(entity,"sequenceName",sql); //oracle sequence: 
+		//insertWithDB2Sequence(entity,"sequenceName",sql); //db2 sequence:
+		//insertWithUUID(entity,sql); //uuid
+		//insertWithAssigned(entity,sql) //手工分配
 	}
 	
 	public void update(${className} entity) {
-		String sql = "update ${table.sqlName} set <#list table.columns as column>${column.sqlName}=:${column.columnNameLower}<#if column_has_next>,</#if></#list> "
+		String sql = "update ${table.sqlName} set "
+					+ " <#list table.columns as column>${column.sqlName}=:${column.columnNameLower}<#if column_has_next>,</#if></#list> "
 					+ " where ${table.idColumn.sqlName}=:${table.idColumn.columnNameLower}";
 		getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
-	}
-	
-	public void deleteById(${table.idColumn.javaType} id) {
-		getSimpleJdbcTemplate().update("delete from ${table.sqlName} where ${table.idColumn.sqlName}=?", id);
 	}
 	
 	public List findAll() {
 		String sql = SELECT_PREFIX ;
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
-	}
-
-	public ${className} getById(${table.idColumn.javaType} id) {
-		String sql = SELECT_PREFIX + " where ${table.idColumn.sqlName}=? ";
-		return getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(${className}.class), id);
 	}
 
 	public Page findByPageRequest(PageRequest pageRequest) {
