@@ -16,17 +16,17 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  * @version 1.0
  */
-public abstract class BaseIbatisDao<E> extends SqlMapClientDaoSupport implements EntityDao<E> {
+public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapClientDaoSupport implements EntityDao<E,PK> {
     protected final Log log = LogFactory.getLog(getClass());
     
     public abstract Class getEntityClass();
     
-    public Object getById(Serializable primaryKey) {
+    public Object getById(PK primaryKey) {
         Object object = getSqlMapClientTemplate().queryForObject(getFindByPrimaryKeyQuery(), primaryKey);
         return object;
     }
     
-	public void deleteById(Serializable id) {
+	public void deleteById(PK id) {
 		getSqlMapClientTemplate().delete(getDeleteQuery(), id);
 	}
 	

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class ${className}Dao extends BaseIbatisDao<${className}>{
+public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn.javaType}>{
 
 	public Class getEntityClass() {
 		return ${className}.class;

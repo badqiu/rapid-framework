@@ -42,7 +42,7 @@ import cn.org.rapid_framework.util.SqlRemoveUtils;
  * @author badqiu
  *
  */
-public abstract class BaseSpringJdbcDao<E> extends JdbcDaoSupport implements EntityDao<E>{
+public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcDaoSupport implements EntityDao<E,PK>{
 
 	protected final Log log = LogFactory.getLog(getClass());
 
