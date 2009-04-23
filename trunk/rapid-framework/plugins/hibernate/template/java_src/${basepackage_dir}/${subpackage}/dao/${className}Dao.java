@@ -8,7 +8,7 @@ package ${basepackage}.${subpackage}.dao;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ${className}Dao extends BaseHibernateDao<${className}>{
+public class ${className}Dao extends BaseHibernateDao<${className},${table.idColumn.javaType}>{
 
 	public Class getEntityClass() {
 		return ${className}.class;

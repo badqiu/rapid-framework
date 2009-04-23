@@ -47,7 +47,7 @@ import cn.org.rapid_framework.util.MapUtils;
 /**
  * @author badqiu
  */
-public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements EntityDao<E>{
+public abstract class BaseHibernateDao<E,PK extends Serializable> extends HibernateDaoSupport implements EntityDao<E,PK>{
 	/**
 	 * Logger for subclass
 	 */
@@ -148,7 +148,7 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		return getHibernateTemplate().loadAll(getEntityClass());
 	}
 
-	public E getById(Serializable id) {
+	public E getById(PK id) {
 		return (E)getHibernateTemplate().get(getEntityClass(),id);
 	}
 
@@ -160,7 +160,7 @@ public abstract class BaseHibernateDao<E> extends HibernateDaoSupport implements
 		getHibernateTemplate().delete(entity);
 	}
 	
-	public void deleteById(Serializable id) {
+	public void deleteById(PK id) {
 		Object entity = getById(id);
 		if(entity == null) {
 			throw new ObjectRetrievalFailureException(getEntityClass(),id);
