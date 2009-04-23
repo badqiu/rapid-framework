@@ -13,7 +13,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
+public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idColumn.javaType}>{
 	
 	static final String SELECT_PREFIX = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
 	
@@ -48,7 +48,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
 		getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
 	}
 	
-	public void deleteById(Serializable id) {
+	public void deleteById(${table.idColumn.javaType} id) {
 		getSimpleJdbcTemplate().update("delete from ${table.sqlName} where ${table.idColumn.sqlName}=?", id);
 	}
 	
@@ -57,7 +57,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className}>{
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
 	}
 
-	public ${className} getById(Serializable id) {
+	public ${className} getById(${table.idColumn.javaType} id) {
 		String sql = SELECT_PREFIX + " where ${table.idColumn.sqlName}=? ";
 		return getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(${className}.class), id);
 	}
