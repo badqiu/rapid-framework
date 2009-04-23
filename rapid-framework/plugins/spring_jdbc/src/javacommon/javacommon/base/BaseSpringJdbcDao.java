@@ -22,6 +22,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -30,6 +31,8 @@ import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncr
 import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.util.ReflectionUtils;
+
+import com.company.system.model.JsUser;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.page.Page;
@@ -239,6 +242,17 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		throw new UnsupportedOperationException();
 	}
 	
+	public abstract String getFindByIdSql();
+	public E getById(PK id) {
+		return (E)getSimpleJdbcTemplate().queryForObject(getFindByIdSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
+	}
+
+	public abstract String getDeleteByIdSql();
+	public void deleteById(PK id) {
+		getSimpleJdbcTemplate().update(getDeleteByIdSql(), id);
+	}
+	
+
 	public void saveOrUpdate(E entity) {
 		Object id = getIdentifierPropertyValue(entity);
 		if(ObjectUtils.isNullOrEmptyString(id)) {
