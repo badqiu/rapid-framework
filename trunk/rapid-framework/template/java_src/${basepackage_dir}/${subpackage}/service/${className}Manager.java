@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 <#include "/java_imports.include">
 @Component
-public class ${className}Manager extends BaseManager<${className}>{
+public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{
 
 	private ${className}Dao ${classNameLower}Dao;
 	/**通过spring注入${className}Dao*/
