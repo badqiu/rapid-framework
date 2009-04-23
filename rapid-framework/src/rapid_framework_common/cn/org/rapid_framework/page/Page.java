@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 分页信息接口
+ * 分页信息
  * 第一页从1开始
  * @author badqiu
  */
