@@ -1,0 +1,41 @@
+--------------------------------------------------------
+rapid-framework v1.0.3
+	BaseManagerTestCase,BaseDaoTestCase构造函数错误
+	删除BaseDao,提取出EntityDao接口
+	重命名: BaseAction=>BaseStrutsAction,BaseForm=>BaseStrutsForm
+	将Struts2的URL扩展名统一为.do
+	整理/修改目录名称
+	javacommon的工具类修改包名并打包成rapid-common.jar
+	模板的table css优化
+	struts2使用一致的URL规则namespace/Entity/method.do
+	模板支持sqldate,sqltime转换
+	newPageInfo(request)提供可以扩展,以适应不同的分页组件
+	Struts1的动态构造formBean使用WeakMap优化性能，以避免ClassLoader.forName,删除StrutsImprovment.jar
+	将BaseEntity.java的日期转换方法转移至DateConvertUtils.java
+	generator包重命名
+	generator重构 
+	为BasePage增加getFirst() getLimit(),重构Page,不使用Hibernate3Page的继承体系
+	为XsqlBuilder增加自动根据Hibernate Dialect得到SafeSqlProcesser
+	为使用IbatisStyleXsqlBuilder,使用$column$，#column#
+增加WEB框架
+	SpringMVC
+	BaseDao,BaseManager等使用java1.5的范型语法
+	struts2升级jar
+	修正在linux下FreeMarker的include指令不能找到文件的问题
+	struts2不使用simple theme
+	struts2 DirectResult 增加支持 forward:/redirect:前缀
+		
+--------------------------------------------------------
+rapid-framework v1.0.2
+
+jar升级
+	rapid-xsqlbuilder升级至v1.0.1,中括号[]默认自动进行toString()
+modules/struts2修改
+	struts/javacommon目录调整
+	增加ant任务文件build.xml,install-struts2命令可以快速将web框架切换至struts2
+模板修改
+	template/other/java_hibernate_xml调整目录,增加${subpackage}
+	struts2 的${className}Action.java实现Preparable接口
+其它
+	关键位置增加文档说明及目录增加相关readme说明
+	
