@@ -32,8 +32,6 @@ import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrement
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 import org.springframework.util.ReflectionUtils;
 
-import com.company.system.model.JsUser;
-
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
