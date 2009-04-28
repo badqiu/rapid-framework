@@ -13,7 +13,7 @@ import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
 @Component
-public class ResourceDao extends BaseHibernateDao<Resource>{
+public class ResourceDao extends BaseHibernateDao<Resource,Long>{
 
 	public Class getEntityClass() {
 		return Resource.class;
