@@ -9,7 +9,7 @@ package ${basepackage}.${subpackage}.${className}
 	
 	import mx.rpc.IResponder;
 	
-	public class Delete${className}Command extends DefaultResponder implements IResponder,ICommand
+	public class Delete${className}Command extends BaseResponder implements IResponder,ICommand
 	{
 		[Bindable]
 		private var model : ${className}ModelLocator = ${className}ModelLocator.getInstance();
