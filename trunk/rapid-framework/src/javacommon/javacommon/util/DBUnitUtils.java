@@ -133,7 +133,7 @@ public class DBUnitUtils {
 	public void restoreTables() throws Exception {
 		deleteTestDatas();
 		if(cachedDataSet != null) {
-			DatabaseOperation.CLEAN_INSERT.execute(getDatabaseConnection(), cachedDataSet);
+			DatabaseOperation.CLEAN_INSERT.execute(getDatabaseConnection(),cachedDataSet);
 			cachedDataSet = null;
 		}
 	}
