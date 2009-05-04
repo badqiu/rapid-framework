@@ -5,6 +5,11 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultBeanNameGenerator;
 import org.springframework.util.StringUtils;
 
+/**
+ * 用于生成spring bean名称，可以设置bean需要删除的前缀及后缀
+ * @author badqiu
+ *
+ */
 public class SmartBeanNameGenerator extends DefaultBeanNameGenerator{
 
 	String DEFAULT_REMOVE_SUFFIX = "impl";
