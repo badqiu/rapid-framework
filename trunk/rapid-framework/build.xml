@@ -160,8 +160,8 @@
     </target>
 
 	<target name="javadoc">
-		<javadoc  destdir="${dir.javadoc}" windowtitle="XsqlBuilder"
-			source="1.4" access="protected" author="true" version="true" use="true"
+		<javadoc  destdir="${dir.javadoc}" windowtitle="${ant.project.name}"
+			source="1.5" access="protected" author="true" version="true" use="true"
 			encoding="${encoding}"
 			header=''>
 			<sourcepath refid="dirs.java.src"/>
