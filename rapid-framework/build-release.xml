@@ -145,9 +145,9 @@
 		</jar>
 	</target>
 
-	<target name="rapid-framework.jar.zip" depends="rapid-framework.jar">
-		<zip zipfile="${dir.dist}/rapid-common-${version}.zip">
-			<zipfileset dir="." prefix="rapid-javacommon-${version}">
+	<target name="rapid-framework.src.jar.zip" depends="rapid-framework.jar">
+		<zip zipfile="${dir.dist}/rapid-framework-common-${version}-src.zip">
+			<zipfileset dir="." prefix="rapid-framework-common-${version}">
 				<include name="src/rapid_framework_common/**"/>
 				<include name="${dir.dist}/rapid-framework.jar"/>
 			</zipfileset>
@@ -214,7 +214,7 @@
 		<antcall target="generator-zip"></antcall>
 		<antcall target="framework-zip"></antcall>
 		<antcall target="rapid-framework.jar"></antcall>
-		<antcall target="rapid-framework.jar.zip"></antcall>
+		<antcall target="rapid-framework.src.jar.zip"></antcall>
 	</target>
 	
 </project>
