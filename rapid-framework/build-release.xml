@@ -145,11 +145,28 @@
 		</jar>
 	</target>
 
-	<target name="rapid-framework.src.jar.zip" depends="rapid-framework.jar">
+	<target name="javadoc">
+		<javadoc  destdir="${dir.javadoc}" windowtitle="rapid_framework"
+			source="1.5" access="protected" author="true" version="true" use="true" 
+			encoding="${encoding}">
+			<sourcepath path="src/rapid_framework_common"/>
+			<classpath refid="lib.classpath"/>
+			
+			<packageset dir="src/rapid_framework_common">
+				<include name="cn/org/**"/>
+			</packageset>
+			
+			<doctitle><![CDATA[<h1>rapid_framework</h1>]]></doctitle>
+			<bottom>rapid_framework</bottom>
+		</javadoc>
+	</target>
+				
+	<target name="rapid-framework.src.jar.zip" depends="rapid-framework.jar,javadoc">
 		<zip zipfile="${dir.dist}/rapid-framework-common-${version}-src.zip">
 			<zipfileset dir="." prefix="rapid-framework-common-${version}">
 				<include name="src/rapid_framework_common/**"/>
 				<include name="${dir.dist}/rapid-framework.jar"/>
+				<include name="${dir.javadoc}"/>
 			</zipfileset>
 		</zip>
 	</target>
