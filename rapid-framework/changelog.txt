@@ -4,6 +4,8 @@ rapid-framework v2.0.1
 	修正flex模板错误
 	generator的oracle数据库驱动升级为ojdbc14.jar
 	增加javadoc 文档
+	修正DBUnitUtils与dbunit2.2的编译兼容问题
+	修正BaseSpringJdbcDao的import编译问题
 	
 
 --------------------------------------------------------
