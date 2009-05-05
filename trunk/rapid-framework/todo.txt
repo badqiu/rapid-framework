@@ -1,5 +1,8 @@
 rapid-framework路线图
 
+整合MailEngine
+整合GroupProperties file,用于读取分组的配置文件
+
 BlazeDS学习
 	MessageSerializer 的writeObject()复杂对象的序列化
 	AmfxOutput 负责 具体实现writeObject()方法
