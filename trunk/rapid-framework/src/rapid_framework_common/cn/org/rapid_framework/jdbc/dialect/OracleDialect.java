@@ -2,7 +2,15 @@ package cn.org.rapid_framework.jdbc.dialect;
 /**
  * @author badqiu
  */
-public class OracleDialect extends Oracle9Dialect{
+public class OracleDialect implements Dialect{
+	
+	public boolean supportsLimit() {
+		return true;
+	}
+
+	public boolean supportsLimitOffset() {
+		return true;
+	}
 	
 	public String getLimitString(String sql, int offset, int limit) {
 		sql = sql.trim();
