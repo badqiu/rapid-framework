@@ -1,4 +1,12 @@
 --------------------------------------------------------
+rapid-framework v2.0.1
+	jdbc Dialect:删除Oracle9Dialect并修正分页错误
+	修正flex模板错误
+	generator的oracle数据库驱动升级为ojdbc14.jar
+	增加javadoc 文档
+	
+
+--------------------------------------------------------
 rapid-framework v1.0.3
 	BaseManagerTestCase,BaseDaoTestCase构造函数错误
 	删除BaseDao,提取出EntityDao接口
