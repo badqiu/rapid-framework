@@ -1,0 +1,26 @@
+	
+	<context-param>
+		<param-name>flex.class.path</param-name>
+		<param-value>/WEB-INF/flex/hotfixes,/WEB-INF/flex/jars</param-value>
+	</context-param>
+	
+ 	<!-- Http Flex Session attribute and binding listener support -->
+ 	<listener>
+ 		<listener-class>flex.messaging.HttpFlexSession</listener-class>
+ 	</listener>
+
+    <!-- MessageBroker Servlet -->
+    <servlet>
+        <servlet-name>MessageBrokerServlet</servlet-name>
+        <servlet-class>flex.messaging.MessageBrokerServlet</servlet-class>
+        <init-param>
+            <param-name>services.configuration.file</param-name>
+            <param-value>/WEB-INF/flex/services-config.xml</param-value>
+       </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MessageBrokerServlet</servlet-name>
+        <url-pattern>/messagebroker/*</url-pattern>
+    </servlet-mapping>

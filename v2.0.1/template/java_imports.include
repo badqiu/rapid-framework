@@ -1,0 +1,20 @@
+import java.util.*;
+
+import javacommon.base.*;
+import javacommon.util.*;
+
+import cn.org.rapid_framework.util.*;
+import cn.org.rapid_framework.web.util.*;
+import cn.org.rapid_framework.page.*;
+import cn.org.rapid_framework.page.impl.*;
+
+import ${basepackage}.${subpackage}.model.*;
+import ${basepackage}.${subpackage}.dao.*;
+import ${basepackage}.${subpackage}.service.*;
+
+/**
+ * @author badqiu email:badqiu(a)gmail.com
+ * @version 1.0
+ * @since 1.0
+ */
+

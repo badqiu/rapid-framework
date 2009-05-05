@@ -1,0 +1,6 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+
+<bean id="${classNameLower}Manager" class="${basepackage}.${subpackage}.service.${className}Manager"/>
+<bean id="${classNameLower}Dao" class="${basepackage}.${subpackage}.dao.${className}Dao"/>
+<!-- webapp-generator-insert-location -->
