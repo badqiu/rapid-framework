@@ -146,7 +146,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc  destdir="${dir.javadoc}" windowtitle="rapid_framework"
+		<javadoc  destdir="${dir.javadoc}" windowtitle="rapid_framework" charset="UTF-8"
 			source="1.5" access="protected" author="true" version="true" use="true" 
 			encoding="${encoding}">
 			<sourcepath path="src/rapid_framework_common"/>
@@ -195,7 +195,7 @@
 		</zip>
 	</target>
 	
-	<target name="framework-zip" depends="prepare,rapid-framework.jar">
+	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip">
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="src/javacommon/**"/>
@@ -221,6 +221,9 @@
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
 				<include name="rapid-framework.jar"/>
+			</zipfileset>
+			<zipfileset dir="./${dir.dist}" prefix="">
+				<include name="rapid-framework-common-${version}-src.zip"/>
 			</zipfileset>
 		</zip>
 	</target>
