@@ -360,6 +360,10 @@ public class Column {
 		return DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits());
 	}
 	
+	public boolean getIsNumberColumn() {
+		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) || DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
+	}
+	
 	public boolean isHtmlHidden() {
 		return isPk() && _table.isSingleId();
 	}
