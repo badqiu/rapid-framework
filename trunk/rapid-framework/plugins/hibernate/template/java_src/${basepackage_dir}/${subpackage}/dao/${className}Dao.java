@@ -24,7 +24,7 @@ public class ${className}Dao extends BaseHibernateDao<${className},${table.idCol
 				+ "/~ and a.${column.columnNameLower} = '$${column.columnNameLower}$' ~/"
 				</#if>
 			</#list>
-				+ "/~ order by #sortColumns# ~/";
+				+ "/~ order by $sortColumns$ ~/";
 		return findBy(sql,pageRequest);
 	}
 	
