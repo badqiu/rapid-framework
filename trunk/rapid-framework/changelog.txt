@@ -6,6 +6,7 @@ rapid-framework v2.0.1
 	增加javadoc 文档
 	修正DBUnitUtils与dbunit2.2的编译兼容问题
 	修正BaseSpringJdbcDao的import编译问题
+	修改hibernate ${className}Dao.java模板，将"/~ order by #sortColumns# ~/"改为"/~ order by $sortColumns$ ~/"
 	
 
 --------------------------------------------------------
