@@ -88,8 +88,6 @@ author:badqiu
 		<available property="web_merge_xml?exists" file="${plugin_name}/web_merge.xml" ></available>
 		<antcall target="_merge_web_xml"></antcall>
 		
-		<available property="guide_merge_html?exists" file="${plugin_name}/guide_merge.html" ></available>
-		<antcall target="_merge_guide_html"></antcall>
 	</target>
 	
 	<!-- 合并plugin/web_merge.xml 至 web.xml -->
@@ -99,13 +97,6 @@ author:badqiu
 		<replace file="../web/WEB-INF/web.xml" value="${web_merge_xml_content}&#13;&#10;&lt;/web-app>" encoding="UTF-8" >
 			<replacetoken><![CDATA[</web-app>]]></replacetoken>
 		</replace>
-	</target>
-	
-	<!-- 合并plugin/guide_merge.xml 至 guide.html -->
-	<target name="_merge_guide_html" if="guide_merge_html?exists">
-		<echo>合并 ${plugin_name}/guide_merge_html 至 guide.xml</echo>
-		<loadfile property="guide_merge_html_content" srcfile="${plugin_name}/guide_merge.html"></loadfile>
-		<echo file="../doc/guide.html" append="true">${guide_merge_html_content}</echo>
 	</target>
 	
 </project>
