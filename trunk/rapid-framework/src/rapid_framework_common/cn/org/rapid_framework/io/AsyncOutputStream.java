@@ -94,7 +94,7 @@ public class AsyncOutputStream extends OutputStream{
 			try {
 				queue.put(b);
 			} catch (InterruptedException e) {
-				throw new IOException(e);
+				throw new IOException("AsyncOutputStream occer InterruptedException error");
 			}
 		}
 	}
@@ -107,7 +107,7 @@ public class AsyncOutputStream extends OutputStream{
 			try {
 				queue.put(BufferCopyUtils.copyBuffer(b,off,len));
 			} catch (InterruptedException e) {
-				throw new IOException(e);
+				throw new IOException("AsyncOutputStream occer InterruptedException error");
 			}
 		}
 	}
