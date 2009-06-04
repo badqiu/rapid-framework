@@ -56,7 +56,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-test.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/standard.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xsqlbuilder.jar"/>
-	<classpathentry kind="lib" path="generator/lib/classes12.jar"/>
 	<classpathentry kind="lib" path="generator/lib/commons-beanutils.jar"/>
 	<classpathentry kind="lib" path="generator/lib/commons-io.jar"/>
 	<classpathentry kind="lib" path="generator/lib/commons-logging-1.1.jar"/>
@@ -88,5 +87,6 @@
 	<classpathentry kind="lib" path="plugins/ibatis/web/WEB-INF/lib/ibatis-2.3.3.720.jar"/>
 	<classpathentry kind="lib" path="plugins/ext/web/WEB-INF/lib/dwr.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/dbunit-2.4.2.jar"/>
+	<classpathentry kind="lib" path="generator/lib/ojdbc14.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
