@@ -14,7 +14,7 @@ import cn.org.rapid_framework.page.PageRequest;
  */
 public class ExtremeTablePageRequestFactory {
 	/**
-	 * 通过ExtremeTable的Limit对象创建PageInfo对象
+	 * 通过ExtremeTable的Limit对象创建PageRequest对象
 	 * @param limit
 	 * @param defaultSortColumns 默认的排序字段s,如 username desc,age asc
 	 * @return
