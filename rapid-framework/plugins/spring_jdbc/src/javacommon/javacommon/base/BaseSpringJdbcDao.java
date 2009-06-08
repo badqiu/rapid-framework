@@ -137,7 +137,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	protected XsqlBuilder getXsqlBuilder() {
 		//ibatis style, #username# $username$
 		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder();
-//		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
+//		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder(SafeSqlProcesserFactory.getMysql());
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
 			System.err.println("BaseSpringJdbcDao.getXsqlBuilder(): 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请修改源码使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
 		}
