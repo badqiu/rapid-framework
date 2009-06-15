@@ -1,4 +1,4 @@
-#labels v2.0.x
+#labels v2.0.x,Featured
 = 插件开发手册 =
 
 ==插件安装器为插件提供如下服务==
