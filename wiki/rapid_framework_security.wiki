@@ -1,6 +1,5 @@
-#summary One-sentence summary of this page.
+#summary rapid-framework with spring security
 #labels rapid
-
 = Introduction =
 
 rapid-framework 安全插件
