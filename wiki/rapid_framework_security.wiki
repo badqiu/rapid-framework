@@ -13,3 +13,7 @@ http://www.muzic8.com/upload/rapidframework_security.rar
 
 开发演示:
 http://www.muzic8.com/upload/rapidframework_security_capture.rar
+
+基于mysql的war包
+
+http://www.muzic8.com/upload/rapid_with_security.rar
