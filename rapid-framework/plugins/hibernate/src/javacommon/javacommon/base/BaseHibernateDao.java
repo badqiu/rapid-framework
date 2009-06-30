@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javacommon.xsqlbuilder.IbatisStyleXsqlBuilder;
 import javacommon.xsqlbuilder.SafeSqlProcesser;
 import javacommon.xsqlbuilder.SafeSqlProcesserFactory;
 import javacommon.xsqlbuilder.XsqlBuilder;
@@ -25,7 +24,6 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -42,7 +40,6 @@ import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.page.impl.Hibernate3Page;
 import cn.org.rapid_framework.util.CollectionUtils;
-import cn.org.rapid_framework.util.MapUtils;
 
 /**
  * @author badqiu
@@ -112,7 +109,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		
 		//or SafeSqlProcesserFactory.getMysql();
 		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getFromCacheByHibernateDialect(dialect); 
-		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder(safeSqlProcesser);
+		XsqlBuilder builder = new XsqlBuilder(safeSqlProcesser);
 		
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
 			System.err.println(BaseHibernateDao.class.getSimpleName()+".getXsqlBuilder(): 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请修改源码使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
