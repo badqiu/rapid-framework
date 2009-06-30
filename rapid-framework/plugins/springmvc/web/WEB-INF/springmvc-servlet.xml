@@ -42,7 +42,8 @@
 
     <!-- Mapping exception to the handler view -->
     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="defaultErrorView" value="/commons/error.jsp"/>
+    	<!-- to /commons/error.jsp -->
+        <property name="defaultErrorView" value="/commons/error"/>
         <property name="exceptionMappings">
             <props>
             </props>
