@@ -74,7 +74,12 @@ public class Column {
 	 * Null if the DB reports no default value
 	 */
 	private final String _defaultValue;
-
+	
+	/**
+	 * The comments of column
+	 */
+	private final String _remarks;
+	
 	/**
 	 * Get static reference to Log4J Logger
 	 */
@@ -132,7 +137,7 @@ public class Column {
 	public Column(Table table, int sqlType, String sqlTypeName,
 			String sqlName, int size, int decimalDigits, boolean isPk,
 			boolean isNullable, boolean isIndexed, boolean isUnique,
-			String defaultValue) {
+			String defaultValue,String remarks) {
 		_table = table;
 		_sqlType = sqlType;
 		_sqlName = sqlName;
@@ -144,7 +149,8 @@ public class Column {
 		_isIndexed = isIndexed;
 		_isUnique = isUnique;
 		_defaultValue = defaultValue;
-
+		_remarks = remarks;
+		
 		_log.debug(sqlName + " isPk -> " + _isPk);
 
 	}
@@ -256,6 +262,10 @@ public class Column {
 	public final String getDefaultValue() {
 		return _defaultValue;
 	}
+	
+	public final String getRemarks() {
+		return _remarks;
+	}
 
 	/**
 	 * Describe what the method does
@@ -321,6 +331,10 @@ public class Column {
 	
 	public String getColumnNameLower() {
 		return StringHelper.uncapitalize(getColumnName());
+	}
+	
+	public String getColumnAlias() {
+		return StringHelper.emptyIf(getRemarks(), getColumnNameLower());
 	}
 	
 	public String getConstantName() {
