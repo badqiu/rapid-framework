@@ -21,7 +21,7 @@ public class ${className} extends BaseEntity {
 	//alias
 	public static final String TABLE_ALIAS = "${className}";
 	<#list table.columns as column>
-	public static final String ALIAS_${column.constantName} = "${column.columnNameLower}";
+	public static final String ALIAS_${column.constantName} = "${column.columnAlias}";
 	</#list>
 	
 	//date formats
