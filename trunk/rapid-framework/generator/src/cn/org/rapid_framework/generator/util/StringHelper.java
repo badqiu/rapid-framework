@@ -9,6 +9,13 @@ import java.util.Random;
  */
 public class StringHelper {
 	
+	public static String emptyIf(String value,String defaultValue) {
+		if(value == null || "".equals(value)) {
+			return defaultValue;
+		}
+		return value;
+	}
+	
 	public static String makeAllWordFirstLetterUpperCase(String sqlName) {
 		String[] strs = sqlName.toLowerCase().split("_");
 		String result = "";

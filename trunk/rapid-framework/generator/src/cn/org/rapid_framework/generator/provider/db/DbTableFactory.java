@@ -298,6 +298,7 @@ public class DbTableFactory {
 	         String sqlTypeName = columnRs.getString("TYPE_NAME");
 	         String columnName = columnRs.getString("COLUMN_NAME");
 	         String columnDefaultValue = columnRs.getString("COLUMN_DEF");
+	         String remarks = columnRs.getString("REMARKS");
 	         // if columnNoNulls or columnNullableUnknown assume "not nullable"
 	         boolean isNullable = (DatabaseMetaData.columnNullable == columnRs.getInt("NULLABLE"));
 	         int size = columnRs.getInt("COLUMN_SIZE");
@@ -326,7 +327,8 @@ public class DbTableFactory {
 	               isNullable,
 	               isIndexed,
 	               isUnique,
-	               columnDefaultValue);
+	               columnDefaultValue,
+	               remarks);
 	         columns.add(column);
 	      }
 	      columnRs.close();
