@@ -1,13 +1,16 @@
 package cn.org.rapid_framework.generator;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class Generator {
 	private List templateRootDirs = new ArrayList();
 	public String outRootDir;
 	
+	String encoding = "UTF-8";
 	public Generator() {
 	}
 	
@@ -110,11 +114,13 @@ public class Generator {
 		config.setTemplateLoader(multiTemplateLoader);
 		config.setNumberFormat("###############");
 		config.setBooleanFormat("true,false");
+		config.setDefaultEncoding(encoding);
 		return config;
 	}
 
 	private void generateNewFileOrInsertIntoFile(IGeneratorModelProvider modelProvider, Configuration config, String templateRelativePath,String outputFilePath) throws Exception {
 		Template template = config.getTemplate(templateRelativePath);
+		template.setOutputEncoding(encoding);
 		
 		String targetFilename = getTargetFilename(modelProvider, outputFilePath);
 		
@@ -188,7 +194,7 @@ public class Generator {
 	}
 
 	private void saveNewOutputFileContent(Template template, Map model, File outputFile) throws IOException, TemplateException {
-		FileWriter out = new FileWriter(outputFile);
+		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),encoding));
 		template.process(model,out);
 		out.close();
 	}
