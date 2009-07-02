@@ -1,7 +1,6 @@
 package cn.org.rapid_framework.generator.provider.db;
 
 
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -9,13 +8,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -298,7 +297,12 @@ public class DbTableFactory {
 	         String sqlTypeName = columnRs.getString("TYPE_NAME");
 	         String columnName = columnRs.getString("COLUMN_NAME");
 	         String columnDefaultValue = columnRs.getString("COLUMN_DEF");
+	         
 	         String remarks = columnRs.getString("REMARKS");
+	         if(remarks == null && isOracleDataBase()) {
+	        	 remarks = getOracleColumnComments(table.getSqlName(), columnName);
+	         }
+	         
 	         // if columnNoNulls or columnNullableUnknown assume "not nullable"
 	         boolean isNullable = (DatabaseMetaData.columnNullable == columnRs.getInt("NULLABLE"));
 	         int size = columnRs.getInt("COLUMN_SIZE");
@@ -311,6 +315,8 @@ public class DbTableFactory {
 	         if (uniqueIndex != null) {
 	            columnsInUniqueIndex = (List)uniqueColumns.get(uniqueIndex);
 	         }
+	         
+	         
 
 	         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
 	         if (isUnique) {
@@ -363,6 +369,29 @@ public class DbTableFactory {
 	      }
 	      primaryKeyRs.close();
 		return primaryKeys;
+	}
+	
+	private String getOracleColumnComments(String table,String column)  {
+		Statement s = null;
+		ResultSet rs = null;
+		try {
+			s =  getConnection().createStatement();
+			rs = s.executeQuery("SELECT comments FROM user_col_comments WHERE table_name='D_CHANNEL' AND column_name = 'CHANNEL_NAME'");
+			if(rs.next()) {
+				return rs.getString("comments");
+			}
+			return null;
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			try {
+				if(s != null)
+					s.close();
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+			}
+		}
 	}
 	
 }
