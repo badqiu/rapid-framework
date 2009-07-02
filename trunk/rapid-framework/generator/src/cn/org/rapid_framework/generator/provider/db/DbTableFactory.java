@@ -376,7 +376,7 @@ public class DbTableFactory {
 		ResultSet rs = null;
 		try {
 			s =  getConnection().createStatement();
-			rs = s.executeQuery("SELECT comments FROM user_col_comments WHERE table_name='D_CHANNEL' AND column_name = 'CHANNEL_NAME'");
+			rs = s.executeQuery("SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'");
 			if(rs.next()) {
 				return rs.getString("comments");
 			}
