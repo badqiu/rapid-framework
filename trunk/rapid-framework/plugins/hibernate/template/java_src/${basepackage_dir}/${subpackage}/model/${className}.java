@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class ${className} extends BaseEntity {
 	
 	//alias
-	public static final String TABLE_ALIAS = "${className}";
+	public static final String TABLE_ALIAS = "${table.tableAlias}";
 	<#list table.columns as column>
 	public static final String ALIAS_${column.constantName} = "${column.columnAlias}";
 	</#list>
