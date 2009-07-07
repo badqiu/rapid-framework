@@ -16,13 +16,12 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 public class Table {
 
 	String sqlName;
+	String remarks;
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
 	List columns = new ArrayList();
 	List primaryKeyColumns = new ArrayList();
-	public String getClassName() {
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
-	}
+
 	public List getColumns() {
 		return columns;
 	}
@@ -47,9 +46,22 @@ public class Table {
 	public void setSqlName(String sqlName) {
 		this.sqlName = sqlName;
 	}
-	
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
 	public void addColumn(Column column) {
 		columns.add(column);
+	}
+	
+	public String getTableAlias() {
+		return  StringHelper.emptyIf(getRemarks(), getClassName());
+	}
+	
+	public String getClassName() {
+		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 	}
 	
 	public String getConstantName() {

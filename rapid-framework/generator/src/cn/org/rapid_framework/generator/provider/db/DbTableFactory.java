@@ -98,9 +98,15 @@ public class DbTableFactory {
 			String schemaName = rs.getString("TABLE_SCHEM") == null ? "" : rs.getString("TABLE_SCHEM");
 			realTableName = rs.getString("TABLE_NAME");
 			String tableType = rs.getString("TABLE_TYPE");
+			String remarks = rs.getString("REMARKS");
+			if(remarks == null && isOracleDataBase()) {
+				remarks = getOracleTableComments(realTableName);
+			}
 			
 			Table table = new Table();
 			table.setSqlName(realTableName);
+			table.setRemarks(remarks);
+			
 			if ("SYNONYM".equals(tableType) && isOracleDataBase()) {
 			    table.setOwnerSynonymName(getSynonymOwner(realTableName));
 			}
@@ -370,15 +376,20 @@ public class DbTableFactory {
 	      primaryKeyRs.close();
 		return primaryKeys;
 	}
-	
-	private String getOracleColumnComments(String table,String column)  {
+
+	private String getOracleTableComments(String table)  {
+		String sql = "SELECT comments FROM user_tab_comments WHERE table_name='"+table+"'";
+		return queryForString(sql);
+	}
+
+	private String queryForString(String sql) {
 		Statement s = null;
 		ResultSet rs = null;
 		try {
 			s =  getConnection().createStatement();
-			rs = s.executeQuery("SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'");
+			rs = s.executeQuery(sql);
 			if(rs.next()) {
-				return rs.getString("comments");
+				return rs.getString(1);
 			}
 			return null;
 		}catch(SQLException e) {
@@ -392,6 +403,11 @@ public class DbTableFactory {
 			} catch (SQLException e) {
 			}
 		}
+	}
+	
+	private String getOracleColumnComments(String table,String column)  {
+		String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
+		return queryForString(sql);
 	}
 	
 }
