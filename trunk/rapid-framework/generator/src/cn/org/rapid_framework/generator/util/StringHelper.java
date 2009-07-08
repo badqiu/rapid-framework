@@ -56,12 +56,12 @@ public class StringHelper {
 		// remember to append any characters to the right of a match
 		return sbuf.toString();
 	}
-	/**����ĸ��д,copy from spring*/
+	/**����ĸ��copy from spring*/
 	public static String capitalize(String str) {
 		return changeFirstCharacterCase(str, true);
 	}
 	
-	/**����ĸСд,copy from spring*/
+	/**����ĸСдcopy from spring*/
 	public static String uncapitalize(String str) {
 		return changeFirstCharacterCase(str, false);
 	}
