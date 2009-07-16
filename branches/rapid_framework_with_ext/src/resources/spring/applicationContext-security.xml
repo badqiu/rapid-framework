@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:s="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd"
+	default-autowire="byType" default-lazy-init="true">
+
+	<description>使用SpringSecurity的安全配置文件</description>
+
+	<!-- http安全配置 -->
+	<s:http auto-config="true" access-decision-manager-ref="accessDecisionManager">
+		<s:form-login login-page="/pages/Login/login.do" default-target-url="/"
+			authentication-failure-url="/pages/Login/login.do?error=true" />
+		<s:logout logout-success-url="/" />
+		<s:remember-me key="ssss" />
+	</s:http>
+
+	<!-- 认证配置 -->
+	<s:authentication-provider user-service-ref="userDetailsService">
+		<!-- 可设置hash使用sha1或md5散列密码后再存入数据库 -->
+		<s:password-encoder hash="plaintext" />
+	</s:authentication-provider>
+
+	<!-- 项目实现的用户查询服务 -->
+	<bean id="userDetailsService" class="com.awd.service.UserDetailServiceImpl" />
+
+	<!-- 重新定义的FilterSecurityInterceptor,使用databaseDefinitionSource提供的url-授权关系定义 -->
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.intercept.web.FilterSecurityInterceptor">
+		<s:custom-filter before="FILTER_SECURITY_INTERCEPTOR" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="objectDefinitionSource" ref="databaseDefinitionSource" />
+	</bean>
+
+	<!-- DefinitionSource工厂,使用resourceDetailService提供的URL-授权关系. -->
+	<bean id="databaseDefinitionSource" class="javacommon.base.DefinitionSourceFactoryBean">
+		<property name="resourceDetailService" ref="resourceDetailService" />
+	</bean>
+	
+	<!-- 项目实现的URL-授权查询服务 -->
+	<bean id="resourceDetailService" class="com.awd.service.ResourceDetailServiceImpl" />
+
+	<!-- 授权判断配置, 将授权名称的默认前缀由ROLE_改为A_. -->
+	<bean id="accessDecisionManager" class="org.springframework.security.vote.AffirmativeBased">
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.vote.RoleVoter">
+					<property name="rolePrefix" value="A_" />
+				</bean>
+				<bean class="org.springframework.security.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+</beans>

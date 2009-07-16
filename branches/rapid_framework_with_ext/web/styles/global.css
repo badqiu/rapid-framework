@@ -1,0 +1,85 @@
+body {
+	font-size: 12pt;
+	margin: 0;
+	padding: 0;
+}
+
+/* link color */
+a,a:link {color: #006699; text-decoration:none;}
+a:visited {color: #006699;text-decoration:none;}
+a:hover {color: #bc2931; text-decoration:underline;}
+a:active {color: #bc2931;}
+
+/* formTable */
+.formTable {
+	border-collapse:collapse;
+	width:100%;
+	margin:0px; 
+}
+
+.formTable .tdLabel{   
+	border:1px solid #CCC;
+	height: 25px;
+	width: 150px;
+	font-weight:bold;
+	vertical-align: top;
+	text-align: right;
+}
+
+.formTable td{   
+	border:1px solid #CCC;
+}
+
+.formTable span.required{   
+	color:red;
+	font-weight:bold;
+}
+
+/* END formTable */
+
+  
+/* Messages */
+div.error, div.message {
+	border: 1px solid black;
+	padding: 4px;
+    background: #ffffcc;
+    color: #000000;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    margin: 10px auto;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+div.error {
+	border: 2px solid red;
+}
+/* END Messages */
+
+ * .login-header {
+    background-image:url("/WebReport/ReportServer?op=resource&resource=/com/fs/wp/images/FineServer1.png");
+    background-repeat:no-repeat;
+}
+
+.login-panel-body-ie {
+    background: #3682F2;
+}
+
+.login-panel-body {
+    background:#408CF3;
+}
+
+#header{
+   border:0 none;
+   background:#1E4176 url("/WebReport/ReportServer?op=resource&resource=/com/fs/wp/images/hd-bg.gif") repeat-x 0 0;
+   padding-top:3px;
+   padding-left:3px;
+}
+
+#header .fs-title {
+    font:normal 18px tahoma, arial, sans-serif;
+    color:white;
+    margin:3px;
+    font-weight:bold
+}
+
