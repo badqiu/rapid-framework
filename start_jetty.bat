@@ -1,0 +1,2 @@
+set JETTY_PORT=8080
+java -Djava.awt.headless=true -Djetty.port=%JETTY_PORT% -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=4000,server=y,suspend=n  -jar lib/start.jar conf/jetty.xml

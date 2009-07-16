@@ -1,0 +1,2 @@
+set classpath=.\generator\lib\freemarker.jar;.\generator\lib\commons-beanutils.jar;.\generator\lib\commons-io.jar;.\generator\lib\commons-logging-1.1.jar;.\generator\lib\mysql-connector-java-5.0.5-bin.jar;.\generator\lib\ojdbc14.jar;.\web\WEB-INF\classes 
+java -classpath %classpath% cn.org.rapid_framework.generator.GeneratorMain userinfo

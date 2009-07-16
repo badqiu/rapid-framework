@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!ELEMENT groups-config ( group-properties* ) >
-<!ELEMENT group-properties ( property* ) >
-<!ELEMENT property (#PCDATA) >
-<!ATTLIST property key CDATA #REQUIRED>
-<!ATTLIST group-properties groupName CDATA #REQUIRED>
