@@ -8,7 +8,7 @@
 	<script language="javascript">
 		function showDetail()
 		{
-			$('detail_error_msg').toggle();
+			document.getElementById('detail_error_msg').style.display = "";
 		}
 	</script>
 </head>
