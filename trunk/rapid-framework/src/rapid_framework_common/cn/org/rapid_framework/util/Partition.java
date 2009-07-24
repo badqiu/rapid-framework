@@ -1,10 +1,12 @@
 package cn.org.rapid_framework.util;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class Partition implements Serializable{
@@ -18,7 +20,7 @@ public class Partition implements Serializable{
 		this("",DEFAULT_SEPERATOR,keys);
 	}
 	
-	public Partition(String prefix,String... keys) {
+	public Partition(String prefix,String[] keys) {
 		this(prefix,DEFAULT_SEPERATOR,keys);
 	}
 	
@@ -30,7 +32,11 @@ public class Partition implements Serializable{
 		this.keys = keys;
 	}
 
-	public String getPartitionString(Map row) {
+	public String getPartitionString(Map map) {
+		return prefix+getPartitionString(map,seperator,keys);
+	}
+	
+	public String getPartitionString(Object row) {
 		return prefix+getPartitionString(row,seperator,keys);
 	}
 	
@@ -50,15 +56,15 @@ public class Partition implements Serializable{
 		if(partitionString.startsWith(prefix)) {
 			return parseRartition(partitionString.substring(prefix.length()), seperator, keys);
 		}else {
-			throw new IllegalArgumentException(" 'partitionString' must be startWith prefix:"+prefix);
+			throw new IllegalArgumentException(" partitionString:["+partitionString+"] must be startWith prefix:"+prefix);
 		}
 	}
 	
-	private static String getPartitionString(Map row,char seperator,String... keys) {
+	private static String getPartitionString(Object map,char seperator,String... keys) {
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < keys.length; i++) {
 			String key = keys[i];
-			Object value = row.get(key);
+			Object value = getSimpleProperty(map, key);
 			if(i == keys.length - 1) {
 				sb.append(value);
 			}else {
@@ -66,6 +72,19 @@ public class Partition implements Serializable{
 			}
 		}
 		return sb.toString();
+	}
+	
+	private static Object getSimpleProperty(Object obj,String key) {
+		if(obj instanceof Map) {
+			Map map = (Map)obj;
+			return map.get(key);
+		}else {
+			try {
+				return PropertyUtils.getSimpleProperty(obj, key);
+			} catch (Exception e) {
+				throw new IllegalStateException("cannot get property:"+key+" on class:"+obj.getClass(),e);
+			}
+		}
 	}
 	
 	private static Map parseRartition(String partitionString,char seperator,String...keys ) {
