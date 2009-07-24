@@ -50,13 +50,13 @@ public class PartitionTest extends TestCase {
 	public void testgetPartitionString() {
 		Map map = new HashMap();
 		String str = fp.getPartitionString(map);
-		assertEquals("c:/temp/null/null/null",str);
+		assertEquals("c:/tempnull/null/null",str);
 		
 		map.put("username", "jane");
 		map.put("password", "pwd");
 		map.put("age", "38");
 		str = fp.getPartitionString(map);
-		assertEquals("c:/temp/jane/pwd/38",str);
+		assertEquals("c:/tempjane/pwd/38",str);
 	}
 	
 }
