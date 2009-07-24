@@ -7,7 +7,21 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
-
+/**
+ * 数据分区的工具类，可以用于数据根据不同的key分区保存。
+ * 或是叫基于列的存储。
+ * <pre>
+ * 		Partition p = new Partition("d:/temp/partition/",new String[]{"date","app"});
+ *		
+ *		for(Map row : rows) {
+ *			String path = p.getPartitionString(row);
+ *			System.out.println("[write] savePath:"+path+" data:"+row);
+ *			System.out.println("[read] partitionMap:"+p.parseRartition(path)+" from path:["+path+"] data:"+row);
+ *		}
+ * </pre>
+ * @author badqiu
+ *
+ */
 public class Partition implements Serializable{
 	public static final char DEFAULT_SEPERATOR = '/';
 	
