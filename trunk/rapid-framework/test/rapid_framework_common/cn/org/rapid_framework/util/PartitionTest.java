@@ -1,9 +1,11 @@
 package cn.org.rapid_framework.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.beanutils.BeanUtils;
 
 public class PartitionTest extends TestCase {
 	
@@ -47,7 +49,7 @@ public class PartitionTest extends TestCase {
 		assertEquals(map.get("age"),"21");
 	}
 	
-	public void testgetPartitionString() {
+	public void testgetPartitionString() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Map map = new HashMap();
 		String str = fp.getPartitionString(map);
 		assertEquals("c:/tempnull/null/null",str);
@@ -57,6 +59,8 @@ public class PartitionTest extends TestCase {
 		map.put("age", "38");
 		str = fp.getPartitionString(map);
 		assertEquals("c:/tempjane/pwd/38",str);
+		
+		assertEquals(BeanUtils.getProperty(map, "password"),"pwd");
 	}
 	
 }

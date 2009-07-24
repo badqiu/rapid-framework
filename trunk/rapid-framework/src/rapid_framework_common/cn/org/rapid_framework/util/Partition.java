@@ -1,12 +1,11 @@
 package cn.org.rapid_framework.util;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 
 public class Partition implements Serializable{
@@ -64,7 +63,7 @@ public class Partition implements Serializable{
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < keys.length; i++) {
 			String key = keys[i];
-			Object value = getSimpleProperty(map, key);
+			Object value = getProperty(map, key);
 			if(i == keys.length - 1) {
 				sb.append(value);
 			}else {
@@ -74,13 +73,13 @@ public class Partition implements Serializable{
 		return sb.toString();
 	}
 	
-	private static Object getSimpleProperty(Object obj,String key) {
+	private static Object getProperty(Object obj,String key) {
 		if(obj instanceof Map) {
 			Map map = (Map)obj;
 			return map.get(key);
 		}else {
 			try {
-				return PropertyUtils.getSimpleProperty(obj, key);
+				return BeanUtils.getProperty(obj, key);
 			} catch (Exception e) {
 				throw new IllegalStateException("cannot get property:"+key+" on class:"+obj.getClass(),e);
 			}
