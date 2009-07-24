@@ -123,5 +123,9 @@ public class Partition implements Serializable{
 			return false;
 		return true;
 	}
+	
+	public String toString() {
+		return String.format("prefix:%s seperator:%s keys:%s", prefix,seperator,Arrays.toString(keys));
+	}
 
 }
