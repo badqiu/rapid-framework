@@ -63,4 +63,8 @@ public class PartitionTest extends TestCase {
 		assertEquals(BeanUtils.getProperty(map, "password"),"pwd");
 	}
 	
+	public void testToString() {
+		System.out.println(fp.toString());
+	}
+	
 }
