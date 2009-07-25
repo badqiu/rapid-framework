@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 /**
  * 用于get(key)方法对Map及Bean混合取值.
  * 如果从map中取值为null,则会从bean中取值
@@ -42,7 +42,7 @@ public class MapAndObject implements Map{
 
 		if (result == null && bean != null && key instanceof String) {
 			try {
-				result = BeanUtils.getProperty(bean, (String) key);
+				result = PropertyUtils.getProperty(bean, (String) key);
 			} catch (IllegalAccessException e) {
 				throw new IllegalStateException(
 						"cannot get property value by property:" + key
