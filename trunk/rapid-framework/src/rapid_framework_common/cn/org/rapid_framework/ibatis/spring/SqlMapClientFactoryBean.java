@@ -11,7 +11,11 @@ import com.ibatis.sqlmap.client.SqlMapClient;
 import com.ibatis.sqlmap.engine.execution.SqlExecutor;
 import com.ibatis.sqlmap.engine.impl.SqlMapClientImpl;
 import com.ibatis.sqlmap.engine.impl.SqlMapExecutorDelegate;
-
+/**
+ * 用于生成SqlMapClient,但增加设置sqlExecutor属性,以便用于扩展ibatis使用数据库物理分页
+ * @author badqiu
+ *
+ */
 public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlMapClientFactoryBean{
 	private SqlExecutor sqlExecutor;
 	
