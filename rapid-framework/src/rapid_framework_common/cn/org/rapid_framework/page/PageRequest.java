@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 /**
  * 分页请求信息
+ * 其中范型<T>为filters的类型
  * @author badqiu
  */
 public class PageRequest<T> implements Serializable {
