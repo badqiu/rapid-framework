@@ -329,12 +329,18 @@ public class Column {
 		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 	}
 	
-	public String getColumnNameLower() {
+	public String getColumnNameFirstLower() {
 		return StringHelper.uncapitalize(getColumnName());
+	}
+	/**
+	 * @deprecated
+	 */
+	public String getColumnNameLower() {
+		return getColumnNameFirstLower();
 	}
 	
 	public String getColumnAlias() {
-		return StringHelper.emptyIf(getRemarks(), getColumnNameLower());
+		return StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
 	}
 	
 	public String getConstantName() {
