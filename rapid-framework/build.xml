@@ -173,7 +173,7 @@
 			</packageset>
 			
 			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
-			<bottom>${ant.project.name}</bottom>
+			<bottom>API</bottom>
 		</javadoc>
 	</target>
 
