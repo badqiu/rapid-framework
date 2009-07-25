@@ -56,7 +56,9 @@ public class MapAndObject implements Map{
 			try {
 				result = PropertyUtils.getProperty(bean, prop);
 			} catch (IllegalAccessException e) {
-				return null;
+				throw new IllegalStateException(
+						"cannot get property value by property:" + key
+								+ " on class:" + bean.getClass(), e);
 			} catch (InvocationTargetException e) {
 				throw new IllegalStateException(
 						"cannot get property value by property:" + key
