@@ -11,6 +11,7 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
+import cn.org.rapid_framework.util.MapAndObject;
 
 /**
  * @author badqiu
@@ -72,12 +73,14 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(),pageRequest.getFilters());
 		Page page = new Page(pageRequest,totalCount.intValue());
 		
-		Map parameterObject = new HashMap();
-		parameterObject.putAll(pageRequest.getFilters());
-		parameterObject.put("offset", page.getFirstResult());
-		parameterObject.put("pageSize", page.getPageSize());
-		parameterObject.put("lastRows", page.getFirstResult() + page.getPageSize());
-		parameterObject.put("sortColumns", pageRequest.getSortColumns());
+		Map otherParams = new HashMap();
+		otherParams.put("offset", page.getFirstResult());
+		otherParams.put("pageSize", page.getPageSize());
+		otherParams.put("lastRows", page.getFirstResult() + page.getPageSize());
+		otherParams.put("sortColumns", pageRequest.getSortColumns());
+		
+		//混合两个filters为一个filters
+		Map parameterObject = new MapAndObject(otherParams,pageRequest.getFilters());
 		
 		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject);
 		page.setResult(list);
