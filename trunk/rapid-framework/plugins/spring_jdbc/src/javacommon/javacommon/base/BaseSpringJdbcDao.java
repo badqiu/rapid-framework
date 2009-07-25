@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javacommon.xsqlbuilder.IbatisStyleXsqlBuilder;
 import javacommon.xsqlbuilder.XsqlBuilder;
 import javacommon.xsqlbuilder.XsqlBuilder.XsqlFilterResult;
 import javacommon.xsqlbuilder.safesql.DirectReturnSafeSqlProcesser;
@@ -20,6 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
@@ -121,21 +122,24 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest) {
-		Map filters = pageRequest.getFilters();
-		filters.put("sortColumns", pageRequest.getSortColumns());
+		return pageQuery(query, countQuery, pageRequest,new BeanPropertyRowMapper(getEntityClass()));
+	}
+	
+	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
+		Map filtersMap = new HashMap(1);
+		filtersMap.put("sortColumns", pageRequest.getSortColumns());
 		
-		final int totalCount = queryTotalCount(countQuery, filters);
+		final int totalCount = queryTotalCount(countQuery, filtersMap,pageRequest.getFilters());
 		
-		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,filters);
+		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,filtersMap,pageRequest.getFilters());
 		String sql = queryXsqlResult.getXsql();
 		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
 		int pageSize = pageRequest.getPageSize();
 		int pageNumber = pageRequest.getPageNumber();
-		return pageQuery(sql, acceptedFilters, totalCount, pageSize, pageNumber);
+		return pageQuery(sql, acceptedFilters, totalCount, pageSize, pageNumber,rowMapper);
 	}
 
 	protected XsqlBuilder getXsqlBuilder() {
-		//ibatis style, #username# $username$
 		XsqlBuilder builder = new XsqlBuilder();
 //		XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
@@ -144,18 +148,18 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return builder;
 	}
 
-	private int queryTotalCount(String countQuery, Map filters) {
-		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filters);
+	private int queryTotalCount(String countQuery, Map filtersMap,Object filtersObject) {
+		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filtersMap,filtersObject);
 		final int totalCount = getSimpleJdbcTemplate().queryForInt(SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql()),countQueryXsqlResult.getAcceptedFilters());
 		return totalCount;
 	}
 
-	public Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSize, int pageNumber) {
+	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
 		if(dialect.supportsLimit()) {
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,pageSize,totalCount);
 				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),pageSize);
-				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, new BeanPropertyRowMapper(getEntityClass()));
+				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, rowMapper);
 				page.setResult(list);
 				return page;
 			}else {
