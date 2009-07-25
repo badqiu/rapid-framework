@@ -34,8 +34,12 @@ public class PageRequest<T> implements Serializable {
 		this(0,0);
 	}
 	
+	public PageRequest(T filters) {
+		this(0,0,filters);
+	}
+	
 	public PageRequest(int pageNumber, int pageSize) {
-		this(pageNumber,pageSize,(T)new HashMap());
+		this(pageNumber,pageSize,(T)null);
 	}
 	
 	public PageRequest(int pageNumber, int pageSize, T filters) {
@@ -43,7 +47,7 @@ public class PageRequest<T> implements Serializable {
 	}
 	
 	public PageRequest(int pageNumber, int pageSize,String sortColumns) {
-		this(pageNumber,pageSize,(T)new HashMap(),sortColumns);
+		this(pageNumber,pageSize,null,sortColumns);
 	}
 	
 	public PageRequest(int pageNumber, int pageSize, T filters,String sortColumns) {
