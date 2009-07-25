@@ -28,6 +28,10 @@ public class MapAndObject implements Map{
 	public Object getBean() {
 		return bean;
 	}
+	
+	public Object get(Object key) {
+		return getProperty(key);
+	}
 
 	Object getProperty(Object key) {
 		Object result = null;
@@ -69,10 +73,6 @@ public class MapAndObject implements Map{
 
 	public Set entrySet() {
 		throw new UnsupportedOperationException();
-	}
-
-	public Object get(Object key) {
-		return getProperty(key);
 	}
 
 	public boolean isEmpty() {
