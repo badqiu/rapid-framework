@@ -49,9 +49,9 @@ public class MapAndObject implements Map{
 		if (result == null && bean != null && key instanceof String) {
 			String prop = (String)key;
 			
-			if(ERROR_METHOD_PATTERN.matcher(prop).matches()) {
-				return null;
-			}
+//			if(ERROR_METHOD_PATTERN.matcher(prop).matches()) {
+//				return null;
+//			}
 			
 			try {
 				result = PropertyUtils.getProperty(bean, prop);
