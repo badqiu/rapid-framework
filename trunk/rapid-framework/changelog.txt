@@ -1,5 +1,14 @@
 --------------------------------------------------------
 rapid-framework v2.0.1
+	提升:
+	XsqlBuilder支持Object作为filters
+	PageRequest.filters使用范型
+	
+	新特性:
+	支持Ibatis的分页Dialect
+	
+--------------------------------------------------------
+rapid-framework v2.0.1
 	jdbc Dialect:删除Oracle9Dialect并修正分页错误
 	修正flex模板错误
 	generator的oracle数据库驱动升级为ojdbc14.jar
