@@ -42,7 +42,7 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 执行搜索 
 	 **/
-	public ModelAndView list(HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
 		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page, request);
