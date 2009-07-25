@@ -64,6 +64,14 @@ public class Table {
 		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 	}
 	
+	public String getClassNameLowerCase() {
+		return getClassName().toLowerCase();
+	}
+	
+	public String getClassNameFirstLower() {
+		return StringHelper.uncapitalize(getClassName());
+	}
+	
 	public String getConstantName() {
 		return StringHelper.toUnderscoreName(getSqlName()).toUpperCase();
 	}
