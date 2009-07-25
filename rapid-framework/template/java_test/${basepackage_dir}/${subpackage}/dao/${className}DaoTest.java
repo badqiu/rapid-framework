@@ -29,7 +29,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		int pageNumber = 1;
 		int pageSize = 10;
 		
-		PageRequest pageRequest = new PageRequest();
+		PageRequest<Map> pageRequest = new PageRequest();
 		pageRequest.setPageNumber(pageNumber);
 		pageRequest.setPageSize(pageSize);
 		pageRequest.setSortColumns(null);
