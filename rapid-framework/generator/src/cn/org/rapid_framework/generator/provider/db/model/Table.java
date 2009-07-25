@@ -86,8 +86,15 @@ public class Table {
 		}
 		return pkCount;
 	}
-	
+	/**
+	 * use getPkColumns()
+	 * @deprecated 
+	 */
 	public List getCompositeIdColumns() {
+		return getPkColumns();
+	}
+	
+	public List getPkColumns() {
 		List results = new ArrayList();
 		List columns = getColumns();
 		for(int i = 0; i < columns.size(); i++) {
