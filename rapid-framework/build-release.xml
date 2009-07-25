@@ -146,7 +146,7 @@
 	</target>
 
 	<target name="javadoc">
-		<javadoc  destdir="${dir.javadoc}" windowtitle="rapid_framework" charset="UTF-8"
+		<javadoc  destdir="${dir.javadoc}" windowtitle="${ant.project.name}" charset="UTF-8"
 			source="1.5" access="protected" author="true" version="true" use="true" 
 			encoding="${encoding}">
 			<sourcepath path="src/rapid_framework_common"/>
@@ -156,8 +156,8 @@
 				<include name="cn/org/**"/>
 			</packageset>
 			
-			<doctitle><![CDATA[<h1>rapid_framework</h1>]]></doctitle>
-			<bottom>rapid_framework</bottom>
+			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright &copy; 2006-2009 <a href="http://www.rapid-framework.org.cn/" target="_top">The Rapid Framework</a>.</i>]]></bottom>
 		</javadoc>
 	</target>
 				
