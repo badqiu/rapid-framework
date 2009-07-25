@@ -13,7 +13,6 @@ import com.ibatis.sqlmap.engine.impl.SqlMapClientImpl;
 import com.ibatis.sqlmap.engine.impl.SqlMapExecutorDelegate;
 
 public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlMapClientFactoryBean{
-	 private static final Log logger = LogFactory.getLog(SqlMapClientFactoryBean.class);  
 	private SqlExecutor sqlExecutor;
 	
 	public SqlExecutor getSqlExecutor() {
@@ -33,9 +32,9 @@ public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlM
 			SqlMapExecutorDelegate delegate = client.getDelegate();
 			try {
 				ReflectUtil.setFieldValue(delegate, "sqlExecutor", SqlExecutor.class, sqlExecutor);
-				logger.info("[ibatis] set ibatis SqlMapClient.sqlExecutor as "+sqlExecutor.getClass());
+				System.out.println("[iBATIS] success set ibatis SqlMapClient.sqlExecutor = "+sqlExecutor.getClass().getName());
 			}catch(Exception e) {
-				logger.warn("[ibatis] error,cannot set ibatis SqlMapClient.sqlExecutor as "+sqlExecutor.getClass()+" cause:"+e);
+				System.out.println("[iBATIS] error,cannot set ibatis SqlMapClient.sqlExecutor = "+sqlExecutor.getClass().getName()+" cause:"+e);
 			}
 		}
 	}
@@ -63,9 +62,6 @@ public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlM
 	            }  
 	            method.invoke(target, fvalue);  
 	        } catch (Exception me) {  
-	            if (logger.isDebugEnabled()) {  
-	                logger.debug(me);  
-	            }  
                 Field field = clazz.getDeclaredField(fname);  
                 if (!Modifier.isPublic(field.getModifiers())) {  
                     field.setAccessible(true);  

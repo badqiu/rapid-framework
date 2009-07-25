@@ -3,10 +3,6 @@ package cn.org.rapid_framework.ibatis.sqlmap.engine.execution;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.web.context.request.RequestScope;
-
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 
 import com.ibatis.sqlmap.engine.execution.SqlExecutor;
@@ -14,8 +10,6 @@ import com.ibatis.sqlmap.engine.mapping.statement.RowHandlerCallback;
 import com.ibatis.sqlmap.engine.scope.StatementScope;
 
 public class LimitSqlExecutor extends SqlExecutor {
-
-	private static final Log logger = LogFactory.getLog(LimitSqlExecutor.class);
 
 	private Dialect dialect;
 
@@ -27,7 +21,7 @@ public class LimitSqlExecutor extends SqlExecutor {
 
 	public void setDialect(Dialect dialect) {
 		if(dialect != null) {
-			logger.info("[ibatis] set ibatis LimitSqlExecutor.dialect as "+dialect.getClass());
+			System.out.println("[iBATIS] set ibatis LimitSqlExecutor.dialect = "+dialect.getClass().getName());
 		}
 		this.dialect = dialect;
 	}
@@ -54,10 +48,6 @@ public class LimitSqlExecutor extends SqlExecutor {
 				limitSql = dialect.getLimitString(sql, 0, maxResults);
 			}
 			changedMaxResults = NO_MAXIMUM_RESULTS;
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug(limitSql);
-			}
 		}
 		super.executeQuery(statementScope, conn, limitSql, parameters, changedSkipResults, changedMaxResults, callback);
 	}
