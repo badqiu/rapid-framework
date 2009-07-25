@@ -79,7 +79,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 				+ "/~ and a.${column.sqlName} = '[${column.columnNameLower}]' ~/"
 				</#if>
 			</#list>
-				+ "/~ order by {sortColumns} ~/";
+				+ "/~ order by [sortColumns] ~/";
 		return pageQuery(sql,pageRequest);
 	}
 	
