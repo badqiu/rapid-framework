@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.util;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ public class ArrayUtils {
 	 * @param keys
 	 * @return
 	 */
-	public static Map toMap(String[] array,String...keys) {
+	public static Map toMap(Object[] array,String...keys) {
+		if(array == null) return new HashMap();
 		Map m = new LinkedHashMap();
 		for(int i = 0; i < keys.length; i++) {
 			if(array.length == i ) {
