@@ -37,16 +37,16 @@ public class MapAndObject implements Map{
 
 	static Pattern ERROR_METHOD_PATTERN = Pattern.compile("^[^a-zA-Z_].*");
 	Object getProperty(Object key) {
-		if (map != null) {
-			return map.get(key);
-		}
-		
-		if(bean != null && bean instanceof Map) {
-			return ((Map)bean).get(key);
-		}
-		
 		Object result = null;
-		if (bean != null && key instanceof String) {
+		if (map != null) {
+			result = map.get(key);
+		}
+		
+		if(result == null && bean != null && bean instanceof Map) {
+			result = ((Map)bean).get(key);
+		}
+		
+		if (result == null && bean != null && key instanceof String) {
 			String prop = (String)key;
 			
 			if(ERROR_METHOD_PATTERN.matcher(prop).matches()) {
