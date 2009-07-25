@@ -19,7 +19,7 @@ public class ExtremeTablePageRequestFactory {
 	 * @param defaultSortColumns 默认的排序字段s,如 username desc,age asc
 	 * @return
 	 */
-	public static PageRequest createFromLimit(Limit limit,String defaultSortColumns) {
+	public static PageRequest<Map> createFromLimit(Limit limit,String defaultSortColumns) {
 		PageRequest result = new PageRequest();
 		
 		result.setPageNumber(limit.getPage());

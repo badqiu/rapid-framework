@@ -62,7 +62,6 @@ public class PageRequest<T> implements Serializable {
 	}
 
 	public void setFilters(T filters) {
-		if(filters == null) throw new IllegalArgumentException("'filters' must be not null");
 		this.filters = filters;
 	}
 
