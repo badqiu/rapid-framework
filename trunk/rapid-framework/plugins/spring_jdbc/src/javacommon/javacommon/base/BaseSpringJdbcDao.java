@@ -92,7 +92,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	
 	protected Object getIdentifierPropertyValue(Object entity) {
 		try {
-			return BeanUtils.getProperty(entity, getIdentifierPropertyName());
+			return PropertyUtils.getProperty(entity, getIdentifierPropertyName());
 		} catch (Exception e) {
 			ReflectionUtils.handleReflectionException(e);
 			return null;
