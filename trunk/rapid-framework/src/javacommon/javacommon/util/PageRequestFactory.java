@@ -1,10 +1,13 @@
 package javacommon.util;
 
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.util.WebUtils;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.extremecomponents.ExtremeTablePage;
 import cn.org.rapid_framework.extremecomponents.ExtremeTablePageRequestFactory;
 import cn.org.rapid_framework.page.PageRequest;
@@ -28,7 +31,11 @@ public class PageRequestFactory {
 	
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
 		PageRequest result = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,defaultPageSize),defaultSortColumns);
-    	result.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
+    	
+		Map sourceFilters = WebUtils.getParametersStartingWith(request, "s_");
+		//copyProperties(target,source)
+		BeanUtils.copyProperties(result.getFilters(), sourceFilters);
+		
     	if(result.getPageSize() > MAX_PAGE_SIZE) {
     		result.setPageSize(MAX_PAGE_SIZE);
     	}
