@@ -8,7 +8,12 @@ import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import com.ibatis.sqlmap.engine.execution.SqlExecutor;
 import com.ibatis.sqlmap.engine.mapping.statement.RowHandlerCallback;
 import com.ibatis.sqlmap.engine.scope.StatementScope;
-
+/**
+ * 结合dialect为ibatis提供使用数据库原生的分页
+ * 请查看:http://pengfeng.javaeye.com/blog/200772
+ * @author badqiu
+ *
+ */
 public class LimitSqlExecutor extends SqlExecutor {
 
 	private Dialect dialect;
