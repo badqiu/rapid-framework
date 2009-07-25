@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 /**
  * 数据分区的工具类，可以用于数据根据不同的key分区保存。
@@ -93,7 +93,7 @@ public class Partition implements Serializable{
 			return map.get(key);
 		}else {
 			try {
-				return BeanUtils.getProperty(obj, key);
+				return PropertyUtils.getProperty(obj, key);
 			} catch (Exception e) {
 				throw new IllegalStateException("cannot get property:"+key+" on class:"+obj.getClass(),e);
 			}
