@@ -1,11 +1,15 @@
 package cn.org.rapid_framework.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.org.rapid_framework.util.fortest.Role;
-
 import junit.framework.TestCase;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import cn.org.rapid_framework.util.fortest.Role;
 
 public class MapAndObjectTest extends TestCase {
 	Map map = new HashMap();
@@ -46,5 +50,12 @@ public class MapAndObjectTest extends TestCase {
 			fail();
 		}catch(Exception e) {
 		}
+		
+	}
+	
+	public void testPropertyUtils() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		map.put("sex", 123L);
+		assertEquals(123L,PropertyUtils.getProperty(map, "sex"));
+		assertEquals("123",BeanUtils.getProperty(map, "sex"));
 	}
 }
