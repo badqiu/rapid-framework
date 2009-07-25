@@ -79,10 +79,10 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		otherParams.put("lastRows", page.getFirstResult() + page.getPageSize());
 		otherParams.put("sortColumns", pageRequest.getSortColumns());
 		
-		//混合两个filters为一个filters
+		//混合两个filters为一个filters,Map.get()方法将在两个对象取值
 		Map parameterObject = new MapAndObject(otherParams,pageRequest.getFilters());
 		
-		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject);
+		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;
 	}
