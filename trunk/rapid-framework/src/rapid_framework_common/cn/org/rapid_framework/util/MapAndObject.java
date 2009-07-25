@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanUtils;
  * 如果从map中取值为null,则会从bean中取值
  * @author badqiu
  */
+@SuppressWarnings("unchecked")
 public class MapAndObject implements Map{
 	Map map;
 	Object bean;
