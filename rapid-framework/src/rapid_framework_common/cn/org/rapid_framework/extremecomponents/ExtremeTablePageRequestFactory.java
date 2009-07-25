@@ -50,7 +50,8 @@ public class ExtremeTablePageRequestFactory {
 		}
 		
 		String sortOrder = limit.getSort().getSortOrder() == null ? ""  : " " + limit.getSort().getSortOrder();
-		String sortColumns = limit.getSort().getProperty().replace('_', '.') + sortOrder;
+		String column = limit.getSort().getProperty().replace('_', '.');
+		String sortColumns = column + sortOrder;
 		return sortColumns;
 	}
 
