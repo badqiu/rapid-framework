@@ -4,7 +4,7 @@ rapid-framework路线图
 整合GroupProperties file,用于读取分组的配置文件
 
 BlazeDS学习
-	MessageSerializer 的writeObject()复杂对象的序列化
+	MessageSerializer.writeObject()复杂对象的序列化
 	AmfxOutput 负责 具体实现writeObject()方法
 	AmfOutput的
 		1.PropertyProxyRegistry为PropertyProxy的全局注册器
@@ -19,7 +19,7 @@ BlazeDS学习
 		PropertyProxyRegistry.getRegistry().register(Serializable.class, beanProxy);
 
 整合其它显示层技术
-	Flex+BlazeDS,Ext2
+	Ext2
 增加列表组件
 	Jmesa,SimpleList
 整合SiteMesh
@@ -27,7 +27,7 @@ BlazeDS学习
 整合安全框架
 	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
 数据访问层
-	Ibatis,SpringJDBC,JPA
+	JPA
 整合RichEditor
     FckEditor
 寻找Tree组件
@@ -38,28 +38,18 @@ BlazeDS学习
 	增加freemarker的CURD页面
 
 rapid-validation
-	* 1.整合javaeye tooltip的错误显示效果
-	2.框架独立,不依赖prototype,争取jquery用户
 	3.ajax验证使用异步方式
 插件相关
 	支持plugin属性参数的修改
-	支持显示plugin/plugin_doc/plugin_readme.txt
-	根据插件生成配置文档,插件提供/plugin_doc/guild_merge.html
 其它
-	www.rapid-framework.org.cn上线
 
 	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
 	
-	struts2 的 <s:textfield>不支持<%=  %>
 	提供复杂模板，完成多表关联操作
 	
 	编写配置系统的ant脚本
 	
 	查询页跟列表也整合到一起
-	
-	savePage()需要提供其它列表组件扩展
-	
-	为iBatis创建emptySqlMap.xml以避免<sqlMap/>不能为空的问题
 	
 	Generator.generateAllTable()方法在Oracle不可用
 	
@@ -67,7 +57,6 @@ rapid-validation
 
 	struts2重复提交，提示信息
 	
-	ibatis 排序
 	
 rapid-framework为你做好的二件事
 	1.项目脚手架
