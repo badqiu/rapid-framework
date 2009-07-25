@@ -10,12 +10,12 @@ import java.util.Map;
  * 分页请求信息
  * @author badqiu
  */
-public class PageRequest implements Serializable {
+public class PageRequest<T> implements Serializable {
 
 	/**
 	 * 过滤参数
 	 */
-	private Map filters;
+	private T filters;
 	/**
 	 * 页号码,页码从1开始
 	 */
@@ -30,35 +30,34 @@ public class PageRequest implements Serializable {
 	private String sortColumns;
 	
 	public PageRequest() {
-	}
-	
-	public PageRequest(int pageNumber, int pageSize, Map filters) {
-		this(pageNumber,pageSize,filters,null);
+		this(0,0);
 	}
 	
 	public PageRequest(int pageNumber, int pageSize) {
-		this(pageNumber,pageSize,new HashMap());
+		this(pageNumber,pageSize,(T)new HashMap());
+	}
+	
+	public PageRequest(int pageNumber, int pageSize, T filters) {
+		this(pageNumber,pageSize,filters,null);
 	}
 	
 	public PageRequest(int pageNumber, int pageSize,String sortColumns) {
-		this(pageNumber,pageSize,new HashMap(),sortColumns);
+		this(pageNumber,pageSize,(T)new HashMap(),sortColumns);
 	}
 	
-	public PageRequest(int pageNumber, int pageSize, Map filters,String sortColumns) {
+	public PageRequest(int pageNumber, int pageSize, T filters,String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
-		this.filters = filters;
+		setFilters(filters);
 		setSortColumns(sortColumns);
 	}
 
-	public Map getFilters() {
-		if(filters == null) {
-			filters = new HashMap(0);
-		}
+	public T getFilters() {
 		return filters;
 	}
 
-	public void setFilters(Map filters) {
+	public void setFilters(T filters) {
+		if(filters == null) throw new IllegalArgumentException("'filters' must be not null");
 		this.filters = filters;
 	}
 
