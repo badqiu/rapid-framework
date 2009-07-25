@@ -21,6 +21,14 @@ public class MapAndObject implements Map{
 		this.bean = bean;
 	}
 
+	public Map getMap() {
+		return map;
+	}
+
+	public Object getBean() {
+		return bean;
+	}
+
 	Object getProperty(Object key) {
 		Object result = null;
 		if (map != null) {
