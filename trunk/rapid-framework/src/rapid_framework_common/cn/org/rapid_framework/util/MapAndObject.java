@@ -43,7 +43,7 @@ public class MapAndObject implements Map{
 		}
 		
 		if(result == null && bean != null && bean instanceof Map) {
-			result = ((Map)bean).get(key);
+			return ((Map)bean).get(key);
 		}
 		
 		if (result == null && bean != null && key instanceof String) {
@@ -64,7 +64,9 @@ public class MapAndObject implements Map{
 						"cannot get property value by property:" + key
 								+ " on class:" + bean.getClass(), e);
 			} catch (NoSuchMethodException e) {
-				return null;
+				throw new IllegalStateException(
+						"cannot get property value by property:" + key
+								+ " on class:" + bean.getClass(), e);
 			}
 		}
 		return result;
