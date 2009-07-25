@@ -46,6 +46,7 @@ public class LimitSqlExecutor extends SqlExecutor {
 		int changedSkipResults = skipResults;
 		int changedMaxResults = maxResults;
 		if (supportsLimit() && (skipResults != NO_SKIPPED_RESULTS || maxResults != NO_MAXIMUM_RESULTS)) {
+			limitSql = limitSql.trim();
 			if(dialect.supportsLimitOffset()) {
 				limitSql = dialect.getLimitString(sql, skipResults, maxResults);
 				changedSkipResults = NO_SKIPPED_RESULTS;
