@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 /**
@@ -34,6 +35,7 @@ public class MapAndObject implements Map{
 		return getProperty(key);
 	}
 
+	static Pattern ERROR_METHOD_PATTERN = Pattern.compile("^[^a-zA-Z_].*");
 	Object getProperty(Object key) {
 		Object result = null;
 		if (map != null) {
@@ -41,8 +43,13 @@ public class MapAndObject implements Map{
 		}
 
 		if (result == null && bean != null && key instanceof String) {
+			String prop = (String)key;
+			if(ERROR_METHOD_PATTERN.matcher(prop).matches()) {
+				return null;
+			}
+			
 			try {
-				result = PropertyUtils.getProperty(bean, (String) key);
+				result = PropertyUtils.getProperty(bean, prop);
 			} catch (IllegalAccessException e) {
 				throw new IllegalStateException(
 						"cannot get property value by property:" + key
