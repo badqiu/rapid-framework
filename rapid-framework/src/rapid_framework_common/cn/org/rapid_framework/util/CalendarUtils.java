@@ -5,6 +5,8 @@ import java.util.Date;
 
 public class CalendarUtils {
 	
+	private CalendarUtils() {}
+	
 	public static Date add(int field,Date date,int value) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
