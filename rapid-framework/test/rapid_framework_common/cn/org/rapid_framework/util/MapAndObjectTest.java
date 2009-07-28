@@ -81,4 +81,10 @@ public class MapAndObjectTest extends TestCase {
 		assertEquals(123L,PropertyUtils.getProperty(map, "sex"));
 		assertEquals("123",BeanUtils.getProperty(map, "sex"));
 	}
+	
+	public void testReadonly() {
+		MapAndObject m = new MapAndObject(map,role);
+		assertEquals("Readonly from Role.java",m.get("readonly"));
+		assertEquals(null,m.get("writeonly"));
+	}
 }
