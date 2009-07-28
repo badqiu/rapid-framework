@@ -131,6 +131,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		
 		final int totalCount = queryTotalCount(countQuery, filtersMap,pageRequest.getFilters());
 		
+		//混合使用filtersMap与pageRequest.getFilters()为一个filters使用
 		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,filtersMap,pageRequest.getFilters());
 		String sql = queryXsqlResult.getXsql();
 		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
