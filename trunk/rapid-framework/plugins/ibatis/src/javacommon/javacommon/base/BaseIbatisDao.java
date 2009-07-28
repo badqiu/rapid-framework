@@ -12,6 +12,7 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
+import cn.org.rapid_framework.util.MapAndObject;
 
 /**
  * @author badqiu
@@ -73,15 +74,14 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(),pageRequest.getFilters());
 		Page page = new Page(pageRequest,totalCount.intValue());
 		
-		Map parameterObject = new HashMap();
-		parameterObject.put("offset", page.getFirstResult());
-		parameterObject.put("pageSize", page.getPageSize());
-		parameterObject.put("lastRows", page.getFirstResult() + page.getPageSize());
-		parameterObject.put("sortColumns", pageRequest.getSortColumns());
+		Map otherFilters = new HashMap();
+		otherFilters.put("offset", page.getFirstResult());
+		otherFilters.put("pageSize", page.getPageSize());
+		otherFilters.put("lastRows", page.getFirstResult() + page.getPageSize());
+		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
-		//混合两个filters为一个filters,Map.get()方法将在两个对象取值
-		parameterObject.putAll(BeanUtils.describe(pageRequest.getFilters()));
-		
+		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
+		Map parameterObject = new MapAndObject(otherFilters,pageRequest.getFilters());
 		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;
