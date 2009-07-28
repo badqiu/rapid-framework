@@ -87,21 +87,22 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		});
 	}
 	
-	public Page findBy(final String query,final PageRequest pageRequest) {
+	public Page pageQuery(final String query,final PageRequest pageRequest) {
 		final String countQuery = "select count(*) " + removeSelect(removeFetchKeyword((query)));
-		return findBy(query,countQuery,pageRequest);
+		return pageQuery(query,countQuery,pageRequest);
 	}
 
-	public Page findBy(final String query,String countQuery,final PageRequest pageRequest) {
+	public Page pageQuery(final String query,String countQuery,final PageRequest pageRequest) {
 		Map filtersMap = new HashMap(1);
 		filtersMap.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
+		//混合使用filtersMap与pageRequest.getFilters()为一个filters使用
 		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filtersMap,pageRequest.getFilters());
 		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filtersMap,pageRequest.getFilters());
 		
-		return findBy(pageRequest,queryXsqlResult,countQueryXsqlResult);
+		return pageQuery(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
 	
 	protected XsqlBuilder getXsqlBuilder() {
@@ -118,7 +119,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		return builder;
 	}
 	
-	private Page findBy(final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
+	private Page pageQuery(final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
 		return (Page)getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
