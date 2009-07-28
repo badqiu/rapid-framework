@@ -24,7 +24,7 @@ public class ResourceDao extends BaseHibernateDao<Resource,Long>{
 		String sql = "from Resource as a where 1=1 "
 				+ "/~ and a.resourceName = '[resourceName]' ~/"
 				+ "/~ order by [sortingColumn] [sortingDirection] ~/";
-		return findBy(sql,pageRequest);
+		return pageQuery(sql,pageRequest);
 	}
 	
 

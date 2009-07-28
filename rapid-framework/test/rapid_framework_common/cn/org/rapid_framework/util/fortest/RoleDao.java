@@ -25,7 +25,7 @@ public class RoleDao extends BaseHibernateDao{
 				+ "/~ and a.roleName = '[roleName]' ~/"
 				+ "/~ and a.resourceId = '[resourceId]' ~/"
 				+ "/~ order by [sortingColumn] [sortingDirection] ~/";
-		return findBy(sql,pageRequest);
+		return pageQuery(sql,pageRequest);
 	}
 	
 
