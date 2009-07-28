@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -99,6 +100,21 @@ public class Role extends BaseEntity {
 	@JoinColumn(name = "resource_id",nullable = false, insertable = false, updatable = false)
 	public Resource getResource() {
 		return resource;
+	}
+	
+	@Transient
+	public String getJava() {
+		return "java from Role.java";
+	}
+	
+	@Transient
+	public String getReadonly() {
+		return "Readonly from Role.java";
+	}
+	
+	@Transient
+	public void setWriteonly(String s) {
+		 System.out.println("Role.setWriteonly() from Role.java,str:"+s);
 	}
 
 	public String toString() {
