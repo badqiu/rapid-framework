@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 /**
- * 混合两个filters为一个filters
+ * 混合两个对象为一个Map对象
  * MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
  * @author badqiu
  */
