@@ -9,6 +9,7 @@ import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -64,6 +65,20 @@ public class MapAndObject implements Map{
 	}
 
 	public boolean containsKey(Object key) {
+//		if(map != null && map.containsKey(key)) {
+//			return true;
+//		}
+//		if(bean != null && key instanceof String) {
+//			try {
+//				Method method = FastPropertyUtils.getReadMethod(bean, (String)key);
+//				if(method != null) {
+//					return true;
+//				}
+//			} catch (IntrospectionException e) {
+//				return false;
+//			}
+//		}
+//		return false;
 		throw new UnsupportedOperationException();
 	}
 
@@ -109,12 +124,11 @@ public class MapAndObject implements Map{
 			if(propertyName == null) throw new IllegalArgumentException("propertyName cannot be not null");
 			
 			try {
-				ExtendBeanInfo beanInfo = getBeanInfo(bean.getClass());
-				PropertyDescriptor pd = beanInfo.getPropertyDescriptor(propertyName);
-				if(pd == null || pd.getReadMethod() == null) {
+				Method readMethod = getReadMethod(bean, propertyName);
+				if(readMethod == null) {
 					return null;
 				}
-				return pd.getReadMethod().invoke(bean);
+				return readMethod.invoke(bean);
 			} catch (IllegalAccessException e) {
 				throw new IllegalStateException(
 						"cannot get property value by property:" + propertyName + " on class:" + bean.getClass(), e);
@@ -125,6 +139,13 @@ public class MapAndObject implements Map{
 				throw new IllegalStateException(
 						"cannot get property value by property:" + propertyName + " on class:" + bean.getClass(), e);
 			}
+		}
+
+		private static Method getReadMethod(Object bean, String propertyName) throws IntrospectionException {
+			ExtendBeanInfo beanInfo = getBeanInfo(bean.getClass());
+			PropertyDescriptor pd = beanInfo.getPropertyDescriptor(propertyName);
+			if(pd == null) return null;
+			return pd.getReadMethod();
 		}
 		
 		private static Map beanInfoCache = Collections.synchronizedMap(new WeakHashMap());
