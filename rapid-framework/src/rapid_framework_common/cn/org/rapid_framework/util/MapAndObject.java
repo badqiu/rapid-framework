@@ -20,7 +20,6 @@ import java.util.WeakHashMap;
  * MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
  * @author badqiu
  */
-@SuppressWarnings("unchecked")
 public class MapAndObject implements Map{
 	Map map;
 	Object bean;
