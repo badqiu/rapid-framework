@@ -93,14 +93,14 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	}
 
 	public Page pageQuery(final String query,String countQuery,final PageRequest pageRequest) {
-		Map filtersMap = new HashMap(1);
-		filtersMap.put("sortColumns", pageRequest.getSortColumns());
+		Map otherFilters = new HashMap(1);
+		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
-		//混合使用filtersMap与pageRequest.getFilters()为一个filters使用
-		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filtersMap,pageRequest.getFilters());
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filtersMap,pageRequest.getFilters());
+		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
+		XsqlFilterResult queryXsqlResult = builder.generateHql(query,otherFilters,pageRequest.getFilters());
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,otherFilters,pageRequest.getFilters());
 		
 		return pageQuery(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
