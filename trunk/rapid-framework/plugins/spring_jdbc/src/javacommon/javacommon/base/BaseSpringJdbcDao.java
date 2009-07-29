@@ -37,6 +37,7 @@ import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.page.impl.JdbcScrollPage;
+import cn.org.rapid_framework.util.CollectionUtils;
 import cn.org.rapid_framework.util.ObjectUtils;
 import cn.org.rapid_framework.util.SqlRemoveUtils;
 /**
@@ -247,7 +248,8 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	
 	public abstract String getFindByIdSql();
 	public E getById(PK id) {
-		return (E)getSimpleJdbcTemplate().queryForObject(getFindByIdSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
+		List list = getSimpleJdbcTemplate().query(getFindByIdSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
+		return (E)CollectionUtils.findSingleObject(list);
 	}
 
 	public abstract String getDeleteByIdSql();
