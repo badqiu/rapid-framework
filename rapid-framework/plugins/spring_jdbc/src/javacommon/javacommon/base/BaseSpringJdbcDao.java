@@ -127,13 +127,13 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
-		Map filtersMap = new HashMap(1);
-		filtersMap.put("sortColumns", pageRequest.getSortColumns());
+		Map otherFilters = new HashMap(1);
+		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
-		final int totalCount = queryTotalCount(countQuery, filtersMap,pageRequest.getFilters());
+		final int totalCount = queryTotalCount(countQuery, otherFilters,pageRequest.getFilters());
 		
-		//混合使用filtersMap与pageRequest.getFilters()为一个filters使用
-		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,filtersMap,pageRequest.getFilters());
+		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
+		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,otherFilters,pageRequest.getFilters());
 		String sql = queryXsqlResult.getXsql();
 		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
 		int pageSize = pageRequest.getPageSize();
