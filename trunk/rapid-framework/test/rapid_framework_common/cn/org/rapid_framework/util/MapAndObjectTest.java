@@ -61,7 +61,7 @@ public class MapAndObjectTest extends TestCase {
 		}
 		long cost = System.currentTimeMillis() - start;
 		System.out.println("MapAndObject.get() costTime:"+cost+" per request cost:"+(cost/(float)count)+" count="+count);
-		assertTrue("MapAndObject.get() costTime:10937 per request cost:0.10937 count=100000",cost < 13469);
+		assertTrue("MapAndObject.get() costTime:234 per request cost:0.00234 count=100000",cost < 1000);
 	}
 	
 	public void testPerfoemance2() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
