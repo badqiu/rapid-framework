@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.struts;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -13,7 +14,7 @@ import org.apache.commons.lang.StringUtils;
  * @author badqiu(badqiu@gmail.com)
  */
 public class DynamicModuleConfig extends ModuleConfigImpl implements ModuleConfig {
-	Map invalidClassName = new WeakHashMap();
+	Map invalidClassName = Collections.synchronizedMap(new WeakHashMap());
 	
 	public DynamicModuleConfig() {
 		super();
