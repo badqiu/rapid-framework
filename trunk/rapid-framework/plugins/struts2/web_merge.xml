@@ -9,9 +9,9 @@
     
     <filter-mapping>
         <filter-name>struts2-cleanup</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </filter-mapping>		
     <filter-mapping>
         <filter-name>struts2Filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </filter-mapping>    
