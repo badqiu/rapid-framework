@@ -74,6 +74,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(),pageRequest.getFilters());
 		Page page = new Page(pageRequest,totalCount.intValue());
 		
+		//其它分页参数,用于不喜欢或是因为兼容性而不使用方言(Dialect)的分页用户使用. 与getSqlMapClientTemplate().queryForList(statementName, parameterObject)配合使用
 		Map otherFilters = new HashMap();
 		otherFilters.put("offset", page.getFirstResult());
 		otherFilters.put("pageSize", page.getPageSize());
