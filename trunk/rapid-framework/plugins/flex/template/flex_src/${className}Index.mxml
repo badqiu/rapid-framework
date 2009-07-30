@@ -2,7 +2,7 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" 
-	xmlns:${className}="${basepackage}.${subpackage}.${className}.*" 
+	xmlns:${className}="${basepackage}.${className}.*" 
 	xmlns:components="com.wai.components.*">
 	<mx:Style source="./assets/css/global.css"/>
 	<mx:Script>

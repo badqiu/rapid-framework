@@ -2,5 +2,5 @@
 	import javacommon.flex.page.*;
 	import javacommon.flex.util.*;
 	
-	import ${basepackage}.${subpackage}.vo.*;
+	import ${basepackage}.vo.*;
 

@@ -8,6 +8,6 @@
 		<create creator="spring" javascript="${className}Manager">
 	      	<param name="beanName" value="${classNameLower}Manager" />
 	    </create>
-	    <convert converter="bean" match="${basepackage}.${subpackage}.model.${className}"/>
+	    <convert converter="bean" match="${basepackage}.model.${className}"/>
 	</allow>
 </dwr>
