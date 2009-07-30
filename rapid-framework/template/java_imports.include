@@ -8,9 +8,9 @@ import cn.org.rapid_framework.web.util.*;
 import cn.org.rapid_framework.page.*;
 import cn.org.rapid_framework.page.impl.*;
 
-import ${basepackage}.${subpackage}.model.*;
-import ${basepackage}.${subpackage}.dao.*;
-import ${basepackage}.${subpackage}.service.*;
+import ${basepackage}.model.*;
+import ${basepackage}.dao.*;
+import ${basepackage}.service.*;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
