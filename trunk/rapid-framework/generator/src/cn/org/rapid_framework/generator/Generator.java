@@ -147,8 +147,12 @@ public class Generator {
 		Map fileModel = getFilePathDataModel(modelProvider);
 		StringWriter out = new StringWriter();
 		Template template = new Template("filePath",new StringReader(templateFilepath),newFreeMarkerConfiguration());
-		template.process(fileModel, out);
-		return out.toString();
+		try {
+			template.process(fileModel, out);
+			return out.toString();
+		}catch(Exception e) {
+			throw new IllegalStateException("cannot generate filePath from templateFilepath:"+templateFilepath+" cause:"+e,e);
+		}
 	}
 	/**
 	 * 得到生成"文件目录/文件路径"的Model
