@@ -89,6 +89,10 @@ public class Generator {
 				String testExpressionKey = templateRelativePath.substring(testExpressionIndex+1);
 				Map map = getFilePathDataModel(modelProvider);
 				Object expressionValue = map.get(testExpressionKey);
+				if(expressionValue == null) {
+					System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateRelativePath+"]");
+					continue;
+				}
 				if(!"true".equals(expressionValue.toString())) {
 					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateRelativePath);
 					continue;
