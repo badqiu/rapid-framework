@@ -16,9 +16,9 @@
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<html:form action="${strutsActionBasePath}/list.do" method="post">
+<html:form action="${actionBasePath}/list.do" method="post">
 	<input type="submit" value="提交" onclick="return new Validation(document.forms[0]).validate();"/>
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.do'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
 	
 	<table class="formTable">
 	

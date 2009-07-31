@@ -20,7 +20,7 @@ public class ${className}Controller extends BaseSpringController{
 	
 	private ${className}Manager ${classNameLower}Manager;
 	
-	private final String LIST_ACTION = "redirect:/${namespace}/${className}/list.do";
+	private final String LIST_ACTION = "redirect:${actionBasePath}/list.do";
 	
 	public ${className}Controller() {
 	}

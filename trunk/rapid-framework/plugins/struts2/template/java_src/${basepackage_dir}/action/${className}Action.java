@@ -24,7 +24,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	protected static final String EDIT_JSP = "${jspFileBasePath}/edit.jsp";
 	protected static final String SHOW_JSP = "${jspFileBasePath}/show.jsp";
 	//redirect paths,startWith: !
-	protected static final String LIST_ACTION = "!${strutsActionBasePath}/list.${actionExtension}";
+	protected static final String LIST_ACTION = "!${actionBasePath}/list.${actionExtension}";
 	
 	private ${className}Manager ${classNameLower}Manager;
 	
