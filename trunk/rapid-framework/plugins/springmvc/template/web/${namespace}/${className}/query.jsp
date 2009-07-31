@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form action="<@jspEl "ctx"/>${jspFileBasePath}/list.do" method="post">
+<form action="<@jspEl "ctx"/>${strutsActionBasePath}/list.do" method="post">
 	<input type="submit" value="提交" onclick="return new Validation(document.forms[0]).validate();"/>
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.do'"/>
 	
