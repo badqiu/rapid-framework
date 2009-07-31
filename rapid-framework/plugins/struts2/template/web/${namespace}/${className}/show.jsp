@@ -20,8 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<s:form action="${strutsActionBasePath}/list.${actionExtension}" method="get" theme="simple">
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.${actionExtension}'"/>
+<s:form action="${actionBasePath}/list.${actionExtension}" method="get" theme="simple">
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}'"/>
 
 <#list table.columns as column>
 <#if column.pk>

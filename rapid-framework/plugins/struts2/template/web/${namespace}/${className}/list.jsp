@@ -21,14 +21,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 <form action="" method="post">
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/create.${actionExtension}'"/>
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/query.${actionExtension}'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.${actionExtension}','items',document.forms.ec)"/>
+	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.${actionExtension}'"/>
+	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/query.${actionExtension}'"/>
+	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.${actionExtension}','items',document.forms.ec)"/>
 </form>
 
 <ec:table items='page.result' var="item" 
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="<@jspEl 'ctx'/>${strutsActionBasePath}/list.${actionExtension}" autoIncludeParameters="true">
+	action="<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}" autoIncludeParameters="true">
 	<ec:row>
 		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
 			<input type="checkbox" name="items" value="<@generateIdQueryString/>"/>
@@ -39,8 +39,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</#if>
 		</#list>
 		<ec:column property="操作" title="操作" sortable="false" viewsAllowed="html">
-			<a href="<@jspEl 'ctx'/>${strutsActionBasePath}/show.${actionExtension}?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
-			<a href="<@jspEl 'ctx'/>${strutsActionBasePath}/edit.${actionExtension}?<@generateIdQueryString/>">修改</a>
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/show.${actionExtension}?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/edit.${actionExtension}?<@generateIdQueryString/>">修改</a>
 		</ec:column>
 	</ec:row>
 </ec:table>

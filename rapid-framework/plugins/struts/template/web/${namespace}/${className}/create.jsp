@@ -15,9 +15,9 @@
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<html:form action="${strutsActionBasePath}/save.do" method="post">
+<html:form action="${actionBasePath}/save.do" method="post">
 	<input id="submit" name="submit" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.do'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
 	
 	<table class="formTable">
 	<%@ include file="form_include.jsp" %>

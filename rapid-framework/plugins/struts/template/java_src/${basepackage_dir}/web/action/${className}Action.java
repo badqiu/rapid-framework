@@ -24,7 +24,7 @@ public class ${className}Action extends BaseStrutsAction {
 	protected static final ActionForward CREATE_FORWARD = new ActionForward("${jspFileBasePath}/create.jsp");
 	protected static final ActionForward EDIT_FORWARD = new ActionForward("${jspFileBasePath}/edit.jsp");
 	protected static final ActionForward SHOW_FORWARD = new ActionForward("${jspFileBasePath}/show.jsp");
-	protected static final ActionForward LIST_ACTION_FORWARD = new ActionForward("${strutsActionBasePath}/list.do",true);
+	protected static final ActionForward LIST_ACTION_FORWARD = new ActionForward("${actionBasePath}/list.do",true);
 	
 	private ${className}Manager ${classNameLower}Manager;
 	

@@ -17,14 +17,14 @@
 <body>
 <%@ include file="/commons/messages.jsp" %>
 <form action="" method="post">
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/create.do'"/>
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/query.do'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.do','items',document.forms.ec)"/>
+	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/query.do'"/>
+	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.ec)"/>
 </form>
 
 <ec:table items='page.result' var="item" 
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="<@jspEl 'ctx'/>${strutsActionBasePath}/list.do" autoIncludeParameters="true">
+	action="<@jspEl 'ctx'/>${actionBasePath}/list.do" autoIncludeParameters="true">
 	<ec:row>
 		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
 			<input type="checkbox" name="items" value="<@generateIdQueryString/>"/>
@@ -35,8 +35,8 @@
 		</#if>
 		</#list>
 		<ec:column property="操作" title="操作" sortable="false" viewsAllowed="html">
-			<a href="<@jspEl 'ctx'/>${strutsActionBasePath}/show.do?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
-			<a href="<@jspEl 'ctx'/>${strutsActionBasePath}/edit.do?<@generateIdQueryString/>">修改</a>
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/show.do?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/edit.do?<@generateIdQueryString/>">修改</a>
 		</ec:column>
 	</ec:row>
 </ec:table>

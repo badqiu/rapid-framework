@@ -19,9 +19,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<s:form action="${strutsActionBasePath}/update.${actionExtension}" method="post">
+<s:form action="${actionBasePath}/update.${actionExtension}" method="post">
 	<input id="submit" name="submit" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${strutsActionBasePath}/list.${actionExtension}'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}'"/>
 	
 	<table class="formTable">
 	<%@ include file="form_include.jsp" %>
