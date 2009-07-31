@@ -57,6 +57,11 @@ rapid-validation
 
 	struts2重复提交，提示信息
 	
+	将<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+	替换为
+	<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*.*(..))" advice-ref="txAdvice"/>
+	以可以拦截Manager的所有方法,并删除
+	<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
 	
 rapid-framework为你做好的二件事
 	1.项目脚手架
