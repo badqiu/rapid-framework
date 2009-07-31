@@ -13,15 +13,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<%@ include file="/commons/meta.jsp" %>
 	<base href="<%=basePath%>">
-	<title><%=${className}.TABLE_ALIAS%>编辑</title>
+	<title><%=${className}.TABLE_ALIAS%>新增</title>
 </head>
 
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form action="<@jspEl 'ctx'/>/${module}/${className}/update.do" method="post">
+<form action="<@jspEl "ctx"/>/${jspFileBasePath}/save.do" method="post">
 	<input id="submit" name="submit" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${module}/${className}/list.do'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl "ctx"/>${jspFileBasePath}/list.do'"/>
 	
 	<table class="formTable">
 	<%@ include file="form_include.jsp" %>
@@ -40,5 +40,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </script>
 
 </body>
-
 </html>
