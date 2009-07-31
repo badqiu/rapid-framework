@@ -11,7 +11,7 @@ import java.util.Properties;
 
 
 /**
- * 
+ * 用于装载generator.properties文件
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
