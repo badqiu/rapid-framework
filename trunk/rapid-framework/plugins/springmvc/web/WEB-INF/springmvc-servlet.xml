@@ -28,7 +28,7 @@
 	<bean class="cn.org.rapid_framework.spring.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
 		<!-- <property name="caseSensitive" value="true"/> -->
 		<!-- 前缀可选 -->
-		<property name="pathPrefix" value="/system"></property>
+		<property name="pathPrefix" value="/pages"></property>
 	</bean>
 
     <!-- Default ViewResolver -->
