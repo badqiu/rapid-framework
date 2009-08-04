@@ -18,7 +18,8 @@
 
 <html:form action="${actionBasePath}/list.do" method="post">
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
-
+	<input type="button" value="后退" onclick="history.back();"/>
+	
 <#list table.columns as column>
 <#if column.pk>
 	<html:hidden styleId="${column.columnNameLower}" property="${column.columnNameLower}" name="${className}Form"/>

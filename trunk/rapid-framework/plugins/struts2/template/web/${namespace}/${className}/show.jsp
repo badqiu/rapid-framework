@@ -22,7 +22,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <s:form action="${actionBasePath}/list.${actionExtension}" method="get" theme="simple">
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}'"/>
-
+	<input type="button" value="后退" onclick="history.back();"/>
+	
 <#list table.columns as column>
 <#if column.pk>
 	<s:hidden name="${column.columnNameLower}" id="${column.columnNameLower}" value="%{model.${column.columnNameLower}}"/>
