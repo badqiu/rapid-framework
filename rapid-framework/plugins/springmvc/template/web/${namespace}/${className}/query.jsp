@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <form action="<@jspEl "ctx"/>${actionBasePath}/list.do" method="post">
 	<input type="submit" value="提交" onclick="return new Validation(document.forms[0]).validate();"/>
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
 	

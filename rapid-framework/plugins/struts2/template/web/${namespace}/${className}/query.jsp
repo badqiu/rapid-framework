@@ -23,6 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <s:form action="${actionBasePath}/list.${actionExtension}" method="post">
 	<input type="submit" value="提交" onclick="return new Validation(document.forms[0]).validate();"/>
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}'"/>
+	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
 	

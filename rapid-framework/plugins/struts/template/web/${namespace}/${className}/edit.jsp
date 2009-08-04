@@ -18,6 +18,7 @@
 <html:form action="${actionBasePath}/update.do" method="post">
 	<input id="submit" name="submit" type="submit" value="提交" />
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
 	<%@ include file="form_include.jsp" %>
