@@ -7,7 +7,7 @@
 
 <#list table.columns as column>
 <#if column.htmlHidden>
-	<s:hidden id="${column.columnNameLower}" name="${column.columnNameLower}" ></s:hidden>
+	<s:hidden id="${column.columnNameLower}" name="${column.columnNameLower}" />
 </#if>
 </#list>
 
@@ -25,7 +25,7 @@
 		</td>
 	</tr>
 	<#else>
-	<s:textfield label="%{@vs@ALIAS_${column.constantName}}" key="${column.columnNameLower}" value="%{model.${column.columnNameLower}}" cssClass="${column.validateString}" required="${(!column.nullable)?string}"></s:textfield>
+	<s:textfield label="%{@vs@ALIAS_${column.constantName}}" key="${column.columnNameLower}" value="%{model.${column.columnNameLower}}" cssClass="${column.validateString}" required="${(!column.nullable)?string}" />
 	</#if>
 	
 	</#if>
