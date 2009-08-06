@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javacommon.util.ExtJsPageHelper;
 import javacommon.util.ListRange;
 
 import javax.servlet.http.HttpServletRequest;
@@ -142,38 +143,8 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	 */
 	public void extlist() throws IOException
 	{
-		int DEFAULT_PAGE_SIZE = 10;
-		String strStart = getRequest().getParameter("start");
-		String strLimit = getRequest().getParameter("limit");
-		String field_type = getRequest().getParameter("field_type");
-		String query = getRequest().getParameter("query"); //SearchField.js 里设置此参数名
-		String sort = getRequest().getParameter("sort");// 指定排序的列
-		String dir = getRequest().getParameter("dir");// 顺序倒序
-		String orderBy = "id"; //默认正向排序列 
-		if (sort != null && dir != null)
-		{
-			orderBy = sort + " " + dir;
-		}
-		PageRequest result = new PageRequest();
-		//如果没有按照指定字段搜索,则按全条件查询
-		if(field_type==null){
-			result = newPageRequest(DEFAULT_SORT_COLUMNS);
-		}else{
-			Map map = new HashMap();
-			map.put(field_type, query);
-			result.setFilters(map);
-		}
-		int start = 0;
-		int limit = DEFAULT_PAGE_SIZE;
-		if (StringUtils.isNotBlank(strStart))
-			start = Integer.valueOf(strStart);
-		if (StringUtils.isNotBlank(strLimit))
-			limit = Integer.valueOf(strLimit);
-		
-		result.setPageNumber(start / limit + 1);
-		result.setPageSize(limit);
-		result.setSortColumns(orderBy);
-		Page page = ${classNameLower}Manager.findByPageRequest(result);
+		PageRequest<Map> pr = ExtJsPageHelper.createPageRequestForExtJs(getRequest(), DEFAULT_SORT_COLUMNS);
+		Page page = ${classNameLower}Manager.findByPageRequest(pr);
 		
 		List<${className}> ${className}list = (List) page.getResult();
 		ListRange<${className}> resultList = new ListRange<${className}>();
