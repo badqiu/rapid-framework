@@ -54,7 +54,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		//insertWithOracleSequence(entity,"sequenceName",sql); //oracle sequence: 
 		//insertWithDB2Sequence(entity,"sequenceName",sql); //db2 sequence:
 		//insertWithUUID(entity,sql); //uuid
-		//insertWithAssigned(entity,sql) //手工分配
+		//insertWithAssigned(entity,sql); //手工分配
 	}
 	
 	public void update(${className} entity) {
