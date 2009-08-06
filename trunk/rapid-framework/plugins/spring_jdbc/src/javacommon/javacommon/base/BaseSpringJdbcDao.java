@@ -152,7 +152,8 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 
 	private int queryTotalCount(String countQuery, Map filtersMap,Object filtersObject) {
 		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filtersMap,filtersObject);
-		final int totalCount = getSimpleJdbcTemplate().queryForInt(SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql()),countQueryXsqlResult.getAcceptedFilters());
+		String removedOrderByQuery = SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql());
+		final int totalCount = getSimpleJdbcTemplate().queryForInt(removedOrderByQuery,countQueryXsqlResult.getAcceptedFilters());
 		return totalCount;
 	}
 
