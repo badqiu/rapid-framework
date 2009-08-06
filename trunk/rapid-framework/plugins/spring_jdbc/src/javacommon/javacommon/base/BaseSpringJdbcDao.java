@@ -78,31 +78,10 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	public NamedParameterJdbcTemplate getNamedParameterJdbcTemplate() {
 		return namedParameterJdbcTemplate;
 	}
-
-	public Serializable convert2CorrectIdType(Object value) throws SQLException {
-		return convert2CorrectIdType(value,getIdentifierPropertyType());
-	}
-	
-	public static Serializable convert2CorrectIdType(Object value,Class type) throws SQLException {
-		try {
-			return (Serializable)type.getConstructor(String.class).newInstance(value.toString());
-		}catch(Exception e) {
-			throw new IllegalArgumentException(String.format("convert error,value=%s type=%s",value,type.getCanonicalName()),e);
-		}
-	}
 	
 	protected Object getIdentifierPropertyValue(Object entity) {
 		try {
 			return PropertyUtils.getProperty(entity, getIdentifierPropertyName());
-		} catch (Exception e) {
-			ReflectionUtils.handleReflectionException(e);
-			return null;
-		}
-	}
-
-	protected Class getIdentifierPropertyType() {
-		try {
-			return PropertyUtils.getPropertyType(getEntityClass().newInstance(), getIdentifierPropertyName());
 		} catch (Exception e) {
 			ReflectionUtils.handleReflectionException(e);
 			return null;
@@ -192,7 +171,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	
 	private void setIdentifierProperty(Object entity, Object id) {
 		try {
-			BeanUtils.setProperty(entity, getIdentifierPropertyName(), convert2CorrectIdType(id));
+			BeanUtils.setProperty(entity, getIdentifierPropertyName(), id);
 		} catch (Exception e) {
 			ReflectionUtils.handleReflectionException(e);
 		}
