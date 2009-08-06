@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * 排序的列
+ * for PageRequest.getSortInfos()
+ * @author badqiu
+ * @see PageRequest
+ */
 public class SortInfo implements Serializable{
 	
 	private static final long serialVersionUID = 6959974032209696722L;
