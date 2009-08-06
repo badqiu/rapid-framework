@@ -41,7 +41,7 @@ import cn.org.rapid_framework.util.CollectionUtils;
 import cn.org.rapid_framework.util.ObjectUtils;
 import cn.org.rapid_framework.util.SqlRemoveUtils;
 /**
- * 只读的Spring的JDBC基类,不支持save() update()等方法 
+ * 只读的Spring的JDBC基类,便于子类可以删除save() update() delete()等方法 
  * @author badqiu
  *
  */
