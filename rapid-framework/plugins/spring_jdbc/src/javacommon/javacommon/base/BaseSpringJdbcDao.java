@@ -115,15 +115,15 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	 * @return
 	 */
 	public Page findAll(String tableName,final PageRequest pageRequest) {
-		return pageQuery("select * from "+tableName+" /~ order by {sortColumns} ~/",pageRequest);
+		return pageQuery("select * from "+tableName+" /~ order by [sortColumns] ~/",pageRequest);
 	}
 	
 	public Page pageQuery(String query,PageRequest pageRequest) {
-		return pageQuery(query,"select count(*) "+SqlRemoveUtils.removeSelect(query),pageRequest);
+		return pageQuery(query,pageRequest,new BeanPropertyRowMapper(getEntityClass()));
 	}
 	
-	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest) {
-		return pageQuery(query, countQuery, pageRequest,new BeanPropertyRowMapper(getEntityClass()));
+	public Page pageQuery(String query,PageRequest pageRequest,RowMapper rowMapper) {
+		return pageQuery(query,"select count(*) "+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
