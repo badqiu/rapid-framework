@@ -166,24 +166,24 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 				return page;
 			}else {
 				String limitSql = dialect.getLimitString(sql, 0, pageSize);
-				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount);
+				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount,rowMapper);
 			}
 		}else {
-			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount);			
+			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount,rowMapper);			
 		}
 	}
 	
 	/**
 	 * 通过jdbc 游标进行分页
 	 */
-	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,String sql,Map paramMap, final int totalCount) {
+	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,String sql,Map paramMap, final int totalCount,final RowMapper rowMapper) {
 		
 		return (Page)getNamedParameterJdbcTemplate().execute(sql, paramMap, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps)
 					throws SQLException, DataAccessException {
 				ps.setMaxRows(pageSize);
 				ResultSet rs = ps.executeQuery();
-				return new JdbcScrollPage(rs,totalCount,new BeanPropertyRowMapper(getEntityClass()),pageNumber,pageSize);
+				return new JdbcScrollPage(rs,totalCount,rowMapper,pageNumber,pageSize);
 			}
 		});
 		
