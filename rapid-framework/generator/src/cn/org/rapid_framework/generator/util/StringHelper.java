@@ -179,22 +179,24 @@ public class StringHelper {
 		if (filteredName != null && filteredName.length() > 0) {
 			result.append(filteredName.substring(0, 1).toLowerCase());
 			for (int i = 1; i < filteredName.length(); i++) {
-				String preString = filteredName.substring(i - 1, i);
-				String s = filteredName.substring(i, i + 1);
-				if(s.equals("_")) {
+				String preChart = filteredName.substring(i - 1, i);
+				String c = filteredName.substring(i, i + 1);
+				if(c.equals("_")) {
 					result.append("_");
 					continue;
 				}
-				if(preString.equals("_")){
-					result.append(s.toLowerCase());
+				if(preChart.equals("_")){
+					result.append(c.toLowerCase());
 					continue;
 				}
-				if (s.equals(s.toUpperCase())) {
+				if(c.matches("\\d")) {
+					result.append(c);
+				}else if (c.equals(c.toUpperCase())) {
 					result.append("_");
-					result.append(s.toLowerCase());
+					result.append(c.toLowerCase());
 				}
 				else {
-					result.append(s);
+					result.append(c);
 				}
 			}
 		}

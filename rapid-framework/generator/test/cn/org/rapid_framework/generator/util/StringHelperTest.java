@@ -33,5 +33,9 @@ public class StringHelperTest extends TestCase {
 		assertEquals("u_se_r",StringHelper.toUnderscoreName("uSeR"));
 		assertEquals("user",StringHelper.toUnderscoreName("user"));
 		assertEquals("中",StringHelper.toUnderscoreName("中"));
+		
+		assertEquals("level1_channel",StringHelper.toUnderscoreName("LEVEL1_CHANNEL"));
+		assertEquals("Level1Channel",StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName("LEVEL1_CHANNEL")));
+		
 	}
 }
