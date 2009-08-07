@@ -22,7 +22,7 @@
 	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.ec)"/>
 </form>
 
-<ec:table items='page.result' var="item" 
+<ec:table items='page.result' var="item" method="get"
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
 	action="<@jspEl 'ctx'/>${actionBasePath}/list.do" autoIncludeParameters="true">
 	<ec:row>
