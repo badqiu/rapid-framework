@@ -37,7 +37,7 @@ public class MultiThreadTestUtilsTest extends TestCase {
 	
 	public void testexecuteAndWaitForDone() throws InterruptedException {
 		
-		long costTime = MultiThreadTestUtils.executeAndWaitForDone(expectedCount, new Runnable() {
+		long costTime = MultiThreadTestUtils.executeAndWait(expectedCount, new Runnable() {
 			public void run() {
 				try {
 					Thread.sleep(1);
@@ -67,7 +67,7 @@ public class MultiThreadTestUtilsTest extends TestCase {
 	long MAX_COUNT = 10000;
 	private long execute(int threadCount) throws InterruptedException {
 		final AtomicLong count = new AtomicLong(0);
-		long costTime = MultiThreadTestUtils.executeAndWaitForDone(threadCount, new Runnable() {
+		long costTime = MultiThreadTestUtils.executeAndWait(threadCount, new Runnable() {
 			int selfCount = 0;
 			public void run() {
 				while(true) {
