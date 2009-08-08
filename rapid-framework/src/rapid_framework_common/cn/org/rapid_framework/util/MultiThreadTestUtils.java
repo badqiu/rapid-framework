@@ -16,7 +16,7 @@ public class MultiThreadTestUtils {
 	 * @return costTime
 	 * @throws InterruptedException 
 	 */
-	public static long executeAndWaitForDone(int threadCount,final Runnable task) throws InterruptedException {
+	public static long executeAndWait(int threadCount,final Runnable task) throws InterruptedException {
 		CountDownLatch doneSignal = execute(threadCount, task);
 		long startTime = System.currentTimeMillis();
 		doneSignal.await();
