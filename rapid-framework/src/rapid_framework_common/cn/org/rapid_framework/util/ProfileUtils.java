@@ -6,6 +6,8 @@ package cn.org.rapid_framework.util;
  */
 public class ProfileUtils {
 	
+	private ProfileUtils(){}
+	
 	public static long getCostTime(Runnable task) {
 		long start = System.currentTimeMillis();
 		task.run();
