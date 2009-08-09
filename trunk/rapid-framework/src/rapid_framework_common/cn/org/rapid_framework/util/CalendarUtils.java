@@ -15,7 +15,7 @@ public class CalendarUtils {
 		c.set(field, fieldNewValue);
 		return c.getTime();
 	}
-
+ 
 	public static int get(int field,Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
