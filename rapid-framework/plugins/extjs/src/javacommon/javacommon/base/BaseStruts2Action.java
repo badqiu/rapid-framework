@@ -1,41 +1,32 @@
 package javacommon.base;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Map;
+
+import javacommon.util.ConvertRegisterHelper;
+import javacommon.util.extjs.JsonDateValueProcessor;
+import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javacommon.util.ConvertRegisterHelper;
-import javacommon.util.PageRequestFactory;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.CycleDetectionStrategy;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.BigDecimalConverter;
-import org.apache.commons.beanutils.converters.BigIntegerConverter;
-import org.apache.commons.beanutils.converters.DoubleConverter;
-import org.apache.commons.beanutils.converters.FloatConverter;
-import org.apache.commons.beanutils.converters.IntegerConverter;
-import org.apache.commons.beanutils.converters.LongConverter;
-import org.apache.commons.beanutils.converters.SqlDateConverter;
-import org.apache.commons.beanutils.converters.SqlTimeConverter;
-import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.RequestAware;
-import org.apache.struts2.interceptor.SessionAware;
 import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
-import cn.org.rapid_framework.beanutils.converter.StringConverter;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.util.ObjectUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 
 public abstract class BaseStruts2Action extends ActionSupport implements RequestAware {
 	protected Map requestMap = null;
@@ -59,6 +50,51 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 
 	public void savePage(Page page){
 		savePage("",page);
+	}
+	
+	public void outJsonString(String str) {
+		getResponse().setContentType("text/javascript;charset=UTF-8");
+		outString(str);
+	}
+
+ 
+	  /**   
+     * JSON 时间解析器具   
+     *    
+     * @param datePattern   
+     * @return   
+     */   
+    public static JsonConfig configJson(String datePattern) {    
+        JsonConfig jsonConfig = new JsonConfig();    
+        jsonConfig.setExcludes(new String[] { "" });    
+        jsonConfig.setIgnoreDefaultExcludes(false);    
+        jsonConfig.setCycleDetectionStrategy(CycleDetectionStrategy.LENIENT);    
+        jsonConfig.registerJsonValueProcessor(Date.class,    
+                new JsonDateValueProcessor(datePattern));    
+   
+        return jsonConfig;    
+    }    
+
+	public void outJson(Object obj) {
+        JsonConfig jsonConfig = configJson("yyyy-MM-dd HH:mm:ss");    
+		outJsonString(JSONObject.fromObject(obj,jsonConfig).toString());
+	}
+
+	public void outJsonArray(Object array) {
+		outJsonString(JSONArray.fromObject(array).toString());
+	}
+	
+	public void outString(String str) {
+		try {
+			PrintWriter out = getResponse().getWriter();
+			out.write(str);
+		} catch (IOException e) {
+		}
+	}
+
+	public void outXMLString(String xmlStr) {
+		getResponse().setContentType("application/xml;charset=UTF-8");
+		outString(xmlStr);
 	}
 	
 	/**
