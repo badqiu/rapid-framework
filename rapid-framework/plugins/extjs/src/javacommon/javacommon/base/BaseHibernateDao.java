@@ -7,11 +7,11 @@ import static cn.org.rapid_framework.util.SqlRemoveUtils.removeSelect;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javacommon.xsqlbuilder.IbatisStyleXsqlBuilder;
 import javacommon.xsqlbuilder.SafeSqlProcesser;
 import javacommon.xsqlbuilder.SafeSqlProcesserFactory;
 import javacommon.xsqlbuilder.XsqlBuilder;
@@ -25,6 +25,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -87,22 +88,21 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		});
 	}
 	
-	public Page pageQuery(final String query,final PageRequest pageRequest) {
+	public Page findBy(final String query,final PageRequest pageRequest) {
 		final String countQuery = "select count(*) " + removeSelect(removeFetchKeyword((query)));
-		return pageQuery(query,countQuery,pageRequest);
+		return findBy(query,countQuery,pageRequest);
 	}
 
-	public Page pageQuery(final String query,String countQuery,final PageRequest pageRequest) {
-		Map otherFilters = new HashMap(1);
-		otherFilters.put("sortColumns", pageRequest.getSortColumns());
+	public Page findBy(final String query,String countQuery,final PageRequest pageRequest) {
+		Map filters = (Map)pageRequest.getFilters();
+		filters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
-		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
-		XsqlFilterResult queryXsqlResult = builder.generateHql(query,otherFilters,pageRequest.getFilters());
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,otherFilters,pageRequest.getFilters());
+		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
 		
-		return pageQuery(pageRequest,queryXsqlResult,countQueryXsqlResult);
+		return findBy(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
 	
 	protected XsqlBuilder getXsqlBuilder() {
@@ -111,7 +111,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		
 		//or SafeSqlProcesserFactory.getMysql();
 		SafeSqlProcesser safeSqlProcesser = SafeSqlProcesserFactory.getFromCacheByHibernateDialect(dialect); 
-		XsqlBuilder builder = new XsqlBuilder(safeSqlProcesser);
+		IbatisStyleXsqlBuilder builder = new IbatisStyleXsqlBuilder(safeSqlProcesser);
 		
 		if(builder.getSafeSqlProcesser().getClass() == DirectReturnSafeSqlProcesser.class) {
 			System.err.println(BaseHibernateDao.class.getSimpleName()+".getXsqlBuilder(): 故意报错,你未开启Sql安全过滤,单引号等转义字符在拼接sql时需要转义,不然会导致Sql注入攻击的安全问题，请修改源码使用new XsqlBuilder(SafeSqlProcesserFactory.getDataBaseName())开启安全过滤");
@@ -119,13 +119,12 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		return builder;
 	}
 	
-	private Page pageQuery(final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
+	private Page findBy(final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
 		return (Page)getHibernateTemplate().execute(new HibernateCallback() {
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				
 				Query query = setQueryParameters(session.createQuery(queryXsqlResult.getXsql()),queryXsqlResult.getAcceptedFilters());
 				Query countQuery = setQueryParameters(session.createQuery(removeOrders(countQueryXsqlResult.getXsql())),countQueryXsqlResult.getAcceptedFilters());
-				
 				return new Hibernate3Page(query,countQuery,pageRequest.getPageNumber(),pageRequest.getPageSize());
 			}
 		});
@@ -146,9 +145,77 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	public List<E> findAll() {
 		return getHibernateTemplate().loadAll(getEntityClass());
 	}
-
+	
+	public List<E> getAll() {
+		return find();
+	}
+	public List<E> find(final Criterion... criterions) {
+		return createCriteria(criterions).list();
+	}
+	/**
+	 * 按HQL查询对象列表.
+	 * 
+	 * @param values 数量可变的参数
+	 */
+	public List<E> find(final String hql, final Object... values) {
+		return createQuery(hql, values).list();
+	}
+	/**
+	 * 根据查询HQL与参数列表创建Query对象.
+	 * 
+	 * 返回对象类型不是Entity时可用此函数灵活查询.
+	 * 
+	 * @param values 数量可变的参数
+	 */
+	public Query createQuery(final String queryString, final Object... values) {
+		Assert.hasText(queryString, "queryString不能为空");
+		Query query = getSession().createQuery(queryString);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				query.setParameter(i, values[i]);
+			}
+		}
+		return query;
+	}
+	/**
+	 * 根据查询HQL与参数列表创建Query对象.
+	 * 
+	 * 返回对象类型不是Entity时可用此函数灵活查询.
+	 * 
+	 * @param values 数量可变的参数
+	 */
+	public Query createSQLQuery(final String queryString, final Object... values) {
+		Assert.hasText(queryString, "queryString不能为空");
+		Query query = getSession().createSQLQuery(queryString);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				query.setParameter(i, values[i]);
+			}
+		}
+		return query;
+	}
+	/**
+	 * 根据Criterion条件创建Criteria.
+	 * 
+	 * 返回对象类型不是Entity时可用此函数灵活查询.
+	 * 
+	 * @param criterions 数量可变的Criterion.
+	 */
+	public Criteria createCriteria(final Criterion... criterions) {
+		Criteria criteria = getSession().createCriteria(getEntityClass());
+		for (Criterion c : criterions) {
+			criteria.add(c);
+		}
+		return criteria;
+	}
 	public E getById(PK id) {
 		return (E)getHibernateTemplate().get(getEntityClass(),id);
+	}
+	public E findByUnique(final String propertyName, final Object value) {
+//		return (E)getHibernateTemplate().get(getEntityClass(),keyvalue);
+		Assert.hasText(propertyName, "propertyName不能为空");
+		Criterion criterion = Restrictions.eq(propertyName, value);
+		return (E) createCriteria(criterion).uniqueResult();
 	}
 
 	public void delete(Object entity) {
