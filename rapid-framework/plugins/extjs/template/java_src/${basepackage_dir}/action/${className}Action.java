@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javacommon.util.ExtJsPageHelper;
-import javacommon.util.ListRange;
+import javacommon.util.extjs.ExtJsPageHelper;
+import javacommon.util.extjs.ListRange;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ import cn.org.rapid_framework.generator.provider.java.model.JavaField;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
-import com.awd.model.${className};
+import ${basepackage}.model.${className};
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.ModelDriven;
 
