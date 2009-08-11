@@ -79,62 +79,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 		this.items = items;
 	}
 
-	/** 进入查询页面 */
-	public String query() {
-		return QUERY_JSP;
-	}
-	
-	/** 执行搜索 */
-	public String list() {
-		PageRequest pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
-		//pageRequest.getFilters().put("key",value);     //add custom filter
-		Page page = ${classNameLower}Manager.findByPageRequest(pageRequest);
-		savePage(page);
-		return LIST_JSP;
-	}
-	
-	/** 查看对象*/
-	public String show() {
-		return SHOW_JSP;
-	}
-	
-	/** 进入新增页面*/
-	public String create() {
-		return CREATE_JSP;
-	}
-	
-	/** 保存新增对象 */
-	public String save() {
-		${classNameLower}Manager.save(${classNameLower});
-		return LIST_ACTION;
-	}
-	
-	/**进入更新页面*/
-	public String edit() {
-		return EDIT_JSP;
-	}
-	
-	/**保存更新对象*/
-	public String update() {
-		${classNameLower}Manager.update(this.${classNameLower});
-		return LIST_ACTION;
-	}
-	
-	/**删除对象*/
-	public String delete() {
-		for(int i = 0; i < items.length; i++) {
-			Hashtable params = HttpUtils.parseQueryString(items[i]);
-			<#if table.compositeId>
-			${className}Id id = (${className}Id)copyProperties(${className}Id.class,params);
-			<#else>
-				<#list table.compositeIdColumns as column>
-			${column.javaType} id = new ${column.javaType}((String)params.get("${column.columnNameLower}"));
-				</#list>
-			</#if>
-			${classNameLower}Manager.removeById(id);
-		}
-		return LIST_ACTION;
-	}
+
 
 	/**
 	 * ExtGrid使用
@@ -168,10 +113,10 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 			result.put("success", true);
 			result.put("msg", "添 加 成 功!");
 		}
-		catch (RuntimeException e)
+		catch (Exception e)
 		{
 			result.put("failure", true);
-			result.put("msg", e);
+			result.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
 		outJson(result);
@@ -190,10 +135,10 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 			result.put("success", true);
 			result.put("msg", "修 改 成 功!");
 		}
-		catch (RuntimeException e)
+		catch (Exception e)
 		{
 			result.put("failure", true);
-			result.put("msg", e);
+			result.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
 		outJson(result);
@@ -220,10 +165,10 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 			result.put("success", true);
 			result.put("msg", "删除成功");
 		}
-		catch (RuntimeException e)
+		catch (Exception e)
 		{
 			result.put("failure", true);
-			result.put("msg", e);
+			result.put("msg", e.getMessage());
 			e.printStackTrace();
 		}
 		outJson(result);

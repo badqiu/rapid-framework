@@ -30,10 +30,10 @@
   	</package>
   	
   	<!-- 修改为你自己的namespace -->
-    <package name="default" namespace="/system" extends="custom-default">
+    <package name="default" namespace="/pages" extends="custom-default">
 		
 		<!-- 通过URL访问的路径是 /namesapce/Entity/method.do -->
-		<action name="*/*" method="{2}" class="com.company.system.action.{1}Action">
+		<action name="*/*" method="{2}" class="com.company.project.action.{1}Action">
 		    <result name="*" type="direct">通过Action直接返回，这一行无需修改</result>
 		</action>
 		

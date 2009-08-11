@@ -7,6 +7,7 @@ import static cn.org.rapid_framework.util.SqlRemoveUtils.removeSelect;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -94,13 +95,15 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	}
 
 	public Page findBy(final String query,String countQuery,final PageRequest pageRequest) {
-		Map filters = (Map)pageRequest.getFilters();
-		filters.put("sortColumns", pageRequest.getSortColumns());
+		Map otherFilters = new HashMap(1);
+		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
-		XsqlFilterResult queryXsqlResult = builder.generateHql(query,filters);
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,filters);
+		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
+		XsqlFilterResult queryXsqlResult = builder.generateHql(query,otherFilters,pageRequest.getFilters());
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,otherFilters,pageRequest.getFilters());
+		
 		
 		return findBy(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
