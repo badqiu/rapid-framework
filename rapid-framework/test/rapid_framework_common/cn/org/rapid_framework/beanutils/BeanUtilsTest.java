@@ -13,7 +13,7 @@ public class BeanUtilsTest extends TestCase {
 	Role role = new Role();
 	public void testSetBeanProperty() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		role.setRoleId(new Long(1));
-		PropertyUtils.setProperty(role, "roleId", "2");
+		BeanUtils.setProperty(role, "roleId", "2");
 		assertEquals(role.getRoleId(),new Long(2));
 	}
 }
