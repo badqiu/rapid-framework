@@ -64,36 +64,6 @@
 	background-color: #F4F4F4;
 }
 
-
-.pagination_controls .current {
-	background:#1F3A87 none repeat scroll 0 0;
-	border:1px solid #DCDDDD;
-	color:#FFFFFF;
-	font-weight:bold;
-	text-align:center;
-}
-
-.pagination_controls .disable {
-	background:#FFFFFF none repeat scroll 0 0;
-	border:1px solid #CCCCCC;
-	color:#CCCCCC;
-	cursor:default;
-	margin:0px 0px 0 0;
-	padding:4px 5px 0;
-	text-align:center;
-}
-
-.pagination_controls a {
-	background:#FFFFFF none repeat scroll 0 0;
-	border:1px solid #DCDDDD;
-	color:#1780C8;
-	margin:0px 0px 0 0;
-	padding:3px 3px 0;
-	text-align:center;
-	font-weight:bold;
-}
-
-
 </style>
 
 </head>
@@ -246,16 +216,16 @@
 					<span class="button_label">Go to:</span>
 					<input id="f_row_start" type="text" size="5" value="1" onchange="table._toggleRowStart(this.value)">
 					<span class="button_label">1 - 15 of 100</span>
-					<span class="disable">|<<</span>
-					<span class="disable"><<</span>
-					<a href="javascript:togglePage(1);" class="current">1</a> <a href="javascript:togglePage(2);">2</a>
-					<a href="javascript:togglePage(1);" title="下一页" class="">>></a>
-					<a href="javascript:togglePage(1);" title="末页" >>>|</a>
+					<a href="javascript:doJump(1);"><img src="images/firstPage.gif" style="border:0" alt="第一页"></a>
+					<a href="javascript:doJump(1);"><img src="images/prevPage.gif" style="border:0" alt="上一页"></a>
+					<a href="javascript:doJump(1);">1</a>,<a href="javascript:doJump(2);">2</a>
+					<a href="javascript:doJump(1);"><img src="images/nextPage.gif" style="border:0" alt="下一页"></a>
+					<a href="javascript:doJump(1);"><img src="images/lastPage.gif" style="border:0" alt="最后页"></a>
 					<select name="select" title="显示行数" onChange="togglePageSize(this.value)">
-						<option value="10" selected>10条记录</option>
-						<option value="50">50条记录</option>
-						<option value="100">100条记录</option>
-						<option value="200">200条记录</option>
+						<option value="10" selected>10</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
 					</select>
 				</div>
 			<div>
