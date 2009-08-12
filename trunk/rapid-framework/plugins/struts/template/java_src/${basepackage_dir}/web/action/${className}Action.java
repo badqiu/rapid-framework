@@ -48,7 +48,7 @@ public class ${className}Action extends BaseStrutsAction {
 	 **/
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			  HttpServletResponse response) {
-		PageRequest pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
+		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page,request);
 		return LIST_FORWARD;
