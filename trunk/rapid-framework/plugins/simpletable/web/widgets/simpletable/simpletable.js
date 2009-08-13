@@ -3,15 +3,21 @@ var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
 	this.pageSize = pageSize;
 	this.sortColumns = sortColumns;
 	this.form = form;
-	_this = this;
 	
-	$(".gridTable .gridBody .tableHeader th[sortColumn]").click(function() {
+	$('#pageNumber').val(pageNumber);	
+	$('#pageSize').val(pageSize);	
+	$('#sortColumns').val(sortColumns);
+	
+	_this = this;
+	$("#"+form+" .gridTable .gridBody .tableHeader th[sortColumn]").click(function() {
 		//handle click sort header
 		var column = $(this).attr('sortColumn');
-		if(SimpleTableUtils.isOrderByAsc(sortColumns,column)) {
-			_this.toggleSort(column + " desc" );
-		}else {
+		if(SimpleTableUtils.getSortDirection(sortColumns,column) == 'asc') {
+			_this.toggleSort("");
+		}else if(SimpleTableUtils.getSortDirection(sortColumns,column) == 'desc') {
 			_this.toggleSort(column + " asc");
+		}else {
+			_this.toggleSort(column + " desc");
 		}
 	}).mouseover(function() {
 		$(this).toggleClass('tableHeaderSortHover',true);
@@ -23,17 +29,44 @@ var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
 	var sortInfos = SimpleTableUtils.getSortInfos(sortColumns);
 	for(var i = 0; i < sortInfos.length; i++) {
 		var info = sortInfos[i];
-		var selector = '.gridTable .tableHeader th[sortColumn="'+info.column+'"]';
+		var selector = "#"+form+' .gridTable .tableHeader th[sortColumn="'+info.column+'"]';
 		var order = info.order ? info.order : 'asc';
 		$(selector).addClass("sort " + order.toLowerCase());
 	}
 	
 	//handle highlight
-	$(".gridTable .gridBody .tableBody tr").mouseover(function() {
+	$("#"+form+" .gridTable .gridBody .tableBody tr").mouseover(function() {
 		$(this).toggleClass('highlight',true);
 	}).mouseout(function() {
 		$(this).toggleClass('highlight',false);
 	});
+	
+};
+SimpleTable.prototype = {
+	doJump : function(pageNumber,pageSize,sortColumns) {
+		//pageNumber = pageNumber || this.pageNumber;		
+		//pageSize = pageSize || this.pageSize;		
+		//sortColumns = sortColumns || this.sortColumns ;	
+		
+		//$('#pageNumber').val(pageNumber);	
+		//$('#pageSize').val(pageSize);	
+		//$('#sortColumns').val(sortColumns);
+		//alert("pageNumber:"+pageNumber+" pageSize:"+pageSize+" sortColumns:"+sortColumns+" this.form:"+this.form);
+		SimpleTableUtils.fireSubmit(this.form);
+		//document.getElementById(this.form).submit();	
+	},
+	togglePage : function(pageNumber) {
+		$('#pageNumber').val(pageNumber);
+		this.doJump(pageNumber,null,null);
+	},
+	togglePageSize : function(pageSize) {
+		$('#pageSize').val(pageSize);
+		this.doJump(null,pageSize,null);
+	},
+	toggleSort : function(sortColumns) {
+		$('#sortColumns').val(sortColumns);
+		this.doJump(null,null,sortColumns);
+	}
 };
 
 // static methods
@@ -55,16 +88,16 @@ var SimpleTableUtils = {
 		}
 		return results;
 	},
-	isOrderByAsc : function(defaultSortColumns,currentColumn) {
+	getSortDirection : function(defaultSortColumns,currentColumn) {
 		var infos = SimpleTableUtils.getSortInfos(defaultSortColumns);
 		for(var i = 0; i < infos.length; i++) {
 			var info = infos[i];
 			var order = info.order ? info.order : 'asc';
-			if(info.column == currentColumn && 'desc' == info.order) {
-				return false;
+			if(info.column == currentColumn) {
+				return order;
 			}
 		}
-		return true;
+		return null;
 	},
 	fireSubmit : function(form) {
 	    var form = document.getElementById(form);
@@ -83,28 +116,3 @@ var SimpleTableUtils = {
 	    }
 	}
 }
-
-
-SimpleTable.prototype = {
-	doJump : function(pageNumber,pageSize,sortColumns) {
-		pageNumber = pageNumber || this.pageNumber;		
-		pageSize = pageSize || this.pageSize;		
-		sortColumns = sortColumns || this.sortColumns ;	
-		
-		$('#pageNumber').val(pageNumber);	
-		$('#pageSize').val(pageSize);	
-		$('#sortColumns').val(sortColumns);
-		//alert("pageNumber:"+pageNumber+" pageSize:"+pageSize+" sortColumns:"+sortColumns+" this.form:"+this.form);
-		SimpleTableUtils.fireSubmit(this.form);
-		//document.getElementById(this.form).submit();	
-	},
-	togglePage : function(pageNumber) {
-		this.doJump(pageNumber,null,null);
-	},
-	togglePageSize : function(pageSize) {
-		this.doJump(null,pageSize,null);
-	},
-	toggleSort : function(sortColumns) {
-		this.doJump(null,null,sortColumns);
-	}
-};
