@@ -42,7 +42,7 @@
 				<c:otherwise><a href="javascript:simpleTable.togglePage(${page.lastPageNumber});"><img src="<c:url value='/widgets/simpletable/images/lastPage.gif'/>" style="border:0" ></a></c:otherwise>
 				</c:choose>
 				
-				<select name="select" onChange="simpleTable.togglePageSize(this.value)">
+				<select onChange="simpleTable.togglePageSize(this.value)">
 					<c:forEach var="item" items="${pageSizeSelectList}">
 						<option value="${item}" ${page.pageSize == item ? 'selected' : '' }>${item}</option>
 					</c:forEach> 
