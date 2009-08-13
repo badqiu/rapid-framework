@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -18,10 +19,11 @@ public class SimpleTablePageHelper {
 	}
 	
 	public static PageRequest<Map> newPageRequest(HttpServletRequest request,int defaultPageSize,String defaultSortColumn) {
-		PageRequest<Map> result = new PageRequest(new HashMap());
+		PageRequest<Map> result = new PageRequest();
 		result.setPageNumber(ServletRequestUtils.getIntParameter(request, "pageNumber", 1));
 		result.setPageSize(ServletRequestUtils.getIntParameter(request, "pageSize", defaultPageSize));
 		result.setSortColumns(ServletRequestUtils.getStringParameter(request, "sortColumns",defaultSortColumn));
+		result.setFilters(WebUtils.getParametersStartingWith(request,"auto_include_"));
 		return result;
 	}
 	

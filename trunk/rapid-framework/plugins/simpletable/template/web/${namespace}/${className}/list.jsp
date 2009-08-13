@@ -1,83 +1,107 @@
+<%@page import="${basepackage}.${subpackage}.model.*" %>
+<#include "/macro.include"/> 
+<#include "/custom.include"/> 
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/simpletable" prefix="simpletable"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<%@ include file="/commons/taglibs.jsp" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
-<title>无标题文档</title>
-
-<%@ include file="/commons/meta.jsp" %>
-<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
-
-<script type="text/javascript" >
-	$(document).ready(function() {
-		window.simpleTable = new SimpleTable('simpleTableForm',${page.thisPageNumber},${page.pageSize},'${pageRequest.sortColumns}');
-	});
-</script>
-
-<body>
- 
-<form id="simpleTableForm" action="<c:url value="/dim/DactionPath/list.do"/>" method="post">
-<!-- auto include parameters -->
-<c:forEach items="${param}" var="entry">
-<input type="hidden" name="${entry.key}" value="${entry.value}"/>
-</c:forEach>
-
-<input type="hidden" name="pageNumber" id="pageNumber" />
-<input type="hidden" name="pageSize" id="pageSize"/>
-<input type="hidden" name="sortColumns" id="sortColumns"/>
-
-<div class="gridTable">
-
-	<%pageContext.setAttribute("pageSizeSelectList",new Integer[]{10,50,100,200}); %>
-	<simpletable:pageToolbar pageSizeSelectList="${pageSizeSelectList}" page="${page}"></simpletable:pageToolbar>
-
-	<table width="100%"  border="0" cellspacing="0" class="gridBody">
-	  <thead class="tableHeader">
-		  <tr>
-			<th style="width:1%;"> </th>
-			<th style="width:1%;"><input type="checkbox" onclick="setAllCheckboxState('items',this.checked)"></th>
-			<th sortColumn="action_path_code" >原始路径</th>
-			<th sortColumn="action_path" >自定义路径</th>
-			<th sortColumn="action_path_desc" >描述</th>
-			<th sortColumn="deep" >深度</th>
-			<th>操作</th>
-		  </tr>
-	  </thead>
-	  <tbody class="tableBody">
-	  	  <c:forEach items="${page.result}" var="item" varStatus="status">
-		  <tr class="${status.count % 2 == 0 ? 'odd' : 'even' }">
-			<td>${page.thisPageFirstElementNumber + status.index}</td>
-			<td><input type="checkbox" name="items" value="checkbox"></td>
-			<td>${item.actionPathCode}</td>
-			<td>${item.actionPath}</td>
-			<td>${item.actionPathDesc}&nbsp;</td>
-			<td>${item.deep}&nbsp;</td>
-			<td><a href="">查看</a>&nbsp;&nbsp;&nbsp;<a href="">编辑</a></td>
-		  </tr>
-	  	  </c:forEach>
-	  </tbody>
-	</table>
-
-	<simpletable:pageToolbar pageSizeSelectList="${pageSizeSelectList}" page="${page}">
-		<span class="button_label"> Filter Source: </span>
-		<select id="basic_filter_drpdown"
-			onchange="table._toggleFilterType(this.options[this.selectedIndex].value)">
-			<option value="0" selected>
-				containing
-			</option>
-			<option value="1">
-				excluding
-			</option>
-		</select>
-		<input name="query" type="text" value="" ">
-		<a href="#" onclick="table._filter(); return false;" class="button" title="Go"> <b><b><b>Go</b> </b> </b> </a>
-	</simpletable:pageToolbar>
+	<%@ include file="/commons/meta.jsp" %>
+	<base href="<%=basePath%>">
+	<link href="<@jspEl 'ctx'/>/widgets/extremecomponents/extremecomponents.css" type="text/css" rel=stylesheet>
+	<title><%=${className}.TABLE_ALIAS%> 维护</title>
 	
-</div>
+	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
+	
+	<script type="text/javascript" >
+		// 为table
+		$(document).ready(function() {
+			window.simpleTable = new SimpleTable('simpleTableForm',<@jspEl 'page.thisPageNumber'/>,<@jspEl 'page.pageSize'/>,'<@jspEl 'pageRequest.sortColumns'/>');
+		});
+	</script>
+
+</head>
+<body>
+
+<form action="" method="post">
+	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/create.do'"/>
+	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/query.do'"/>
+	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+</form>
+
+<form id="simpleTableForm" action="<c:url value="${strutsActionBasePath}/list.do"/>" method="post">
+
+	<!-- auto include parameters -->
+	<c:forEach items="<@jspEl 'pageRequest.filters'/>" var="entry">
+	<input type="hidden" name="auto_include_<@jspEl 'entry.key'/>" value="<@jspEl 'entry.value'/>"/>
+	</c:forEach>
+	
+	<input type="hidden" name="pageNumber" id="pageNumber" />
+	<input type="hidden" name="pageSize" id="pageSize"/>
+	<input type="hidden" name="sortColumns" id="sortColumns"/>
+	
+	<div class="gridTable">
+	
+		<%pageContext.setAttribute("pageSizeSelectList",new Integer[]{10,50,100,200}); %>
+		<simpletable:pageToolbar pageSizeSelectList="<@jspEl 'pageSizeSelectList'/>" page="<@jspEl 'page'/>"></simpletable:pageToolbar>
+	
+		<table width="100%"  border="0" cellspacing="0" class="gridBody">
+		  <thead class="tableHeader">
+			  
+			  <tr>
+				<th style="width:1px;"> </th>
+				<th style="width:1px;"><input type="checkbox" onclick="setAllCheckboxState('items',this.checked)"></th>
+				
+				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
+				<#list table.columns as column>
+				<#if !column.htmlHidden>
+				<th sortColumn="${column.sqlName}" ><%=${className}.ALIAS_${column.constantName}%></th>
+				</#if>
+				</#list>
+
+				<th>操作</th>
+			  </tr>
+			  
+		  </thead>
+		  <tbody class="tableBody">
+		  	  <c:forEach items="<@jspEl 'page.result'/>" var="item" varStatus="status">
+		  	  
+			  <tr class="<@jspEl "status.count % 2 == 0 ? 'odd' : 'even'"/>">
+				<td><@jspEl 'page.thisPageFirstElementNumber + status.index'/></td>
+				<td><input type="checkbox" name="items" value="checkbox"></td>
+				
+				<#list table.columns as column>
+				<#if !column.htmlHidden>
+				<td><#rt>
+					<#compress>
+					<#if column.isDateTimeColumn>
+					<c:out value='<@jspEl "item."+column.columnNameLower+"String"/>'/>&nbsp;
+					<#else>
+					<c:out value='<@jspEl "item."+column.columnNameLower/>'/>&nbsp;
+					</#if>
+					</#compress>
+				<#lt></td>
+				</#if>
+				</#list>
+				<td><a href="">查看</a>&nbsp;&nbsp;&nbsp;<a href="">编辑</a></td>
+			  </tr>
+			  
+		  	  </c:forEach>
+		  </tbody>
+		</table>
+	
+		<simpletable:pageToolbar pageSizeSelectList="<@jspEl 'pageSizeSelectList'/>" page="<@jspEl 'page'/>"></simpletable:pageToolbar>
+		
+	</div>
 </form>
 
 </body>
