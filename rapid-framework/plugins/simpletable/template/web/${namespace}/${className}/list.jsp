@@ -21,6 +21,11 @@
 <body>
  
 <form id="simpleTableForm" action="<c:url value="/dim/DactionPath/list.do"/>" method="post">
+<!-- auto include parameters -->
+<c:forEach items="${param}" var="entry">
+<input type="hidden" name="${entry.key}" value="${entry.value}"/>
+</c:forEach>
+
 <input type="hidden" name="pageNumber" id="pageNumber" />
 <input type="hidden" name="pageSize" id="pageSize"/>
 <input type="hidden" name="sortColumns" id="sortColumns"/>
