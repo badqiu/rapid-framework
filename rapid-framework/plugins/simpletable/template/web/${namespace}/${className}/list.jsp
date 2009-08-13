@@ -92,7 +92,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<#lt></td>
 				</#if>
 				</#list>
-				<td><a href="">查看</a>&nbsp;&nbsp;&nbsp;<a href="">编辑</a></td>
+				<td>
+					<a href="<@jspEl 'ctx'/>${actionBasePath}/show.do?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
+					<a href="<@jspEl 'ctx'/>${actionBasePath}/edit.do?<@generateIdQueryString/>">修改</a>
+				</td>
 			  </tr>
 			  
 		  	  </c:forEach>
@@ -106,3 +109,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </body>
 </html>
+
+<#macro generateIdQueryString>
+	<#if table.compositeId>
+		<#assign itemPrefix = 'item.id.'>
+	<#else>
+		<#assign itemPrefix = 'item.'>
+	</#if>
+<#compress>
+		<#list table.compositeIdColumns as column>
+			<#t>${column.columnNameLower}=<@jspEl itemPrefix + column.columnNameLower/>&
+		</#list>				
+</#compress>
+</#macro>
