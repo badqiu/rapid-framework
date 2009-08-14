@@ -58,9 +58,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
 </fieldset>
 <div class="handleControl">
-	<input type="submit" class="standardButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
-	<input type="submit" class="standardButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
-	<input type="button" class="standardButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+	<input type="submit" class="stdButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
 <div>
 </form>
 </div>
