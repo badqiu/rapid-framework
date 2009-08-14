@@ -10,6 +10,16 @@ a:visited {color: #006699;text-decoration:none;}
 a:hover {color: #bc2931; text-decoration:underline;}
 a:active {color: #bc2931;}
 
+/* for button: <input type=submit class=standardButton /> */
+.standardButton {
+	background-color:buttonface;
+	border:1px solid #CCCCCC;
+	cursor:pointer;
+	font-family:Verdana;
+	font-size:9pt;
+	height:22px;
+}
+
 /* formTable */
 .formTable {
 	border-collapse:collapse;
