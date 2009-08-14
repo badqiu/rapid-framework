@@ -32,11 +32,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 
+<div class="queryPanel">
 <form action="" method="post">
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/query.do'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+<fieldset>
+	<legend>搜索</legend>
+	<table>
+		<#list table.columns?chunk(5) as row>
+		<tr>	
+			<#list row as column>
+			<#if !column.htmlHidden>	
+			<td class="tdLabel">
+					<%=${className}.ALIAS_${column.constantName}%>
+			</td>		
+			<td>
+				<#if column.isDateTimeColumn>
+				<input value="<@jspEl classNameLower+"."+column.columnNameLower+"String"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"   />
+				<#else>
+				<input value="<@jspEl classNameLower+"."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}"  />
+				</#if>
+			</td>
+			</#if>
+			</#list>
+		</tr>	
+		</#list>			
+	</table>
+</fieldset>
+<div class="handleControl">
+	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/list.do'"/>
+	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/create.do'"/>
+	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+<div>
 </form>
+</div>
 
 <form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="post">
 
