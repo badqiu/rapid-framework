@@ -37,7 +37,12 @@ a:active {color: #bc2931;}
 
 /* END formTable */
 
-  
+/* queryPanel for list.jsp */
+.queryPanel .tdLabel{   
+	vertical-align: top;
+	text-align: right;
+}
+
 /* Messages */
 div.error, div.message {
 	border: 1px solid black;
