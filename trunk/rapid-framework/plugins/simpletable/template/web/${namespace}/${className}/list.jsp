@@ -1,4 +1,4 @@
-<%@page import="${basepackage}.${namespace}.model.*" %>
+<%@page import="${basepackage}.model.*" %>
 <#include "/macro.include"/> 
 <#include "/custom.include"/> 
 <#assign className = table.className>   
@@ -23,8 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
 	
 	<script type="text/javascript" >
-		// 为table
 		$(document).ready(function() {
+			// 分页需要依赖的初始化动作
 			window.simpleTable = new SimpleTable('simpleTableForm',<@jspEl 'page.thisPageNumber'/>,<@jspEl 'page.pageSize'/>,'<@jspEl 'pageRequest.sortColumns'/>');
 		});
 	</script>
