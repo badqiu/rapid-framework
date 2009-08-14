@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.util;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.util.ProfileUtils;
 import junit.framework.TestCase;
 /**
  * @author badqiu
@@ -36,6 +37,61 @@ public class StringHelperTest extends TestCase {
 		
 		assertEquals("level1_channel",StringHelper.toUnderscoreName("LEVEL1_CHANNEL"));
 		assertEquals("Level1Channel",StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName("LEVEL1_CHANNEL")));
+		ProfileUtils.printCostTime("underscoreName", new Runnable() {
+			public void run() {
+				for(int i = 0; i < 1000000; i++ ) {
+					assertEquals("level1_channel",underscoreName("level1Channel"));
+				}
+			}
+		});
+		ProfileUtils.printCostTime("underscoreNameOld", new Runnable() {
+			public void run() {
+				for(int i = 0; i < 1000000; i++ ) {
+					assertEquals("level_1_channel",underscoreNameOld("level1Channel"));
+				}
+			}
+		});
 		
+		
+		System.out.println(underscoreName("level1channel"));
+	}
+	
+	private String underscoreName(String name) {
+		StringBuffer result = new StringBuffer();
+		if (name != null && name.length() > 0) {
+			result.append(Character.toLowerCase(name.charAt(0)));
+			for (int i = 1; i < name.length(); i++) {
+				char s = name.charAt(i);
+				if(Character.isDigit(s)) {
+					result.append(s);
+				}else 
+				if (Character.isUpperCase(s)) {
+					result.append("_");
+					result.append(Character.toLowerCase(s));
+				}
+				else {
+					result.append(s);
+				}
+			}
+		}
+		return result.toString();
+	}
+	
+	private String underscoreNameOld(String name) {
+		StringBuffer result = new StringBuffer();
+		if (name != null && name.length() > 0) {
+			result.append(name.substring(0, 1).toLowerCase());
+			for (int i = 1; i < name.length(); i++) {
+				String s = name.substring(i, i + 1);
+				if (s.equals(s.toUpperCase())) {
+					result.append("_");
+					result.append(s.toLowerCase());
+				}
+				else {
+					result.append(s);
+				}
+			}
+		}
+		return result.toString();
 	}
 }
