@@ -50,7 +50,7 @@ public class ${className}Action extends BaseStrutsAction {
 			  HttpServletResponse response) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
-		savePage(page,request);
+		savePage(page,pageRequest,request);
 		return LIST_FORWARD;
 	}
 	
