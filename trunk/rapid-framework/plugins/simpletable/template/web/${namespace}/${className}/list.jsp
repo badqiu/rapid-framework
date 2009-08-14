@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <div class="queryPanel">
-<form action="" method="get">
+<form action="" method="get" style="display: inline;">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -58,14 +58,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
 </fieldset>
 <div class="handleControl">
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+	<input type="submit" class="standardButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+	<input type="submit" class="standardButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+	<input type="button" class="standardButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
 <div>
 </form>
 </div>
 
-<form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get">
+<form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
 
 	<!-- auto include parameters -->
 	<c:forEach items="<@jspEl 'pageRequest.filters'/>" var="entry">
