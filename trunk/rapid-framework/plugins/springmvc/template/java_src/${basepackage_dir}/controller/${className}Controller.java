@@ -45,7 +45,7 @@ public class ${className}Controller extends BaseSpringController{
 	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
-		savePage(page, request);
+		savePage(page,pageRequest,request);
 		return new ModelAndView("${jspFileBasePath}/list");
 	}
 	
