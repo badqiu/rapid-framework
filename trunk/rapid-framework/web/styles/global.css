@@ -11,7 +11,7 @@ a:hover {color: #bc2931; text-decoration:underline;}
 a:active {color: #bc2931;}
 
 /* for button: <input type=submit class=standardButton /> */
-.standardButton {
+.stdButton {
 	background-color:buttonface;
 	border:1px solid #CCCCCC;
 	cursor:pointer;
