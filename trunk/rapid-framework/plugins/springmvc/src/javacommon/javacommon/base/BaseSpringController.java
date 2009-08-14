@@ -66,17 +66,21 @@ public class BaseSpringController extends MultiActionController{
         binder.registerCustomEditor(BigInteger.class, new CustomNumberEditor(BigInteger.class, true));
     }
 	
-	public void savePage(Page page,HttpServletRequest request){
-		savePage("",page,request);
+	public void savePage(Page page,PageRequest pageRequest,HttpServletRequest request){
+		savePage("",page,pageRequest,request);
 	}
 	/**
 	 * 用于一个页面有多个extremeTable是使用
 	 * @param tableId 等于extremeTable的tableId属性
 	 */
-	public void savePage(String tableId,Page page,HttpServletRequest request){
-		Assert.notNull(tableId);
+	public void savePage(String tableId,Page page,PageRequest pageRequest,HttpServletRequest request){
+		Assert.notNull(tableId,"tableId must be not null");
+		Assert.notNull(page,"page must be not null");
+		Assert.notNull(pageRequest,"pageRequest must be not null");
+		
 		request.setAttribute(tableId+"page", page);
 		request.setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
+		request.setAttribute(tableId+"pageRequest", pageRequest);
 	}
 	
 	public PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
