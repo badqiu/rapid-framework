@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <div class="queryPanel">
-<form action="" method="post">
+<form action="" method="get">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -65,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </form>
 </div>
 
-<form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="post">
+<form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get">
 
 	<!-- auto include parameters -->
 	<c:forEach items="<@jspEl 'pageRequest.filters'/>" var="entry">
