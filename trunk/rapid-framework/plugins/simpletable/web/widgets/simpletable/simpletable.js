@@ -1,3 +1,6 @@
+/**
+ * author: badqiu
+ */
 var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
 	this.pageNumber = pageNumber;
 	this.pageSize = pageSize;
