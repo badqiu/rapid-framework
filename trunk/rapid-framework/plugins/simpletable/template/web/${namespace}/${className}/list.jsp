@@ -1,4 +1,4 @@
-<%@page import="${basepackage}.${subpackage}.model.*" %>
+<%@page import="${basepackage}.${namespace}.model.*" %>
 <#include "/macro.include"/> 
 <#include "/custom.include"/> 
 <#assign className = table.className>   
@@ -33,12 +33,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <form action="" method="post">
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/create.do'"/>
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${strutsActionBasePath}/query.do'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${strutsActionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/query.do'"/>
+	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
 </form>
 
-<form id="simpleTableForm" action="<c:url value="${strutsActionBasePath}/list.do"/>" method="post">
+<form id="simpleTableForm" action="<c:url value="${actionBasePath}/list.do"/>" method="post">
 
 	<!-- auto include parameters -->
 	<c:forEach items="<@jspEl 'pageRequest.filters'/>" var="entry">
