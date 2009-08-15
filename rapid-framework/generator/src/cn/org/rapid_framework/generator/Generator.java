@@ -122,8 +122,8 @@ public class Generator {
 		return config;
 	}
 
-	private void generateNewFileOrInsertIntoFile(IGeneratorModelProvider modelProvider, Configuration config, String templateRelativePath,String outputFilePath) throws Exception {
-		Template template = config.getTemplate(templateRelativePath);
+	private void generateNewFileOrInsertIntoFile(IGeneratorModelProvider modelProvider, Configuration config, String templateFile,String outputFilePath) throws Exception {
+		Template template = config.getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
 		String targetFilename = getTargetFilename(modelProvider, outputFilePath);
@@ -139,7 +139,7 @@ public class Generator {
 			}
 		}
 		
-		System.out.println("[generate]\t template:"+templateRelativePath+" to "+targetFilename);
+		System.out.println("[generate]\t template:"+templateFile+" to "+targetFilename);
 		saveNewOutputFileContent(template, templateDataModel, absoluteOutputFilePath);
 	}
 
