@@ -32,7 +32,7 @@ import freemarker.template.TemplateException;
  * @email badqiu(a)gmail.com
  */
 public class Generator {
-	private static final String WEBAPP_GENERATOR_INSERT_LOCATION = "webapp-generator-insert-location";
+	private static final String WEBAPP_GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private List templateRootDirs = new ArrayList();
 	public String outRootDir;
 	
