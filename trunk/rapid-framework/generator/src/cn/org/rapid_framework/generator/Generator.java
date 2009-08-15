@@ -32,7 +32,7 @@ import freemarker.template.TemplateException;
  * @email badqiu(a)gmail.com
  */
 public class Generator {
-	private static final String WEBAPP_GENERATOR_INSERT_LOCATION = "generator-insert-location";
+	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private List templateRootDirs = new ArrayList();
 	public String outRootDir;
 	
@@ -189,7 +189,7 @@ public class Generator {
 		while((line = reader.readLine()) != null) {
 			writer.println(line);
 			// only insert once
-			if(!isFoundInsertLocation && line.indexOf(WEBAPP_GENERATOR_INSERT_LOCATION) >= 0) {
+			if(!isFoundInsertLocation && line.indexOf(GENERATOR_INSERT_LOCATION) >= 0) {
 				template.process(model,writer);
 				writer.println();
 				isFoundInsertLocation = true;
