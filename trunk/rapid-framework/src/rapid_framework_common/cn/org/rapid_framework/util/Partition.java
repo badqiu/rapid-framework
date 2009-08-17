@@ -1,9 +1,9 @@
 package cn.org.rapid_framework.util;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.StringUtils;
 
 import freemarker.template.Configuration;
@@ -110,9 +109,9 @@ public class Partition implements Serializable{
 		while(partitionLines.hasNext()) {
 			String line = partitionLines.next();
 			Map row = parseRartition(line);
-			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			StringWriter out = new StringWriter(4);
 			try {
-				template.process(row, new OutputStreamWriter(out));
+				template.process(row, out);
 				if("true".equals(out.toString())) {
 					results.add(line);
 				}
