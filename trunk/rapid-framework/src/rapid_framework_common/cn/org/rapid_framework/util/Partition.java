@@ -1,12 +1,22 @@
 package cn.org.rapid_framework.util;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.lang.StringUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 /**
  * 数据分区的工具类，可以用于数据根据不同的key分区保存。
  * 或是叫基于列的存储。
@@ -64,7 +74,41 @@ public class Partition implements Serializable{
 	public char getSeperator() {
 		return seperator;
 	}
+	
+	public List<Map> queryForMap(String where,PartitionModel model) {
+		if(model == null) throw new IllegalArgumentException("PartitionModel must be not null");
+		if(where == null) throw new IllegalArgumentException("where string must be not null");
+		
+		//<#if user = "Big Joe">true</#if>
+		String freemarkerExpression = String.format("<#if %s>true</#if>",where);
+		List results = new ArrayList();
+		Template template = newFreemarkerTemplate(freemarkerExpression);
+		while(model.hasNext()) {
+			String line = model.nextLine();
+			Map row = parseRartition(line);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			try {
+				template.process(row, new OutputStreamWriter(out));
+				if("true".equals(out.toString())) {
+					results.add(row);
+				}
+			} catch (TemplateException e) {
+				throw new IllegalStateException("process query() error,where="+where + " line:"+line,e);
+			} catch (IOException e) {
+				throw new IllegalStateException("process query() error,where="+where + " line:"+line,e);
+			}
+		}
+		return results;
+	}
 
+	private Template newFreemarkerTemplate(String freemarkerExpression) {
+		try {
+			return new Template("where",new StringReader(freemarkerExpression),new Configuration());
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+	
 	public Map parseRartition(String partitionString) {
 		if(partitionString.startsWith(prefix)) {
 			return parseRartition(partitionString.substring(prefix.length()), seperator, keys);
@@ -142,4 +186,11 @@ public class Partition implements Serializable{
 		return String.format("prefix:%s seperator:%s keys:%s", prefix,seperator,Arrays.toString(keys));
 	}
 
+	public static interface PartitionModel {
+		
+		boolean hasNext();
+		
+		String nextLine();
+		
+	}
 }
