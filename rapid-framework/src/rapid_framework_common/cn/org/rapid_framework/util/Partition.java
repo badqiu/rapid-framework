@@ -75,6 +75,14 @@ public class Partition implements Serializable{
 		return seperator;
 	}
 	
+	/**
+	 * 支持根据where条件查询，where语法为freemarker的条件表达式讲法
+	 * @param where
+	 * @param model
+	 * @return
+	 * 
+	 * TODO 支持数据类型，如date,int,string
+	 */
 	public List<Map> queryForMap(String where,PartitionModel model) {
 		if(model == null) throw new IllegalArgumentException("PartitionModel must be not null");
 		if(where == null) throw new IllegalArgumentException("where string must be not null");
