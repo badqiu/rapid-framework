@@ -93,9 +93,9 @@ public class Partition implements Serializable{
 					results.add(row);
 				}
 			} catch (TemplateException e) {
-				throw new IllegalStateException("process query() error,where="+where + " line:"+line,e);
+				throw new IllegalStateException("process query error,where="+where + " line:"+line,e);
 			} catch (IOException e) {
-				throw new IllegalStateException("process query() error,where="+where + " line:"+line,e);
+				throw new IllegalStateException("process query error,where="+where + " line:"+line,e);
 			}
 		}
 		return results;
