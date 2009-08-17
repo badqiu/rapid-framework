@@ -83,7 +83,7 @@ public class Partition implements Serializable{
 	 * 
 	 * TODO 支持数据类型，如date,int,string
 	 */
-	public List<Map> queryForMap(String where,PartitionModel model) {
+	public List<String> query(String where,PartitionModel model) {
 		if(model == null) throw new IllegalArgumentException("PartitionModel must be not null");
 		if(where == null) throw new IllegalArgumentException("where string must be not null");
 		
@@ -98,7 +98,7 @@ public class Partition implements Serializable{
 			try {
 				template.process(row, new OutputStreamWriter(out));
 				if("true".equals(out.toString())) {
-					results.add(row);
+					results.add(line);
 				}
 				//System.out.println("query:"+freemarkerExpression+"row:"+row+" result:"+out.toString());
 			} catch (TemplateException e) {
