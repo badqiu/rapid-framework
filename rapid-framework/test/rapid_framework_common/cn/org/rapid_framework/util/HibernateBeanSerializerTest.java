@@ -1,14 +1,22 @@
 package cn.org.rapid_framework.util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.mock.MockOpenSessionInViewFilter;
@@ -24,13 +32,18 @@ public class HibernateBeanSerializerTest extends TestCase {
 	ResourceDao resourceDao = null;
 	RoleDao roleDao = null;
 	MockOpenSessionInViewFilter filter = new MockOpenSessionInViewFilter();
+	JdbcTemplate jdbcTemplate;
 	private Role role;
-	public void setUp() {
+	public void setUp() throws DataAccessException, FileNotFoundException, IOException {
 		context = new ClassPathXmlApplicationContext("/fortest_spring/*.xml");
+		jdbcTemplate = (JdbcTemplate)context.getBean("jdbcTemplate");
 		roleDao = (RoleDao)context.getBean("roleDao");
 		resourceDao = (ResourceDao)context.getBean("resourceDao");
 		filter.setSessionFactory((SessionFactory)context.getBean("sessionFactory"));
 		filter.beginFilter();
+		
+		File sql = ResourceUtils.getFile("classpath:/fortest_spring/tables.sql");
+		jdbcTemplate.execute(IOUtils.toString(new FileReader(sql)));
 	}
 	public void testSerializerWithNotInitialize() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		
