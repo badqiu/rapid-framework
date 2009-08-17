@@ -2,10 +2,15 @@ package cn.org.rapid_framework.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
+
+import org.apache.commons.lang.RandomStringUtils;
+
 import cn.org.rapid_framework.beanutils.BeanUtils;
+import cn.org.rapid_framework.util.Partition.PartitionModel;
 
 public class PartitionTest extends TestCase {
 	
@@ -67,4 +72,27 @@ public class PartitionTest extends TestCase {
 		System.out.println(fp.toString());
 	}
 	
+	public void testQueryForMap() {
+		Partition p = new Partition("c:/temp",new String[]{"username","password","age"});
+		
+		PartitionModel model = new PartitionModel() {
+			int currentLine = 1;
+			public String nextLine() {
+				if(currentLine  % 2 == 1)
+					return "c:/temp/badqiu/123/12";
+				else 
+					return "c:/temp/badqiu/"+RandomStringUtils.randomNumeric(2)+"/12";
+			}
+			public boolean hasNext() {
+				return currentLine++ < 100;
+			}
+		};
+		
+		List list = p.queryForMap("password = '123'", model);
+		System.out.println("query:"+list);
+		assertEquals(list.size(),49);
+		
+		list = p.queryForMap("password = '123' && username='badqiu' && age='12'", model);
+		System.out.println(list);
+	}
 }
