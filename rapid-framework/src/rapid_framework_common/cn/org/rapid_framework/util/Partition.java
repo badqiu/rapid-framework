@@ -76,14 +76,14 @@ public class Partition implements Serializable{
 		return seperator;
 	}
 	
-	public List<String> query(String where,final String[] partisionStrings) {
+	public List<String> query(String where,final String[] partitionLines) {
 		return query(where,new Iterator<String>() {
 			private int index = 0;
 			public boolean hasNext() {
-				return  index < partisionStrings.length;
+				return  index < partitionLines.length;
 			}
 			public String next() {
-				return partisionStrings[index++];
+				return partitionLines[index++];
 			}
 			public void remove() {
 				throw new UnsupportedOperationException("remove() not support");
@@ -94,21 +94,21 @@ public class Partition implements Serializable{
 	/**
 	 * 支持根据where条件查询，where语法为freemarker的条件表达式讲法
 	 * @param where freemarker的条件表达式讲法
-	 * @param lines 
+	 * @param partitionLines 
 	 * @return
 	 * 
 	 * TODO 支持数据类型，如date,int,string
 	 */
-	public List<String> query(String where,Iterator<String> lines) {
-		if(lines == null) throw new IllegalArgumentException("'lines' must be not null");
+	public List<String> query(String where,Iterator<String> partitionLines) {
+		if(partitionLines == null) throw new IllegalArgumentException("'partitionLines' must be not null");
 		if(where == null) throw new IllegalArgumentException("'where' string must be not null");
 		
 		//<#if user = "Big Joe">true</#if>
 		String freemarkerExpression = String.format("<#if "+where+">true</#if>");
 		List results = new ArrayList();
 		Template template = newFreemarkerTemplate(freemarkerExpression);
-		while(lines.hasNext()) {
-			String line = lines.next();
+		while(partitionLines.hasNext()) {
+			String line = partitionLines.next();
 			Map row = parseRartition(line);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			try {
