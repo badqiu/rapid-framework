@@ -76,7 +76,6 @@ public class BaseSpringController extends MultiActionController{
 	public void savePage(String tableId,Page page,PageRequest pageRequest,HttpServletRequest request){
 		Assert.notNull(tableId,"tableId must be not null");
 		Assert.notNull(page,"page must be not null");
-		Assert.notNull(pageRequest,"pageRequest must be not null");
 		
 		request.setAttribute(tableId+"page", page);
 		request.setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));

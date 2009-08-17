@@ -50,7 +50,6 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 	public void savePage(String tableId,Page page,PageRequest pageRequest){
 		Assert.notNull(tableId,"tableId must be not null");
 		Assert.notNull(page,"page must be not null");
-		Assert.notNull(pageRequest,"pageRequest must be not null");
 		
 		getRequest().setAttribute(tableId+"page", page);
 		getRequest().setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
