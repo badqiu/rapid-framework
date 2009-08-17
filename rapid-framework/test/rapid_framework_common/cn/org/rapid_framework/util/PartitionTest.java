@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import org.apache.commons.lang.RandomStringUtils;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
-import cn.org.rapid_framework.util.Partition.PartitionModel;
 
 public class PartitionTest extends TestCase {
 	
@@ -74,27 +73,15 @@ public class PartitionTest extends TestCase {
 	
 	public void testQuery() {
 		Partition p = new Partition("c:/temp",new String[]{"username","password","age"});
+		String[] lines = new String[]{"c:/temp/badqiu/123/12","c:/temp/badqiu/456/12"};
 		
-		List list = p.query("password = '123' && username='badqiu' && age='12'", newPartitionModel());
-		System.out.println("query: password = '123' && username='badqiu' && age='12':"+list);
+		List list = p.query("username='badqiu' && password = '123' && age='12'", lines);
+		System.out.println("query: username='badqiu' && password = '123' && age='12'':"+list);
 		assertEquals(list.size(),1);
 		
-		list = p.query("password = '123'", newPartitionModel());
+		list = p.query("password = '123'", lines);
 		System.out.println("query: password = '123':"+list);
 		assertEquals(list.size(),1);
 	}
 
-	private PartitionModel newPartitionModel() {
-		PartitionModel model = new PartitionModel() {
-			String[] lines = new String[]{"c:/temp/badqiu/123/12","c:/temp/badqiu/456/12"};
-			int index = 0;
-			public String nextLine() {
-				return lines[index++];
-			}
-			public boolean hasNext() {
-				return index < lines.length;
-			}
-		};
-		return model;
-	}
 }
