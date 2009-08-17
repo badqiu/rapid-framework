@@ -7,6 +7,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -75,24 +76,39 @@ public class Partition implements Serializable{
 		return seperator;
 	}
 	
+	public List<String> query(String where,final String[] partisionStrings) {
+		return query(where,new Iterator<String>() {
+			private int index = 0;
+			public boolean hasNext() {
+				return  index < partisionStrings.length;
+			}
+			public String next() {
+				return partisionStrings[index++];
+			}
+			public void remove() {
+				throw new UnsupportedOperationException("remove() not support");
+			}
+		});
+	}
+	
 	/**
 	 * 支持根据where条件查询，where语法为freemarker的条件表达式讲法
-	 * @param where
-	 * @param model
+	 * @param where freemarker的条件表达式讲法
+	 * @param lines 
 	 * @return
 	 * 
 	 * TODO 支持数据类型，如date,int,string
 	 */
-	public List<String> query(String where,PartitionModel model) {
-		if(model == null) throw new IllegalArgumentException("PartitionModel must be not null");
-		if(where == null) throw new IllegalArgumentException("where string must be not null");
+	public List<String> query(String where,Iterator<String> lines) {
+		if(lines == null) throw new IllegalArgumentException("'lines' must be not null");
+		if(where == null) throw new IllegalArgumentException("'where' string must be not null");
 		
 		//<#if user = "Big Joe">true</#if>
 		String freemarkerExpression = String.format("<#if "+where+">true</#if>");
 		List results = new ArrayList();
 		Template template = newFreemarkerTemplate(freemarkerExpression);
-		while(model.hasNext()) {
-			String line = model.nextLine();
+		while(lines.hasNext()) {
+			String line = lines.next();
 			Map row = parseRartition(line);
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			try {
@@ -193,13 +209,5 @@ public class Partition implements Serializable{
 	
 	public String toString() {
 		return String.format("prefix:%s seperator:%s keys:%s", prefix,seperator,Arrays.toString(keys));
-	}
-
-	public static interface PartitionModel {
-		
-		boolean hasNext();
-		
-		String nextLine();
-		
 	}
 }
