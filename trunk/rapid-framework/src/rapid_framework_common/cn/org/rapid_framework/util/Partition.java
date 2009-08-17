@@ -80,7 +80,7 @@ public class Partition implements Serializable{
 		if(where == null) throw new IllegalArgumentException("where string must be not null");
 		
 		//<#if user = "Big Joe">true</#if>
-		String freemarkerExpression = String.format("<#if %s>true</#if>",where);
+		String freemarkerExpression = String.format("<#if "+where+">true</#if>");
 		List results = new ArrayList();
 		Template template = newFreemarkerTemplate(freemarkerExpression);
 		while(model.hasNext()) {
@@ -92,6 +92,7 @@ public class Partition implements Serializable{
 				if("true".equals(out.toString())) {
 					results.add(row);
 				}
+				//System.out.println("query:"+freemarkerExpression+"row:"+row+" result:"+out.toString());
 			} catch (TemplateException e) {
 				throw new IllegalStateException("process query error,where="+where + " line:"+line,e);
 			} catch (IOException e) {
@@ -103,7 +104,7 @@ public class Partition implements Serializable{
 
 	private Template newFreemarkerTemplate(String freemarkerExpression) {
 		try {
-			return new Template("where",new StringReader(freemarkerExpression),new Configuration());
+			return new Template(freemarkerExpression,new StringReader(freemarkerExpression),new Configuration());
 		} catch (IOException e) {
 			throw new IllegalArgumentException(e);
 		}
