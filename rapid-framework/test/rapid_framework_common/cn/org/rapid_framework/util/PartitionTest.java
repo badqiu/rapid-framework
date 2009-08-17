@@ -75,6 +75,16 @@ public class PartitionTest extends TestCase {
 	public void testQueryForMap() {
 		Partition p = new Partition("c:/temp",new String[]{"username","password","age"});
 		
+		List list = p.queryForMap("password = '123' && username='badqiu' && age='12'", newPartitionModel());
+		System.out.println("query: password = '123' && username='badqiu' && age='12':"+list);
+		assertEquals(list.size(),49);
+		
+		list = p.queryForMap("password = '123'", newPartitionModel());
+		System.out.println("query: password = '123':"+list);
+		assertEquals(list.size(),49);
+	}
+
+	private PartitionModel newPartitionModel() {
 		PartitionModel model = new PartitionModel() {
 			int currentLine = 1;
 			public String nextLine() {
@@ -87,12 +97,6 @@ public class PartitionTest extends TestCase {
 				return currentLine++ < 100;
 			}
 		};
-		
-		List list = p.queryForMap("password = '123'", model);
-		System.out.println("query:"+list);
-		assertEquals(list.size(),49);
-		
-		list = p.queryForMap("password = '123' && username='badqiu' && age='12'", model);
-		System.out.println(list);
+		return model;
 	}
 }
