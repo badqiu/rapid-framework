@@ -77,24 +77,22 @@ public class PartitionTest extends TestCase {
 		
 		List list = p.query("password = '123' && username='badqiu' && age='12'", newPartitionModel());
 		System.out.println("query: password = '123' && username='badqiu' && age='12':"+list);
-		assertEquals(list.size(),49);
+		assertEquals(list.size(),1);
 		
 		list = p.query("password = '123'", newPartitionModel());
 		System.out.println("query: password = '123':"+list);
-		assertEquals(list.size(),49);
+		assertEquals(list.size(),1);
 	}
 
 	private PartitionModel newPartitionModel() {
 		PartitionModel model = new PartitionModel() {
-			int currentLine = 1;
+			String[] lines = new String[]{"c:/temp/badqiu/123/12","c:/temp/badqiu/456/12"};
+			int index = 0;
 			public String nextLine() {
-				if(currentLine  % 2 == 1)
-					return "c:/temp/badqiu/123/12";
-				else 
-					return "c:/temp/badqiu/"+RandomStringUtils.randomNumeric(2)+"/12";
+				return lines[index++];
 			}
 			public boolean hasNext() {
-				return currentLine++ < 100;
+				return index < lines.length;
 			}
 		};
 		return model;
