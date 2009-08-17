@@ -2,9 +2,6 @@ package javacommon.base;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,17 +10,6 @@ import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.BigDecimalConverter;
-import org.apache.commons.beanutils.converters.BigIntegerConverter;
-import org.apache.commons.beanutils.converters.DoubleConverter;
-import org.apache.commons.beanutils.converters.FloatConverter;
-import org.apache.commons.beanutils.converters.IntegerConverter;
-import org.apache.commons.beanutils.converters.LongConverter;
-import org.apache.commons.beanutils.converters.ShortConverter;
-import org.apache.commons.beanutils.converters.SqlDateConverter;
-import org.apache.commons.beanutils.converters.SqlTimeConverter;
-import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.util.Assert;
@@ -32,7 +18,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
-import cn.org.rapid_framework.beanutils.converter.StringConverter;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -58,6 +43,7 @@ public class BaseSpringController extends MultiActionController{
      * @see MultiActionController#createBinder(HttpServletRequest,Object)
      */
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+    	binder.registerCustomEditor(Short.class, new CustomNumberEditor(Short.class, true));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(Long.class, new CustomNumberEditor(Long.class, true));
         binder.registerCustomEditor(Float.class, new CustomNumberEditor(Float.class, true));
