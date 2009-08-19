@@ -3,10 +3,12 @@
 rapid扩展了spring,可以将spring bean导出为BlazeDS的RemotingDestination以供flex调用.
 
 
+=rapid扩展=
+==扩展说明==
 BlazeDS本身提供一个AbstractBootstrapService的类,该类主要是在BlazeDS初始化时用于动态创建 services, destinations, and adapters.
 rapid扩展了该类,用于将spring的bean自动导出为destination,以供flex客户端调用.
-
-SpringRemotingDestinationBootstrapService 自动导出包含"@RemoteObject标注及以FlexService结尾"的Spring Bean为RemotingDestination
+SpringRemotingDestinationBootstrapService 自动导出包含"@RemoteObject标注及以FlexService结
+尾"的Spring Bean为RemotingDestination
 {{{
 public class SpringRemotingDestinationBootstrapService extends AbstractBootstrapService {
 
@@ -150,6 +152,6 @@ public class SpringRemotingDestinationBootstrapService extends AbstractBootstrap
 =flex客户端调用=
 {{{
 this.${classNameLower}FlexService = new RemoteObject("${classNameLower}FlexService");
-//这里需要指定endpoint,因为是动态的RemotingDestination,而静态的RemotingDestination ,flex编译器会将endpoint编译进源代码.这个也是使用flex经常会犯的错误之一.
+//这里需要指定endpoint,因为是动态的RemotingDestination,而静态的RemotingDestination ,flex编译器会将endpoint编译进源代码.这个也是flex编译器需要指定配置文件而导致使用flex经常会犯的错误之一.
 this.${classNameLower}FlexService.endpoint = '../messagebroker/amf';
 }}}
