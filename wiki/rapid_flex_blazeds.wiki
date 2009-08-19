@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = 介绍 =
 
 rapid扩展了spring,可以将spring bean导出为BlazeDS的RemotingDestination以供flex调用.
