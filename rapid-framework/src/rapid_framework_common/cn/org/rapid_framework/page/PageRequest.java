@@ -80,15 +80,22 @@ public class PageRequest<T> implements Serializable {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-
+	
 	public String getSortColumns() {
 		return sortColumns;
 	}
-
+	/**
+	 * 排序的列,可以同时多列,使用逗号分隔,如 username desc,age asc
+	 * @return
+	 */
 	public void setSortColumns(String sortColumns) {
 		this.sortColumns = sortColumns;
 	}
 
+	/**
+	 * 将sortColumns进行解析以便返回SortInfo以便使用
+	 * @return
+	 */
 	public List<SortInfo> getSortInfos() {
 		return Collections.unmodifiableList(SortInfo.parseSortColumns(sortColumns));
 	}
