@@ -1,4 +1,5 @@
-#rapid中的dialect主要目的是用于分页，代码完全抄录自hiberante,但只精简出分页部分
+=介绍=
+rapid中的dialect主要目的是用于分页，代码完全抄录自hiberante,但只精简出分页部分
 适用于jdbc或是iBatis.
 
 == 分页Dialect接口==
@@ -32,4 +33,24 @@ public class MySQLDialect implements Dialect{
         }   
     }   
 }
+}}}
+
+==Jdbc的分页实现==
+{{{
+	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
+		if(dialect.supportsLimit()) {
+			if(dialect.supportsLimitOffset()) {
+				Page page = new Page(pageNumber,pageSize,totalCount);
+				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),pageSize);
+				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, rowMapper);
+				page.setResult(list);
+				return page;
+			}else {
+				String limitSql = dialect.getLimitString(sql, 0, pageSize);
+				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount,rowMapper);
+			}
+		}else {
+			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount,rowMapper);			
+		}
+	}
 }}}
