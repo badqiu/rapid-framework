@@ -153,7 +153,10 @@ public class SpringRemotingDestinationBootstrapService extends AbstractBootstrap
 
 =flex客户端调用=
 {{{
+
 this.${classNameLower}FlexService = new RemoteObject("${classNameLower}FlexService");
-//这里需要指定endpoint,因为是动态的RemotingDestination,而静态的RemotingDestination ,flex编译器会将endpoint编译进源代码.这个也是flex编译器需要指定配置文件而导致使用flex经常会犯的错误之一.
+
+//这里需要指定endpoint,因为是动态的RemotingDestination,而静态的RemotingDestination ,flex编译器会将endpoint编译进源代码.
+//这个也是flex编译器需要指定配置文件而导致使用flex经常会犯的错误之一.
 this.${classNameLower}FlexService.endpoint = '../messagebroker/amf';
 }}}
