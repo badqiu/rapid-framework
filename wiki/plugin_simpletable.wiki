@@ -1,0 +1,29 @@
+#summary One-sentence summary of this page.
+
+= 介绍 =
+
+simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的Page及PageRequest两个类结合JSTL进行分页.易于修改及灵活.
+
+=存放目录=
+  * web/widgets/simpletable 该目录主要存放css,js,image文件
+  * WEB-INF/tags/simpletable 该文件存放自定义的jsp tagfile
+
+=主要文件介绍=
+==jsp分页跳转的自定义tag(pageToolbar.tag)==
+simpletable使用jsp2.0提供的tag file功能,将分页跳转的tag存放在WEB-INF/tags/simpletable/pageToolbar.tag, 该文件主要生成分页跳转及改变pageSize的功能.
+在jsp中如下引用:
+{{{
+<%@ taglib tagdir="/WEB-INF/tags/simpletable" prefix="simpletable"%>
+}}}
+在后面即可使用
+{{{
+<simpletable:pageToolbar page="${page}"></simpletable:pageToolbar>
+}}}
+
+==simpletable.css文件==
+该文件的table的css定义
+
+==simpletable.js文件===
+该文件是一些方法的封装,提供toggleSort(),togglePage(),togglePageSize()该方法以支持排序,页数跳转,切换页大小的功能.
+
+=simpletable的预览=
