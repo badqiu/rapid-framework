@@ -3,7 +3,7 @@
     * [rapid_generator 代码生成器]
     * [rapid_xsqlbuilder 动态sql构造工具]
     * [rapid_validation 表单验证]
-    * [rapid_spring spring]
+    * [rapid_transaction spring事务]
     * [rapid_junit 单元测试]
     * [rapid_utils 工具类介绍]
     * [rapid_ant ant脚本]
