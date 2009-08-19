@@ -1,4 +1,3 @@
-<wiki:toc max_depth="2" />
 
 此页包含工具类介绍
 
