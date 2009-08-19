@@ -1,10 +1,9 @@
-#sidebar TableOfContents
+#sidebar TOCArticles
 
-  * [Articles HOWTO articles] 
-    * [ArticlesXSS Web security] 
-    * [ArticlesDom DOM manipulation] 
-    * [ArticlesStyle CSS and style] 
-    * [ArticlesTips Tips and tricks] 
-  * [DOMReference DOM reference] 
-  * [HTMLElements HTML reference] 
-  * [CSSReference CSS reference]
+||[EsArticles Español]||[JaArticles æ¥æ¬èª]||[FrArticles Français]||[ZhArticles æ±è¯­]||
+||[Welcome Home]||
+
+== Web security  ==
+
+  * [ArticleIntroductionToXSS Introduction to Cross-Site Scripting Vulnerabilities.]
+  * [ArticleXSS Everything you ever wanted to know about cross-site scripting (XSS) attacks]
