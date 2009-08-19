@@ -137,7 +137,9 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 
 	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
+		//支持limit子句
 		if(dialect.supportsLimit()) {
+			//支持limit及offset.则数据使用数据库分页
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,pageSize,totalCount);
 				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),pageSize);
@@ -145,10 +147,12 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 				page.setResult(list);
 				return page;
 			}else {
+				//不支持offset,则使用游标配合limit分页
 				String limitSql = dialect.getLimitString(sql, 0, pageSize);
 				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount,rowMapper);
 			}
 		}else {
+			//不支持limit子句,使用游标分页
 			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount,rowMapper);			
 		}
 	}
