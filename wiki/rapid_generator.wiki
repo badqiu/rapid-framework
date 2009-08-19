@@ -51,7 +51,7 @@ public class GeneratorMain {
 在temppate目录创建一个文件,如${className}SpringControler.java
 则代码生成器会自动将该模板文件加载并生成该文件
 
-===FreeMarker模板可以引用的变量===
+===模板可以引用的变量===
 默认传递的变量是table对象及generator.properties的内容
 具体请看Generator.java的 getTemplateDateModel() 方法
 {{{
