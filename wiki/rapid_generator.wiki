@@ -44,11 +44,13 @@ public class GeneratorMain {
 }
 }}}
 
-代码template目录结构
+
+
+==生成器讲解==
+===代码template目录结构===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
 如上所示，目录及文件名称可以引用相关变量。
 
-==生成器讲解==
 ===创建一个生成器模板文件===
 在temppate目录创建一个文件,如${className}SpringControler.java
 则代码生成器会自动将该模板文件加载并生成该文件
@@ -81,6 +83,22 @@ public class GeneratorMain {
 		modelProvider.mergeFilePathModel(model);
 		return model;
 	}
+}}}
+
+IGeneratorModelProvider为变量提供者,可以提供不同变量 
+{{{
+public class DbTableGeneratorModelProvider implements IGeneratorModelProvider {
+	Table table;
+
+	public void mergeFilePathModel(Map model) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		model.putAll(BeanUtils.describe(table));
+	}
+
+	public void mergeTemplateModel(Map model) {
+		model.put("table",table);
+	}
+
+}
 }}}
 
 ===文件插入操作===
