@@ -20,7 +20,7 @@
     * [plugin_spring_jdbc dao_spring_jdbc]
     * [plugin_extjs ext]
     * [plugin_flex flex]
-    * [plugin_simpletable 简单的分页列表组件]
+    * [plugin_simpletable rapid-simpletable:分页列表组件]
   * 开发手册
     * [plugin_dev 插件开发]
   * [changelog changelog]
