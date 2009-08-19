@@ -23,3 +23,4 @@
     * [plugin_simpletable 简单的分页列表组件]
   * 开发手册
     * [plugin_dev 插件开发]
+  * [changelog changelog]
