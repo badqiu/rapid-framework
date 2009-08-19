@@ -21,5 +21,5 @@
     * [plugin_extjs ext]
     * [plugin_flex flex]
     * [plugin_simpletable 简单的分页列表组件]
-  * dev_guild
+  * 开发手册
     * [plugin_dev 插件开发]
