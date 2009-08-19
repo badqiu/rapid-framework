@@ -3,12 +3,12 @@
     * [rapid_generator 代码生成器]
     * [rapid_xsqlbuilder 动态sql构造工具]
     * [rapid_validation 表单验证]
-    * [rapid_dialect 数据库分页方言(jdbc,iBatis)]
     * [rapid_spring spring]
     * [rapid_junit 单元测试]
     * [rapid_utils 工具类介绍]
     * [rapid_ant ant脚本]
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
+    * [rapid_dialect jdbc分页方言]
     * [rapid_ibatis ibatis分页改进]
     * [rapid_async_io 异步的IO]
   * 插件
