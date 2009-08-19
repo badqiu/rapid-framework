@@ -10,7 +10,7 @@
     * [rapid_ant ant脚本]
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
   * 插件
-     * [plugin_struts2 web_struts2]
+    * [plugin_struts2 web_struts2]
     * [plugin_springmvc web_springmvc]
     * [plugin_struts web_struts]
     * [plugin_hibernate dao_hibernate]
