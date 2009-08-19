@@ -1,0 +1,35 @@
+#rapid中的dialect主要目的是用于分页，代码完全抄录自hiberante,但只精简出分页部分
+适用于jdbc或是iBatis.
+
+== 分页Dialect接口==
+
+{{{
+public interface Dialect {
+
+    public boolean supportsLimit();
+
+    public String getLimitString(String sql, int offset, int limit);
+ 
+    public boolean supportsLimitOffset();
+    
+}
+}}}
+
+==Mysql的Dialect实现==
+{{{
+public class MySQLDialect implements Dialect{
+    public boolean supportsLimitOffset(){
+	return true;
+    }
+    public boolean supportsLimit() {   
+        return true;   
+    }  
+    public String getLimitString(String sql, int offset, int limit) {   
+        if (offset > 0) {   
+        	return sql + " limit "+offset+","+limit; 
+        } else {   
+            return sql + " limit "+limit;
+        }   
+    }   
+}
+}}}
