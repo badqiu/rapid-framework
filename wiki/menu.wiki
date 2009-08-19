@@ -10,15 +10,15 @@
     * [rapid_ant ant脚本]
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
   * 插件
-    * Web框架插件
-      * [plugin_struts2 struts2]
+     * Web框架插件
+       * [plugin_struts2 struts2]
       * [plugin_springmvc springmvc]
       * [plugin_struts struts]
-   * Dao层插件
-      * [plugin_hibernate hibernate]
+    * Dao层插件
+       * [plugin_hibernate hibernate]
       * [plugin_ibatis iBatis]
       * [plugin_spring_jdbc spring_jdbc]
-   * 其它
+    * 其它
        * [plugin_extjs Ext Js]
       * [plugin_flex Flex]
       * [plugin_simpletable 简单的分页列表组件]
