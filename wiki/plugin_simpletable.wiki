@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+<wiki:toc max_depth="2" />
 
 = 介绍 =
 
@@ -25,6 +25,20 @@ simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的P
 
 ==simpletable.js文件===
 该文件是一些方法的封装,提供toggleSort(),togglePage(),togglePageSize()该方法以支持排序,页数跳转,切换页大小的功能.
+现该js依赖于jQuery.js
+
+=排序=
+只需为表头td增加sortColumn属性，则simpletable.js会自动为表头增加排序的效果。
+{{{
+		  <thead class="tableHeader">
+			  
+			  <tr>
+				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
+				<th sortColumn="username" ><%=Blog.ALIAS_USERNAME%></th>
+			  </tr>
+			  
+		  </thead>
+}}}
 
 =simpletable的预览=
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/simpletable_snapshot.jpg]
