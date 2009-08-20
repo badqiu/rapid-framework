@@ -1,19 +1,34 @@
 =配置说明=
 
-iBatis的SqlMapClient创建通过SqlMapClientFactoryBean,使用mappingLocations指定指定sqlMap.xml
+iBatis的SqlMapClientFactoryBean创建通过SqlMapClient
+
+==SqlMapClientFactoryBean配置说明==
 {{{
- <property name="mappingLocations">
+    <!-- rapid SqlMapClientFactoryBean与spring SqlMapClientFactoryBean的区别是可以指定sqlExecutor -->
+    <bean id="sqlMapClient" class="cn.org.rapid_framework.ibatis.spring.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:sql-map-config.xml</value>
+        </property>
+        <property name="mappingLocations">
         	<value>classpath*:/com/**/model/**/*SqlMap.xml</value>
-  </property>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+        
+        <!-- 指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,PostgreSQLDialect,MySQLDialect,DerbyDialect-->
+        <property name="sqlExecutor">
+        	<bean class="cn.org.rapid_framework.ibatis.sqlmap.engine.execution.LimitSqlExecutor">
+        		<property name="dialect">
+        			<bean class="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
+        		</property>
+        	</bean>
+        </property>
+    </bean>
 }}}
-
-
+以下为具体修改说明.
 {{{
 	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
 		1.1修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect (注:该项为rapid的扩展)
-		(*)1.2修改sqlMapClient的mappingLocations以确定要加载的SqlMap.xml,默认值为:classpath*:/com/**/model/**/*SqlMap.xml
-		(*)1.3修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
-	3.主键生成策略修改,修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
+	3.模板主键生成策略修改,修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
 }}}
 
 =iBatis分页使用方言(Dialect)=
