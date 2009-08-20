@@ -21,9 +21,9 @@
   * 配置简单,只有一个配置文件generator.properties 
   * 以application方式运行生成器,生成不同的table直接修改相关java代码即可 
   * 自动搜索某个目录所有模板文件,无需配置 
-  * 模板文件的的名称与目录名称可以直接引用相关变量,如 ${basepackage}/${className}.java 
-  * 支持文件插入操作 
-  * 根据条件判断某些文件是否生成 
+  * *模板文件的的名称与目录名称可以直接引用相关变量,如 ${basepackage}/${className}.java* 
+  * *生成的代码可以插入文档的某个部位* 
+  * *根据条件判断某些文件是否生成*
 
 =生成器的运行=
 将generator_lib中的jar加入classpath,generator_lib自带了几种常用jdbc驱动 
@@ -102,8 +102,8 @@ public class DbTableGeneratorModelProvider implements IGeneratorModelProvider {
 }
 }}}
 
-==文件插入操作==
-如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用 
+==生成的代码插入文档的某个部位==
+如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用
 
 *充分利用各种文件的注释*
 如在.xml中我们可以使用 <!-- generator-insert-location -->
