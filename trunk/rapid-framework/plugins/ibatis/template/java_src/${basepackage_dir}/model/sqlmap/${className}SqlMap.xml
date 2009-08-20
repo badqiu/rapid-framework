@@ -87,9 +87,9 @@
 	<sql id="dynamicWhere">
 	    <dynamic prepend="WHERE">
 	       <#list table.columns as column>
-	       <isNotNull prepend="AND" property="${column.columnNameLower}">
+	       <isNotEmpty prepend="AND" property="${column.columnNameLower}">
 	             ${column.sqlName} = #${column.columnNameLower}#
-	       </isNotNull>
+	       </isNotEmpty>
 	       </#list>
 	    </dynamic>	
 	</sql>
