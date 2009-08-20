@@ -28,13 +28,13 @@ simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的P
 现该js依赖于jQuery.js
 
 =排序=
-只需为表头td增加sortColumn属性，则simpletable.js会自动为表头增加排序的效果。
+只需为表头th增加sortColumn属性，则simpletable.js会自动为表头增加排序的效果。
 {{{
 		  <thead class="tableHeader">
 			  
 			  <tr>
 				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
-				<th sortColumn="username" ><%=Blog.ALIAS_USERNAME%></th>
+				<th sortColumn="username" >username</th>
 			  </tr>
 			  
 		  </thead>
