@@ -28,3 +28,4 @@
     * [project_build 项目构建]
   * [changelog changelog]
   * [roadmap roadmap]
+  * [faq faq]
