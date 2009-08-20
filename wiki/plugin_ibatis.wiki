@@ -1,4 +1,13 @@
 =配置说明=
+
+iBatis的SqlMapClient创建通过SqlMapClientFactoryBean,使用mappingLocations指定指定sqlMap.xml
+{{{
+ <property name="mappingLocations">
+        	<value>classpath*:/com/**/model/**/*SqlMap.xml</value>
+  </property>
+}}}
+
+
 {{{
 	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
 		1.1修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect (注:该项为rapid的扩展)
