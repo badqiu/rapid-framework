@@ -7,4 +7,5 @@
 	3.主键生成策略修改,修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
 }}}
 
+=iBatis分页使用方言(Dialect)=
 iBatis的使用方言的分页改进请查看[rapid_ibatis ibatis分页改进]
