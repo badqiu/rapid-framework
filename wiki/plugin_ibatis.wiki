@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 =配置说明=
 
 iBatis通过SqlMapClientFactoryBean创建SqlMapClient,可以指定分页方言(该项为rapid扩展)
@@ -34,3 +36,42 @@ iBatis通过SqlMapClientFactoryBean创建SqlMapClient,可以指定分页方言(�
 
 =iBatis分页使用方言(Dialect)=
 iBatis的使用方言的分页改进请查看[rapid_ibatis ibatis分页改进]
+
+=不使用方言进行分页=
+1.修改sqlmap.xml,直接使用数据库的分页.
+{{{
+    <!-- 分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现,默认为mysql -->
+    <select id="pageSelect" resultMap="userinfoResult">
+	    <![CDATA[
+	    select
+        	id ,
+        	username ,
+        	age ,
+        	birth_date ,
+        	nickName 
+	        from userinfo 
+	    ]]>
+		limit #offset#,#pageSize#		    
+    </select>
+}}}
+2.查询时,传递offset,pageSize等参数
+{{{
+	protected Page pageQuery(String statementName, PageRequest pageRequest) {
+		
+		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(),pageRequest.getFilters());
+		Page page = new Page(pageRequest,totalCount.intValue());
+		
+		//其它分页参数,用于不喜欢或是因为兼容性而不使用方言(Dialect)的分页用户使用. 与getSqlMapClientTemplate().queryForList(statementName, parameterObject)配合使用
+		Map otherFilters = new HashMap();
+		otherFilters.put("offset", page.getFirstResult());
+		otherFilters.put("pageSize", page.getPageSize());
+		otherFilters.put("lastRows", page.getFirstResult() + page.getPageSize());
+		otherFilters.put("sortColumns", pageRequest.getSortColumns());
+		
+		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
+		Map parameterObject = new MapAndObject(otherFilters,pageRequest.getFilters());
+		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject);
+		page.setResult(list);
+		return page;
+	}
+}}}
