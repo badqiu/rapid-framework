@@ -11,7 +11,7 @@
   * 基于标准的Html属性(class)添加验证,易于其它标准的jsp taglib集成
   * 特殊应用场景支持,如:密码确认,结束日期必须大于开始日期
 
-*请查看在线演示:*
+=在线demo=
 
 [http://www.rapid-framework.org.cn/demo/rapid-validation/doc/index.html]
 
