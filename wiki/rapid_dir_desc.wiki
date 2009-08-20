@@ -1,5 +1,5 @@
 = 目录结构 =
-
+{{{
   * *src*                java源代码目录
     * *resources*         配置文件存放的目录
     * *javacommon*        项目自带的javacommon类
@@ -14,3 +14,4 @@
     * *guild.html*       项目搭建手册
   * *build.xml*          ant构建脚本，用于为项目打包
   * *build.properties*   ant build.xml的配置文件
+}}}
