@@ -1,5 +1,6 @@
   * [quick_start_guild 快速开始]
   * 用户手册
+    * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
     * [rapid_generator 代码生成器]
     * [rapid_xsqlbuilder 动态sql构造工具]
