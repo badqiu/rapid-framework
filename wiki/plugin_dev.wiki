@@ -38,7 +38,7 @@ plugin_name
 最后元素之前.
   * web_merge.xml存放位置:放在插件的子目录下,如:${plugin_name}/web_merge.xml
 
-=例子=
+==web.xml例子==
 ====web.xml的在合并之前====
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
