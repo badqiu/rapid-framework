@@ -13,6 +13,7 @@
     * [rapid_async_io 异步的IO]
     * [rapid_junit 单元测试]
     * [rapid_utils 工具类介绍]
+    * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
   * 插件
     * [plugin_struts2 web_struts2]
     * [plugin_springmvc web_springmvc]
