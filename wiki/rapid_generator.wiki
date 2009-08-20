@@ -49,6 +49,7 @@ public class GeneratorMain {
 =生成器讲解=
 ==代码template目录结构==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
+
 如上所示，目录及文件名称可以引用相关变量。
 
 ==创建一个生成器模板文件==
