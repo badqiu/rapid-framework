@@ -1,6 +1,6 @@
 =配置说明=
 
-iBatis的SqlMapClientFactoryBean创建通过SqlMapClient
+iBatis通过SqlMapClientFactoryBean创建SqlMapClient,可以指定分页方言(该项为rapid扩展)
 
 ==SqlMapClientFactoryBean配置说明==
 {{{
@@ -24,7 +24,8 @@ iBatis的SqlMapClientFactoryBean创建通过SqlMapClient
         </property>
     </bean>
 }}}
-以下为具体修改说明.
+
+==以下为具体修改说明.==
 {{{
 	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
 		1.1修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect (注:该项为rapid的扩展)
