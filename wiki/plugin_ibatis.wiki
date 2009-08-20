@@ -1,0 +1,10 @@
+=配置说明=
+{{{
+	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
+		1.1修改dialect,以支持不同的数据库分页查询. 默认值为:MySQLDialect (注:该项为rapid的扩展)
+		(*)1.2修改sqlMapClient的mappingLocations以确定要加载的SqlMap.xml,默认值为:classpath*:/com/**/model/**/*SqlMap.xml
+		(*)1.3修改context:component-scan节点属性以确定要加载的dao,默认加载com.**.dao
+	3.主键生成策略修改,修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
+}}}
+
+iBatis的使用方言的分页改进请查看[rapid_ibatis]
