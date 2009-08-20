@@ -1,6 +1,9 @@
 = 介绍 =
+应用struts2主要是使用零配置及增加了一种result-type: DirectResult
 
-rapid对struts2的扩展只有一个,增加了一种result-type: DirectResult
+= DirectResult扩展 =
+
+rapid对struts2的唯一扩展,增加了一种result-type: DirectResult
 该result-type的作用是可以java代码中指定返回页.
 {{{
 	public String show() {
@@ -15,6 +18,12 @@ rapid对struts2的扩展只有一个,增加了一种result-type: DirectResult
 		blogManager.save(blog);
 		return "!/pages/Blog/list.do"; //这里为redirect
 	}
+}}}
+
+并且你如果觉得比较混淆,也可以不使用!,直接使用 "forward:" 及"redirect:"前缀
+{{{
+return "forward:/pages/Blog/list.do";
+return "redirect:/pages/Blog/list.do";
 }}}
 
 =零配置=
