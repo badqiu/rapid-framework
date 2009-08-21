@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
+
 <#include "/java_imports.include">
 
 @Controller
@@ -44,9 +46,11 @@ public class ${className}Controller extends BaseSpringController{
 	 **/
 	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
+		pageRequest.getFilters().putAll(BeanUtils.describe(${classNameLower})); //add custom filters
+		
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page,pageRequest,request);
-		return new ModelAndView("${jspFileBasePath}/list");
+		return new ModelAndView("${jspFileBasePath}/list","${classNameLower}",${classNameLower});
 	}
 	
 	/** 

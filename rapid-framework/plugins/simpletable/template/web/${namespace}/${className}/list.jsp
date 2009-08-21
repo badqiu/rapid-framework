@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 
 <div class="queryPanel">
-<form action="" method="get" style="display: inline;">
+<form action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -46,9 +46,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl classNameLower+"."+column.columnNameLower+"String"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"   />
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower+"String"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"   />
 				<#else>
-				<input value="<@jspEl classNameLower+"."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}"  />
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}"  />
 				</#if>
 			</td>
 			</#if>

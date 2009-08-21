@@ -8,6 +8,9 @@ package ${basepackage}.action;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import cn.org.rapid_framework.beanutils.BeanUtils;
+
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -69,7 +72,9 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	/** 执行搜索 */
 	public String list() {
 		PageRequest<Map> pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
+		pageRequest.getFilters().putAll(BeanUtils.describe(${classNameLower})); //add custom filters
 		//pageRequest.getFilters().put("key",value);     //add custom filter
+		
 		Page page = ${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page,pageRequest);
 		return LIST_JSP;
