@@ -12,7 +12,7 @@
 可以根据自己需要进行修改。
 
 ==struts2为何报setParameters : Unexpected Exception caught setting 'property' on class com.company.action.UserAction ==
-将开发模式改为false即可
+在struts.xml将开发模式改为false即可
 {{{
 <constant name="struts.devMode" value="false" />
 }}}
