@@ -5,7 +5,7 @@
   
 <table width="100%"  border="0" cellspacing="0" class="gridToolbar">
   <tr>
-	<td colspan="3">
+	<td>
 		<div class="box">
 		
 			<div  class="leftControls" >
@@ -25,7 +25,7 @@
 				<c:otherwise><img src="<c:url value='/widgets/simpletable/images/prevPageDisabled.gif'/>" style="border:0" ></c:otherwise>
 				</c:choose>
 				
-				<c:forEach var="item" items="${page.linkPageNumbers}" varStatus="status">
+				<c:forEach var="item" items="${page.linkPageNumbers}">
 				<c:choose>
 				<c:when test="${item == page.thisPageNumber}">[${item}]</c:when>
 				<c:otherwise><a href="javascript:simpleTable.togglePage(${item});">[${item}]</a></c:otherwise>
