@@ -1,3 +1,4 @@
+<wiki:toc max_depth="2" />
 =介绍=
 rapid中的dialect主要目的是用于分页，代码完全抄录自hiberante,但只精简出分页部分
 适用于jdbc或是iBatis.
@@ -58,3 +59,6 @@ public Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSiz
 	}
 }
 }}}
+
+=存在的问题=
+现在分页参数没有使用疑问号占位符"?",所以在如oracle这种数据库,会影响性能.
