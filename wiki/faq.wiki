@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = FAQs =
 
 =一般问题=
