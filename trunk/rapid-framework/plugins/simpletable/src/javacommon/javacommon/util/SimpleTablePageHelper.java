@@ -23,10 +23,10 @@ public class SimpleTablePageHelper {
 	}
 	
 	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumn) {
-		return newPageRequest(request, DEFAULT_PAGE_SIZE,defaultSortColumn);
+		return newPageRequest(request,defaultSortColumn,DEFAULT_PAGE_SIZE);
 	}
 	
-	public static PageRequest<Map> newPageRequest(HttpServletRequest request,int defaultPageSize,String defaultSortColumn) {
+	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumn,int defaultPageSize) {
 		PageRequest<Map> result = new PageRequest();
 		result.setPageNumber(ServletRequestUtils.getIntParameter(request, "pageNumber", 1));
 		result.setPageSize(ServletRequestUtils.getIntParameter(request, "pageSize", defaultPageSize));
