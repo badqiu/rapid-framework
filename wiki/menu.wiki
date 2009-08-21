@@ -26,8 +26,8 @@
     * [plugin_simpletable rapid-simpletable:分页列表组件]
   * 开发手册
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
-    * [plugin_dev 插件开发]
     * [project_build 项目构建]
+    * [plugin_dev 插件开发]
   * [changelog changelog]
   * [roadmap roadmap]
   * [faq faq]
