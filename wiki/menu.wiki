@@ -19,7 +19,7 @@
     * [plugin_springmvc web_springmvc]
     * [plugin_struts web_struts]
     * [plugin_hibernate dao_hibernate]
-    * [plugin_ibatis dao_iBatis]
+    * [plugin_ibatis dao_ibatis]
     * [plugin_spring_jdbc dao_spring_jdbc]
     * [plugin_extjs ext]
     * [plugin_flex flex]
