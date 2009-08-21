@@ -10,7 +10,7 @@ a:visited {color: #006699;text-decoration:none;}
 a:hover {color: #bc2931; text-decoration:underline;}
 a:active {color: #bc2931;}
 
-/* for button: <input type=submit class=standardButton /> */
+/* for button: <input type=submit class=stdButton /> */
 .stdButton {
 	background-color:buttonface;
 	border:1px solid #CCCCCC;
