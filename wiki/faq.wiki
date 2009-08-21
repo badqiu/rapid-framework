@@ -12,5 +12,5 @@
 可以根据自己需要进行修改。
 
 =代码生成器=
-== 代码生成器hibernate模板可不可以生成many-to-many? ==
+== 代码生成器的hibernate模板可不可以生成many-to-many? ==
 现可以生成many-to-one,one-to-many,但不能生成many-to-many,这个需要自己手写。
