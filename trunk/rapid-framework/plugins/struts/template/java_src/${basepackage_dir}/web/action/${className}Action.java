@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.struts.action.*;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
+
 import ${basepackage}.web.form.*;
 
 <#include "/java_imports.include">
@@ -49,6 +51,9 @@ public class ${className}Action extends BaseStrutsAction {
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			  HttpServletResponse response) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
+		${className} ${classNameLower} = copyProperties(${className}.class,form);
+		pageRequest.getFilters().putAll(BeanUtils.describe(${classNameLower})); //add custom filters
+		
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		savePage(page,pageRequest,request);
 		return LIST_FORWARD;
