@@ -12,7 +12,10 @@
 可以根据自己需要进行修改。
 
 ==struts2为何报ERROR [com.opensymphony.xwork2.interceptor.ParametersInterceptor] - <ParametersInterceptor - [setParameters]: Unexpected Exception caught setting 'property' on 'class com.company.action.UserAction:==
-将开发模式<constant name="struts.devMode" value="true" />改为false即可
+将开发模式改为false即可
+{{{
+<constant name="struts.devMode" value="false" />
+}}}
 
 =代码生成器=
 == 代码生成器的hibernate模板可不可以生成many-to-many? ==
