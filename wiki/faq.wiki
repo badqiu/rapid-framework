@@ -11,6 +11,8 @@
 实际开发中，service层及dao一般只有一个实现，为此多些接口类实在是累赘。所以生成的代码不是基于接口的。
 可以根据自己需要进行修改。
 
+==struts2为何报ERROR [com.opensymphony.xwork2.interceptor.ParametersInterceptor] - <ParametersInterceptor - [setParameters]: Unexpected Exception caught setting 'property' on 'class com.company.action.UserAction:==
+将开发模式<constant name="struts.devMode" value="true" />改为false即可
 
 =代码生成器=
 == 代码生成器的hibernate模板可不可以生成many-to-many? ==
