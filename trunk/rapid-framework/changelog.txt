@@ -8,8 +8,11 @@ rapid-framework v2.5.0
 	支持Ibatis的分页Dialect
 	
 	生成器:
-	删除subpackage,使用namespace变量替换,但只作用于jsp
 	支持从数据库中读取注释作为alias
+	
+	生成器模板:
+	删除subpackage,使用namespace变量替换,但只作用于jsp
+	list.jsp现在包含查询
 	
 	新增插件:
 	simpletable 简单的列表分页
