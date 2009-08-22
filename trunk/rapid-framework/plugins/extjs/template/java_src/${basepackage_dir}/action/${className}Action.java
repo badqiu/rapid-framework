@@ -28,6 +28,7 @@ import cn.org.rapid_framework.page.PageRequest;
 import ${basepackage}.model.${className};
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.ModelDriven;
+import static javacommon.util.extjs.Struts2JsonHelper.*;
 
 <#include "/java_imports.include">
 
