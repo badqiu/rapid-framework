@@ -18,7 +18,7 @@ rapid-framework v2.5.0
 	simpletable 简单的列表分页
 	extjs		ext模板
 	
-	其它一些bugfixed
+	其它一些bugfixed及重构
 	
 --------------------------------------------------------
 rapid-framework v2.0.1
