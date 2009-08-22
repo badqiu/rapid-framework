@@ -1,5 +1,5 @@
 --------------------------------------------------------
-rapid-framework v2.0.1
+rapid-framework v2.5.0
 	提升:
 	XsqlBuilder支持Object作为filters
 	PageRequest.filters使用范型
@@ -8,7 +8,14 @@ rapid-framework v2.0.1
 	支持Ibatis的分页Dialect
 	
 	生成器:
+	删除subpackage,使用namespace变量替换,但只作用于jsp
 	支持从数据库中读取注释作为alias
+	
+	新增插件:
+	simpletable 简单的列表分页
+	extjs		ext模板
+	
+	其它一些bugfixed
 	
 --------------------------------------------------------
 rapid-framework v2.0.1
