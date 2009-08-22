@@ -9,7 +9,7 @@ simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的P
   * WEB-INF/tags/simpletable 该文件存放自定义的jsp tagfile
 
 =主要文件介绍=
-==pageToolbar.tag文件(相关默认值在些修改)==
+==pageToolbar.tag文件 (相关默认值在此修改)==
 该文件为jsp分页跳转的*自定义tag*,simpletable使用jsp2.0提供的tag file功能,将分页跳转的tag存放在WEB-INF/tags/simpletable/pageToolbar.tag, 该文件主要生成分页跳转的链接及改变pageSize的功能.该文件可以根据自己需要,灵活定制.
 在jsp中如下引用:
 {{{
