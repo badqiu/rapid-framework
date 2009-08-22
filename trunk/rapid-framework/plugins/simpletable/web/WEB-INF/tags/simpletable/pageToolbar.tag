@@ -1,8 +1,21 @@
 <%@ attribute name="page" required="true" type="cn.org.rapid_framework.page.Page" description="Page.java" %>
-<%@ attribute name="pageSizeSelectList" type="java.lang.Number[]" required="true"  %>
+<%@ attribute name="pageSizeSelectList" type="java.lang.Number[]" required="false"  %>
+<%@ attribute name="isShowPageSizeList" type="java.lang.Boolean" required="false"  %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-  
+
+<%
+	// set default values
+	Integer[] defaultPageSizes = new Integer[]{10,50,100};
+	if(jspContext.getAttribute("pageSizeSelectList") == null) {
+		jspContext.setAttribute("pageSizeSelectList",defaultPageSizes); 
+	}
+	
+	if(jspContext.getAttribute("isShowPageSizeList") == null) {
+		jspContext.setAttribute("isShowPageSizeList",true); 
+	} 
+%>
+
 <table width="100%"  border="0" cellspacing="0" class="gridToolbar">
   <tr>
 	<td>
@@ -42,11 +55,13 @@
 				<c:otherwise><a href="javascript:simpleTable.togglePage(${page.lastPageNumber});"><img src="<c:url value='/widgets/simpletable/images/lastPage.gif'/>" style="border:0" ></a></c:otherwise>
 				</c:choose>
 				
+				<c:if test="${isShowPageSizeList}">
 				<select onChange="simpleTable.togglePageSize(this.value)">
 					<c:forEach var="item" items="${pageSizeSelectList}">
 						<option value="${item}" ${page.pageSize == item ? 'selected' : '' }>${item}</option>
 					</c:forEach> 
 				</select>
+				</c:if>
 			</div>
 		<div>
 	</td>
