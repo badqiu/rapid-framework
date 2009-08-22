@@ -78,8 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="gridTable">
 	
-		<%pageContext.setAttribute("pageSizeSelectList",new Integer[]{10,50,100,200}); %>
-		<simpletable:pageToolbar pageSizeSelectList="<@jspEl 'pageSizeSelectList'/>" page="<@jspEl 'page'/>">
+		<simpletable:pageToolbar page="<@jspEl 'page'/>">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
 	
@@ -131,7 +130,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  </tbody>
 		</table>
 	
-		<simpletable:pageToolbar pageSizeSelectList="<@jspEl 'pageSizeSelectList'/>" page="<@jspEl 'page'/>">
+		<simpletable:pageToolbar page="<@jspEl 'page'/>">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
 		
