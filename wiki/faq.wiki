@@ -24,5 +24,5 @@
 == 代码生成器的hibernate模板可不可以生成many-to-many? ==
 现可以生成many-to-one,one-to-many,但不能生成many-to-many,这个需要自己手写。
 
-== 是否支持从PowerDesigner生成代码 ==
+== 是否支持从powerdesigner生成代码 ==
 现暂不支持，rapid中关心最核心的部分，生成代码。而powerdesigner的表也可以在数据库中建表后再生成。
