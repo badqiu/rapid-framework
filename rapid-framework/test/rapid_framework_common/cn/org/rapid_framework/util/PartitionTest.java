@@ -45,7 +45,7 @@ public class PartitionTest extends TestCase {
 		assertEquals(map.get("age"),null);
 	}
 	
-	Partition fp = new Partition("c:/temp",new String[]{"username","password","age"});
+	Partition fp = new Partition("c:/temp/",new String[]{"username","password","age"});
 	public void testparseRartition() {
 		Map map = fp.parseRartition("c:/temp/badqiu/123/21/system.txt");
 		assertEquals(map.get("username"),"badqiu");
@@ -56,13 +56,13 @@ public class PartitionTest extends TestCase {
 	public void testgetPartitionString() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Map map = new HashMap();
 		String str = fp.getPartitionString(map);
-		assertEquals("c:/tempnull/null/null",str);
+		assertEquals("c:/temp/null/null/null",str);
 		
 		map.put("username", "jane");
 		map.put("password", "pwd");
 		map.put("age", "38");
 		str = fp.getPartitionString(map);
-		assertEquals("c:/tempjane/pwd/38",str);
+		assertEquals("c:/temp/jane/pwd/38",str);
 		
 		assertEquals(BeanUtils.getProperty(map, "password"),"pwd");
 	}
@@ -72,7 +72,7 @@ public class PartitionTest extends TestCase {
 	}
 	
 	public void testQuery() {
-		Partition p = new Partition("c:/temp",new String[]{"username","password","age"});
+		Partition p = new Partition("c:/temp/",new String[]{"username","password","age"});
 		String[] lines = new String[]{"c:/temp/badqiu/123/12","c:/temp/badqiu/456/12"};
 		
 		List list = p.query("username='badqiu' && password = '123' && age='12'", lines);
