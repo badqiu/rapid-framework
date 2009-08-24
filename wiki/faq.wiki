@@ -27,5 +27,5 @@
 == 是否支持从powerdesigner生成代码 ==
 现暂不支持，rapid中关心最核心的部分，生成代码。而powerdesigner的表也可以在数据库中建表后再生成。
 
-== oracle数据库为何生成'BigDecimal'的字段，而我实际需要Integer/Long? ==
+== oracle数据库为何生成 *BigDecimal* 的字段，而我实际需要Integer/Long? ==
 请为你的number类型指定长度，oracle number如果没有指定长度，默认是一个精度为38位的十进制浮点数. 如可以指定为number(8).
