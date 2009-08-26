@@ -5,10 +5,10 @@ build.propertye : ant配置属性
 
 
 = 使用 =
-  # 环境变量配置
+  1.环境变量配置
 默认build.xml依赖环境变量:tomcat.home,需要依赖该变量是由于web项目需要依赖servlet的api.
 
-  # 属性修改
+  2.属性修改
   dirs.java.src : java源代码的路径
   dirs.test.src : java测试源代码的路径
   lib.classpath : 编译时依赖的classpath
@@ -43,4 +43,3 @@ build.propertye : ant配置属性
 
 其它任务:
 cc_main : 一般用于持续集成工具CruiseControl的接入
-
