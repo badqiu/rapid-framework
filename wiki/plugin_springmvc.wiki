@@ -2,6 +2,7 @@
 
 springmvc本身有一个ControllerClassNameHandlerMapping类可以实现零配置,生成的URL规则为/pathPrefix/class/method.do. rapid对这个类做了小改造,以支持生成的URL区分大小写.
 
+以下为实际的配置段
 {{{
 <!-- 
 	生成spring的URL映射,spring的ControllerClassNameHandlerMapping可以生成"/pathPrefix/entity/method.do"这样的URL映射,
