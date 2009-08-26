@@ -36,8 +36,8 @@
 	
 	<path id="dirs.java.src">
 	  	<pathelement path="src/javacommon"/>
-	  	<pathelement path="java_src"/>
 	  	<pathelement path="src/resources"/>
+	  	<pathelement path="java_src"/>
 	</path>
 
 	<path id="dirs.test.src">
@@ -75,7 +75,7 @@
 			  <src refid="dirs.java.src"/>
 		</javac>
 		
-		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果相同,则手工删除此行即可"/> 
+		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果已经相同,则手工删除此行即可"/> 
 		
 		<copy todir="${dir.dist.java}">
 			<fileset dir="src/javacommon" excludes="**/*.java"/>
@@ -97,7 +97,7 @@
 			</classpath>
 		</javac>
 		
-		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果相同,则手工删除此行即可"/> 
+		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果已经相同,则手工删除此行即可"/> 
 		
 		<copy todir="${dir.dist.test}">
 			<fileset dir="src/javacommon" excludes="**/*.java"/>
@@ -195,7 +195,7 @@
 		</zip>
 	</target>
 
-	<target name="cc_main">
+	<target name="cc_main" description="用于持续集成工具CruiseControl的接入">
 		<antcall target="clean"></antcall>
 		<antcall target="test"></antcall>
 		<antcall target="war"></antcall>
