@@ -1,0 +1,14 @@
+#summary One-sentence summary of this page.
+
+= SpringMVC =
+
+springmvc本身有一个ControllerClassNameHandlerMapping类可以实现零配置.rapid对这个类做了小改造,以支持生成的URL区分大小写.
+
+{{{
+		生成spring的URL映射,spring的ControllerClassNameHandlerMapping可以生成"/pathPrefix/entity/method.do"这样的URL映射,
+		但为了项目统一URL,使用rapid的ControllerClassNameHandlerMapping可以生成"/pathPrefix/Entity/method.do"
+		rapid: cn.org.rapid_framework.spring.web.servlet.mvc.support.ControllerClassNameHandlerMapping 
+		spring: org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping
+}}}
+
+其它的再没有任何修改,都是使用spring的原生机制.
