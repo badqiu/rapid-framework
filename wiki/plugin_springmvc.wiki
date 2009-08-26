@@ -17,4 +17,4 @@ springmvc本身有一个ControllerClassNameHandlerMapping类可以实现零配�
 </bean>
 }}}
 
-其它的再没有任何修改,都是使用spring的原生机制.
+其它的再没有任何修改,都是使用spring的原生机制.凭你个人喜好,如果喜欢spring原生的小写开头的URL,则修改使用spring的ControllerClassNameHandlerMapping即可.
