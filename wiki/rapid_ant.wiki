@@ -1,7 +1,7 @@
 = ant文件 =
 
-build.xml : ant 构建脚本
-build.propertye : ant配置属性
+  * build.xml : ant 构建脚本
+  * build.propertye : ant配置属性
 
 
 = 使用 =
