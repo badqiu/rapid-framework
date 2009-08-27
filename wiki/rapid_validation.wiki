@@ -13,6 +13,9 @@
 
 [http://www.rapid-framework.org.cn/demo/rapid-validation/doc/index.html]
 
+=项目网站=
+[http://code.google.com/p/rapid-validation/]
+
 = helloworld示例 =
 
 *引用文件*
