@@ -109,7 +109,7 @@ XsqlBuilder builder = new XsqlBuilder(SafeSqlProcesserFactory.getMysql());
 
 
 
-==SafeSqlProcesser其中的一个源码分析== 
+===SafeSqlProcesser其中的一个源码分析=== 
 {{{
 public class EscapeSingleQuotesSafeSqlProcesser implements SafeSqlProcesser{
 	public String process(String value) {
