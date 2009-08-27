@@ -87,15 +87,18 @@ username=badqiu
 ==`中括号[]与大括号{}的区别`==
 
 ===中括号会直接替换为其值,用于拼接SQL===
+{{{
 在XsqlFilterResult.getAcceptedFilters()中不会存在该key的值
 如 `/~ username like '%[username]%' ~/`,如果filters中username=badqiu
 则会生成: username like '%badqiu%'
+}}}
 
 ===大拓号只是起到标记作用,用于占位符===
+{{{
 原始方法是XsqlBuilder.applyFilters(sql,filters);
 如`/~ and username = {username} ~/`,过滤完还是为 and username = {username}
 但在这时我们使用将{username}替换为HQL的:username或是SQL的?号
-
+}}}
 
 ==`SQL注入攻击的防范`==
 *问题:*
