@@ -2,7 +2,10 @@
 
 =简介=
 xsqlbuider是类似iBatis的动态sql构造工具
-*特性*
+
+项目网站[http://code.google.com/p/rapid-xsqlbuilder/]
+
+==特性==
   * 动态构造sql条件语句,提供sql拼接与使用占位符两种方式 
   * 数据类型的修饰 
   * 对SQL注入攻击的防范 
