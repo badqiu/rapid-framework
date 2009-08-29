@@ -3,7 +3,7 @@
 
 = DirectResult扩展 =
 
-rapid对struts2的唯一扩展,增加了一种result-type: DirectResult
+rapid对struts2的*唯一扩展*,增加了一种result-type: DirectResult
 该result-type的作用是可以java代码中指定返回页.
 {{{
 	public String show() {
