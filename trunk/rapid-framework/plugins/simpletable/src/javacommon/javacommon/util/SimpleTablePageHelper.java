@@ -1,11 +1,10 @@
 package javacommon.util;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.bind.ServletRequestUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
@@ -28,15 +27,25 @@ public class SimpleTablePageHelper {
 	
 	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumn,int defaultPageSize) {
 		PageRequest<Map> result = new PageRequest();
-		result.setPageNumber(ServletRequestUtils.getIntParameter(request, "pageNumber", 1));
-		result.setPageSize(ServletRequestUtils.getIntParameter(request, "pageSize", defaultPageSize));
-		result.setSortColumns(ServletRequestUtils.getStringParameter(request, "sortColumns",defaultSortColumn));
+		result.setPageNumber(getIntParameter(request, "pageNumber", 1));
+		result.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
+		result.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumn));
 		result.setFilters(WebUtils.getParametersStartingWith(request,"auto_include_"));
 		
 		if(result.getPageSize() > MAX_PAGE_SIZE) {
 			result.setPageSize(MAX_PAGE_SIZE);
 		}
 		return result;
+	}
+	
+	static String getStringParameter(HttpServletRequest request,String paramName, String defaultValue) {
+		String value = request.getParameter(paramName);
+		return StringUtils.isEmpty(value) ? defaultValue : value;
+	}
+
+	static int getIntParameter(HttpServletRequest request,String paramName,int defaultValue) {
+		String value = request.getParameter(paramName);
+		return StringUtils.isEmpty(value) ? defaultValue : Integer.parseInt(value);
 	}
 	
 }
