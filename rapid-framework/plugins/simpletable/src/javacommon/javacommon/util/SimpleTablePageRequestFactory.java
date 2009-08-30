@@ -12,7 +12,7 @@ import cn.org.rapid_framework.page.PageRequest;
 /**
  * @author badqiu
  */
-public class SimpleTablePageHelper {
+public class SimpleTablePageRequestFactory {
 	
 	private static final int MAX_PAGE_SIZE = 500;
 	private static final int DEFAULT_PAGE_SIZE = 10;
