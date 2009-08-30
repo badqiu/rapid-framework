@@ -32,6 +32,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 
+<%@ include file="/commons/messages.jsp" %>
+
 <div class="queryPanel">
 <form action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
 <fieldset>

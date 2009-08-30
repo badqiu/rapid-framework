@@ -16,11 +16,39 @@
 
 <body>
 <%@ include file="/commons/messages.jsp" %>
-<form action="" method="post">
-	<input type="submit" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
-	<input type="submit" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/query.do'"/>
-	<input type="button" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.ec)"/>
+
+<div class="queryPanel">
+<form action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
+<fieldset>
+	<legend>搜索</legend>
+	<table>
+		<#list table.columns?chunk(5) as row>
+		<tr>	
+			<#list row as column>
+			<#if !column.htmlHidden>	
+			<td class="tdLabel">
+					<%=${className}.ALIAS_${column.constantName}%>
+			</td>		
+			<td>
+				<#if column.isDateTimeColumn>
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower+"String"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"   />
+				<#else>
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}"  />
+				</#if>
+			</td>
+			</#if>
+			</#list>
+		</tr>	
+		</#list>			
+	</table>
+</fieldset>
+<div class="handleControl">
+	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+	<input type="submit" class="stdButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.simpleTableForm)"/>
+<div>
 </form>
+</div>
 
 <ec:table items='page.result' var="item" method="get"
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
