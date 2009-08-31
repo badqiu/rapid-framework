@@ -6,6 +6,7 @@ rapid-framework v2.5.0
 	
 	新特性:
 	支持Ibatis的分页Dialect
+	新增其它数据库的分页Dialect
 	
 	生成器:
 	支持从数据库中读取注释作为alias
@@ -18,7 +19,7 @@ rapid-framework v2.5.0
 	simpletable 简单的列表分页
 	extjs		ext模板
 	
-	其它一些bugfixed及重构
+	其它一些bugfixed及大量整理及重构
 	
 --------------------------------------------------------
 rapid-framework v2.0.1
