@@ -2,7 +2,7 @@
 
 = 代码生成器生成的 *增删改查* 截图 =
 
-== ExtremeTable组件的列表页 ==
+== `ExtremeTable组件的列表页` ==
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/list.jpg]
 == 新增页 ==
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/create.jpg]
