@@ -38,7 +38,6 @@ public class BaseSpringController extends MultiActionController{
 	
     /**
      * 初始化binder的回调函数.
-     * 默认以DateUtil中的日期格式设置DateEditor及允许Integer,Double的字符串为空.
      *
      * @see MultiActionController#createBinder(HttpServletRequest,Object)
      */
