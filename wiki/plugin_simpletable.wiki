@@ -45,7 +45,7 @@ simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的P
 
 ==预览的源码==
 {{{
-		<simpletable:pageToolbar pageSizeSelectList="${pageSizeSelectList}" page="${page}"></simpletable:pageToolbar>
+		<simpletable:pageToolbar page="${page}"></simpletable:pageToolbar>
 	
 		<table width="100%"  border="0" cellspacing="0" class="gridBody">
 		  <thead class="tableHeader">
@@ -89,5 +89,5 @@ simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的P
 		  </tbody>
 		</table>
 	
-		<simpletable:pageToolbar pageSizeSelectList="${pageSizeSelectList}" page="${page}"></simpletable:pageToolbar>
+		<simpletable:pageToolbar page="${page}"></simpletable:pageToolbar>
 }}}
