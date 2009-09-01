@@ -30,7 +30,7 @@ public class SimpleTablePageRequestFactory {
 		result.setPageNumber(getIntParameter(request, "pageNumber", 1));
 		result.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
 		result.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
-		result.setFilters(WebUtils.getParametersStartingWith(request,"auto_include_"));
+		result.setFilters(WebUtils.getParametersStartingWith(request,"q_"));
 		
 		if(result.getPageSize() > MAX_PAGE_SIZE) {
 			result.setPageSize(MAX_PAGE_SIZE);
