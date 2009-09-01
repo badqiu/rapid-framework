@@ -65,6 +65,11 @@ author:badqiu
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
+	<target name="install_simpletable" description="安装simpletable分页列表">
+		<property name="plugin_name" value="simpletable"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
 	<!-- 安装插件:输入插件名称,再执行插件安装 -->
 	<target name="_install_plugin_with_plugin_name" depends="" description="根据插件名称安装插件">
 		<echo>安装插件:${plugin_name}</echo>
