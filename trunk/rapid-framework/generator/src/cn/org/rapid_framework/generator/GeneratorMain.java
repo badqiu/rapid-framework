@@ -9,7 +9,7 @@ package cn.org.rapid_framework.generator;
 
 public class GeneratorMain {
 	/**
-	 * 请直接以下代码调用不同的方法以执行相关生成任务.
+	 * 请直接修改以下代码调用不同的方法以执行相关生成任务.
 	 */
 	public static void main(String[] args) throws Exception {
 		GeneratorFacade g = new GeneratorFacade();
