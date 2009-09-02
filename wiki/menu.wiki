@@ -32,3 +32,4 @@
   * [changelog 修改日志]
   * [roadmap 路线图]
   * [faq 常见问题解答]
+  * [powered_by_rapid powered by rapid]
