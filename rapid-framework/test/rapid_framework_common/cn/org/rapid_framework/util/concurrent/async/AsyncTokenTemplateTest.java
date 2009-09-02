@@ -64,4 +64,43 @@ public class AsyncTokenTemplateTest extends TestCase {
 		System.out.println(count);
 		System.out.println(++count);
 	}
+	
+	public void testSendEmail() {
+		final String address = "badqiu(a)gmail.com";
+		final String subject = "test";
+		final String content = "async token test";
+		
+		//返回的token,包含token.addResponder()用于监听异步方法的执行结果
+		AsyncToken token = sendAsyncEmail(address,subject,content);
+		
+		//token可以继续传递给外部,以便外面感兴趣的listener监听这个异步方法的执行结果
+		token.addResponder(new IResponder() {
+			public void onFault(Exception fault) {
+				System.out.println("email send fail,cause:"+fault);
+				//此处可以直接引用address,subject,content,如,我们可以再次发送一次
+				sendAsyncEmail(address,subject,content);
+			}
+			public void onResult(Object result) {
+				System.out.println("email send success,result:"+result);
+			}
+		});
+	}
+	
+	public AsyncToken sendAsyncEmail(String address,String subject,String content) {
+		final AsyncToken token = new AsyncToken();
+		
+		Thread thread = new Thread(new Runnable() {
+			public void run() {
+				AsyncTokenTemplate.execute(token, new Callable() {
+					public Object call() throws Exception {
+						//do send email job;
+						return null;
+					}
+				});
+			}
+		});
+		thread.start();
+		
+		return token;
+	}
 }
