@@ -1,10 +1,10 @@
-
 = Powered By rapid-framework=
 
 ==河北鼎海网络技术有限公司==
 www.sw114.net
 
 ==项目名称：也买酒 B2C项目==
+{{{
 公司网站: http://www.yesmywine.com/
 公司名称：上海眸世贸易有限公司
 项目概述：技术后台采用 rapid-framework_v1.0.2版本开发
@@ -15,3 +15,4 @@ www.sw114.net
          权限管理
          后台采用Ext 2.1版本
          等等...
+}}}
