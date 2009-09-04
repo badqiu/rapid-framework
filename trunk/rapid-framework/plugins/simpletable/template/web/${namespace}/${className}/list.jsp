@@ -71,7 +71,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<!-- auto include parameters -->
 	<c:forEach items="<@jspEl 'pageRequest.filters'/>" var="entry">
-	<input type="hidden" name="q_<@jspEl 'entry.key'/>" value="<@jspEl 'entry.value'/>"/>
+	<input type="hidden" name="s_<@jspEl 'entry.key'/>" value="<@jspEl 'entry.value'/>"/>
 	</c:forEach>
 	
 	<input type="hidden" name="pageNumber" id="pageNumber" />
