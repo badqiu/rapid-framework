@@ -7,16 +7,47 @@ import javax.swing.SwingUtilities;
 
 /**
  * 该类主要用于得到异步方法的执行结果.
+ * 使用示例如下.
  * <pre>
- * 	AsyncToken token = sendEmail();
- * 	token.addResponder(new IResponder() {
- *		public void onFault(Throwable fault) {
- *			//handle fault 
- *		}
- *		public void onResult(Object result) {
- *			//handle result 
- *		}
- *	});
+ *	public void testSendEmail() {   
+ *	    final String address = "badqiu(a)gmail.com";   
+ *	    final String subject = "test";   
+ *	    final String content = "async token test";   
+ *	       
+ *	    //返回的token,包含token.addResponder()用于监听异步方法的执行结果   
+ *	    AsyncToken token = sendAsyncEmail(address,subject,content);   
+ *	       
+ *	    //token可以继续传递给外部,以便外面感兴趣的listener监听这个异步方法的执行结果   
+ *	    token.addResponder(new IResponder() {   
+ *	        public void onFault(Exception fault) {   
+ *	            System.out.println("email send fail,cause:"+fault);   
+ *	            //此处可以直接引用address,subject,content,如,我们可以再次发送一次   
+ *	            sendAsyncEmail(address,subject,content);   
+ *	        }   
+ *	        public void onResult(Object result) {   
+ *	            System.out.println("email send success,result:"+result);   
+ *	        }   
+ *	    });   
+ *	}   
+ *	  
+ *	public AsyncToken sendAsyncEmail(String address,String subject,String content) {   
+ *	    final AsyncToken token = new AsyncToken();   
+ *	       
+ *	    Thread thread = new Thread(new Runnable() {   
+ *	        public void run() {   
+ *	            try {   
+ *	                //do send email job...   
+ *	                token.setComplete(executeResult); //通知Responder token执行完   
+ *	            }catch(Exception e) {   
+ *	                token.setFault(e); //通知Responder token发生错误   
+ *	            }   
+ *	        }   
+ *	    });   
+ *	    thread.start();   
+ *	       
+ *	    return token;   
+ *	}  
+ *
  * </pre>
  * 生成token请查看AsyncTokenTemplate
  * @see AsyncTokenTemplate
