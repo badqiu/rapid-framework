@@ -1,3 +1,4 @@
+		<!--  去掉重复的配制
 		<!--Hibernate Open Session in View Filter-->
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>
@@ -25,4 +26,5 @@
     <filter-mapping>
         <filter-name>struts2Filter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>    
+    </filter-mapping>  
+    -->  

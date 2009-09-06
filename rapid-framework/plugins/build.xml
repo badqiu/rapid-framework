@@ -30,6 +30,10 @@ author:badqiu
 		<antcall target="install_web_struts2"></antcall>
     </target>
 	
+	<target name="install_web_ext" description="安装Extjs">
+		<property name="plugin_name" value="hibernate"/>
+    </target>
+	
 	<target name="install_dao_hibernate" description="安装orm框架hibernate">
 		<property name="plugin_name" value="hibernate"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
