@@ -93,7 +93,7 @@ public class Generator {
 					System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateRelativePath+"]");
 					continue;
 				}
-				if(!"true".equals(expressionValue.toString())) {
+				if(!"true".equals(String.valueOf(expressionValue))) {
 					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateRelativePath);
 					continue;
 				}
