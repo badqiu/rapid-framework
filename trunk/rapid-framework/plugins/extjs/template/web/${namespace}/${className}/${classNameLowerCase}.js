@@ -40,9 +40,8 @@ ${basepackage}.${classNameLower}.queryformpanel = Ext.extend(Ext.form.FormPanel,
 	            border:false,
 	            defaults:{border:false}
 	        	}
-	        	<#list table.columns as column>
-				<#if column.columnAlias!="id">
-	        	,{xtype:'textfield',fieldLabel:'${column.columnAlias}',name:'s_${column.columnNameLower}',width:288}</#if>
+	        	<#list table.notPkColumns as column>
+	        	,{xtype:'textfield',fieldLabel:'${column.columnAlias}',name:'s_${column.columnNameLower}',width:288}
 	        	</#list>
 	            ]
 	    });
@@ -90,10 +89,10 @@ ${basepackage}.${classNameLower}.dtlformpanel = Ext.extend(Ext.form.FormPanel,{
 		            defaults:{border:false}
 		        	}
 	            	<#list table.columns as column>
-					<#if column.columnAlias!="id">
-	        		,{xtype:'textfield',fieldLabel:'${column.columnAlias}',name:'${column.columnNameLower}',width:288}
-	        		<#else>
+					<#if column.pk>
 	        		,{xtype:'hidden',fieldLabel:'${column.columnAlias}',name:'${column.columnNameLower}',width:288}
+	        		<#else>
+	        		,{xtype:'textfield',fieldLabel:'${column.columnAlias}',name:'${column.columnNameLower}',width:288}
 	        		</#if>
 	        		</#list>
 	        ]
@@ -161,9 +160,8 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 		    new Ext.grid.RowNumberer(),
 		    this.sm,
 		    this.expander
-		    <#list table.columns as column>
-			<#if column.columnAlias!="id">
-	        ,{header:'${column.columnAlias}',width:100,sortable:true,dataIndex:'${column.columnNameLower}'}</#if>
+		    <#list table.notPkColumns as column>
+	        ,{header:'${column.columnAlias}',width:100,sortable:true,dataIndex:'${column.columnNameLower}'}
 	        </#list>
 		]);
 		
@@ -187,7 +185,6 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 	        	,{text:'修改',cls:'x-btn-text-icon',iconCls:'editicon',handler:this.edit${className},scope:this},'-'
 	        	,{text:'删除',cls:'x-btn-text-icon',iconCls:'deleteicon',handler:this.delete${className},scope:this},'-'
 	        	,{text:'查询',id:'btn-query',cls:'x-btn-text-icon',iconCls:'queryicon',handler:this.buildQueryWin,scope:this}
-				,{text:'导出到Excel', cls:'x-btn-text-icon',iconCls:'exporticon',handler:this.exporttoexcel,scope:this}
 	        	,'->'
 	        	,'搜索范围：'
 				,{xtype:'combo',
@@ -195,11 +192,10 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 	            emptyText:'请选择...',
 	            name:'field_type',
 	            hiddenName:'field_type',
-	            store:new Ext.data.Store({
-	                proxy:new Ext.data.HttpProxy({url:'../${className}/extfield.do'}),
-	                reader:new Ext.data.JsonReader({}, ['code','name']),
-	                autoLoad:false
-	            }),
+	            store:new Ext.data.ArrayStore({
+        			fields: ['name','code'],
+        			data: [<#list table.notPkColumns as column>['${column.columnAlias}', '${column.columnNameLower}']<#if column_has_next>,</#if></#list>]
+        		}),
 	            displayField:'name',
 	            valueField:'code',
 	            forceSelection: false,
@@ -207,7 +203,7 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 	            editable: false,
 	            triggerAction: 'all',
 	            allowBlank:true,
-	            mode: 'remote',
+	            mode: 'local',
 	            width:120
 	            ,listeners: {          
           			select:{fn:function(object,record,index){
@@ -255,22 +251,6 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
     * 构建函数结束
     */
 
-    //导出excel方法
-	,exporttoexcel:function(){
-        var vExportContent = this.getExcelXml();
-        if (Ext.isIE6 || Ext.isIE7 || Ext.isSafari || Ext.isSafari2 || Ext.isSafari3) {
-            var fd=Ext.get('frmDummy');
-            if (!fd) {
-                fd=Ext.DomHelper.append(Ext.getBody(),{tag:'form',method:'post',id:'frmDummy',action:'../../exportexcel.jsp', target:'_blank',name:'frmDummy',cls:'x-hidden',cn:[
-                    {tag:'input',name:'exportContent',id:'exportContent',type:'hidden'}
-                ]},true);
-            }
-            fd.child('#exportContent').set({value:vExportContent});
-            fd.dom.submit();
-        } else {
-            document.location = 'data:application/vnd.ms-excel;base64,'+Base64.encode(vExportContent);
-        }
-	}
 	//右键菜单
     ,onMessageContextMenu : function (grid, rowIndex, e) {
 		e.stopEvent();
@@ -432,10 +412,8 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
     }
     //查询操作
     ,queryOrder:function(){
-    	<#list table.columns as column>
-    	<#if column.columnAlias!="id">
+    	<#list table.notPkColumns as column>
     	this.getStore().baseParams['s_${column.columnNameLower}'] = this.queryformpanel.form.findField('s_${column.columnNameLower}').getRawValue();
-    	</#if>
 		</#list>
 		this.getStore().load();
 		this.querywin.hide();
