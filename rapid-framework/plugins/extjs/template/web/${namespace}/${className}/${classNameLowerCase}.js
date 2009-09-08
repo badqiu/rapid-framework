@@ -281,7 +281,7 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 			Ext.MessageBox.confirm('确认删除','确定要删除这些记录?',function(btn){
 				if (btn == 'yes'){
 						Ext.Ajax.request({
-						url:'../${className}/extdelete.do?ids='+record.data.id,
+						url:'../${className}/extdelete.do?ids='+record.data.${table.idColumn.columnNameLower},
 						method:'POST',
 						success:function(response){
 							var data = Ext.util.JSON.decode(response.responseText);
@@ -363,7 +363,7 @@ ${basepackage}.${classNameLower}Grid = Ext.extend(Ext.grid.GridPanel,{
 		Ext.MessageBox.confirm('确认删除','确定要删除这些记录?',function(btn){
 			if (btn == 'yes'){
 				Ext.Ajax.request({
-					url:'../${className}/extdelete.do?ids='+this.getRecordArrayUtils(records, 'id'),
+					url:'../${className}/extdelete.do?ids='+this.getRecordArrayUtils(records, '${table.idColumn.columnNameLower}'),
 		            method:'POST',
 		            success:function(response){
 		                var data = Ext.util.JSON.decode(response.responseText);
