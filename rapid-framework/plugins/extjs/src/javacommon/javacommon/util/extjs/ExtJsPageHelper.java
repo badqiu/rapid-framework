@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -24,13 +25,15 @@ public class ExtJsPageHelper {
 		if (sort != null && dir != null){
 			orderBy = sort + " " + dir;
 		}
-		PageRequest result = new PageRequest();
+		PageRequest<Map> result = new PageRequest(new HashMap());
 		//如果没有按照指定字段搜索,则按全条件查询
 		if(field_type!=null){
 			Map map = new HashMap();
 			map.put(field_type, query);
 			result.setFilters(map);
 		}
+		
+		result.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
 		
 		result.setPageNumber(start / limit + 1);
 		result.setPageSize(limit);
