@@ -26,16 +26,20 @@ public class SimpleTablePageRequestFactory {
 	}
 	
 	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumns,int defaultPageSize) {
-		PageRequest<Map> result = new PageRequest();
-		result.setPageNumber(getIntParameter(request, "pageNumber", 1));
-		result.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
-		result.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
-		result.setFilters(WebUtils.getParametersStartingWith(request,"s_"));
+		PageRequest<Map> pageRequest = new PageRequest();
+		return bindPageRequestParameters(pageRequest, request,defaultSortColumns, defaultPageSize);
+	}
+
+	public static PageRequest<Map> bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
+		pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
+		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
+		pageRequest.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
+		pageRequest.setFilters(WebUtils.getParametersStartingWith(request,"s_"));
 		
-		if(result.getPageSize() > MAX_PAGE_SIZE) {
-			result.setPageSize(MAX_PAGE_SIZE);
+		if(pageRequest.getPageSize() > MAX_PAGE_SIZE) {
+			pageRequest.setPageSize(MAX_PAGE_SIZE);
 		}
-		return result;
+		return pageRequest;
 	}
 	
 	static String getStringParameter(HttpServletRequest request,String paramName, String defaultValue) {
