@@ -1,4 +1,7 @@
   * [quick_start_guild 快速开始]
+  * demo
+    * [snapshot 界面预览图]
+    * [http://rapid-framework.googlecode.com/files/generator-templates-and-outputs.zip 生成器模板及输出demo]
   * 用户手册
     * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
@@ -28,7 +31,6 @@
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [project_build 项目构建]
     * [plugin_dev 插件开发]
-  * [snapshot 界面预览图]
   * [best_practice 最佳实践]
   * [changelog 修改日志]
   * [roadmap 路线图]
