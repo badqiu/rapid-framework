@@ -14,6 +14,11 @@ public class ExtJsPageHelper {
 	static int DEFAULT_PAGE_SIZE = 10;
 	
 	public static PageRequest<Map> createPageRequestForExtJs(HttpServletRequest request,String defaultOrderBy) {
+		PageRequest<Map> result = new PageRequest(new HashMap());
+		return bindPageRequestParameters(result, request, defaultOrderBy);
+	}
+
+	public static PageRequest<Map> bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultOrderBy) {
 		int start = getIntParameter(request,"start",0);
 		int limit = getIntParameter(request, "limit", DEFAULT_PAGE_SIZE);
 		
@@ -25,20 +30,19 @@ public class ExtJsPageHelper {
 		if (sort != null && dir != null){
 			orderBy = sort + " " + dir;
 		}
-		PageRequest<Map> result = new PageRequest(new HashMap());
 		//如果没有按照指定字段搜索,则按全条件查询
 		if(field_type!=null){
 			Map map = new HashMap();
 			map.put(field_type, query);
-			result.setFilters(map);
+			pageRequest.setFilters(map);
 		}
 		
-		result.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
+		pageRequest.getFilters().putAll(WebUtils.getParametersStartingWith(request, "s_"));
 		
-		result.setPageNumber(start / limit + 1);
-		result.setPageSize(limit);
-		result.setSortColumns(orderBy);
-		return result;
+		pageRequest.setPageNumber(start / limit + 1);
+		pageRequest.setPageSize(limit);
+		pageRequest.setSortColumns(orderBy);
+		return pageRequest;
 	}
 	
 	private static int getIntParameter(HttpServletRequest request,String name,int defaultValue) {
