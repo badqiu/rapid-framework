@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <fieldset>
 	<legend>搜索</legend>
 	<table>
-		<#list table.columns?chunk(5) as row>
+		<#list table.notPkColumns?chunk(5) as row>
 		<tr>	
 			<#list row as column>
 			<#if !column.htmlHidden>	
