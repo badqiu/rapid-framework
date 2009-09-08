@@ -175,41 +175,4 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 		outJson(result);
 	}
 	
-	
-	/**
-	 * extGrid搜索范围下拉框 
-	 * @throws IOException
-	 */
-	public void extfield() throws IOException
-	{
-		List result = new ArrayList(); 
-		Class c = ${className}.class;
-		JavaClass javaClass = new JavaClass(c);
-		try
-		{
-			List list = javaClass.getFields();
-			for (int i = 0; i < list.size(); i++)
-			{
-				JavaField javaField = (JavaField)list.get(i);
-				if (javaField.getFieldName().startsWith("ALIAS"))
-				{
-				        String str = c.getDeclaredField(javaField.getFieldName()).get(null).toString();
-				        if (!javaField.getFieldName().substring(6).toLowerCase().equals("id"))
-				        {
-					        Map map = new HashMap();
-					        map.put("id",i);
-							map.put("name",str);
-							map.put("code",javaField.getFieldName().substring(6).toLowerCase());
-							result.add(map);
-						}
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-
-		outJsonArray(result);
-	}
 }
