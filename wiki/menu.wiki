@@ -1,7 +1,7 @@
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * demo
     * [snapshot 界面预览图]
-    * [http://rapid-framework.googlecode.com/files/generator-templates-and-outputs.zip 生成器模板及输出demo]
+    * [generator_template_and_output 生成器模板及输出demo]
   * 用户手册
     * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
