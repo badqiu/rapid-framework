@@ -4,9 +4,9 @@
 具体的框架切换,请查看项目自自带的文档 *<font color='red'>doc/guild.html</font>* 进行项目搭建.
 
 =环境介绍=
-  # IDE: MyEclipse 6.5
-  # 数据库: Mysql 5
-  # JDK: 1.5
+  * IDE: MyEclipse 6.5
+  * 数据库: Mysql 5
+  * JDK: 1.5
 
 =struts2+hibernate详细搭建介绍=
 
