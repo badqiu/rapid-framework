@@ -16,6 +16,7 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/create_web_project.jpg]
 
 ==2.拷贝rapid-framework至项目根目录==
+将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝完效果如下.
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_rapid_to_project.jpg]
 
 ==3.设置项目的编码为utf-8==
@@ -24,15 +25,25 @@
 ==4.设置源码路径==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_source_folder_1.jpg]
 
-==5.将generator/lib/jars加入classpath==
+==5.将generator/lib的jars加入classpath==
+生成器依赖的jar包需要加入classpath
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_generator_jars_to_classpath.jpg]
 
 ==6.安装插件 hibernate及struts2==
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg]
 
-==7.修改generator.properties的jdbc数据库连接信息,其它属性暂不修改==
+==7.修改生成器配置文件generator.properties的jdbc数据库连接信息,其它属性暂不修改==
+
+{{{
+jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.username=root
+jdbc.password=abc123
+}}}
 
 ==8.在mysql数据库中创建表user_info==
+如上一步,在test数据库创建表,运行如下sql
 {{{
 CREATE TABLE `user_info` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -46,13 +57,20 @@ CREATE TABLE `user_info` (
 }}}
 
 ==9.运行代码生成器 GeneratorMain.java==
+以application的方式运行cn.org.rapid_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表.
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_generator.jpg]
 
-==10.拷贝生成的代码至项目根目录,并将 java_src,java_test加入源代码路径==
+==10.拷贝生成的代码至项目根目录==
+生成器生成的文件默认会输出在d:/webapp-generator-output
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
-==11.修改src/resources/jdbc.properties的数据库连接信息==
+==11.将 java_src,java_test加入源代码路径==
+参考第4步
 
-==12.部署应用struts2_demo至tomcat并启动tomcat服务器==
+==12.修改src/resources/jdbc.properties的数据库连接信息==
+该配置是应用需要连接的数据库,与生成器不同,参考第7步
 
-==13.访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
+==13.部署应用struts2_demo至tomcat==
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg]
+
+==14.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
