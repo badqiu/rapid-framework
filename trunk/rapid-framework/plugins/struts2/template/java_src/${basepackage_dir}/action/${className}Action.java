@@ -72,7 +72,6 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	/** 执行搜索 */
 	public String list() {
 		PageRequest<Map> pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
-		pageRequest.getFilters().putAll(BeanUtils.describe(${classNameLower})); //add custom filters
 		//pageRequest.getFilters().put("key",value);     //add custom filter
 		
 		Page page = ${classNameLower}Manager.findByPageRequest(pageRequest);
