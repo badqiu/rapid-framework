@@ -68,7 +68,7 @@ CREATE TABLE `user_info` (
 参考第4步
 
 ==12.修改src/resources/jdbc.properties的数据库连接信息==
-该配置是应用需要连接的数据库,与生成器不同,参考第7步
+该配置是应用需要连接的数据库,与生成器不同,与第7步的数据库连接配置相同即可
 
 ==13.部署应用struts2_demo至tomcat==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg]
