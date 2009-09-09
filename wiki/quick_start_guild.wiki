@@ -21,6 +21,8 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_rapid_to_project.jpg]
 
 ==3.设置项目的编码为utf-8==
+右键点击项目,修改项目属性
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_resource_encoding.jpg]
 
 ==4.设置源码路径==
