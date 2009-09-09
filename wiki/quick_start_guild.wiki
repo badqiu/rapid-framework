@@ -1,4 +1,38 @@
-
 = Introduction =
 
-请查看项目自向带的文档 doc/guild.html进行项目搭建.
+以下将详细描述struts2+hibernate的项目搭建方法,其它的项目组合如(springmvc+iBatis)可以参考如下步骤.
+具体的框架切换,请查看项目自向带的文档 doc/guild.html进行项目搭建.
+
+=环境介绍=
+IDE: MyEclipse 6.5
+数据库: Mysql 5
+JDK: 1.5
+
+=struts2+hibernate详细搭建介绍=
+
+==1.创建一个 struts2_demo的 web project==
+[]
+==2.拷贝rapid-framework至项目根目录==
+==3.设置项目的编码为utf-8==
+==4.设置源码路径==
+==5.将generator/lib/jars加入classpath==
+==6.安装插件 hibernate及struts2==
+==7.修改generator.properties的jdbc数据库连接信息,其它属性暂不修改==
+==8.在mysql数据库中创建表user_info==
+{{{
+CREATE TABLE `user_info` (
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `sex` tinyint(4) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+}}}
+
+==9.运行代码生成器 GeneratorMain.java==
+==10.拷贝生成的代码至项目根目录,并将 java_src,java_test加入源代码路径==
+==11.修改src/resources/jdbc.properties的数据库连接信息==
+==12.部署应用struts2_demo至tomcat并启动tomcat服务器==
+==13.访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
