@@ -79,3 +79,4 @@ CREATE TABLE `user_info` (
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg]
 
 ==14.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/view_jsp_list.jpg]
