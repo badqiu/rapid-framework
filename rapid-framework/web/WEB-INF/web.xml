@@ -41,7 +41,7 @@
 	<!-- ExtremeTable 表格标签的Properties文件 -->
 	<context-param>
 		<param-name>extremecomponentsPreferencesLocation</param-name>
-		<param-value>extremetable.properties</param-value>
+		<param-value>/extremetable.properties</param-value>
 	</context-param>
 	<context-param>
 		<param-name>extremecomponentsMessagesLocation</param-name>
