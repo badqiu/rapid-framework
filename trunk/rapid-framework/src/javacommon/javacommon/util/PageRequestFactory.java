@@ -38,9 +38,8 @@ public class PageRequestFactory {
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
 		PageRequest<Map> result = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,defaultPageSize),defaultSortColumns);
     	
-		Map sourceFilters = WebUtils.getParametersStartingWith(request, "s_");
-		//copyProperties(target,source)
-		BeanUtils.copyProperties(result.getFilters(), sourceFilters);
+		Map autoIncludeFilters = WebUtils.getParametersStartingWith(request, "s_");
+		result.getFilters().putAll(autoIncludeFilters);
 		
     	if(result.getPageSize() > MAX_PAGE_SIZE) {
     		result.setPageSize(MAX_PAGE_SIZE);
