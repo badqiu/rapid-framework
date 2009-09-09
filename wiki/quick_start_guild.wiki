@@ -32,7 +32,9 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_generator_jars_to_classpath.jpg]
 
 ==6.安装插件 hibernate及struts2==
-项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层),现运行install_dao_hibernate及install_web_struts2任务
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
+
+打开plugins/build.xml,并打开eclipse的 *Outline* 视图,现运行install_dao_hibernate及install_web_struts2任务
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg]
 
