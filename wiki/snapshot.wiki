@@ -2,8 +2,7 @@
 
 = 代码生成器生成的 *增删改查* 截图 =
 
-== `ExtremeTable组件的列表页` ==
-   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/list.jpg]
+
 == 新增页 ==
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/create.jpg]
 == 编辑页 ==
@@ -13,5 +12,11 @@
 == 查询页 ==
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/query.jpg]
 
-== Simpletable的列表页 ==
+= `ExtremeTable组件的列表页` =
+   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/list.jpg]
+
+= Simpletable的列表页 =
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/simple_table_list.jpg]
+
+= Extjs的列表页 =
+   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/extjs_list.jpg]
