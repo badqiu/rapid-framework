@@ -16,6 +16,9 @@
 =项目网站=
 [http://code.google.com/p/rapid-validation/]
 
+=应用网站=
+javaeye现就是使用本表单验证,有其独特优势:快速.
+
 = helloworld示例 =
 
 *引用文件*
