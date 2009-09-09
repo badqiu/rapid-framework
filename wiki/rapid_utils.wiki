@@ -1,4 +1,3 @@
-
 此页包含工具类介绍
 
 = JdbcPlaceholderConfigurer =
@@ -11,3 +10,6 @@
 //同时多线程的方式执行task
 executeAndWait(int threadCount, java.lang.Runnable task).
 }}}
+
+=AsyncToken=
+[http://badqiu.javaeye.com/blog/461089 AsyncToken模式,替换通常的Listener模式]
