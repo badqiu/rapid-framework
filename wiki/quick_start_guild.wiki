@@ -49,7 +49,7 @@ CREATE TABLE `user_info` (
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_generator.jpg]
 
 ==10.拷贝生成的代码至项目根目录,并将 java_src,java_test加入源代码路径==
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_rapid_to_project.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
 ==11.修改src/resources/jdbc.properties的数据库连接信息==
 
