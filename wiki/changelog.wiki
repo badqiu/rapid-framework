@@ -1,4 +1,29 @@
 #labels changelog,Featured
+
+==rapid-framework v2.5.0==
+{{{
+	提升:
+	XsqlBuilder支持Object作为filters
+	PageRequest.filters使用范型
+	
+	新特性:
+	支持Ibatis的分页Dialect
+	新增其它数据库的分页Dialect
+	
+	生成器:
+	支持从数据库中读取注释作为alias
+	
+	生成器模板:
+	删除subpackage,使用namespace变量替换,但只作用于jsp
+	list.jsp现在包含查询
+	
+	新增插件:
+	simpletable 简单的列表分页
+	extjs		ext模板
+	
+	其它一些bugfixed及大量整理及重构
+}}}
+
 ==rapid-framework v2.0.1==
 	* jdbc Dialect:删除Oracle9Dialect并修正分页错误
 	* 修正flex模板错误
