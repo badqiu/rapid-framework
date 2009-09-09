@@ -13,7 +13,7 @@
 =struts2+hibernate详细搭建介绍=
 
 ==1.创建一个 struts2_demo的 web project==
-[]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/create_web_project.jpg]
 ==2.拷贝rapid-framework至项目根目录==
 ==3.设置项目的编码为utf-8==
 ==4.设置源码路径==
