@@ -2,7 +2,8 @@
 <#include "/macro.include"/> 
 <#include "/custom.include"/> 
 <#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
+<#assign classNameLower = className?uncap_first>
+<#assign actionExtension = "do"> 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
 <html>
@@ -31,9 +32,9 @@
 			</td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower+"String"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"   />
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="s_${column.columnNameLower}"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}"  />
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>"  name="s_${column.columnNameLower}"  />
 				</#if>
 			</td>
 			</#if>
@@ -52,7 +53,7 @@
 
 <ec:table items='page.result' var="item" method="get"
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="<@jspEl 'ctx'/>${actionBasePath}/list.do" autoIncludeParameters="true">
+	action="<@jspEl 'ctx'/>${actionBasePath}/list.${actionExtension}" autoIncludeParameters="true">
 	<ec:row>
 		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
 			<input type="checkbox" name="items" value="<@generateIdQueryString/>"/>
@@ -63,8 +64,8 @@
 		</#if>
 		</#list>
 		<ec:column property="操作" title="操作" sortable="false" viewsAllowed="html">
-			<a href="<@jspEl 'ctx'/>${actionBasePath}/show.do?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
-			<a href="<@jspEl 'ctx'/>${actionBasePath}/edit.do?<@generateIdQueryString/>">修改</a>
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/show.${actionExtension}?<@generateIdQueryString/>">查看</a>&nbsp;&nbsp;&nbsp;
+			<a href="<@jspEl 'ctx'/>${actionBasePath}/edit.${actionExtension}?<@generateIdQueryString/>">修改</a>
 		</ec:column>
 	</ec:row>
 </ec:table>
