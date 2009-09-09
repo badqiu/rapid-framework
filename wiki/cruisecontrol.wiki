@@ -1,0 +1,8 @@
+
+= 持续集成 =
+
+现rapid使用cruisecontrol作为持续集成工具，请下载预先为rapid配置好的cruisecontrol
+
+[http://rapid-framework.googlecode.com/files/cruisecontrol-bin-2.8.2-for-rapidframework.zip]
+
+然后解压，并参照zip里面的*运行说明.txt*启动rapid持续集成
