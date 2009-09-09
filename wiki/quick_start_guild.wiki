@@ -1,14 +1,14 @@
-= Introduction =
+= 介绍 =
 
 以下将详细描述struts2+hibernate的项目搭建方法,其它的项目组合如(springmvc+iBatis)可以参考如下步骤.
 具体的框架切换,请查看项目自向带的文档 doc/guild.html进行项目搭建.
 
 =环境介绍=
-IDE: MyEclipse 6.5
+*IDE:* MyEclipse 6.5
 
-数据库: Mysql 5
+*数据库:* Mysql 5
 
-JDK: 1.5
+*JDK:* 1.5
 
 =struts2+hibernate详细搭建介绍=
 
