@@ -31,6 +31,7 @@
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [project_build 项目构建]
     * [plugin_dev 插件开发]
+    * [cruisecontrol 持续集成]
   * [best_practice 最佳实践]
   * [changelog 修改日志]
   * [roadmap 路线图]
