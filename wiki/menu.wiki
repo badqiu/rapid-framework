@@ -1,4 +1,4 @@
-  * [quick_start_guild 快速开始(struts2+hiberante项目搭建)]
+  * [quick_start_guild 快速开始(ssh项目搭建)]
   * demo
     * [snapshot 界面预览图]
     * [http://rapid-framework.googlecode.com/files/generator-templates-and-outputs.zip 生成器模板及输出demo]
