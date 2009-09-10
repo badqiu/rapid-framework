@@ -9,6 +9,6 @@
 然后解压，并参照zip里面的 *运行说明.txt* 启动rapid持续集成
 
 压缩包包含:
-cruisecontrol
-subversion
+  * cruisecontrol
+  * subversion
 56MB大小为cruisecontrol大小,未包含rapid-framework
