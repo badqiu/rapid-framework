@@ -6,6 +6,11 @@
 
 <style type="text/css">
 
+body {
+    font-size:12px;
+}
+
+/* 可抽取出 global.css  START*/
 html, body, div, span, object, iframe, pre, a, code, font, ul, li, img, samp, small, strong, big, form, label, table, caption, tr, td {
     margin:0px;
 	padding:0px;
@@ -17,24 +22,21 @@ html, body, div, span, object, iframe, pre, a, code, font, ul, li, img, samp, sm
 	text-align:left;
 	vertical-align:baseline;
 }
-
+li {
+    list-style:none;
+}
 .content { 
 	clear:both;
 	margin:0px auto 0px auto;
 	text-align:left;
 }
+/* 可抽取出 global.css  END*/
 
-li {
-    list-style:none;
-}
-
-body {
-    font-size:12px;
-}
 .content {
 	width:98%;
 }
 
+/* 可抽取出 layouts.css  START*/
 #header {
 	width:100%;
 	height:60px;
@@ -96,6 +98,7 @@ body {
     width:100%;
 	height:460px;
 }
+/* 可抽取出 layouts.css  END*/
 
 </style>
 
