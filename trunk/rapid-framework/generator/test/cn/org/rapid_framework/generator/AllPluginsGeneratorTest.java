@@ -52,11 +52,16 @@ public class AllPluginsGeneratorTest extends TestCase {
 			
 			Generator g = new Generator();
 			
-			Collection<File> includeFiles = FileUtils.listFiles(new File("template"), new String[]{"include"}, true);
-			for(File src : includeFiles) {
-				FileUtils.copyFileToDirectory(src, new File("d:/temp/template"));
+			boolean includeDaoAndService = true;
+			if(includeDaoAndService) {
+				g.addTemplateRootDir(new File("template"));
+			}else {
+				Collection<File> includeFiles = FileUtils.listFiles(new File("template"), new String[]{"include"}, true);
+				for(File src : includeFiles) {
+					FileUtils.copyFileToDirectory(src, new File("d:/temp/template"));
+				}
+				g.addTemplateRootDir(new File("d:/temp/template"));
 			}
-			g.addTemplateRootDir(new File("d:/temp/template"));
 			
 			String baseTemplateOutput = "d:/generator-demo-output/"+child.getName();
 			g.outRootDir = baseTemplateOutput + "/generator-output";
