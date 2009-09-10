@@ -39,18 +39,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <fieldset>
 	<legend>搜索</legend>
 	<table>
-		<#list table.notPkColumns?chunk(5) as row>
+		<#list table.notPkColumns?chunk(4) as row>
 		<tr>	
 			<#list row as column>
 			<#if !column.htmlHidden>	
-			<td class="tdLabel">
-					<%=${className}.ALIAS_${column.constantName}%>
-			</td>		
+			<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
 			<td>
 				<#if column.isDateTimeColumn>
 				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="s_${column.columnNameLower}" name="s_${column.columnNameLower}"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="s_${column.columnNameLower}"  />
+				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="s_${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
 				</#if>
 			</td>
 			</#if>
