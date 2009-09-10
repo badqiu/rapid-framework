@@ -9,7 +9,7 @@ package ${basepackage}.${className}
 	
 	<#include "/actionscript_imports.include">
 	
-	public class List${className}Command extends DefaultResponder implements  IResponder,ICommand
+	public class List${className}Command extends BaseResponder implements  IResponder,ICommand
 	{
 		private var pageRequest : PageRequest;
 		private var model : ${className}ModelLocator = ${className}ModelLocator.getInstance();
