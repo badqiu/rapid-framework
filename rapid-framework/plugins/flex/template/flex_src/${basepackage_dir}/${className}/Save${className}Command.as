@@ -10,7 +10,7 @@ package ${basepackage}.${className}
 	
 	<#include "/actionscript_imports.include">
 	
-	public class Save${className}Command extends DefaultResponder implements  IResponder,ICommand
+	public class Save${className}Command extends BaseResponder implements  IResponder,ICommand
 	{
 		private var model :${className}ModelLocator = ${className}ModelLocator.getInstance();
 		
