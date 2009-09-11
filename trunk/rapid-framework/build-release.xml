@@ -213,17 +213,24 @@
 				<include name="readme.txt"/>
 				<include name="changelog.txt"/>
 				<include name="MIT-LICENSE.txt"/>
+				
 				<exclude name="${dir.src.web}/WEB-INF/classes/**"/>
 				<exclude name="generator/test/**"/>
-				
 				<exclude name="plugins/ext/**"/>
 				<exclude name="plugins/plugin_template/**"/>
+				<exclude name="plugins/menu**"/>
+				
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
 				<include name="rapid-framework.jar"/>
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-framework-common-${version}-src.zip"/>
+			</zipfileset>
+			
+			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
+				<include name="**"/>
+				<exclude name="**/jquery.js"/>
 			</zipfileset>
 		</zip>
 	</target>
