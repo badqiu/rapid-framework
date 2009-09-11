@@ -13,9 +13,13 @@
 <script src="scripts/jquery.js"></script>
 <script>
 	$(document).ready(function() {
-		$('.urbangreymenu a').click(function() {
-			$('.urbangreymenu a').removeClass('currentClickMenu');
+		$('.urbangreymenu li a').click(function() {
+			$('.urbangreymenu li a').removeClass('currentClickMenu');
 			$(this).addClass('currentClickMenu');
+		});
+		
+		$('.headerbar').click(function() {
+			$(this).next().toggle();
 		});
 	});
 </script>

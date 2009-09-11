@@ -17,6 +17,7 @@ body{
 	margin-top: 0;
 	text-transform: uppercase;
 	padding: 3px 0 3px 31px; /*31px is left indentation of header text*/
+	cursor:pointer;
 }
 
 .urbangreymenu ul {
