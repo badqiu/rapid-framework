@@ -218,7 +218,7 @@
 				<exclude name="generator/test/**"/>
 				<exclude name="plugins/ext/**"/>
 				<exclude name="plugins/plugin_template/**"/>
-				<exclude name="plugins/menu**"/>
+				<exclude name="plugins/menu*/**"/>
 				
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
