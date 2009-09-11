@@ -125,7 +125,7 @@ function autoResizeDivFunc() {
 
 $(document).ready(function() {
 	autoResizeDivFunc();
-	setInterval(autoResizeDivFunc,650);
+	$(window).bind('resize',autoResizeDivFunc);
 });
 
 </script>
