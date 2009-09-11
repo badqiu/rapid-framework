@@ -6,9 +6,19 @@
 
 [http://rapid-framework.googlecode.com/files/cruisecontrol-bin-2.8.2-for-rapidframework.zip]
 
-然后解压，并参照zip里面的 *运行说明.txt* 启动rapid持续集成
-
-压缩包包含:
+*压缩包包含:*
   * cruisecontrol
   * subversion
+
 56MB大小为cruisecontrol大小,未包含rapid-framework
+
+
+==运行说明==
+
+1. 运行svn-checkout-rapidframework.bat将rapid-framework从svn checkout至projetcs/rapid-framework
+
+2. 设置好JAVA_HOME并运行cruisecontrol.bat以启动持续集成服务器
+
+3. 打开浏览器访问 http://localhost:6060/dashboard,即可下载构建出来的产品
+
+
