@@ -19,6 +19,4 @@
 
 2. 设置好JAVA_HOME并运行cruisecontrol.bat以启动持续集成服务器
 
-3. 打开浏览器访问 http://localhost:6060/dashboard,即可下载构建出来的产品
-
-
+3. 打开浏览器访问 [http://localhost:6060/dashboard],即可下载构建出来的产品
