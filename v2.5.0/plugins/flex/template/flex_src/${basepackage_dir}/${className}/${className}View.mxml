@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()"
+	xmlns:${classNameLower}="${basepackage}.${className}.*"
+	xmlns:component="javacommon.flex.component.*"
+	xmlns:pagging="com.wai.components.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.utils.ArrayUtil;
+			import com.wai.components.events.PaginateEvent;
+			import mx.collections.IViewCursor;
+			import mx.collections.ArrayCollection;
+			
+			<#include "/actionscript_imports.include">
+			import ${basepackage}.vo.${className};
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.events.ListEvent;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			
+			[Bindable]
+			public var model:${className}ModelLocator = ${className}ModelLocator.getInstance();
+			
+			private function init():void{
+				//${classNameLower}List.${classNameLower}Grid.addEventListener(ListEvent.CHANGE, ${classNameLower}GridChange);
+				BindingUtils.bindProperty(${classNameLower}Grid.grid, "selectedItem",model,"selectedItem");
+			}
+			
+			private function loadData():void{
+				var c : List${className}Command = new List${className}Command(model.pageRequest);
+				c.execute();
+			}
+			
+			private function save(): void{
+				if(!${classNameLower}Detail.validate()){
+				 	return;
+				}
+				var ${classNameLower}: ${className} = ${classNameLower}Detail.get${className}();
+				var c: Save${className}Command = new Save${className}Command(${classNameLower});
+				c.execute();
+			}
+			
+			public function del():void{
+			  	AppCrudUtils.confirmDelete(${classNameLower}Grid.getSelectedList(),function():void {
+	  		    	var ids:ArrayCollection = CollectionUtils.select(${classNameLower}Grid.getSelectedList(),'${table.idColumn.columnNameLower}');
+			      	var c :Delete${className}Command = new Delete${className}Command(ids.toArray());
+			      	c.execute();
+			  	});
+			}
+			
+			private function newRecord(): void{
+				model.selectedItem = new ${className}();
+			}
+			
+			private function pageChangeHandler(e : PaginateEvent):void{
+				var pageNumber : int = e.index + 1;
+				model.pageRequest.pageNumber = pageNumber;
+				loadData();
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10">
+		<mx:Text text="${className}" styleName="moduleTitle"/>
+		<${classNameLower}:${className}Detail id="${classNameLower}Detail"
+			${classNameLower}="{model.selectedItem}" 
+			styleName="detailForm" width="100%"/>
+		<component:CrudToolbar
+			deleteEvent="del()"
+			newEvent="newRecord()" 
+			saveEvent="save()"/>
+		<${classNameLower}:${className}Grid id="${classNameLower}Grid" 
+			list="{model.list}"
+			width="100%" height="100%"/>
+		<mx:HBox>
+			<pagging:WAIPaginator id="paginator" 
+				itemsPerPage="{model.pageRequest.pageSize}"
+				rangeCount="{5}"
+				itemsTotal="{model.page.totalCount}"
+				selectedIndex="1"
+				pageChange="pageChangeHandler(event)" />
+			<mx:Text id="resultsIndicator" text="{'Results: ' + String(model.page.thisPageFirstElementNumber) + ' - ' + 
+				String(model.page.thisPageLastElementNumber) + ' of ' + model.page.totalCount}"/>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>
