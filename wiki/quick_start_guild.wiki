@@ -8,7 +8,7 @@
   * 数据库: Mysql 5
   * JDK: 1.5
 
-=struts2+hibernate详细搭建介绍=
+=struts2+spring+hibernate详细搭建介绍=
 
 ==1.创建一个 struts2_demo的 web project==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/create_web_project.jpg]
