@@ -118,9 +118,12 @@ html, body, div, span, object, iframe, pre, a, code, font, ul, li, img, samp, sm
 
 /** 自动调整div高度 */
 function autoResizeDivFunc() {
-	var otherDivHeight = $('#header').height() + $('#nav').height(); // 自动调整高度 = 浏览器高度 - 其它div高度
-	var autoDivHeight = (document.documentElement.clientHeight || document.body.clientHeight) - otherDivHeight;
-	$('#main iframe').height( autoDivHeight);
+	var autoDivHeight = (document.documentElement.clientHeight || document.body.clientHeight) - $('#main').position().top;
+	if($.browser.msie) {
+		$('#main iframe').height( autoDivHeight);
+	}else {
+		$('#main').height( autoDivHeight);
+	}
 };
 
 $(document).ready(function() {
