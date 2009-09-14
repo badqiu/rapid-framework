@@ -119,8 +119,8 @@ html, body, div, span, object, iframe, pre, a, code, font, ul, li, img, samp, sm
 /** 自动调整div高度 */
 function autoResizeDivFunc() {
 	var otherDivHeight = $('#header').height() + $('#nav').height(); // 自动调整高度 = 浏览器高度 - 其它div高度
-	var autoDivHeight = (document.documentElement.clientHeight || document.body.clientHeight) - otherDivHeight; 
-	$('#main').height( autoDivHeight );
+	var autoDivHeight = (document.documentElement.clientHeight || document.body.clientHeight) - otherDivHeight;
+	$('#main iframe').height( autoDivHeight);
 };
 
 $(document).ready(function() {
@@ -130,7 +130,7 @@ $(document).ready(function() {
 
 </script>
 </head>
-<body scroll=no>
+<body scroll="no">
  <div class="content">
 
   <div id="header">
@@ -155,7 +155,7 @@ $(document).ready(function() {
   <div id="main">
     <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
       <tr height="100%">
-        <td align="left" id="left" >
+        <td align="left" id="left">
           <iframe name="leftFrame" width="100%" height="100%" src="left.html" frameborder="0" scrolling="no"></iframe>
         </td>
         <td align="left" id="right">
