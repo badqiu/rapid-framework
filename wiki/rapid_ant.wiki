@@ -6,7 +6,7 @@
 
 = 使用 =
 *1.环境变量配置*
-默认build.xml依赖环境变量:tomcat.home,需要依赖该变量是由于web项目需要依赖servlet的api.
+默认build.xml依赖环境变量:tomcat.home,需要依赖该变量是由于web项目需要依赖servlet的api. 你也可以修改此项
 
 *2.属性修改*
   dirs.java.src : java源代码的路径
