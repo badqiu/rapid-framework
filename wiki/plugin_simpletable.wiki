@@ -4,9 +4,13 @@
 
 simpletable是rapid自带的一个分页组件,该组件主要使用rapid中的Page及PageRequest两个类结合JSTL进行分页.易于修改及灵活.
 
+=依赖=
+现本tag依赖于jQuery.js
+
 =存放目录=
   * web/widgets/simpletable 该目录主要存放css,js,image文件
   * WEB-INF/tags/simpletable 该文件存放自定义的jsp tagfile
+
 
 =主要文件介绍=
 ==pageToolbar.tag文件 (相关默认值在此修改)==
