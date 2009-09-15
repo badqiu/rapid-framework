@@ -41,11 +41,12 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg]
 
 == `7.修改生成器配置文件generator.properties的jdbc数据库连接信息 其它属性暂不修改` ==
+
 {{{
-jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
-jdbc.driver=com.mysql.jdbc.Driver
-jdbc.username=root
-jdbc.password=abc123
+`jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
+`jdbc.driver=com.mysql.jdbc.Driver`
+`jdbc.username=root`
+`jdbc.password=abc123`
 }}}
 
 ==8.在mysql数据库中创建表user_info==
