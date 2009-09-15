@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = 介绍 =
 
 以下将详细描述struts2+hibernate的项目搭建方法,其它的项目组合如(springmvc+iBatis)可以参考如下步骤.
