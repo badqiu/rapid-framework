@@ -1,11 +1,10 @@
 package javacommon.mail;
 
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -22,13 +21,14 @@ public class MailEngine {
 	public void setAsyncJavaMailSender(AsyncJavaMailSender asyncJavaMailSender) {
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
-
+	
 	/**
-	 * 异步发送邮件
+	 * 
 	 * @param msg
+	 * @param fromPersonal 发件人
 	 * @return
 	 */
-	public AsyncToken sendAsyncMsg(final SimpleMailMessage msg) {
+	public AsyncToken sendHtmlMail(final SimpleMailMessage msg,final String fromPersonal) {
 		return asyncJavaMailSender.send(new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage)
 					throws Exception {
@@ -36,8 +36,9 @@ public class MailEngine {
 				msg.copyTo(mimeMailMessage);
 				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 				helper.setText(msg.getText(),true);
+				mimeMessage.setFrom(new InternetAddress(msg.getFrom(),fromPersonal));
 			}
 		});
 	}
-	
+
 }
