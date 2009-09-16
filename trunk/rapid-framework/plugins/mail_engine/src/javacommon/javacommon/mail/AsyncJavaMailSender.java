@@ -33,10 +33,10 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate;
 public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	protected static final Log log = LogFactory.getLog(AsyncJavaMailSender.class);
 	
-	private int sendMailThreadPool = 0;
-	private ExecutorService executorService; //邮件发送的线程池
-	private JavaMailSender javaMailSender;
-	private boolean shutdownExecutorService = true;
+	protected int sendMailThreadPool = 0;
+	protected ExecutorService executorService; //邮件发送的线程池
+	protected JavaMailSender javaMailSender;
+	protected boolean shutdownExecutorService = true;
 	
 	public void afterPropertiesSet() throws Exception {
 		if(executorService == null && sendMailThreadPool > 0) {
