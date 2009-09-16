@@ -19,7 +19,7 @@ public class AsyncJavaMailSenderUtils {
 	}
 	
 	/**
-	 * @param msg
+	 * @param msg 邮件消息
 	 * @param fromPersonal 发件人的名称
 	 * @return
 	 */
