@@ -16,8 +16,8 @@
 
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.126.com" />
-		<property name="username" value="rapidframework@126.com" />
-		<property name="password" value="123456" />
+		<property name="username" value="badqiu@126.com" />
+		<property name="password" value="rgbdjfhv" />
 		<property name="defaultEncoding" value="GBK" />
 		
 		<property name="javaMailProperties">
@@ -32,5 +32,15 @@
 		<property name="sendMailThreadPool" value="3" />
 		<property name="javaMailSender" ref="javaMailSender" />
     </bean>
-    
+
+	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:/email_template" />
+	</bean>
+	
+	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="badqiu@126.com"></property>
+	</bean>
+	
+	<context:component-scan base-package="javacommon.mail"/>
+	
 </beans>
