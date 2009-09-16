@@ -16,7 +16,6 @@ import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
 
 public class OrderMailerTest extends TestCase {
-	AsyncJavaMailSenderUtils engine;
 	OrderMailer orderMailer;
 	
 	public void setUp()throws Exception {
