@@ -9,7 +9,7 @@ import javacommon.mail.BaseMailer;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
-import cn.org.rapid_framework.mail.AsyncJavaMailSenderUtils;
+import cn.org.rapid_framework.mail.MailMessageUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
@@ -31,7 +31,7 @@ public class OrderMailer extends BaseMailer{
 
 	public void sendConfirmOrder(String username) throws TemplateException, IOException {
 		SimpleMailMessage msg = createConfirmOrder(username);
-		AsyncToken token = AsyncJavaMailSenderUtils.sendHtmlMail(asyncJavaMailSender,msg);
+		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.createHtmlMsg(msg));
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
