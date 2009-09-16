@@ -3,6 +3,7 @@ package javacommon.mail;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,10 +23,14 @@ public class MailEngine {
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
 	
+	
+	public AsyncToken sendHtmlMail(final SimpleMailMessage msg) {
+		return sendHtmlMail(msg,null);
+	}
+	
 	/**
-	 * 
 	 * @param msg
-	 * @param fromPersonal 发件人
+	 * @param fromPersonal 发件人的名称
 	 * @return
 	 */
 	public AsyncToken sendHtmlMail(final SimpleMailMessage msg,final String fromPersonal) {
@@ -36,7 +41,10 @@ public class MailEngine {
 				msg.copyTo(mimeMailMessage);
 				MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 				helper.setText(msg.getText(),true);
-				mimeMessage.setFrom(new InternetAddress(msg.getFrom(),fromPersonal));
+				
+				if(StringUtils.isNotEmpty(fromPersonal)) {
+					mimeMessage.setFrom(new InternetAddress(msg.getFrom(),fromPersonal));
+				}
 			}
 		});
 	}
