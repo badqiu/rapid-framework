@@ -28,8 +28,6 @@ public class BaseMailer implements InitializingBean{
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
 
-
-
 	public void setSimpleMailMessageTemplate(SimpleMailMessage simpleMailMessage) {
 		this.simpleMailMessageTemplate = simpleMailMessage;
 	}
@@ -48,7 +46,5 @@ public class BaseMailer implements InitializingBean{
 		Template template = freemarkerConfiguration.getTemplate(templateName);
 		return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 	}
-
-
 
 }
