@@ -46,7 +46,11 @@ public class BaseMailer implements InitializingBean{
 		return subjectPrefix;
 	}
 	
-	public String getSubject(String subject) {
+	/**
+	 * 为subject 增加前缀
+	 * @return
+	 */
+	public String wrapSubject(String subject) {
 		return getSubjectPrefix()+subject;
 	}
 
