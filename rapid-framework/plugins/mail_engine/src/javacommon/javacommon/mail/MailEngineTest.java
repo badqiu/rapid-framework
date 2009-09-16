@@ -25,7 +25,7 @@ public class MailEngineTest extends TestCase {
 	
 	public void testSend() throws Exception {
 		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo("qiubaichao@kingsoft.com");
+		msg.setTo("badqiu@gmail.com");
 		msg.setFrom("rapidframework@126.com");
 		msg.setText("hello: badqiu, <h1>2008</h1>");
 		msg.setSubject("test subject");
