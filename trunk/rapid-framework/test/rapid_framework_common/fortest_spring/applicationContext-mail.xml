@@ -11,9 +11,9 @@
     default-autowire="byName" default-lazy-init="false">
 
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.126.com" />
-		<property name="username" value="badqiu@126.com" />
-		<property name="password" value="rgbdjfhv" />
+		<property name="host" value="smtp.sohu.com" />
+		<property name="username" value="rapidframework@sohu.com" />
+		<property name="password" value="123456" />
 		<property name="defaultEncoding" value="GBK" />
 		
 		<property name="javaMailProperties">
