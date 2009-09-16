@@ -12,10 +12,10 @@
 
 	<bean id="mailEngine" class="javacommon.mail.MailEngine">
 		<property name="sendMailThreadPool" value="3" />
-		<property name="mailSender" ref="mailSender" />
+		<property name="javaMailSender" ref="javaMailSender" />
     </bean>
 
-	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.126.com" />
 		<property name="username" value="rapidframework@126.com" />
 		<property name="password" value="123456" />
@@ -28,4 +28,8 @@
 		</property>
 	</bean>
 
+	<bean id="asyncJavaMailSender" class="javacommon.mail.AsyncJavaMailSender">
+		<property name="sendMailThreadPool" value="3" />
+		<property name="javaMailSender" ref="javaMailSender" />
+    </bean>
 </beans>
