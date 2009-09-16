@@ -10,10 +10,6 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
     default-autowire="byName" default-lazy-init="false">
 
-	<bean id="mailEngine" class="javacommon.mail.MailEngine">
-		<property name="asyncJavaMailSender" ref="asyncJavaMailSender" />
-    </bean>
-
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.126.com" />
 		<property name="username" value="badqiu@126.com" />

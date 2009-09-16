@@ -1,32 +1,34 @@
 package javacommon.mail;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
+import cn.org.rapid_framework.mail.AsyncJavaMailSender;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class BaseMailer implements InitializingBean{
 
-	protected MailEngine mailEngine;
+	protected AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
 	protected Configuration freemarkerConfiguration;
 	
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(mailEngine,"mailEngine must be not null");
+		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
 		Assert.notNull(freemarkerConfiguration,"freemarkerConfiguration must be not null");
 		Assert.notNull(simpleMailMessageTemplate,"simpleMailMessageTemplate must be not null");
 	}
 	
-	public void setMailEngine(MailEngine mailEngine) {
-		this.mailEngine = mailEngine;
+	public void setAsyncJavaMailSender(AsyncJavaMailSender asyncJavaMailSender) {
+		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
+
+
 
 	public void setSimpleMailMessageTemplate(SimpleMailMessage simpleMailMessage) {
 		this.simpleMailMessageTemplate = simpleMailMessage;

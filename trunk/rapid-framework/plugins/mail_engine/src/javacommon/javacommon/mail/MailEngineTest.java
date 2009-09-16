@@ -16,13 +16,12 @@ import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
 
 public class MailEngineTest extends TestCase {
-	MailEngine engine;
+	AsyncJavaMailSenderUtils engine;
 	AsyncJavaMailSender asyncMailSender;
 	OrderMailer orderMailer;
 	
 	public void setUp()throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-mail.xml");
-		engine = (MailEngine)context.getBean("mailEngine");
 		asyncMailSender = (AsyncJavaMailSender)context.getBean("asyncJavaMailSender");
 		orderMailer = (OrderMailer)context.getBean("orderMailer");
 	}
@@ -50,17 +49,6 @@ public class MailEngineTest extends TestCase {
 			}
 		});
 		
-		token = engine.sendHtmlMail(msg, "中文badqiu");
-		token.addResponder(new IResponder() {
-			public void onFault(Exception e) {
-				System.out.println("send email fail,cause:"+e);
-				e.printStackTrace();
-			}
-
-			public void onResult(Object result) {
-				System.out.println("send email success,中文badqiu");
-			}
-		});
 		System.out.println("sleep 5 seconds");
 		Thread.sleep(1000 * 5);
 	}
