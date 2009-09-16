@@ -15,15 +15,12 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
 
-public class MailEngineTest extends TestCase {
-	AsyncJavaMailSenderUtils engine;
+public class AsyncJavaMailSenderTest extends TestCase {
 	AsyncJavaMailSender asyncMailSender;
-	OrderMailer orderMailer;
 	
 	public void setUp()throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-mail.xml");
 		asyncMailSender = (AsyncJavaMailSender)context.getBean("asyncJavaMailSender");
-		orderMailer = (OrderMailer)context.getBean("orderMailer");
 	}
 	
 	public void tearDown() throws Exception{
@@ -53,12 +50,5 @@ public class MailEngineTest extends TestCase {
 		Thread.sleep(1000 * 5);
 	}
 	
-	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
-		Map model = new HashMap();
-		model.put("username", "badqiu");
-		orderMailer.sendConfirmOrder(model);
-		
-		Thread.sleep(1000 * 5);
-	}
-	
+
 }
