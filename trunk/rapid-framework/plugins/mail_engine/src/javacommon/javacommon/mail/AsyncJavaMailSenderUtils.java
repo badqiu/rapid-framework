@@ -12,6 +12,11 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import cn.org.rapid_framework.mail.AsyncJavaMailSender;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 
+/**
+ * 异步发送邮件的工具类
+ * @author badqiu
+ *
+ */
 public class AsyncJavaMailSenderUtils {
 	
 	public static AsyncToken sendHtmlMail(AsyncJavaMailSender asyncJavaMailSender,final SimpleMailMessage msg) {
