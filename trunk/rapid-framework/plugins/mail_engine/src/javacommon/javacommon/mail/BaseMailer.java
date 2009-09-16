@@ -5,6 +5,7 @@ import java.io.StringWriter;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
 import freemarker.template.Configuration;
@@ -41,21 +42,9 @@ public class BaseMailer implements InitializingBean{
 		return msg;
 	}
 
-	protected String processWithTemplate(Object rootMap, String templateName) throws TemplateException, IOException {
-		return processWithTemplate(rootMap, templateName, null);
-	}
-
-	private String processWithTemplate(Object model, String templateName,String encoding) throws TemplateException, IOException {
-		StringWriter result = new StringWriter();
-		Template template = null;
-		if(encoding == null) {
-			template = freemarkerConfiguration.getTemplate(templateName);
-		}else {
-			template = freemarkerConfiguration.getTemplate(templateName,encoding);
-		}
-		
-		template.process(model, result);
-		return result.toString();
+	protected String processWithTemplate(Object model, String templateName) throws TemplateException, IOException {
+		Template template = freemarkerConfiguration.getTemplate(templateName);
+		return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 	}
 
 
