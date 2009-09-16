@@ -23,7 +23,7 @@ public class OrderMailer extends BaseMailer{
 
 	public void sendConfirmOrder(Map order) throws TemplateException, IOException {
 		SimpleMailMessage msg = createConfirmOrder(order);
-		AsyncToken token = mailEngine.sendHtmlMail(msg);
+		AsyncToken token = AsyncJavaMailSenderUtils.sendHtmlMail(asyncJavaMailSender,msg);
 		token.addResponder(new IResponder() {
 			public void onFault(Exception fault) {
 				System.out.println("confirmOrder mail send fail,cause:"+fault);
