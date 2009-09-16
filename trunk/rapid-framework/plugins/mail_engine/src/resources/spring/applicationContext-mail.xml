@@ -17,7 +17,7 @@
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.126.com" />
-		<property name="username" value="rapidframework" />
+		<property name="username" value="rapidframework@126.com" />
 		<property name="password" value="123456" />
 		<property name="defaultEncoding" value="GBK" />
 		
