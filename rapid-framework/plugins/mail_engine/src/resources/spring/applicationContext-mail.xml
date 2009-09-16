@@ -28,8 +28,9 @@
 		</property>
 	</bean>
 
-	<bean id="asyncJavaMailSender" class="javacommon.mail.AsyncJavaMailSender">
+	<bean id="asyncJavaMailSender" class="cn.org.rapid_framework.mail.AsyncJavaMailSender">
 		<property name="sendMailThreadPool" value="3" />
 		<property name="javaMailSender" ref="javaMailSender" />
     </bean>
+    
 </beans>
