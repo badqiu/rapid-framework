@@ -32,6 +32,8 @@ public class OrderMailer extends BaseMailer{
 	public void sendConfirmOrder(String username) throws TemplateException, IOException {
 		SimpleMailMessage msg = createConfirmOrder(username);
 		AsyncToken token = AsyncJavaMailSenderUtils.sendHtmlMail(asyncJavaMailSender,msg);
+		
+		//处理邮件发送结果
 		token.addResponder(new IResponder() {
 			public void onFault(Exception fault) {
 				System.out.println("confirmOrder mail send fail,cause:"+fault);
