@@ -18,7 +18,7 @@ public class OrderMailer extends BaseMailer{
 	
 	public SimpleMailMessage createConfirmOrder(Map model) throws TemplateException, IOException {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate();
-		msg.setSubject("subject");
+		msg.setSubject(wrapSubject("subject"));
 		msg.setTo("badqiu@gmail.com");
 		msg.setText(processWithTemplate(model, "confirmOrder.flt"));
 		return msg;
