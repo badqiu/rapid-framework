@@ -3,12 +3,12 @@ package com.demo.mailer;
 import java.io.IOException;
 import java.util.Map;
 
-import javacommon.mail.AsyncJavaMailSenderUtils;
 import javacommon.mail.BaseMailer;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
 
+import cn.org.rapid_framework.mail.AsyncJavaMailSenderUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
