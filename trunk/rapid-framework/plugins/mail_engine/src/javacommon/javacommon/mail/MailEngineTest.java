@@ -10,13 +10,14 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 
 public class MailEngineTest extends TestCase {
-	MailEngine engine = new MailEngine();
-
+	MailEngine engine;
+	AsyncJavaMailSender asyncMailSender;
 	
 	
 	public void setUp()throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-mail.xml");
 		engine = (MailEngine)context.getBean("mailEngine");
+		asyncMailSender = (AsyncJavaMailSender)context.getBean("asyncJavaMailSender");
 	}
 	
 	public void tearDown() throws Exception{
@@ -30,7 +31,7 @@ public class MailEngineTest extends TestCase {
 		msg.setText("hello: badqiu, <h1>2008</h1>");
 		msg.setSubject("test subject");
 		
-		AsyncToken token = engine.sendAsyncMsg(msg);
+		AsyncToken token = asyncMailSender.send(msg);
 		
 		token.addResponder(new IResponder() {
 			public void onFault(Exception e) {

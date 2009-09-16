@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -26,14 +26,14 @@ public class MailEngine implements InitializingBean,DisposableBean{
 	
 	private int sendMailThreadPool = 0;
 	ExecutorService executorService; //邮件发送的线程池
-	private JavaMailSenderImpl mailSender = null;
+	private JavaMailSender javaMailSender = null;
 	
 	public void setExecutorService(ExecutorService executor) {
 		this.executorService = executor;
 	}
 
-	public void setMailSender(JavaMailSenderImpl mailSender) {
-		this.mailSender = mailSender;
+	public void setJavaMailSender(JavaMailSender mailSender) {
+		this.javaMailSender = mailSender;
 	}
 	
 	public void setSendMailThreadPool(int sendMailThreadPool) {
@@ -46,7 +46,7 @@ public class MailEngine implements InitializingBean,DisposableBean{
 			log.info("create send mail executorService,threadPoolSize:"+sendMailThreadPool);
 		}
 		
-		Assert.notNull(mailSender,"mailSender must be not null");
+		Assert.notNull(javaMailSender,"mailSender must be not null");
 		Assert.notNull(executorService,"executorService must be not null");
 	}
 	
@@ -71,7 +71,7 @@ public class MailEngine implements InitializingBean,DisposableBean{
 			public void run() {
 				try {
 					log.info("Send Email,subject:"+msg.getSubject()+" address="+StringUtils.join(msg.getTo()));
-					mailSender.send(new MimeMessagePreparator() {
+					javaMailSender.send(new MimeMessagePreparator() {
 						public void prepare(MimeMessage mimeMessage)
 								throws Exception {
 							MimeMailMessage mimeMailMessage = new MimeMailMessage(mimeMessage);
