@@ -12,23 +12,27 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 
 /**
- * 异步发送邮件的工具类
+ * 邮件消息创建的工具类
  * @author badqiu
  *
  */
-public class AsyncJavaMailSenderUtils {
-	
-	public static AsyncToken sendHtmlMail(AsyncJavaMailSender asyncJavaMailSender,final SimpleMailMessage msg) {
-		return sendHtmlMail(asyncJavaMailSender,msg,null);
+public class MailMessageUtils {
+		
+	/**
+	 * 创建html类型的邮件
+	 */
+	public static MimeMessagePreparator createHtmlMsg(final SimpleMailMessage msg) {
+		return createHtmlMsg(msg,null);
 	}
 	
 	/**
+	 * 创建html类型的邮件
 	 * @param msg 邮件消息
 	 * @param fromPersonal 发件人的名称
 	 * @return
 	 */
-	public static AsyncToken sendHtmlMail(AsyncJavaMailSender asyncJavaMailSender,final SimpleMailMessage msg,final String fromPersonal) {
-		return asyncJavaMailSender.send(new MimeMessagePreparator() {
+	public static MimeMessagePreparator createHtmlMsg(final SimpleMailMessage msg, final String fromPersonal) {
+		return new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage)
 					throws Exception {
 				MimeMailMessage mimeMailMessage = new MimeMailMessage(mimeMessage);
@@ -40,7 +44,7 @@ public class AsyncJavaMailSenderUtils {
 					mimeMessage.setFrom(new InternetAddress(msg.getFrom(),fromPersonal));
 				}
 			}
-		});
+		};
 	}
 
 }
