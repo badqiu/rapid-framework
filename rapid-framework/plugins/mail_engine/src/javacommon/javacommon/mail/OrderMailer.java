@@ -1,16 +1,37 @@
 package javacommon.mail;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.stereotype.Component;
 
-public class OrderMailer {
+import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
+import cn.org.rapid_framework.util.concurrent.async.IResponder;
+import freemarker.template.TemplateException;
+
+@Component
+public class OrderMailer extends BaseMailer{
 	
-	public static SimpleMailMessage createConfirmOrder(Map order) {
-		return null;
+	public SimpleMailMessage createConfirmOrder(Map model) throws TemplateException, IOException {
+		SimpleMailMessage msg = newSimpleMsgFromTemplate();
+		msg.setSubject("subject");
+		msg.setTo("badqiu@gmail.com");
+		msg.setText(processWithTemplate(model, "confirmOrder.flt"));
+		return msg;
 	}
-	
-	public static void sendConfirmOrder(Map order) {
+
+	public void sendConfirmOrder(Map order) throws TemplateException, IOException {
 		SimpleMailMessage msg = createConfirmOrder(order);
+		AsyncToken token = mailEngine.sendHtmlMail(msg);
+		token.addResponder(new IResponder() {
+			public void onFault(Exception fault) {
+				System.out.println("confirmOrder mail send fail,cause:"+fault);
+			}
+			public void onResult(Object result) {
+				System.out.println("confirmOrder mail send success");
+			}
+		});
 	}
+	
 }

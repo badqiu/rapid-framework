@@ -1,5 +1,9 @@
 package javacommon.mail;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.springframework.context.ApplicationContext;
@@ -9,16 +13,18 @@ import org.springframework.mail.SimpleMailMessage;
 import cn.org.rapid_framework.mail.AsyncJavaMailSender;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
+import freemarker.template.TemplateException;
 
 public class MailEngineTest extends TestCase {
 	MailEngine engine;
 	AsyncJavaMailSender asyncMailSender;
-	
+	OrderMailer orderMailer;
 	
 	public void setUp()throws Exception {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext-mail.xml");
 		engine = (MailEngine)context.getBean("mailEngine");
 		asyncMailSender = (AsyncJavaMailSender)context.getBean("asyncJavaMailSender");
+		orderMailer = (OrderMailer)context.getBean("orderMailer");
 	}
 	
 	public void tearDown() throws Exception{
@@ -56,6 +62,14 @@ public class MailEngineTest extends TestCase {
 			}
 		});
 		System.out.println("sleep 5 seconds");
+		Thread.sleep(1000 * 5);
+	}
+	
+	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
+		Map model = new HashMap();
+		model.put("username", "badqiu");
+		orderMailer.sendConfirmOrder(model);
+		
 		Thread.sleep(1000 * 5);
 	}
 	
