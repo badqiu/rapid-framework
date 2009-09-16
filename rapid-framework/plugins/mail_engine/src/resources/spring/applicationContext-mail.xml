@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
 修改说明:
-	修改javaMailSender连接邮件服务器相关配置
+	1.修改javaMailSender连接邮件服务器相关配置
+	2.修改simpleMailMessageTemplate的默认from
+	3.修改<context:component-scan />,默认扫描com.**.mailer
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -10,6 +12,10 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
     default-autowire="byName" default-lazy-init="false">
 
+	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="rapidframework@sohu.com"></property>
+	</bean>
+	
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.sohu.com" />
 		<property name="username" value="rapidframework@sohu.com" />
@@ -33,10 +39,7 @@
 		<property name="templateLoaderPath" value="classpath:/email_template" />
 	</bean>
 	
-	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
-		<property name="from" value="rapidframework@sohu.com"></property>
-	</bean>
-	
-	<context:component-scan base-package="javacommon.mail"/>
+	<!-- component-scan自动搜索@Component , @Controller , @Service , @Repository等标注的类 -->
+	<context:component-scan base-package="com.**.mailer"/>
 	
 </beans>

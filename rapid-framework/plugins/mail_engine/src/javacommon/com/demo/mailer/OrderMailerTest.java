@@ -1,4 +1,4 @@
-package javacommon.mail;
+package com.demo.mailer;
 
 import java.io.IOException;
 import java.util.HashMap;
