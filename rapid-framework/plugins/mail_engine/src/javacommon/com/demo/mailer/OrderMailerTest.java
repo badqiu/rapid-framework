@@ -24,9 +24,7 @@ public class OrderMailerTest extends TestCase {
 	}
 	
 	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
-		Map model = new HashMap();
-		model.put("username", "badqiu");
-		orderMailer.sendConfirmOrder(model);
+		orderMailer.sendConfirmOrder("badqiu");
 		
 		Thread.sleep(1000 * 5);
 	}

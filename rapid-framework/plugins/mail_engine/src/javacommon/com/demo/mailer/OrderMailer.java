@@ -1,6 +1,7 @@
 package com.demo.mailer;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javacommon.mail.BaseMailer;
@@ -16,16 +17,20 @@ import freemarker.template.TemplateException;
 @Component
 public class OrderMailer extends BaseMailer{
 	
-	public SimpleMailMessage createConfirmOrder(Map model) throws TemplateException, IOException {
+	public SimpleMailMessage createConfirmOrder(String username) throws TemplateException, IOException {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate();
 		msg.setSubject(wrapSubject("subject"));
 		msg.setTo("badqiu@gmail.com");
+		
+		Map model = new HashMap();
+		model.put("username", username);
+		
 		msg.setText(processWithTemplate(model, "confirmOrder.flt"));
 		return msg;
 	}
 
-	public void sendConfirmOrder(Map order) throws TemplateException, IOException {
-		SimpleMailMessage msg = createConfirmOrder(order);
+	public void sendConfirmOrder(String username) throws TemplateException, IOException {
+		SimpleMailMessage msg = createConfirmOrder(username);
 		AsyncToken token = AsyncJavaMailSenderUtils.sendHtmlMail(asyncJavaMailSender,msg);
 		token.addResponder(new IResponder() {
 			public void onFault(Exception fault) {
