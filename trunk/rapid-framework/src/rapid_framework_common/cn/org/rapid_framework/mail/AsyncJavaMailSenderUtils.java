@@ -1,4 +1,4 @@
-package javacommon.mail;
+package cn.org.rapid_framework.mail;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-import cn.org.rapid_framework.mail.AsyncJavaMailSender;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 
 /**
