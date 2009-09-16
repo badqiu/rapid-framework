@@ -22,7 +22,6 @@ public class MailEngineTest extends TestCase {
 	}
 	
 	public void tearDown() throws Exception{
-		engine.destroy();
 	}
 	
 	public void testSend() throws Exception {
