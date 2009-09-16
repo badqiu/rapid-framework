@@ -17,8 +17,13 @@ import freemarker.template.TemplateException;
 /**
  * 本类的演示邮件发送,请删除本类.
  * 
+ * Mailer使用示例:
+ * 1. 包名: 放在mailer包内,如com.company.project.mailer
+ * 2. 类名: 以Mailer结尾,如UserMailer
+ * 3. 方法名: 
+ * 			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createNotifaction()
+ * 			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendNotifaction()
  * @author badqiu
- *
  */
 @Component
 public class OrderMailer extends BaseMailer{
