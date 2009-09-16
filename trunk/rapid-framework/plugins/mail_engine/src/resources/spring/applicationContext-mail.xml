@@ -11,9 +11,9 @@
     default-autowire="byName" default-lazy-init="false">
 
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-		<property name="host" value="smtp.126.com" />
-		<property name="username" value="badqiu@126.com" />
-		<property name="password" value="rgbdjfhv" />
+		<property name="host" value="smtp.sohu.com" />
+		<property name="username" value="rapidframework@sohu.com" />
+		<property name="password" value="123456" />
 		<property name="defaultEncoding" value="GBK" />
 		
 		<property name="javaMailProperties">
@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
-		<property name="from" value="badqiu@126.com"></property>
+		<property name="from" value="rapidframework@sohu.com"></property>
 	</bean>
 	
 	<context:component-scan base-package="javacommon.mail"/>
