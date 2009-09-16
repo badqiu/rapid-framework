@@ -17,11 +17,13 @@ public class BaseMailer implements InitializingBean{
 	protected AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
 	protected Configuration freemarkerConfiguration;
+	protected String subjectPrefix ; //邮件前缀,子类可以使用 
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
 		Assert.notNull(freemarkerConfiguration,"freemarkerConfiguration must be not null");
 		Assert.notNull(simpleMailMessageTemplate,"simpleMailMessageTemplate must be not null");
+		subjectPrefix = subjectPrefix == null ? "" : subjectPrefix;
 	}
 	
 	public void setAsyncJavaMailSender(AsyncJavaMailSender asyncJavaMailSender) {
@@ -34,6 +36,18 @@ public class BaseMailer implements InitializingBean{
 
 	public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
 		this.freemarkerConfiguration = freemarkerConfiguration;
+	}
+	
+	public void setSubjectPrefix(String subjectPrefix) {
+		this.subjectPrefix = subjectPrefix;
+	}
+
+	public String getSubjectPrefix() {
+		return subjectPrefix;
+	}
+	
+	public String getSubject(String subject) {
+		return getSubjectPrefix()+subject;
 	}
 
 	protected SimpleMailMessage newSimpleMsgFromTemplate() {
