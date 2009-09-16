@@ -23,6 +23,8 @@ import freemarker.template.TemplateException;
  * 3. 方法名: 
  * 			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createNotifaction()
  * 			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendNotifaction()
+ * 4.必须继承之BaseMailer
+ * 
  * @author badqiu
  */
 @Component
