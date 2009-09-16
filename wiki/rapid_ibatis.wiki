@@ -1,6 +1,6 @@
 = 介绍 =
 
-rapid扩展了iBatis使其也可以使用类似hiberante提供的[rapid_dialect 分页方言].
+rapid扩展了iBatis使其也可以使用类似hiberante提供的[rapid_dialect jdbc分页方言].
 
 具体可以查看这篇文章:[http://pengfeng.javaeye.com/blog/200772], rapid改造是照此而来.
 
