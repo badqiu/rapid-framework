@@ -12,6 +12,13 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
+/**
+ * mailer基类,用于其它mailer继承.
+ * 
+ * 现本mailer与freemarker模板,用于生成邮件内容
+ * @author badqiu
+ *
+ */
 public class BaseMailer implements InitializingBean{
 
 	protected AsyncJavaMailSender asyncJavaMailSender;
