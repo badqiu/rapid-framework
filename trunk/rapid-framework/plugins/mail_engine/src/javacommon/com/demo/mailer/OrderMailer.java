@@ -1,7 +1,10 @@
-package javacommon.mail;
+package com.demo.mailer;
 
 import java.io.IOException;
 import java.util.Map;
+
+import javacommon.mail.AsyncJavaMailSenderUtils;
+import javacommon.mail.BaseMailer;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
