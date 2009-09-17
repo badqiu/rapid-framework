@@ -19,12 +19,12 @@ import freemarker.template.TemplateException;
  * 现本mailer与freemarker模板结合,用于生成邮件内容
  * 本类你也可以自由修改
  * 
- * Mailer使用示例:
+ * Mailer使用规范:
  * 1. 包名: 放在mailer包内,如com.company.project.mailer
  * 2. 类名: 以Mailer结尾,如UserMailer
  * 3. 方法名: 
- * 			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createNotifaction()
- * 			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendNotifaction()
+ * 			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createConfirmMail()
+ * 			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendConfirmMail()
  * 4.必须继承之BaseMailer
  * 
  * @author badqiu
