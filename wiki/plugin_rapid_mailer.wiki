@@ -25,6 +25,8 @@
 
 =邮件发送使用实例=
 {{{
+@Component
+public class OrderMailer extends BaseMailer{
 	/**
 	 * 使用freemarker模板创建邮件消息
 	 */
@@ -58,6 +60,7 @@
 			}
 		});
 	}
+}
 }}}
 
 ==配置文件applicationContext-mail.xml==
