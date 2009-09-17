@@ -58,7 +58,8 @@ public class BaseMailer implements InitializingBean{
 	 * @return
 	 */
 	public String wrapSubject(String subject) {
-		return getSubjectPrefix()+subject;
+		String prefix = getSubjectPrefix() == null ? "" : getSubjectPrefix();
+		return prefix + subject;
 	}
 
 	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
