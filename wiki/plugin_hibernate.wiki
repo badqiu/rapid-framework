@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = hibernate插件 =
 
 现hibernate默认使用Annotation配置,你也可以切换使用hibernate xml配置.
