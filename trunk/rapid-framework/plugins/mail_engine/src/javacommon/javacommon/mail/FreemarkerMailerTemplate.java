@@ -32,10 +32,14 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 	}
 
 	public void processTemplateIntoMsgText(String templateName, Object model,SimpleMailMessage msg) {
+		msg.setText(processTemplate(templateName, model));
+	}
+	
+	public String processTemplate(String templateName, Object model) {
 		Template template = getTemplate(templateName);
 		try {
 			String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-			msg.setText(text);
+			return text;
 		} catch (IOException e) {
 			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+templateName+" cause:"+e,e);
 		} catch (TemplateException e) {
