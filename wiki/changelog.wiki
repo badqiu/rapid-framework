@@ -1,5 +1,4 @@
 #labels changelog,Featured
-
 ==rapid-framework v2.5.0==
 {{{
 	提升:
@@ -8,7 +7,7 @@
 	
 	新特性:
 	支持Ibatis的分页Dialect
-	新增其它数据库的分页Dialect
+	新增其它数据库的jdbc分页Dialect
 	
 	生成器:
 	支持从数据库中读取注释作为alias
