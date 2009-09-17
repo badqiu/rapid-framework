@@ -12,9 +12,17 @@ public class AsyncTokenTemplate {
 
 	protected List<IResponder> responders = new ArrayList();
 
+	public List<IResponder> getResponders() {
+		return responders;
+	}
+
 	public void setResponders(List<IResponder> responders) {
 		Assert.notNull(responders,"responders must be not null");
 		this.responders = responders;
+	}
+	
+	public void addResponder(IResponder r) {
+		this.responders.add(r);
 	}
 	
 	public AsyncToken execute(AsyncTokenCallback callback) {
