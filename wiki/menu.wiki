@@ -17,9 +17,9 @@
     * [rapid_junit 单元测试]
     * [cruisecontrol 持续集成]
     * rapid工具类介绍
-      * [rapid_utils 工具类介绍]
       * [rapid_async_io 异步的IO]
-      * [rapid_async_io 异步的IO]
+      * [rapid_async_token AsyncToken设计模板,替换Listener模式]
+      * [rapid_utils 其它工具类介绍]
     * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
   * 插件
     * [plugin_struts2 web_struts2]
