@@ -1,4 +1,4 @@
-此页包含工具类简单介绍,具体使用请查阅javadoc
+此页包含工具类简单介绍,具体使用请查阅*javadoc*
 
 = JdbcPlaceholderConfigurer =
 
