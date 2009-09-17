@@ -161,3 +161,10 @@ this.blogFlexService = new RemoteObject("blogFlexService");
 //这个也是flex编译器需要指定配置文件而导致使用flex经常会犯的错误之一.
 this.blogFlexService.endpoint = '../messagebroker/amf';
 }}}
+
+=推荐的Flex分层结构=
+flex <=========> FlexService => Manager => Dao
+-----            -----------------------------
+Flex                         java
+
+FlexService相当于StrutsAction的角色
