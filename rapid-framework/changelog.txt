@@ -1,4 +1,12 @@
 --------------------------------------------------------
+rapid-framework v2.6.0
+	新增插件:
+	rapid_mailer 邮件发送插件
+
+	rapid-framework-common:
+	新增Freemarker封装FreemarkerTemplateProcessor
+	新增AsyncTokenTemplate.execute(AsyncTokenCallback) 的模板方法相关
+--------------------------------------------------------
 rapid-framework v2.5.0
 	提升:
 	XsqlBuilder支持Object作为filters
