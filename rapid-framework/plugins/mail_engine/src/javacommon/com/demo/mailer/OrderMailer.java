@@ -53,7 +53,7 @@ public class OrderMailer extends BaseMailer{
 	 */
 	public void sendConfirmOrder(final String username) {
 		final MimeMessagePreparator msg = createConfirmOrder(username);
-		AsyncToken token = asyncJavaMailSender.send(msg);
+		AsyncToken token = getJavaMailSender().send(msg);
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
@@ -74,7 +74,7 @@ public class OrderMailer extends BaseMailer{
 		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
 				final MimeMessagePreparator msg = createConfirmOrder(username);
-				return asyncJavaMailSender.send(msg);
+				return getJavaMailSender().send(msg);
 			}
 		});
 		
