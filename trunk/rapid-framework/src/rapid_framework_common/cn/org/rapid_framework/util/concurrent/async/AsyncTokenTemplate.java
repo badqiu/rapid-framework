@@ -1,41 +1,39 @@
 package cn.org.rapid_framework.util.concurrent.async;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
-/**
- * AsyncToken模板方法,用于生成token,使用方法如下:
- * <pre>
- * public AsyncToken sendAsyncEmail() {
- *		final AsyncToken token = new AsyncToken();
- *		Thread thread = new Thread(new Runnable() {
- *			public void run() {
- *				AsyncTokenTemplate.execute(token,new Callable(){
- *					public Object call() throws Exception {
- *						sendEmail();
- *						//do other something
- *						return result;
- *					}
- *				});
- *			}
- *		});
- *		thread.start();
- *		return token;
- * }
- * </pre>
- * @author badqiu
- *
- */
+import javacommon.mail.MailerCallback;
+
+import org.springframework.util.Assert;
+
+
 public class AsyncTokenTemplate {
 
-	public static void execute(AsyncToken token,Callable task) {
-		try {
-			Object result = task.call();
-			token.setComplete(result);
-		} catch (Exception e) {
-			token.setFault(e);
-		}
+	protected List<IResponder> responders = new ArrayList();
+
+	public void setResponders(List<IResponder> responders) {
+		Assert.notNull(responders,"responders must be not null");
+		this.responders = responders;
 	}
-
-
+	
+	public AsyncToken execute(AsyncTokenCallback callback) {
+		AsyncToken token = callback.execute();
+		if(token != null) {
+			for(IResponder r : responders) {
+				token.addResponder(r);
+			}
+		}
+		return token;
+	}
+	
+	/**
+	 * set AsyncTokenUtils.execute();
+	 */
+	@Deprecated
+	public static void execute(AsyncToken token,Callable task) {
+		AsyncTokenUtils.execute(token, task);
+	}
 	
 }
