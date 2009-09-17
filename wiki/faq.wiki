@@ -23,6 +23,11 @@
 ==为何要整三个spring文件及多处context:component-scan分散配置，而不是一个==
 1.可以分类，太多配置集中在一起不好.
 
+==为何我的Eclipse的Problems Tab报很多Errors==
+这个是由于MyEclipse验证导致,因为现在的生成器模板都是以.java,.xml结尾,但它们不是合法的java,xml文件,所以验证时会报错.
+
+*解决办法:*可以设置 "项目属性=>MyEclipse=>Validation=>Excluded Resources"选择template目录并保存
+
 2.单元测试时在不同的层测试可以避免加载全部的类进来。比如在测试dao层时，spring就没有必要加载service层的manager在applicationContext
 
 =代码生成器=
