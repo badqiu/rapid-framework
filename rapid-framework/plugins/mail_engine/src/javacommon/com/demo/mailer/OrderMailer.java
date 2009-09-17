@@ -31,10 +31,8 @@ import freemarker.template.TemplateException;
 public class OrderMailer extends BaseMailer{
 	
 	public SimpleMailMessage createConfirmOrder(String username) throws TemplateException, IOException {
-		SimpleMailMessage msg = newSimpleMsgFromTemplate();
-		msg.setSubject(wrapSubject("subject"));
+		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
 		msg.setTo("badqiu@gmail.com");
-		
 		Map model = new HashMap();
 		model.put("username", username);
 		
