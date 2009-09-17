@@ -28,7 +28,7 @@
     * [plugin_extjs ext]
     * [plugin_flex flex]
     * [plugin_simpletable rapid-simpletable:分页列表组件]
-    * [plugin_mailer mailer]
+    * [plugin_rapid_mailer rapid_mailer]
   * 开发手册
     * [dev_env 开发环境]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
