@@ -40,6 +40,10 @@
 		<property name="templateLoaderPath" value="classpath:/email_template" />
 	</bean>
 	
+	<bean id="freemarkerMailerTemplate" class="javacommon.mail.FreemarkerMailerTemplate">
+		<property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
+	</bean>
+	
 	<!-- component-scan自动搜索@Component , @Controller , @Service , @Repository等标注的类 -->
 	<context:component-scan base-package="com.**.mailer"/>
 	

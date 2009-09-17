@@ -5,13 +5,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javacommon.mail.BaseMailer;
+import javacommon.mail.MailerCallback;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import cn.org.rapid_framework.mail.MailMessageUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
+import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 /**
@@ -30,19 +33,24 @@ import freemarker.template.TemplateException;
 @Component
 public class OrderMailer extends BaseMailer{
 	
-	public SimpleMailMessage createConfirmOrder(String username) throws TemplateException, IOException {
+	public SimpleMailMessage createConfirmOrder(String username) {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
 		msg.setTo("badqiu@gmail.com");
-		Map model = new HashMap();
-		model.put("username", username);
 		
-		msg.setText(processWithTemplate(model, "confirmOrder.flt"));
+		final Map model = new HashMap();
+		model.put("username", username);
+		getFreemarkerMailerTemplate().processTemplateIntoMsgText("confirmOrder.flt", model, msg);
+		
 		return msg;
 	}
 
-	public void sendConfirmOrder(String username) throws TemplateException, IOException {
-		SimpleMailMessage msg = createConfirmOrder(username);
-		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
+	public void sendConfirmOrder(final String username) {
+		AsyncToken token = getFreemarkerMailerTemplate().send(new MailerCallback() {
+			public AsyncToken execute() {
+				final SimpleMailMessage msg = createConfirmOrder(username);
+				return asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
+			}
+		});
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {

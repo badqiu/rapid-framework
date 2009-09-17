@@ -23,28 +23,35 @@ public class BaseMailer implements InitializingBean{
 
 	protected AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
-	protected Configuration freemarkerConfiguration;
 	protected String subjectPrefix ; //邮件前缀,子类可以使用 
+	protected FreemarkerMailerTemplate freemarkerMailerTemplate;
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
-		Assert.notNull(freemarkerConfiguration,"freemarkerConfiguration must be not null");
-		Assert.notNull(simpleMailMessageTemplate,"simpleMailMessageTemplate must be not null");
+		Assert.notNull(freemarkerMailerTemplate,"freemarkerMailerTemplate must be not null");
 		subjectPrefix = subjectPrefix == null ? "" : subjectPrefix;
 	}
 	
 	public void setAsyncJavaMailSender(AsyncJavaMailSender asyncJavaMailSender) {
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
+	
+	public AsyncJavaMailSender getAsyncJavaMailSender() {
+		return asyncJavaMailSender;
+	}
 
 	public void setSimpleMailMessageTemplate(SimpleMailMessage simpleMailMessage) {
 		this.simpleMailMessageTemplate = simpleMailMessage;
 	}
-
-	public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
-		this.freemarkerConfiguration = freemarkerConfiguration;
+	
+	public void setFreemarkerMailerTemplate( FreemarkerMailerTemplate freemarkerMailerTemplate) {
+		this.freemarkerMailerTemplate = freemarkerMailerTemplate;
 	}
 	
+	public FreemarkerMailerTemplate getFreemarkerMailerTemplate() {
+		return freemarkerMailerTemplate;
+	}
+
 	public void setSubjectPrefix(String subjectPrefix) {
 		this.subjectPrefix = subjectPrefix;
 	}
@@ -64,14 +71,11 @@ public class BaseMailer implements InitializingBean{
 
 	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
 		SimpleMailMessage msg = new SimpleMailMessage();
-		simpleMailMessageTemplate.copyTo(msg);
-		simpleMailMessageTemplate.setSubject(wrapSubject(subject));
+		if(simpleMailMessageTemplate != null) {
+			simpleMailMessageTemplate.copyTo(msg);
+		}
+		msg.setSubject(wrapSubject(subject));
 		return msg;
-	}
-
-	protected String processWithTemplate(Object model, String templateName) throws TemplateException, IOException {
-		Template template = freemarkerConfiguration.getTemplate(templateName);
-		return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 	}
 
 }
