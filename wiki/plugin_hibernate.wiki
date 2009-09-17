@@ -2,6 +2,14 @@
 
 现hibernate默认使用Annotation配置,你也可以切换使用hibernate xml配置.
 
+=使用说明=
+修改hibernate的配置文件applicationContext-dao.xml
+{{{
+1. sessionFactory bean的修改
+	* packagesToScan属性:           修改包名以确定要加载的@Entity class
+	* hibernateProperties属性: 	根据你使用的数据库修改的hibernate.dialect
+2. 修改context:component-scan节点以确定要加载的dao类
+}}}
 
 =hibernate配置文件applicationContext-dao.xml内容=
 {{{
