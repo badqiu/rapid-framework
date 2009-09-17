@@ -2,11 +2,13 @@
 
 = 邮件发送Mailer =
 
-本插件模仿之ruby on rails的actionmailer,但有提升,请查看特性
+本插件模仿之ruby on rails的actionmailer,但有提升,请查看特性.
+
+本插件预计rapid-framework-v3.0发布
 
 =Mailer特性=
-  # 使用AsyncToken可以异步发送邮件并得到邮件发送结果。
-  # 基于freemarker模板语言生成邮件内容
+  # 使用AsyncJavaMailSender启动线程池可以异步发送邮件并通过[http://badqiu.javaeye.com/blog/461089 AsyncToken]得到发送结果。
+  # 使用freemarker模板语言生成邮件内容
 
 =新建Mailer使用规范=
 {{{
