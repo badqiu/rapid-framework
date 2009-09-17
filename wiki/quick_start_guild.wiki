@@ -15,6 +15,7 @@
 =struts2+spring+hibernate详细搭建介绍=
 
 ==1.创建一个 struts2_demo的 web project==
+注意:Web Root Dir的值为<font color='blue'>*web*</font>
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/create_web_project.jpg]
 
 ==2.拷贝rapid-framework至项目根目录==
