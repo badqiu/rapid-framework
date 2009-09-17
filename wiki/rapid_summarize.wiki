@@ -14,4 +14,4 @@ hibernate,iBatis,spring_jdbc
 
 spring是核心,必须使用.
 
-项目间的切换请查看项目自带的文档 *doc/guide.html*
+框架间的切换请查看项目自带的文档 *doc/guide.html*
