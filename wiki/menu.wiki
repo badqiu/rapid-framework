@@ -28,7 +28,7 @@
     * [plugin_hibernate dao_hibernate]
     * [plugin_ibatis dao_ibatis]
     * [plugin_spring_jdbc dao_spring_jdbc]
-    * [plugin_extjs ext]
+    * [plugin_extjs extjs]
     * [plugin_flex flex]
     * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer]
