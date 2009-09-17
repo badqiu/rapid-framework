@@ -162,6 +162,8 @@ this.blogFlexService = new RemoteObject("blogFlexService");
 this.blogFlexService.endpoint = '../messagebroker/amf';
 }}}
 
+----
+
 =推荐的Flex分层结构=
 flex <=========> FlexService => Manager => Dao
 
