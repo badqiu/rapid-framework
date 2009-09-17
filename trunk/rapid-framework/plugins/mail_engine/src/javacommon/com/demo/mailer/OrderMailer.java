@@ -6,6 +6,7 @@ import java.util.Map;
 import javacommon.mail.BaseMailer;
 
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
 import cn.org.rapid_framework.mail.MailMessageUtils;
@@ -29,7 +30,10 @@ import cn.org.rapid_framework.util.concurrent.async.IResponder;
 @Component
 public class OrderMailer extends BaseMailer{
 	
-	public SimpleMailMessage createConfirmOrder(String username) {
+	/**
+	 * 使用freemarker模板创建邮件消息
+	 */
+	public MimeMessagePreparator createConfirmOrder(String username) {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
 		msg.setTo("badqiu@gmail.com");
 		
@@ -38,12 +42,16 @@ public class OrderMailer extends BaseMailer{
 		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
 		msg.setText(text);
 		
-		return msg;
+		//转换为html邮件
+		return MailMessageUtils.toHtmlMsg(msg);
 	}
 	
+	/**
+	 * 发送邮件
+	 */
 	public void sendConfirmOrder(final String username) {
-		final SimpleMailMessage msg = createConfirmOrder(username);
-		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
+		final MimeMessagePreparator msg = createConfirmOrder(username);
+		AsyncToken token = asyncJavaMailSender.send(msg);
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
@@ -57,15 +65,14 @@ public class OrderMailer extends BaseMailer{
 	}
 
 	/**
-	 * 演示使用AsyncTokenTemplate
-	 * @param username
+	 * 演示使用AsyncTokenTemplate发送邮件
 	 */
 	public void sendConfirmOrder2(final String username) {
-		// AsyncTokenTemplate可以指定默认需要添加的IResponder
+		// AsyncTokenTemplate可以指定默认需要添加的IResponder,请查看AsyncTokenTemplate.setResponders()方法
 		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
-				final SimpleMailMessage msg = createConfirmOrder(username);
-				return asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
+				final MimeMessagePreparator msg = createConfirmOrder(username);
+				return asyncJavaMailSender.send(msg);
 			}
 		});
 		
