@@ -2,9 +2,12 @@ package javacommon.mail;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
@@ -12,23 +15,25 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 /**
- * 邮件发送的template类
+ * freemarker的template处理类，用于将check exception转换为uncheck exception
  * @author badqiu
  */
-public class FreemarkerMailerTemplate extends MailerTemplate {
+public class FreemarkerTemplateProcessor implements InitializingBean{
 	protected Configuration freemarkerConfiguration;
-	protected String templateEncoding = null;
+	protected String encoding = null;
+	protected Locale locale = null;
 	
 	public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
 		this.freemarkerConfiguration = freemarkerConfiguration;
 	}
 	
-	public void setTemplateEncoding(String templateEncoding) {
-		this.templateEncoding = templateEncoding;
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 
-	public void processTemplateIntoMsgText(String templateName, Object model,SimpleMailMessage msg) {
-		msg.setText(processTemplate(templateName, model));
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(freemarkerConfiguration,"freemarkerConfiguration must be not null");
+		locale = freemarkerConfiguration.getLocale();
 	}
 	
 	public String processTemplate(String templateName, Object model) {
@@ -48,13 +53,14 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 
 	private Template getTemplate(String templateName) {
 		try {
-			if(templateEncoding != null) {
-				return freemarkerConfiguration.getTemplate(templateName,templateEncoding);
+			if(encoding == null) {
+				return freemarkerConfiguration.getTemplate(templateName,locale);
+			}else {
+				return freemarkerConfiguration.getTemplate(templateName,locale,encoding);
 			}
-			return freemarkerConfiguration.getTemplate(templateName);
 		} catch (IOException e) {
 			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
 		}
 	}
-	
+
 }
