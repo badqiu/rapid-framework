@@ -64,4 +64,4 @@
     # 手工将template/other/java_hibernate_xml的文件覆盖template/java_src的内容
   # 修改applicationContext-dao.xml
     # 为sessionFactory.mappingLocations设置需要加载的hbm.xml
-    # 将packagesToScan属性删除
+    # 将sessionFactory.packagesToScan属性删除
