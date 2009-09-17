@@ -24,7 +24,7 @@ author:badqiu
 		<antcall target="install_web_struts2"></antcall>
     </target>
 	
-	<target name="install_extjs+struts2+hibernate" description="安装web框架Ext">
+	<target name="install_extjs+struts2+hibernate" description="安装extjs+struts2+hibernate">
 		<antcall target="install_dao_hibernate"></antcall>
 		<antcall target="install_web_struts2"></antcall>
 		<antcall target="install_web_ext"></antcall>
@@ -73,6 +73,11 @@ author:badqiu
 	
 	<target name="install_simpletable" description="安装simpletable分页列表">
 		<property name="plugin_name" value="simpletable"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_rapid_mailer" description="安装rapid_mailer邮件发送引擎">
+		<property name="plugin_name" value="rapid_mailer"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
