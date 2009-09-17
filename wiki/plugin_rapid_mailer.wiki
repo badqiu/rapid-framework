@@ -4,6 +4,8 @@
 
 本插件模仿之ruby on rails的actionmailer,但有提升,请查看特性.
 
+适用于小型项目的邮件发送
+
 本插件预计rapid-framework-v3.0发布
 
 =Mailer特性=
