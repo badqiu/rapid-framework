@@ -33,13 +33,16 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 	
 	public String processTemplate(String templateName, Object model) {
 		Template template = getTemplate(templateName);
+		return processTemplateIntoString(template, model);
+	}
+
+	public static String processTemplateIntoString(Template template,Object model) {
 		try {
-			String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-			return text;
+			return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+templateName+" cause:"+e,e);
+			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+template.getName()+" cause:"+e,e);
 		} catch (TemplateException e) {
-			throw new FreemarkerTemplateException("process template occer TemplateException,templateName:"+templateName+" cause:"+e,e);
+			throw new FreemarkerTemplateException("process template occer TemplateException,templateName:"+template.getName()+" cause:"+e,e);
 		}
 	}
 
