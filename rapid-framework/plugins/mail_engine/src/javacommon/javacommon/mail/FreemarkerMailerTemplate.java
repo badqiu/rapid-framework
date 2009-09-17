@@ -31,11 +31,6 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 		this.templateEncoding = templateEncoding;
 	}
 
-	public AsyncToken send(String templateName,Object model,SimpleMailMessage msg,MailerCallback callback) {
-		processTemplateIntoMsgText(templateName, model, msg);
-		return send(callback);
-	}
-
 	public void processTemplateIntoMsgText(String templateName, Object model,SimpleMailMessage msg) {
 		Template template = getTemplate(templateName);
 		try {
