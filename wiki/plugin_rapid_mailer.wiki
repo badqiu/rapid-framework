@@ -17,7 +17,7 @@
  3. 方法名: 
  			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createConfirmMail()
  			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendConfirmMail()
- 4.必须继承之BaseMailer
+ 4.必须继承之BaseMailer,BaseMailer只是组合各个组件，并未包含其它功能
 }}}
 
 
