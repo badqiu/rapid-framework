@@ -42,9 +42,9 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 			String text = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 			msg.setText(text);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("process template error,templateName:"+templateName,e);
+			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+templateName+" cause:"+e,e);
 		} catch (TemplateException e) {
-			throw new FreemarkerTemplateException("process template error,templateName:"+templateName,e);
+			throw new FreemarkerTemplateException("process template occer TemplateException,templateName:"+templateName+" cause:"+e,e);
 		}
 	}
 
@@ -55,7 +55,7 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 			}
 			return freemarkerConfiguration.getTemplate(templateName);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("load template error,templateName:"+templateName,e);
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
 		}
 	}
 	
