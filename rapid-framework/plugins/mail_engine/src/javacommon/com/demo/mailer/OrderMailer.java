@@ -44,7 +44,7 @@ public class OrderMailer extends BaseMailer{
 
 	public void sendConfirmOrder(String username) throws TemplateException, IOException {
 		SimpleMailMessage msg = createConfirmOrder(username);
-		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.createHtmlMsg(msg));
+		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {

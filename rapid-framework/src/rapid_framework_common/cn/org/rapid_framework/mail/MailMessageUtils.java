@@ -21,8 +21,8 @@ public class MailMessageUtils {
 	/**
 	 * 创建html类型的邮件
 	 */
-	public static MimeMessagePreparator createHtmlMsg(final SimpleMailMessage msg) {
-		return createHtmlMsg(msg,null);
+	public static MimeMessagePreparator toHtmlMsg(final SimpleMailMessage msg) {
+		return toHtmlMsg(msg,null);
 	}
 	
 	/**
@@ -31,7 +31,7 @@ public class MailMessageUtils {
 	 * @param fromPersonal 发件人的名称
 	 * @return
 	 */
-	public static MimeMessagePreparator createHtmlMsg(final SimpleMailMessage msg, final String fromPersonal) {
+	public static MimeMessagePreparator toHtmlMsg(final SimpleMailMessage msg, final String fromPersonal) {
 		return new MimeMessagePreparator() {
 			public void prepare(MimeMessage mimeMessage)
 					throws Exception {
