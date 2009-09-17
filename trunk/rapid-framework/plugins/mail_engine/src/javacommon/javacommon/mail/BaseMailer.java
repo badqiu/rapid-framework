@@ -34,7 +34,7 @@ import freemarker.template.TemplateException;
  */
 public class BaseMailer implements InitializingBean{
 
-	protected AsyncJavaMailSender asyncJavaMailSender;
+	private AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
 	protected AsyncTokenTemplate asyncTokenTemplate = new AsyncTokenTemplate();
 	protected FreemarkerTemplateProcessor freemarkerTemplateProcessor;
@@ -51,7 +51,7 @@ public class BaseMailer implements InitializingBean{
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
 	
-	public AsyncJavaMailSender getAsyncJavaMailSender() {
+	public AsyncJavaMailSender getJavaMailSender() {
 		return asyncJavaMailSender;
 	}
 
