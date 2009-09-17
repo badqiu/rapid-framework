@@ -2,6 +2,7 @@
   * demo
     * [snapshot 界面预览图]
     * [generator_template_and_output 生成器模板及输出demo]
+    * [demo_video demo视频]
   * 用户手册
     * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
