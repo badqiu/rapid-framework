@@ -61,4 +61,4 @@ public Page pageQuery(String sql, Map paramMap,final int totalCount, int pageSiz
 }}}
 
 =存在的问题=
-现在分页参数没有使用疑问号占位符"?",所以在如oracle这种数据库,会影响性能.
+现在分页参数没有使用疑问号 *占位符"?"* ,所以在如oracle这种数据库,会影响性能.
