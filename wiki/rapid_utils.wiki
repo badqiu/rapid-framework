@@ -1,4 +1,4 @@
-此页包含工具类介绍
+此页包含工具类介绍,具体使用请查阅javadoc
 
 = JdbcPlaceholderConfigurer =
 
@@ -8,8 +8,5 @@
 多线程测试的工具类
 {{{
 //同时多线程的方式执行task
-executeAndWait(int threadCount, java.lang.Runnable task).
+MultiThreadTestUtils.executeAndWait(int threadCount, java.lang.Runnable task).
 }}}
-
-=AsyncToken=
-[http://badqiu.javaeye.com/blog/461089 AsyncToken模式,替换通常的Listener模式]
