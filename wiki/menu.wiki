@@ -33,7 +33,7 @@
     * view组件
       * [plugin_extjs extjs]
       * [plugin_flex flex]
-    * 列表组件
+    * 分页列表组件
       * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer]
   * 开发手册
