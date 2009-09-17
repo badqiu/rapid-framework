@@ -32,7 +32,7 @@ public class OrderMailerTest extends TestCase {
 	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
 		orderMailer.sendConfirmOrder("badqiu");
 		
-		Thread.sleep(1000 * 7);
+		Thread.sleep(1000 * 8);
 	}
 	
 }
