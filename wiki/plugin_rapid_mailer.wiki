@@ -10,7 +10,7 @@
   # 使用AsyncJavaMailSender启动线程池可以异步发送邮件并通过[http://badqiu.javaeye.com/blog/461089 AsyncToken]得到发送结果。
   # 使用freemarker模板语言生成邮件内容
 
-=新建Mailer使用规范=
+=Mailer使用规范=
 {{{
  1. 包名: 放在mailer包内,如com.company.project.mailer
  2. 类名: 以Mailer结尾,如UserMailer
