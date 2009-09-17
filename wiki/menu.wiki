@@ -22,15 +22,19 @@
       * [rapid_utils 其它工具类介绍]
     * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
   * 插件
-    * [plugin_struts2 web_struts2]
-    * [plugin_springmvc web_springmvc]
-    * [plugin_struts web_struts]
-    * [plugin_hibernate dao_hibernate]
-    * [plugin_ibatis dao_ibatis]
-    * [plugin_spring_jdbc dao_spring_jdbc]
-    * [plugin_extjs extjs]
-    * [plugin_flex flex]
-    * [plugin_simpletable rapid-simpletable:分页列表组件]
+    * web框架
+      * [plugin_struts2 web_struts2]
+      * [plugin_springmvc web_springmvc]
+      * [plugin_struts web_struts]
+    * dao层
+      * [plugin_hibernate dao_hibernate]
+      * [plugin_ibatis dao_ibatis]
+      * [plugin_spring_jdbc dao_spring_jdbc]
+    * view组件
+      * [plugin_extjs extjs]
+      * [plugin_flex flex]
+    * 列表组件
+      * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer]
   * 开发手册
     * [dev_env 开发环境]
