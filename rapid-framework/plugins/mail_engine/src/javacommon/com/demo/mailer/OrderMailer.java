@@ -39,13 +39,14 @@ public class OrderMailer extends BaseMailer{
 		
 		final Map model = new HashMap();
 		model.put("username", username);
-		getFreemarkerMailerTemplate().processTemplateIntoMsgText("confirmOrder.flt", model, msg);
+		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
+		msg.setText(text);
 		
 		return msg;
 	}
 
 	public void sendConfirmOrder(final String username) {
-		AsyncToken token = getFreemarkerMailerTemplate().send(new MailerCallback() {
+		AsyncToken token = getMailerTemplate().send(new MailerCallback() {
 			public AsyncToken execute() {
 				final SimpleMailMessage msg = createConfirmOrder(username);
 				return asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));

@@ -23,12 +23,15 @@ public class BaseMailer implements InitializingBean{
 
 	protected AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
+	protected MailerTemplate mailerTemplate = new MailerTemplate();
+	protected FreemarkerTemplateProcessor freemarkerTemplateProcessor;
 	protected String subjectPrefix ; //邮件前缀,子类可以使用 
-	protected FreemarkerMailerTemplate freemarkerMailerTemplate;
+	
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
-		Assert.notNull(freemarkerMailerTemplate,"freemarkerMailerTemplate must be not null");
+		Assert.notNull(mailerTemplate,"mailerTemplate must be not null");
+		Assert.notNull(freemarkerTemplateProcessor,"freemarkerTemplateProcessor must be not null");
 		subjectPrefix = subjectPrefix == null ? "" : subjectPrefix;
 	}
 	
@@ -44,12 +47,20 @@ public class BaseMailer implements InitializingBean{
 		this.simpleMailMessageTemplate = simpleMailMessage;
 	}
 	
-	public void setFreemarkerMailerTemplate( FreemarkerMailerTemplate freemarkerMailerTemplate) {
-		this.freemarkerMailerTemplate = freemarkerMailerTemplate;
+	public void setMailerTemplate( MailerTemplate mailerTemplate) {
+		this.mailerTemplate = mailerTemplate;
 	}
 	
-	public FreemarkerMailerTemplate getFreemarkerMailerTemplate() {
-		return freemarkerMailerTemplate;
+	public MailerTemplate getMailerTemplate() {
+		return mailerTemplate;
+	}
+	
+	public FreemarkerTemplateProcessor getFreemarkerTemplateProcessor() {
+		return freemarkerTemplateProcessor;
+	}
+
+	public void setFreemarkerTemplateProcessor(FreemarkerTemplateProcessor freemarkerTemplateProcessor) {
+		this.freemarkerTemplateProcessor = freemarkerTemplateProcessor;
 	}
 
 	public void setSubjectPrefix(String subjectPrefix) {
