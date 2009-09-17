@@ -40,8 +40,28 @@ public class OrderMailer extends BaseMailer{
 		
 		return msg;
 	}
-
+	
 	public void sendConfirmOrder(final String username) {
+		final SimpleMailMessage msg = createConfirmOrder(username);
+		AsyncToken token = asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
+		
+		//处理邮件发送结果
+		token.addResponder(new IResponder() {
+			public void onFault(Exception fault) {
+				System.out.println("confirmOrder mail send fail,cause:"+fault);
+			}
+			public void onResult(Object result) {
+				System.out.println("confirmOrder mail send success");
+			}
+		});
+	}
+
+	/**
+	 * 演示使用AsyncTokenTemplate
+	 * @param username
+	 */
+	public void sendConfirmOrder2(final String username) {
+		// AsyncTokenTemplate可以指定默认需要添加的IResponder
 		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
 				final SimpleMailMessage msg = createConfirmOrder(username);
