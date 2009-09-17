@@ -4,4 +4,4 @@
 
 *[http://rapid-framework.googlecode.com/files/rapid-framework_quickstart_movie_for_v1.0.x.zip v1.0.x快速演示视频下载]* 需要使用flashplayer9播放
 
-v2.5视频*暂无*,可以查看以上视频*大概了解*一下项目搭建过程
+v2.5视频*暂无*,可以查看以上视频*大概了解*一下项目搭建过程,或是查看[quick_start_guild]
