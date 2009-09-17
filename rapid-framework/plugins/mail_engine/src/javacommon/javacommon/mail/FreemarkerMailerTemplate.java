@@ -19,10 +19,6 @@ public class FreemarkerMailerTemplate extends MailerTemplate {
 	protected Configuration freemarkerConfiguration;
 	protected String templateEncoding = null;
 	
-	public void setResponders(List<IResponder> responders) {
-		this.responders = responders;
-	}
-
 	public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
 		this.freemarkerConfiguration = freemarkerConfiguration;
 	}
