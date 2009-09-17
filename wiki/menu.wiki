@@ -16,9 +16,10 @@
     * [rapid_ibatis ibatis分页及方言]
     * [rapid_junit 单元测试]
     * [cruisecontrol 持续集成]
-    * [rapid_utils 工具类介绍]
-      *rapid工具类介绍
-    * [rapid_async_io 异步的IO]
+    * rapid工具类介绍
+      * [rapid_utils 工具类介绍]
+      * [rapid_async_io 异步的IO]
+      * [rapid_async_io 异步的IO]
     * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
   * 插件
     * [plugin_struts2 web_struts2]
