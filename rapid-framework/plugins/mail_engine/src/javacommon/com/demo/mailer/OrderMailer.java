@@ -1,21 +1,17 @@
 package com.demo.mailer;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javacommon.mail.BaseMailer;
-import javacommon.mail.MailerCallback;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import cn.org.rapid_framework.mail.MailMessageUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
+import cn.org.rapid_framework.util.concurrent.async.AsyncTokenCallback;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 /**
  * 本类的演示邮件发送,请删除本类.
@@ -46,7 +42,7 @@ public class OrderMailer extends BaseMailer{
 	}
 
 	public void sendConfirmOrder(final String username) {
-		AsyncToken token = getMailerTemplate().send(new MailerCallback() {
+		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
 				final SimpleMailMessage msg = createConfirmOrder(username);
 				return asyncJavaMailSender.send(MailMessageUtils.toHtmlMsg(msg));
