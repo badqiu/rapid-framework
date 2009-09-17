@@ -80,6 +80,7 @@ jdbc.password=abc123
 
 ==11.将 java_src,java_test加入源代码路径==
 参考第4步,设置完后效果如下
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_java_src_and_java_test_to_source_folder.jpg]
 
 ==12.修改src/resources/jdbc.properties的数据库连接信息==
