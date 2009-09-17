@@ -90,7 +90,7 @@
 		<!-- 邮件发送的线程池大小 -->
 		<property name="sendMailThreadPool" value="3" />
 		<property name="javaMailSender" ref="javaMailSender" />
-    </bean>
+        </bean>
 
 	<!-- freemarker模板相关配置 START -->
 	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
