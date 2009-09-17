@@ -61,9 +61,10 @@ public class BaseMailer implements InitializingBean{
 		return getSubjectPrefix()+subject;
 	}
 
-	protected SimpleMailMessage newSimpleMsgFromTemplate() {
+	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		simpleMailMessageTemplate.copyTo(msg);
+		simpleMailMessageTemplate.setSubject(wrapSubject(subject));
 		return msg;
 	}
 
