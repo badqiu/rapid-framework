@@ -45,7 +45,7 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg]
 
 ==7.在mysql数据库中创建表user_info==
-如上一步,在test数据库创建表,运行如下sql
+在test数据库创建表,运行如下sql
 {{{
 CREATE TABLE `user_info` (
   `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
