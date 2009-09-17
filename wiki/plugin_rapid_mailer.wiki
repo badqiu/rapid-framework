@@ -57,3 +57,60 @@
 		});
 	}
 }}}
+
+==配置文件applicationContext-mail.xml==
+{{{
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+    default-autowire="byName" default-lazy-init="false">
+
+	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="rapidframework@sohu.com"></property>
+	</bean>
+	
+	<!-- 正常的普通邮件发送器 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.sohu.com" />
+		<property name="username" value="rapidframework@sohu.com" />
+		<property name="password" value="123456" />
+		<property name="defaultEncoding" value="GBK" />
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 异步的邮件发送器 -->
+	<bean id="asyncJavaMailSender" class="cn.org.rapid_framework.mail.AsyncJavaMailSender">
+		<!-- 邮件发送的线程池大小 -->
+		<property name="sendMailThreadPool" value="3" />
+		<property name="javaMailSender" ref="javaMailSender" />
+    </bean>
+
+	<!-- freemarker模板相关配置 START -->
+	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:/email_template" />
+	</bean>
+	
+	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
+		<property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
+	</bean>
+	<!-- freemarker模板相关配置 END -->
+	
+	<!-- AsyncTokenTempalte可以用于指定默认的responders -->
+	<bean id="asyncTokenTemplate" class="cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate">
+		<property name="responders">
+			<list></list>
+		</property>
+	</bean>
+	
+	<!-- component-scan自动搜索@Component , @Controller , @Service , @Repository等标注的类 -->
+	<context:component-scan base-package="com.**.mailer"/>
+	
+</beans>
+}}}
