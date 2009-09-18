@@ -29,8 +29,9 @@
       * [plugin_springmvc_rest web_springmvc_rest v3.0]
     * dao层
       * [plugin_hibernate dao_hibernate]
-      * [plugin_ibatis dao_ibatis]
       * [plugin_spring_jdbc dao_spring_jdbc]
+      * [plugin_ibatis dao_ibatis]
+      * [plugin_ibatis3 dao_ibatis3 v3.0]
     * view组件
       * [plugin_extjs extjs]
       * [plugin_flex flex]
