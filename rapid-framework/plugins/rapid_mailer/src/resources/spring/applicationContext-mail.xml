@@ -36,7 +36,15 @@
 		<!-- 邮件发送的线程池大小 -->
 		<property name="sendMailThreadPool" value="3" />
 		<property name="javaMailSender" ref="javaMailSender" />
+		<property name="asyncTokenFactory" ref="mailerAsyncTokenFactory"></property>
     </bean>
+    
+    <!-- AsyncTokenFactory可以为AsyncToken指定默认的responders -->
+	<bean id="mailerAsyncTokenFactory" class="cn.org.rapid_framework.util.concurrent.async.DefaultAsyncTokenFactory">
+		<property name="responders">
+			<list></list>
+		</property>
+	</bean>
 
 	<!-- freemarker模板相关配置-->	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
@@ -45,13 +53,6 @@
 				<property name="templateLoaderPath" value="classpath:/email_template" />
 				<property name="defaultEncoding" value="UTF-8"/>
 			</bean>
-		</property>
-	</bean>
-	
-	<!-- AsyncTokenTempalte可以用于指定默认的responders -->
-	<bean id="asyncTokenTemplate" class="cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate">
-		<property name="responders">
-			<list></list>
 		</property>
 	</bean>
 	

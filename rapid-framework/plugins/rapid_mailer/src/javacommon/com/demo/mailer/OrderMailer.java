@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import cn.org.rapid_framework.mail.SimpleMailMessageUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
-import cn.org.rapid_framework.util.concurrent.async.AsyncTokenCallback;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 
 /**
@@ -69,29 +68,6 @@ public class OrderMailer extends BaseMailer{
 		
 		//返回token可以用于外部继续监听
 		return token;
-	}
-
-	/**
-	 * 演示使用AsyncTokenTemplate发送邮件
-	 */
-	public void sendConfirmOrder2(final String username) {
-		// AsyncTokenTemplate可以指定默认需要添加的IResponder,请查看AsyncTokenTemplate.setResponders()方法
-		AsyncToken token = getMailerAsyncTokenTemplate().execute(new AsyncTokenCallback() {
-			public AsyncToken execute() {
-				final SimpleMailMessage msg = createConfirmOrder(username);
-				return getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg));
-			}
-		});
-		
-		//处理邮件发送结果
-		token.addResponder(new IResponder() {
-			public void onFault(Exception fault) {
-				System.out.println("[ERROR] confirmOrder mail send fail,cause:"+fault);
-			}
-			public void onResult(Object result) {
-				System.out.println("[INFO] confirmOrder mail send success");
-			}
-		});
 	}
 	
 }
