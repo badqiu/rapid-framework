@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.freemarker;
 
 /**
- * freemarker等价的异常类，不过继承之RuntimeException
+ * FreemarkerException等价的异常类，不过继承之RuntimeException
  * @author badqiu
  *
  */
