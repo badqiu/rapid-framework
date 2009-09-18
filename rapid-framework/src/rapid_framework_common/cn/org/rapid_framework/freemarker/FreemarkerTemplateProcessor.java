@@ -27,6 +27,22 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		this.freemarkerConfiguration = freemarkerConfiguration;
 	}
 	
+	public Configuration getFreemarkerConfiguration() {
+		return freemarkerConfiguration;
+	}
+	
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
@@ -58,6 +74,22 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 			}else {
 				return freemarkerConfiguration.getTemplate(templateName,locale,encoding);
 			}
+		} catch (IOException e) {
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+		}
+	}
+	
+	public static Template getTemplate(Configuration conf,String templateName) {
+		try {
+			return conf.getTemplate(templateName);
+		} catch (IOException e) {
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+		}
+	}
+	
+	public static Template getTemplate(Configuration conf,String templateName,String encoding) {
+		try {
+			return conf.getTemplate(templateName,encoding);
 		} catch (IOException e) {
 			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
 		}
