@@ -8,7 +8,8 @@ import org.springframework.util.Assert;
 public class DefaultAsyncTokenFactory implements AsyncTokenFactory{
 	
 	private String tokenGroup = AsyncToken.DEFAULT_TOKEN_GROUP;
-	private List<IResponder> responders;
+	private String tokenName ;
+	private List<IResponder> responders = new ArrayList();
 	private UncaughtExceptionHandler uncaughtExceptionHandler;
 	
 	public String getTokenGroup() {
@@ -17,6 +18,14 @@ public class DefaultAsyncTokenFactory implements AsyncTokenFactory{
 
 	public void setTokenGroup(String tokenGroup) {
 		this.tokenGroup = tokenGroup;
+	}
+	
+	public String getTokenName() {
+		return tokenName;
+	}
+
+	public void setTokenName(String tokenName) {
+		this.tokenName = tokenName;
 	}
 
 	public List<IResponder> getResponders() {
@@ -28,19 +37,16 @@ public class DefaultAsyncTokenFactory implements AsyncTokenFactory{
 		this.responders = responders;
 	}
 	
+	public void addResponder(IResponder r) {
+		this.responders.add(r);
+	}
+	
 	public UncaughtExceptionHandler getUncaughtExceptionHandler() {
 		return uncaughtExceptionHandler;
 	}
 
-	public void setUncaughtExceptionHandler(
-			UncaughtExceptionHandler uncaughtExceptionHandler) {
+	public void setUncaughtExceptionHandler( UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
-	}
-
-	public void addResponder(IResponder r) {
-		if(responders == null) 
-			responders = new ArrayList();
-		this.responders.add(r);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -49,11 +55,10 @@ public class DefaultAsyncTokenFactory implements AsyncTokenFactory{
 		
 		t.setTokenGroup(tokenGroup);
 		t.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+		t.setTokenName(tokenName);
 		
-		if(responders != null) {
-			for(IResponder r : responders) {
-				t.addResponder(r);
-			}
+		for(IResponder r : responders) {
+			t.addResponder(r);
 		}
 		
 		return t;

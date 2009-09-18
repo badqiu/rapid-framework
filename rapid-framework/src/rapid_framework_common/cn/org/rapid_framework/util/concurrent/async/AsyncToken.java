@@ -77,7 +77,6 @@ public class AsyncToken<T>  {
 	
 	private CountDownLatch awaitResultSignal = null;
 	
-    private static AtomicLong tokenNumSeqForTokenName = new AtomicLong(1);
     private static AtomicLong tokenIdSequence = new AtomicLong(1);
     
 	public AsyncToken(){
@@ -85,18 +84,14 @@ public class AsyncToken<T>  {
 	}
 	
 	public AsyncToken(UncaughtExceptionHandler uncaughtExceptionHandler) {
+		this(DEFAULT_TOKEN_GROUP,null);
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
-		init(DEFAULT_TOKEN_GROUP, "T-"+tokenNumSeqForTokenName.getAndIncrement(), tokenIdSequence.getAndIncrement());
 	}
 	
 	public AsyncToken(String tokenGroup,String tokenName) {
-		init(tokenGroup, tokenName, tokenIdSequence.getAndIncrement());
-	}
-	
-	private void init(String tokenGroup,String tokenName,long tokenId) {
 		setTokenGroup(tokenGroup);
 		setTokenName(tokenName);
-		this.tokenId = tokenId;
+		this.tokenId = tokenIdSequence.getAndIncrement();
 	}
 	
 	public String getTokenGroup() {
@@ -113,7 +108,6 @@ public class AsyncToken<T>  {
 	}
 
 	public void setTokenName(String tokenName) {
-		if(tokenName == null) throw new IllegalArgumentException("'tokenName' must be not null");
 		this.tokenName = tokenName;
 	}
 	
