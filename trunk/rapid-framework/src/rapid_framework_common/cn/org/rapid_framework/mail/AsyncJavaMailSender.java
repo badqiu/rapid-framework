@@ -66,8 +66,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 		return waitForTasksToCompleteOnShutdown;
 	}
 
-	public void setWaitForTasksToCompleteOnShutdown(
-			boolean waitForTasksToCompleteOnShutdown) {
+	public void setWaitForTasksToCompleteOnShutdown(boolean waitForTasksToCompleteOnShutdown) {
 		this.waitForTasksToCompleteOnShutdown = waitForTasksToCompleteOnShutdown;
 	}
 
