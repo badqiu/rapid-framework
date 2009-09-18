@@ -33,7 +33,7 @@ public class AsyncTokenTest extends TestCase {
 		AsyncToken token2 = new AsyncToken();
 		assertEquals(token.getTokenId()+1,token2.getTokenId());
 		assertEquals(token2.getTokenGroup(),AsyncToken.DEFAULT_TOKEN_GROUP);
-		assertEquals(token2.getTokenName(),"T-1");
+		assertEquals(token2.getTokenName(),null);
 	}
 	
 	public void testOnResult() throws InterruptedException {
