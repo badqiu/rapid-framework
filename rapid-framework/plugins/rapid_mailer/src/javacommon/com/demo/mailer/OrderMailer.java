@@ -44,7 +44,7 @@ public class OrderMailer extends BaseMailer{
 		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
 		msg.setText(text);
 		
-		//转换为html邮件
+		//转换为html邮件,另有一个参数可以指定发件人名称
 		return SimpleMailMessageUtils.toHtmlMsg(msg);
 	}
 	
