@@ -38,7 +38,7 @@ public class BaseMailer implements InitializingBean{
 	private AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
 	protected FreemarkerTemplateProcessor freemarkerTemplateProcessor;
-	protected String subjectPrefix ; //邮件前缀,子类可以使用 
+	protected String mailSubjectPrefix ; //邮件前缀,子类可以使用 
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
@@ -69,12 +69,12 @@ public class BaseMailer implements InitializingBean{
 		this.freemarkerTemplateProcessor = freemarkerTemplateProcessor;
 	}
 
-	public void setSubjectPrefix(String subjectPrefix) {
-		this.subjectPrefix = subjectPrefix;
+	public void setMailSubjectPrefix(String subjectPrefix) {
+		this.mailSubjectPrefix = subjectPrefix;
 	}
 
-	public String getSubjectPrefix() {
-		return subjectPrefix;
+	public String getMailSubjectPrefix() {
+		return mailSubjectPrefix;
 	}
 	
 	public static String addPrefix(String prefix,String string) {
@@ -86,7 +86,7 @@ public class BaseMailer implements InitializingBean{
 		if(simpleMailMessageTemplate != null) {
 			simpleMailMessageTemplate.copyTo(msg);
 		}
-		msg.setSubject(addPrefix(getSubjectPrefix(),subject));
+		msg.setSubject(addPrefix(getMailSubjectPrefix(),subject));
 		return msg;
 	}
 
