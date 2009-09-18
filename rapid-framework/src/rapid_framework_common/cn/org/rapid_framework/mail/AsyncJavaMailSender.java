@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.MailException;
@@ -30,7 +31,7 @@ import cn.org.rapid_framework.util.concurrent.async.DefaultAsyncTokenFactory;
  * @author badqiu
  *
  */
-public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
+public class AsyncJavaMailSender implements InitializingBean,DisposableBean,BeanNameAware{
 	protected static final Log log = LogFactory.getLog(AsyncJavaMailSender.class);
 	
 	protected int sendMailThreadPoolSize = 0;
@@ -39,6 +40,8 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	protected boolean shutdownExecutorService = true;
 	protected boolean waitForTasksToCompleteOnShutdown = true;
 	protected AsyncTokenFactory asyncTokenFactory = new DefaultAsyncTokenFactory();
+	
+	private String beanName;
 	
 	public void afterPropertiesSet() throws Exception {
 		if(executorService == null && sendMailThreadPoolSize > 0) {
@@ -53,13 +56,21 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	
 	public void destroy() throws Exception {
 		if(shutdownExecutorService) {
-			log.info("start shutdown send mail executorService");
-			if(waitForTasksToCompleteOnShutdown) 
-				executorService.shutdown();
-			else
-				executorService.shutdownNow();
-			log.info("send mail executorService shutdowned");
+			shutdown();
 		}
+	}
+
+	public void shutdown() {
+		log.info("Shutting down ExecutorService" + (this.beanName != null ? " '" + this.beanName + "'" : ""));
+		
+		if(waitForTasksToCompleteOnShutdown) 
+			executorService.shutdown();
+		else
+			executorService.shutdownNow();
+	}
+	
+	public void setBeanName(String name) {
+		this.beanName = name;
 	}
 	
 	public boolean isWaitForTasksToCompleteOnShutdown() {
@@ -161,5 +172,5 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 			}
 		});
 	}
-	
+
 }
