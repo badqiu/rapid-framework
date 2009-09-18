@@ -16,7 +16,7 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
  * @author badqiu
  *
  */
-public class MailMessageUtils {
+public class SimpleMailMessageUtils {
 		
 	/**
 	 * 创建html类型的邮件
