@@ -237,13 +237,15 @@ public class AsyncToken<T>  {
 	}
 	
 	/**
-	 * 等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future可以使用
+	 * 等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future.get()可以使用
+	 * @see Future
 	 */
 	public Object waitForResult() throws InterruptedException,Exception {
 		return waitForResult(false, -1, null);
 	}
 	/**
-	 *  等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future可以使用
+	 *  等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future.get()可以使用
+	 *  @see Future
 	 */
 	public Object waitForResult(long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
 		return waitForResult(true, timeout, timeUnit);
