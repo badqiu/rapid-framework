@@ -27,6 +27,7 @@ import freemarker.template.TemplateException;
  * 			使用UserMailer.createXXXX()来创建邮件消息,如UserMailer.createConfirmMail()
  * 			使用UserMailer.sendXXXX()来发送邮件,如UserMailer.sendConfirmMail()
  * 4.必须继承之BaseMailer
+ * 5.单元测试一般情况下测试testCreateXXXX()即可
  * </pre>
  * 
  * @author badqiu
