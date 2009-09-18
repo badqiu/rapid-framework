@@ -33,16 +33,16 @@ import cn.org.rapid_framework.util.concurrent.async.DefaultAsyncTokenFactory;
 public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	protected static final Log log = LogFactory.getLog(AsyncJavaMailSender.class);
 	
-	protected int sendMailThreadPool = 0;
+	protected int sendMailThreadPoolSize = 0;
 	protected ExecutorService executorService; //邮件发送的线程池
 	protected JavaMailSender javaMailSender;
 	protected boolean shutdownExecutorService = true;
 	protected AsyncTokenFactory asyncTokenFactory = new DefaultAsyncTokenFactory();
 	
 	public void afterPropertiesSet() throws Exception {
-		if(executorService == null && sendMailThreadPool > 0) {
-			executorService = Executors.newFixedThreadPool(sendMailThreadPool,new CustomizableThreadFactory("MailEngine-"));
-			log.info("create send mail executorService,threadPoolSize:"+sendMailThreadPool);
+		if(executorService == null && sendMailThreadPoolSize > 0) {
+			executorService = Executors.newFixedThreadPool(sendMailThreadPoolSize,new CustomizableThreadFactory(getClass().getSimpleName()+"-"));
+			log.info("create send mail executorService,sendMailThreadPoolSize:"+sendMailThreadPoolSize);
 		}
 		
 		Assert.notNull(javaMailSender,"javaMailSender must be not null");
@@ -58,8 +58,8 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 		}
 	}
 	
-	public void setSendMailThreadPool(int sendMailThreadPool) {
-		this.sendMailThreadPool = sendMailThreadPool;
+	public void setSendMailThreadPoolSize(int sendMailThreadPool) {
+		this.sendMailThreadPoolSize = sendMailThreadPool;
 	}
 
 	public ExecutorService getExecutorService() {
