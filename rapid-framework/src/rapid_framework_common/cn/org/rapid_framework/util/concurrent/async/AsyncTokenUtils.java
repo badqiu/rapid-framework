@@ -4,7 +4,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 
 /**
- * AsyncToken工具类方法,用executor执行任务并设置结果用于自动生成AsyncToken
+ * AsyncToken工具类方法,用executor执行任务并将执行结果设置进AsyncToken并返回
  * <pre>
  * 
  * </pre>
