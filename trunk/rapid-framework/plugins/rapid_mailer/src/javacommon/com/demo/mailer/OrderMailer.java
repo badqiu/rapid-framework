@@ -37,7 +37,7 @@ public class OrderMailer extends BaseMailer{
 	 * 使用freemarker模板创建邮件消息
 	 */
 	public SimpleMailMessage createConfirmOrder(String username) {
-		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
+		SimpleMailMessage msg = newSimpleMsgFromTemplate("测试邮件subject");
 		msg.setTo("badqiu@gmail.com");
 		
 		final Map model = new HashMap();
@@ -55,7 +55,7 @@ public class OrderMailer extends BaseMailer{
 		final SimpleMailMessage msg = createConfirmOrder(username);
 		
 		//转换为html邮件并发送,另有一个参数可以指定发件人名称
-		AsyncToken token = getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg)); 
+		AsyncToken token = getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg,"rapid小明")); 
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
