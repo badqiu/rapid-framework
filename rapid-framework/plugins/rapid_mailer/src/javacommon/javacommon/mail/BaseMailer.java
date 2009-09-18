@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
@@ -54,6 +55,10 @@ public class BaseMailer implements InitializingBean{
 	
 	public AsyncJavaMailSender getAsyncJavaMailSender() {
 		return asyncJavaMailSender;
+	}
+	
+	public JavaMailSender getJavaMailSender() {
+		return getAsyncJavaMailSender().getJavaMailSender();
 	}
 
 	public void setSimpleMailMessageTemplate(SimpleMailMessage simpleMailMessage) {
