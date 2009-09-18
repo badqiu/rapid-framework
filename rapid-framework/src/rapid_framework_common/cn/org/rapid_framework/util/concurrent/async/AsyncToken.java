@@ -124,13 +124,19 @@ public class AsyncToken<T>  {
 	}
 
 	/**
+	 * 增加监听器
 	 * addResponder(responder,false);
 	 * @param responder
 	 */
 	public void addResponder(final IResponder<T> responder) {
 		addResponder(responder,false);
 	}
-
+	/**
+	 * 增加监听器,如果AsyncToken已经拥有token的执行结果,
+	 * 则token会根据invokeResponderInOtherThread参数决定是否在异步线程调用responder
+	 * @param responder 监听器
+	 * @param invokeResponderInOtherThread true则另起线程调用responder
+	 */
 	public void addResponder(final IResponder<T> responder,boolean invokeResponderInOtherThread) {
 		_responders.add(responder);
 		
