@@ -16,48 +16,40 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 /**
  * freemarker的template处理类，用于将check exception转换为uncheck exception
+ * 并提供相关工具类方法
  * @author badqiu
  */
 public class FreemarkerTemplateProcessor implements InitializingBean{
-	protected Configuration freemarkerConfiguration;
-	protected String encoding = null;
-	protected Locale locale = null;
-	
-	public void setFreemarkerConfiguration(Configuration freemarkerConfiguration) {
-		this.freemarkerConfiguration = freemarkerConfiguration;
+	private Configuration configuration;
+
+	public void setConfiguration(Configuration freemarkerConfiguration) {
+		this.configuration = freemarkerConfiguration;
 	}
 	
-	public Configuration getFreemarkerConfiguration() {
-		return freemarkerConfiguration;
-	}
-	
-	public Locale getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
-	}
-
-	public String getEncoding() {
-		return encoding;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
+	public Configuration getConfiguration() {
+		return configuration;
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(freemarkerConfiguration,"freemarkerConfiguration must be not null");
-		locale = freemarkerConfiguration.getLocale();
+		Assert.notNull(configuration,"freemarkerConfiguration must be not null");
 	}
 	
-	public String processTemplate(String templateName, Object model) {
-		Template template = getTemplate(templateName);
+	public String processTemplate(String templateName, Object model) throws FreemarkerTemplateException{
+		Template template = getTemplate(configuration,templateName);
+		return processTemplateIntoString(template, model);
+	}
+	
+	public String processTemplate(String templateName, Object model,String encoding) throws FreemarkerTemplateException {
+		Template template = getTemplate(configuration,templateName,encoding);
+		return processTemplateIntoString(template, model);
+	}
+	
+	public String processTemplate(String templateName, Object model,Locale locale,String encoding) throws FreemarkerTemplateException {
+		Template template = getTemplate(configuration,templateName,locale,encoding);
 		return processTemplateIntoString(template, model);
 	}
 
-	public static String processTemplateIntoString(Template template,Object model) {
+	public static String processTemplateIntoString(Template template,Object model) throws FreemarkerTemplateException {
 		try {
 			return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
 		} catch (IOException e) {
@@ -67,19 +59,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		}
 	}
 
-	private Template getTemplate(String templateName) {
-		try {
-			if(encoding == null) {
-				return freemarkerConfiguration.getTemplate(templateName,locale);
-			}else {
-				return freemarkerConfiguration.getTemplate(templateName,locale,encoding);
-			}
-		} catch (IOException e) {
-			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
-		}
-	}
-	
-	public static Template getTemplate(Configuration conf,String templateName) {
+	public static Template getTemplate(Configuration conf,String templateName) throws FreemarkerTemplateException {
 		try {
 			return conf.getTemplate(templateName);
 		} catch (IOException e) {
@@ -87,9 +67,17 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		}
 	}
 	
-	public static Template getTemplate(Configuration conf,String templateName,String encoding) {
+	public static Template getTemplate(Configuration conf,String templateName,String encoding) throws FreemarkerTemplateException {
 		try {
 			return conf.getTemplate(templateName,encoding);
+		} catch (IOException e) {
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+		}
+	}
+	
+	public static Template getTemplate(Configuration conf,String templateName,Locale locale,String encoding) throws FreemarkerTemplateException {
+		try {
+			return conf.getTemplate(templateName,locale,encoding);
 		} catch (IOException e) {
 			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
 		}
