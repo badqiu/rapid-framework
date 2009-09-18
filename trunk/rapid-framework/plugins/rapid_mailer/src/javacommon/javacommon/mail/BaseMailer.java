@@ -10,7 +10,6 @@ import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
 import cn.org.rapid_framework.mail.AsyncJavaMailSender;
-import cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -38,14 +37,12 @@ public class BaseMailer implements InitializingBean{
 
 	private AsyncJavaMailSender asyncJavaMailSender;
 	protected SimpleMailMessage simpleMailMessageTemplate;
-	protected AsyncTokenTemplate mailerAsyncTokenTemplate = new AsyncTokenTemplate();
 	protected FreemarkerTemplateProcessor freemarkerTemplateProcessor;
 	protected String subjectPrefix ; //邮件前缀,子类可以使用 
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(asyncJavaMailSender,"asyncJavaMailSender must be not null");
 		Assert.notNull(freemarkerTemplateProcessor,"freemarkerTemplateProcessor must be not null");
-		Assert.notNull(mailerAsyncTokenTemplate,"mailerAsyncTokenTemplate must be not null");
 	}
 	
 	public void setAsyncJavaMailSender(AsyncJavaMailSender asyncJavaMailSender) {
@@ -64,14 +61,6 @@ public class BaseMailer implements InitializingBean{
 		this.simpleMailMessageTemplate = simpleMailMessage;
 	}
 	
-	public AsyncTokenTemplate getMailerAsyncTokenTemplate() {
-		return mailerAsyncTokenTemplate;
-	}
-
-	public void setMailerAsyncTokenTemplate(AsyncTokenTemplate asyncTokenTemplate) {
-		this.mailerAsyncTokenTemplate = asyncTokenTemplate;
-	}
-
 	public FreemarkerTemplateProcessor getFreemarkerTemplateProcessor() {
 		return freemarkerTemplateProcessor;
 	}
