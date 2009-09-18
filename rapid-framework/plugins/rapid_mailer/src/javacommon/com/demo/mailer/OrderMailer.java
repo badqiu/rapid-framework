@@ -76,7 +76,7 @@ public class OrderMailer extends BaseMailer{
 	 */
 	public void sendConfirmOrder2(final String username) {
 		// AsyncTokenTemplate可以指定默认需要添加的IResponder,请查看AsyncTokenTemplate.setResponders()方法
-		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
+		AsyncToken token = getMailerAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
 				final SimpleMailMessage msg = createConfirmOrder(username);
 				return getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg));
