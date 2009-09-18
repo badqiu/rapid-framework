@@ -12,6 +12,7 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
     default-autowire="byName" default-lazy-init="false">
 
+	<!-- 邮件消息模板,指定一些邮件的默认值 -->
 	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
 		<property name="from" value="rapidframework@sohu.com"></property>
 	</bean>
@@ -37,16 +38,15 @@
 		<property name="javaMailSender" ref="javaMailSender" />
     </bean>
 
-	<!-- freemarker模板相关配置 START -->
-	<bean id="mailerFreemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
-		<property name="templateLoaderPath" value="classpath:/email_template" />
-		<property name="defaultEncoding" value="UTF-8"></property>
-	</bean>
-	
+	<!-- freemarker模板相关配置-->	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
-		<property name="configuration" ref="mailerFreemarkerConfiguration" />
+		<property name="configuration">
+			<bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+				<property name="templateLoaderPath" value="classpath:/email_template" />
+				<property name="defaultEncoding" value="UTF-8"/>
+			</bean>
+		</property>
 	</bean>
-	<!-- freemarker模板相关配置 END -->
 	
 	<!-- AsyncTokenTempalte可以用于指定默认的responders -->
 	<bean id="asyncTokenTemplate" class="cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate">
