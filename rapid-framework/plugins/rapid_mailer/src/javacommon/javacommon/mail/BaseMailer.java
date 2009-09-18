@@ -51,7 +51,7 @@ public class BaseMailer implements InitializingBean{
 		this.asyncJavaMailSender = asyncJavaMailSender;
 	}
 	
-	public AsyncJavaMailSender getJavaMailSender() {
+	public AsyncJavaMailSender getAsyncJavaMailSender() {
 		return asyncJavaMailSender;
 	}
 

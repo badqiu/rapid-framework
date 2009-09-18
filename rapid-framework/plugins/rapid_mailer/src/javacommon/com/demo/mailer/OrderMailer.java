@@ -9,7 +9,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
-import cn.org.rapid_framework.mail.MailMessageUtils;
+import cn.org.rapid_framework.mail.SimpleMailMessageUtils;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.AsyncTokenCallback;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
@@ -45,7 +45,7 @@ public class OrderMailer extends BaseMailer{
 		msg.setText(text);
 		
 		//转换为html邮件
-		return MailMessageUtils.toHtmlMsg(msg);
+		return SimpleMailMessageUtils.toHtmlMsg(msg);
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class OrderMailer extends BaseMailer{
 	 */
 	public void sendConfirmOrder(final String username) {
 		final MimeMessagePreparator msg = createConfirmOrder(username);
-		AsyncToken token = getJavaMailSender().send(msg);
+		AsyncToken token = getAsyncJavaMailSender().send(msg);
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
@@ -74,7 +74,7 @@ public class OrderMailer extends BaseMailer{
 		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
 				final MimeMessagePreparator msg = createConfirmOrder(username);
-				return getJavaMailSender().send(msg);
+				return getAsyncJavaMailSender().send(msg);
 			}
 		});
 		
