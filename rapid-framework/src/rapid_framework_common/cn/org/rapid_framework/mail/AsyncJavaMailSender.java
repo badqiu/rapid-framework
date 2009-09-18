@@ -37,6 +37,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	protected ExecutorService executorService; //邮件发送的线程池
 	protected JavaMailSender javaMailSender;
 	protected boolean shutdownExecutorService = true;
+	protected boolean waitForTasksToCompleteOnShutdown = true;
 	protected AsyncTokenFactory asyncTokenFactory = new DefaultAsyncTokenFactory();
 	
 	public void afterPropertiesSet() throws Exception {
@@ -53,11 +54,23 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	public void destroy() throws Exception {
 		if(shutdownExecutorService) {
 			log.info("start shutdown send mail executorService");
-			executorService.shutdown();
+			if(waitForTasksToCompleteOnShutdown) 
+				executorService.shutdown();
+			else
+				executorService.shutdownNow();
 			log.info("send mail executorService shutdowned");
 		}
 	}
 	
+	public boolean isWaitForTasksToCompleteOnShutdown() {
+		return waitForTasksToCompleteOnShutdown;
+	}
+
+	public void setWaitForTasksToCompleteOnShutdown(
+			boolean waitForTasksToCompleteOnShutdown) {
+		this.waitForTasksToCompleteOnShutdown = waitForTasksToCompleteOnShutdown;
+	}
+
 	public void setSendMailThreadPoolSize(int sendMailThreadPool) {
 		this.sendMailThreadPoolSize = sendMailThreadPool;
 	}
