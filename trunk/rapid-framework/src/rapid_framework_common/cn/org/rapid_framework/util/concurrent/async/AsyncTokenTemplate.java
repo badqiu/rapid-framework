@@ -35,12 +35,4 @@ public class AsyncTokenTemplate {
 		return token;
 	}
 	
-	/**
-	 * set AsyncTokenUtils.execute();
-	 */
-	@Deprecated
-	public static void execute(AsyncToken token,Callable task) {
-		AsyncTokenUtils.execute(token, task);
-	}
-	
 }

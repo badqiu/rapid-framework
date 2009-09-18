@@ -13,12 +13,12 @@ public class AsyncTokenTemplateTest extends TestCase {
 		final AsyncToken token = new AsyncToken();
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token,new Callable(){
-					public Object call() throws Exception {
-						Thread.sleep(1000 * 3);
-						return RESULT;
-					}
-				});
+				try {
+					Thread.sleep(1000 * 3);
+					token.setComplete(RESULT);
+				}catch(Exception e) {
+					token.setFault(e);
+				}
 			}
 		});
 		thread.start();
@@ -54,11 +54,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 			}
 		});
 		
-		AsyncTokenTemplate.execute(token, new Callable<Date>() {
-			public Date call() throws Exception {
-				return null;
-			}
-		});
+		token.setComplete();
 		
 		int count = Integer.MAX_VALUE;
 		System.out.println(count);

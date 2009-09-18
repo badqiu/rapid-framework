@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate;
+import cn.org.rapid_framework.util.concurrent.async.AsyncTokenUtils;
 
 /**
  * 使用线程池异步发送邮件的javaMailSender
@@ -94,94 +95,52 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 
 	public AsyncToken send(final MimeMessage mimeMessage) throws MailException {
 		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+		AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(mimeMessage);
-						return null;
-					}
-				});
+				javaMailSender.send(mimeMessage);
 			}
 		});
 		return token;
 	}
 
 	public AsyncToken send(final MimeMessage[] mimeMessages) throws MailException {
-		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+		return AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(mimeMessages);
-						return null;
-					}
-				});
+				javaMailSender.send(mimeMessages);
 			}
 		});
-		return token;
 	}
 
-	public AsyncToken send(final MimeMessagePreparator mimeMessagePreparator)
-			throws MailException {		
-		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+	public AsyncToken send(final MimeMessagePreparator mimeMessagePreparator) throws MailException {	
+		return AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(mimeMessagePreparator);
-						return null;
-					}
-				});
+				javaMailSender.send(mimeMessagePreparator);
 			}
 		});
-		return token;
 	}
 
-	public AsyncToken send(final MimeMessagePreparator[] mimeMessagePreparators)
-			throws MailException {		
-		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+	public AsyncToken send(final MimeMessagePreparator[] mimeMessagePreparators) throws MailException {		
+		return AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(mimeMessagePreparators);
-						return null;
-					}
-				});
+				javaMailSender.send(mimeMessagePreparators);
 			}
 		});
-		return token;
 	}
 
-	public AsyncToken send(final SimpleMailMessage simpleMessage) throws MailException {		
-		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+	public AsyncToken send(final SimpleMailMessage simpleMessage) throws MailException {
+		return AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(simpleMessage);
-						return null;
-					}
-				});
+				javaMailSender.send(simpleMessage);
 			}
 		});
-		return token;
 	}
 
-	public AsyncToken send(final SimpleMailMessage[] simpleMessages) throws MailException {		
-		final AsyncToken token = new AsyncToken();
-		executorService.execute(new Runnable() {
+	public AsyncToken send(final SimpleMailMessage[] simpleMessages) throws MailException {	
+		return AsyncTokenUtils.execute(executorService, new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						javaMailSender.send(simpleMessages);
-						return null;
-					}
-				});
+				javaMailSender.send(simpleMessages);
 			}
 		});
-		return token;
 	}
 	
 }
