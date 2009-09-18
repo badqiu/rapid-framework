@@ -21,7 +21,7 @@
 		<property name="host" value="smtp.sohu.com" />
 		<property name="username" value="rapidframework@sohu.com" />
 		<property name="password" value="123456" />
-		<property name="defaultEncoding" value="GBK" />
+		<property name="defaultEncoding" value="UTF-8" />
 		
 		<property name="javaMailProperties">
 			<props>
@@ -40,6 +40,7 @@
 	<!-- freemarker模板相关配置 START -->
 	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
 		<property name="templateLoaderPath" value="classpath:/email_template" />
+		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
