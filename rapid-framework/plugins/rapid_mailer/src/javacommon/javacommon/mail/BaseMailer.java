@@ -77,13 +77,8 @@ public class BaseMailer implements InitializingBean{
 		return subjectPrefix;
 	}
 	
-	/**
-	 * 为subject 增加前缀
-	 * @return
-	 */
-	public String wrapSubject(String subject) {
-		String prefix = getSubjectPrefix() == null ? "" : getSubjectPrefix();
-		return prefix + subject;
+	public static String addPrefix(String prefix,String string) {
+		return (prefix == null ? "" : prefix) + string;
 	}
 
 	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
@@ -91,7 +86,7 @@ public class BaseMailer implements InitializingBean{
 		if(simpleMailMessageTemplate != null) {
 			simpleMailMessageTemplate.copyTo(msg);
 		}
-		msg.setSubject(wrapSubject(subject));
+		msg.setSubject(addPrefix(getSubjectPrefix(),subject));
 		return msg;
 	}
 
