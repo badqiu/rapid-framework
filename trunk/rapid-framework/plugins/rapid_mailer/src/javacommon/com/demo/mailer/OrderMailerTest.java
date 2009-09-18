@@ -30,7 +30,7 @@ public class OrderMailerTest extends TestCase {
 	}
 	
 	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
-		orderMailer.sendConfirmOrder("badqiu");
+		AsyncToken token = orderMailer.sendConfirmOrder("badqiu");
 		
 		Thread.sleep(1000 * 8);
 	}
