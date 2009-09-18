@@ -52,7 +52,7 @@ public class OrderMailer extends BaseMailer{
 	/**
 	 * 发送邮件
 	 */
-	public void sendConfirmOrder(final String username) {
+	public AsyncToken sendConfirmOrder(final String username) {
 		final MimeMessagePreparator msg = createConfirmOrder(username);
 		AsyncToken token = getAsyncJavaMailSender().send(msg);
 		
@@ -65,6 +65,9 @@ public class OrderMailer extends BaseMailer{
 				System.out.println("[INFO] confirmOrder mail send success");
 			}
 		});
+		
+		//返回token可以用于外部继续监听
+		return token;
 	}
 
 	/**
