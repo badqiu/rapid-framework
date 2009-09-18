@@ -29,8 +29,8 @@ public class OrderMailer extends BaseMailer{
 	/**
 	 * 使用freemarker模板创建邮件消息
 	 */
-	public MimeMessagePreparator createConfirmOrder(String username) {
-		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
+	public SimpleMailMessage createConfirmOrder(String username) {
+		SimpleMailMessage msg = newSimpleMsgFromTemplate("测试邮件subject");
 		msg.setTo("badqiu@gmail.com");
 		
 		final Map model = new HashMap();
@@ -38,16 +38,17 @@ public class OrderMailer extends BaseMailer{
 		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
 		msg.setText(text);
 		
-		//转换为html邮件,另有一个参数可以指定发件人名称
-		return SimpleMailMessageUtils.toHtmlMsg(msg);
+		return msg;
 	}
 	
 	/**
 	 * 发送邮件
 	 */
 	public AsyncToken sendConfirmOrder(final String username) {
-		final MimeMessagePreparator msg = createConfirmOrder(username);
-		AsyncToken token = getAsyncJavaMailSender().send(msg);
+		final SimpleMailMessage msg = createConfirmOrder(username);
+		
+		//转换为html邮件并发送,另有一个参数可以指定发件人名称
+		AsyncToken token = getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg,"rapid小明")); 
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
@@ -58,7 +59,7 @@ public class OrderMailer extends BaseMailer{
 				System.out.println("[INFO] confirmOrder mail send success");
 			}
 		});
-
+		
 		//返回token可以用于外部继续监听
 		return token;
 	}
