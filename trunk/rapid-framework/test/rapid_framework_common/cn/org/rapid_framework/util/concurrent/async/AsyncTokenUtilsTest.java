@@ -3,24 +3,26 @@ package cn.org.rapid_framework.util.concurrent.async;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
-import junit.framework.TestCase;
+import com.sun.xml.internal.ws.developer.StatefulWebServiceManager.Callback;
 
-public class AsyncTokenTemplateTest extends TestCase {
+import junit.framework.TestCase;
+import cn.org.rapid_framework.util.concurrent.async.AsyncTokenUtils.AsyncTokenRunnable;
+
+public class AsyncTokenUtilsTest extends TestCase {
 	private Object RESULT = new Object();
 	private boolean executedResult = false;
 	
-	public void test() throws InterruptedException {
+	public void testCallable() throws InterruptedException {
 		final AsyncToken token = new AsyncToken();
-		Thread thread = new Thread(new Runnable() {
-			public void run() {
-				try {
-					Thread.sleep(1000 * 3);
-					token.setComplete(RESULT);
-				}catch(Exception e) {
-					token.setFault(e);
-				}
+		
+		Callable task = new Callable() {
+			public Object call() throws Exception {
+				Thread.sleep(1000 * 3);
+				return RESULT;
 			}
-		});
+		};
+		
+		Thread thread = new Thread(new AsyncTokenRunnable(token,task));
 		thread.start();
 		
 		Thread.sleep(1500);
@@ -42,7 +44,7 @@ public class AsyncTokenTemplateTest extends TestCase {
 		assertTrue(executedResult);
 	}
 	
-	public void testTemplate() {
+	public void testRunable() {
 		AsyncToken<Date> token = new AsyncToken();
 		token.addResponder(new IResponder<Date>(){
 			public void onFault(Exception fault) {

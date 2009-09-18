@@ -1,8 +1,6 @@
 package cn.org.rapid_framework.mail;
 
 import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -20,8 +18,9 @@ import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
-import cn.org.rapid_framework.util.concurrent.async.AsyncTokenTemplate;
+import cn.org.rapid_framework.util.concurrent.async.AsyncTokenFactory;
 import cn.org.rapid_framework.util.concurrent.async.AsyncTokenUtils;
+import cn.org.rapid_framework.util.concurrent.async.DefaultAsyncTokenFactory;
 
 /**
  * 使用线程池异步发送邮件的javaMailSender
@@ -38,6 +37,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	protected ExecutorService executorService; //邮件发送的线程池
 	protected JavaMailSender javaMailSender;
 	protected boolean shutdownExecutorService = true;
+	protected AsyncTokenFactory asyncTokenFactory = new DefaultAsyncTokenFactory();
 	
 	public void afterPropertiesSet() throws Exception {
 		if(executorService == null && sendMailThreadPool > 0) {
@@ -47,6 +47,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 		
 		Assert.notNull(javaMailSender,"javaMailSender must be not null");
 		Assert.notNull(executorService,"executorService must be not null");
+		Assert.notNull(asyncTokenFactory,"asyncTokenFactory must be not null");
 	}
 	
 	public void destroy() throws Exception {
@@ -63,6 +64,14 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 
 	public ExecutorService getExecutorService() {
 		return executorService;
+	}
+	
+	public AsyncTokenFactory getAsyncTokenFactory() {
+		return asyncTokenFactory;
+	}
+
+	public void setAsyncTokenFactory(AsyncTokenFactory asyncTokenFactory) {
+		this.asyncTokenFactory = asyncTokenFactory;
 	}
 
 	public void setExecutorService(ExecutorService executorService) {
@@ -94,17 +103,15 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	}
 
 	public AsyncToken send(final MimeMessage mimeMessage) throws MailException {
-		final AsyncToken token = new AsyncToken();
-		AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory, new Runnable() {
 			public void run() {
 				javaMailSender.send(mimeMessage);
 			}
 		});
-		return token;
 	}
 
 	public AsyncToken send(final MimeMessage[] mimeMessages) throws MailException {
-		return AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory, new Runnable() {
 			public void run() {
 				javaMailSender.send(mimeMessages);
 			}
@@ -112,7 +119,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	}
 
 	public AsyncToken send(final MimeMessagePreparator mimeMessagePreparator) throws MailException {	
-		return AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory, new Runnable() {
 			public void run() {
 				javaMailSender.send(mimeMessagePreparator);
 			}
@@ -120,7 +127,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	}
 
 	public AsyncToken send(final MimeMessagePreparator[] mimeMessagePreparators) throws MailException {		
-		return AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory,new Runnable() {
 			public void run() {
 				javaMailSender.send(mimeMessagePreparators);
 			}
@@ -128,7 +135,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	}
 
 	public AsyncToken send(final SimpleMailMessage simpleMessage) throws MailException {
-		return AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory, new Runnable() {
 			public void run() {
 				javaMailSender.send(simpleMessage);
 			}
@@ -136,7 +143,7 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 	}
 
 	public AsyncToken send(final SimpleMailMessage[] simpleMessages) throws MailException {	
-		return AsyncTokenUtils.execute(executorService, new Runnable() {
+		return AsyncTokenUtils.execute(executorService,asyncTokenFactory, new Runnable() {
 			public void run() {
 				javaMailSender.send(simpleMessages);
 			}
