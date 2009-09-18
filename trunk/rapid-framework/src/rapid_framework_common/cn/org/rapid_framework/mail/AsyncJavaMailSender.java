@@ -80,6 +80,10 @@ public class AsyncJavaMailSender implements InitializingBean,DisposableBean{
 		this.shutdownExecutorService = shutdownExecutorService;
 	}
 
+	public boolean isShutdownExecutorService() {
+		return shutdownExecutorService;
+	}
+	
 	public MimeMessage createMimeMessage() {
 		return javaMailSender.createMimeMessage();
 	}
