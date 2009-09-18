@@ -36,7 +36,7 @@ public class OrderMailer extends BaseMailer{
 	/**
 	 * 使用freemarker模板创建邮件消息
 	 */
-	public MimeMessagePreparator createConfirmOrder(String username) {
+	public SimpleMailMessage createConfirmOrder(String username) {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate("subject");
 		msg.setTo("badqiu@gmail.com");
 		
@@ -45,16 +45,17 @@ public class OrderMailer extends BaseMailer{
 		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
 		msg.setText(text);
 		
-		//转换为html邮件,另有一个参数可以指定发件人名称
-		return SimpleMailMessageUtils.toHtmlMsg(msg);
+		return msg;
 	}
 	
 	/**
 	 * 发送邮件
 	 */
 	public AsyncToken sendConfirmOrder(final String username) {
-		final MimeMessagePreparator msg = createConfirmOrder(username);
-		AsyncToken token = getAsyncJavaMailSender().send(msg);
+		final SimpleMailMessage msg = createConfirmOrder(username);
+		
+		//转换为html邮件并发送,另有一个参数可以指定发件人名称
+		AsyncToken token = getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg)); 
 		
 		//处理邮件发送结果
 		token.addResponder(new IResponder() {
@@ -77,8 +78,8 @@ public class OrderMailer extends BaseMailer{
 		// AsyncTokenTemplate可以指定默认需要添加的IResponder,请查看AsyncTokenTemplate.setResponders()方法
 		AsyncToken token = getAsyncTokenTemplate().execute(new AsyncTokenCallback() {
 			public AsyncToken execute() {
-				final MimeMessagePreparator msg = createConfirmOrder(username);
-				return getAsyncJavaMailSender().send(msg);
+				final SimpleMailMessage msg = createConfirmOrder(username);
+				return getAsyncJavaMailSender().send(SimpleMailMessageUtils.toHtmlMsg(msg));
 			}
 		});
 		
