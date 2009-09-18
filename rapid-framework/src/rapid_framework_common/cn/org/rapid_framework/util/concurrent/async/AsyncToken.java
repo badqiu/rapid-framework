@@ -2,6 +2,10 @@ package cn.org.rapid_framework.util.concurrent.async;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
 
@@ -53,8 +57,10 @@ import javax.swing.SwingUtilities;
  * @see AsyncTokenTemplate
  * @author badqiu
  */
-public class AsyncToken<T> {
+public class AsyncToken<T>  {
 	public static final String DEFAULT_TOKEN_GROUP = "default";
+	
+	private static UncaughtExceptionHandler defaultUncaughtExceptionHandler;
 	
 	//tokenGroup tokenName tokenDescription tokenId  用于可以增加描述信息
 	private String tokenGroup = DEFAULT_TOKEN_GROUP;
@@ -62,15 +68,14 @@ public class AsyncToken<T> {
 	private long tokenId;
 	private String tokenDescription = null;
 	
-	private static UncaughtExceptionHandler defaultUncaughtExceptionHandler;
-	
 	private List<IResponder> _responders = new ArrayList(2);
 	
 	private UncaughtExceptionHandler uncaughtExceptionHandler;
 	private T _result;
 	private Exception _fault;
 	private boolean _isFiredResult;
-
+	
+	private CountDownLatch awaitResultSignal = null;
 	
     private static long tokenNumSeqForTokenName;
     private static synchronized long nextTokenNum() {
@@ -202,7 +207,13 @@ public class AsyncToken<T> {
 	}
 	
 	private void fireResult2Responders() {
-		_isFiredResult = true;
+		synchronized (this) {
+			_isFiredResult = true;
+			if(awaitResultSignal != null) {
+				awaitResultSignal.countDown();
+			}
+		}
+		
 		for(IResponder r : _responders) {
 			fireResult2Responder(r);
 		}
@@ -223,6 +234,46 @@ public class AsyncToken<T> {
 		if(_isFiredResult) throw new IllegalStateException("token already fired");
 		this._fault = fault;
 		fireResult2Responders();
+	}
+	
+	/**
+	 * 等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future可以使用
+	 */
+	public Object waitForResult() throws InterruptedException,Exception {
+		return waitForResult(false, -1, null);
+	}
+	/**
+	 *  等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future可以使用
+	 */
+	public Object waitForResult(long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
+		return waitForResult(true, timeout, timeUnit);
+	}
+	
+	private Object waitForResult(boolean hasTimeout,long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
+		synchronized(this) {
+			if(_isFiredResult) {
+				if(_fault != null) {
+					throw _fault;
+				}else {
+					return _result;
+				}
+			}
+			
+			awaitResultSignal = new CountDownLatch(1);
+		}
+		
+		if(hasTimeout) {
+			awaitResultSignal.await(timeout,timeUnit);
+		}else {
+			awaitResultSignal.await();
+		}
+		
+		if(_fault != null) {
+			throw _fault;
+		}else {
+			return _result;
+		}
+		
 	}
 		
 }
