@@ -38,13 +38,13 @@
     </bean>
 
 	<!-- freemarker模板相关配置 START -->
-	<bean id="freemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+	<bean id="mailerFreemarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
 		<property name="templateLoaderPath" value="classpath:/email_template" />
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
-		<property name="freemarkerConfiguration" ref="freemarkerConfiguration" />
+		<property name="configuration" ref="mailerFreemarkerConfiguration" />
 	</bean>
 	<!-- freemarker模板相关配置 END -->
 	
