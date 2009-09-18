@@ -91,12 +91,12 @@ public class AsyncTokenTemplateTest extends TestCase {
 		
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				AsyncTokenTemplate.execute(token, new Callable() {
-					public Object call() throws Exception {
-						//do send email job;
-						return null;
-					}
-				});
+				try {
+					//do send email job...
+					token.setComplete(); //通知Responder token执行完
+				}catch(Exception e) {
+					token.setFault(e); //通知Responder token发生错误
+				}
 			}
 		});
 		thread.start();
