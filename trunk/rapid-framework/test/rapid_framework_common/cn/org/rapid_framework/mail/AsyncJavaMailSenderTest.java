@@ -50,8 +50,8 @@ public class AsyncJavaMailSenderTest extends TestCase {
 			}
 		});
 		
-		System.out.println("sleep 5 seconds");
-		Thread.sleep(1000 * 5);
+		token.waitForResult();
+		Thread.sleep(100);
 		assertTrue(executedSuccess);
 		assertFalse(executedFail);
 	}
