@@ -29,10 +29,10 @@ public class OrderMailerTest extends TestCase {
 		orderMailer = (OrderMailer)context.getBean("orderMailer");
 	}
 	
-	public void testSendFromOrderMailer() throws TemplateException, IOException, InterruptedException {
+	public void testSendFromOrderMailer() throws TemplateException, IOException, Exception {
 		AsyncToken token = orderMailer.sendConfirmOrder("badqiu");
 		
-		Thread.sleep(1000 * 8);
+		token.waitForResult();
 	}
 	
 }
