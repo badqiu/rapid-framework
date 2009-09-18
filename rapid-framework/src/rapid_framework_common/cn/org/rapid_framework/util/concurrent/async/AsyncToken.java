@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.SwingUtilities;
 
@@ -60,7 +61,6 @@ import javax.swing.SwingUtilities;
 public class AsyncToken<T>  {
 	public static final String DEFAULT_TOKEN_GROUP = "default";
 	
-	private static UncaughtExceptionHandler defaultUncaughtExceptionHandler;
 	
 	//tokenGroup tokenName tokenDescription tokenId  用于可以增加描述信息
 	private String tokenGroup = DEFAULT_TOKEN_GROUP;
@@ -77,14 +77,8 @@ public class AsyncToken<T>  {
 	
 	private CountDownLatch awaitResultSignal = null;
 	
-    private static long tokenNumSeqForTokenName;
-    private static synchronized long nextTokenNum() {
-    	return tokenNumSeqForTokenName++;
-    }
-    private static long tokenIdSequence;
-    private static synchronized long nextTokenID() {
-    	return ++tokenIdSequence;
-    }
+    private static AtomicLong tokenNumSeqForTokenName = new AtomicLong(1);
+    private static AtomicLong tokenIdSequence = new AtomicLong(1);
     
 	public AsyncToken(){
 		this(null);
@@ -92,11 +86,11 @@ public class AsyncToken<T>  {
 	
 	public AsyncToken(UncaughtExceptionHandler uncaughtExceptionHandler) {
 		this.uncaughtExceptionHandler = uncaughtExceptionHandler;
-		init(DEFAULT_TOKEN_GROUP, "T-"+nextTokenNum(), nextTokenID());
+		init(DEFAULT_TOKEN_GROUP, "T-"+tokenNumSeqForTokenName.getAndIncrement(), tokenIdSequence.getAndIncrement());
 	}
 	
 	public AsyncToken(String tokenGroup,String tokenName) {
-		init(tokenGroup, tokenName, nextTokenID());
+		init(tokenGroup, tokenName, tokenIdSequence.getAndIncrement());
 	}
 	
 	private void init(String tokenGroup,String tokenName,long tokenId) {
@@ -167,17 +161,8 @@ public class AsyncToken<T>  {
 		return _responders != null && _responders.size() > 0;
 	}
 	
-	public static UncaughtExceptionHandler getDefaultUncaughtExceptionHandler() {
-		return defaultUncaughtExceptionHandler;
-	}
-
-	public static void setDefaultUncaughtExceptionHandler(
-			UncaughtExceptionHandler defaultUncaughtExceptionHandler) {
-		AsyncToken.defaultUncaughtExceptionHandler = defaultUncaughtExceptionHandler;
-	}
-
 	public UncaughtExceptionHandler getUncaughtExceptionHandler() {
-		return uncaughtExceptionHandler == null ? defaultUncaughtExceptionHandler : uncaughtExceptionHandler;
+		return uncaughtExceptionHandler;
 	}
 	
 	public void setUncaughtExceptionHandler(UncaughtExceptionHandler uncaughtExceptionHandler) {
