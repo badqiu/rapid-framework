@@ -3,8 +3,8 @@ package cn.org.rapid_framework.util;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
-import antlr.collections.List;
 /**
  * @author badqiu
  */
