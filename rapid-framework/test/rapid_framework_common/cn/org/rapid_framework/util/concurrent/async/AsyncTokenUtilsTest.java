@@ -3,10 +3,8 @@ package cn.org.rapid_framework.util.concurrent.async;
 import java.util.Date;
 import java.util.concurrent.Callable;
 
-import com.sun.xml.internal.ws.developer.StatefulWebServiceManager.Callback;
-
 import junit.framework.TestCase;
-import cn.org.rapid_framework.util.concurrent.async.AsyncTokenUtils.AsyncTokenRunnable;
+import cn.org.rapid_framework.util.concurrent.async.AsyncTokenRunnable;
 
 public class AsyncTokenUtilsTest extends TestCase {
 	private Object RESULT = new Object();
