@@ -85,7 +85,7 @@ public class GeneratorMain {
 	}
 }}}
 
-IGeneratorModelProvider为变量提供者,可以提供不同变量 
+IGeneratorModelProvider为模板的model提供者,可以修改方法以提供不同model 
 {{{
 public class DbTableGeneratorModelProvider implements IGeneratorModelProvider {
 	Table table;
