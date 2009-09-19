@@ -23,6 +23,7 @@ public class GeneratorProperties {
 	
 	private static void loadProperties() {
 		try {
+			System.out.println("Load [generator.properties] from classpath");
 			props = loadAllPropertiesByClassLoader("generator.properties");
 			String basepackage = props.getProperty("basepackage");
 			String basepackage_dir = basepackage.replace('.', '/');
