@@ -65,6 +65,14 @@ public class GeneratorProperties {
 		return value;
 	}
 	
+	public static int getRequiredInt(String key) {
+		return Integer.parseInt(getRequiredProperty(key));
+	}
+	
+	public static boolean getRequiredBoolean(String key) {
+		return Boolean.parseBoolean(getRequiredProperty(key));
+	}
+	
 	public static String getNullIfBlankProperty(String key) {
 		String value = getProperties().getProperty(key);
 		if(value == null || "".equals(value.trim())) {
