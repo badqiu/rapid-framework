@@ -34,7 +34,7 @@ import freemarker.template.TemplateException;
 public class Generator {
 	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private List templateRootDirs = new ArrayList();
-	public String outRootDir;
+	private String outRootDir;
 	
 	String encoding = "UTF-8";
 	public Generator() {
@@ -52,6 +52,20 @@ public class Generator {
 		templateRootDirs.add(f);
 	}
 	
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String v) {
+		if(v == null) throw new IllegalArgumentException("encoding must be not null");
+		this.encoding = v;
+	}
+	
+	public void setOutRootDir(String v) {
+		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
+		this.outRootDir = v;
+	}
+
 	public void generateByModelProvider(IGeneratorModelProvider modelProvider) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' is empty");
 		

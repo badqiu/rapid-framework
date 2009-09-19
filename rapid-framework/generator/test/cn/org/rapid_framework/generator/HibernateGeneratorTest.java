@@ -12,7 +12,7 @@ public class HibernateGeneratorTest extends TestCase{
 
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
-		g.outRootDir = ".";
+		g.setOutRootDir(".");
 		
 		Table table = DbTableFactory.getInstance().getTable("blog");
 		

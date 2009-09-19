@@ -16,7 +16,7 @@ public class AllPluginsGeneratorTest extends TestCase {
 	
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
-		g.outRootDir = GeneratorProperties.getRequiredProperty("outRoot");
+		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		File[] listFiles = new File("plugins").listFiles();
@@ -65,7 +65,7 @@ public class AllPluginsGeneratorTest extends TestCase {
 			}
 			
 			String baseTemplateOutput = "d:/generator-demo-output/"+child.getName();
-			g.outRootDir = baseTemplateOutput + "/generator-output";
+			g.setOutRootDir(baseTemplateOutput + "/generator-output");
 			
 			FileUtils.copyDirectory(pluginTemplate, new File(baseTemplateOutput+"/template"));
 			System.out.println("pluginTemplate:"+pluginTemplate);
