@@ -2,8 +2,8 @@
 {{{
   src                 #java源代码目录
         --resources         #配置文件存放的目录
-          --i18n               #存放国际化的messages
-          --spring             #存放spring的配置文件
+              --i18n               #存放国际化的messages
+              --spring             #存放spring的配置文件
         --javacommon        #项目自带的javacommon类
   generator           #代码生成器目录
         --src               #生成器的源代码
