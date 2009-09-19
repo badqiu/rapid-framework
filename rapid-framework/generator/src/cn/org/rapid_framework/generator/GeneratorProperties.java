@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import cn.org.rapid_framework.generator.util.PropertiesHelper;
+
 
 /**
  * 用于装载generator.properties文件
@@ -19,17 +21,17 @@ public class GeneratorProperties {
 
 	static final String PROPERTIES_FILE_NAME = "generator.properties";
 	
-	static Properties props;
+	static PropertiesHelper props;
 	private GeneratorProperties(){}
 	
 	private static void loadProperties() {
 		try {
 			System.out.println("Load [generator.properties] from classpath");
-			props = loadAllPropertiesByClassLoader(PROPERTIES_FILE_NAME);
+			props = new PropertiesHelper(loadAllPropertiesByClassLoader(PROPERTIES_FILE_NAME));
 			
 			String basepackage = getRequiredProperty("basepackage");
 			String basepackage_dir = basepackage.replace('.', '/');
-			props.put("basepackage_dir", basepackage_dir);
+			props.setProperty("basepackage_dir", basepackage_dir);
 			
 			for(Iterator it = props.entrySet().iterator();it.hasNext();) {
 				Map.Entry entry = (Map.Entry)it.next();
@@ -44,49 +46,45 @@ public class GeneratorProperties {
 	}
 	
 	public static Properties getProperties() {
+		return getHelper().getProperties();
+	}
+	
+	private static PropertiesHelper getHelper() {
 		if(props == null)
 			loadProperties();
 		return props;
 	}
 	
 	public static String getProperty(String key, String defaultValue) {
-		return getProperties().getProperty(key, defaultValue);
+		return getHelper().getProperty(key, defaultValue);
 	}
 	
 	public static String getProperty(String key) {
-		return getProperties().getProperty(key);
+		return getHelper().getProperty(key);
 	}
 	
 	public static String getRequiredProperty(String key) {
-		String value = getProperty(key);
-		if(value == null || "".equals(value.trim())) {
-			throw new IllegalStateException("required property is blank by key="+key);
-		}
-		return value;
+		return getHelper().getRequiredProperty(key);
 	}
 	
 	public static int getRequiredInt(String key) {
-		return Integer.parseInt(getRequiredProperty(key));
+		return getHelper().getRequiredInt(key);
 	}
 	
 	public static boolean getRequiredBoolean(String key) {
-		return Boolean.parseBoolean(getRequiredProperty(key));
+		return getHelper().getRequiredBoolean(key);
 	}
 	
 	public static String getNullIfBlank(String key) {
-		String value = getProperties().getProperty(key);
-		if(value == null || "".equals(value.trim())) {
-			return null;
-		}
-		return value;
+		return getHelper().getNullIfBlank(key);
 	}
 	
 	public static void setProperty(String key,String value) {
-		getProperties().setProperty(key, value);
+		getHelper().setProperty(key, value);
 	}
 	
 	public static void setProperties(Properties v) {
-		props = v;
+		props = new PropertiesHelper(v);
 	}
 
 	public static Properties loadAllPropertiesByClassLoader(String resourceName) throws IOException {
