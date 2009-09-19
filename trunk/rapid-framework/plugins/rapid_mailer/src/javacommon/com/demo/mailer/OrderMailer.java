@@ -14,7 +14,7 @@ import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
 
 /**
- * 本类的演示邮件发送,请删除本类.
+ * 本类为演示邮件发送,请删除本类.
  * 
  * <pre>
  * Mailer使用规范:
