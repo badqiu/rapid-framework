@@ -15,7 +15,26 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
 
-public class PropertiesHelper {
+/**
+ * Properties的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredProperty(),getInt(),getBoolean()等方法
+ * 
+ * <pre>
+ * 使用:
+ * public class ConnectionUtils {
+ *     static Properties properties = new Properties(); 
+ *     // ... do load properties 
+ *     
+ *     // use
+ * 	   static PropertiesHelper props = new PropertiesHelper(properties);
+ *     public static Connection getConnection() {
+ *     		// use getRequiredProperty() 
+ *     		DriverManager.getConnection(props.getRequiredProperty("jdbc.url"));
+ *     }
+ * }
+ * </pre>
+ * @author badqiu
+ */
+public class PropertiesHelper extends Properties{
 	Properties p;
 
 	public PropertiesHelper(Properties p) {
@@ -27,27 +46,47 @@ public class PropertiesHelper {
 		return p;
 	}
 	
-	public String getProperty(String key, String defaultValue) {
-		return getProperties().getProperty(key, defaultValue);
-	}
-	
-	public String getProperty(String key) {
-		return getProperties().getProperty(key);
-	}
-	
 	public String getRequiredProperty(String key) {
 		String value = getProperty(key);
-		if(value == null || "".equals(value.trim())) {
+		if(isBlankString(value)) {
 			throw new IllegalStateException("required property is blank by key="+key);
 		}
 		return value;
 	}
 	
-	public Integer getInt(String key) {
-		if(getProperty(key) == null) {
+	public String getNullIfBlank(String key) {
+		String value = getProperties().getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Integer.parseInt(getRequiredProperty(key));
+		return value;
+	}
+	
+	public String getNullIfEmpty(String key) {
+		String value = getProperties().getProperty(key);
+		if(isEmptyString(value)) {
+			return null;
+		}
+		return value;
+	}
+	
+	public String getAndTryFromSystem(String key) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
+			value = System.getProperty(value);
+			if(isBlankString(value)) {
+				value = System.getenv(key);
+			}
+		}
+		return value;
+	}
+	
+	public Integer getInteger(String key) {
+		String v = getProperty(key);
+		if(v == null){
+			return null;
+		}
+		return Integer.parseInt(v);
 	}
 	
 	public int getInt(String key,int defaultValue) {
@@ -59,6 +98,24 @@ public class PropertiesHelper {
 	
 	public int getRequiredInt(String key) {
 		return Integer.parseInt(getRequiredProperty(key));
+	}
+	
+	public Long getLong(String key) {
+		if(getProperty(key) == null) {
+			return null;
+		}
+		return Long.parseLong(getRequiredProperty(key));
+	}
+	
+	public Long getLong(String key,Long defaultValue) {
+		if(getProperty(key) == null) {
+			return defaultValue;
+		}
+		return Long.parseLong(getRequiredProperty(key));
+	}
+	
+	public Long getRequiredLong(String key) {
+		return Long.parseLong(getRequiredProperty(key));
 	}
 	
 	public Boolean getBoolean(String key) {
@@ -97,19 +154,58 @@ public class PropertiesHelper {
 		return Float.parseFloat(getRequiredProperty(key));
 	}
 	
-	public String getNullIfBlank(String key) {
-		String value = getProperties().getProperty(key);
-		if(value == null || "".equals(value.trim())) {
+	public Double getDouble(String key) {
+		if(getProperty(key) == null) {
 			return null;
 		}
-		return value;
+		return Double.parseDouble(getRequiredProperty(key));
+	}
+	
+	public double getDouble(String key,double defaultValue) {
+		if(getProperty(key) == null) {
+			return defaultValue;
+		}
+		return Double.parseDouble(getRequiredProperty(key));
+	}
+	
+	public Double getRequiredDouble(String key) {
+		return Double.parseDouble(getRequiredProperty(key));
+	}
+	
+	/** setProperty(String key,int value) ... start */
+	
+	public Object setProperty(String key,int value) {
+		return setProperty(key, String.valueOf(value));
+	}
+	
+	public Object setProperty(String key,long value) {
+		return setProperty(key, String.valueOf(value));
+	}
+	
+	public Object setProperty(String key,float value) {
+		return setProperty(key, String.valueOf(value));
+	}
+	
+	public Object setProperty(String key,double value) {
+		return setProperty(key, String.valueOf(value));
+	}
+	
+	public Object setProperty(String key,boolean value) {
+		return setProperty(key, String.valueOf(value));
 	}
 	
 	/** delegate method start */
 	
-	public PropertiesHelper setProperty(String key,String value) {
-		p.setProperty(key, value);
-		return this;
+	public String getProperty(String key, String defaultValue) {
+		return p.getProperty(key, defaultValue);
+	}
+
+	public String getProperty(String key) {
+		return p.getProperty(key);
+	}
+
+	public Object setProperty(String key,String value) {
+		return p.setProperty(key, value);
 	}
 
 	public void clear() {
@@ -222,4 +318,11 @@ public class PropertiesHelper {
 		return p.values();
 	}
 	
+	private boolean isEmptyString(String value) {
+		return value == null || "".equals(value);
+	}
+	
+	private boolean isBlankString(String value) {
+		return value == null || "".equals(value.trim());
+	}
 }
