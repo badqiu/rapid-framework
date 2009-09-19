@@ -34,7 +34,7 @@ import java.util.Map.Entry;
  * </pre>
  * @author badqiu
  */
-public class PropertiesHelper extends Properties{
+public class PropertiesHelper {
 	Properties p;
 
 	public PropertiesHelper(Properties p) {
@@ -46,7 +46,7 @@ public class PropertiesHelper extends Properties{
 		return p;
 	}
 	
-	public String getRequiredProperty(String key) {
+	public String getRequiredString(String key) {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
 			throw new IllegalStateException("required property is blank by key="+key);
@@ -93,83 +93,83 @@ public class PropertiesHelper extends Properties{
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
-		return Integer.parseInt(getRequiredProperty(key));
+		return Integer.parseInt(getRequiredString(key));
 	}
 	
 	public int getRequiredInt(String key) {
-		return Integer.parseInt(getRequiredProperty(key));
+		return Integer.parseInt(getRequiredString(key));
 	}
 	
 	public Long getLong(String key) {
 		if(getProperty(key) == null) {
 			return null;
 		}
-		return Long.parseLong(getRequiredProperty(key));
+		return Long.parseLong(getRequiredString(key));
 	}
 	
 	public Long getLong(String key,Long defaultValue) {
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
-		return Long.parseLong(getRequiredProperty(key));
+		return Long.parseLong(getRequiredString(key));
 	}
 	
 	public Long getRequiredLong(String key) {
-		return Long.parseLong(getRequiredProperty(key));
+		return Long.parseLong(getRequiredString(key));
 	}
 	
 	public Boolean getBoolean(String key) {
 		if(getProperty(key) == null) {
 			return null;
 		}
-		return Boolean.parseBoolean(getRequiredProperty(key));
+		return Boolean.parseBoolean(getRequiredString(key));
 	}
 	
 	public boolean getBoolean(String key,boolean defaultValue) {
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
-		return Boolean.parseBoolean(getRequiredProperty(key));
+		return Boolean.parseBoolean(getRequiredString(key));
 	}
 	
 	public boolean getRequiredBoolean(String key) {
-		return Boolean.parseBoolean(getRequiredProperty(key));
+		return Boolean.parseBoolean(getRequiredString(key));
 	}
 	
 	public Float getFloat(String key) {
 		if(getProperty(key) == null) {
 			return null;
 		}
-		return Float.parseFloat(getRequiredProperty(key));
+		return Float.parseFloat(getRequiredString(key));
 	}
 	
 	public float getFloat(String key,float defaultValue) {
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
-		return Float.parseFloat(getRequiredProperty(key));
+		return Float.parseFloat(getRequiredString(key));
 	}
 	
 	public Float getRequiredFloat(String key) {
-		return Float.parseFloat(getRequiredProperty(key));
+		return Float.parseFloat(getRequiredString(key));
 	}
 	
 	public Double getDouble(String key) {
 		if(getProperty(key) == null) {
 			return null;
 		}
-		return Double.parseDouble(getRequiredProperty(key));
+		return Double.parseDouble(getRequiredString(key));
 	}
 	
 	public double getDouble(String key,double defaultValue) {
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
-		return Double.parseDouble(getRequiredProperty(key));
+		return Double.parseDouble(getRequiredString(key));
 	}
 	
 	public Double getRequiredDouble(String key) {
-		return Double.parseDouble(getRequiredProperty(key));
+		return Double.parseDouble(getRequiredString(key));
 	}
 	
 	/** setProperty(String key,int value) ... start */
