@@ -21,7 +21,7 @@ public class GeneratorProperties {
 	
 	private GeneratorProperties(){}
 	
-	private static void initProperties() {
+	private static void loadProperties() {
 		try {
 			props = loadAllPropertiesByClassLoader("generator.properties");
 			String basepackage = props.getProperty("basepackage");
@@ -43,7 +43,7 @@ public class GeneratorProperties {
 	
 	public static Properties getProperties() {
 		if(props == null)
-			initProperties();
+			loadProperties();
 		return props;
 	}
 	
