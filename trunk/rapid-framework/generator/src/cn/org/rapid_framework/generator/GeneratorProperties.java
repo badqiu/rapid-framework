@@ -26,9 +26,9 @@ public class GeneratorProperties {
 		try {
 			System.out.println("Load [generator.properties] from classpath");
 			props = loadAllPropertiesByClassLoader(PROPERTIES_FILE_NAME);
-			String basepackage = props.getProperty("basepackage");
-			String basepackage_dir = basepackage.replace('.', '/');
 			
+			String basepackage = getRequiredProperty("basepackage");
+			String basepackage_dir = basepackage.replace('.', '/');
 			props.put("basepackage_dir", basepackage_dir);
 			
 			for(Iterator it = props.entrySet().iterator();it.hasNext();) {
