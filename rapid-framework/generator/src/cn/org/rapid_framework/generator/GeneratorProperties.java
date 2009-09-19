@@ -17,14 +17,15 @@ import java.util.Properties;
  */
 public class GeneratorProperties {
 
-	static Properties props;
+	static final String PROPERTIES_FILE_NAME = "generator.properties";
 	
+	static Properties props;
 	private GeneratorProperties(){}
 	
 	private static void loadProperties() {
 		try {
 			System.out.println("Load [generator.properties] from classpath");
-			props = loadAllPropertiesByClassLoader("generator.properties");
+			props = loadAllPropertiesByClassLoader(PROPERTIES_FILE_NAME);
 			String basepackage = props.getProperty("basepackage");
 			String basepackage_dir = basepackage.replace('.', '/');
 			
@@ -52,14 +53,6 @@ public class GeneratorProperties {
 		return getProperties().getProperty(key, defaultValue);
 	}
 	
-	public static String getNullIfBlankProperty(String key) {
-		String value = getProperties().getProperty(key);
-		if(value == null || "".equals(value.trim())) {
-			return null;
-		}
-		return value;
-	}
-
 	public static String getProperty(String key) {
 		return getProperties().getProperty(key);
 	}
@@ -68,6 +61,14 @@ public class GeneratorProperties {
 		String value = getProperty(key);
 		if(value == null || "".equals(value.trim())) {
 			throw new IllegalStateException("required property is blank by key="+key);
+		}
+		return value;
+	}
+	
+	public static String getNullIfBlankProperty(String key) {
+		String value = getProperties().getProperty(key);
+		if(value == null || "".equals(value.trim())) {
+			return null;
 		}
 		return value;
 	}
