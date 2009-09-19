@@ -64,7 +64,7 @@ public class DbTableFactory {
 	
 	private Connection getConnection() throws SQLException {
 		if(connection == null || connection.isClosed()) {
-			connection = DriverManager.getConnection(GeneratorProperties.getProperty("jdbc.url"),GeneratorProperties.getProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
+			connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getRequiredProperty("jdbc.password"));
 		}
 		return connection;
 	}
