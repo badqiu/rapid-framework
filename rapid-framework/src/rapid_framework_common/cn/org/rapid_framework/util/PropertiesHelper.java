@@ -24,7 +24,7 @@ import java.util.Map.Entry;
  *     static Properties properties = new Properties(); 
  *     // ... do load properties 
  *     
- *     // use
+ *     // delegate to properties
  * 	   static PropertiesHelper props = new PropertiesHelper(properties);
  *     public static Connection getConnection() {
  *     		// use getRequiredProperty() 
