@@ -29,7 +29,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(configuration,"freemarkerConfiguration must be not null");
+		Assert.notNull(configuration,"configuration property must be not null");
 	}
 	
 	public String processTemplate(String templateName, Object model) throws FreemarkerTemplateException{
