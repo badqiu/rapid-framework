@@ -57,14 +57,14 @@ public class GeneratorFacade {
 	public Generator createGeneratorForDbTable() {
 		Generator g = new Generator();
 		g.setTemplateRootDir(new File("template").getAbsoluteFile());
-		g.outRootDir = PropertiesProvider.getProperties().getProperty("outRoot");
+		g.outRootDir = GeneratorProperties.getProperties().getProperty("outRoot");
 		return g;
 	}
 	
 	private Generator createGeneratorForJavaClass() {
 		Generator g = new Generator();
 		g.setTemplateRootDir(new File("template/javaclass").getAbsoluteFile());
-		g.outRootDir = PropertiesProvider.getProperties().getProperty("outRoot");
+		g.outRootDir = GeneratorProperties.getProperties().getProperty("outRoot");
 		return g;
 	}
 }
