@@ -51,10 +51,11 @@ public class DbTableFactory {
 		this.catalog = GeneratorProperties.getNullIfBlankProperty("jdbc.catalog");
 		
 		System.out.println("jdbc.schema="+this.schema+" jdbc.catalog="+this.catalog);
+		String driver = GeneratorProperties.getRequiredProperty("jdbc.driver");
 		try {
-			Class.forName(GeneratorProperties.getRequiredProperty("jdbc.driver"));
+			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("not found jdbc driver class",e);
+			throw new RuntimeException("not found jdbc driver class:["+driver+"]",e);
 		}
 	}
 	
