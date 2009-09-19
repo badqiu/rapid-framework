@@ -159,7 +159,7 @@ public class Generator {
 	 **/
 	private Map getFilePathDataModel(IGeneratorModelProvider modelProvider) throws Exception {
 		Map model = new HashMap();
-		model.putAll(PropertiesProvider.getProperties()); //generator.properties的内容
+		model.putAll(GeneratorProperties.getProperties()); //generator.properties的内容
 		modelProvider.mergeFilePathModel(model);
 		return model;
 	}
@@ -168,7 +168,7 @@ public class Generator {
 	 **/
 	private Map getTemplateDataModel(IGeneratorModelProvider modelProvider) throws Exception {
 		Map model = new HashMap();
-		model.putAll(PropertiesProvider.getProperties()); //generator.properties的内容
+		model.putAll(GeneratorProperties.getProperties()); //generator.properties的内容
 		modelProvider.mergeTemplateModel(model);
 		return model;
 	}

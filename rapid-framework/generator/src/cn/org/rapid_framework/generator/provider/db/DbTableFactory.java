@@ -20,7 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import cn.org.rapid_framework.generator.Generator;
-import cn.org.rapid_framework.generator.PropertiesProvider;
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 /**
@@ -47,18 +47,18 @@ public class DbTableFactory {
 
 	private void init() {
 		
-		this.schema = PropertiesProvider.getProperty("jdbc.schema","");
+		this.schema = GeneratorProperties.getProperty("jdbc.schema","");
 		if("".equals(schema.trim())) {
 			this.schema = null;
 		}
-		this.catalog = PropertiesProvider.getProperty("jdbc.catalog","");
+		this.catalog = GeneratorProperties.getProperty("jdbc.catalog","");
 		if("".equals(catalog.trim())) {
 			this.catalog = null;
 		}
 		
 		System.out.println("jdbc.schema="+this.schema+" jdbc.catalog="+this.catalog);
 		try {
-			Class.forName(PropertiesProvider.getProperty("jdbc.driver"));
+			Class.forName(GeneratorProperties.getProperty("jdbc.driver"));
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("not found jdbc driver class",e);
 		}
@@ -70,7 +70,7 @@ public class DbTableFactory {
 	
 	private Connection getConnection() throws SQLException {
 		if(connection == null || connection.isClosed()) {
-			connection = DriverManager.getConnection(PropertiesProvider.getProperty("jdbc.url"),PropertiesProvider.getProperty("jdbc.username"),PropertiesProvider.getProperty("jdbc.password"));
+			connection = DriverManager.getConnection(GeneratorProperties.getProperty("jdbc.url"),GeneratorProperties.getProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
 		}
 		return connection;
 	}

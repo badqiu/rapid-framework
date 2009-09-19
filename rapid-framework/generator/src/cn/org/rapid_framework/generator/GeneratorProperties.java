@@ -15,11 +15,11 @@ import java.util.Properties;
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
-public class PropertiesProvider {
+public class GeneratorProperties {
 
 	static Properties props;
 	
-	private PropertiesProvider(){}
+	private GeneratorProperties(){}
 	
 	private static void initProperties() {
 		try {
@@ -57,7 +57,7 @@ public class PropertiesProvider {
 
 	public static Properties loadAllProperties(String resourceName) throws IOException {
 		Properties properties = new Properties();
-		Enumeration urls = PropertiesProvider.class.getClassLoader().getResources(resourceName);
+		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
 		while (urls.hasMoreElements()) {
 			URL url = (URL) urls.nextElement();
 			InputStream is = null;
