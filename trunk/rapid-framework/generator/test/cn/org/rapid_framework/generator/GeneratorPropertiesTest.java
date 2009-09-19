@@ -9,9 +9,9 @@ public class GeneratorPropertiesTest extends TestCase {
 	}
 	
 	public void testgetNullIfBlankProperty() {
-		assertEquals(null,GeneratorProperties.getNullIfBlankProperty("blank"));
-		assertEquals(null,GeneratorProperties.getNullIfBlankProperty("empty"));
-		assertEquals(null,GeneratorProperties.getNullIfBlankProperty("null"));
+		assertEquals(null,GeneratorProperties.getNullIfBlank("blank"));
+		assertEquals(null,GeneratorProperties.getNullIfBlank("empty"));
+		assertEquals(null,GeneratorProperties.getNullIfBlank("null"));
 	}
 	
 	public void testgetRequiredProperty() {
