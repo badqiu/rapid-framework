@@ -76,16 +76,16 @@ public class GeneratorProperties {
 		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
 		while (urls.hasMoreElements()) {
 			URL url = (URL) urls.nextElement();
-			InputStream is = null;
+			InputStream input = null;
 			try {
 				URLConnection con = url.openConnection();
 				con.setUseCaches(false);
-				is = con.getInputStream();
-				properties.load(is);
+				input = con.getInputStream();
+				properties.load(input);
 			}
 			finally {
-				if (is != null) {
-					is.close();
+				if (input != null) {
+					input.close();
 				}
 			}
 		}
