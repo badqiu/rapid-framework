@@ -84,6 +84,10 @@ public class GeneratorProperties {
 	public static void setProperty(String key,String value) {
 		getProperties().setProperty(key, value);
 	}
+	
+	public static void setProperties(Properties v) {
+		props = v;
+	}
 
 	public static Properties loadAllPropertiesByClassLoader(String resourceName) throws IOException {
 		Properties properties = new Properties();
