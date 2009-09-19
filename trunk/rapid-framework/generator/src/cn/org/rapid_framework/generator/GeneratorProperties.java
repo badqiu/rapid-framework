@@ -23,7 +23,7 @@ public class GeneratorProperties {
 	
 	private static void initProperties() {
 		try {
-			props = loadPropertiesByClassLoader("generator.properties");
+			props = loadAllPropertiesByClassLoader("generator.properties");
 			String basepackage = props.getProperty("basepackage");
 			String basepackage_dir = basepackage.replace('.', '/');
 			
@@ -71,7 +71,7 @@ public class GeneratorProperties {
 		return value;
 	}
 
-	public static Properties loadPropertiesByClassLoader(String resourceName) throws IOException {
+	public static Properties loadAllPropertiesByClassLoader(String resourceName) throws IOException {
 		Properties properties = new Properties();
 		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
 		while (urls.hasMoreElements()) {
