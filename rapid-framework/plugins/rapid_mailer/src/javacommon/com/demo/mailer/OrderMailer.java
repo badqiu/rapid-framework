@@ -41,7 +41,7 @@ public class OrderMailer extends BaseMailer{
 		
 		final Map model = new HashMap();
 		model.put("username", username);
-		String text = getFreemarkerTemplateProcessor().processTemplate("confirmOrder.flt", model);
+		String text = processTemplate("confirmOrder.flt", model);
 		msg.setText(text);
 		
 		return msg;
