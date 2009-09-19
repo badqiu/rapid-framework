@@ -64,7 +64,7 @@ public class PropertiesHelper {
 	
 	public String getNullIfEmpty(String key) {
 		String value = getProperties().getProperty(key);
-		if(isEmptyString(value)) {
+		if(value == null || "".equals(value)) {
 			return null;
 		}
 		return value;
@@ -316,10 +316,6 @@ public class PropertiesHelper {
 
 	public Collection<Object> values() {
 		return p.values();
-	}
-	
-	private boolean isEmptyString(String value) {
-		return value == null || "".equals(value);
 	}
 	
 	private boolean isBlankString(String value) {
