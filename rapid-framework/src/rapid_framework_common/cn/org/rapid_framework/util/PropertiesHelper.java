@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 /**
- * Properties的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredProperty(),getInt(),getBoolean()等方法
+ * Properties的装饰器工具类,为Properties提供一个代理增加相关工具方法如 getRequiredProperty(),getInt(),getBoolean()等方法
  * 
  * <pre>
  * 使用:
@@ -73,7 +73,7 @@ public class PropertiesHelper extends Properties{
 	public String getAndTryFromSystem(String key) {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
-			value = System.getProperty(value);
+			value = System.getProperty(key);
 			if(isBlankString(value)) {
 				value = System.getenv(key);
 			}
