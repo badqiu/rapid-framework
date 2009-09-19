@@ -1,16 +1,14 @@
 package cn.org.rapid_framework.freemarker;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Locale;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.util.Assert;
 
-import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
-import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -50,8 +48,14 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	}
 
 	public static String processTemplateIntoString(Template template,Object model) throws FreemarkerTemplateException {
+		StringWriter out = new StringWriter();
+		processTemplate(template, model, out);
+		return out.toString();
+	}
+	
+	public static void processTemplate(Template template,Object model,Writer out) throws FreemarkerTemplateException {
 		try {
-			return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+			template.process(model, out);
 		} catch (IOException e) {
 			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+template.getName()+" cause:"+e,e);
 		} catch (TemplateException e) {
