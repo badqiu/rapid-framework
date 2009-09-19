@@ -16,7 +16,7 @@ import cn.org.rapid_framework.util.concurrent.async.IResponder;
 import freemarker.template.TemplateException;
 
 /**
- * 本类的演示邮件发送,请删除本类.
+ * 本类为演示邮件发送,请删除本类.
  * 
  * @author badqiu
  *
