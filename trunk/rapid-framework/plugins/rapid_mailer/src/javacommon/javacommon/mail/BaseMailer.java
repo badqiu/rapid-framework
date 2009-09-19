@@ -77,16 +77,26 @@ public class BaseMailer implements InitializingBean{
 		return mailSubjectPrefix;
 	}
 	
-	public static String addPrefix(String prefix,String string) {
-		return (prefix == null ? "" : prefix) + string;
+	protected String addTemplateNamePrefix(String templateName) {
+		String className = getClass().getSimpleName();
+		String realTemplateName = className.toLowerCase()+"/"+templateName;
+		return realTemplateName;
 	}
-
+	
+	public String processTemplate(String templateName,Object model) {
+		String realTemplateName = addTemplateNamePrefix(templateName);
+		return getFreemarkerTemplateProcessor().processTemplate(realTemplateName, model);
+	}
+	
 	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		if(simpleMailMessageTemplate != null) {
 			simpleMailMessageTemplate.copyTo(msg);
 		}
-		msg.setSubject(addPrefix(getMailSubjectPrefix(),subject));
+		
+		String prefix = getMailSubjectPrefix();
+		msg.setSubject(((prefix == null ? "" : prefix) + subject));
+		
 		return msg;
 	}
 
