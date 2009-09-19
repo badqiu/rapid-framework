@@ -67,7 +67,7 @@ public class GeneratorProperties {
 	public static String getRequiredProperty(String key) {
 		String value = getProperty(key);
 		if(value == null || "".equals(value.trim())) {
-			throw new IllegalStateException("not found required property,key="+key);
+			throw new IllegalStateException("required property is blank by key="+key);
 		}
 		return value;
 	}
