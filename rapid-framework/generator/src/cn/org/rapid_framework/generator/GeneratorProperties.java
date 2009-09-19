@@ -50,9 +50,25 @@ public class GeneratorProperties {
 	public static String getProperty(String key, String defaultValue) {
 		return getProperties().getProperty(key, defaultValue);
 	}
+	
+	public static String getNullIfBlankProperty(String key) {
+		String value = getProperties().getProperty(key);
+		if(value == null || "".equals(value.trim())) {
+			return null;
+		}
+		return value;
+	}
 
 	public static String getProperty(String key) {
 		return getProperties().getProperty(key);
+	}
+	
+	public static String getRequiredProperty(String key) {
+		String value = getProperty(key);
+		if(value == null || "".equals(value.trim())) {
+			throw new IllegalStateException("not found required property,key="+key);
+		}
+		return value;
 	}
 
 	public static Properties loadAllProperties(String resourceName) throws IOException {
