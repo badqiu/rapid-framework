@@ -16,7 +16,7 @@ public class AllPluginsGeneratorTest extends TestCase {
 	
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
-		g.outRootDir = PropertiesProvider.getProperties().getProperty("outRoot");
+		g.outRootDir = GeneratorProperties.getProperties().getProperty("outRoot");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		File[] listFiles = new File("plugins").listFiles();
@@ -27,8 +27,9 @@ public class AllPluginsGeneratorTest extends TestCase {
 			}
 			File pluginTemplate = new File(child,"template").getAbsoluteFile();
 			System.out.println("pluginTemplate:"+pluginTemplate);
-			g.addTemplateRootDir(pluginTemplate);
-			
+			if(pluginTemplate.exists()) {
+				g.addTemplateRootDir(pluginTemplate);
+			}
 		}
 		
 		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
