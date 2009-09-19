@@ -1,4 +1,4 @@
-= 邮件发送Mailer插件 =
+= 邮件插件:Mailer =
 
 本插件模仿之ruby on rails的actionmailer,但有提升,请查看特性.
 
