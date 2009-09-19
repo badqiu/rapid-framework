@@ -107,7 +107,7 @@ public class PropertiesHelper {
 		return Long.parseLong(getRequiredString(key));
 	}
 	
-	public Long getLong(String key,Long defaultValue) {
+	public long getLong(String key,long defaultValue) {
 		if(getProperty(key) == null) {
 			return defaultValue;
 		}
