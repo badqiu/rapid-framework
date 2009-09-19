@@ -47,18 +47,12 @@ public class DbTableFactory {
 
 	private void init() {
 		
-		this.schema = GeneratorProperties.getProperty("jdbc.schema","");
-		if("".equals(schema.trim())) {
-			this.schema = null;
-		}
-		this.catalog = GeneratorProperties.getProperty("jdbc.catalog","");
-		if("".equals(catalog.trim())) {
-			this.catalog = null;
-		}
+		this.schema = GeneratorProperties.getNullIfBlankProperty("jdbc.schema");
+		this.catalog = GeneratorProperties.getNullIfBlankProperty("jdbc.catalog");
 		
 		System.out.println("jdbc.schema="+this.schema+" jdbc.catalog="+this.catalog);
 		try {
-			Class.forName(GeneratorProperties.getProperty("jdbc.driver"));
+			Class.forName(GeneratorProperties.getRequiredProperty("jdbc.driver"));
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException("not found jdbc driver class",e);
 		}
