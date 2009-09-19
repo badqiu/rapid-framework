@@ -73,7 +73,7 @@ public class GeneratorProperties {
 		return Boolean.parseBoolean(getRequiredProperty(key));
 	}
 	
-	public static String getNullIfBlankProperty(String key) {
+	public static String getNullIfBlank(String key) {
 		String value = getProperties().getProperty(key);
 		if(value == null || "".equals(value.trim())) {
 			return null;
