@@ -1,6 +1,9 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.util.Enumeration;
 import java.util.Properties;
+import java.util.Set;
+import java.util.Map.Entry;
 
 public class PropertiesHelper {
 	Properties p;
@@ -72,5 +75,24 @@ public class PropertiesHelper {
 		}
 		return value;
 	}
+	
+	public PropertiesHelper setProperty(String key,String value) {
+		p.setProperty(key, value);
+		return this;
+	}
+
+	public void clear() {
+		p.clear();
+	}
+
+	public Set<Entry<Object, Object>> entrySet() {
+		return p.entrySet();
+	}
+
+	public Enumeration<?> propertyNames() {
+		return p.propertyNames();
+	}
+	
+	
 	
 }
