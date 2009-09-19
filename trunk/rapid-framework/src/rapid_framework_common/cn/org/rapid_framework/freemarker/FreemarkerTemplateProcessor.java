@@ -19,6 +19,12 @@ import freemarker.template.TemplateException;
  */
 public class FreemarkerTemplateProcessor implements InitializingBean{
 	private Configuration configuration;
+	
+	public FreemarkerTemplateProcessor() {}
+	
+	public FreemarkerTemplateProcessor(Configuration configuration) {
+		this.configuration = configuration;
+	}
 
 	public void setConfiguration(Configuration freemarkerConfiguration) {
 		this.configuration = freemarkerConfiguration;
