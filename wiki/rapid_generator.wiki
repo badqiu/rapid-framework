@@ -25,9 +25,9 @@
   * *根据条件判断某些文件是否生成*
 
 =生成器的运行=
-将generator_lib中的jar加入classpath,generator_lib自带了几种常用jdbc驱动 
-修改generator.properties的数据库连接属性及其它属性 
-以application的方式运行GeneratorMain类,要生成不同的table,直接修改代码即可 
+  # 配置classpath,将generator/lib中的jar加入classpath,lib自带了几种常用jdbc驱动 
+  # 修改generator.properties的数据库连接属性及其它属性 
+  # 以application的方式运行GeneratorMain类,要生成不同的table,直接修改代码即可 
 {{{
 public class GeneratorMain {
 	public static void main(String[] args) throws Exception {
