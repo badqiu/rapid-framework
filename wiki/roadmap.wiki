@@ -2,7 +2,8 @@
 =以下为v3.0路线图内容=
 新增插件
   # springmvc3.0 RESTful URL : 现struts2与springmvc的RESTful相比较,springmvc对rest支持的更好. 而struts2已经重现struts1老态龙钟的问题,灵活性不如springmvc.
-  # ibatis3         竟然这么多用户,当然需要跟进ibatis3. 不过仍然推荐使用一下rapid的spring_jdbc插件.
+  # ibatis3 : 竟然这么多用户,当然需要跟进ibatis3. 不过仍然推荐使用一下rapid的spring_jdbc插件.
+  # rapid_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
            
 
 =以下为v2.x路线图内容=
