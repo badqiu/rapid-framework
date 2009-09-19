@@ -198,8 +198,8 @@ public class Table {
 		return "Database Table:"+getSqlName();
 	}
 	
-	String catalog = DbTableFactory.getInstance().catalog;
-	String schema = DbTableFactory.getInstance().schema;
+	String catalog = DbTableFactory.getInstance().getCatalog();
+	String schema = DbTableFactory.getInstance().getSchema();
 	
 	private ForeignKeys exportedKeys;
 	private ForeignKeys importedKeys;

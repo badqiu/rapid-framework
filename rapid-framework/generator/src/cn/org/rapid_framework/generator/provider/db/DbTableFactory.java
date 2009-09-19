@@ -35,8 +35,6 @@ public class DbTableFactory {
 	private static final Log _log = LogFactory.getLog(Generator.class);
 
 //	Properties props;
-	public String catalog;
-	public String schema;
 	
 	private Connection connection;
 	private static DbTableFactory instance = new DbTableFactory();
@@ -46,11 +44,6 @@ public class DbTableFactory {
 	}
 
 	private void init() {
-		
-		this.schema = GeneratorProperties.getNullIfBlankProperty("jdbc.schema");
-		this.catalog = GeneratorProperties.getNullIfBlankProperty("jdbc.catalog");
-		
-		System.out.println("jdbc.schema="+this.schema+" jdbc.catalog="+this.catalog);
 		String driver = GeneratorProperties.getRequiredProperty("jdbc.driver");
 		try {
 			Class.forName(driver);
@@ -63,6 +56,14 @@ public class DbTableFactory {
 		return instance;
 	}
 	
+	public String getCatalog() {
+		return GeneratorProperties.getNullIfBlank("jdbc.catalog");
+	}
+
+	public String getSchema() {
+		return GeneratorProperties.getNullIfBlank("jdbc.schema");
+	}
+
 	private Connection getConnection() throws SQLException {
 		if(connection == null || connection.isClosed()) {
 			connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getRequiredProperty("jdbc.password"));
@@ -78,7 +79,7 @@ public class DbTableFactory {
 	public Table getTable(String sqlTableName) throws Exception {
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
-		ResultSet rs = dbMetaData.getTables(catalog, schema, sqlTableName, null);
+		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), sqlTableName, null);
 		while(rs.next()) {
 			Table table = createTable(conn, rs);
 			return table;
@@ -118,7 +119,7 @@ public class DbTableFactory {
 	
 	private List getAllTables(Connection conn) throws SQLException {
 		DatabaseMetaData dbMetaData = conn.getMetaData();
-		ResultSet rs = dbMetaData.getTables(catalog, schema, null, null);
+		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
 		List tables = new ArrayList();
 		while(rs.next()) {
 			Table table = createTable(conn, rs);
@@ -144,7 +145,7 @@ public class DbTableFactory {
 	      try {
 	         ps = getConnection().prepareStatement("select table_owner from sys.all_synonyms where table_name=? and owner=?");
 	         ps.setString(1, synonymName);
-	         ps.setString(2, schema);
+	         ps.setString(2, getSchema());
 	         rs = ps.executeQuery();
 	         if (rs.next()) {
 	            ret = rs.getString(1);
@@ -181,8 +182,8 @@ public class DbTableFactory {
 	      StringBuffer sb = new StringBuffer(nl);
 	      // Let's give the user some feedback. The exception
 	      // is probably related to incorrect schema configuration.
-	      sb.append("Configured schema:").append(schema).append(nl);
-	      sb.append("Configured catalog:").append(catalog).append(nl);
+	      sb.append("Configured schema:").append(getSchema()).append(nl);
+	      sb.append("Configured catalog:").append(getCatalog()).append(nl);
 
 	      try {
 	         schemaRs = getMetaData().getSchemas();
@@ -239,10 +240,10 @@ public class DbTableFactory {
 	      try {
 
 	         if (table.getOwnerSynonymName() != null) {
-	            indexRs = getMetaData().getIndexInfo(catalog, table.getOwnerSynonymName(), table.getSqlName(), false, true);
+	            indexRs = getMetaData().getIndexInfo(getCatalog(), table.getOwnerSynonymName(), table.getSqlName(), false, true);
 	         }
 	         else {
-	            indexRs = getMetaData().getIndexInfo(catalog, schema, table.getSqlName(), false, true);
+	            indexRs = getMetaData().getIndexInfo(getCatalog(), getSchema(), table.getSqlName(), false, true);
 	         }
 	         while (indexRs.next()) {
 	            String columnName = indexRs.getString("COLUMN_NAME");
@@ -345,10 +346,10 @@ public class DbTableFactory {
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {
 		ResultSet columnRs = null;
 	      if (table.getOwnerSynonymName() != null) {
-	         columnRs = getMetaData().getColumns(catalog, table.getOwnerSynonymName(), table.getSqlName(), null);
+	         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getSqlName(), null);
 	      }
 	      else {
-	         columnRs = getMetaData().getColumns(catalog, schema, table.getSqlName(), null);
+	         columnRs = getMetaData().getColumns(getCatalog(), getSchema(), table.getSqlName(), null);
 	      }
 		return columnRs;
 	}
@@ -358,10 +359,10 @@ public class DbTableFactory {
 	      List primaryKeys = new LinkedList();
 	      ResultSet primaryKeyRs = null;
 	      if (table.getOwnerSynonymName() != null) {
-	         primaryKeyRs = getMetaData().getPrimaryKeys(catalog, table.getOwnerSynonymName(), table.getSqlName());
+	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getSqlName());
 	      }
 	      else {
-	         primaryKeyRs = getMetaData().getPrimaryKeys(catalog, schema, table.getSqlName());
+	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), getSchema(), table.getSqlName());
 	      }
 	      while (primaryKeyRs.next()) {
 	         String columnName = primaryKeyRs.getString("COLUMN_NAME");
