@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -81,7 +82,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 	}
 
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
-		String extension = FilenameUtils.getExtension(request.getRequestURI());
+		String extension = StringUtils.getFilenameExtension(request.getRequestURI());
 		if(rewriteURL(extension)) {
 			String from = request.getRequestURI().substring(request.getContextPath().length());
 			final String to = prefix+from;
@@ -94,12 +95,11 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 				System.out.println("RestUrlRewriteFilter: not rewrite url:"+request.getRequestURI());
 			}
 			filterChain.doFilter(request, response);
-			return;
-		}		
+		}
 	}
 	
 	private boolean rewriteURL(String requestURIExcension) {
-		if("".equals(requestURIExcension)) {
+		if(requestURIExcension == null || "".equals(requestURIExcension)) {
 			return false;
 		}
 		
