@@ -14,6 +14,41 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * 用于rest URL和重写,以便构造出没有扩展名的restURL
+ * 
+ * <pre>
+ *	&lt;!-- default是tomcat提供的servlet, 将静态资源重定向至 /static/, 原来访问css用"/styles/test.css"现需要"/static/styles/test.css" -->
+ *	&lt;servlet-mapping>
+ *		&lt;servlet-name>default&lt;/servlet-name>
+ *		&lt;url-pattern>/static/*&lt;/url-pattern>
+ *	&lt;/servlet-mapping>
+ *	
+ *  &lt;!-- URL重写,访问静态资源将为其增加前缀,如 /demo.css 重写至 ${prefix}/demo.css -->
+ * 	&lt;filter>
+ *		&lt;filter-name>RestUrlRewriteFilter&lt;/filter-name>
+ *		&lt;filter-class>javacommon.RestUrlRewriteFilter&lt;/filter-class>
+ *		&lt;init-param>
+ *			&lt;param-name>prefix&lt;/param-name>
+ *			&lt;param-value>/static&lt;/param-value>
+ *		&lt;/init-param>
+ *		&lt;init-param>
+ *			&lt;param-name>excludeExtentions&lt;/param-name>
+ *			&lt;param-value>jsp,jspx,do&lt;/param-value>
+ *		&lt;/init-param>
+ *		&lt;init-param>
+ *			&lt;param-name>debug&lt;/param-name>
+ *			&lt;param-value>true&lt;/param-value>
+ *		&lt;/init-param>				
+ *	&lt;/filter>
+ *	&lt;filter-mapping>
+ *		&lt;filter-name>RestUrlRewriteFilter&lt;/filter-name>
+ *		&lt;url-pattern>/*&lt;/url-pattern>
+ *	&lt;/filter-mapping>
+ * &lt;/pre>
+ * @author badqiu
+ *
+ */
 public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter{
 	private static final String DEFAULT_EXECUDE_EXTENTIONS = "jsp,jspx,do";
 	private static final String DEFAULT_PREFIX = "/static";
