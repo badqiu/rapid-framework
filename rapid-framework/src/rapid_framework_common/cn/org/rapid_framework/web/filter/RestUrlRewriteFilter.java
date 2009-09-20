@@ -81,9 +81,9 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 	}
 
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
-		String from = request.getRequestURI().substring(request.getContextPath().length());
-		String extension = FilenameUtils.getExtension(from);
+		String extension = FilenameUtils.getExtension(request.getRequestURI());
 		if(rewriteURL(extension)) {
+			String from = request.getRequestURI().substring(request.getContextPath().length());
 			final String to = prefix+from;
 			if(debug) {
 				System.out.println("RestUrlRewriteFilter: forward request from "+from+" to "+to);
@@ -91,7 +91,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 			request.getRequestDispatcher(to).forward(request, response);
 		}else {
 			if(debug) {
-				System.out.println("RestUrlRewriteFilter: not rewrite url:"+from);
+				System.out.println("RestUrlRewriteFilter: not rewrite url:"+request.getRequestURI());
 			}
 			filterChain.doFilter(request, response);
 			return;
