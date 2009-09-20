@@ -1,8 +1,3 @@
-<%@page import="${basepackage}.model.*" %>
-<#include "/macro.include"/> 
-<#include "/custom.include"/> 
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first>
 <%@page import="com.company.project.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
@@ -21,8 +16,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form:form method="post" action="${ctx}/userinfo.do" modelAttribute="userInfo"  >
-	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo.do'"/>
+<form:form method="post" action="${ctx}/userinfo" modelAttribute="userInfo"  >
+	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>

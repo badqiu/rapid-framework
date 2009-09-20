@@ -1,8 +1,3 @@
-<%@page import="${basepackage}.model.*" %>
-<#include "/macro.include"/> 
-<#include "/custom.include"/> 
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first>
 <%@page import="com.company.project.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
