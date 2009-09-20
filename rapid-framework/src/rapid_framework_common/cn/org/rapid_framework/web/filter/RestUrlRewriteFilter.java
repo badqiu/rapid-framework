@@ -74,7 +74,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		excludeExtentions = excludesString.split(",");
 		
 		System.out.println();
-		System.out.println("RestUrlRewriteFilter.prefix=["+prefix+"] will rewrite url from /demo.html => ${prefix}/demo.html by forward");
+		System.out.println("RestUrlRewriteFilter.prefix="+prefix+" will rewrite url from /demo.html => ${prefix}/demo.html by forward");
 		System.out.println("RestUrlRewriteFilter.excludeExtentions=["+excludesString+"] will not rewrite url");
 		System.out.println("RestUrlRewriteFilter.debug="+debug);
 		System.out.println();
