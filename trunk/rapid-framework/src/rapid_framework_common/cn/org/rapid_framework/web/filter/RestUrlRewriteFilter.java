@@ -17,11 +17,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 /**
  * 用于rest URL和重写,以便构造出没有扩展名的restURL
  * 
+ * <pre>
  * prefix的默认值为: /static
  * excludeExtentions的默认值为: do,jsp,jspx
  * 
  * 以下为web.xml为完整的配置使用,可删除默认值配置
- * <pre>
+ * <code>
  *	&lt;!-- default是tomcat,jetty等容器提供的servlet, 将静态资源重定向至 /static/, 原来访问css用"/styles/test.css"现需要"/static/styles/test.css" -->
  *	&lt;servlet-mapping>
  *		&lt;servlet-name>default&lt;/servlet-name>
@@ -49,6 +50,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *		&lt;filter-name>RestUrlRewriteFilter&lt;/filter-name>
  *		&lt;url-pattern>/*&lt;/url-pattern>
  *	&lt;/filter-mapping>
+ * </code>
  * </pre>
  * @author badqiu
  *
