@@ -1,0 +1,29 @@
+1. config web.xml
+	1).	HiddenHttpMethodFilter
+	2). springmvc servlet mapping to /
+	3). default servlet config mapping to /static to visit static resource
+	4). use RestUrlRewriteFilter or UrlRewriteFilter to rewrite url for visit static resource /foo.js => /static/foo.js
+		UrlRewriteFilter rule
+			<rule>
+		    	<condition operator="notequal" next="and" type="request-uri">.*.jsp</condition>
+		    	<condition operator="notequal" next="and" type="request-uri">.*.jspx</condition>
+		        <from>^(/.*\..*)$</from>
+		        <to>/static$1</to>
+		    </rule>
+	
+		    
+2. rest.js for utils
+3. spring jars and rewrite jar
+4. UserInfoController @RequestMapping("/userinfo"), 
+	rest method mappings
+	/userinfo 				=> index()
+	/userinfo/new			=> _new()
+	/userinfo/{id}			=> show()
+	/userinfo/{id}/edit 	=> edit()
+	/userinfo 		POST	=> create()
+	/userinfo/{id} 	PUT		=> update()
+	/userinfo/{id} 	DELETE	=> delete()
+	/userinfo 		DELETE	=> batchDelete()
+
+5. @RequestMapping desc	
+	
