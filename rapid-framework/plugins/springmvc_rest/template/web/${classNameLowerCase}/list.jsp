@@ -1,8 +1,3 @@
-<%@page import="${basepackage}.model.*" %>
-<#include "/macro.include"/> 
-<#include "/custom.include"/> 
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first>
 <%@page import="com.company.project.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
@@ -22,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@ include file="/commons/messages.jsp" %>
 
 <div class="queryPanel">
-<form action="<c:url value="/pages/UserInfo/list.do"/>" method="get" style="display: inline;">
+<form action="<c:url value="/pages/UserInfo/list"/>" method="get" style="display: inline;">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -63,16 +58,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</table>
 </fieldset>
 <div class="handleControl">
-	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='${ctx}/userinfo.do'"/>
-	<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '${ctx}/userinfo/new.do'"/>
-	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('${ctx}/userinfo.do','items',document.forms.ec)"/>
+	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='${ctx}/userinfo'"/>
+	<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '${ctx}/userinfo/new'"/>
+	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('${ctx}/userinfo','items',document.forms.ec)"/>
 <div>
 </form>
 </div>
 
 <ec:table items='page.result' var="item" method="get"
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="${ctx}/userinfo.do" autoIncludeParameters="true">
+	action="${ctx}/userinfo" autoIncludeParameters="true">
 	<ec:row>
 		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
 			<input type="checkbox" name="items" value="${item.userId}"/>
@@ -83,9 +78,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<ec:column property="sex"  title="<%=UserInfo.ALIAS_SEX%>"/>
 		<ec:column property="age"  title="<%=UserInfo.ALIAS_AGE%>"/>
 		<ec:column property="操作" title="操作" sortable="false" viewsAllowed="html">
-			<a href="${ctx}/userinfo/${item.userId}.do">显示</a>&nbsp;&nbsp;
-			<a href="${ctx}/userinfo/${item.userId}/edit.do">修改</a>&nbsp;&nbsp;
-			<a href="${ctx}/userinfo/${item.userId}.do" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
+			<a href="${ctx}/userinfo/${item.userId}">显示</a>&nbsp;&nbsp;
+			<a href="${ctx}/userinfo/${item.userId}/edit">修改</a>&nbsp;&nbsp;
+			<a href="${ctx}/userinfo/${item.userId}" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
 		</ec:column>
 	</ec:row>
 </ec:table>
