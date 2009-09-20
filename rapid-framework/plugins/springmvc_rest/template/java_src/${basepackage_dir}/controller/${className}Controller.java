@@ -38,13 +38,14 @@ import com.company.project.service.*;
  */
 
 @Controller
+@RequestMapping("/userinfo")
 public class UserInfoController extends BaseSpringController{
 	//默认多列排序,example: username desc,createTime asc
 	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
 	private UserInfoManager userInfoManager;
 	
-	private final String LIST_ACTION = "redirect:/userinfo.do";
+	private final String LIST_ACTION = "redirect:/userinfo";
 	
 	public UserInfoController() {
 	}
@@ -57,47 +58,45 @@ public class UserInfoController extends BaseSpringController{
 	}
 	
 	/** 列表 */
-	@RequestMapping(value="/userinfo",method=RequestMethod.GET)
+	@RequestMapping
 	public ModelAndView index(HttpServletRequest request,HttpServletResponse response,UserInfo userInfo) {
-		long start = System.currentTimeMillis();
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
 		Page page = this.userInfoManager.findByPageRequest(pageRequest);
 		savePage(page,pageRequest,request);
-		System.out.println(System.currentTimeMillis() - start);
-		return new ModelAndView("/pages/userinfo/list","userInfo",userInfo);
+		return new ModelAndView("/userinfo/list","userInfo",userInfo);
 	}
 	
 	/** 进入新增 */
-	@RequestMapping(value="/userinfo/new",method=RequestMethod.GET)
-	public ModelAndView add(HttpServletRequest request,HttpServletResponse response,UserInfo userInfo) throws Exception {
-		return new ModelAndView("/pages/userinfo/create","userInfo",userInfo);
+	@RequestMapping(value="/new")
+	public ModelAndView _new(HttpServletRequest request,HttpServletResponse response,UserInfo userInfo) throws Exception {
+		return new ModelAndView("/userinfo/new","userInfo",userInfo);
 	}
 	
 	/** 显示 */
-	@RequestMapping(value="/userinfo/{id}",method=RequestMethod.GET)
+	@RequestMapping(value="/{id}")
 	public ModelAndView show(@PathVariable Long id,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		UserInfo userInfo = (UserInfo)userInfoManager.getById(id);
-		return new ModelAndView("/pages/userinfo/show","userInfo",userInfo);
+		return new ModelAndView("/userinfo/show","userInfo",userInfo);
 	}
 	
 	/** 编辑 */
-	@RequestMapping(value="/userinfo/{id}/edit",method=RequestMethod.GET)
+	@RequestMapping(value="/{id}/edit")
 	public ModelAndView edit(@PathVariable Long id,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		UserInfo userInfo = (UserInfo)userInfoManager.getById(id);
-		return new ModelAndView("/pages/userinfo/edit","userInfo",userInfo);
+		return new ModelAndView("/userinfo/edit","userInfo",userInfo);
 	}
 	
 	/** 保存新增 */
-	@RequestMapping(value="/userinfo",method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,UserInfo userInfo) throws Exception {
 		userInfoManager.save(userInfo);
 		return new ModelAndView(LIST_ACTION);
 	}
 	
 	/** 保存更新 */
-	@RequestMapping(value="/userinfo/{id}",method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public ModelAndView update(@PathVariable Long id,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		UserInfo userInfo = (UserInfo)userInfoManager.getById(id);
 		bind(request,userInfo);
@@ -106,14 +105,14 @@ public class UserInfoController extends BaseSpringController{
 	}
 	
 	/** 删除 */
-	@RequestMapping(value="/userinfo/{id}",method=RequestMethod.DELETE)
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	public ModelAndView delete(@PathVariable Long id,HttpServletRequest request,HttpServletResponse response) {
 		userInfoManager.removeById(id);
 		return new ModelAndView(LIST_ACTION);
 	}
 
 	/** 批量删除 */
-	@RequestMapping(value="/userinfo",method=RequestMethod.DELETE)
+	@RequestMapping(method=RequestMethod.DELETE)
 	public ModelAndView batchDelete(HttpServletRequest request,HttpServletResponse response) {
 		String[] items = request.getParameterValues("items");
 		for(int i = 0; i < items.length; i++) {
@@ -122,5 +121,6 @@ public class UserInfoController extends BaseSpringController{
 		}
 		return new ModelAndView(LIST_ACTION);
 	}
+	
 }
 
