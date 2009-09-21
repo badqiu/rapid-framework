@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form:form method="post" action="<@jspEl 'ctx'/>/${classNameLowerCase}" modelAttribute="${classNameLowerCase}"  >
+<form:form modelAttribute="${classNameLowerCase}"  >
 	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
