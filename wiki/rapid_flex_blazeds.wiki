@@ -167,9 +167,10 @@ this.blogFlexService.endpoint = '../messagebroker/amf';
 =推荐的Flex分层结构=
 {{{
                 RemoteCall
-  flex      <===============> FlexService => Manager => Dao
-----------                    ----------------------------
+  flex      <===============> FlexService => Manager(即Service) => Dao
+----------                    ----------------------------------------
 Flex客户端                         java服务端
 }}}
 
-FlexService相当于StrutsAction的角色
+FlexService相当于StrutsAction的角色,在Manager进行事务的控制，在FlexService不好做事务控制.
+所以使用如下结构。
