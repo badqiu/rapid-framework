@@ -9,8 +9,8 @@
   将以api的方式提供rapid-generator.jar作为一个生成器引擎,以为生成器更加标准,利于模板的开发,让大家开发的模板都可以在生成器上面运行.
 
 *其它*
- 迁移至junit4
- 为jmx client连接至server时提供自动重连功能
+  # 迁移至junit4
+  # 为jmx client连接至server时提供自动重连功能
 
 
 =以下为v2.x路线图内容=
