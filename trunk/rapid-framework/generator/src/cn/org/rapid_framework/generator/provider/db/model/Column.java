@@ -332,6 +332,10 @@ public class Column {
 	public String getColumnNameFirstLower() {
 		return StringHelper.uncapitalize(getColumnName());
 	}
+	
+	public String getColumnNameLowerCase() {
+		return getColumnName().toLowerCase();
+	}
 	/**
 	 * @deprecated
 	 */
