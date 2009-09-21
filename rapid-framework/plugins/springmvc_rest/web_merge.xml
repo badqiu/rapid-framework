@@ -1,10 +1,5 @@
 
-	<!--
-	 - Map static resources to the default servlet
-	 - examples:
-	 -     http://localhost:8080/static/images/pets.png
-	 -     http://localhost:8080/static/styles/petclinic.css
-	-->
+	<!-- 将静态资源映射至/static/目录，如原来访问 http://localhost/foo.css ,现在http://localhost/static/foo.css -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/static/*</url-pattern>
