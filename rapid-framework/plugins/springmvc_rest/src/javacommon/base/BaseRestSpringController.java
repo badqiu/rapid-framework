@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
  * 定义标准的rest方法以对应实体对象的操作,以达到统一rest的方法名称,
  * 还可以避免子类需要重复编写@RequestMapping annotation.
  * 
+ * 不过,由于spring的方法参数映射太过于灵活,如果以下参数不适应你,请自己修改参数并修改代码生成器模板
+ * 
  * 子类要实现某功能只需覆盖下面的方法即可.
- * 注意: 覆盖时请使用@Override,以避免发生错误
+ * 注意: 覆盖时请使用@Override,以确保不会发生错误
  * <pre>
  * /userinfo                => index()  
  * /userinfo/new            => _new()  
