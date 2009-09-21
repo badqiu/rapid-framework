@@ -3,8 +3,6 @@
 <#assign classNameLower = className?uncap_first>   
 package ${basepackage}.dao;
 
-<#include "/java_imports.include">
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,10 +10,9 @@ import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
 
+<#include "/java_imports.include">
 @Component
 public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idColumn.javaType}>{
-	
-	static final String SELECT_PREFIX = "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
 	
 	public Class getEntityClass() {
 		return ${className}.class;
@@ -29,6 +26,10 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		</#if>
 	}
 	
+	public String getSelectPrefix() {
+		return "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
+	}
+	
 	/**
 	 * return sql for deleteById();
 	 */
@@ -40,7 +41,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	 * return sql for getById();
 	 */
 	public String getFindByIdSql() {
-		return SELECT_PREFIX + " where ${table.idColumn.sqlName}=? ";
+		return getSelectPrefix() + " where ${table.idColumn.sqlName}=? ";
 	}
 	
 	public void save(${className} entity) {
@@ -65,7 +66,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	}
 	
 	public List findAll() {
-		String sql = SELECT_PREFIX ;
+		String sql = getSelectPrefix() ;
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
 	}
 
@@ -73,7 +74,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
 		// [column]为字符串拼接, {column}为使用占位符. 以下为图方便采用sql拼接,适用性能要求不高的应用,使用占位符方式可以优化性能. 
 		// [column] 为PageRequest.getFilters()中的key
-		String sql = SELECT_PREFIX + " t where 1=1 "
+		String sql = getSelectPrefix() + " t where 1=1 "
 			<#list table.columns as column>
 			  	<#if column.isNotIdOrVersionField>
 				+ "/~ and t.${column.sqlName} = '[${column.columnNameLower}]' ~/"
@@ -86,7 +87,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		String sql =  SELECT_PREFIX + " where ${column.columnNameLower}=?";
+		String sql =  getSelectPrefix() + " where ${column.columnNameLower}=?";
 		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v);
 	}	
 	</#if>
