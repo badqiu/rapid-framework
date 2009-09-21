@@ -59,7 +59,7 @@
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
-	        ${column.columnNameLower} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+	        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
 	        </#list>
     ]]>
     </update>
@@ -79,7 +79,7 @@
 	        from ${table.sqlName} 
 	        where 
 				<#list table.compositeIdColumns as column>
-		        ${column.columnNameLower} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+		        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
 		        </#list>
 	    ]]>
     </select>
