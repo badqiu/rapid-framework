@@ -172,5 +172,5 @@ this.blogFlexService.endpoint = '../messagebroker/amf';
 Flex客户端                         java服务端
 }}}
 
-FlexService相当于StrutsAction的角色,在Manager进行事务的控制，在FlexService不好做事务控制.
-所以使用如下结构。
+FlexService相当于StrutsAction的角色,在Manager进行事务的控制，因为在FlexService不好做事务控制.
+所以使用如上结构。
