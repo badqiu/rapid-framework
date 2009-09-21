@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <form:form method="put" action="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl classNameFirstLower+'.'+table.idColumn.columnNameFirstLower/>" modelAttribute="${classNameFirstLower}">
 	<input id="submitButton" name="submitButton" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/userinfo'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
