@@ -1,13 +1,17 @@
 #labels Featured
 =以下为v3.0路线图内容=
-新增插件
+*新增插件*
   # springmvc3.0 RESTful URL : 现struts2与springmvc的RESTful相比较,springmvc对rest支持的更好. 而struts2已经重现struts1老态龙钟的问题,灵活性不如springmvc.
   # ibatis3 : 竟然这么多用户,当然需要跟进ibatis3. 不过仍然推荐使用一下rapid的spring_jdbc插件.
   # rapid_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
 
-rapid-generator代码生成器
+*rapid-generator代码生成器*
   将以api的方式提供rapid-generator.jar作为一个生成器引擎,以为生成器更加标准,利于模板的开发,让大家开发的模板都可以在生成器上面运行.
-           
+
+*其它*
+ 迁移至junit4
+ 为jmx client连接至server时提供自动重连功能
+
 
 =以下为v2.x路线图内容=
 ==采用插件体系==
