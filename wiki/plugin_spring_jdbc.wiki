@@ -38,11 +38,11 @@ public class BlogDao extends BaseSpringJdbcDao<Blog,java.lang.Long>{
 			 + " (:id,:username,:birthDate,:sex,:title,:length,:content)";
 		insertWithIdentity(entity,sql); //for sqlserver and mysql
 		
-		//鍏跺畠涓婚敭鐢熸垚绛栫暐
+
 		//insertWithOracleSequence(entity,"sequenceName",sql); //oracle sequence: 
 		//insertWithDB2Sequence(entity,"sequenceName",sql); //db2 sequence:
 		//insertWithUUID(entity,sql); //uuid
-		//insertWithAssigned(entity,sql); //鎵嬪伐鍒嗛厤
+		//insertWithAssigned(entity,sql); //assigned id
 	}
 	
 	public void update(Blog entity) {
