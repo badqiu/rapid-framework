@@ -1,3 +1,8 @@
+<#include "/macro.include"/>
+<#include "/custom.include"/>  
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first> 
+<#assign classNameLowerCase = className?lower_case> 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
 <%
@@ -9,15 +14,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<%@ include file="/commons/meta.jsp" %>
 	<base href="<%=basePath%>">
-	<title><%=UserInfo.TABLE_ALIAS%>新增</title>
+	<title><%=${className}.TABLE_ALIAS%>新增</title>
 </head>
 
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form:form method="post" action="${ctx}/userinfo" modelAttribute="userInfo" >
+<form:form method="post" action="<@jspEl "ctx"/>/${classNameLowerCase}" modelAttribute="${classNameFirstLower}" >
 	<input id="submitButton" name="submitButton" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
+	<input type="button" value="返回列表" onclick="window.location='<@jspEl "ctx"/>/${classNameLowerCase}'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
