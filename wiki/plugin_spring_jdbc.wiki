@@ -2,7 +2,7 @@
 
 主要改进是使用方言,请查看*[rapid_dialect 这里]*
 
-代码生成器对增删改查生成的代码:
+代码生成器对"增删改查"生成的代码如下:
 
 {{{
 public class BlogDao extends BaseSpringJdbcDao<Blog,java.lang.Long>{
