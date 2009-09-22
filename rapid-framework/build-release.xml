@@ -195,7 +195,7 @@
 		</zip>
 	</target>
 	
-	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip">
+	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="src/javacommon/**"/>
@@ -226,6 +226,9 @@
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-framework-common-${version}-src.zip"/>
+			</zipfileset>
+			<zipfileset dir="./${dir.dist}" prefix="">
+				<include name="rapid-generator-${version}.zip"/>
 			</zipfileset>
 			
 			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
