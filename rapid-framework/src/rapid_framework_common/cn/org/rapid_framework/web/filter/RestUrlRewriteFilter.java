@@ -43,7 +43,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *			&lt;param-value>jsp,jspx,do&lt;/param-value>
  *		&lt;/init-param>
  *		&lt;init-param>
- *			&lt;param-name>excludePrefixs&lt;/param-name>
+ *			&lt;param-name>excludePrefixes&lt;/param-name>
  *			&lt;param-value>/scripts,/images,/styles&lt;/param-value>
  *		&lt;/init-param>
  *		&lt;init-param>
@@ -62,13 +62,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
  */
 public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter{
 	private static final String DEFAULT_EXECUDE_EXTENTIONS = "jsp,jspx,do";
-	private static final String DEFAULT_EXECUDE_PREFIXS = "";
 	private static final String DEFAULT_PREFIX = "/static";
 	
 	private String prefix;
 	private boolean debug = false;
-	private String[] excludeExtentions;
-	private String[] excludePrefixs;
+	private String[] excludeExtentions = new String[0];
+	private String[] excludePrefixes = new String[0];
 	
 	protected void initFilterBean() throws ServletException {
 		try {
@@ -84,13 +83,15 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		String excludeExtentionsString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
 		excludeExtentions = excludeExtentionsString.split(",");
 		
-		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixs",DEFAULT_EXECUDE_PREFIXS);
-		excludePrefixs = excludePrefixsString.split(",");
+		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixes",null);
+		if(StringUtils.hasText(excludePrefixsString)) {
+			excludePrefixes = excludePrefixsString.split(",");
+		}
 		
 		System.out.println();
 		System.out.println("RestUrlRewriteFilter.prefix="+prefix+" will rewrite url from /demo.html => ${prefix}/demo.html by forward");
 		System.out.println("RestUrlRewriteFilter.excludeExtentions=["+excludeExtentionsString+"] will not rewrite url");
-		System.out.println("RestUrlRewriteFilter.excludePrefixs=["+excludePrefixsString+"] will not rewrite url");
+		System.out.println("RestUrlRewriteFilter.excludePrefixes=["+excludePrefixsString+"] will not rewrite url");
 		System.out.println("RestUrlRewriteFilter.debug="+debug);
 		System.out.println();
 	}
@@ -118,7 +119,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 			return false;
 		}
 		
-		for(String excludePrefix : excludePrefixs) {
+		for(String excludePrefix : excludePrefixes) {
 			if(from.startsWith(excludePrefix)) {
 				return false;
 			}
