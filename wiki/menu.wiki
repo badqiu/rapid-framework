@@ -1,3 +1,4 @@
+#labels Featured
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * demo
     * [snapshot 界面预览图]
