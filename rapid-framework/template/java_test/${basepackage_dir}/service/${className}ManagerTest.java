@@ -3,14 +3,18 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.service;
 
-import cn.org.rapid_framework.mock.MockOpenSessionInViewFilter;
+import javax.annotation.Resource;
+import org.junit.Test;
+import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
 
 public class ${className}ManagerTest extends BaseManagerTestCase{
 
 	private ${className}Manager manager;
-	/**通过spring注入${className}Dao*/
+	
+	// autowire by name
+	@Resource
 	public void set${className}Manager(${className}Manager manager) {
 		this.manager = manager;
 	}
@@ -20,12 +24,8 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
 	}
 
-	@Override
-	public void onTearDownInTransaction() throws Exception {
-		super.onTearDownInTransaction();
-	}
-	
-	public void testCrud() {
+	@Test
+	public void crud() {
 		${className} obj = new ${className}();
 		
 		<#list table.columns as column>

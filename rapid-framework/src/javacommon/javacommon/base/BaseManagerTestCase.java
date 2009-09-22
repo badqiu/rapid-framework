@@ -1,51 +1,51 @@
 package javacommon.base;
 
+import static junit.framework.Assert.assertNotNull;
+import javacommon.util.DBUnitUtils;
+
+import javax.sql.DataSource;
+
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
+import org.springframework.test.context.transaction.AfterTransaction;
+import org.springframework.test.context.transaction.BeforeTransaction;
+
 
 /**
+ * 
+ * 本基类主要为子类指定好要装载的spring配置文件
+ * 及在运行测试前通过dbunit插入测试数据在数据库中,运行完测试删除测试数据
+ *
  * @author badqiu
- * 打开注释即可使用Hibernate的MockOpenSessionInViewFilter
+ * 请设置好要装载的spring配置文件,一般开发数据库与测试数据库分开
+ * 所以你要装载的资源文件应改为"classpath:/spring/*-test-resource.xml"
  */
-public class BaseManagerTestCase extends AbstractDbUnitTransactionalDataSourceSpringContextTests{
+@ContextConfiguration(locations={"classpath:/spring/*-resource.xml","classpath:/spring/*-dao.xml","classpath:/spring/*-service.xml",})
+public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContextTests{
 
-//	MockOpenSessionInViewFilter filter = new MockOpenSessionInViewFilter();
-	
-	public BaseManagerTestCase() {
-		setAutowireMode(AUTOWIRE_BY_NAME);
-		setDependencyCheck(false);
-		setDefaultRollback(true);
+	protected DBUnitUtils dbUnitUtils = new DBUnitUtils();
+
+	protected DataSource getDataSource() {
+		DataSource ds = (DataSource)applicationContext.getBean("dataSource");
+		assertNotNull("not found 'dataSource'",ds);
+		return ds;
 	}
 	
-	@Override
-	protected String[] getConfigLocations() {
-		
-		fail("此处为故意报错，请先设置好要装载的spring配置文件，如使用默认配置，则删除此行即可。");
-		return new String[]{
-				"classpath:/spring/*-dao.xml",
-				"classpath:/spring/*-service.xml",
-				"classpath:/spring/*-resource.xml"};
+	@BeforeTransaction
+	public void onSetUpBeforeTransaction() throws Exception {
+		String jdbcSchema = null;  // set schema for oracle
+		dbUnitUtils.setDataSource(getDataSource(),jdbcSchema);
+		dbUnitUtils.insertDbunitTestDatas(getDbUnitDataFiles());
 	}
 	
-//	@Override
-//	protected void onSetUpBeforeTransaction() throws Exception {
-//		super.onSetUpBeforeTransaction();
-//		
-//		//模拟open session in view
-//		filter.setSessionFactory(getSessionFactory()); 
-//		filter.setSingleSession(true); 
-//		filter.beginFilter(); 
-//		
-//	}
-//
-//	@Override
-//	protected void onTearDownAfterTransaction() throws Exception {
-//		super.onTearDownAfterTransaction();
-//		filter.endFilter(); 
-//	}
-	
-//	protected SessionFactory getSessionFactory() {
-//		SessionFactory sessionFactory = (SessionFactory)applicationContext.getBean("sessionFactory");
-//		assertNotNull("not found 'sessionFactory'",sessionFactory);
-//		return sessionFactory;
-//	}
-	
+	@AfterTransaction
+	public void onTearDownAfterTransaction() throws Exception {
+		System.out.println("[DbUnit INFO] delete test datas");
+		dbUnitUtils.deleteTestDatas();
+	}
+
+	/** 得到要加载的dbunit文件 */
+	protected String[] getDbUnitDataFiles() {
+		return new String[]{};
+	}
 }
