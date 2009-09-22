@@ -165,6 +165,7 @@
 		<zip zipfile="${dir.dist}/rapid-framework-common-${version}-src.zip">
 			<zipfileset dir="." prefix="rapid-framework-common-${version}">
 				<include name="src/rapid_framework_common/**"/>
+				<include name="test/rapid_framework_common/**"/>
 				<include name="${dir.dist}/rapid-framework.jar"/>
 				<include name="${dir.javadoc}/**"/>
 			</zipfileset>
