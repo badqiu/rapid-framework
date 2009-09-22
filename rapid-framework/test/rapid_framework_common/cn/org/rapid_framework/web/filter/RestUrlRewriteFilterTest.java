@@ -69,7 +69,7 @@ public class RestUrlRewriteFilterTest extends TestCase {
 	}
 	
 	public void testExcludePrefixs() throws ServletException, IOException {
-		config.addInitParameter("excludePrefixs", "/scripts\n/images");
+		config.addInitParameter("excludePrefixs", "/scripts,/images");
 		filter.init(config);
 		request.setRequestURI("/scripts/foo.js");
 		filter.doFilter(request, response, new MockFilterChain());
