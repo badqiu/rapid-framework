@@ -45,7 +45,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 		}
 	}
 	
-	/** 通过spring自动注入 */
+	/** 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性 */
 	public void set${className}Manager(${className}Manager manager) {
 		this.${classNameLower}Manager = manager;
 	}	
