@@ -228,9 +228,11 @@
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-framework-common-${version}-src.zip"/>
 			</zipfileset>
+			<!--
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-generator-${version}.zip"/>
 			</zipfileset>
+			 -->
 			
 			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
 				<include name="**"/>
