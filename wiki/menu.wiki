@@ -21,7 +21,7 @@
       * [rapid_async_token AsyncToken替换Listener设计模式]
       * [rapid_utils 其它工具类介绍]
     * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
-  * 插件
+  * 插件说明
     * web框架
       * [plugin_struts2 web_struts2]
       * [plugin_struts web_struts]
