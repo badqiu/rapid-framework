@@ -1,17 +1,17 @@
 package cn.org.rapid_framework.web.filter;
 
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.logging.LogFactory;
+import org.apache.commons.io.IOUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -43,6 +43,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *			&lt;param-value>jsp,jspx,do&lt;/param-value>
  *		&lt;/init-param>
  *		&lt;init-param>
+ *			&lt;param-name>excludePrefixs&lt;/param-name>
+ *			&lt;param-value>
+ *				/scripts
+ *				/images
+ *				/styles
+ *			&lt;/param-value>
+ *		&lt;/init-param>
+ *		&lt;init-param>
  *			&lt;param-name>debug&lt;/param-name>
  *			&lt;param-value>true&lt;/param-value>
  *		&lt;/init-param>				
@@ -60,31 +68,40 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 	private static final String DEFAULT_EXECUDE_EXTENTIONS = "jsp,jspx,do";
 	private static final String DEFAULT_PREFIX = "/static";
 	
-	private String prefix = null;
+	private String prefix;
 	private boolean debug = false;
-	private String[] excludeExtentions = null;
+	private String[] excludeExtentions;
+	private List<String> excludePrefixs;
 	
 	protected void initFilterBean() throws ServletException {
-		initParameter(getFilterConfig());
+		try {
+			initParameter(getFilterConfig());
+		} catch (IOException e) {
+			throw new ServletException("init paramerter error",e);
+		}
 	}
 
-	private void initParameter(FilterConfig filterConfig) {
+	private void initParameter(FilterConfig filterConfig) throws IOException {
 		prefix = getStringParameter(filterConfig,"prefix",DEFAULT_PREFIX);
 		debug = getBooleanParameter(filterConfig,"debug",false);
-		String excludesString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
-		excludeExtentions = excludesString.split(",");
+		String excludeExtentionsString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
+		excludeExtentions = excludeExtentionsString.split(",");
+		
+		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixs","");
+		excludePrefixs = IOUtils.readLines(new StringReader(excludePrefixsString));
 		
 		System.out.println();
 		System.out.println("RestUrlRewriteFilter.prefix="+prefix+" will rewrite url from /demo.html => ${prefix}/demo.html by forward");
-		System.out.println("RestUrlRewriteFilter.excludeExtentions=["+excludesString+"] will not rewrite url");
+		System.out.println("RestUrlRewriteFilter.excludeExtentions=["+excludeExtentionsString+"] will not rewrite url");
+		System.out.println("RestUrlRewriteFilter.excludePrefixs=["+excludePrefixsString+"] will not rewrite url");
 		System.out.println("RestUrlRewriteFilter.debug="+debug);
 		System.out.println();
 	}
 
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain filterChain)throws ServletException, IOException {
-		String extension = StringUtils.getFilenameExtension(request.getRequestURI());
-		if(rewriteURL(extension)) {
-			String from = request.getRequestURI().substring(request.getContextPath().length());
+		
+		String from = request.getRequestURI().substring(request.getContextPath().length());
+		if(rewriteURL(from)) {
 			final String to = prefix+from;
 			if(debug) {
 				System.out.println("RestUrlRewriteFilter: forward request from "+from+" to "+to);
@@ -98,13 +115,20 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		}
 	}
 	
-	private boolean rewriteURL(String requestURIExcension) {
-		if(requestURIExcension == null || "".equals(requestURIExcension)) {
+	private boolean rewriteURL(String from) {
+		String extension = StringUtils.getFilenameExtension(from);
+		if(extension == null || "".equals(extension)) {
 			return false;
 		}
 		
-		for(int i = 0; i < excludeExtentions.length; i++) {
-			if(excludeExtentions[i].equals(requestURIExcension)) {
+		for(String excludePrefix : excludePrefixs) {
+			if(from.startsWith(excludePrefix)) {
+				return false;
+			}
+		}
+		
+		for(String excludeExtension : excludeExtentions) {
+			if(excludeExtension.equals(extension)) {
 				return false;
 			}
 		}

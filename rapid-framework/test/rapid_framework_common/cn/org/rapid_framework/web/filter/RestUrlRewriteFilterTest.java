@@ -68,6 +68,22 @@ public class RestUrlRewriteFilterTest extends TestCase {
 		assertEquals(null,request.rewritePath);
 	}
 	
+	public void testExcludePrefixs() throws ServletException, IOException {
+		config.addInitParameter("excludePrefixs", "/scripts\n/images");
+		filter.init(config);
+		request.setRequestURI("/scripts/foo.js");
+		filter.doFilter(request, response, new MockFilterChain());
+		assertEquals(null,request.rewritePath);
+		
+		request.setRequestURI("/images/foo.gif");
+		filter.doFilter(request, response, new MockFilterChain());
+		assertEquals(null,request.rewritePath);
+		
+		request.setRequestURI("/foo.gif");
+		filter.doFilter(request, response, new MockFilterChain());
+		assertEquals("/static/foo.gif",request.rewritePath);
+	}
+	
 	class RestMockHttpServletRequest extends MockHttpServletRequest{
 		public String rewritePath;
 		public RequestDispatcher getRequestDispatcher(String path) {
