@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{
 
 	private ${className}Dao ${classNameLower}Dao;
-	/**通过spring注入${className}Dao*/
+	/**增加set${className}Dao() 方法,spring就可以通过autowire by name自动设置对象属性*/
 	public void set${className}Dao(${className}Dao dao) {
 		this.${classNameLower}Dao = dao;
 	}
