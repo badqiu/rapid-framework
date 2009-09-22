@@ -5,27 +5,29 @@ package ${basepackage}.dao;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+import org.junit.Test;
+import static junit.framework.Assert.*;
+
 <#include "/java_imports.include">
 
 public class ${className}DaoTest extends BaseDaoTestCase{
 	
 	private ${className}Dao dao;
-	/**通过spring注入${className}Dao*/
+	
+	/** autowire by name */
+	@Resource
 	public void set${className}Dao(${className}Dao dao) {
 		this.dao = dao;
 	}
-	
-	@Override
-	protected void onTearDownInTransaction() throws Exception {
-		super.onTearDownInTransaction();
-	}
-	
+
 	@Override
 	protected String[] getDbUnitDataFiles() {
 		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
 	}
 	
-	public void testFindByPageRequest() {
+	@Test
+	public void findByPageRequest() {
 		int pageNumber = 1;
 		int pageSize = 10;
 		
