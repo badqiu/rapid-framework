@@ -2,7 +2,7 @@
 
 rapid扩展了iBatis使其也可以使用类似hiberante提供的[rapid_dialect jdbc分页方言].
 
-具体可以查看这篇文章:[http://pengfeng.javaeye.com/blog/200772], rapid改造是照此而来.
+而如何扩展iBatis,rapid是依照这篇文章:[http://pengfeng.javaeye.com/blog/200772],改造而来.
 
 iBatis的SqlExecutor负责sql的最终执行，所以在此处扩展出LimitSqlExecutor,以便结合方言使用数据库物理分页.
 {{{
