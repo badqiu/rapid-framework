@@ -97,10 +97,11 @@ public class HibernateBeanSerializerTest extends TestCase {
 //		Hibernate.initialize(resource.getRoles());
 //		assertNotNull(proxyResource.getRoles());
 //	}
+//	
+//	
+//	public void tearDown() {
+//		filter.endFilter();
+//	}
 	
 	public void test() {}
-	
-	public void tearDown() {
-		filter.endFilter();
-	}
 }
