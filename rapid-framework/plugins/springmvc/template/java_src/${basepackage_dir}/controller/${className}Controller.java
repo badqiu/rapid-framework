@@ -49,8 +49,9 @@ public class ${className}Controller extends BaseSpringController{
 		//pageRequest.getFilters(); //add custom filters
 		
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
-		savePage(page,pageRequest,request);
-		return new ModelAndView("${jspFileBasePath}/list","${classNameLower}",${classNameLower});
+		ModelAndView result = toModelAndView(page, pageRequest);
+		result.addObject("${classNameLower}",${classNameLower});
+		return result;
 	}
 	
 	/** 
