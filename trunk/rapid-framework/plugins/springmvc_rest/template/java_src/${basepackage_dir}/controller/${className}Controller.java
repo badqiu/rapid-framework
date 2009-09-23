@@ -56,8 +56,10 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		//pageRequest.getFilters(); //add custom filters
 		
 		Page page = this.${classNameFirstLower}Manager.findByPageRequest(pageRequest);
-		savePage(page,pageRequest,request);
-		return new ModelAndView("/${classNameLowerCase}/list","${classNameFirstLower}",${classNameFirstLower});
+		
+		ModelAndView result = toModelAndView(page, pageRequest);
+		result.addObject("${classNameFirstLower}",${classNameFirstLower});
+		return result;
 	}
 	
 	/** 进入新增 */

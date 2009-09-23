@@ -15,6 +15,7 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
@@ -51,20 +52,26 @@ public class BaseSpringController extends MultiActionController{
         binder.registerCustomEditor(BigInteger.class, new CustomNumberEditor(BigInteger.class, true));
     }
 	
-	public void savePage(Page page,PageRequest pageRequest,HttpServletRequest request){
-		savePage("",page,pageRequest,request);
+	public ModelAndView toModelAndView(Page page,PageRequest pageRequest) {
+		return toModelAndView("",page, pageRequest);
+	}
+	
+	public ModelAndView toModelAndView(String tableId,Page page,PageRequest pageRequest) {
+		ModelAndView model = new ModelAndView();
+		saveIntoModelAndView(tableId,page,pageRequest,model);
+		return model;
 	}
 	/**
 	 * 用于一个页面有多个extremeTable是使用
 	 * @param tableId 等于extremeTable的tableId属性
 	 */
-	public void savePage(String tableId,Page page,PageRequest pageRequest,HttpServletRequest request){
+	public void saveIntoModelAndView(String tableId,Page page,PageRequest pageRequest,ModelAndView model){
 		Assert.notNull(tableId,"tableId must be not null");
 		Assert.notNull(page,"page must be not null");
 		
-		request.setAttribute(tableId+"page", page);
-		request.setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
-		request.setAttribute(tableId+"pageRequest", pageRequest);
+		model.addObject(tableId+"page", page);
+		model.addObject(tableId+"totalRows", new Integer(page.getTotalCount()));
+		model.addObject(tableId+"pageRequest", pageRequest);
 	}
 	
 	public PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
