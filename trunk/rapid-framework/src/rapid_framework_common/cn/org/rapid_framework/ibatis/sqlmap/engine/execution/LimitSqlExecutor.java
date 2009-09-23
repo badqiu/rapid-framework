@@ -41,20 +41,17 @@ public class LimitSqlExecutor extends SqlExecutor {
 
 	@Override
 	public void executeQuery(StatementScope statementScope, Connection conn, String sql, Object[] parameters, int skipResults, int maxResults, RowHandlerCallback callback) throws SQLException {
-		String limitSql = sql;
-		int changedSkipResults = skipResults;
-		int changedMaxResults = maxResults;
 		if (supportsLimit() && (skipResults != NO_SKIPPED_RESULTS || maxResults != NO_MAXIMUM_RESULTS)) {
-			limitSql = limitSql.trim();
+			sql = sql.trim();
 			if(dialect.supportsLimitOffset()) {
-				limitSql = dialect.getLimitString(sql, skipResults, maxResults);
-				changedSkipResults = NO_SKIPPED_RESULTS;
+				sql = dialect.getLimitString(sql, skipResults, maxResults);
+				skipResults = NO_SKIPPED_RESULTS;
 			}else {
-				limitSql = dialect.getLimitString(sql, 0, maxResults);
+				sql = dialect.getLimitString(sql, 0, maxResults);
 			}
-			changedMaxResults = NO_MAXIMUM_RESULTS;
+			maxResults = NO_MAXIMUM_RESULTS;
 		}
-		super.executeQuery(statementScope, conn, limitSql, parameters, changedSkipResults, changedMaxResults, callback);
+		super.executeQuery(statementScope, conn, sql, parameters, skipResults, maxResults, callback);
 	}
 
 	public boolean supportsLimit() {
