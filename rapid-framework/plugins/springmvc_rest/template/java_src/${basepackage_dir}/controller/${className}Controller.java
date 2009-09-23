@@ -5,7 +5,7 @@
 <#assign classNameLowerCase = className?lower_case>   
 <#assign pkJavaType = table.idColumn.javaType>   
 
-package com.company.project.controller;
+package ${basepackage}.controller;
 
 import java.util.Map;
 
@@ -23,8 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
-import com.company.project.model.UserInfo;
-import com.company.project.service.UserInfoManager;
+<#include "/java_imports.include">
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
