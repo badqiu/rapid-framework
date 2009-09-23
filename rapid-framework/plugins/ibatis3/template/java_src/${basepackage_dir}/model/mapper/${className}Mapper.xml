@@ -22,7 +22,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</sql>
 
-	<!-- useGeneratedKeys="true" for sqlserver and mysql -->
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
 	<insert id="insert" parameterType="${basepackage}.model.UserInfo" 
 		useGeneratedKeys="true" keyProperty="userId" 
 	>
@@ -71,7 +71,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" parameterType="java.lang.Long" resultMap="${className}Result">
+    <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${className}Result">
 		select <include refid="commonColumns" />
 	    <![CDATA[
 		    from ${table.sqlName} 
@@ -93,11 +93,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 		
     <select id="count" resultType="long">
-    <![CDATA[
-        select 
-        count(*)
-        from ${table.sqlName}
-    ]]>
+        select count(*) from ${table.sqlName} 
 		<include refid="dynamicWhere"/>    
     </select>
     
@@ -116,7 +112,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <#list table.columns as column>
     <#if column.unique && !column.pk>
-    <select id="getBy${column.columnName}" resultMap="${classNameLower}Result" parameterClass="${column.javaType}">
+    <select id="getBy${column.columnName}" resultMap="${className}Result" parameterType="${column.javaType}">
 	    select <include refid="commonColumns"/>
 	    <![CDATA[
 	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
