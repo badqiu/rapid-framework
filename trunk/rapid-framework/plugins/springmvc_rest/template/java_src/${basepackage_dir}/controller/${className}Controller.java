@@ -9,8 +9,6 @@ package ${basepackage}.controller;
 
 import java.util.Map;
 
-import javacommon.base.BaseRestSpringController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,13 +22,6 @@ import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
 <#include "/java_imports.include">
-
-/**
- * @author badqiu email:badqiu(a)gmail.com
- * @version 1.0
- * @since 1.0
- */
-
 @Controller
 @RequestMapping("/${classNameLowerCase}")
 public class ${className}Controller extends BaseRestSpringController<${className},${pkJavaType}>{
