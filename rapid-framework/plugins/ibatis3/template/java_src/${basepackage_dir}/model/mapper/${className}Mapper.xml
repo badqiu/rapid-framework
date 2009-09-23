@@ -1,0 +1,129 @@
+<#include "/macro.include"/>
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<#macro mapperEl value>${r"#{"}${value}}</#macro>
+
+<mapper namespace="${className}">
+
+	<resultMap id="UserInfoResult" type="${basepackage}.model.UserInfo">
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="commonColumns">
+	    <![CDATA[
+		<#list table.columns as column>
+        	${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>
+        </#list>
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" for sqlserver and mysql -->
+	<insert id="insert" parameterType="${basepackage}.model.UserInfo" 
+		useGeneratedKeys="true" keyProperty="userId" 
+	>
+    <![CDATA[
+        INSERT INTO
+        ${table.sqlName} (
+        <#list table.columns as column>
+        	${column.sqlName} <#if column_has_next>,</#if>
+        </#list>
+        ) VALUES (
+        <#list table.columns as column>
+        	<@mapperEl column.columnNameFirstLower+',jdbcType='+column.jdbcSqlTypeName/> <#if column_has_next>,</#if>
+        </#list>        
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="update" parameterType="${basepackage}.model.UserInfo">
+    <![CDATA[
+        UPDATE ${table.sqlName} SET
+	        <#list table.columns as column>
+	        <#if !column.pk>
+	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower+',jdbcType='+column.jdbcSqlTypeName/> <#if column_has_next>,</#if>
+	        </#if>
+	        </#list>
+        WHERE 
+        	<#list table.compositeIdColumns as column>
+	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+	        </#list>	        
+    ]]>
+	</update>
+
+    <delete id="delete" parameterType="${table.idColumn.javaType}">
+    <![CDATA[
+        delete from ${table.sqlName} where
+        <#list table.compositeIdColumns as column>
+        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+		</#list>
+    ]]>
+    </delete>
+    
+    <select id="getById" parameterType="java.lang.Long" resultMap="${className}Result">
+		select <include refid="commonColumns" />
+	    <![CDATA[
+		    from ${table.sqlName} 
+	        where 
+				<#list table.compositeIdColumns as column>
+		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+		        </#list>    
+	    ]]>
+	</select>
+	
+	<sql id="dynamicWhere">
+		<where>
+	       <#list table.columns as column>
+	       <if test="${column.columnNameFirstLower} != null">
+				and ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+			</if>
+	       </#list>			
+		</where>
+	</sql>
+		
+    <select id="count" resultType="long">
+    <![CDATA[
+        select 
+        count(*)
+        from ${table.sqlName}
+    ]]>
+		<include refid="dynamicWhere"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="pageSelect" resultMap="${className}Result">
+    	select <include refid="commonColumns" />
+	    from ${table.sqlName} 
+		<include refid="dynamicWhere"/>
+		<if test="sortColumns != null and sortColumns.length() != 0">
+			ORDER BY <@jspEl 'sortColumns'/>
+		</if>
+    </select>
+
+    <#list table.columns as column>
+    <#if column.unique && !column.pk>
+    <select id="getBy${column.columnName}" resultMap="${classNameLower}Result" parameterClass="${column.javaType}">
+	    select <include refid="commonColumns"/>
+	    <![CDATA[
+	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
+	    ]]>
+    </select>
+    
+    </#if>
+	</#list>
+	
+</mapper>
