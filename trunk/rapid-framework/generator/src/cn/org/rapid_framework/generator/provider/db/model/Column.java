@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
+import cn.org.rapid_framework.generator.util.JdbcType;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
 /**
@@ -341,6 +342,12 @@ public class Column {
 	 */
 	public String getColumnNameLower() {
 		return getColumnNameFirstLower();
+	}
+	
+	public String getJdbcSqlTypeName() {
+		String result = JdbcType.getJdbcSqlTypeName(getSqlType());
+		//if(result == null) throw new RuntimeException("jdbcSqlTypeName is null column:"+getSqlName()+" sqlType:"+getSqlType());
+		return result;
 	}
 	
 	public String getColumnAlias() {
