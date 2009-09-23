@@ -1,6 +1,6 @@
 <#include "/macro.include"/>
 <#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
+<#assign classNameFirstLower = table.classNameFirstLower>   
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
 PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
@@ -10,7 +10,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="${className}">
 
-	<resultMap id="UserInfoResult" type="${basepackage}.model.UserInfo">
+	<resultMap id="${className}Result" type="${basepackage}.model.${className}">
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
@@ -23,7 +23,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
-	<insert id="insert" parameterType="${basepackage}.model.UserInfo" 
+	<insert id="insert" parameterType="${basepackage}.model.${className}" 
 		useGeneratedKeys="true" keyProperty="userId" 
 	>
     <![CDATA[
@@ -47,7 +47,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		-->
 	</insert>
     
-	<update id="update" parameterType="${basepackage}.model.UserInfo">
+	<update id="update" parameterType="${basepackage}.model.${className}">
     <![CDATA[
         UPDATE ${table.sqlName} SET
 	        <#list table.columns as column>
