@@ -16,9 +16,8 @@
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
-	<sql id="commonSelectColumnsPrefix">
+	<sql id="commonColumns">
 	    <![CDATA[
-	    select
         <#list table.columns as column>
         	${column.sqlName} <#if column_has_next>,</#if>
         </#list>
@@ -74,7 +73,7 @@
     </delete>
     
     <select id="getById" resultMap="${classNameLower}Result">
-	    <include refid="commonSelectColumnsPrefix"/>
+	    select <include refid="commonColumns"/>
 	    <![CDATA[
 	        from ${table.sqlName} 
 	        where 
@@ -96,9 +95,7 @@
 	 
     <select id="count" resultClass="long">
     <![CDATA[
-        select 
-        count(*)
-        from ${table.sqlName}
+        select count(*) from ${table.sqlName}
     ]]>
 		<include refid="dynamicWhere"/>    
     </select>
@@ -108,7 +105,7 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="pageSelect" resultMap="${classNameLower}Result">
-    	<include refid="commonSelectColumnsPrefix"/>
+    	select <include refid="commonColumns"/>
 	    <![CDATA[
 	        from ${table.sqlName} 
 	    ]]>
@@ -121,7 +118,7 @@
     <#list table.columns as column>
     <#if column.unique && !column.pk>
     <select id="getBy${column.columnName}" resultMap="${classNameLower}Result" parameterClass="${column.javaType}">
-	    <include refid="commonSelectColumnsPrefix"/>
+	    select <include refid="commonColumns"/>
 	    <![CDATA[
 	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
 	    ]]>
