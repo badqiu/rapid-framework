@@ -3,6 +3,12 @@
 PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
+	<plugins>
+		<plugin interceptor="cn.org.rapid_framework.ibatis3.DialectInterceptor">
+			<property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
+		</plugin>
+	</plugins>
+
 	<environments default="development">
 		<environment id="development">
 			<transactionManager type="JDBC" />
@@ -14,6 +20,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 			</dataSource>
 		</environment>
 	</environments>
+	
 	<mappers>
 		<mapper resource="com/company/project/model/mapper/BlogMapper.xml" />
 	</mappers>

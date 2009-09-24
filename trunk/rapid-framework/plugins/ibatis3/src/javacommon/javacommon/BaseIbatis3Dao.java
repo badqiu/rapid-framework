@@ -15,6 +15,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.util.Assert;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.util.MapAndObject;
@@ -106,8 +107,10 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
-		Map parameterObject = new MapAndObject(otherFilters,pageRequest.getFilters());
-		List list = getSqlSessionTemplate().selectList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
+		Map parameterObject = BeanUtils.describe(pageRequest.getFilters());
+		otherFilters.putAll(parameterObject);
+		
+		List list = getSqlSessionTemplate().selectList(statementName, otherFilters,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;
 	}
