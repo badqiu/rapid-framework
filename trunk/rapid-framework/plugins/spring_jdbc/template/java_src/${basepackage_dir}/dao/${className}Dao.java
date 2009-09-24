@@ -27,7 +27,11 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	}
 	
 	public String getSelectPrefix() {
-		return "select <#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list> from ${table.sqlName} ";
+		return "select  "
+				<#list table.columns as column>
+				+" ${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>"
+				</#list>
+				+" from ${table.sqlName} ";
 	}
 	
 	/**
