@@ -11,4 +11,5 @@ public interface Dialect {
  
     public boolean supportsLimitOffset();
     
+    //TODO Dialect.getLimitString(String sql, int offset,String offsetPlaceholder, int limit,String limitPlaceholder);
 }
