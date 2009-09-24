@@ -17,7 +17,7 @@ public class DialectInterceptorTest {
 	
 	DialectInterceptor di = new DialectInterceptor();
 	
-	@Test(timeout=1000)
+	@Test(timeout=1200)
 	public void preformance_processIntercept() throws Throwable {
 		testWithDialect(new MySQLDialect(), "select * from userinfo limit 100,200");
 		testWithDialect(new OracleDialect(), "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 300 and rownum_ > 100");
