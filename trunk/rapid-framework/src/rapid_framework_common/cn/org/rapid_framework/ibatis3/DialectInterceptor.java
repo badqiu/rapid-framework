@@ -72,42 +72,6 @@ public class DialectInterceptor implements Interceptor{
 		}
 	}
 
-	SqlSource createSqlSourceProxy(final Object[] queryArgs,SqlSource sqlSource, final int offset, final int limit)throws ClassNotFoundException {
-		ProxyFactoryBean factory = new ProxyFactoryBean();
-		factory.setTarget(sqlSource);
-		factory.addAdvice(new SqlSousrceMethodInterceptor(queryArgs, offset, limit));
-		factory.setProxyInterfaces(new Class[]{SqlSource.class});
-		SqlSource newSqlSource = (SqlSource)factory.getObject();
-		return newSqlSource;
-	}
-	
-	static class SqlSousrceMethodInterceptor implements MethodInterceptor {
-		Object[] queryArgs;
-		int offset;
-		int limit;
-		
-		public SqlSousrceMethodInterceptor(Object[] queryArgs, int offset,int limit) {
-			super();
-			this.queryArgs = queryArgs;
-			this.offset = offset;
-			this.limit = limit;
-		}
-
-		public Object invoke(MethodInvocation mi) throws Throwable {
-			Object result = mi.proceed();
-			BoundSql boundSql = (BoundSql)result;
-			String sql = boundSql.getSql().trim();
-	        if(dialect.supportsLimitOffset()) {
-	        	sql = dialect.getLimitString(sql, offset, limit);
-	        	queryArgs[MAX_RESULTS_INDEX] = Executor.NO_ROW_LIMIT;
-	        }else {
-	        	sql = dialect.getLimitString(sql, 0, limit);
-	        }
-	        queryArgs[SKIP_RESULTS_INDEX] = Executor.NO_ROW_OFFSET;
-	        return new BoundSql(sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
-		}		
-	}
-
 	private MappedStatement copyFromMappedStatement(MappedStatement ms,SqlSource newSqlSource) {
 		Builder builder = new MappedStatement.Builder(ms.getConfiguration(),ms.getId(),newSqlSource,ms.getSqlCommandType());
 		builder.resource(ms.getResource());
