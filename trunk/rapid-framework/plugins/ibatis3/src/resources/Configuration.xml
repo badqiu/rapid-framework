@@ -4,7 +4,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
 	<plugins>
-		<plugin interceptor="cn.org.rapid_framework.ibatis3.DialectInterceptor">
+		<plugin interceptor="cn.org.rapid_framework.ibatis3.plugin.DialectInterceptor">
 			<property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
 		</plugin>
 	</plugins>
