@@ -26,9 +26,9 @@ public class SQLServerDialect extends Dialect{
 		if ( offset > 0 ) {
 			throw new UnsupportedOperationException( "sql server has no offset" );
 		}
-		if(limitPlaceholder != null) {
-			throw new UnsupportedOperationException(" sql server not support variable limit");
-		}
+//		if(limitPlaceholder != null) {
+//			throw new UnsupportedOperationException(" sql server not support variable limit");
+//		}
 		
 		return new StringBuffer( querySelect.length() + 8 )
 				.append( querySelect )
