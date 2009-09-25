@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.ibatis3;
+package cn.org.rapid_framework.ibatis3.plugin;
 
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.mapping.BoundSql;
