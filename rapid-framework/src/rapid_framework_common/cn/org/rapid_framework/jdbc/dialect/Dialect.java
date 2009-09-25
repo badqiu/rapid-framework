@@ -3,13 +3,16 @@ package cn.org.rapid_framework.jdbc.dialect;
  * 类似hibernate的Dialect,但只精简出分页部分
  * @author badqiu
  */
-public interface Dialect {
+public abstract class Dialect {
 	
-    public boolean supportsLimit();
+    public abstract boolean supportsLimit();
 
-    public String getLimitString(String sql, int offset, int limit);
+    public String getLimitString(String sql, int offset, int limit) {
+    	return getLimitString(sql,offset,String.valueOf(offset),limit,String.valueOf(limit));
+    }
  
-    public boolean supportsLimitOffset();
+    public abstract boolean supportsLimitOffset();
     
-    //TODO Dialect.getLimitString(String sql, int offset,String offsetPlaceholder, int limit,String limitPlaceholder);
+    public abstract String getLimitString(String sql, int offset,String offsetPlaceholder, int limit,String limitPlaceholder);
+    
 }

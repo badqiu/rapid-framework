@@ -2,7 +2,7 @@ package cn.org.rapid_framework.jdbc.dialect;
 /**
  * @author badqiu
  */
-public class OracleDialect implements Dialect{
+public class OracleDialect extends Dialect{
 	
 	public boolean supportsLimit() {
 		return true;
@@ -12,7 +12,7 @@ public class OracleDialect implements Dialect{
 		return true;
 	}
 	
-	public String getLimitString(String sql, int offset, int limit) {
+	public String getLimitString(String sql, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
 		sql = sql.trim();
 		boolean isForUpdate = false;
 		if ( sql.toLowerCase().endsWith(" for update") ) {
@@ -30,17 +30,17 @@ public class OracleDialect implements Dialect{
 		pagingSelect.append(sql);
 		if (offset > 0) {
 			int end = offset+limit;
-			pagingSelect.append(" ) row_ ) where rownum_ <= "+end+" and rownum_ > "+offset);
+			pagingSelect.append(" ) row_ ) where rownum_ <= "+end+" and rownum_ > "+offsetPlaceholder);
 		}
 		else {
-			pagingSelect.append(" ) where rownum <= " + limit);
+			pagingSelect.append(" ) where rownum <= " + limitPlaceholder);
 		}
 
 		if ( isForUpdate ) {
 			pagingSelect.append( " for update" );
 		}
 		
-		return pagingSelect.toString();		
+		return pagingSelect.toString();
 	}
 
 }
