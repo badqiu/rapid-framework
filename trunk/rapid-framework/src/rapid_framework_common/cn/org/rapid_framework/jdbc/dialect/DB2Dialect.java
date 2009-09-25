@@ -3,7 +3,7 @@ package cn.org.rapid_framework.jdbc.dialect;
 /**
  * @author badqiu
  */
-public class DB2Dialect implements Dialect{
+public class DB2Dialect extends Dialect{
 
 	public boolean supportsLimit() {
 		return true;
@@ -13,7 +13,26 @@ public class DB2Dialect implements Dialect{
 		return true;
 	}
 	
-	public String getLimitString(String sql, int offset, int limit) {
+	private static String getRowNumber(String sql) {
+		StringBuffer rownumber = new StringBuffer(50)
+			.append("rownumber() over(");
+
+		int orderByIndex = sql.toLowerCase().indexOf("order by");
+
+		if ( orderByIndex>0 && !hasDistinct(sql) ) {
+			rownumber.append( sql.substring(orderByIndex) );
+		}
+
+		rownumber.append(") as rownumber_,");
+
+		return rownumber.toString();
+	}
+	
+	private static boolean hasDistinct(String sql) {
+		return sql.toLowerCase().indexOf("select distinct")>=0;
+	}
+
+	public String getLimitString(String sql, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
 		int startOfSelect = sql.toLowerCase().indexOf("select");
 
 		StringBuffer pagingSelect = new StringBuffer( sql.length()+100 )
@@ -35,31 +54,12 @@ public class DB2Dialect implements Dialect{
 		//add the restriction to the outer select
 		if (offset > 0) {
 			int end = offset + limit;
-			pagingSelect.append("between "+offset+"+1 and "+end);
+			pagingSelect.append("between "+offsetPlaceholder+"+1 and "+end);
 		}
 		else {
-			pagingSelect.append("<= "+limit);
+			pagingSelect.append("<= "+limitPlaceholder);
 		}
 
 		return pagingSelect.toString();
-	}
-
-	private String getRowNumber(String sql) {
-		StringBuffer rownumber = new StringBuffer(50)
-			.append("rownumber() over(");
-
-		int orderByIndex = sql.toLowerCase().indexOf("order by");
-
-		if ( orderByIndex>0 && !hasDistinct(sql) ) {
-			rownumber.append( sql.substring(orderByIndex) );
-		}
-
-		rownumber.append(") as rownumber_,");
-
-		return rownumber.toString();
-	}
-	
-	private static boolean hasDistinct(String sql) {
-		return sql.toLowerCase().indexOf("select distinct")>=0;
 	}
 }

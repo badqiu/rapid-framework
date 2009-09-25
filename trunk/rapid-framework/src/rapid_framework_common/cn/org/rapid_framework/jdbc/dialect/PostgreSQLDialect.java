@@ -2,7 +2,7 @@ package cn.org.rapid_framework.jdbc.dialect;
 /**
  * @author badqiu
  */
-public class PostgreSQLDialect implements Dialect{
+public class PostgreSQLDialect extends Dialect{
 	
 	public boolean supportsLimit() {
 		return true;
@@ -16,6 +16,14 @@ public class PostgreSQLDialect implements Dialect{
 		return new StringBuffer( sql.length()+20 )
 		.append(sql)
 		.append(offset > 0 ? " limit "+limit+" offset "+offset : " limit "+limit)
+		.toString();
+	}
+
+	public String getLimitString(String sql, int offset,
+			String offsetPlaceholder, int limit, String limitPlaceholder) {
+		return new StringBuffer( sql.length()+20 )
+		.append(sql)
+		.append(offset > 0 ? " limit "+limitPlaceholder+" offset "+offsetPlaceholder : " limit "+limitPlaceholder)
 		.toString();
 	}
 }
