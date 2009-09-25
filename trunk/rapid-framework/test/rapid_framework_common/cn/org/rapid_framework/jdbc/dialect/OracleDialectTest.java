@@ -1,10 +1,12 @@
 package cn.org.rapid_framework.jdbc.dialect;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class OracleDialectTest extends TestCase {
+import static org.junit.Assert.*;
+public class OracleDialectTest {
 	
 	OracleDialect dialect = new OracleDialect();
+	@Test
 	public void test() {
 		String sql = dialect.getLimitString("select * from user", 10, 100);
 		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 110 and rownum_ > 10",sql);
