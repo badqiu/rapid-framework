@@ -18,14 +18,27 @@ public class SQLServerDialect extends Dialect{
 		return selectIndex + ( selectDistinctIndex == selectIndex ? 15 : 6 );
 	}
 
+	public String getLimitString(String sql, int offset, int limit) {
+		return getLimitString(sql,offset,null,limit,null);
+	}
+
 	public String getLimitString(String querySelect, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
 		if ( offset > 0 ) {
 			throw new UnsupportedOperationException( "sql server has no offset" );
 		}
+		if(limitPlaceholder != null) {
+			throw new UnsupportedOperationException(" sql server not support variable limit");
+		}
+		
 		return new StringBuffer( querySelect.length() + 8 )
 				.append( querySelect )
-				.insert( getAfterSelectInsertPoint( querySelect ), " top " + limitPlaceholder )
+				.insert( getAfterSelectInsertPoint( querySelect ), " top " + limit )
 				.toString();
 	}
+	
+	// TODO add Dialect.supportsVariableLimit() for sqlserver 
+//	public boolean supportsVariableLimit() {
+//		return false;
+//	}
 
 }
