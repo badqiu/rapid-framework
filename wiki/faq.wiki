@@ -11,7 +11,7 @@
 
 
 == service层及dao层为何不使用接口? ==
-实际开发中，service层及dao一般只有一个实现，为此多些接口类实在是累赘。所以生成的代码不是基于接口的。
+一般中小项目，service层及dao一般只有一个实现，为此多些接口类实在是累赘。所以生成的代码不是基于接口的。
 可以根据自己需要编写自己的生成器模板进行修改。
 
 ==struts2为何报`setParameters : Unexpected Exception caught setting 'property' on class com.company.action.UserAction` ==
