@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.ibatis3;
+package cn.org.rapid_framework.ibatis3.plugin;
 
 
 
