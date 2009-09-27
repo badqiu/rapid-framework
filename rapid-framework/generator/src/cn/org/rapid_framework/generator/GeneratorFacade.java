@@ -44,6 +44,13 @@ public class GeneratorFacade {
 		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
 	}
 	
+	public void generateByTable(String tableName,String className) throws Exception {
+		Generator g = createGeneratorForDbTable();
+		Table table = DbTableFactory.getInstance().getTable(tableName);
+		table.setClassName(className);
+		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
+	}
+	
 	public void generateByClass(Class clazz) throws Exception {
 		Generator g = createGeneratorForJavaClass();
 		g.generateByModelProvider(new JavaClassGeneratorModelProvider(new JavaClass(clazz)));

@@ -17,6 +17,7 @@ public class Table {
 
 	String sqlName;
 	String remarks;
+	String customClassName;
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
 	List columns = new ArrayList();
@@ -56,14 +57,16 @@ public class Table {
 		columns.add(column);
 	}
 	
+	public void setClassName(String customClassName) {
+		this.customClassName = customClassName;
+	}
+	public String getClassName() {
+		String defaultValue = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
+		return StringHelper.emptyIf(customClassName, defaultValue);
+	}
 	public String getTableAlias() {
 		return  StringHelper.emptyIf(getRemarks(), getClassName());
 	}
-	
-	public String getClassName() {
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
-	}
-	
 	public String getClassNameLowerCase() {
 		return getClassName().toLowerCase();
 	}
@@ -73,7 +76,7 @@ public class Table {
 	}
 	
 	public String getConstantName() {
-		return StringHelper.toUnderscoreName(getSqlName()).toUpperCase();
+		return StringHelper.toUnderscoreName(getClassName()).toUpperCase();
 	}
 	
 	public boolean isSingleId() {
@@ -195,7 +198,7 @@ public class Table {
 	}
 	
 	public String toString() {
-		return "Database Table:"+getSqlName();
+		return "Database Table:"+getSqlName()+" to ClassName:"+getClassName();
 	}
 	
 	String catalog = DbTableFactory.getInstance().getCatalog();
