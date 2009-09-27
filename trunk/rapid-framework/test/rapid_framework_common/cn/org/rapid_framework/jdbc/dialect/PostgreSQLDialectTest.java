@@ -15,5 +15,13 @@ public class PostgreSQLDialectTest {
 		Assert.assertEquals("select * from user limit 0 offset 12", dialect.getLimitString("select * from user", 12, 0));
 		Assert.assertEquals("select * from user limit 34 offset 12", dialect.getLimitString("select * from user", 12, 34));		
 	}
-	
+	@Test
+	public void getLimitStringWithPlaceHolader() {
+		String OFFSET = ":offset";
+		String LIMIT = ":limit";
+		Assert.assertEquals("select * from user limit :limit", dialect.getLimitString("select * from user", 0,OFFSET, 0,LIMIT));
+		Assert.assertEquals("select * from user limit :limit", dialect.getLimitString("select * from user", 0,OFFSET,12,LIMIT));
+		Assert.assertEquals("select * from user limit :limit offset :offset", dialect.getLimitString("select * from user", 12, OFFSET,0,LIMIT));
+		Assert.assertEquals("select * from user limit :limit offset :offset", dialect.getLimitString("select * from user", 12,OFFSET, 34,LIMIT));
+	}
 }
