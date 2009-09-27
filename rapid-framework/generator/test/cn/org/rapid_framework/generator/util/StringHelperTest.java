@@ -17,6 +17,7 @@ public class StringHelperTest extends TestCase {
 		assertEquals("user",StringHelper.toUnderscoreName("User"));
 		
 		assertEquals("user_foo",StringHelper.toUnderscoreName("userFoo"));
+		assertEquals("user_foo",StringHelper.toUnderscoreName("UserFoo"));
 		assertEquals("user_foo_bar",StringHelper.toUnderscoreName("userFooBar"));
 		
 		assertEquals("_user",StringHelper.toUnderscoreName("_user"));
@@ -37,6 +38,9 @@ public class StringHelperTest extends TestCase {
 		
 		assertEquals("level1_channel",StringHelper.toUnderscoreName("LEVEL1_CHANNEL"));
 		assertEquals("Level1Channel",StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName("LEVEL1_CHANNEL")));
+	}
+
+	public void testPerformance() {
 		ProfileUtils.printCostTime("underscoreName", new Runnable() {
 			public void run() {
 				for(int i = 0; i < 1000000; i++ ) {
