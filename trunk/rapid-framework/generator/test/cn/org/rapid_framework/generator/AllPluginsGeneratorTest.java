@@ -12,7 +12,7 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.DbTableGeneratorModelProvider;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 
-public class AllPluginsGeneratorTest extends TestCase {
+public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
 	public void testGenerate() throws Exception{
 		Generator g = new Generator();
