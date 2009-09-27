@@ -46,7 +46,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 	 * 用于子类覆盖,在insert,update之前调用
 	 * @param o
 	 */
-    protected void prepareObjectForSaveOrUpdate(Object o) {
+    protected void prepareObjectForSaveOrUpdate(E o) {
     }
 
     public String getFindByPrimaryKeyQuery() {
