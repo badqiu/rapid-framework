@@ -64,7 +64,7 @@ public class DbTableFactory {
 		return GeneratorProperties.getNullIfBlank("jdbc.schema");
 	}
 
-	private Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 		if(connection == null || connection.isClosed()) {
 			connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
 		}
