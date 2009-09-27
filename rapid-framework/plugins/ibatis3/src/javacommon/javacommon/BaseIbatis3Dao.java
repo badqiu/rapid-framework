@@ -135,9 +135,12 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		}
 
 		public Object execute(SqlSessionCallback action)  {
-			SqlSession session = sqlSessionFactory.openSession();
+			SqlSession session;
 			try {
-				return action.doInSession(session);
+				session = sqlSessionFactory.openSession();
+				Object result = action.doInSession(session);
+				session.commit();
+				return result;
 			}finally {
 				if(session != null) session.close();
 			}
