@@ -141,11 +141,11 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
 		//支持limit查询
 		if(dialect.supportsLimit()) {
-			paramMap.put(LIMIT_PLACEHOLDER, pageSize);
+			paramMap.put(LIMIT_PLACEHOLDER.substring(1), pageSize);
 			//支持limit及offset.则完全使用数据库分页
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,pageSize,totalCount);
-				paramMap.put(OFFSET_PLACEHOLDER, page.getFirstResult());
+				paramMap.put(OFFSET_PLACEHOLDER.substring(1), page.getFirstResult());
 				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),OFFSET_PLACEHOLDER,pageSize,LIMIT_PLACEHOLDER);
 				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, rowMapper);
 				page.setResult(list);
