@@ -13,6 +13,7 @@ import cn.org.rapid_framework.jdbc.dialect.MySQLDialect;
 import cn.org.rapid_framework.jdbc.dialect.OracleDialect;
 
 
+
 public class PageQueryInterceptorTest {
 	
 	PageQueryInterceptor di = new PageQueryInterceptor();
