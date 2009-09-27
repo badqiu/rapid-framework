@@ -13,9 +13,9 @@ import cn.org.rapid_framework.jdbc.dialect.MySQLDialect;
 import cn.org.rapid_framework.jdbc.dialect.OracleDialect;
 
 
-public class DialectInterceptorTest {
+public class PageQueryInterceptorTest {
 	
-	DialectInterceptor di = new DialectInterceptor();
+	PageQueryInterceptor di = new PageQueryInterceptor();
 	
 	@Test(timeout=1200)
 	public void preformance_processIntercept() throws Throwable {
