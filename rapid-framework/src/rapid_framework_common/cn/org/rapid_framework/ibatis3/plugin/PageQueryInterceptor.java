@@ -24,7 +24,7 @@ import cn.org.rapid_framework.util.PropertiesHelper;
 		type= Executor.class,
 		method = "query",
 		args = {MappedStatement.class, Object.class, int.class, int.class, ResultHandler.class})})
-public class DialectInterceptor implements Interceptor{
+public class PageQueryInterceptor implements Interceptor{
 	static int MAPPED_STATEMENT_INDEX = 0;
 	static int PARAMETER_INDEX = 1;
 	static int SKIP_RESULTS_INDEX = 2;
@@ -88,7 +88,7 @@ public class DialectInterceptor implements Interceptor{
 		} catch (Exception e) {
 			ReflectionUtils.handleReflectionException(e);
 		} 
-		System.out.println(DialectInterceptor.class.getSimpleName()+".dialect="+dialectClass);
+		System.out.println(PageQueryInterceptor.class.getSimpleName()+".dialect="+dialectClass);
 	}
 	
 	public static class BoundSqlSqlSource implements SqlSource {
