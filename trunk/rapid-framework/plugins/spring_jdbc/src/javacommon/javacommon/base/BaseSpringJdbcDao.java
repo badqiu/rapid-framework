@@ -136,23 +136,27 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return totalCount;
 	}
 
+	static final String LIMIT_PLACEHOLDER = ":__limit";
+	static final String OFFSET_PLACEHOLDER = ":__offset";
 	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
-		//支持limit子句
+		//支持limit查询
 		if(dialect.supportsLimit()) {
-			//支持limit及offset.则数据使用数据库分页
+			paramMap.put(LIMIT_PLACEHOLDER, pageSize);
+			//支持limit及offset.则完全使用数据库分页
 			if(dialect.supportsLimitOffset()) {
 				Page page = new Page(pageNumber,pageSize,totalCount);
-				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),pageSize);
+				paramMap.put(OFFSET_PLACEHOLDER, page.getFirstResult());
+				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),OFFSET_PLACEHOLDER,pageSize,LIMIT_PLACEHOLDER);
 				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, rowMapper);
 				page.setResult(list);
 				return page;
 			}else {
 				//不支持offset,则使用游标配合limit分页
-				String limitSql = dialect.getLimitString(sql, 0, pageSize);
+				String limitSql = dialect.getLimitString(sql, 0,null, pageSize,LIMIT_PLACEHOLDER);
 				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount,rowMapper);
 			}
 		}else {
-			//不支持limit子句,使用游标分页
+			//不支持limit查询,使用游标分页
 			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount,rowMapper);			
 		}
 	}
