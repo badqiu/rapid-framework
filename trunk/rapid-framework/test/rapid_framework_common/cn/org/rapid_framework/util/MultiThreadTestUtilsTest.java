@@ -74,7 +74,7 @@ public class MultiThreadTestUtilsTest extends TestCase {
 					if(count.incrementAndGet() > MAX_COUNT) {
 						return;
 					}
-					for(int i = 0; i < 400000; i++) {
+					for(int i = 0; i < 50000; i++) {
 					}
 				}
 			}
