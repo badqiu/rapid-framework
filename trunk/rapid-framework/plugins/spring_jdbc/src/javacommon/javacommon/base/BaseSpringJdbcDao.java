@@ -27,6 +27,7 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
@@ -169,9 +170,14 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return (Page)getNamedParameterJdbcTemplate().execute(sql, paramMap, new PreparedStatementCallback() {
 			public Object doInPreparedStatement(PreparedStatement ps)
 					throws SQLException, DataAccessException {
-				ps.setMaxRows(pageSize);
-				ResultSet rs = ps.executeQuery();
-				return new JdbcScrollPage(rs,totalCount,rowMapper,pageNumber,pageSize);
+				ResultSet rs = null;
+				try {
+					ps.setMaxRows(pageSize);
+					rs = ps.executeQuery();
+					return new JdbcScrollPage(rs,totalCount,rowMapper,pageNumber,pageSize);
+				}finally {
+					JdbcUtils.closeResultSet(rs);
+				}
 			}
 		});
 		
