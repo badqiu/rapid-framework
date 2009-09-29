@@ -75,8 +75,6 @@
 			  <src refid="dirs.java.src"/>
 		</javac>
 		
-		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果已经相同,则手工删除此行即可"/> 
-		
 		<copy todir="${dir.dist.java}">
 			<fileset dir="src/javacommon" excludes="**/*.java"/>
 			<fileset dir="src/resources" excludes="**/*.java"/>
@@ -96,8 +94,6 @@
 				<path path="${dir.dist.java}"/>
 			</classpath>
 		</javac>
-		
-		<fail message="故意报错,请先设置好copy路径,设置与java的源代码路径相同,如果已经相同,则手工删除此行即可"/> 
 		
 		<copy todir="${dir.dist.test}">
 			<fileset dir="src/javacommon" excludes="**/*.java"/>
