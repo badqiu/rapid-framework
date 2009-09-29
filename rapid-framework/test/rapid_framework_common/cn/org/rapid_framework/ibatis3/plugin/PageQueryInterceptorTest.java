@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.ibatis3.plugin;
 
 import org.apache.ibatis.builder.StaticSqlSource;
+import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.Configuration;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -8,9 +9,11 @@ import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.junit.Assert;
 import org.junit.Test;
 
+import cn.org.rapid_framework.jdbc.dialect.DerbyDialect;
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.jdbc.dialect.MySQLDialect;
 import cn.org.rapid_framework.jdbc.dialect.OracleDialect;
+import cn.org.rapid_framework.jdbc.dialect.SQLServerDialect;
 
 
 
@@ -18,13 +21,15 @@ public class PageQueryInterceptorTest {
 	
 	PageQueryInterceptor di = new PageQueryInterceptor();
 	
-	@Test(timeout=2000)
+	@Test(timeout=2500)
 	public void preformance_processIntercept() throws Throwable {
-		testWithDialect(new MySQLDialect(), "select * from userinfo limit 100,200");
-		testWithDialect(new OracleDialect(), "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 100+200 and rownum_ > 100");
+		testWithDialect(new MySQLDialect(), Executor.NO_ROW_OFFSET,Executor.NO_ROW_LIMIT,"select * from userinfo limit 100,200");
+		testWithDialect(new OracleDialect(),Executor.NO_ROW_OFFSET,Executor.NO_ROW_LIMIT, "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 100+200 and rownum_ > 100");
+		testWithDialect(new SQLServerDialect(),100,Executor.NO_ROW_LIMIT, "select top 200 * from userinfo");
+		testWithDialect(new DerbyDialect(),100,200, "select * from userinfo ");
 	}
 
-	private void testWithDialect(Dialect dialect, String expcted) {
+	private void testWithDialect(Dialect dialect,int expectedOffset,int expectedLimit, String expctedSql) {
 		di.dialect = dialect;
 		Configuration conf = new Configuration();
 		
@@ -40,7 +45,11 @@ public class PageQueryInterceptorTest {
 			
 			MappedStatement newMs = (MappedStatement)args[0];
 			BoundSql sql = newMs.getBoundSql(null);
-			Assert.assertEquals(expcted,sql.getSql());
+			int offset = (Integer)args[2];
+			int limit = (Integer)args[3];
+			Assert.assertEquals(expectedOffset,offset);
+			Assert.assertEquals(expectedLimit,limit);
+			Assert.assertEquals(expctedSql,sql.getSql());
 		}
 		long cost = System.currentTimeMillis() - start;
 		
