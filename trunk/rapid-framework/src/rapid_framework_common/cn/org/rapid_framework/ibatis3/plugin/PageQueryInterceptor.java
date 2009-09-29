@@ -45,8 +45,8 @@ import cn.org.rapid_framework.util.PropertiesHelper;
 public class PageQueryInterceptor implements Interceptor{
 	static int MAPPED_STATEMENT_INDEX = 0;
 	static int PARAMETER_INDEX = 1;
-	static int SKIP_RESULTS_INDEX = 2;
-	static int MAX_RESULTS_INDEX = 3;
+	static int OFFSET_INDEX = 2;
+	static int LIMIT_INDEX = 3;
 	static int RESULT_HANDLER_INDEX = 4;
 	
 	Dialect dialect;
@@ -60,19 +60,19 @@ public class PageQueryInterceptor implements Interceptor{
 		//queryArgs = query(MappedStatement ms, Object parameter, int offset, int limit, ResultHandler resultHandler)
 		MappedStatement ms = (MappedStatement)queryArgs[MAPPED_STATEMENT_INDEX];
 		Object parameter = queryArgs[PARAMETER_INDEX];
-		final int offset = (Integer)queryArgs[SKIP_RESULTS_INDEX];
-		final int limit = (Integer)queryArgs[MAX_RESULTS_INDEX];
+		final int offset = (Integer)queryArgs[OFFSET_INDEX];
+		final int limit = (Integer)queryArgs[LIMIT_INDEX];
 		
 		if(dialect.supportsLimit() && (offset != Executor.NO_ROW_OFFSET || limit != Executor.NO_ROW_LIMIT)) {
 			BoundSql boundSql = ms.getBoundSql(parameter);
 			String sql = boundSql.getSql().trim();
 			if (dialect.supportsLimitOffset()) {
 				sql = dialect.getLimitString(sql, offset, limit);
-				queryArgs[MAX_RESULTS_INDEX] = Executor.NO_ROW_LIMIT;
+				queryArgs[OFFSET_INDEX] = Executor.NO_ROW_OFFSET;
 			} else {
 				sql = dialect.getLimitString(sql, 0, limit);
 			}
-			queryArgs[SKIP_RESULTS_INDEX] = Executor.NO_ROW_OFFSET;
+			queryArgs[LIMIT_INDEX] = Executor.NO_ROW_LIMIT;
 			
 			BoundSql newBoundSql = new BoundSql(sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
 			MappedStatement newMs = copyFromMappedStatement(ms, new BoundSqlSqlSource(newBoundSql));
