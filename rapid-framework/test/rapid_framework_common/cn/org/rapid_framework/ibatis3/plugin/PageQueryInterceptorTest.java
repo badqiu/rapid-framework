@@ -18,7 +18,7 @@ public class PageQueryInterceptorTest {
 	
 	PageQueryInterceptor di = new PageQueryInterceptor();
 	
-	@Test(timeout=1200)
+	@Test(timeout=2000)
 	public void preformance_processIntercept() throws Throwable {
 		testWithDialect(new MySQLDialect(), "select * from userinfo limit 100,200");
 		testWithDialect(new OracleDialect(), "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 300 and rownum_ > 100");
