@@ -101,10 +101,10 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
+		final int totalCount = queryTotalCount(countQuery,pageRequest.getFilters());
+		
 		Map otherFilters = new HashMap(1);
 		otherFilters.put("sortColumns", pageRequest.getSortColumns());
-		
-		final int totalCount = queryTotalCount(countQuery, otherFilters,pageRequest.getFilters());
 		
 		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
 		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,otherFilters,pageRequest.getFilters());
@@ -124,8 +124,8 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return builder;
 	}
 
-	private int queryTotalCount(String countQuery, Map filtersMap,Object filtersObject) {
-		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filtersMap,filtersObject);
+	private int queryTotalCount(String countQuery,Object filtersObject) {
+		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filtersObject);
 		String removedOrderByQuery = SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql());
 		final int totalCount = getSimpleJdbcTemplate().queryForInt(removedOrderByQuery,countQueryXsqlResult.getAcceptedFilters());
 		return totalCount;
