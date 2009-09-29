@@ -9,7 +9,7 @@ import org.apache.ibatis.mapping.Configuration;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.apache.ibatis.transaction.managed.ManagedTransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
@@ -29,7 +29,7 @@ public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBea
 			SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(reader);
 			if(dataSource != null) {
 				Configuration conf = sessionFactory.getConfiguration();
-				conf.setEnvironment(new Environment("dataSource",new ManagedTransactionFactory(),dataSource));
+				conf.setEnvironment(new Environment("dataSource",new JdbcTransactionFactory(),dataSource));
 				sessionFactory = new SqlSessionFactoryBuilder().build(conf);
 			}
 			return sessionFactory;
