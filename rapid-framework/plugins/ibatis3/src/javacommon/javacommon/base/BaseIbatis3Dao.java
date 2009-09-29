@@ -1,4 +1,4 @@
-package javacommon;
+package javacommon.base;
 
 import java.io.Serializable;
 import java.util.HashMap;
