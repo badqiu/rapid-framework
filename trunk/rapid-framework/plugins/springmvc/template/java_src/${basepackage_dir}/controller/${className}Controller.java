@@ -51,6 +51,7 @@ public class ${className}Controller extends BaseSpringController{
 		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
 		ModelAndView result = toModelAndView(page, pageRequest);
 		result.addObject("${classNameLower}",${classNameLower});
+		result.setViewName("/${className?lower_case}/list");
 		return result;
 	}
 	
