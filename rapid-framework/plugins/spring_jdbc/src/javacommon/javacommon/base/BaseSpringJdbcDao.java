@@ -1,9 +1,6 @@
 package javacommon.base;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +14,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -27,7 +22,6 @@ import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
@@ -35,9 +29,9 @@ import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrem
 import org.springframework.util.ReflectionUtils;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
+import cn.org.rapid_framework.jdbc.support.PageQueryResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
-import cn.org.rapid_framework.page.impl.JdbcScrollPage;
 import cn.org.rapid_framework.util.CollectionUtils;
 import cn.org.rapid_framework.util.ObjectUtils;
 import cn.org.rapid_framework.util.SqlRemoveUtils;
@@ -137,50 +131,33 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return totalCount;
 	}
 
+	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
+		Page page = new Page(pageNumber,pageSize,totalCount);
+		List list = pageQuery(sql, paramMap,page.getFirstResult(),pageSize,rowMapper);
+		page.setResult(list);
+		return page;
+	}
+
 	static final String LIMIT_PLACEHOLDER = ":__limit";
 	static final String OFFSET_PLACEHOLDER = ":__offset";
-	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
+	public List pageQuery(String sql, final Map paramMap, int startRow,int pageSize, final RowMapper rowMapper) {
 		//支持limit查询
 		if(dialect.supportsLimit()) {
 			paramMap.put(LIMIT_PLACEHOLDER.substring(1), pageSize);
+			pageSize = Integer.MAX_VALUE;
+			
 			//支持limit及offset.则完全使用数据库分页
 			if(dialect.supportsLimitOffset()) {
-				Page page = new Page(pageNumber,pageSize,totalCount);
-				paramMap.put(OFFSET_PLACEHOLDER.substring(1), page.getFirstResult());
-				String limitSql = dialect.getLimitString(sql,page.getFirstResult(),OFFSET_PLACEHOLDER,pageSize,LIMIT_PLACEHOLDER);
-				List list = getNamedParameterJdbcTemplate().query(limitSql, paramMap, rowMapper);
-				page.setResult(list);
-				return page;
+				paramMap.put(OFFSET_PLACEHOLDER.substring(1), startRow);
+				startRow = 0;
+				
+				sql = dialect.getLimitString(sql,startRow,OFFSET_PLACEHOLDER,pageSize,LIMIT_PLACEHOLDER);
 			}else {
-				//不支持offset,则使用游标配合limit分页
-				String limitSql = dialect.getLimitString(sql, 0,null, pageSize,LIMIT_PLACEHOLDER);
-				return getJdbcScrollPage(pageNumber,pageSize, limitSql,paramMap,totalCount,rowMapper);
+				//不支持offset,则在后面查询中使用游标配合limit分页
+				sql = dialect.getLimitString(sql, 0,null, pageSize,LIMIT_PLACEHOLDER);
 			}
-		}else {
-			//不支持limit查询,使用游标分页
-			return getJdbcScrollPage(pageNumber,pageSize, sql,paramMap,totalCount,rowMapper);			
 		}
-	}
-	
-	/**
-	 * 通过jdbc 游标进行分页
-	 */
-	public Page getJdbcScrollPage(final int pageNumber,final int pageSize,String sql,Map paramMap, final int totalCount,final RowMapper rowMapper) {
-		
-		return (Page)getNamedParameterJdbcTemplate().execute(sql, paramMap, new PreparedStatementCallback() {
-			public Object doInPreparedStatement(PreparedStatement ps)
-					throws SQLException, DataAccessException {
-				ResultSet rs = null;
-				try {
-					ps.setMaxRows(pageSize);
-					rs = ps.executeQuery();
-					return new JdbcScrollPage(rs,totalCount,rowMapper,pageNumber,pageSize);
-				}finally {
-					JdbcUtils.closeResultSet(rs);
-				}
-			}
-		});
-		
+		return (List)getNamedParameterJdbcTemplate().query(sql, paramMap, new PageQueryResultSetExtractor(startRow,pageSize,rowMapper));
 	}
 	
 	private void setIdentifierProperty(Object entity, Object id) {
