@@ -11,7 +11,7 @@ public class OracleDialectTest {
 	@Test
 	public void test() {
 		String sql = dialect.getLimitString("select * from user", 10, 100);
-		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 110 and rownum_ > 10",sql);
+		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 10+100 and rownum_ > 10",sql);
 		System.out.println(sql);
 		
 		String sql0limit = dialect.getLimitString("select * from user", 0, 100);
@@ -19,7 +19,7 @@ public class OracleDialectTest {
 		System.out.println(sql0limit);
 		
 		String forUpdateSql = dialect.getLimitString("select * from user for update", 10, 100);
-		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 110 and rownum_ > 10 for update",forUpdateSql);
+		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 10+100 and rownum_ > 10 for update",forUpdateSql);
 		System.out.println(forUpdateSql);
 	}
 	@Test
@@ -28,7 +28,7 @@ public class OracleDialectTest {
 		String LIMIT = ":limit";
 		Assert.assertEquals("select * from ( select * from user ) where rownum <= :limit", dialect.getLimitString("select * from user", 0,OFFSET, 0,LIMIT));
 		Assert.assertEquals("select * from ( select * from user ) where rownum <= :limit", dialect.getLimitString("select * from user", 0,OFFSET,12,LIMIT));
-		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 12 and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET,0,LIMIT));
-		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 46 and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET, 34,LIMIT));
+		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= :offset+:limit and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET,0,LIMIT));
+		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= :offset+:limit and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET, 34,LIMIT));
 	}
 }

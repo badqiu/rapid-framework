@@ -29,8 +29,9 @@ public class OracleDialect extends Dialect{
 		}
 		pagingSelect.append(sql);
 		if (offset > 0) {
-			int end = offset+limit;
-			pagingSelect.append(" ) row_ ) where rownum_ <= "+end+" and rownum_ > "+offsetPlaceholder);
+//			int end = offset+limit;
+			String endString = offsetPlaceholder+"+"+limitPlaceholder;
+			pagingSelect.append(" ) row_ ) where rownum_ <= " + endString + " and rownum_ > " + offsetPlaceholder);
 		}
 		else {
 			pagingSelect.append(" ) where rownum <= " + limitPlaceholder);
