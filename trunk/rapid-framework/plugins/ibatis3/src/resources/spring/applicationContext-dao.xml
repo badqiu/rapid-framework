@@ -19,6 +19,7 @@
 
     <bean id="sqlSessionFactory" class="javacommon.SqlSessionFactoryFactoryBean">
         <property name="configurationFile" value="classpath:Configuration.xml"/>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
     <!-- component-scan自动搜索@Component , @Controller , @Service , @Repository等标注的类 -->
