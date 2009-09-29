@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.util.Assert;
 
 /**
  * 用于分页查询的ResultSetExtractor,会移动游标(cursor)至offset,并根据limit参数抽取数据
@@ -23,8 +24,8 @@ public class PageQueryResultSetExtractor implements ResultSetExtractor {
 	private int offset;
 	private RowMapper rowMapper;
 	
-	public PageQueryResultSetExtractor(RowMapper rowMapper, int offset,int limit) {
-		super();
+	public PageQueryResultSetExtractor(int offset,int limit,RowMapper rowMapper) {
+		Assert.notNull(rowMapper,"'rowMapper' must be not null");
 		this.rowMapper = rowMapper;
 		this.offset = offset;
 		this.limit = limit;
