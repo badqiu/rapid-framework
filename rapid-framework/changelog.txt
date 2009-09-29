@@ -6,6 +6,8 @@ rapid-framework v2.6.0
 	rapid-framework-common:
 	新增Freemarker封装FreemarkerTemplateProcessor
 	新增AsyncTokenTemplate.execute(AsyncTokenCallback) 的模板方法相关
+	jdbc dialect现在支持使用占位符
+	
 --------------------------------------------------------
 rapid-framework v2.5.0
 	提升:
