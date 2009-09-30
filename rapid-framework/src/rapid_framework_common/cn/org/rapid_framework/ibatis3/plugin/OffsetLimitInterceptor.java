@@ -28,7 +28,7 @@ import cn.org.rapid_framework.util.PropertiesHelper;
  * 配置文件内容:
  * <pre>
  * 	&lt;plugins>
- *		&lt;plugin interceptor="cn.org.rapid_framework.ibatis3.plugin.PageQueryInterceptor">
+ *		&lt;plugin interceptor="cn.org.rapid_framework.ibatis3.plugin.OffsetLimitInterceptor">
  *			&lt;property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
  *		&lt;/plugin>
  *	&lt;/plugins>
