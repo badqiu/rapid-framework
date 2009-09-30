@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 
 /**
  * 用于分页查询的PreparedStatementCallback,会移动游标(cursor)至offset,并根据limit参数抽取数据
+ * 执行查询前会设置PreparedStatement.setMaxRows(limit);
  * 
  * @author badqiu
  *
