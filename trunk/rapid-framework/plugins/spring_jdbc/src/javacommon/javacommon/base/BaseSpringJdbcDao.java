@@ -93,11 +93,15 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public Page pageQuery(String query,PageRequest pageRequest) {
-		return pageQuery(query,pageRequest,new BeanPropertyRowMapper(getEntityClass()));
+		return pageQuery(query,pageRequest,new BeanPropertyRowMapper(getEntityClass()), "select count(*) ");
 	}
 	
-	public Page pageQuery(String query,PageRequest pageRequest,RowMapper rowMapper) {
-		return pageQuery(query,"select count(*) "+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
+	public Page pageQuery(String query,PageRequest pageRequest,RowMapper rowMapper, String countQuerySelectPrefix) {
+		return pageQuery(query,countQuerySelectPrefix+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
+	}
+	
+	public Page pageQuery(String query,PageRequest pageRequest,String countQueryPrefix,RowMapper rowMapper) {
+		return pageQuery(query,countQueryPrefix+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
