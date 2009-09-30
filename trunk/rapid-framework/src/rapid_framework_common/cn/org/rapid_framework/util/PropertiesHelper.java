@@ -28,7 +28,7 @@ import java.util.Map.Entry;
  * 	   static PropertiesHelper props = new PropertiesHelper(properties);
  *     public static Connection getConnection() {
  *     		// use getRequiredProperty() 
- *     		DriverManager.getConnection(props.getRequiredProperty("jdbc.url"));
+ *     		DriverManager.getConnection(props.getRequiredString("jdbc.url"));
  *     }
  * }
  * </pre>
