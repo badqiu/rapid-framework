@@ -31,7 +31,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	private JdbcTemplate jdbcTemplate;
 	
     private String tableName;
-    private String keyColumn;
+    private String templateNameColumn;
     private String templateContentColumn;
     private String timestampColumn;
 
@@ -43,8 +43,8 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 		this.tableName = tableName;
 	}
 
-	public void setKeyColumn(String keyColumn) {
-		this.keyColumn = keyColumn;
+	public void setTemplateNameColumn(String column) {
+		this.templateNameColumn = column;
 	}
 
 	public void setTemplateContentColumn(String templateContentColumn) {
@@ -61,9 +61,9 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(jdbcTemplate,"'dataSource' must be not null");
-		Assert.notNull(tableName,"'tableName' must be not null");
-		Assert.notNull(keyColumn,"'keyColumn' must be not null");
-		Assert.notNull(templateContentColumn,"'templateContentColumn' must be not null");
+		Assert.hasText(tableName,"'tableName' must be not blank");
+		Assert.hasText(templateNameColumn,"'templateNameColumn' must be not blank");
+		Assert.hasText(templateContentColumn,"'templateContentColumn' must be not blank");
 		log.info("freemarker template load sql:"+getSql(templateContentColumn));
 	}
 
@@ -73,7 +73,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	}
 
 	private String getSql(String columnNames) {
-		return "select "+columnNames+" from "+tableName+" where "+keyColumn+"=?";
+		return "select "+columnNames+" from "+tableName+" where "+templateNameColumn+"=?";
 	}
 
 	public Reader getReader(Object templateSource, final String encoding) throws IOException {
