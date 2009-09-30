@@ -17,9 +17,9 @@ import cn.org.rapid_framework.jdbc.dialect.SQLServerDialect;
 
 
 
-public class PageQueryInterceptorTest {
+public class OffsetLimitInterceptorTest {
 	
-	PageQueryInterceptor di = new PageQueryInterceptor();
+	OffsetLimitInterceptor di = new OffsetLimitInterceptor();
 	
 	@Test(timeout=2500)
 	public void preformance_processIntercept() throws Throwable {
