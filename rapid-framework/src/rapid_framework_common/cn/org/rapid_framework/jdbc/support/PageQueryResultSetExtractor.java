@@ -32,7 +32,7 @@ public class PageQueryResultSetExtractor implements ResultSetExtractor {
 	}
 
 	public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
-		List results = new ArrayList(Math.min(200, limit));
+		List results = new ArrayList(limit > 200 ? 200 : limit);
 		
 		if (offset > 0) {
 			rs.absolute(offset);
