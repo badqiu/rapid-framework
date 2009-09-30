@@ -59,11 +59,11 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	protected void checkDaoConfig() {
-		super.initTemplateConfig();
+		super.checkDaoConfig();
 		if(dialect == null) throw new IllegalStateException("'dialect' property must be not null");
 		log.info("use jdbc dialect:"+dialect);
-		simpleJdbcTemplate = new SimpleJdbcTemplate(getDataSource());
-		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+		simpleJdbcTemplate = new SimpleJdbcTemplate(getJdbcTemplate());
+		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
 	}
 	
 	public SimpleJdbcTemplate getSimpleJdbcTemplate() {
