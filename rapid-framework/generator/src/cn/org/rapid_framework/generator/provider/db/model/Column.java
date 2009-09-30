@@ -387,6 +387,10 @@ public class Column {
 		return result;
 	}
 	
+	public boolean getIsStringColumn() {
+		return DatabaseDataTypesUtils.isString(getSqlType(), getSize(), getDecimalDigits());
+	}
+	
 	public boolean getIsDateTimeColumn() {
 		return DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits());
 	}

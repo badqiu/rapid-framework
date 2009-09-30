@@ -36,6 +36,14 @@ public class DatabaseDataTypesUtils {
 		return false;
 	}
 	
+	public static boolean isString(int sqlType,int size,int decimalDigits) {
+		String javaType = getPreferredJavaType(sqlType,size,decimalDigits);
+		if(javaType.endsWith("String")) {
+			return true;
+		}
+		return false;
+	}
+	
 	public static String getPreferredJavaType(int sqlType, int size,
 			int decimalDigits) {
 		if ((sqlType == Types.DECIMAL || sqlType == Types.NUMERIC)
