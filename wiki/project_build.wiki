@@ -2,4 +2,4 @@
 
 将项目从svn checkout下来，通过ant运行build-release.xml的framework-zip任务，即可构建出可以发布的项目产品。
 
-也可以下载持续集成 [cruisecontrol],根据说明运行即可构建出产品
+也可以下载专为rapid搭建好的持续集成 [cruisecontrol],根据说明运行即可构建出产品
