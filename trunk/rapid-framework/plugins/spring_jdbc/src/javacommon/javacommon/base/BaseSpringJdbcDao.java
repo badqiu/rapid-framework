@@ -29,7 +29,7 @@ import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrem
 import org.springframework.util.ReflectionUtils;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
-import cn.org.rapid_framework.jdbc.support.PageQueryResultSetExtractor;
+import cn.org.rapid_framework.jdbc.support.OffsetLimitResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.util.CollectionUtils;
@@ -157,7 +157,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 			
 			pageSize = Integer.MAX_VALUE;
 		}
-		return (List)getNamedParameterJdbcTemplate().query(sql, paramMap, new PageQueryResultSetExtractor(startRow,pageSize,rowMapper));
+		return (List)getNamedParameterJdbcTemplate().query(sql, paramMap, new OffsetLimitResultSetExtractor(startRow,pageSize,rowMapper));
 	}
 	
 	private void setIdentifierProperty(Object entity, Object id) {
