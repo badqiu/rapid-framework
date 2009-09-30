@@ -32,12 +32,7 @@ public class PageQueryResultSetExtractor implements ResultSetExtractor {
 	}
 
 	public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
-		List result = null;
-		if(limit == PageQueryResultSetExtractor.NO_ROW_LIMIT) {
-			result = new ArrayList();
-		}else {
-			result = new ArrayList(limit);
-		}
+		List results = new ArrayList(Math.min(200, limit));
 		
 		if (offset > 0) {
 			rs.absolute(offset);
@@ -45,11 +40,11 @@ public class PageQueryResultSetExtractor implements ResultSetExtractor {
 		int rowNum = 0;
 		while (rs.next()) {
 			Object row = rowMapper.mapRow(rs, rowNum++);
-			result.add(row);
+			results.add(row);
 			if(limit == (rowNum + 1))
 				break;
 		}
-		return result;
+		return results;
 	}
 	
 }
