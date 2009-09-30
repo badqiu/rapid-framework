@@ -70,6 +70,10 @@ public class PropertiesHelper {
 		return value;
 	}
 	
+	/**
+	 * 尝试从System.getProperty(key)及System.getenv(key)得到值
+	 * @return
+	 */
 	public String getAndTryFromSystem(String key) {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
