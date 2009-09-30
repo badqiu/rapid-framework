@@ -318,7 +318,7 @@ public class PropertiesHelper {
 		return p.values();
 	}
 	
-	private boolean isBlankString(String value) {
+	private static boolean isBlankString(String value) {
 		return value == null || "".equals(value.trim());
 	}
 }
