@@ -44,7 +44,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *		&lt;/init-param>
  *		&lt;init-param>
  *			&lt;param-name>excludePrefixes&lt;/param-name>
- *			&lt;param-value>/scripts,/images,/styles&lt;/param-value>
+ *			&lt;param-value>/userinfo,/security&lt;/param-value>
  *		&lt;/init-param>
  *		&lt;init-param>
  *			&lt;param-name>debug&lt;/param-name>
