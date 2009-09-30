@@ -17,9 +17,6 @@ import org.springframework.util.Assert;
  *
  */
 public class OffsetLimitResultSetExtractor implements ResultSetExtractor {
-	public static final int NO_ROW_OFFSET = 0;
-	public static final int NO_ROW_LIMIT = Integer.MAX_VALUE;
-
 	private int limit;
 	private int offset;
 	private RowMapper rowMapper;
