@@ -85,7 +85,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<sql id="dynamicWhere">
 		<where>
 	       <#list table.columns as column>
-	       <if test="${column.columnNameFirstLower} != null">
+	       <if test="${column.columnNameFirstLower} != null <#if column.isStringColumn>and ${column.columnNameFirstLower}.length() != 0</#if>">
 				and ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
 			</if>
 	       </#list>			
