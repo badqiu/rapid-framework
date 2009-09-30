@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
  * @author badqiu
  *
  */
-public class PageQueryResultSetExtractor implements ResultSetExtractor {
+public class OffsetLimitResultSetExtractor implements ResultSetExtractor {
 	public static final int NO_ROW_OFFSET = 0;
 	public static final int NO_ROW_LIMIT = Integer.MAX_VALUE;
 
@@ -24,7 +24,7 @@ public class PageQueryResultSetExtractor implements ResultSetExtractor {
 	private int offset;
 	private RowMapper rowMapper;
 	
-	public PageQueryResultSetExtractor(int offset,int limit,RowMapper rowMapper) {
+	public OffsetLimitResultSetExtractor(int offset,int limit,RowMapper rowMapper) {
 		Assert.notNull(rowMapper,"'rowMapper' must be not null");
 		this.rowMapper = rowMapper;
 		this.offset = offset;
