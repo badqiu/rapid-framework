@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.extremecomponents.table.limit.Filter;
 import org.extremecomponents.table.limit.Limit;
+import org.extremecomponents.table.limit.Sort;
 
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -45,12 +46,13 @@ public class ExtremeTablePageRequestFactory {
 	}
 
 	public static String getSortingColumns(Limit limit, String defaultSortColumns) {
-		if(limit.getSort().getProperty() == null) {
+		Sort sort = limit.getSort();
+		if(sort.getProperty() == null) {
 			return defaultSortColumns;
 		}
 		
-		String sortOrder = limit.getSort().getSortOrder() == null ? ""  : " " + limit.getSort().getSortOrder();
-		String column = limit.getSort().getProperty().replace('_', '.');
+		String sortOrder = sort.getSortOrder() == null ? ""  : " " + sort.getSortOrder();
+		String column = sort.isAliased() ? sort.getAlias() : sort.getProperty();
 		String sortColumns = column + sortOrder;
 		return sortColumns;
 	}
