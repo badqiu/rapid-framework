@@ -39,14 +39,4 @@ public class ExtremeTablePage {
         return limit;
     }
 
-    static public Map getSort(Limit limit) {
-        Map sortMap = new HashMap();
-        if (limit != null) {
-            Sort sort = limit.getSort();
-            if (sort != null && sort.isSorted()) {
-                sortMap.put(sort.getProperty(), sort.getSortOrder());
-            }
-        }
-        return sortMap;
-    }
 }
