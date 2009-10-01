@@ -9,7 +9,7 @@ import java.util.List;
  * 排序的列
  * for PageRequest.getSortInfos()
  * @author badqiu
- * @see PageRequest
+ * @see PageRequest#getSortInfos()
  */
 public class SortInfo implements Serializable{
 	
