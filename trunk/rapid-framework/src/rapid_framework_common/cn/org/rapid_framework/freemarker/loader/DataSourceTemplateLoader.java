@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -95,7 +97,14 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	public long getLastModified(Object templateSource) {
 		if(StringUtils.hasText(timestampColumn)) {
 			String templateName = (String)templateSource;
-	    	return getJdbcTemplate().queryForLong(getSql(timestampColumn),new Object[]{templateName});
+	    	Object timestamp = getJdbcTemplate().queryForObject(getSql(timestampColumn),new Object[]{templateName},new SingleColumnRowMapper());
+	    	if(timestamp instanceof Number) {
+	    		return ((Number)timestamp).longValue();
+	    	}else if(timestamp instanceof Date) {
+	    		return ((Date)timestamp).getTime();
+	    	}else {
+	    		throw new RuntimeException("error template timestamp column type,must be Timestamp or Number type");
+	    	}
 		}
 		return -1;
 	}
