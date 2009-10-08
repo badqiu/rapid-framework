@@ -9,9 +9,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 /**
  * 用于持有spring的applicationContext,一个系统只能有一个ApplicationContextHolder 
+ * 
  * <br />
+ * <pre>
  * 使用方法:
  * &lt;bean class="cn.org.rapid_framework.util.ApplicationContextHolder"/>
+ * 
+ * 在java代码中则可以如此使用: 
+ * BlogDao dao = (BlogDao)ApplicationContextHolder.getBean("blogDao");
+ * </pre>
  * @author badqiu
  */
 public class ApplicationContextHolder implements ApplicationContextAware{
