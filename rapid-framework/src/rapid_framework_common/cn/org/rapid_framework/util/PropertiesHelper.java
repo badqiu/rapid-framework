@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 /**
- * Properties的装饰器工具类,为Properties提供一个代理增加相关工具方法如 getRequiredProperty(),getInt(),getBoolean()等方法
+ * Properties的操作的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredString(),getInt(),getBoolean()等方法
  * 
  * <pre>
  * 使用:
