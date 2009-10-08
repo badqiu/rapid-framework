@@ -289,6 +289,7 @@ public class PropertiesHelper {
 		return p.remove(key);
 	}
 
+	/** @deprecated */
 	public void save(OutputStream out, String comments) {
 		p.save(out, comments);
 	}
@@ -322,6 +323,10 @@ public class PropertiesHelper {
 		return p.values();
 	}
 	
+	public String toString() {
+		return p.toString();
+	}
+
 	private static boolean isBlankString(String value) {
 		return value == null || "".equals(value.trim());
 	}
