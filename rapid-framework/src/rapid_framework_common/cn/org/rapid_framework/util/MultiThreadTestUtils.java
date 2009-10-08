@@ -3,6 +3,7 @@ package cn.org.rapid_framework.util;
 import java.util.concurrent.CountDownLatch;
 
 /**
+ * 多线程测试的工具类,可以根据指定的线程数并发的同时执行同一个task用于单元测试使用
  * @author badqiu
  */
 public class MultiThreadTestUtils {
