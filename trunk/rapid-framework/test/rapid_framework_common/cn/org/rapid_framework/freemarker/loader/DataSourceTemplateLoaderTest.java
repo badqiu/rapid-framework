@@ -43,12 +43,18 @@ public class DataSourceTemplateLoaderTest {
 	}
 	@Test
 	public void test_get_template() throws Exception, TemplateException {
+		testProcessTemplate();
+		
+		Thread.sleep(1000 * 5);
+		
+		System.out.println("**************************");
+		testProcessTemplate();
+	}
+	
+	private void testProcessTemplate() throws IOException {
 		Template t = conf.getTemplate("/test/template.ftl");
 		String out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
-		
-		Thread.sleep(1000 * 2);
-		t = conf.getTemplate("/test/template.ftl");
-		out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
+		System.out.println(out);
 	}
 	
 }
