@@ -11,6 +11,8 @@ rapid-framework v2.6.0
 	生成器:
 	现在支持自定义类名称,如generateByTable("t_user_info","UserInfo");
 	
+	升级struts2 jars => 2.1.8
+	
 --------------------------------------------------------
 rapid-framework v2.5.0
 	提升:
