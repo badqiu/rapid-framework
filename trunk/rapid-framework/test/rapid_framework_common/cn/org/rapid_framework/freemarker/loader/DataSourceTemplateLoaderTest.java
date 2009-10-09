@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -40,11 +42,13 @@ public class DataSourceTemplateLoaderTest {
 		model.put("sex", "男");
 	}
 	@Test
-	public void test_get_template() throws IOException, TemplateException {
+	public void test_get_template() throws Exception, TemplateException {
 		Template t = conf.getTemplate("/test/template.ftl");
-		StringWriter out = new StringWriter();
-		t.process(model, out);
-		System.out.println(out.toString());
+		String out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
+		
+		Thread.sleep(1000 * 2);
+		t = conf.getTemplate("/test/template.ftl");
+		out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
 	}
 	
 }

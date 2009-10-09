@@ -20,6 +20,8 @@ import org.springframework.jdbc.core.SingleColumnRowMapper;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import cn.org.rapid_framework.freemarker.FreemarkerTemplateException;
+
 import freemarker.cache.TemplateLoader;
 
 /**
@@ -86,10 +88,10 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 					try {
 						return new InputStreamReader(rs.getBinaryStream(templateContentColumn),encoding);
 					} catch (UnsupportedEncodingException e) {
-						throw new RuntimeException("load template from dataSource with templateName:"+templateName+" occer UnsupportedEncodingException",e);
+						throw new FreemarkerTemplateException("load template from dataSource with templateName:"+templateName+" occer UnsupportedEncodingException",e);
 					}
 				}
-				throw new RuntimeException("not found template from dataSource with templateName:"+templateName);
+				throw new FreemarkerTemplateException("not found template from dataSource with templateName:"+templateName);
 			}
 		});
 	}
@@ -103,7 +105,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	    	}else if(timestamp instanceof Date) {
 	    		return ((Date)timestamp).getTime();
 	    	}else {
-	    		throw new RuntimeException("error template timestamp column type,must be Timestamp or Number type");
+	    		throw new FreemarkerTemplateException("error template timestamp column type,must be Date or Number type");
 	    	}
 		}
 		return -1;
