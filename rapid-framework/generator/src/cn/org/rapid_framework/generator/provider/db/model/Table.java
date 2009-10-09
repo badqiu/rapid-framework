@@ -87,6 +87,10 @@ public class Table {
 		return getPkCount() > 1 ? true : false;
 	}
 
+	public boolean isNotCompositeId() {
+		return !isCompositeId();
+	}
+	
 	public int getPkCount() {
 		int pkCount = 0;
 		for(int i = 0; i < columns.size(); i++) {
