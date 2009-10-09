@@ -78,6 +78,7 @@ public class DirectResult extends StrutsResultSupport {
     /* (non-Javadoc)
      * @see org.apache.struts2.dispatcher.StrutsResultSupport#doExecute(java.lang.String, com.opensymphony.xwork2.ActionInvocation)
      */
+    @Override
     protected void doExecute(String finalLocation,ActionInvocation invocation) throws Exception {
         HttpServletResponse response = (HttpServletResponse) invocation.getInvocationContext().get(HTTP_RESPONSE);
         HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(HTTP_REQUEST);
