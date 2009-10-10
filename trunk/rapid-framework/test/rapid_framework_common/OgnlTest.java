@@ -12,7 +12,11 @@ public class OgnlTest {
 		Assert.assertTrue(Ognl.isBlank(""));
 		
 		Assert.assertTrue(Ognl.isBlank(" "));
+		Assert.assertTrue(Ognl.isBlank(" \n \t  "));
+		Assert.assertFalse(Ognl.isBlank(" a "));
+		
 		Assert.assertFalse(Ognl.isBlank(new Object()));
+		Assert.assertFalse(Ognl.isBlank(new Integer(1)));
 		Assert.assertFalse(Ognl.isBlank("a"));
 	}
 	@Test

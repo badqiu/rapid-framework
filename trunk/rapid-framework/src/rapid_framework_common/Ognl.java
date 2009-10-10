@@ -30,7 +30,7 @@ public class Ognl {
 	}
 	
 	public static boolean isNotBlank(Object o) {
-		return !(isBlank(o));
+		return !isBlank(o);
 	}
 	
 	public static boolean isBlank(Object o) {
@@ -38,9 +38,16 @@ public class Ognl {
 			return true;
 		if(o instanceof String) {
 			String str = (String)o;
-			if(str.trim().length() == 0) {
+			if(str.length() == 0) {
 				return true;
 			}
+			
+			for (int i = 0; i < str.length(); i++) {
+				if (!Character.isWhitespace(str.charAt(i))) {
+					return false;
+				}
+			}
+			return true;
 		}
 		return false;
 	}
