@@ -141,6 +141,7 @@
 			<fileset dir="${dir.dist.java}">
 				<include name="META-INF/**"/>
 				<include name="cn/org/rapid_framework/**"/>
+				<include name="*.class"/>
 			</fileset>
 		</jar>
 	</target>
