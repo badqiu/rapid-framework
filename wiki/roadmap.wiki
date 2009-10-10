@@ -11,7 +11,6 @@
 
 *其它*
   # 迁移至junit4
-  # 为jmx client连接至server时提供自动重连功能
   # jdbc分页方言(Dialect)提供占位符的方式
 
 
