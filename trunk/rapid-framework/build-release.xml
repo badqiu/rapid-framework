@@ -137,7 +137,7 @@
     </target>
 			
 	<target name="rapid-framework.jar" depends="compile-src">
-		<jar jarfile="${dir.dist}/rapid-framework.jar">
+		<jar jarfile="${dir.dist}/rapid-framework-${version}.jar">
 			<fileset dir="${dir.dist.java}">
 				<include name="META-INF/**"/>
 				<include name="cn/org/rapid_framework/**"/>
@@ -167,7 +167,7 @@
 			<zipfileset dir="." prefix="rapid-framework-common-${version}">
 				<include name="src/rapid_framework_common/**"/>
 				<include name="test/rapid_framework_common/**"/>
-				<include name="${dir.dist}/rapid-framework.jar"/>
+				<include name="${dir.dist}/rapid-framework-${version}.jar"/>
 				<include name="${dir.javadoc}/**"/>
 			</zipfileset>
 		</zip>
@@ -224,7 +224,7 @@
 				
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
-				<include name="rapid-framework.jar"/>
+				<include name="rapid-framework-${version}.jar"/>
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-framework-common-${version}-src.zip"/>
