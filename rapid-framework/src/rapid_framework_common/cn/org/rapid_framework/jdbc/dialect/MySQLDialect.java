@@ -12,14 +12,6 @@ public class MySQLDialect extends Dialect{
         return true;   
     }  
     
-    public String getLimitString(String sql, int offset, int limit) {   
-        if (offset > 0) {   
-        	return sql + " limit "+offset+","+limit; 
-        } else {   
-            return sql + " limit "+limit;
-        }   
-    }
-
 	public String getLimitString(String sql, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
         if (offset > 0) {   
         	return sql + " limit "+offsetPlaceholder+","+limitPlaceholder; 
