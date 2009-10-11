@@ -30,12 +30,6 @@ author:badqiu
 		<antcall target="install_web_ext"></antcall>
     </target>
 	
-	<target name="install_web_ext" description="安装Extjs">
-		<property name="plugin_name" value="extjs"/>
-		<antcall target="_install_plugin_with_plugin_name"></antcall>
-
-    </target>
-	
 	<target name="install_dao_hibernate" description="安装orm框架hibernate">
 		<property name="plugin_name" value="hibernate"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
@@ -45,14 +39,24 @@ author:badqiu
 		<property name="plugin_name" value="ibatis"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
+	
+	<target name="install_dao_ibatis3" description="安装orm框架ibatis3">
+		<property name="plugin_name" value="ibatis3"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>	
 
-	<target name="install_dao_spring_jdbc" description="安装orm框架ibatis">
+	<target name="install_dao_spring_jdbc" description="安装orm框架spring_jdbc">
 		<property name="plugin_name" value="spring_jdbc"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 		
 	<target name="install_web_springmvc" description="安装web框架springmvc">
 		<property name="plugin_name" value="springmvc"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_web_springmvc_rest" description="安装web框架springmvc_rest">
+		<property name="plugin_name" value="springmvc_rest"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 
@@ -63,6 +67,11 @@ author:badqiu
 
 	<target name="install_web_struts2" description="安装web框架struts2">
 		<property name="plugin_name" value="struts2"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_web_ext" description="安装Extjs">
+		<property name="plugin_name" value="extjs"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
