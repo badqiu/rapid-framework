@@ -72,7 +72,11 @@ public class LoopRunnable implements Runnable{
 			willStart();
 			while(running) {
 				pausedIfRequired();
-				iterate();
+				try {
+					delegate.run();
+				}catch(Exception e) {
+					handleIterateFailure(e);
+				}
 				sleepIfRequired();
 			}
 		}finally {
@@ -91,14 +95,6 @@ public class LoopRunnable implements Runnable{
 	 * 回调方法,当线程在退出的时候，可能需要清理资源
 	 */
 	protected void didShutdown() {
-	}
-
-	private void iterate() {
-		try {
-			delegate.run();
-		}catch(Exception e) {
-			handleIterateFailure(e);
-		}
 	}
 
 	protected void handleIterateFailure(Exception e) {
