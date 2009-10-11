@@ -7,35 +7,41 @@ import org.junit.Test;
 
 
 public class LoopRunnableTest {
+	public int count = 0;
 	@Test
 	public void test_all_in_one() throws InterruptedException {
-		LoopRunnable lr = new LoopRunnable(new Runnable() {
+		LoopRunnable loopRunnable = new LoopRunnable(new Runnable() {
 			public void run() {
+				count ++;
 				System.out.println(new Timestamp(System.currentTimeMillis()));
 			}
 		});
-		lr.setSleepInterval(100);
+		loopRunnable.setSleepInterval(100);
 		
-		Thread t = new Thread(lr);
-		Assert.assertFalse(lr.isRunning());
+		Thread t = new Thread(loopRunnable);
+		Assert.assertFalse(loopRunnable.isRunning());
 		t.start();
 		
 		Thread.sleep(1000);
-		Assert.assertTrue(lr.isRunning());
+		Assert.assertTrue(loopRunnable.isRunning());
 		
-		Assert.assertFalse(lr.isPaused());
-		lr.pause();
-		Assert.assertTrue(lr.isPaused());
-		
-		Thread.sleep(1000);
-		
-		Assert.assertTrue(lr.isPaused());
-		lr.resume();
-		Assert.assertFalse(lr.isPaused());
+		Assert.assertFalse(loopRunnable.isPaused());
+		loopRunnable.pause();
+		int pauseBeforeCount = count;
+		Assert.assertTrue(loopRunnable.isPaused());
 		
 		Thread.sleep(1000);
-		lr.stop();
-		Assert.assertFalse(lr.isRunning());
+		Assert.assertEquals(pauseBeforeCount, count);
+		
+		Assert.assertTrue(loopRunnable.isPaused());
+		loopRunnable.resume();
+		Assert.assertFalse(loopRunnable.isPaused());
+		
+		Thread.sleep(1000);
+		Assert.assertTrue(count > pauseBeforeCount);
+		
+		loopRunnable.shutdown();
+		Assert.assertFalse(loopRunnable.isRunning());
 		
 		Thread.sleep(1000);
 		Assert.assertFalse(t.isAlive());
