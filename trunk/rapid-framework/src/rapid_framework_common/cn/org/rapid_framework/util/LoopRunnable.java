@@ -1,9 +1,26 @@
 package cn.org.rapid_framework.util;
 
+import java.sql.Timestamp;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 /**
  * Runnable的代理类,可以为Runnable提供循环执行功能.并提供stop(),pause(),resume()等控制方法以控制循环的执行
+ * 
+ * <br />
+ * 示例使用:
+ * <pre>
+ * LoopRunnable lr = new LoopRunnable(new Runnable() {
+ *	public void run() {
+ *		System.out.println(new Timestamp(System.currentTimeMillis()));
+ *	}
+ * });
+ * lr.setSleepInterval(100);
+ *
+ * Thread t = new Thread(lr);
+ * t.start();
+ * </pre>
+ * 
  * @author badqiu
  *
  */
