@@ -68,7 +68,7 @@ public class LoopRunnable implements Runnable{
 	}
 
 	private void sleepIfRequired() {
-		if(sleepInterval > 0) {
+		if(running && !paused && sleepInterval > 0) {
 			try {
 				Thread.sleep(sleepInterval);
 			} catch (InterruptedException e) {
@@ -78,7 +78,7 @@ public class LoopRunnable implements Runnable{
 	}
 
 	private void pausedIfRequired() {
-		if(paused) {
+		if(running && paused) {
 			synchronized (this) {
 				try {
 					this.wait();
