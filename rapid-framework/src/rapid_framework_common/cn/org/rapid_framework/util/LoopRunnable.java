@@ -69,7 +69,7 @@ public class LoopRunnable implements Runnable{
 	public void run() {
 		running = true;
 		try {
-			willStart();
+			beforeStart();
 			while(running) {
 				pausedIfRequired();
 				try {
@@ -82,19 +82,19 @@ public class LoopRunnable implements Runnable{
 		}finally {
 			paused = false;
 			running = false;
-			didShutdown();
+			afterShutdown();
 		}
 	}
 	
 	/**
 	 * 回调方法,线程在开始执行的时候，可以在这里面做一些初始化的动作
 	 */
-	protected void willStart() {
+	protected void beforeStart() {
 	}
 	/**
 	 * 回调方法,当线程在退出的时候，可能需要清理资源
 	 */
-	protected void didShutdown() {
+	protected void afterShutdown() {
 	}
 
 	protected void handleIterateFailure(Exception e) {
