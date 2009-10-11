@@ -8,7 +8,7 @@ public class LoopRunnable implements Runnable{
 	Runnable delegate;
 	private boolean running = false;
 	private boolean paused = false;
-	private long sleepTimeMillis = 0;
+	private long sleepInterval = 0;
 	
 	public LoopRunnable(Runnable delegate) {
 		this.delegate = delegate;
@@ -37,12 +37,12 @@ public class LoopRunnable implements Runnable{
 		return paused;
 	}
 	
-	public long getSleepTimeMillis() {
-		return sleepTimeMillis;
+	public long getSleepInterval() {
+		return sleepInterval;
 	}
 
-	public void setSleepTimeMillis(long sleepTimeMillis) {
-		this.sleepTimeMillis = sleepTimeMillis;
+	public void setSleepInterval(long sleepTimeMillis) {
+		this.sleepInterval = sleepTimeMillis;
 	}
 
 	public void run() {
@@ -68,9 +68,9 @@ public class LoopRunnable implements Runnable{
 	}
 
 	private void sleepIfRequired() {
-		if(sleepTimeMillis > 0) {
+		if(sleepInterval > 0) {
 			try {
-				Thread.sleep(sleepTimeMillis);
+				Thread.sleep(sleepInterval);
 			} catch (InterruptedException e) {
 				//ignore
 			}
