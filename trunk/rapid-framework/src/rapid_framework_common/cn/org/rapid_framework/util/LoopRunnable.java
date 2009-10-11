@@ -35,7 +35,7 @@ public class LoopRunnable implements Runnable{
 		this.delegate = delegate;
 	}
 
-	public void stop() {
+	public void shutdown() {
 		running = false;
 	}
 	
@@ -69,22 +69,41 @@ public class LoopRunnable implements Runnable{
 	public void run() {
 		running = true;
 		try {
+			willStart();
 			while(running) {
 				pausedIfRequired();
-				
-				try {
-					delegate.run();
-				}catch(Throwable e) {
-					if(log.isWarnEnabled()) {
-						log.warn("delegate Runnable occer exception",e);
-					}
-				}
-				
+				iterate();
 				sleepIfRequired();
 			}
 		}finally {
 			paused = false;
 			running = false;
+			didShutdown();
+		}
+	}
+	
+	/**
+	 * 回调方法,线程在开始执行的时候，可以在这里面做一些初始化的动作
+	 */
+	protected void willStart() {
+	}
+	/**
+	 * 回调方法,当线程在退出的时候，可能需要清理资源
+	 */
+	protected void didShutdown() {
+	}
+
+	private void iterate() {
+		try {
+			delegate.run();
+		}catch(Exception e) {
+			handleIterateFailure(e);
+		}
+	}
+
+	protected void handleIterateFailure(Exception e) {
+		if(log.isWarnEnabled()) {
+			log.warn("delegate Runnable occer exception",e);
 		}
 	}
 
