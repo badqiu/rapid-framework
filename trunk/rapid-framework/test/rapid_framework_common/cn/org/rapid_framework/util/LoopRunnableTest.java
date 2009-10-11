@@ -14,7 +14,7 @@ public class LoopRunnableTest {
 				System.out.println(new Timestamp(System.currentTimeMillis()));
 			}
 		});
-		lr.setSleepTimeMillis(100);
+		lr.setSleepInterval(100);
 		
 		Thread t = new Thread(lr);
 		Assert.assertFalse(lr.isRunning());
