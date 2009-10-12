@@ -106,7 +106,7 @@ public class OffsetLimitInterceptor implements Interceptor{
 		try {
 			dialect = (Dialect)Class.forName(dialectClass).newInstance();
 		} catch (Exception e) {
-			ReflectionUtils.handleReflectionException(e);
+			throw new RuntimeException("cannot create dialect instance by dialectClass:"+dialectClass,e);
 		} 
 		System.out.println(OffsetLimitInterceptor.class.getSimpleName()+".dialect="+dialectClass);
 	}
