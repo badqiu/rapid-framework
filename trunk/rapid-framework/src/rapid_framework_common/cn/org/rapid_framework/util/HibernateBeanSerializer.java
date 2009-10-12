@@ -19,6 +19,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * 用于Hibernate Object 的序列化,访问延迟加载的属性不会抛出LazyInitializationException,而会返回null值.
+ * 
+ * 
  * 使用:
  * <pre>
  * Blog proxyBlog = new HibernateBeanSerializer(blog).getProxy();
