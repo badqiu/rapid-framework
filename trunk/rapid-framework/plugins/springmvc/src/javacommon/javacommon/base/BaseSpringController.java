@@ -52,11 +52,11 @@ public class BaseSpringController extends MultiActionController{
         binder.registerCustomEditor(BigInteger.class, new CustomNumberEditor(BigInteger.class, true));
     }
 	
-	public ModelAndView toModelAndView(Page page,PageRequest pageRequest) {
+	public ModelAndView toModelAndView(Page<?> page,PageRequest<?> pageRequest) {
 		return toModelAndView("",page, pageRequest);
 	}
 	
-	public ModelAndView toModelAndView(String tableId,Page page,PageRequest pageRequest) {
+	public ModelAndView toModelAndView(String tableId,Page<?> page,PageRequest<?> pageRequest) {
 		ModelAndView model = new ModelAndView();
 		saveIntoModelAndView(tableId,page,pageRequest,model);
 		return model;
@@ -65,7 +65,7 @@ public class BaseSpringController extends MultiActionController{
 	 * 用于一个页面有多个extremeTable是使用
 	 * @param tableId 等于extremeTable的tableId属性
 	 */
-	public void saveIntoModelAndView(String tableId,Page page,PageRequest pageRequest,ModelAndView model){
+	public void saveIntoModelAndView(String tableId,Page<?> page,PageRequest<?> pageRequest,ModelAndView model){
 		Assert.notNull(tableId,"tableId must be not null");
 		Assert.notNull(page,"page must be not null");
 		
