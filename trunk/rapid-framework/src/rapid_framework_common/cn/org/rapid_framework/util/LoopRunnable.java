@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Runnable的代理类,可以为Runnable提供循环执行功能.并提供shutdown(),pause(),resume()等控制方法以控制循环的执行
  * 
+ * 
+ * 
  * <br />
  * 示例使用:
  * <pre>
