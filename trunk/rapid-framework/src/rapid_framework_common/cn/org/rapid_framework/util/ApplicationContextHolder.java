@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContextAware;
 /**
  * 用于持有spring的applicationContext,一个系统只能有一个ApplicationContextHolder 
  * 
+ * 
  * <br />
  * <pre>
  * 使用方法:
