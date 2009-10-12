@@ -69,11 +69,11 @@ public class OffsetLimitInterceptor implements Interceptor{
 			String sql = boundSql.getSql().trim();
 			if (dialect.supportsLimitOffset()) {
 				sql = dialect.getLimitString(sql, offset, limit);
-				limit = RowBounds.NO_ROW_LIMIT;
+				offset = RowBounds.NO_ROW_OFFSET;
 			} else {
 				sql = dialect.getLimitString(sql, 0, limit);
 			}
-			offset = RowBounds.NO_ROW_OFFSET;
+			limit = RowBounds.NO_ROW_LIMIT;
 			
 			queryArgs[ROWBOUNDS_INDEX] = new RowBounds(offset,limit);
 			BoundSql newBoundSql = new BoundSql(sql, boundSql.getParameterMappings(), boundSql.getParameterObject());

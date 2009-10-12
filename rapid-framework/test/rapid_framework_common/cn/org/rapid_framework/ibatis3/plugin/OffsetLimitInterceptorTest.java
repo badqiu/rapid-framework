@@ -3,9 +3,10 @@ package cn.org.rapid_framework.ibatis3.plugin;
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
-import org.apache.ibatis.mapping.Configuration;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.RowBounds;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,9 +24,9 @@ public class OffsetLimitInterceptorTest {
 	
 	@Test(timeout=2500)
 	public void preformance_processIntercept() throws Throwable {
-		testWithDialect(new MySQLDialect(), Executor.NO_ROW_OFFSET,Executor.NO_ROW_LIMIT,"select * from userinfo limit 100,200");
-		testWithDialect(new OracleDialect(),Executor.NO_ROW_OFFSET,Executor.NO_ROW_LIMIT, "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 100+200 and rownum_ > 100");
-		testWithDialect(new SQLServerDialect(),100,Executor.NO_ROW_LIMIT, "select top 200 * from userinfo");
+		testWithDialect(new MySQLDialect(), RowBounds.NO_ROW_OFFSET,RowBounds.NO_ROW_LIMIT,"select * from userinfo limit 100,200");
+		testWithDialect(new OracleDialect(),RowBounds.NO_ROW_OFFSET,RowBounds.NO_ROW_LIMIT, "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 100+200 and rownum_ > 100");
+		testWithDialect(new SQLServerDialect(),100,RowBounds.NO_ROW_LIMIT, "select top 200 * from userinfo");
 		testWithDialect(new DerbyDialect(),100,200, "select * from userinfo ");
 	}
 
@@ -40,13 +41,14 @@ public class OffsetLimitInterceptorTest {
 		for(int i = 0; i < count; i++) {
 			Builder builder = new MappedStatement.Builder(conf,null,new StaticSqlSource("select * from userinfo "),null);
 			MappedStatement ms = builder.build();
-			Object[] args = new Object[]{ms,new Object(),100,200,null};
+			Object[] args = new Object[]{ms,new Object(),new RowBounds(100,200),null};
 			di.processIntercept(args);
 			
 			MappedStatement newMs = (MappedStatement)args[0];
 			BoundSql sql = newMs.getBoundSql(null);
-			int offset = (Integer)args[2];
-			int limit = (Integer)args[3];
+			RowBounds rowBounds = (RowBounds)args[2];
+			int offset = rowBounds.getOffset();
+			int limit = rowBounds.getLimit();
 			Assert.assertEquals(expectedOffset,offset);
 			Assert.assertEquals(expectedLimit,limit);
 			Assert.assertEquals(expctedSql,sql.getSql());
