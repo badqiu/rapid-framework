@@ -71,4 +71,6 @@ public List pageQuery(String sql, final Map paramMap, int startRow,int pageSize,
 
 =存在的问题=
 现ibatis2.3,ibatis3的分页参数没有使用疑问号 *占位符"?"* ,所以在如oracle这种数据库,会影响性能.
-spring_jdbc的现在的实现没有这个问题
+
+
+spring_jdbc现在的实现没有这个问题
