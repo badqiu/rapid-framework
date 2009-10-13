@@ -74,12 +74,19 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return namedParameterJdbcTemplate;
 	}
 	
-	protected Object getIdentifierPropertyValue(Object entity) {
+	public Object getIdentifierPropertyValue(Object entity) {
 		try {
 			return PropertyUtils.getProperty(entity, getIdentifierPropertyName());
 		} catch (Exception e) {
-			ReflectionUtils.handleReflectionException(e);
-			return null;
+			throw new IllegalStateException("cannot get property value on entityClass:"+entity.getClass()+" by propertyName:"+getIdentifierPropertyName(),e);
+		}
+	}
+	
+	public void setIdentifierProperty(Object entity, Object id) {
+		try {
+			BeanUtils.setProperty(entity, getIdentifierPropertyName(), id);
+		} catch (Exception e) {
+			throw new IllegalStateException("cannot set property value:"+id+" on entityClass:"+entity.getClass()+" by propertyName:"+getIdentifierPropertyName(),e);
 		}
 	}
 	
@@ -162,14 +169,6 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 			pageSize = Integer.MAX_VALUE;
 		}
 		return (List)getNamedParameterJdbcTemplate().query(sql, paramMap, new OffsetLimitResultSetExtractor(startRow,pageSize,rowMapper));
-	}
-	
-	private void setIdentifierProperty(Object entity, Object id) {
-		try {
-			BeanUtils.setProperty(entity, getIdentifierPropertyName(), id);
-		} catch (Exception e) {
-			ReflectionUtils.handleReflectionException(e);
-		}
 	}
 	
 	/**
