@@ -13,6 +13,8 @@
     <rule>
     	<condition operator="notequal" next="and" type="request-uri">.*\.jsp</condition>
     	<condition operator="notequal" next="and" type="request-uri">.*\.jspx</condition>
+    	<condition operator="notequal" next="and" type="request-uri">.*\.json</condition>
+    	<condition operator="notequal" next="and" type="request-uri">.*\.xml</condition>
         <from>^(/.*\..*)$</from>
         <to>/static$1</to>
     </rule>
