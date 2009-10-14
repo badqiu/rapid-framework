@@ -1,8 +1,8 @@
 package cn.org.rapid_framework.web.filter;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,9 +11,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import cn.org.rapid_framework.util.CollectionUtils;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 用于rest URL和重写,以便构造出没有扩展名的restURL
@@ -66,7 +70,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 	
 	private String prefix;
 	private boolean debug = false;
-	private String[] excludeExtentions = new String[0];
+	private Set excludeExtentions = new HashSet();
 	private String[] excludePrefixes = new String[0];
 	
 	protected void initFilterBean() throws ServletException {
@@ -81,7 +85,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		prefix = getStringParameter(filterConfig,"prefix",DEFAULT_PREFIX);
 		debug = getBooleanParameter(filterConfig,"debug",false);
 		String excludeExtentionsString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
-		excludeExtentions = excludeExtentionsString.split(",");
+		excludeExtentions = CollectionUtils.asHashSet(Arrays.asList(excludeExtentionsString.split(",")));
 		
 		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixes",null);
 		if(StringUtils.hasText(excludePrefixsString)) {
@@ -125,10 +129,13 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 			}
 		}
 		
-		for(String excludeExtension : excludeExtentions) {
-			if(excludeExtension.equals(extension)) {
-				return false;
-			}
+//		for(String excludeExtension : excludeExtentions) {
+//			if(excludeExtension.equals(extension)) {
+//				return false;
+//			}
+//		}
+		if(excludeExtentions.contains(extension)) {
+			return false;
 		}
 		return true;
 	}
