@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.DaoSupport;
@@ -157,7 +158,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		public List selectList(final String statement,final Object parameter,final int offset,final int limit) {
 			return (List)execute(new SqlSessionCallback() {
 				public Object doInSession(SqlSession session) {
-					return session.selectList(statement, parameter, offset, limit);
+					return session.selectList(statement, parameter, new RowBounds(offset,limit));
 				}
 			});
 		}
