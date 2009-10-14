@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.web.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.util.CollectionUtils;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 用于rest URL和重写,以便构造出没有扩展名的restURL
