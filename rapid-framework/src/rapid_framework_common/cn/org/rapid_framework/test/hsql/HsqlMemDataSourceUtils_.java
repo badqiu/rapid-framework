@@ -25,7 +25,7 @@ import org.springframework.util.ResourceUtils;
  * @author badqiu
  *
  */
-public class HsqlMemDataSourceUtils {
+public class HsqlMemDataSourceUtils_ {
 
 	public static DataSource getDataSource(Class initScripts,String encoding) {
 		try {
