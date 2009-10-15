@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.test.hsql;
 
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.nio.charset.Charset;
 
 import javax.sql.DataSource;
@@ -17,13 +18,14 @@ import org.springframework.core.io.Resource;
  *
  */
 
-public class HsqlMemDataSourceFactoryBean implements FactoryBean{
+public class HSQLMemDataSourceFactoryBean implements FactoryBean{
 	private Resource[] initScriptLocations;
+	private String sqlScript;
 	private String encoding = Charset.defaultCharset().name();
 	
-	public HsqlMemDataSourceFactoryBean(){}
+	public HSQLMemDataSourceFactoryBean(){}
 	
-	public HsqlMemDataSourceFactoryBean(Resource initScriptsLocation,String encoding) {
+	public HSQLMemDataSourceFactoryBean(Resource initScriptsLocation,String encoding) {
 		this.initScriptLocations = new Resource[] {initScriptsLocation};
 		this.encoding = encoding;
 	}
@@ -35,6 +37,10 @@ public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 	public void setEncoding(String encoding) {
 		this.encoding = encoding;
 	}
+	
+	public void setSqlScript(String sqlScript) {
+		this.sqlScript = sqlScript;
+	}
 
 	public Object getObject() throws Exception {
 		DataSource ds = HsqlMemDataSourceUtils.getDataSource();
@@ -42,6 +48,9 @@ public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 			for(Resource r : initScriptLocations) {
 				HsqlMemDataSourceUtils.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
 			}
+		}
+		if(sqlScript != null) {
+			HsqlMemDataSourceUtils.runDataSourceWithScripts(new StringReader(sqlScript), ds);
 		}
 		return ds;
 	}
