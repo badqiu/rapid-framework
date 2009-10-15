@@ -31,7 +31,7 @@ public class HsqlDataSourceUtils {
 			File file = ResourceUtils.getFile("classpath:"+initScripts.getName().replace('.', '/')+".sql");
 			return getDataSource(file,encoding);
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException("execute sql error",e);
+			throw new RuntimeException("sql file not found",e);
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class HsqlDataSourceUtils {
 			input = new InputStreamReader(initScripts.getInputStream(),encoding);
 			return getDataSource(input);
 		} catch (Exception e) {
-			throw new RuntimeException("execute sql error",e);
+			throw new RuntimeException("get datasource occer Exception:"+e,e);
 		}finally {
 			IOUtils.closeQuietly(input);
 		}
@@ -58,18 +58,14 @@ public class HsqlDataSourceUtils {
 			input = new InputStreamReader(new FileInputStream(initScripts),encoding);
 			return getDataSource(input);
 		} catch (IOException e) {
-			throw new RuntimeException("execute sql error",e);
+			throw new RuntimeException("get datasource occer IOException:"+e,e);
 		}finally {
 			IOUtils.closeQuietly(input);
 		}
 	}
 	
 	public static DataSource getDataSource(Reader initScripts) {
-		DriverManagerDataSource ds = new DriverManagerDataSource();
-		ds.setDriverClassName("org.hsqldb.jdbcDriver");
-		ds.setUrl("jdbc:hsqldb:mem:memDB");
-		ds.setUsername("sa");
-		ds.setPassword("");
+		DataSource ds = getDataSource();
 		
 		try {
 			runDataSourceWithScripts(initScripts, ds);
@@ -79,7 +75,16 @@ public class HsqlDataSourceUtils {
 		return ds;
 	}
 
-	private static void runDataSourceWithScripts(Reader initScripts,DriverManagerDataSource ds) throws SQLException, IOException {
+	public static DataSource getDataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName("org.hsqldb.jdbcDriver");
+		ds.setUrl("jdbc:hsqldb:mem:memDB");
+		ds.setUsername("sa");
+		ds.setPassword("");
+		return ds;
+	}
+
+	public static void runDataSourceWithScripts(Reader initScripts,DataSource ds) throws SQLException, IOException {
 		Connection conn = ds.getConnection();
 		try {
 			String sql = IOUtils.toString(initScripts);
@@ -95,10 +100,6 @@ public class HsqlDataSourceUtils {
 				stat.execute(tokenSql);
 				stat.close();
 			}
-			
-//			Statement stat = conn.createStatement();
-//			stat.execute(sql);
-//			stat.close();
 		}finally {
 			conn.close();
 		}
