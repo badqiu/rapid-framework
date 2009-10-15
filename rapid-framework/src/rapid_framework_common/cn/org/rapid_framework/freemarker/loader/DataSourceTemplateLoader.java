@@ -3,9 +3,11 @@ package cn.org.rapid_framework.freemarker.loader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.Date;
 
 import javax.sql.DataSource;
@@ -21,7 +23,6 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateException;
-
 import freemarker.cache.TemplateLoader;
 
 /**
@@ -98,7 +99,12 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 			public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
 				while(rs.next()) {
 					try {
-						return new InputStreamReader(rs.getBinaryStream(templateContentColumn),encoding);
+						int columnType = rs.getMetaData().getColumnType(1);
+						if(columnType == Types.VARCHAR) {
+							return new StringReader(rs.getString(templateContentColumn));
+						}else {
+							return new InputStreamReader(rs.getBinaryStream(templateContentColumn),encoding);
+						}
 					} catch (UnsupportedEncodingException e) {
 						throw new FreemarkerTemplateException("load template from dataSource with templateName:"+templateName+" occer UnsupportedEncodingException",e);
 					}
