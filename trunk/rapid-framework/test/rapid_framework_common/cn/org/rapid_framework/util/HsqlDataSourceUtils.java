@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.sql.Connection;
@@ -13,6 +14,7 @@ import java.sql.Statement;
 import javax.sql.DataSource;
 
 import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.ResourceUtils;
 /**
@@ -34,6 +36,18 @@ public class HsqlDataSourceUtils {
 	
 	public static DataSource getDataSource(String initScripts) {
 		return getDataSource(new StringReader(initScripts));
+	}
+	
+	public static DataSource getDataSource(Resource initScripts) {
+		Reader input = null;
+		try {
+			input = new InputStreamReader(initScripts.getInputStream());
+			return getDataSource(input);
+		} catch (Exception e) {
+			throw new RuntimeException("execute sql error",e);
+		}finally {
+			IOUtils.closeQuietly(input);
+		}
 	}
 	
 	public static DataSource getDataSource(File initScripts) {
