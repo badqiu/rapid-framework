@@ -21,6 +21,7 @@ import org.springframework.util.ResourceUtils;
 /**
  * 创建一个hsql内存数据库的DataSource并同时运行初始化的数据库脚本
  * 
+ * sql语句之间的语句使用分号";"分隔
  * @author badqiu
  *
  */

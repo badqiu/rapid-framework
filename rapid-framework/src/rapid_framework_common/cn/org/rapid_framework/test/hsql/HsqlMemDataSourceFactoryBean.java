@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.test.hsql;
 
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 import javax.sql.DataSource;
@@ -10,23 +11,25 @@ import org.springframework.core.io.Resource;
 /**
  * FactoryBean用于创建一个hsql内存数据库的DataSource并同时运行初始化的数据库脚本
  * 
+ *  sql语句之间的语句使用分号";"分隔
+ * 
  * @author badqiu
  *
  */
 
 public class HsqlMemDataSourceFactoryBean implements FactoryBean{
-	private Resource initScriptsLocation;
+	private Resource[] initScriptLocations;
 	private String encoding = Charset.defaultCharset().name();
 	
 	public HsqlMemDataSourceFactoryBean(){}
 	
 	public HsqlMemDataSourceFactoryBean(Resource initScriptsLocation,String encoding) {
-		this.initScriptsLocation = initScriptsLocation;
+		this.initScriptLocations = new Resource[] {initScriptsLocation};
 		this.encoding = encoding;
 	}
 
-	public void setInitScriptsLocation(Resource initScriptsLocation) {
-		this.initScriptsLocation = initScriptsLocation;
+	public void setInitScriptLocations(Resource... initScriptsLocation) {
+		this.initScriptLocations = initScriptsLocation;
 	}
 	
 	public void setEncoding(String encoding) {
@@ -34,11 +37,13 @@ public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 	}
 
 	public Object getObject() throws Exception {
-		if(initScriptsLocation == null) {
-			return HsqlMemDataSourceUtils.getDataSource();
-		}else {
-			return HsqlMemDataSourceUtils.getDataSource(initScriptsLocation,encoding);
+		DataSource ds = HsqlMemDataSourceUtils.getDataSource();
+		if(initScriptLocations != null) {
+			for(Resource r : initScriptLocations) {
+				HsqlMemDataSourceUtils.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
+			}
 		}
+		return ds;
 	}
 
 	public Class getObjectType() {
