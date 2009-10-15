@@ -9,10 +9,9 @@ import javax.sql.DataSource;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
-import cn.org.rapid_framework.util.HsqlDataSourceUtils;
+import cn.org.rapid_framework.test.hsql.HsqlDataSourceUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
