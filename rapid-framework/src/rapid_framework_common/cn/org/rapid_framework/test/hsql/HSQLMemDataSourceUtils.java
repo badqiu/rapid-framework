@@ -90,7 +90,7 @@ public class HSQLMemDataSourceUtils {
 		try {
 			String sql = IOUtils.toString(initScripts);
 			StringTokenizer tokenizer = new StringTokenizer(sql,";");
-			System.out.println("Execute DataSource with sql:");
+			System.out.println("Execute Hsql DataSource with sql:");
 			while(tokenizer.hasMoreTokens()) {
 				String tokenSql = tokenizer.nextToken();
 				if("".equals(tokenSql.trim())) {

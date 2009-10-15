@@ -13,6 +13,10 @@ public class HSQLMemDataSourceFactoryBeanTest {
 		DataSource ds = (DataSource)new HSQLMemDataSourceFactoryBean().getObject();
 		
 		ds = (DataSource)new HSQLMemDataSourceFactoryBean(new ClassPathResource("fortest_spring/for_test_hsql_db.sql"),"UTF-8").getObject();
+		
+		HSQLMemDataSourceFactoryBean hds = new HSQLMemDataSourceFactoryBean();
+		hds.setSqlScript("create table blog(id int);insert into blog values (1);");
+		hds.getObject();
 	}
 	
 }
