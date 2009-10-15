@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.test.hsql;
 
 import javax.sql.DataSource;
 
