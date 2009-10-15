@@ -100,7 +100,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 				while(rs.next()) {
 					try {
 						int columnType = rs.getMetaData().getColumnType(1);
-						if(columnType == Types.VARCHAR) {
+						if(columnType == Types.VARCHAR || columnType == Types.CLOB) {
 							return new StringReader(rs.getString(templateContentColumn));
 						}else {
 							return new InputStreamReader(rs.getBinaryStream(templateContentColumn),encoding);
