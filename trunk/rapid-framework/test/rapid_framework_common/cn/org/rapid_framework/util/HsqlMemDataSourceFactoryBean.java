@@ -25,17 +25,14 @@ public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 		this.initScriptsLocation = initScriptsLocation;
 	}
 
-	@Override
-	public DataSource getObject() throws Exception {
+	public Object getObject() throws Exception {
 		return HsqlDataSourceUtils.getDataSource(initScriptsLocation);
 	}
 
-	@Override
 	public Class getObjectType() {
 		return DataSource.class;
 	}
 
-	@Override
 	public boolean isSingleton() {
 		return true;
 	}
