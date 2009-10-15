@@ -19,5 +19,24 @@ public class PropertiesHelperTest extends TestCase {
 		assertNotNull(p.getAndTryFromSystem("PATH")); //test System.getenv()
 		
 		assertEquals(1,p.getRequiredInt("1"));
+		
+	}
+	
+	public void testOverrideNever() {
+		assertEquals(null,p.getProperty("user.home"));
+	}
+	
+	public void testOverrideMode() {
+		p = new PropertiesHelper(p.getProperties(),PropertiesHelper.SYSTEM_PROPERTIES_MODE_OVERRIDE);
+		
+		p.setProperty("PATH", "1");
+		p.setProperty("user.home", "1");
+		
+		assertFalse("1".equals(p.getProperty("user.home")));
+	}
+	
+	public void testFallbackMode() {
+		p = new PropertiesHelper(p.getProperties(),PropertiesHelper.SYSTEM_PROPERTIES_MODE_FALLBACK);
+		assertNotNull(p.getProperty("user.home"));
 	}
 }
