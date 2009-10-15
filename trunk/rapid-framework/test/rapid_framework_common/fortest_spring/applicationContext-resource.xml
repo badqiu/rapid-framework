@@ -33,9 +33,7 @@
 		</property>
 		<property name="sqlScript">
 			<value>
-				<![CDATA[
-					INSERT INTO role VALUES ('3', null, null);
-    			]]>
+				INSERT INTO role VALUES ('3', null, null);
 			</value>
 		</property>
 		<property name="encoding" value="UTF-8"/>
