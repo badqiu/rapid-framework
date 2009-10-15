@@ -28,7 +28,7 @@
 	 -->
 	 
 	<bean id="dataSource" class="cn.org.rapid_framework.test.hsql.HSQLMemDataSourceFactoryBean">
-		<property name="initScriptLocations">
+		<property name="scriptLocations">
 			<value>classpath*:fortest_spring/hsql_tables.sql</value>
 		</property>
 		<property name="encoding" value="UTF-8"/>
