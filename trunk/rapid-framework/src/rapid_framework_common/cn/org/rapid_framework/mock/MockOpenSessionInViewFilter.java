@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.test.mock;
+package cn.org.rapid_framework.mock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
