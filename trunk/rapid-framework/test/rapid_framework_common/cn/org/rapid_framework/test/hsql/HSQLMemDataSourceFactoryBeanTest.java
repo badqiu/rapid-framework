@@ -2,6 +2,7 @@ package cn.org.rapid_framework.test.hsql;
 
 import javax.sql.DataSource;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
@@ -17,6 +18,8 @@ public class HSQLMemDataSourceFactoryBeanTest {
 		HSQLMemDataSourceFactoryBean hds = new HSQLMemDataSourceFactoryBean();
 		hds.setSqlScript("create table blog(id int);insert into blog values (1);");
 		hds.getObject();
+		
+		Assert.assertTrue("must be create multi datasource",hds.getObject() != hds.getObject());
 	}
 	
 }
