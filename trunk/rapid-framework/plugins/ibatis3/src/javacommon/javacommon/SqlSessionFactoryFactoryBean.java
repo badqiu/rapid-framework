@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.parsing.XNode;
@@ -22,6 +24,7 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.util.Assert;
 
 public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBean{
+	Log logger = LogFactory.getLog(SqlSessionFactoryFactoryBean.class);
 	private Resource configLocation;
 	private Resource[] mapperLocations;
 	private DataSource dataSource;
@@ -52,9 +55,15 @@ public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBea
 			if(mapperLocations != null) {
 				Map<String, XNode> sqlFragments = new HashMap<String, XNode>();
 				for(Resource r : mapperLocations) {
+					logger.info("Loading iBatis3 mapper xml from file["+r.getFile().getAbsolutePath()+"]");
+					
 					Reader mapperReader = new InputStreamReader(r.getInputStream());
-					XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(mapperReader,conf,r.getFile().getAbsolutePath(),sqlFragments);
-					mapperBuilder.parse();
+					try {
+						XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(mapperReader,conf,r.getFile().getAbsolutePath(),sqlFragments);
+						mapperBuilder.parse();
+					}finally {
+						mapperReader.close();
+					}
 				}
 			}
 			return sqlSessionFactory;
