@@ -15,7 +15,12 @@ import javax.sql.DataSource;
 import org.apache.commons.io.IOUtils;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.ResourceUtils;
-
+/**
+ * 创建hsql DataSource的同时运行初始化的数据库脚本
+ * 
+ * @author badqiu
+ *
+ */
 public class HsqlDataSourceUtils {
 
 	public static DataSource getDataSource(Class initScripts) {
