@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import cn.org.rapid_framework.util.CollectionUtils;
-
 
 /**
  * 用于rest URL和重写,以便构造出没有扩展名的restURL
@@ -84,7 +82,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		prefix = getStringParameter(filterConfig,"prefix",DEFAULT_PREFIX);
 		debug = getBooleanParameter(filterConfig,"debug",false);
 		String excludeExtentionsString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
-		excludeExtentions = CollectionUtils.asHashSet(Arrays.asList(excludeExtentionsString.split(",")));
+		excludeExtentions = new HashSet((Arrays.asList(excludeExtentionsString.split(","))));
 		
 		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixes",null);
 		if(StringUtils.hasText(excludePrefixsString)) {
