@@ -18,7 +18,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.util.ResourceUtils;
 /**
- * 创建hsql DataSource的同时运行初始化的数据库脚本
+ * 创建一个hsql内存数据库的DataSource并同时运行初始化的数据库脚本
  * 
  * @author badqiu
  *
