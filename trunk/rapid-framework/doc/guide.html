@@ -80,7 +80,6 @@ src/resources/config/jdbc.properties
 <h3>ibatis3 dao</h3>
 	1.修改配置文件: src/resource/Configuration.xml
 		1.1修改<font color=red>dialect</font>,以支持不同的数据库分页查询. 默认值为:MySQLDialect (注:该项为rapid的扩展)
-		(*)1.2代码生成以后为Configuration.xml增加Mapper.xml的配置
 	3.主键生成策略修改,修改${className}Mapper.xml中的insert节点,默认是适用mysql 的auto_increment(sqlserver的identity也适用)	
 <h3>spring jdbc dao</h3>
 	1.修改配置文件: src/resource/spring/applicationContext-dao.xml
