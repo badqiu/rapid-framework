@@ -84,14 +84,13 @@ public class HsqlDataSourceUtils {
 		try {
 			String sql = IOUtils.toString(initScripts);
 			StringTokenizer tokenizer = new StringTokenizer(sql,";");
+			System.out.println("Init hsql db with sql:");
 			while(tokenizer.hasMoreTokens()) {
 				String tokenSql = tokenizer.nextToken();
 				if("".equals(tokenSql.trim())) {
 					continue;
 				}
-				
-				System.out.println("init hsql db with sql:"+tokenSql);
-				
+				System.out.println(tokenSql);
 				Statement stat = conn.createStatement();
 				stat.execute(tokenSql);
 				stat.close();
