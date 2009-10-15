@@ -43,14 +43,14 @@ public class HSQLMemDataSourceFactoryBean implements FactoryBean{
 	}
 
 	public Object getObject() throws Exception {
-		DataSource ds = HsqlMemDataSourceUtils_.getDataSource();
+		DataSource ds = HSQLMemDataSourceUtils.getDataSource();
 		if(initScriptLocations != null) {
 			for(Resource r : initScriptLocations) {
-				HsqlMemDataSourceUtils_.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
+				HSQLMemDataSourceUtils.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
 			}
 		}
 		if(sqlScript != null) {
-			HsqlMemDataSourceUtils_.runDataSourceWithScripts(new StringReader(sqlScript), ds);
+			HSQLMemDataSourceUtils.runDataSourceWithScripts(new StringReader(sqlScript), ds);
 		}
 		return ds;
 	}
