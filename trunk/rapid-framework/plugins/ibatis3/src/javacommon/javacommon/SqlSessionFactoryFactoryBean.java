@@ -3,10 +3,14 @@ package javacommon;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.builder.xml.XMLMapperBuilder;
 import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.parsing.XNode;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
@@ -18,30 +22,40 @@ import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.util.Assert;
 
 public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBean{
-	private Resource configurationFile;
+	private Resource configLocation;
+	private Resource[] mapperLocations;
 	private DataSource dataSource;
 	private boolean useTransactionAwareDataSource = true;
 	
 	SqlSessionFactory sqlSessionFactory;
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(configurationFile,"configurationFile must be not null");
+		Assert.notNull(configLocation,"configLocation must be not null");
 		
 		sqlSessionFactory = createSqlSessionFactory();
 	}
 
 	private SqlSessionFactory createSqlSessionFactory() throws IOException {
-		Reader reader = new InputStreamReader(getConfigurationFile().getInputStream());
+		Reader reader = new InputStreamReader(getConfigLocation().getInputStream());
 		try {
 			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
+			Configuration conf = sqlSessionFactory.getConfiguration();
 			if(dataSource != null) {
 				DataSource dataSourceToUse = this.dataSource; 
 				if (this.useTransactionAwareDataSource  && !(this.dataSource instanceof TransactionAwareDataSourceProxy)) {  
 		            dataSourceToUse = new TransactionAwareDataSourceProxy(this.dataSource);  
 		        }
 				
-				Configuration conf = sqlSessionFactory.getConfiguration();
 				conf.setEnvironment(new Environment("development",new ManagedTransactionFactory(),dataSourceToUse));
 				sqlSessionFactory = new SqlSessionFactoryBuilder().build(conf);
+			}
+			
+			if(mapperLocations != null) {
+				Map<String, XNode> sqlFragments = new HashMap<String, XNode>();
+				for(Resource r : mapperLocations) {
+					Reader mapperReader = new InputStreamReader(r.getInputStream());
+					XMLMapperBuilder mapperBuilder = new XMLMapperBuilder(mapperReader,conf,r.getFile().getAbsolutePath(),sqlFragments);
+					mapperBuilder.parse();
+				}
 			}
 			return sqlSessionFactory;
 		}finally {
@@ -69,12 +83,16 @@ public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBea
 		return true;
 	}
 
-	public Resource getConfigurationFile() {
-		return configurationFile;
+	public Resource getConfigLocation() {
+		return configLocation;
 	}
 
-	public void setConfigurationFile(Resource configurationFile) {
-		this.configurationFile = configurationFile;
+	public void setConfigLocation(Resource configurationFile) {
+		this.configLocation = configurationFile;
+	}
+
+	public void setMapperLocations(Resource[] mapperLocations) {
+		this.mapperLocations = mapperLocations;
 	}
 
 }

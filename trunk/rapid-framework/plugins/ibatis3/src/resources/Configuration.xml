@@ -10,7 +10,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 		</plugin>
 	</plugins>
 
-	<!-- 数据源通过spring容器注入 ,如不使用spring,请删除注释-->
+	<!-- 数据源通过spring注入 -->
 	<!-- 
 	<environments default="development">
 		<environment id="development">
@@ -25,7 +25,10 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 	</environments>
 	 -->
 	
+	<!-- mapper文件的装载通过spring的mapperLocations指定 --> 
+	<!-- 
 	<mappers>
-		<mapper resource="com/company/project/model/mapper/BlogMapper.xml" />
+		<mapper resource="com/company/project/model/mapper/UserInfoMapper.xml" />
 	</mappers>
+	 -->
 </configuration>
