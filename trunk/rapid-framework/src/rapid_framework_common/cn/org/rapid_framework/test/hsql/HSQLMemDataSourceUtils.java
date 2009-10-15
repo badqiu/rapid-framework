@@ -75,11 +75,12 @@ public class HSQLMemDataSourceUtils {
 		}
 		return ds;
 	}
-
+	
+	static long hsqlDbIdSequence = 0;
 	public static synchronized DataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName("org.hsqldb.jdbcDriver");
-		ds.setUrl("jdbc:hsqldb:mem:memDB"+System.currentTimeMillis());
+		ds.setUrl("jdbc:hsqldb:mem:memDB"+System.currentTimeMillis()+""+(hsqlDbIdSequence++));
 		ds.setUsername("sa");
 		ds.setPassword("");
 		return ds;
