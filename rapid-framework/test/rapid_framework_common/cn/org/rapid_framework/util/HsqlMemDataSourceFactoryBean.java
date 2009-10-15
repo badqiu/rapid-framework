@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.util;
 
+import java.nio.charset.Charset;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.FactoryBean;
@@ -14,19 +16,25 @@ import org.springframework.core.io.Resource;
 
 public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 	private Resource initScriptsLocation;
+	private String encoding = Charset.defaultCharset().name();
 	
 	public HsqlMemDataSourceFactoryBean(){}
 	
-	public HsqlMemDataSourceFactoryBean(Resource initScriptsLocation) {
+	public HsqlMemDataSourceFactoryBean(Resource initScriptsLocation,String encoding) {
 		this.initScriptsLocation = initScriptsLocation;
+		this.encoding = encoding;
 	}
 
 	public void setInitScriptsLocation(Resource initScriptsLocation) {
 		this.initScriptsLocation = initScriptsLocation;
 	}
+	
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+	}
 
 	public Object getObject() throws Exception {
-		return HsqlDataSourceUtils.getDataSource(initScriptsLocation);
+		return HsqlDataSourceUtils.getDataSource(initScriptsLocation,encoding);
 	}
 
 	public Class getObjectType() {

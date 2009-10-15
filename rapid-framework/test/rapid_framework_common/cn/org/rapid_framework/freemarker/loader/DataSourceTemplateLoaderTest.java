@@ -25,7 +25,7 @@ public class DataSourceTemplateLoaderTest {
 	Configuration conf = new Configuration();
 	@Before
 	public void setUp() throws Exception {
-		ds = HsqlDataSourceUtils.getDataSource(DataSourceTemplateLoaderTest.class);
+		ds = HsqlDataSourceUtils.getDataSource(DataSourceTemplateLoaderTest.class,"UTF-8");
 		
 		loader.setDataSource(ds);
 		loader.setTableName("template");

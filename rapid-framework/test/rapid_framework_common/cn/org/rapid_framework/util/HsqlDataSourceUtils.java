@@ -1,8 +1,8 @@
 package cn.org.rapid_framework.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -26,10 +26,10 @@ import org.springframework.util.ResourceUtils;
  */
 public class HsqlDataSourceUtils {
 
-	public static DataSource getDataSource(Class initScripts) {
+	public static DataSource getDataSource(Class initScripts,String encoding) {
 		try {
 			File file = ResourceUtils.getFile("classpath:"+initScripts.getName().replace('.', '/')+".sql");
-			return getDataSource(file);
+			return getDataSource(file,encoding);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("execute sql error",e);
 		}
@@ -39,10 +39,10 @@ public class HsqlDataSourceUtils {
 		return getDataSource(new StringReader(initScripts));
 	}
 	
-	public static DataSource getDataSource(Resource initScripts) {
+	public static DataSource getDataSource(Resource initScripts,String encoding) {
 		Reader input = null;
 		try {
-			input = new InputStreamReader(initScripts.getInputStream());
+			input = new InputStreamReader(initScripts.getInputStream(),encoding);
 			return getDataSource(input);
 		} catch (Exception e) {
 			throw new RuntimeException("execute sql error",e);
@@ -51,13 +51,13 @@ public class HsqlDataSourceUtils {
 		}
 	}
 	
-	public static DataSource getDataSource(File initScripts) {
+	public static DataSource getDataSource(File initScripts,String encoding) {
 		System.out.println("execute hsql db scripts from file:"+initScripts.getAbsolutePath());
-		FileReader input = null;
+		Reader input = null;
 		try {
-			input = new FileReader(initScripts);
+			input = new InputStreamReader(new FileInputStream(initScripts),encoding);
 			return getDataSource(input);
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			throw new RuntimeException("execute sql error",e);
 		}finally {
 			IOUtils.closeQuietly(input);
