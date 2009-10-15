@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="generator/src"/>
+	<classpathentry kind="src" path="plugins/ibatis3/src/resources"/>
+	<classpathentry kind="src" path="plugins/ibatis3/src/javacommon"/>
+	<classpathentry kind="src" path="plugins/rapid_mailer/src/resources"/>
+	<classpathentry kind="src" path="plugins/rapid_mailer/src/javacommon"/>
+	<classpathentry kind="src" path="plugins/simpletable/src/javacommon"/>
+	<classpathentry kind="src" path="plugins/extjs/src/javacommon"/>
+	<classpathentry kind="src" path="plugins/extjs/src/resources"/>
+	<classpathentry kind="src" path="java_src"/>
+	<classpathentry kind="src" path="java_test"/>
 	<classpathentry kind="src" path="generator/test"/>
 	<classpathentry kind="src" path="src/rapid_framework_common"/>
 	<classpathentry kind="src" path="test/rapid_framework_common"/>
@@ -17,14 +26,14 @@
 	<classpathentry kind="src" path="plugins/struts/src/javacommon"/>
 	<classpathentry kind="src" path="plugins/ibatis/src/javacommon"/>
 	<classpathentry kind="src" path="plugins/ibatis/src/resources"/>
+	<classpathentry kind="src" path="java_src_sandbox"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.genuitec.eclipse.j2eedt.core.J2EE14_CONTAINER"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/activation.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/antlr-2.7.6rc1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/aspectjrt.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/aspectjweaver.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/cglib-nodep-2.1_3.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-beanutils.jar" sourcepath="F:/download/java-lib/commons/commons-beanutils-1.8.0-src/src/java"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-codec-1.3.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-collections.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/commons-dbcp.jar"/>
@@ -43,7 +52,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jakarta-oro.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jstl.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jta.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/junit.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mail.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-3.1.12-bin.jar"/>
@@ -63,7 +71,6 @@
 	<classpathentry kind="lib" path="generator/lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="generator/lib/sqljdbc.jar"/>
 	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/ognl-2.6.11.jar"/>
 	<classpathentry kind="lib" path="plugins/struts/web/WEB-INF/lib/struts.jar"/>
 	<classpathentry kind="lib" path="plugins/struts/web/WEB-INF/lib/struts-el.jar"/>
 	<classpathentry kind="lib" path="plugins/springmvc/web/WEB-INF/lib/spring-webmvc.jar" sourcepath="F:/download/java-lib/spring/spring-framework-2.5.5/src"/>
@@ -72,9 +79,6 @@
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/hibernate-annotations.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/hibernate-commons-annotations.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/jaxen-1.1-beta-7.jar"/>
-	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/struts2-core-2.1.2.jar" sourcepath="F:/download/java-lib/struts-2.1.2-all/struts-2.1.2/src/core/src/main/java"/>
-	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/struts2-spring-plugin-2.1.2.jar"/>
-	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/xwork-2.1.1.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/backport-util-concurrent.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/cfgatewayadapter.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/concurrent.jar"/>
@@ -84,11 +88,17 @@
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-proxy.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-remoting.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/xalan.jar"/>
-	<classpathentry kind="lib" path="plugins/ibatis/web/WEB-INF/lib/ibatis-2.3.3.720.jar"/>
 	<classpathentry kind="lib" path="plugins/ext/web/WEB-INF/lib/dwr.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/dbunit-2.4.2.jar"/>
 	<classpathentry kind="lib" path="generator/lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="for_release_lib/jsp-api.jar"/>
-	<classpathentry kind="lib" path="for_release_lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="for_release_lib/hsqldb.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/antlr-3.0.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="plugins/ibatis/web/WEB-INF/lib/ibatis-2.3.4.726.jar"/>
+	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/struts2-core-2.1.8.jar"/>
+	<classpathentry kind="lib" path="plugins/struts2/web/WEB-INF/lib/xwork-core-2.1.6.jar"/>
+	<classpathentry kind="lib" path="plugins/extjs/web/WEB-INF/lib/json-lib-2.2.3-jdk15.jar"/>
+	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/ibatis-3-core-3.0.0.204.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
