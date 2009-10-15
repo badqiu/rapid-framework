@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -53,6 +54,7 @@ public class DataSourceTemplateLoaderTest {
 		Template t = conf.getTemplate("/test/template.ftl");
 		String out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
 		System.out.println(out);
+		Assert.assertEquals("test qiu 男 gggg 中央银行",out);
 	}
 	
 }
