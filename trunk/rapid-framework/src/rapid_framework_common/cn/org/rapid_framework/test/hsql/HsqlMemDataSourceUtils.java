@@ -76,10 +76,10 @@ public class HsqlMemDataSourceUtils {
 		return ds;
 	}
 
-	public static DataSource getDataSource() {
+	public static synchronized DataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName("org.hsqldb.jdbcDriver");
-		ds.setUrl("jdbc:hsqldb:mem:memDB");
+		ds.setUrl("jdbc:hsqldb:mem:memDB"+System.currentTimeMillis());
 		ds.setUsername("sa");
 		ds.setPassword("");
 		return ds;
@@ -97,9 +97,13 @@ public class HsqlMemDataSourceUtils {
 					continue;
 				}
 				System.out.println(tokenSql);
-				Statement stat = conn.createStatement();
-				stat.execute(tokenSql);
-				stat.close();
+				try {
+					Statement stat = conn.createStatement();
+					stat.execute(tokenSql);
+					stat.close();
+				}catch(SQLException e) {
+					throw new SQLException("execute sql error:"+e+" error sql:\n"+tokenSql,e);
+				}
 			}
 		}finally {
 			conn.close();
