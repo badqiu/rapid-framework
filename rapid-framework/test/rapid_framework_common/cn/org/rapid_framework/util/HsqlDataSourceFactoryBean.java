@@ -26,7 +26,7 @@ public class HsqlDataSourceFactoryBean implements FactoryBean{
 	}
 
 	@Override
-	public Object getObject() throws Exception {
+	public DataSource getObject() throws Exception {
 		return HsqlDataSourceUtils.getDataSource(initScriptsLocation);
 	}
 
