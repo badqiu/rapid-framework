@@ -56,7 +56,7 @@ public class PropertiesHelper {
 	}
 	
 	public String getNullIfBlank(String key) {
-		String value = getProperties().getProperty(key);
+		String value = getProperty(key);
 		if(isBlankString(value)) {
 			return null;
 		}
@@ -64,7 +64,7 @@ public class PropertiesHelper {
 	}
 	
 	public String getNullIfEmpty(String key) {
-		String value = getProperties().getProperty(key);
+		String value = getProperty(key);
 		if(value == null || "".equals(value)) {
 			return null;
 		}
