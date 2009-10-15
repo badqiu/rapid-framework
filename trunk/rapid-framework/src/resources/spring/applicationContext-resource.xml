@@ -31,13 +31,19 @@
     </bean>
  	-->
  	
- 	<!-- 用于测试或demo的hsql的内存数据库,可以在创建数据库时运行指定的初始化sql语句,如建表,插入测试数据,sql语句之间使用分号";"分隔 -->
+ 	<!-- 用于测试或demo的hsql的内存dataSource,可以在创建数据库时运行指定的初始化sql语句,如建表,插入测试数据,sql语句之间使用分号";"分隔 -->
  	<!-- 
  	<bean id="dataSource" class="cn.org.rapid_framework.test.hsql.HSQLMemDataSourceFactoryBean">
+		<property name="encoding" value="UTF-8"/>
 		<property name="scriptLocations">
 			<value>classpath*:hsql_test_scripts.sql</value>
 		</property>
-		<property name="encoding" value="UTF-8"/>
+		<property name="sqlScript">
+			<value>
+				create table blog(id int);
+				insert into blog values (1);
+			</value>
+		</property>		
 	</bean>
  	 -->
     
