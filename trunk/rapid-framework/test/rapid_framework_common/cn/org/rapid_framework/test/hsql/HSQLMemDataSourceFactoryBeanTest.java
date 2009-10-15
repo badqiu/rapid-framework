@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
 
-public class HsqlMemDataSourceFactoryBeanTest_ {
+public class HSQLMemDataSourceFactoryBeanTest {
 	
 	@Test
 	public void test() throws Exception {
