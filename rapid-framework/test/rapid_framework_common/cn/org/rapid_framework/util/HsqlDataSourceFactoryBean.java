@@ -5,6 +5,13 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.Resource;
 
+/**
+ * FactoryBean用于创建一个hsql内存数据库的DataSource并同时运行初始化的数据库脚本
+ * 
+ * @author badqiu
+ *
+ */
+
 public class HsqlDataSourceFactoryBean implements FactoryBean{
 	private Resource initScriptsLocation;
 	
