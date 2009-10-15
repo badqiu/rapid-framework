@@ -19,19 +19,19 @@ import org.springframework.core.io.Resource;
  */
 
 public class HSQLMemDataSourceFactoryBean implements FactoryBean{
-	private Resource[] initScriptLocations;
+	private Resource[] scriptLocations;
 	private String sqlScript;
 	private String encoding = Charset.defaultCharset().name();
 	
 	public HSQLMemDataSourceFactoryBean(){}
 	
 	public HSQLMemDataSourceFactoryBean(Resource initScriptsLocation,String encoding) {
-		this.initScriptLocations = new Resource[] {initScriptsLocation};
+		this.scriptLocations = new Resource[] {initScriptsLocation};
 		this.encoding = encoding;
 	}
 
-	public void setInitScriptLocations(Resource... initScriptsLocation) {
-		this.initScriptLocations = initScriptsLocation;
+	public void setScriptLocations(Resource... initScriptsLocation) {
+		this.scriptLocations = initScriptsLocation;
 	}
 	
 	public void setEncoding(String encoding) {
@@ -44,8 +44,8 @@ public class HSQLMemDataSourceFactoryBean implements FactoryBean{
 
 	public Object getObject() throws Exception {
 		DataSource ds = HSQLMemDataSourceUtils.getDataSource();
-		if(initScriptLocations != null) {
-			for(Resource r : initScriptLocations) {
+		if(scriptLocations != null) {
+			for(Resource r : scriptLocations) {
 				HSQLMemDataSourceUtils.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
 			}
 		}
