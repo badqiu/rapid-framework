@@ -5,7 +5,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-public class CollectionUtilsTest extends TestCase {
+public class CollectionHelperTest extends TestCase {
 	List values = new ArrayList();
 	public void setUp() {
 		for(int i = 0; i < 10; i++) {
@@ -25,17 +25,17 @@ public class CollectionUtilsTest extends TestCase {
 //	}
 	
 	public void testSum() {
-		assertEquals(45,(long)CollectionUtils.sum(values));
-		assertEquals(0,(long)CollectionUtils.sum(new ArrayList()));
+		assertEquals(45,(long)CollectionHelper.sum(values));
+		assertEquals(0,(long)CollectionHelper.sum(new ArrayList()));
 		
-		assertEquals(0,(long)CollectionUtils.sum(null));
+		assertEquals(0,(long)CollectionHelper.sum(null));
 
 	}
 	
 	public void testAvg() {
-		assertEquals(4.5,(double)CollectionUtils.avg(values));
-		assertEquals(0,(long)CollectionUtils.avg(new ArrayList()));
+		assertEquals(4.5,(double)CollectionHelper.avg(values));
+		assertEquals(0,(long)CollectionHelper.avg(new ArrayList()));
 		
-		assertEquals(0,(long)CollectionUtils.avg(null));
+		assertEquals(0,(long)CollectionHelper.avg(null));
 	}
 }

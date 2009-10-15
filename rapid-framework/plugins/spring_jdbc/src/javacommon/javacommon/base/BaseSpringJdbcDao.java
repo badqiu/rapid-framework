@@ -26,13 +26,12 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.incrementer.AbstractSequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrementer;
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
-import org.springframework.util.ReflectionUtils;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.jdbc.support.OffsetLimitResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
-import cn.org.rapid_framework.util.CollectionUtils;
+import cn.org.rapid_framework.util.CollectionHelper;
 import cn.org.rapid_framework.util.ObjectUtils;
 import cn.org.rapid_framework.util.SqlRemoveUtils;
 /**
@@ -223,7 +222,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	public abstract String getFindByIdSql();
 	public E getById(PK id) {
 		List list = getSimpleJdbcTemplate().query(getFindByIdSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
-		return (E)CollectionUtils.findSingleObject(list);
+		return (E)CollectionHelper.findSingleObject(list);
 	}
 
 	public abstract String getDeleteByIdSql();

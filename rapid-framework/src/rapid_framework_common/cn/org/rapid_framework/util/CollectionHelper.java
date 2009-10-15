@@ -13,9 +13,9 @@ import org.apache.commons.beanutils.PropertyUtils;
 /**
  * @author badqiu
  */
-public class CollectionUtils {
+public class CollectionHelper {
 	
-	private CollectionUtils(){}
+	private CollectionHelper(){}
 	
 	public static LinkedHashSet asLinkedHashSet(Collection c) {
 		return (LinkedHashSet)asTargetTypeCollection(c,LinkedHashSet.class);
@@ -82,7 +82,7 @@ public class CollectionUtils {
 	}
 
 	public static double avg(Collection objects,String propertyName) {
-		List<Number> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return avg(propertyValues);
 	}
 	
@@ -94,7 +94,7 @@ public class CollectionUtils {
 	
 	public static double sum(Collection objects,String propertyName) {
 		if(objects.isEmpty()) return 0;
-		List<Number> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return sum(propertyValues);
 	}
 
@@ -111,12 +111,12 @@ public class CollectionUtils {
 	}
 	
 	public static Object max(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		List<Comparable> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return Collections.max(propertyValues);
 	}
 
 	public static Object min(Collection objects,String propertyName) {
-		List<Comparable> propertyValues = CollectionUtils.selectProperty(objects, propertyName);
+		List<Comparable> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return Collections.min(propertyValues);
 	}
 
