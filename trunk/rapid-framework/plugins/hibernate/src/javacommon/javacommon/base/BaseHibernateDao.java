@@ -40,7 +40,7 @@ import org.springframework.util.StringUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.page.impl.Hibernate3Page;
-import cn.org.rapid_framework.util.CollectionUtils;
+import cn.org.rapid_framework.util.CollectionHelper;
 
 /**
  * @author badqiu
@@ -61,7 +61,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	
 	public long queryForLong(final String queryString,Object[] values) {
 		List list = getHibernateTemplate().find(queryString, values);
-		Number n = (Number)CollectionUtils.findSingleObject(list);
+		Number n = (Number)CollectionHelper.findSingleObject(list);
 		return n.longValue();
 	}
 	
