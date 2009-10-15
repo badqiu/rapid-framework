@@ -1,13 +1,15 @@
 package cn.org.rapid_framework.freemarker.loader;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
+import java.sql.Clob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.Date;
 
 import javax.sql.DataSource;
@@ -45,7 +47,7 @@ import freemarker.cache.TemplateLoader;
  * CREATE TABLE template (
  *  id bigint(20) PRIMARY KEY,
  *  template_name varchar(255) ,
- *  template_content varchar(255) ,
+ *  template_content text ,
  *  last_modified timestamp 
  *)
  * </pre>
@@ -106,14 +108,20 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 	public Reader getReader(Object templateSource, final String encoding) throws IOException {
 		final String templateName = (String)templateSource;
 		return (Reader)getJdbcTemplate().query(getSql(templateContentColumn),new Object[]{templateName}, new ResultSetExtractor() {
-			public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
+			public Reader extractData(ResultSet rs) throws SQLException,DataAccessException {
 				while(rs.next()) {
 					try {
-						int columnType = rs.getMetaData().getColumnType(1);
-						if(columnType == Types.VARCHAR || columnType == Types.CLOB) {
+						Object obj = rs.getObject(templateContentColumn);
+						if(obj instanceof String) {
+							return new StringReader((String)obj);
+						}else if(obj instanceof Clob) {
 							return new StringReader(rs.getString(templateContentColumn));
-						}else {
+						}else if(obj instanceof InputStream) {
+							return new InputStreamReader((InputStream)obj,encoding);
+						}else if(obj instanceof Blob) {
 							return new InputStreamReader(rs.getBinaryStream(templateContentColumn),encoding);
+						}else {
+							throw new FreemarkerTemplateException("error sql type of templateContentColumn:"+templateContentColumn);
 						}
 					} catch (UnsupportedEncodingException e) {
 						throw new FreemarkerTemplateException("load template from dataSource with templateName:"+templateName+" occer UnsupportedEncodingException",e);
