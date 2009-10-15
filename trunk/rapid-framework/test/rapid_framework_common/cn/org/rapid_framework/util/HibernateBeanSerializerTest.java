@@ -19,7 +19,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
-import cn.org.rapid_framework.mock.MockOpenSessionInViewFilter;
+import cn.org.rapid_framework.test.mock.MockOpenSessionInViewFilter;
 import cn.org.rapid_framework.util.fortest.Resource;
 import cn.org.rapid_framework.util.fortest.ResourceDao;
 import cn.org.rapid_framework.util.fortest.Role;
