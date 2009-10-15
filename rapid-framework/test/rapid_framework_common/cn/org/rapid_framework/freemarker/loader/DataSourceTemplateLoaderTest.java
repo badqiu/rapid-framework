@@ -20,7 +20,7 @@ import freemarker.template.TemplateException;
 
 public class DataSourceTemplateLoaderTest {
 	DataSourceTemplateLoader loader = new DataSourceTemplateLoader();
-	DataSource ds = new DriverManagerDataSource();
+	DataSource ds = null;
 	Map model = new HashMap();
 	Configuration conf = new Configuration();
 	@Before
