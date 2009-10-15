@@ -29,22 +29,7 @@ public class BaseRemoteFlexService <E>{
 		page.setResult(convertedList);
 		return page;
 	}
-	/**
-	 * 将Page的list转变为proxy对象,避免hibernate lazy问题
-	 * @param page
-	 * @return
-	 */
-	public static Page convertPageList2BeanSerializerProxy(Page page){
-		List list = page.getResult();
-		List convertedList = new ArrayList();
-		for(Object o : list) {
-			Object proxy = new HibernateBeanSerializer(o).getProxy();
-			convertedList.add(proxy);
-		}
-		page.setResult(convertedList);
-		return page;
-	}
-	
+
 	public static <T> T copyProperties(Class<T> destClass,Object orig) {
 		return BeanUtils.copyProperties(destClass, orig);
 	}

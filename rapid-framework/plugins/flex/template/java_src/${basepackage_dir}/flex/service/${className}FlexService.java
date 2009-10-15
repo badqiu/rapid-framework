@@ -25,12 +25,12 @@ public class ${className}FlexService extends BaseRemoteFlexService<${className}>
 	/**通过PageRequest查询列表*/
 	public Page list(PageRequest pr) {
 		Page page = ${classNameLower}Manager.findByPageRequest(pr);
-		return convertPageList2BeanSerializerProxy(page);
+		return convertPageList2TargetClass(page,${className}.class);
 	}
 	
 	public  ${className} save(${className} vo) {
 		${classNameLower}Manager.saveOrUpdate(vo);
-		return new HibernateBeanSerializer<${className}>(vo).getProxy();
+		return vo;
 	}
 	
 	public void del(${table.idColumn.javaType}[] ids) {
