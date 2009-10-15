@@ -30,6 +30,16 @@
         <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
     </bean>
  	-->
+ 	
+ 	<!-- 用于测试或demo的hsql的内存数据库,可以在创建数据库时运行指定的初始化sql语句,如建表,插件测试数据,sql语句之间使用分号";"分隔 -->
+ 	<!-- 
+ 	<bean id="dataSource" class="cn.org.rapid_framework.test.hsql.HsqlMemDataSourceFactoryBean">
+		<property name="initScriptLocations">
+			<value>classpath*:hsql_test_scripts.sql</value>
+		</property>
+		<property name="encoding" value="UTF-8"/>
+	</bean>
+ 	 -->
     
 	<!-- 支持 @Transactional 标记 -->
 <!--	<tx:annotation-driven/>-->
