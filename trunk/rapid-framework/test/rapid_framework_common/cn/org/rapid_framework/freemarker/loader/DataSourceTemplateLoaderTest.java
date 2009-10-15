@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
-import cn.org.rapid_framework.test.hsql.HsqlMemDataSourceUtils;
+import cn.org.rapid_framework.test.hsql.HSQLMemDataSourceUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -24,7 +24,7 @@ public class DataSourceTemplateLoaderTest {
 	Configuration conf = new Configuration();
 	@Before
 	public void setUp() throws Exception {
-		ds = HsqlMemDataSourceUtils.getDataSource(DataSourceTemplateLoaderTest.class,"UTF-8");
+		ds = HSQLMemDataSourceUtils.getDataSource(DataSourceTemplateLoaderTest.class,"UTF-8");
 		
 		loader.setDataSource(ds);
 		loader.setTableName("template");
