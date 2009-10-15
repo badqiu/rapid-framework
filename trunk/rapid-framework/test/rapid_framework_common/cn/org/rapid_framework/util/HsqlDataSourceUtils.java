@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.StringTokenizer;
 
 import javax.sql.DataSource;
 
@@ -27,7 +28,7 @@ public class HsqlDataSourceUtils {
 
 	public static DataSource getDataSource(Class initScripts) {
 		try {
-			File file = ResourceUtils.getFile(initScripts.getClass().getName().replace('.', '/'));
+			File file = ResourceUtils.getFile("classpath:"+initScripts.getName().replace('.', '/')+".sql");
 			return getDataSource(file);
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException("execute sql error",e);
@@ -51,6 +52,7 @@ public class HsqlDataSourceUtils {
 	}
 	
 	public static DataSource getDataSource(File initScripts) {
+		System.out.println("execute hsql db scripts from file:"+initScripts.getAbsolutePath());
 		FileReader input = null;
 		try {
 			input = new FileReader(initScripts);
@@ -79,14 +81,26 @@ public class HsqlDataSourceUtils {
 
 	private static void runDataSourceWithScripts(Reader initScripts,DriverManagerDataSource ds) throws SQLException, IOException {
 		Connection conn = ds.getConnection();
-		Statement stat = conn.createStatement();
 		try {
 			String sql = IOUtils.toString(initScripts);
-			System.out.println("init hsql db with sql:"+sql);
-			stat.execute(sql);
-			stat.close();
+			StringTokenizer tokenizer = new StringTokenizer(sql,";");
+			while(tokenizer.hasMoreTokens()) {
+				String tokenSql = tokenizer.nextToken();
+				if("".equals(tokenSql.trim())) {
+					continue;
+				}
+				
+				System.out.println("init hsql db with sql:"+tokenSql);
+				
+				Statement stat = conn.createStatement();
+				stat.execute(tokenSql);
+				stat.close();
+			}
+			
+//			Statement stat = conn.createStatement();
+//			stat.execute(sql);
+//			stat.close();
 		}finally {
-			stat.close();
 			conn.close();
 		}
 	}

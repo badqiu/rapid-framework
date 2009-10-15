@@ -54,7 +54,7 @@ public class DataSourceTemplateLoaderTest {
 		Template t = conf.getTemplate("/test/template.ftl");
 		String out = FreemarkerTemplateProcessor.processTemplateIntoString(t, model);
 		System.out.println(out);
-		Assert.assertEquals("test qiu 男 gggg 中央银行",out);
+		Assert.assertEquals("用户名: qiu 性别:男",out);
 	}
 	
 }
