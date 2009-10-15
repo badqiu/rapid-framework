@@ -17,10 +17,11 @@ import java.util.Map.Entry;
 
 /**
  * Properties的操作的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredString(),getInt(),getBoolean()等方法
- * 
+ * 并可以通过systemPropertiesMode属性指定是否搜索System.getProperty()及System.getenv()来查找值.
+ * 默认不搜索系统属性
  * 
  * <pre>
- * 使用:
+ * 使用1:
  * public class ConnectionUtils {
  *     static Properties properties = new Properties(); 
  *     // ... do load properties 
@@ -32,15 +33,42 @@ import java.util.Map.Entry;
  *     		DriverManager.getConnection(props.getRequiredString("jdbc.url"));
  *     }
  * }
+ * 指定是否搜索系统属性:
+ * new PropertiesHelper(properties,PropertiesHelper.SYSTEM_PROPERTIES_MODE_OVERRIDE)
  * </pre>
  * @author badqiu
  */
 public class PropertiesHelper {
+	/** Never check system properties. */
+	public static final int SYSTEM_PROPERTIES_MODE_NEVER = 0;
+
+	/**
+	 * Check system properties if not resolvable in the specified properties.
+	 * This is the default.
+	 */
+	public static final int SYSTEM_PROPERTIES_MODE_FALLBACK = 1;
+
+	/**
+	 * Check system properties first, before trying the specified properties.
+	 * This allows system properties to override any other property source.
+	 */
+	public static final int SYSTEM_PROPERTIES_MODE_OVERRIDE = 2;
+	
 	Properties p;
+	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_NEVER;
 
 	public PropertiesHelper(Properties p) {
 		if(p == null) throw new IllegalArgumentException("properties must be not null");
 		this.p = p;
+	}
+	
+	public PropertiesHelper(Properties p,int systemPropertiesMode) {
+		if(p == null) throw new IllegalArgumentException("properties must be not null");
+		if(systemPropertiesMode != SYSTEM_PROPERTIES_MODE_NEVER && systemPropertiesMode != SYSTEM_PROPERTIES_MODE_FALLBACK && systemPropertiesMode != SYSTEM_PROPERTIES_MODE_OVERRIDE) {
+			throw new IllegalArgumentException("error systemPropertiesMode mode:"+systemPropertiesMode);
+		}
+		this.p = p;
+		this.systemPropertiesMode = systemPropertiesMode;
 	}
 	
 	public Properties getProperties() {
@@ -78,10 +106,16 @@ public class PropertiesHelper {
 	public String getAndTryFromSystem(String key) {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
-			value = System.getProperty(key);
-			if(isBlankString(value)) {
-				value = System.getenv(key);
-			}
+			value = getSystemProperty(key);
+		}
+		return value;
+	}
+
+	private String getSystemProperty(String key) {
+		String value;
+		value = System.getProperty(key);
+		if(isBlankString(value)) {
+			value = System.getenv(key);
 		}
 		return value;
 	}
@@ -206,7 +240,17 @@ public class PropertiesHelper {
 	}
 
 	public String getProperty(String key) {
-		return p.getProperty(key);
+		String propVal = null;
+		if (systemPropertiesMode == SYSTEM_PROPERTIES_MODE_OVERRIDE) {
+			propVal = getSystemProperty(key);
+		}
+		if (propVal == null) {
+			propVal = p.getProperty(key);
+		}
+		if (propVal == null && systemPropertiesMode == SYSTEM_PROPERTIES_MODE_FALLBACK) {
+			propVal = getSystemProperty(key);
+		}
+		return propVal;
 	}
 
 	public Object setProperty(String key,String value) {
