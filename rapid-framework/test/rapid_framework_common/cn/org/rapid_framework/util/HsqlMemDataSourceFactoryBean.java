@@ -12,12 +12,12 @@ import org.springframework.core.io.Resource;
  *
  */
 
-public class HsqlDataSourceFactoryBean implements FactoryBean{
+public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 	private Resource initScriptsLocation;
 	
-	public HsqlDataSourceFactoryBean(){}
+	public HsqlMemDataSourceFactoryBean(){}
 	
-	public HsqlDataSourceFactoryBean(Resource initScriptsLocation) {
+	public HsqlMemDataSourceFactoryBean(Resource initScriptsLocation) {
 		this.initScriptsLocation = initScriptsLocation;
 	}
 
