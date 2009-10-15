@@ -39,6 +39,16 @@ import freemarker.cache.TemplateLoader;
  * loader.setTemplateContentColumn("template_content");
  * loader.setTimestampColumn("last_modified");
  * </pre>
+ * 
+ * mysql的表创建语句:
+ * <pre>
+ * CREATE TABLE template (
+ *  id bigint(20) PRIMARY KEY,
+ *  template_name varchar(255) ,
+ *  template_content varchar(255) ,
+ *  last_modified timestamp 
+ *)
+ * </pre>
  * @author badqiu
  *
  */
