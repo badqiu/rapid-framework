@@ -14,7 +14,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
-	<sql id="commonColumns">
+	<sql id="${classNameFirstLower}Columns">
 	    <![CDATA[
 		<#list table.columns as column>
         	${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>
@@ -72,7 +72,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     </delete>
     
     <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${className}Result">
-		select <include refid="commonColumns" />
+		select <include refid="${classNameFirstLower}Columns" />
 	    <![CDATA[
 		    from ${table.sqlName} 
 	        where 
@@ -82,7 +82,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
-	<sql id="dynamicWhere">
+	<sql id="${classNameFirstLower}DynamicWhere">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
 		<where>
 	       <#list table.columns as column>
@@ -95,7 +95,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		
     <select id="count" resultType="long">
         select count(*) from ${table.sqlName} 
-		<include refid="dynamicWhere"/>    
+		<include refid="${classNameFirstLower}DynamicWhere"/>    
     </select>
     
     <!--
@@ -103,9 +103,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="pageSelect" resultMap="${className}Result">
-    	select <include refid="commonColumns" />
+    	select <include refid="${classNameFirstLower}Columns" />
 	    from ${table.sqlName} 
-		<include refid="dynamicWhere"/>
+		<include refid="${classNameFirstLower}DynamicWhere"/>
 		<if test="sortColumns != null and sortColumns.length() != 0">
 			ORDER BY <@jspEl 'sortColumns'/>
 		</if>
@@ -114,7 +114,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <#list table.columns as column>
     <#if column.unique && !column.pk>
     <select id="getBy${column.columnName}" resultMap="${className}Result" parameterType="${column.javaType}">
-	    select <include refid="commonColumns"/>
+	    select <include refid="${classNameFirstLower}Columns"/>
 	    <![CDATA[
 	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
 	    ]]>
