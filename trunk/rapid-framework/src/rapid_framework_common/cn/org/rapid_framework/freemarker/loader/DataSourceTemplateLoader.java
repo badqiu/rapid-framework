@@ -26,6 +26,18 @@ import freemarker.cache.TemplateLoader;
 
 /**
  * 用于freemarker从数据库装载template文件
+ * 
+ * 
+ * 属性值配置实例,将生成如下的load sql:
+ * <pre>
+ * //select template_content from template where template_name=?
+ * DataSourceTemplateLoader loader = new DataSourceTemplateLoader();
+ * loader.setDataSource(ds);
+ * loader.setTableName("template");
+ * loader.setTemplateNameColumn("template_name");
+ * loader.setTemplateContentColumn("template_content");
+ * loader.setTimestampColumn("last_modified");
+ * </pre>
  * @author badqiu
  *
  */
@@ -68,7 +80,7 @@ public class DataSourceTemplateLoader implements TemplateLoader,InitializingBean
 		Assert.hasText(tableName,"'tableName' must be not blank");
 		Assert.hasText(templateNameColumn,"'templateNameColumn' must be not blank");
 		Assert.hasText(templateContentColumn,"'templateContentColumn' must be not blank");
-		log.info("freemarker template load sql:"+getSql(templateContentColumn));
+		log.info("Freemarker template load sql:"+getSql(templateContentColumn));
 	}
 
 	public Object findTemplateSource(final String name) throws IOException {
