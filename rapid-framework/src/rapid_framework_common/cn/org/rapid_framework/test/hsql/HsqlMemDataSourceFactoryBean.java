@@ -35,9 +35,9 @@ public class HsqlMemDataSourceFactoryBean implements FactoryBean{
 
 	public Object getObject() throws Exception {
 		if(initScriptsLocation == null) {
-			return HsqlDataSourceUtils.getDataSource();
+			return HsqlMemDataSourceUtils.getDataSource();
 		}else {
-			return HsqlDataSourceUtils.getDataSource(initScriptsLocation,encoding);
+			return HsqlMemDataSourceUtils.getDataSource(initScriptsLocation,encoding);
 		}
 	}
 
