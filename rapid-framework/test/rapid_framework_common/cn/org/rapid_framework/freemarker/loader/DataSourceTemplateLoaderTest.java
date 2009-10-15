@@ -1,16 +1,17 @@
 package cn.org.rapid_framework.freemarker.loader;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
-
+import cn.org.rapid_framework.util.HsqlDataSourceUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -18,15 +19,12 @@ import freemarker.template.TemplateException;
 
 public class DataSourceTemplateLoaderTest {
 	DataSourceTemplateLoader loader = new DataSourceTemplateLoader();
-	DriverManagerDataSource ds = new DriverManagerDataSource();
+	DataSource ds = new DriverManagerDataSource();
 	Map model = new HashMap();
 	Configuration conf = new Configuration();
 	@Before
 	public void setUp() throws Exception {
-		ds.setDriverClassName("com.mysql.jdbc.Driver");
-		ds.setUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8");
-		ds.setUsername("root");
-		ds.setPassword("123456");
+		ds = HsqlDataSourceUtils.getDataSource(DataSourceTemplateLoaderTest.class);
 		
 		loader.setDataSource(ds);
 		loader.setTableName("template");
