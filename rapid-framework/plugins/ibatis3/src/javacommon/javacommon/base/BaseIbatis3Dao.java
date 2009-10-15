@@ -164,24 +164,24 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		}
 		
 		
-		public Object delete(final String statement,final Object parameter) {
-			return execute(new SqlSessionCallback() {
+		public int delete(final String statement,final Object parameter) {
+			return (Integer)execute(new SqlSessionCallback() {
 				public Object doInSession(SqlSession session) {
 					return session.delete(statement, parameter);
 				}
 			});
 		}
 		
-		public Object update(final String statement,final Object parameter) {
-			return execute(new SqlSessionCallback() {
+		public int update(final String statement,final Object parameter) {
+			return (Integer)execute(new SqlSessionCallback() {
 				public Object doInSession(SqlSession session) {
 					return session.update(statement, parameter);
 				}
 			});
 		}
 		
-		public Object insert(final String statement,final Object parameter) {
-			return execute(new SqlSessionCallback() {
+		public int insert(final String statement,final Object parameter) {
+			return (Integer)execute(new SqlSessionCallback() {
 				public Object doInSession(SqlSession session) {
 					return session.insert(statement, parameter);
 				}
