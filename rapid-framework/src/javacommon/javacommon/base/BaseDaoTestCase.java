@@ -1,6 +1,5 @@
 package javacommon.base;
 
-import javacommon.util.DBUnitUtils;
 
 import javax.sql.DataSource;
 
@@ -8,6 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
+
+import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
 
 import static junit.framework.Assert.*;
 
@@ -21,7 +22,7 @@ import static junit.framework.Assert.*;
  */
 @ContextConfiguration(locations={"classpath:/spring/*-resource.xml","classpath:/spring/*-dao.xml"})
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
-	protected DBUnitUtils dbUnitUtils = new DBUnitUtils();
+	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
 
 	protected DataSource getDataSource() {
 		DataSource ds = (DataSource)applicationContext.getBean("dataSource");
@@ -32,14 +33,14 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 	@BeforeTransaction
 	public void onSetUpBeforeTransaction() throws Exception {
 		String jdbcSchema = null;  // set schema for oracle
-		dbUnitUtils.setDataSource(getDataSource(),jdbcSchema);
-		dbUnitUtils.insertDbunitTestDatas(getDbUnitDataFiles());
+		dbUnitHelper.setDataSource(getDataSource(),jdbcSchema);
+		dbUnitHelper.insertDbunitTestDatas(getDbUnitDataFiles());
 	}
 	
 	@AfterTransaction
 	public void onTearDownAfterTransaction() throws Exception {
 		System.out.println("[DbUnit INFO] delete test datas");
-		dbUnitUtils.deleteTestDatas();
+		dbUnitHelper.deleteTestDatas();
 	}
 
 	/** 得到要加载的dbunit文件 */
