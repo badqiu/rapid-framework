@@ -36,7 +36,7 @@ public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContex
 	public void onSetUpBeforeTransaction() throws Exception {
 		String jdbcSchema = null;  // set schema for oracle
 		dbUnitHelper.setDataSource(getDataSource(),jdbcSchema);
-		dbUnitHelper.insertDbunitTestDatas(getDbUnitDataFiles());
+		dbUnitHelper.insertTestDatas(getDbUnitDataFiles());
 	}
 	
 	@AfterTransaction

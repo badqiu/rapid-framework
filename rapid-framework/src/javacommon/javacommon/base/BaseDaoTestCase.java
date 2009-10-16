@@ -34,7 +34,7 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 	public void onSetUpBeforeTransaction() throws Exception {
 		String jdbcSchema = null;  // set schema for oracle
 		dbUnitHelper.setDataSource(getDataSource(),jdbcSchema);
-		dbUnitHelper.insertDbunitTestDatas(getDbUnitDataFiles());
+		dbUnitHelper.insertTestDatas(getDbUnitDataFiles());
 	}
 	
 	@AfterTransaction
