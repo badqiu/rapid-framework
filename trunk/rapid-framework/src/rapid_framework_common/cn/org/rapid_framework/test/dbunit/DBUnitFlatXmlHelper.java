@@ -1,4 +1,4 @@
-package javacommon.util;
+package cn.org.rapid_framework.test.dbunit;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +29,7 @@ import org.springframework.util.ResourceUtils;
  * @author badqiu1
  *
  */
-public class DBUnitUtils {
+public class DBUnitFlatXmlHelper {
 	private DatabaseConnection databaseConnection; // DbUnit的数据库连接
 
 	private CachedDataSet cachedDataSet; // 存储临时数据
@@ -40,14 +40,14 @@ public class DBUnitUtils {
 	
 	private String jdbcSchema = null;
 	
-	public DBUnitUtils() {
+	public DBUnitFlatXmlHelper() {
 	}
 	
-	public DBUnitUtils(DataSource d) throws Exception {
+	public DBUnitFlatXmlHelper(DataSource d) throws Exception {
 		this(d,null);
 	}
 	
-	public DBUnitUtils(DataSource dataSource, String jdbcSchema) throws Exception {
+	public DBUnitFlatXmlHelper(DataSource dataSource, String jdbcSchema) throws Exception {
 		this.jdbcSchema = jdbcSchema;
 		setDataSource(dataSource);
 	}
