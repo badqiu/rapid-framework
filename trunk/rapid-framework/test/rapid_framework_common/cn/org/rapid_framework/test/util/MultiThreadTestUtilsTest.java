@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.test.util;
 
 import java.util.HashMap;
 import java.util.Map;
