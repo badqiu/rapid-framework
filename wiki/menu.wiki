@@ -42,7 +42,6 @@
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [project_build 项目构建]
     * [plugin_dev 插件开发]
-  * [http://www.rapid-framework.org.cn/rapid-javadoc-v2.0.x api javadoc]
   * [best_practice 最佳实践]
   * [changelog 修改日志]
   * [roadmap 路线图]
