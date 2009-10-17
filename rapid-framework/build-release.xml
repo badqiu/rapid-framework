@@ -48,7 +48,7 @@
 	<!-- 主要路径修改END -->
 		
 	<target name="prepare">
-		<echo message="tomcat.home=${tomcat.home} version=${version}"/>
+		<echo message="tomcat.home=${tomcat.home} version=${version.message}"/>
 		<mkdir dir="${dir.dist}"/>
 		<mkdir dir="${dir.dist.java}"/>
 		<mkdir dir="${dir.dist.test}"/>
