@@ -21,9 +21,8 @@
 	</target>
 	
 	<target name="publish">
-		<ant antfile="build-release.xml" target="cc_main" inheritall="false" inheritrefs="true">
-			<property name="label" value="${today}"/>
-		</ant>
+		<property name="label" value="${today}"/>
+		<ant antfile="build-release.xml" target="cc_main" inheritall="false" inheritrefs="false"/>
 		<antcall target="publish-ftp"/>
 	</target>
 	
