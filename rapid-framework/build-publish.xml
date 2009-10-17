@@ -4,7 +4,7 @@
 -->
 <project name="rapid-framework" basedir="." default="cc_main" >
 	<tstamp>
-		<format property="label" pattern="yyyyMMdd"/>
+		<format property="today" pattern="yyyyMMdd"/>
 	</tstamp>
 	
 	<target name="publish-ftp">
@@ -20,8 +20,9 @@
 	</target>
 	
 	<target name="cc_main">
-		<ant antfile="build-release.xml" target="cc_main"></ant>
-		<antcall target="publish-ftp"/>
+		<ant antfile="build-release.xml" target="cc_main">
+			<property name="label" value="${today}"></property>
+		</ant>
 	</target>
 	
 </project>
