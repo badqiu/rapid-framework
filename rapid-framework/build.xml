@@ -49,6 +49,7 @@
 		
 	<target name="prepare">
 		<echo message="tomcat.home=${tomcat.home}"/>
+		<echo message="version.message=${version.message}" />
 		<mkdir dir="${dir.dist}"/>
 		<mkdir dir="${dir.dist.java}"/>
 		<mkdir dir="${dir.dist.test}"/>
