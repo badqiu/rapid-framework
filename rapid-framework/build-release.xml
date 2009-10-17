@@ -16,7 +16,7 @@
 
 	<target name="get-build-version">
 		<property name="version" value="${label}"/>
-		<property name="version.message" value="version:${label} build:${cctimestamp}"/>
+		<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 		<property name="version.file" value="version.txt"></property>
 	</target>
 	
@@ -258,11 +258,9 @@
 	
 	<target name="daily_build" >
 		<tstamp>
-			<format property="today" pattern="yyyyMMdd"/>
+			<format property="version" pattern="yyyyMMdd"/>
 		</tstamp>
-		<property name="label" value="${today}" userproperty="true"/>
-		<antcall target="cc_main">
-		</antcall>
+		<antcall target="cc_main"/>
 		<ant antfile="build-publish.xml"></ant>
 	</target>
 	
