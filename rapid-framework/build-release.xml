@@ -8,14 +8,19 @@
 <!-- build file -->
 <!-- ======================================================================= -->
 <project name="rapid-framework" basedir="." default="framework-zip">
-	<property name="version" value="${label}"></property>
 	
 	<property environment="env"/>
 	<property file="build.properties" />
+	
 	<!--版本控制信息-->
-	<property name="version.message" value="version:${label} build:${cctimestamp}"/>
-	<property name="version.file" value="version.txt"></property>
-	<target name="generate_version">
+
+	<target name="get-build-version">
+		<property name="version" value="${label}"/>
+		<property name="version.message" value="version:${label} build:${cctimestamp}"/>
+		<property name="version.file" value="version.txt"></property>
+	</target>
+	
+	<target name="generate-version">
 		<echo file="${dir.src.web}/${version.file}" append="no" message="${version.message}"/>
 	</target>
 	
@@ -47,7 +52,7 @@
 	  		
 	<!-- 主要路径修改END -->
 		
-	<target name="prepare">
+	<target name="prepare" depends="get-build-version">
 		<echo message="tomcat.home=${tomcat.home} version=${version.message}"/>
 		<mkdir dir="${dir.dist}"/>
 		<mkdir dir="${dir.dist.java}"/>
@@ -249,6 +254,14 @@
 		<antcall target="framework-zip"></antcall>
 		<antcall target="rapid-framework.jar"></antcall>
 		<antcall target="rapid-framework.src.jar.zip"></antcall>
+	</target>
+	
+	<target name="daily_build">
+		<tstamp>
+			<format property="label" pattern="yyyyMMdd"/>
+		</tstamp>
+		<antcall target="cc_main"/>
+		<ant antfile="build-publish.xml"></ant>
 	</target>
 	
 </project>
