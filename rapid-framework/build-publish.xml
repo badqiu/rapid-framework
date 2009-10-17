@@ -3,6 +3,10 @@
 	for auto publish build results
 -->
 <project name="rapid-framework" basedir="." default="cc_main" >
+	<tstamp>
+		<format property="label" pattern="yyyyMMdd"/>
+	</tstamp>
+	
 	<target name="publish-ftp">
 		<ftp server="www.xxx.com" remotedir="/rapid/daily-build"
 				userid="xxx" passive="yes"
