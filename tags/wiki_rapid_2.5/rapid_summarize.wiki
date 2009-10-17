@@ -1,0 +1,17 @@
+= rapid-framework概述 =
+
+rapid-framework是一个以spring为核心的项目脚手架,以插件的方式将不同的开源项目集合在一起,并可以实现不同的项目组合.如(struts2+spring+hibernate),(struts2+spring+iBatis),(springmvc+spring+iBatis)的项目组合. 
+
+=项目结构=
+项目的结构是经典的三层结构: Action => Service => Dao
+
+=框架切换=
+现Web框架可以三选一
+struts,struts2,springmvc
+
+现dao层可以三选一
+hibernate,iBatis,spring_jdbc
+
+spring是核心,必须使用.
+
+框架间的切换请查看项目自带的文档 *doc/guide.html*
