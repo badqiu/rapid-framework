@@ -209,15 +209,6 @@ public class DBUnitFlatXmlHelper {
 	}
 	
 	/**
-	 * 获取DbUnit对应的数据库连接
-	 * 
-	 * @return 数据库连接
-	 */
-	public Connection getDataBaseConnection() {
-		return null;
-	}
-
-	/**
 	 * 设置数据源
 	 * 
 	 * @param d
