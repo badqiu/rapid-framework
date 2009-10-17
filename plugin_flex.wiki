@@ -1,0 +1,8 @@
+= Flex插件 =
+
+现flex插件使用的是Cairngorm MVC框架. 使用BlazeDS作为RPC远程调用.
+
+= BlazeDS =
+BlazeDS是Adobe公司商业版本LCDS的精简免费开源版本.同样实现amf协议,一般应用只需使用BlazeDS即可,而不需要购买昂贵的LCDS.
+
+现rapid对BlazeDS的扩展主要是可以将spring bean自动expose给flex调用而无需任何配置.具体请查看*[rapid_flex_blazeds 此处说明]*.

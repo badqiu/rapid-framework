@@ -1,0 +1,27 @@
+= Spring事务=
+
+现rapid中使用<aop:config /> <tx:advice />来配置事务，未使用annotation.
+根本自己需要修改是否使用annotation
+
+配置文件在:
+
+applicationContext-resources.xml
+
+= 配置内容 =
+{{{
+	<!-- 以AspectJ方式 定义 AOP -->
+	<aop:config proxy-target-class="true">
+		<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+	</aop:config>
+
+	<!-- 基本事务定义,使用transactionManager作事务管理,默认get* find*方法的事务为readonly,其余方法按默认设置.
+			 默认的设置请参考Spring文档事务一章. -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="*" read-only="false"/>
+		</tx:attributes>
+	</tx:advice>
+}}}
