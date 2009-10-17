@@ -3,6 +3,7 @@
 	for auto publish build results
 -->
 <project name="rapid-framework" basedir="." default="cc_main" >
+	
 	<tstamp>
 		<format property="today" pattern="yyyyMMdd"/>
 	</tstamp>
@@ -20,9 +21,10 @@
 	</target>
 	
 	<target name="cc_main">
-		<ant antfile="build-release.xml" target="cc_main">
-			<property name="label" value="${today}"></property>
+		<ant antfile="build-release.xml" target="cc_main" inheritall="false" inheritrefs="true">
+			<property name="label" value="${today}"/>
 		</ant>
+		<antcall target="publish-ftp"/>
 	</target>
 	
 </project>
