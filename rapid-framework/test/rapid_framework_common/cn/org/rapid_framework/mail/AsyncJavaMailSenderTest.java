@@ -31,7 +31,7 @@ public class AsyncJavaMailSenderTest extends TestCase {
 	public void testSend() throws Exception {
 		SimpleMailMessage msg = new SimpleMailMessage();
 		msg.setTo("badqiu@gmail.com");
-		msg.setFrom("rapidframework@126.com");
+		msg.setFrom("rapidframework@sohu.com");
 		msg.setText("hello: badqiu, <h1>2008</h1>");
 		msg.setSubject("test subject");
 		
