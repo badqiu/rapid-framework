@@ -9,12 +9,13 @@
 <!-- ======================================================================= -->
 <project name="rapid-framework" basedir="." default="war">
 	<tstamp></tstamp>
-	<property name="version" value="v1.0.3"></property>
 	 
 	<property environment="env"/>
 	<property file="build.properties" />
+	
 	<!--版本控制信息-->
-	<property name="version.message" value="version:${label} build:${cctimestamp}"/>
+	<property name="version" value="v1.0.3"></property>
+	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 	<property name="version.file" value="version.txt"></property>
 	<target name="generate_version">
 		<echo file="${dir.src.web}/${version.file}" append="no" message="${version.message}"/>
