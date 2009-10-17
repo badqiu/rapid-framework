@@ -256,11 +256,13 @@
 		<antcall target="rapid-framework.src.jar.zip"></antcall>
 	</target>
 	
-	<target name="daily_build">
+	<target name="daily_build" >
 		<tstamp>
-			<format property="label" pattern="yyyyMMdd"/>
+			<format property="today" pattern="yyyyMMdd"/>
 		</tstamp>
-		<antcall target="cc_main"/>
+		<property name="label" value="${today}"/>
+		<antcall target="cc_main">
+		</antcall>
 		<ant antfile="build-publish.xml"></ant>
 	</target>
 	
