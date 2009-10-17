@@ -1,4 +1,3 @@
-#labels v2.0.x,Featured
 <wiki:toc max_depth="2" />
 
 = 插件开发手册 =
