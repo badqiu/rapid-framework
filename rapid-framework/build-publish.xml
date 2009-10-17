@@ -9,7 +9,7 @@
 	
 	<target name="publish-ftp">
 		<ftp server="www.xxx.com" remotedir="/rapid/daily-build"
-				userid="xxx" passive="yes"
+				userid="xxx" passive="yes" verbose="true"
 				password="xxxx">
 			<fileset dir="dist">
 				<include name="*.zip"/>
