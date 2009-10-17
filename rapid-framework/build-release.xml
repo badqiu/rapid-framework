@@ -258,7 +258,7 @@
 	
 	<target name="daily_build" >
 		<tstamp>
-			<format property="version" pattern="yyyyMMdd"/>
+			<format property="version" pattern="yyyyMMdd_HHmm"/>
 		</tstamp>
 		<antcall target="cc_main"/>
 		<ant antfile="build-publish.xml"></ant>
