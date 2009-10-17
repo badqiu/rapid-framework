@@ -260,7 +260,7 @@
 		<tstamp>
 			<format property="today" pattern="yyyyMMdd"/>
 		</tstamp>
-		<property name="label" value="${today}"/>
+		<property name="label" value="${today}" userproperty="true"/>
 		<antcall target="cc_main">
 		</antcall>
 		<ant antfile="build-publish.xml"></ant>
