@@ -1,0 +1,23 @@
+
+<!--
+	for auto publish build results
+-->
+<project name="rapid-framework" basedir="." default="cc_main" >
+	<target name="publish-ftp">
+		<ftp server="www.xxx.com" remotedir="/rapid/daily-build"
+				userid="xxx" passive="yes"
+				password="xxxx">
+			<fileset dir="dist">
+				<include name="*.zip"/>
+				<include name="testreport/**"/>
+				<include name="javadoc/**"/>
+			</fileset>
+		</ftp>
+	</target>
+	
+	<target name="cc_main">
+		<ant antfile="build-release.xml" target="cc_main"></ant>
+		<antcall target="publish-ftp"/>
+	</target>
+	
+</project>
