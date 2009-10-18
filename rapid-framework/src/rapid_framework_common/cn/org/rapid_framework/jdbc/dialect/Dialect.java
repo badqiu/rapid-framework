@@ -14,7 +14,7 @@ public abstract class Dialect {
      * 源代码为: getLimitString(sql,offset,String.valueOf(offset),limit,String.valueOf(limit))
      */
     public String getLimitString(String sql, int offset, int limit) {
-    	return getLimitString(sql,offset,String.valueOf(offset),limit,String.valueOf(limit));
+    	return getLimitString(sql,offset,Integer.toString(offset),limit,Integer.toString(limit));
     }
     /**
      * 将sql变成分页sql语句,提供将offset及limit使用占位符(placeholder)替换.
