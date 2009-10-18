@@ -1,0 +1,21 @@
+
+= 插件安装使用说明 =
+{{{
+plugins        所有插件存放目录
+   struts2     struts2插件
+   hibernate   hibernate插件
+   ...
+   --build.xml 插件安装ant脚本,用于安装插件
+}}}
+现所有的插件存放在plugins目录,plugins目录包含一个ant脚本build.xml,通过运行该ant脚本来安装插件.
+
+=运行插件安装=
+通过eclipse打开文件,再打开outline视图,右键点击target即可运行ant任务
+
+==ant任务介绍==
+  * install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
+  * install_xxxxxx : 内置的几个名称用于快速插件安装,避免需要手工输入插件名称.
+	如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
+
+=不使用的插件处理=	
+插件安装完可以将所有插件删除,直接删除plugins目录即可
