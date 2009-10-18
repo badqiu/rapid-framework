@@ -23,11 +23,13 @@
       * [rapid_utils 其它工具类介绍]
   * 插件说明
     * web框架
+      * [rapid_plugin_switch_desc dao及web插件切换及使用(new)]
       * [plugin_struts2 web_struts2]
       * [plugin_struts web_struts]
       * [plugin_springmvc web_springmvc]
       * [plugin_springmvc_rest web_springmvc_rest v3.0]
     * dao层
+      * [rapid_plugin_switch_desc dao及web插件切换及使用(new)]
       * [plugin_hibernate dao_hibernate]
       * [plugin_spring_jdbc dao_spring_jdbc]
       * [plugin_ibatis dao_ibatis]
