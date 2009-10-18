@@ -6,6 +6,7 @@
   * 用户文档
     * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
+    * [rapid_dir_desc 插件安装及使用]
     * [rapid_generator 代码生成器rapid-generator]
     * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
     * [rapid_validation 表单验证rapid-validation]
