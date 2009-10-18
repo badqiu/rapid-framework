@@ -6,12 +6,11 @@ rapid-framework是一个以spring为核心的项目脚手架,以插件的方式�
 项目的结构是经典的三层结构: Action => Service => Dao
 
 =框架切换=
-现Web框架可以三选一
-struts,struts2,springmvc
+现Web框架可以四选一
+struts,struts2,springmvc,springmvc_rest
 
-现dao层可以三选一
-hibernate,iBatis,spring_jdbc
+现dao层可以四选一
+hibernate,iBatis,iBatis3,spring_jdbc
 
 spring是核心,必须使用.
 
-框架间的切换请查看项目自带的文档 *doc/guide.html*
