@@ -4,9 +4,9 @@
     * [generator_template_and_output 生成器模板及输出demo]
     * [demo_video demo视频]
   * 用户文档
-    * [rapid_summarize 概述]
+    * [rapid_summarize 概述(new)]
     * [rapid_dir_desc 目录结构]
-    * [rapid_plugin_switch_desc dao及web插件切换及使用]
+    * [rapid_plugin_switch_desc dao及web插件切换及使用(new)]
     * [rapid_generator 代码生成器rapid-generator]
     * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
     * [rapid_validation 表单验证rapid-validation]
