@@ -41,7 +41,6 @@ public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContex
 	
 	@AfterTransaction
 	public void onTearDownAfterTransaction() throws Exception {
-		System.out.println("[DbUnit INFO] delete test datas");
 		dbUnitHelper.deleteTestDatas();
 	}
 
