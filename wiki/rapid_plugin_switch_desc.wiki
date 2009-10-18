@@ -1,4 +1,3 @@
-
 = 介绍 =
 
 现rapid是典型的三层结构, dao,service,web controller三层.
@@ -43,20 +42,21 @@ spring jdbc dao
 = web 框架切换 = 
 {{{
 strust
-配置文件web/WEB-INF/struts-config.xml
-根据你的包结构修改struts的通配符配置
+    配置文件web/WEB-INF/struts-config.xml
+    根据你的包结构修改struts的通配符配置
+
 struts2
-配置文件src/resources/struts.xml
-修改说明:
- 1.修改pakcage的namespace属性,因为URL访问规则是: /namesapce/Entity/method.do 
- 2.根据你的包结构修改action节点的class属性 
+    配置文件src/resources/struts.xml
+    修改说明:
+     1.修改pakcage的namespace属性,因为URL访问规则是: /namesapce/Entity/method.do 
+     2.根据你的包结构修改action节点的class属性 
 springmvc
-配置文件:web/WEB-INF/springmvc-servlet.xml
+    配置文件:web/WEB-INF/springmvc-servlet.xml
 	修改说明:
 	1.修改class=ControllerClassNameHandlerMapping节点的pathPrefix以确定URL生成的前缀,URL规则为/pathPrefix/Entity/method.do,类似struts2的nemespace
 	(*)2.修改context:component-scan以确定要加载的controller,默认为com.**.controller
 springmvc_rest
-配置文件:web/WEB-INF/springmvc-servlet.xml
+    配置文件:web/WEB-INF/springmvc-servlet.xml
 	修改说明:
 	(*)1.修改context:component-scan以确定要加载的controller,默认为com.**.controller
 	注意: springmvc_rest的URL访问规则示例为: http://localhost:8080/${context}/userinfo
