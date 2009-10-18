@@ -10,8 +10,8 @@ Action那一层不要包含过多逻辑，一般不进去单元测试.
 该部分可以通过DBUnit来完成.
 
 完整过程如下:
-1. DbUnit插件测试需要的数据进入数据库
-2. 运行单元测试
-3. DbUnit删除测试数据
+  # DbUnit插件测试需要的数据进入数据库
+  # 运行单元测试
+  # DbUnit删除测试数据
 
 具体查看BaseDaoTestCase.java,BaseManagerTestCase.java的代码.
