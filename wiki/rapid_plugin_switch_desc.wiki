@@ -43,7 +43,7 @@ spring jdbc dao
 }}}
 
 = web 框架切换 (安插插件时选择安装一种即可)= 
-
+如果只是试用rapid-framework,默认值pages可不进行修改.
 {{{
 strust
     配置文件web/WEB-INF/struts-config.xml
@@ -71,5 +71,5 @@ springmvc
 
 springmvc_rest
     不用修改配置文件.
-    URL访问规则为: http://localhost:8080/${context}/userinfo
+    URL访问规则为: http://localhost:8080/${context_path}/userinfo
 }}}
