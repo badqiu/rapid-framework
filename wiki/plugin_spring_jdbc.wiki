@@ -1,6 +1,6 @@
 = spring jdbc插件 =
 
-主要改进是使用方言,请查看*[rapid_dialect 这里]*
+主要改进是使用方言,请查看*[rapid_dialect 分页查询方言(dialect)]*
 
 代码生成器对"增删改查"生成的代码如下:
 
