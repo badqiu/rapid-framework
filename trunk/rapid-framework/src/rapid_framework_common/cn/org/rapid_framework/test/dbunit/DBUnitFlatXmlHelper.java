@@ -97,6 +97,7 @@ public class DBUnitFlatXmlHelper {
 
 	/**删除测试数据*/
 	public void deleteTestDatas() throws DatabaseUnitException, SQLException {
+		System.out.println("[DbUnit INFO] delete test datas");
 		for(ListIterator it = testDataSets.listIterator(); it.hasNext();) {
 			IDataSet testDataSet = (IDataSet)it.next();
 			DatabaseOperation.DELETE.execute(getDatabaseConnection(),testDataSet);

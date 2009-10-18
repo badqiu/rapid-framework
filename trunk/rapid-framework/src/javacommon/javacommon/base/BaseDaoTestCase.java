@@ -39,7 +39,6 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 	
 	@AfterTransaction
 	public void onTearDownAfterTransaction() throws Exception {
-		System.out.println("[DbUnit INFO] delete test datas");
 		dbUnitHelper.deleteTestDatas();
 	}
 
