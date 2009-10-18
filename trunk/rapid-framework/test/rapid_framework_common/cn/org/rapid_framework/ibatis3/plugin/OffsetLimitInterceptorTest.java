@@ -55,6 +55,6 @@ public class OffsetLimitInterceptorTest {
 		}
 		long cost = System.currentTimeMillis() - start;
 		
-		System.out.println(String.format("costTime:%s perMethodCost:%s",cost,cost/(double)count));
+		System.out.println(String.format("costTime:%s perMethodCost:%s %s",cost,cost/(double)count,dialect.getClass().getSimpleName()));
 	}
 }
