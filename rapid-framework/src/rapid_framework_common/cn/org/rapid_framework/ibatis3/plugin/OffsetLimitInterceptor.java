@@ -57,7 +57,7 @@ public class OffsetLimitInterceptor implements Interceptor{
 	}
 
 	void processIntercept(final Object[] queryArgs) {
-		//queryArgs = query(MappedStatement ms, Object parameter, int offset, int limit, ResultHandler resultHandler)
+		//queryArgs = query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler)
 		MappedStatement ms = (MappedStatement)queryArgs[MAPPED_STATEMENT_INDEX];
 		Object parameter = queryArgs[PARAMETER_INDEX];
 		final RowBounds rowBounds = (RowBounds)queryArgs[ROWBOUNDS_INDEX];
