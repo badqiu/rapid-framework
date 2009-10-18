@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = 插件安装使用说明 =
 {{{
 plugins        所有插件存放目录
