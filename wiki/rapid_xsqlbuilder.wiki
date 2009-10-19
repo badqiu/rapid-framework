@@ -7,7 +7,6 @@ xsqlbuider是类似iBatis的动态sql构造工具
 
 =特性=
   * 动态构造sql条件语句,提供sql拼接与使用占位符两种方式 
-  * 数据类型的修饰 
   * 对SQL注入攻击的防范 
 
 =创建xsqlbuilder的原因=
@@ -64,9 +63,6 @@ username=badqiu
 /~ {key} ~/
 /~ [key] ~/
 /~ {key_1} [key_2] ... {key_3} ~/
-/~ {key?modifier} ~/
-/~ {key?modifier(arg1,arg2) ~/
-/~ {key?modifier?modifier?...?modifier} ~/
 }}}
 
 ==示例==
@@ -76,15 +72,8 @@ username=badqiu
 /~ birthDate > {startBirthDate} and birthDate < [endBirthDate] ~/
 }}}
 
-==数据据类型修饰==
-将Map filters中的数据类型修饰为另外一种类型
-{{{
-/~ {username} ~/
-/~ {age?int} ~/
-/~ {birthDate?timestamp(yyyy年MM月dd日)} ~/
-}}}
 
-==`中括号[]与大括号{}的区别`==
+==`中括号[]与大括号{}的区别(用于支持参数绑定)`==
 
 ===中括号会直接替换为其值,用于拼接SQL===
 {{{
