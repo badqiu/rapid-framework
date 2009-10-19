@@ -33,7 +33,7 @@
       * [plugin_hibernate dao_hibernate]
       * [plugin_spring_jdbc dao_spring_jdbc]
       * [plugin_ibatis dao_ibatis]
-      * [plugin_ibatis3 dao_ibatis3 v3.0]
+      * [plugin_ibatis3 dao_ibatis3 v3.0(new)]
     * view组件
       * [plugin_extjs extjs]
       * [plugin_flex flex]
