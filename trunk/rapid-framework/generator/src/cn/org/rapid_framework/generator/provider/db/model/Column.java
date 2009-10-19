@@ -380,6 +380,13 @@ public class Column {
 		}
 		if(DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits())) {
 			result += "validate-integer ";
+			if(getJavaType().indexOf("Short") >= 0) {
+				result += "max-value-"+Short.MAX_VALUE;
+			}else if(getJavaType().indexOf("Integer") >= 0) {
+				result += "max-value-"+Integer.MAX_VALUE;
+			}else if(getJavaType().indexOf("Byte") >= 0) {
+				result += "max-value-"+Byte.MAX_VALUE;
+			}
 		}
 //		if(DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits())) {
 //			result += "validate-date ";
