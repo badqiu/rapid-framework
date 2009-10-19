@@ -48,7 +48,8 @@ spring jdbc dao
 {{{
 strust
     配置文件web/WEB-INF/struts-config.xml
-    根据你的包结构修改struts的通配符配置
+    修改说明:
+          根据你的包结构修改struts的通配符配置
     URL访问规则为: 
          /namespace/Entity/method.do, 如/pages/User/list.do,
          完整URL示例: http://localhost:8080/${context_path}/pages/User/list.do 
