@@ -5,10 +5,10 @@
     * [demo_video demo视频]
     * [http://demo.rapid-framework.org.cn:8080/springmvc_rest_demo/userinfo 在线sprngmvc_rest+ibatis3示例]
   * 用户文档
-    * [rapid_summarize 概述(new)]
+    * [rapid_summarize 概述(new20090915)]
     * [rapid_dir_desc 目录结构]
-    * [rapid_plugin_install_desc 插件安装器介绍(new)]
-    * [rapid_plugin_switch_desc dao及web插件切换及使用(new)]
+    * [rapid_plugin_install_desc 插件安装器介绍(new20091018)]
+    * [rapid_plugin_switch_desc dao及web插件切换及使用(new20091018)]
     * [rapid_generator 代码生成器rapid-generator]
     * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
     * [rapid_validation 表单验证rapid-validation]
