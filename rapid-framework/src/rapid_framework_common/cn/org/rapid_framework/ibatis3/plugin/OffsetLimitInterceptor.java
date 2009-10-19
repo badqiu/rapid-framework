@@ -89,12 +89,19 @@ public class OffsetLimitInterceptor implements Interceptor{
 		builder.statementType(ms.getStatementType());
 		builder.keyGenerator(ms.getKeyGenerator());
 		builder.keyProperty(ms.getKeyProperty());
+		
 		builder.timeout(ms.getTimeout());
+		
 		builder.parameterMap(ms.getParameterMap());
+		
 		builder.resultMaps(ms.getResultMaps());
+		builder.resultSetType(ms.getResultSetType());
+	    
 		builder.cache(ms.getCache());
-		MappedStatement newMs = builder.build();
-		return newMs;
+		builder.flushCacheRequired(ms.isFlushCacheRequired());
+		builder.useCache(ms.isUseCache());
+		
+		return builder.build();
 	}
 
 	public Object plugin(Object target) {
