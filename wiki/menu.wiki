@@ -3,6 +3,7 @@
     * [snapshot 界面预览图]
     * [generator_template_and_output 生成器模板及输出demo]
     * [demo_video demo视频]
+    * [http://demo.rapid-framework.org.cn:8080/springmvc_rest_demo/userinfo 在线sprngmvc_rest+ibatis3示例]
   * 用户文档
     * [rapid_summarize 概述(new)]
     * [rapid_dir_desc 目录结构]
