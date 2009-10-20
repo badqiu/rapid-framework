@@ -32,7 +32,7 @@ public class HSQLMemDataSourceUtils {
 			File file = ResourceUtils.getFile("classpath:"+initScripts.getName().replace('.', '/')+".sql");
 			return getDataSource(file,encoding);
 		} catch (FileNotFoundException e) {
-			throw new RuntimeException("sql file not found",e);
+			throw new IllegalStateException("sql file not found",e);
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class HSQLMemDataSourceUtils {
 			input = new InputStreamReader(initScripts.getInputStream(),encoding);
 			return getDataSource(input);
 		} catch (Exception e) {
-			throw new RuntimeException("get datasource occer Exception:"+e,e);
+			throw new IllegalStateException("get datasource occer Exception:"+e,e);
 		}finally {
 			IOUtils.closeQuietly(input);
 		}
@@ -59,7 +59,7 @@ public class HSQLMemDataSourceUtils {
 			input = new InputStreamReader(new FileInputStream(initScripts),encoding);
 			return getDataSource(input);
 		} catch (IOException e) {
-			throw new RuntimeException("get datasource occer IOException:"+e,e);
+			throw new IllegalStateException("get datasource occer IOException:"+e,e);
 		}finally {
 			IOUtils.closeQuietly(input);
 		}
@@ -71,7 +71,7 @@ public class HSQLMemDataSourceUtils {
 		try {
 			runDataSourceWithScripts(initScripts, ds);
 		} catch (Exception e) {
-			throw new RuntimeException("execute sql error",e);
+			throw new IllegalStateException("execute sql error",e);
 		}
 		return ds;
 	}
@@ -103,7 +103,7 @@ public class HSQLMemDataSourceUtils {
 					stat.execute(tokenSql);
 					stat.close();
 				}catch(SQLException e) {
-					throw new SQLException("execute sql error:"+e+" error sql:\n"+tokenSql,e);
+					throw new SQLException("execute sql error:"+e+" error sql:\n"+tokenSql+" cause:"+e);
 				}
 			}
 		}finally {
