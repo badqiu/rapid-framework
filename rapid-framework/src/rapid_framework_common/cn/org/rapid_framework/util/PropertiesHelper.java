@@ -343,10 +343,6 @@ public class PropertiesHelper {
 		p.store(out, comments);
 	}
 
-	public void store(Writer writer, String comments) throws IOException {
-		p.store(writer, comments);
-	}
-
 	public void storeToXML(OutputStream os, String comment, String encoding)
 			throws IOException {
 		p.storeToXML(os, comment, encoding);
@@ -354,10 +350,6 @@ public class PropertiesHelper {
 
 	public void storeToXML(OutputStream os, String comment) throws IOException {
 		p.storeToXML(os, comment);
-	}
-
-	public Set<String> stringPropertyNames() {
-		return p.stringPropertyNames();
 	}
 
 	public Collection<Object> values() {
