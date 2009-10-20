@@ -38,6 +38,9 @@
 具体请查看项目的doc目录下面的文档.
 具体你也可以查看template目录有没有jsp等内容，因为生成器会加载该目录的模板然后生成代码的。
 
+== 代码生成器的hibernate模板可不可以生成one-to-many,many-to-one? ==
+可以，只要两张表之间有外键关系就会自动生成.
+
 == 代码生成器的hibernate模板可不可以生成many-to-many? ==
 现可以生成many-to-one,one-to-many,但不能生成many-to-many,这个需要自己手写。
 
