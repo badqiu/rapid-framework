@@ -4,7 +4,7 @@
 
 本插件适用于一般小型项目的邮件发送需求
 
-本插件预计rapid-framework-v3.0发布
+本插件rapid-framework-v3.0发布
 
 =Mailer特性=
   # 使用AsyncJavaMailSender启动线程池可以异步发送邮件并通过[http://badqiu.javaeye.com/blog/461089 AsyncToken]得到发送结果。
@@ -31,7 +31,7 @@ public class OrderMailer extends BaseMailer{
 	 */
 	public SimpleMailMessage createConfirmOrder(String username) {
 		SimpleMailMessage msg = newSimpleMsgFromTemplate("测试邮件subject");
-		msg.setTo("badqiu@gmail.com");
+		msg.setTo("badqiu(a)gmail.com");
 		
 		final Map model = new HashMap();
 		model.put("username", username);
