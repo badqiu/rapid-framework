@@ -1,11 +1,23 @@
 package cn.org.rapid_framework.consistenthash;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
+/**
+ * 一致性hash
+ * 
+ * python实现: http://pypi.python.org/pypi/hash_ring/1.2
+ * PHP: http://code.google.com/p/flexihash/
+ * 
+ * 一致性哈希算法: http://www.cnblogs.com/zsm/archive/2008/12/23/1360297.html
+ * CONSISTENT HASHING算法: http://www.yeeach.com/2009/10/02/consistent-hashing%E7%AE%97%E6%B3%95/
+ * google keyword: DHT, Hash trees or Merkle trees
+ * http://en.wikipedia.org/wiki/Hash_tree
+ * 
+ * @author badqiu
+ *
+ * @param <T>
+ */
 public class ConsistentHash<T> {
 
 	private final HashFunction hashFunction; //hash 
