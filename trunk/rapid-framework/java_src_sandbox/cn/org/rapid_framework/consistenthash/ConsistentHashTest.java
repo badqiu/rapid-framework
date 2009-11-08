@@ -15,6 +15,10 @@ public class ConsistentHashTest {
 		nodes.add("server1");
 		nodes.add("server2");
 		nodes.add("server3");
+		nodes.add("server4");
+		nodes.add("server5");
+		nodes.add("server6");
+		nodes.add("server7");
 		
 		hash = new ConsistentHash(new MD5HashFunction(),1,nodes);
 	}
@@ -25,16 +29,12 @@ public class ConsistentHashTest {
 		}
 		
 		remove(hash, "server1");
+		add(hash,"server10");
 		
 		for(int i = 0; i < 10; i++) {
 			get(hash,""+i);
 		}
 		
-		add(hash,"server4");
-		
-		for(int i = 0; i < 10; i++) {
-			get(hash,""+i);
-		}
 	}
 
 	private static void add(ConsistentHash hash, String node) {
