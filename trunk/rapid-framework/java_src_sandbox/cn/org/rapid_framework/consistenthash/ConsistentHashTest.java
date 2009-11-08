@@ -16,9 +16,6 @@ public class ConsistentHashTest {
 		nodes.add("server2");
 		nodes.add("server3");
 		nodes.add("server4");
-		nodes.add("server5");
-		nodes.add("server6");
-		nodes.add("server7");
 		
 		hash = new ConsistentHash(new MD5HashFunction(),1,nodes);
 	}
@@ -39,17 +36,17 @@ public class ConsistentHashTest {
 
 	private static void add(ConsistentHash hash, String node) {
 		hash.add(node);
-		System.out.println("added node:"+node+" circle:"+hash.getCircle());
+		System.out.println("added node:"+node+" circle:"+hash.circle);
 	}
 	
 	private static void remove(ConsistentHash hash, String node) {
 		hash.remove("server1");
-		System.out.println("removed node:"+node+" circle:"+hash.getCircle());
+		System.out.println("removed node:"+node+" circle:"+hash.circle);
 	}
 
 	private static void get(ConsistentHash hash, String key) {
 		Object value = hash.get(key);
-		System.out.println(key+"="+value+" circle:"+hash.getCircle());
+		System.out.println(key+"="+value+" circle:"+hash.circle);
 	}
 	
 }
