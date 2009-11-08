@@ -25,7 +25,7 @@ public class ConsistentHash<T> {
 
 	private final HashFunction hashFunction; //计算hash的接口,可以拥有不同实现
 	private final int numberOfReplicas; //节点副本数,主要用于创建虚拟节点,以便解决在节点数少时,hash分布不均匀的问题
-	private final SortedMap<Integer, T> circle = new TreeMap<Integer, T>(); //hash 环
+	final SortedMap<Integer, T> circle = new TreeMap<Integer, T>(); //hash 环
 	
 	public ConsistentHash(HashFunction hashFunction, int numberOfReplicas,Collection<T> nodes) {
 		if(numberOfReplicas <= 0) throw new IllegalArgumentException("numberOfReplicas must be great than zero");
@@ -59,10 +59,6 @@ public class ConsistentHash<T> {
 			hash = tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
 		}
 		return circle.get(hash);
-	}
-
-	public Map getCircle() {
-		return circle;
 	}
 
 }
