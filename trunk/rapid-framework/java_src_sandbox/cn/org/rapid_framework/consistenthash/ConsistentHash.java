@@ -1,10 +1,11 @@
 package cn.org.rapid_framework.consistenthash;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 /**
- * 一致性hash
+ * 一致性哈希
  * 
  * python实现: http://pypi.python.org/pypi/hash_ring/1.2
  * PHP: http://code.google.com/p/flexihash/
@@ -58,5 +59,8 @@ public class ConsistentHash<T> {
 		return circle.get(hash);
 	}
 
+	public Map getCircle() {
+		return circle;
+	}
 
 }
