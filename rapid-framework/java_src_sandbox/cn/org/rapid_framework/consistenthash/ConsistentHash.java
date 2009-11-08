@@ -12,6 +12,7 @@ import java.util.TreeMap;
  * 
  * 一致性哈希算法: http://www.cnblogs.com/zsm/archive/2008/12/23/1360297.html
  * CONSISTENT HASHING算法: http://www.yeeach.com/2009/10/02/consistent-hashing%E7%AE%97%E6%B3%95/
+ * 某分布式应用实践一致性哈希的一些问题: http://timyang.net/architecture/consistent-hashing-practice/
  * google keyword: DHT, Hash trees or Merkle trees
  * http://en.wikipedia.org/wiki/Hash_tree
  * 
