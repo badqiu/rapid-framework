@@ -28,6 +28,7 @@ public class ConsistentHash<T> {
 	private final SortedMap<Integer, T> circle = new TreeMap<Integer, T>(); //hash 环
 	
 	public ConsistentHash(HashFunction hashFunction, int numberOfReplicas,Collection<T> nodes) {
+		if(numberOfReplicas <= 0) throw new IllegalArgumentException("numberOfReplicas must be great than zero");
 		this.hashFunction = hashFunction;
 		this.numberOfReplicas = numberOfReplicas;
 
