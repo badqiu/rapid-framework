@@ -13,7 +13,7 @@ public class MD5HashFunction implements HashFunction{
 			throw new IllegalStateException("NoSuchAlgorithmException:MD5",e);
 		}
 		md5.update(obj.toString().getBytes());
-		return new String(md5.digest()).hashCode();
+		return Math.abs(new String(md5.digest()).hashCode());
 	}
 
 }
