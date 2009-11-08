@@ -29,6 +29,7 @@ public class ConsistentHash<T> {
 	
 	public ConsistentHash(HashFunction hashFunction, int numberOfReplicas,Collection<T> nodes) {
 		if(numberOfReplicas <= 0) throw new IllegalArgumentException("numberOfReplicas must be great than zero");
+		if(hashFunction == null) throw new IllegalArgumentException("hashFunction must be not null");
 		this.hashFunction = hashFunction;
 		this.numberOfReplicas = numberOfReplicas;
 
