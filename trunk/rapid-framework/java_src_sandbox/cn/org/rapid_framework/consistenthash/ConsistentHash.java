@@ -16,6 +16,7 @@ import java.util.TreeMap;
  * google keyword: DHT, Hash trees or Merkle trees
  * http://en.wikipedia.org/wiki/Hash_tree
  * 
+ * TODO 还可以增加权重变量以区别hash
  * @author badqiu
  *
  * @param <T>
