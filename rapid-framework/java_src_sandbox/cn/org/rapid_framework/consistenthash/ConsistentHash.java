@@ -23,7 +23,7 @@ import java.util.TreeMap;
  */
 public class ConsistentHash<T> {
 
-	private final HashFunction hashFunction; //计算hash的接口,可以拥有不同实现
+	private final HashFunction hashFunction; //计算hash的接口,可以拥有不同实现,主要由于默认的Object.hashCode() hash不均匀
 	private final int numberOfReplicas; //节点副本数,主要用于创建虚拟节点,以便解决在节点数少时,hash分布不均匀的问题
 	final SortedMap<Integer, T> circle = new TreeMap<Integer, T>(); //hash 环
 	

@@ -2,7 +2,11 @@ package cn.org.rapid_framework.consistenthash;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+/**
+ * 通过md5提供更加均匀分布的hash
+ * @author badqiu
+ *
+ */
 public class MD5HashFunction implements HashFunction{
 	
 	public int hash(Object obj) {
