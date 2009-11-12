@@ -7,7 +7,7 @@
 = dao层切换 (安插插件时选择安装一种即可)=
 dao层的修改主要包含两点:
   * 数据库方言的修改,方言的主要作用是可以为jdbc,ibatis,ibatis3提供分页功能,默认是MysqlDialect
-  * 主键生成策略的修改,默认是MysqlDialect的auto_increment
+  * 主键生成策略的修改,默认是Mysql的auto_increment
 另spring applicationContext-dao.xml的context:component-scan节点默认加载com.**.dao.
 
 {{{
