@@ -111,9 +111,22 @@ public class AsyncOutputStream extends OutputStream{
 			}
 		}
 	}
-	
+
 	@Override
 	public void flush() throws IOException {
+	}
+
+	public void forceFlush() throws IOException {
+		synchronized (this) {
+			// wait until dataQueue is empty, before calling flush()
+			while (queue.size() > 0) {
+				try {
+					wait(100);
+				} catch (InterruptedException e) {
+				}
+			}
+			output.flush();
+		}
 	}
 	
 	@Override

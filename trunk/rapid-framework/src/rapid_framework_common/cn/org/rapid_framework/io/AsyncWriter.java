@@ -141,6 +141,19 @@ public class AsyncWriter extends Writer {
 	
 	public void flush() throws IOException {
 	}
+	
+	public void forceFlush() throws IOException {
+		synchronized (lock) {
+			// wait until dataQueue is empty, before calling flush()
+			while (queue.size() > 0) {
+				try {
+					wait(100);
+				} catch (InterruptedException e) {
+				}
+			}
+			out.flush();
+		}
+	}
 
 	protected void finalize() throws Throwable {
 		super.finalize();
