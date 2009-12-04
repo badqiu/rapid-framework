@@ -5,6 +5,7 @@
 <div id="credits">
 <p>&copy; 2009 <?php bloginfo('name'); ?> - Hosted on <a href="http://www.radsaga.com/">Redsaga</a> - <a href="http://www.dailyblogtips.com/wordpress-themes/">WordPress Themes</a> by DBT</p> 
 <p><a href="feed:<?php bloginfo('rss2_url'); ?>">Full RSS</a> - <a href="feed:<?php bloginfo('comments_rss2_url'); ?>">Comments RSS</a></p>
+<p><a href="http://www.miibeian.gov.cn">粤ICP备08113761号</a></p>
 </div>
 
 <div class="cleared"></div>
