@@ -11,7 +11,7 @@ class Utils {
 	
 	public static String BLOCK = "___block___@";
 	
-	public static String getBlockName(String name) {
+	public static String getBlockVariableName(String name) {
 		String realName = BLOCK + name;
 		return realName;
 	}
