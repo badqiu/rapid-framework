@@ -9,7 +9,7 @@ import freemarker.template.TemplateException;
 
 class Utils {
 	
-	public static String BLOCK = "__block__";
+	public static String BLOCK = "___block___@";
 	
 	public static String getBlockName(String name) {
 		String realName = BLOCK + name;
