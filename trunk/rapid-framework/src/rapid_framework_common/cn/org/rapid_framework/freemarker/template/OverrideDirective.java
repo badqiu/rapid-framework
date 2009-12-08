@@ -13,22 +13,16 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
 public class OverrideDirective implements TemplateDirectiveModel {
-	public static String BLOCK = "__block__";
 	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-		String name = BlockDirective.getRequiredParam(params, "name", env);
-		if(env.getVariable(getBlockName(name)) == null) {
+		String name = Utils.getRequiredParam(params, "name", env);
+		if(env.getVariable(Utils.getBlockName(name)) == null) {
 			StringWriter out = new StringWriter(1024);
 			body.render(out);
-			env.setVariable(getBlockName(name),new StringModel(out.toString(),new BeansWrapper()));
+			env.setVariable(Utils.getBlockName(name),new StringModel(out.toString(),new BeansWrapper()));
 		}
-	}
-	
-	public static String getBlockName(String name) {
-		String realName = BLOCK + name;
-		return realName;
 	}
 
 }
