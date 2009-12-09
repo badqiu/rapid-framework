@@ -1,0 +1,2 @@
+<@override name="body">child_body_content</@override>
+<#include "base.flt"/>
