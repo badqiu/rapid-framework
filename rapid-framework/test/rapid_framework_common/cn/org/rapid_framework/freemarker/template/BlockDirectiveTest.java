@@ -27,5 +27,6 @@ public class BlockDirectiveTest {
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processor.processTemplate("base.flt", new HashMap()));
 		assertEquals("<html><head>base_head_content</head><body>child_body_content</body></html>",processor.processTemplate("child.flt", new HashMap()).trim());
 		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processor.processTemplate("grandchild.flt", new HashMap()).trim());
+		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processor.processTemplate("base-ext.flt", new HashMap()));
 	}
 }
