@@ -12,9 +12,9 @@
     * [rapid_generator 代码生成器rapid-generator]
     * [rapid_ant ant脚本]
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
-    * view层
+    * view层(new)
       * [rapid_validation 表单验证rapid-validation]
-      * [rapid_jsp_extends jsp实现"类"的继承关系]
+      * [rapid_jsp_extends jsp实现"类"的继承关系(new)]
     * rapid持久层介绍
       * [rapid_transaction spring事务]
       * [rapid_dialect jdbc分页方言]
