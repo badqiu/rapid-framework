@@ -15,7 +15,6 @@ public class OverrideTag extends BodyTagSupport{
 
 	@Override
 	public int doStartTag() throws JspException {
-		String varName = Utils.getOverrideVariableName(name);
 		return isOverrided() ? SKIP_BODY : EVAL_BODY_BUFFERED;
 	}
 
