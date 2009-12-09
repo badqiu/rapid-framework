@@ -1,0 +1,145 @@
+#summary One-sentence summary of this page.
+
+=1.介绍=
+使用过python django模板的应该清楚，django里面有一个激动人心的功能就是模板可以使用类的继承关系。 即模板是可以继承的，并且不限继承的层次。
+如
+1. child.html extends base.html
+2. grandchild.html extends child.html
+这样，我们在base.html中定义好html布局,然后在“子类”（我们这样称呼吧）重定义需要父页面内容即可
+
+=2.jsp继承示例=
+现在我们来看jsp中如何实现此功能(django与下面的声明类似)。
+*父页面: base.jsp,定义布局*
+{{{
+<%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
+<html>  
+   <rapid:block name="head">base_head_content</rapid:block>  
+<body>  
+   <br />  
+   <rapid:block name="content">base_body_content</rapid:block>  
+</body>  
+</html>
+}}}
+*子页面: child.jsp*
+{{{
+<%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
+<% //重定义父页面的内容为content的内容 %>  
+<rapid:override name="content">  
+    child_body_content  
+</rapid:override>  
+   
+<!-- extends from base.jsp -->  
+<%@ include file="base.jsp" %> 
+}}}
+
+如上: 我们使用了两个jsp tag: block,override，还有<@include >指令.
+*下面描述各个功能:*
+  * override tag:  会将标签里面的内容保存为pageContext的变量，变量名称为name的属性加前缀，如 __override__$name = tag内容
+  * block tag:  根据name属性名称，如果发现__override__$name变量，则显示被重定义的内容，否则显示自身tag的内容.
+  * @include指令: 通过该指令来实现继承(extends)的功能（只能使用这个技巧），该指令必须放置在页面的最后面
+
+==输出==
+
+直接访问base.jsp输出:
+{{{
+<html>  
+ base_head_content  
+<body>  
+ <br />  
+ base_body_content  
+</body>  
+</html>  
+}}}
+ 访问child.jsp输出：
+{{{
+<html>  
+ base_head_content  
+<body>  
+ <br />  
+ child_body_content  
+</body>  
+</html> 
+}}}
+可以看到，child.jsp的的body输出内容被重定义了.
+现该tag可以实现jsp的无限级的继承关系. 即 grandchild.jsp 继承 child.jsp , child.jsp继承 base.jsp 
+
+3.具体实现方式:
+{{{
+public class BlockTag extends TagSupport{  
+   
+ private String name;  
+   
+ public void setName(String name) {  
+  this.name = name;  
+ }  
+   
+ @Override  
+ public int doStartTag() throws JspException {  
+  return getOverriedContent() == null ? EVAL_BODY_INCLUDE : SKIP_BODY;  
+ }  
+   
+ @Override  
+ public int doEndTag() throws JspException {  
+  String overriedContent = getOverriedContent();  
+  if(overriedContent == null) {  
+   return EVAL_PAGE;  
+  }  
+    
+  try {  
+   pageContext.getOut().write(overriedContent);  
+  } catch (IOException e) {  
+   throw new JspException("tag output error",e);  
+  }  
+  return EVAL_PAGE;  
+ }  
+   
+ private String getOverriedContent() {  
+  String varName = Utils.getOverrideVariableName(name);  
+  return (String)pageContext.getAttribute(varName);  
+ }  
+}  
+}}}
+
+{{{
+public class OverrideTag extends BodyTagSupport{  
+    
+ private String name;  
+   
+ public void setName(String name) {  
+  this.name = name;  
+ }  
+   
+ @Override  
+ public int doStartTag() throws JspException {  
+  return isOverrided() ? SKIP_BODY : EVAL_BODY_BUFFERED;  
+ }  
+   
+ @Override  
+ public int doEndTag() throws JspException {  
+  if(isOverrided()) {  
+   return EVAL_PAGE;  
+  }  
+  BodyContent b = getBodyContent();  
+  String varName = Utils.getOverrideVariableName(name);  
+  pageContext.setAttribute(varName, b.getString());  
+  return EVAL_PAGE;  
+ }  
+   
+ private boolean isOverrided() {  
+  String varName = Utils.getOverrideVariableName(name);  
+  return pageContext.getAttribute(varName) != null;  
+ }  
+    
+}  
+}}}
+
+{{{
+class Utils {  
+ public static String BLOCK = "__override__";  
+ public static String getOverrideVariableName(String name) {  
+  return BLOCK + name;  
+ }  
+}  
+}}}
+
+可以看到，实现代码不需要100行，重要是的实现技巧,由此，你从此可以放弃使用sitemesh,struts-tile. 并且如上实现方式具有更高性能。
