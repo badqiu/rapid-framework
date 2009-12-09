@@ -49,6 +49,7 @@
 	<!-- 自定义freemarker指令 -->
 	<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.template.BlockDirective"></bean>
 	<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.template.OverrideDirective"></bean>
+	<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.template.ExtendsDirective"></bean>
 	
 	<!-- freemarker模板相关配置-->	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
@@ -60,6 +61,7 @@
 					<map>
 						<entry key="block" value-ref="blockDirective"/>
 						<entry key="override" value-ref="overrideDirective"/>
+						<entry key="extends" value-ref="overrideDirective"/>
 					</map>
 				</property>
 			</bean>
