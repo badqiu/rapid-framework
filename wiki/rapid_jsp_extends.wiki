@@ -70,7 +70,7 @@
 
 可以看到，child.jsp的的body输出内容被`<rapid:override/>`重定义了,而head部分还是base.jsp的内容.
 
-=3.具体实现方式:=
+=3.具体实现:=
 {{{
 public class BlockTag extends TagSupport{  
    
