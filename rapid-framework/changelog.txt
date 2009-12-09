@@ -1,4 +1,9 @@
 --------------------------------------------------------
+rapid-framework v3.1
+jsp 可以实现如类的继承体系: <rapid:block /> <rapid:override />
+freemarker 可以实现如类的继承体系: <@block /> <@override />
+
+--------------------------------------------------------
 rapid-framework v3.0
 
 新增插件
