@@ -13,7 +13,7 @@
 
   <tag>
     <description>
-	block desc
+		block tag
     </description>
     <name>block</name>
     <tag-class>cn.org.rapid_framework.web.tags.BlockTag</tag-class>
@@ -31,7 +31,7 @@
 
   <tag>
     <description>
-	override desc
+		override desc
     </description>
     <name>override</name>
     <tag-class>cn.org.rapid_framework.web.tags.OverrideTag</tag-class>
@@ -39,7 +39,7 @@
 
     <attribute>
         <description>
-			override name
+			override name, must be equals block name for override
         </description>
         <name>name</name>
         <required>true</required>
