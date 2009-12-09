@@ -15,24 +15,25 @@ public class OverrideTag extends BodyTagSupport{
 
 	@Override
 	public int doStartTag() throws JspException {
-		return EVAL_BODY_BUFFERED;
+		String varName = Utils.getOverrideVariableName(name);
+		return isOverrided() ? SKIP_BODY : EVAL_BODY_BUFFERED;
 	}
 
 	@Override
-	public int doAfterBody() throws JspException {
+	public int doEndTag() throws JspException {
+		if(isOverrided()) {
+			return EVAL_PAGE;
+		}
 		BodyContent b = getBodyContent();
 //		System.out.println("Override.content:"+b.getString());
 		String varName = Utils.getOverrideVariableName(name);
-		if(pageContext.getAttribute(varName) == null) {
-			pageContext.setAttribute(varName, b.getString());
-		}
-		b.clearBody();
-		return SKIP_BODY;
-	}
-	
-	@Override
-	public int doEndTag() throws JspException {
+		pageContext.setAttribute(varName, b.getString());
 		return EVAL_PAGE;
+	}
+
+	private boolean isOverrided() {
+		String varName = Utils.getOverrideVariableName(name);
+		return pageContext.getAttribute(varName) != null;
 	}
 	
 	@Override
