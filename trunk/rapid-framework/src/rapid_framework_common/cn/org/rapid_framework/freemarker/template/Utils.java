@@ -18,7 +18,15 @@ class Utils {
 	public static String getRequiredParam(Map params,String key,Environment env) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
-			throw new TemplateException("not found required param:"+key,env);
+			throw new TemplateException("not found required argument:"+key,env);
+		}
+		return value.toString();
+	}
+	
+	public static String getParam(Map params,String key,Environment env) throws TemplateException {
+		Object value = params.get(key);
+		if(value == null || StringUtils.isEmpty(value.toString())) {
+			return null;
 		}
 		return value.toString();
 	}
