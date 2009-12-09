@@ -3,13 +3,10 @@ package cn.org.rapid_framework.web.tags;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
-import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.TagSupport;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
-
-public class BlockTag extends BodyTagSupport{
+public class BlockTag extends TagSupport{
 
 	private String name;
 	
@@ -22,43 +19,29 @@ public class BlockTag extends BodyTagSupport{
 	 */
 	@Override
 	public int doStartTag() throws JspException {
-		return EVAL_BODY_BUFFERED;
+		return getOverriedContent() == null ? EVAL_BODY_INCLUDE : SKIP_BODY;
 	}
 
-	/**
-	 * @return EVAL_BODY_AGAIN or SKIP_BODY
-	 */
-	@Override
-	public int doAfterBody() throws JspException {
-		BodyContent b = getBodyContent();
-		System.out.println("block_content:"+b.getString());
-		String varName = Utils.getOverrideVariableName(name);
-		String overrideContent = getOverriedContent(varName);
-		String outputContent = overrideContent == null ? b.getString() : overrideContent;
-		//b.clearBody();
-		try {
-			b.getEnclosingWriter().write(outputContent);
-			//pageContext.getOut().append(outputContent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return SKIP_BODY;
-	}
-	
 	/**
 	 * @return EVAL_PAGE or SKIP_PAGE
 	 */
 	@Override
 	public int doEndTag() throws JspException {
+		String overriedContent = getOverriedContent();
+		if(overriedContent == null) {
+			return EVAL_PAGE;
+		}
+		
+		try {
+			pageContext.getOut().write(overriedContent);
+		} catch (IOException e) {
+			throw new JspException("tag output error",e);
+		}
 		return EVAL_PAGE;
 	}
 	
-	@Override
-	public void setBodyContent(BodyContent b) {
-		super.setBodyContent(b);
-	}
-
-	private String getOverriedContent(String varName) {
+	private String getOverriedContent() {
+		String varName = Utils.getOverrideVariableName(name);
 		return (String)pageContext.getAttribute(varName);
 	}
 }
