@@ -10,16 +10,16 @@
     * [rapid_plugin_install_desc 插件安装器介绍(new)]
     * [rapid_plugin_switch_desc dao及web插件切换及使用(new)]
     * [rapid_generator 代码生成器rapid-generator]
-    * [rapid_validation 表单验证rapid-validation]
     * [rapid_ant ant脚本]
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
     * view层
+      * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现"类"的继承关系]
     * rapid持久层介绍
       * [rapid_transaction spring事务]
       * [rapid_dialect jdbc分页方言]
-      * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
       * [rapid_ibatis ibatis分页及方言]
+      * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
     * 测试
       * [rapid_junit 单元测试]
       * [cruisecontrol 持续集成]
