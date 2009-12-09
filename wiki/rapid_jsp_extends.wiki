@@ -49,7 +49,7 @@
 
 ==输出==
 
-直接访问base.jsp输出:
+*直接访问base.jsp输出:*
 {{{
 <html>  
  base_head_content  
@@ -59,7 +59,8 @@
 </body>  
 </html>  
 }}}
- 访问child.jsp输出：
+
+*访问child.jsp输出:*
 {{{
 <html>  
  base_head_content  
@@ -72,6 +73,7 @@
 </body>  
 </html> 
 }}}
+
 可以看到，child.jsp的的body输出内容被重定义了.
 现该tag可以实现jsp的无限级的继承关系. 即 grandchild.jsp 继承 child.jsp , child.jsp继承 base.jsp 
 
