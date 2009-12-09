@@ -36,9 +36,4 @@ public class OverrideTag extends BodyTagSupport{
 		return pageContext.getAttribute(varName) != null;
 	}
 	
-	@Override
-	public void setBodyContent(BodyContent b) {
-		super.setBodyContent(b);
-	}
-	
 }
