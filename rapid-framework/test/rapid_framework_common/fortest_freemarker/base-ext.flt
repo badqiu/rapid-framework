@@ -1,4 +1,1 @@
-<#macro extends name>
-	<#include name/>
-</#macro>
-<@extends "base.flt"/>
+<@extends name="base.flt"/>

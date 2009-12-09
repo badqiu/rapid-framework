@@ -20,6 +20,7 @@ public class BlockDirectiveTest {
 		processor.setConfiguration(conf);
 		conf.setSharedVariable("block", new BlockDirective());
 		conf.setSharedVariable("override", new OverrideDirective());
+		conf.setSharedVariable("extends", new ExtendsDirective());
 		File dir = ResourceUtils.getFile("classpath:fortest_freemarker");
 		conf.setDirectoryForTemplateLoading(dir);
 		System.out.println(dir.getAbsolutePath());
