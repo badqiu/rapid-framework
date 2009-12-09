@@ -23,7 +23,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	public FreemarkerTemplateProcessor() {}
 	
 	public FreemarkerTemplateProcessor(Configuration configuration) {
-		this.configuration = configuration;
+		setConfiguration(configuration);
 	}
 
 	public void setConfiguration(Configuration freemarkerConfiguration) {
