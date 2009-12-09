@@ -20,9 +20,11 @@
 {{{
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
 <html>  
+<haed>
    <rapid:block name="head">
         base_head_content
-   </rapid:block>  
+   </rapid:block>
+</head>  
 <body>  
    <br />  
    <rapid:block name="content">
@@ -56,8 +58,10 @@
 
 *访问child.jsp输出:*
 {{{
-<html>  
- base_head_content  
+<html>
+<haed>  
+ base_head_content
+</haed>  
 <body>  
  <br />  
      <div>
