@@ -9,11 +9,10 @@ import freemarker.template.TemplateException;
 
 class Utils {
 	
-	public static String BLOCK = "___block___@";
+	public static String BLOCK = "__override__";
 	
-	public static String getBlockVariableName(String name) {
-		String realName = BLOCK + name;
-		return realName;
+	public static String getOverrideVariableName(String name) {
+		return BLOCK + name;
 	}
 	
 	public static String getRequiredParam(Map params,String key,Environment env) throws TemplateException {

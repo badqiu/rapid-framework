@@ -18,10 +18,11 @@ public class OverrideDirective implements TemplateDirectiveModel {
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		String name = Utils.getRequiredParam(params, "name", env);
-		if(env.getVariable(Utils.getBlockVariableName(name)) == null) {
+		String overrideVariableName = Utils.getOverrideVariableName(name);
+		if(env.getVariable(overrideVariableName) == null) {
 			StringWriter out = new StringWriter(1024);
 			body.render(out);
-			env.setVariable(Utils.getBlockVariableName(name),new StringModel(out.toString(),new BeansWrapper()));
+			env.setVariable(overrideVariableName,new StringModel(out.toString(),new BeansWrapper()));
 		}
 	}
 

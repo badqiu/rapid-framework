@@ -28,7 +28,7 @@ public class BlockDirective implements TemplateDirectiveModel{
 	}
 
 	private String getOverrideContent(Environment env, String name) throws TemplateModelException {
-		StringModel stringModel = ((StringModel)env.getVariable(Utils.getBlockVariableName(name)));
+		StringModel stringModel = ((StringModel)env.getVariable(Utils.getOverrideVariableName(name)));
 		if(stringModel == null)
 			return null;
 		else
