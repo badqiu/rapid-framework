@@ -4,13 +4,16 @@
 
 =1.介绍=
 使用过python django模板的应该清楚，django里面有一个激动人心的功能就是模板可以使用类的继承关系。 即模板是可以继承的，并且不限继承的层次。
-如
-1. child.jsp extends base.jsp
-2. grandchild.jsp extends child.jsp
-这样，我们在base.html中定义好html布局,然后在“子类”（我们这样称呼吧）重定义部分需要重定义的父页面内容即可
+
+如:
+  # child.jsp extends base.jsp
+  # grandchild.jsp extends child.jsp
+
+这样，我们在base.jsp中定义好html布局,然后在“子jsp”（我们这样称呼吧）重定义部分父页面的内容即可
 
 =2.jsp继承示例=
 现在我们来看jsp中如何实现此功能(django与下面的声明类似)。
+
 *父页面: base.jsp,定义布局*
 {{{
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
@@ -49,17 +52,6 @@
 
 ==输出==
 
-*直接访问base.jsp输出:*
-{{{
-<html>  
- base_head_content  
-<body>  
- <br />  
- base_body_content  
-</body>  
-</html>  
-}}}
-
 *访问child.jsp输出:*
 {{{
 <html>  
@@ -74,8 +66,7 @@
 </html> 
 }}}
 
-可以看到，child.jsp的的body输出内容被重定义了.
-现该tag可以实现jsp的无限级的继承关系. 即 grandchild.jsp 继承 child.jsp , child.jsp继承 base.jsp 
+可以看到，child.jsp的的body输出内容被重定义了,而head部分还是base.jsp的内容.
 
 =3.具体实现方式:=
 {{{
