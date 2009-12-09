@@ -75,6 +75,8 @@
 可以看到，child.jsp的的body输出内容被`<rapid:override/>`重定义了,而head部分还是base.jsp的内容.
 
 =3.具体实现:=
+
+==block tag==
 {{{
 public class BlockTag extends TagSupport{  
    
@@ -111,6 +113,7 @@ public class BlockTag extends TagSupport{
 }  
 }}}
 
+==override tag==
 {{{
 public class OverrideTag extends BodyTagSupport{  
     
@@ -144,6 +147,7 @@ public class OverrideTag extends BodyTagSupport{
 }  
 }}}
 
+== 工具类 ==
 {{{
 class Utils {  
  public static String BLOCK = "__override__";  
