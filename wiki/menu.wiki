@@ -15,7 +15,7 @@
     * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现"类"的继承关系(new)]
-    * rapid持久层介绍
+    * 持久层介绍
       * [rapid_transaction spring事务]
       * [rapid_dialect jdbc分页方言]
       * [rapid_ibatis ibatis分页及方言]
