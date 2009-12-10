@@ -11,6 +11,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+/**
+ * @author badqiu
+ */
 public class BlockDirective extends org.apache.velocity.runtime.directive.Directive{
 
 	@Override

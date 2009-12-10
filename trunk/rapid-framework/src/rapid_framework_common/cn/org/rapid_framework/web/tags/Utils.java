@@ -1,10 +1,13 @@
 package cn.org.rapid_framework.web.tags;
 
+/**
+ * @author badqiu
+ */
 class Utils {
 	
 	public static String BLOCK = "__jsp_override__";
 	
-	public static String getOverrideVariableName(String name) {
+	static String getOverrideVariableName(String name) {
 		return BLOCK + name;
 	}
 	

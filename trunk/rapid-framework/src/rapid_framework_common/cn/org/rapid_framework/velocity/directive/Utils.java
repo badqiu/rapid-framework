@@ -5,6 +5,9 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+/**
+ * @author badqiu
+ */
 class Utils {
 	
 	static String BLOCK = "__vm_override__";

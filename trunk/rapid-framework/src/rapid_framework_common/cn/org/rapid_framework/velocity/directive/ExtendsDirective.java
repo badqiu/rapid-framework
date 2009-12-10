@@ -12,6 +12,9 @@ import org.apache.velocity.runtime.RuntimeServices;
 import org.apache.velocity.runtime.directive.Parse;
 import org.apache.velocity.runtime.parser.node.Node;
 
+/**
+ * @author badqiu
+ */
 public class ExtendsDirective extends Parse{
 	@Override
 	public String getName() {
