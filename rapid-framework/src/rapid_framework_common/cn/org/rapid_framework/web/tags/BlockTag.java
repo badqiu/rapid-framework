@@ -3,9 +3,12 @@ package cn.org.rapid_framework.web.tags;
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.TagSupport;
-
+/**
+ * 
+ * @author badqiu
+ *
+ */
 public class BlockTag extends TagSupport{
 
 	private String name;

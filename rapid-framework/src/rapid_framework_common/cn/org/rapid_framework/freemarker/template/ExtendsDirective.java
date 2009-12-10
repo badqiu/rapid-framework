@@ -12,6 +12,9 @@ import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 
+/**
+ * @author badqiu
+ */
 public class ExtendsDirective implements TemplateDirectiveModel {
 	
 	public void execute(Environment env,

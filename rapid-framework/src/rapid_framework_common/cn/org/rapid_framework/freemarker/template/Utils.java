@@ -7,6 +7,9 @@ import org.apache.commons.lang.StringUtils;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
 
+/**
+ * @author badqiu
+ */
 class Utils {
 	
 	public static String BLOCK = "__flt_override__";
@@ -15,7 +18,7 @@ class Utils {
 		return BLOCK + name;
 	}
 	
-	public static String getRequiredParam(Map params,String key,Environment env) throws TemplateException {
+	static String getRequiredParam(Map params,String key,Environment env) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
 			throw new TemplateException("not found required argument:"+key,env);
@@ -23,7 +26,7 @@ class Utils {
 		return value.toString();
 	}
 	
-	public static String getParam(Map params,String key,Environment env) throws TemplateException {
+	static String getParam(Map params,String key,Environment env) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
 			return null;

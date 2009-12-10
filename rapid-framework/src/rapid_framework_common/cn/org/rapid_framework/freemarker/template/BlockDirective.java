@@ -13,6 +13,9 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
+/**
+ * @author badqiu
+ */
 public class BlockDirective implements TemplateDirectiveModel{
 
 	public void execute(Environment env,

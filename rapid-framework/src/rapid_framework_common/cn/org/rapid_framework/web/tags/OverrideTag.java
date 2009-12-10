@@ -3,8 +3,9 @@ package cn.org.rapid_framework.web.tags;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-import javax.servlet.jsp.tagext.TagSupport;
-
+/**
+ * @author badqiu
+ */
 public class OverrideTag extends BodyTagSupport{
 		
 	private String name;
