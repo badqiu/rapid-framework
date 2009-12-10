@@ -27,6 +27,12 @@ public class BlockDirective extends org.apache.velocity.runtime.directive.Direct
 	public boolean render(InternalContextAdapter context, Writer writer, Node node)
 			throws IOException, ResourceNotFoundException, ParseErrorException,MethodInvocationException {
 		SimpleNode sn_name = (SimpleNode)node.jjtGetChild(0);
+		
+        if ( sn_name == null){
+            rsvc.getLog().error("#block() null argument");
+            return false;
+        }
+        
 		String name = (String)sn_name.value(context);
 		
         if(isOverrided(context,name)) {
