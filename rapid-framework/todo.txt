@@ -1,5 +1,14 @@
 rapid-framework路线图
 
+实现模板引擎的pipeline处理模式:
+即有一个layout.flt
+<html>
+   <@pipeline/>
+</html>
+两种实现方式
+1.其中@pileline会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
+2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在@pipeline标签的位置
+
 整合MailEngine
 整合GroupProperties file,用于读取分组的配置文件
 
