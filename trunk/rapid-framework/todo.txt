@@ -3,11 +3,19 @@ rapid-framework路线图
 实现模板引擎的pipeline处理模式:
 即有一个layout.flt
 <html>
-   <@pipeline/>
+   ${pipeline}
 </html>
 两种实现方式
-1.其中@pileline会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
-2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在@pipeline标签的位置
+1.其中${pileline}会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
+2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
+
+3.可以为每一个模板定义一组管道
+4.管理可以是一个数组,方法签名为 
+	1) pipeline(template,pipetemplate[],context,writer) 
+	2) pipeline(template,pipetemplate_queue,context,writer)
+	3) pipeline(pipetemplate[],context,writer)
+	4) String pipeline(template,pipetemplate[],context)
+5.输出内容为最后一个管理的输出
 
 整合MailEngine
 整合GroupProperties file,用于读取分组的配置文件
