@@ -105,7 +105,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  	  
 			  <tr class="<@jspEl "status.count % 2 == 0 ? 'odd' : 'even'"/>">
 				<td><@jspEl 'page.thisPageFirstElementNumber + status.index'/></td>
-				<td><input type="checkbox" name="items" value="checkbox"></td>
+				<td><input type="checkbox" name="items" value="<@generateIdQueryString/>"></td>
 				
 				<#list table.columns as column>
 				<#if !column.htmlHidden>
