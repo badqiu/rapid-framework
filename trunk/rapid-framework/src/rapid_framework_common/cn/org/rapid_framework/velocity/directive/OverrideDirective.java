@@ -26,14 +26,8 @@ public class OverrideDirective extends org.apache.velocity.runtime.directive.Dir
 	@Override
 	public boolean render(InternalContextAdapter context, Writer writer, Node node)
 			throws IOException, ResourceNotFoundException, ParseErrorException,MethodInvocationException {
-		SimpleNode sn_name = (SimpleNode)node.jjtGetChild(0);
-        if ( sn_name == null){
-            rsvc.getLog().error("#override() null argument");
-            return false;
-        }
-        
-		String name = (String)sn_name.value(context);
 		
+		String name = Utils.getRequiredArgument(context, node, 0,getName());
         if(isOverrided(context,name)) {
         	return true;
         }
