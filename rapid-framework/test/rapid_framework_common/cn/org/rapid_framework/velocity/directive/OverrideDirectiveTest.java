@@ -2,11 +2,15 @@ package cn.org.rapid_framework.velocity.directive;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.junit.Before;
@@ -43,6 +47,22 @@ public class OverrideDirectiveTest {
 		
 //		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
 
+	}
+	
+	@Test(expected=ParseErrorException.class)
+	public void testArgumentWithOverride() throws ParseErrorException, MethodInvocationException, ResourceNotFoundException, IOException {
+		VelocityContext context = new VelocityContext();
+		StringWriter out = new StringWriter();
+		engine.evaluate(context,out , "test.vm", "#override() diy \n #end");
+		System.out.println(out.toString());
+	}
+	
+	@Test(expected=ParseErrorException.class)
+	public void testArgumentWithBlock() throws ParseErrorException, MethodInvocationException, ResourceNotFoundException, IOException {
+		VelocityContext context = new VelocityContext();
+		StringWriter out = new StringWriter();
+		engine.evaluate(context,out , "test.vm", "#block() diy \n #end");
+		System.out.println(out.toString());
 	}
 
 	private String processTemplate(String name) throws ResourceNotFoundException, ParseErrorException, Exception {
