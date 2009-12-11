@@ -66,7 +66,6 @@ public class AsyncToken<T>  {
 	private String tokenGroup = DEFAULT_TOKEN_GROUP;
 	private String tokenName;
 	private long tokenId;
-	private String tokenDescription = null;
 	
 	private List<IResponder> _responders = new ArrayList(2);
 	
@@ -111,14 +110,6 @@ public class AsyncToken<T>  {
 		this.tokenName = tokenName;
 	}
 	
-	public String getTokenDescription() {
-		return tokenDescription;
-	}
-
-	public void setTokenDescription(String tokenDescription) {
-		this.tokenDescription = tokenDescription;
-	}
-
 	public long getTokenId() {
 		return tokenId;
 	}
@@ -219,6 +210,12 @@ public class AsyncToken<T>  {
 		if(_isFiredResult) throw new IllegalStateException("token already fired");
 		this._fault = fault;
 		fireResult2Responders();
+	}
+	
+	public boolean isDone() {
+		synchronized (this) {
+			return _isFiredResult;
+		}
 	}
 	
 	/**
