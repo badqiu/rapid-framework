@@ -1,2 +1,4 @@
-
-first
+<@override name="head">
+  first_head
+</@override>
+first:${name}
