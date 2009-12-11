@@ -67,7 +67,7 @@ import freemarker.template.Template;
  */
 public class Pipeline {
 	
-	public static final String PIPELINE_CONTENT_KEY = "pipeline_content";
+	public static final String PIPELINE_CONTENT_VAR_NAME = "pipeline_content";
 	private static final String PIPELINE_SEPERATORS = ",| ";
 
 	public void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
@@ -81,7 +81,7 @@ public class Pipeline {
 			}else {
 				Writer out = new StringWriter(512);
 				template.merge(context, out);
-				context.put(PIPELINE_CONTENT_KEY, out.toString());
+				context.put(PIPELINE_CONTENT_VAR_NAME, out.toString());
 			}
 		}
 		
@@ -107,7 +107,7 @@ public class Pipeline {
 			}else {
 				Writer out = new StringWriter(512);
 				template.process(model, writer);
-				model.put(PIPELINE_CONTENT_KEY, out.toString());
+				model.put(PIPELINE_CONTENT_VAR_NAME, out.toString());
 			}
 		}
 		
