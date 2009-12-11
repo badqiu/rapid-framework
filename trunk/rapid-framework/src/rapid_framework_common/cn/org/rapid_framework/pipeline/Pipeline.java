@@ -78,7 +78,7 @@ public class Pipeline {
 
 	public static void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		
-		VelocityContext context = new VelocityContext(model);
+		VelocityContext context = new VelocityContext(new HashMap(model));
 		for(int i = 0; i < pipeTemplates.length; i++) {
 			String templateName = pipeTemplates[i];
 			org.apache.velocity.Template template = engine.getTemplate(templateName);
