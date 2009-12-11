@@ -63,7 +63,8 @@ import freemarker.template.Template;
  * 
  * <h2>API 使用</h2>
  * 
- * Pipeline.pipeline(VelocityEngine,"first.vm | second.vm | three.vm", model, writer);
+ * Pipeline.pipeline(velocityEngine,"first.vm | second.vm | three.vm", model, writer);
+ * Pipeline.pipeline(freemarkerConfiguration,"first.vm | second.vm | three.vm", model, writer);
  * 
  * <br />
  * 
