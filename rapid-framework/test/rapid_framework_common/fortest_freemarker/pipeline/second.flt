@@ -1,3 +1,6 @@
+<@override name="body">
+  second_body
+</@override>
 <second>
  ${pipeline_content}
 </second>

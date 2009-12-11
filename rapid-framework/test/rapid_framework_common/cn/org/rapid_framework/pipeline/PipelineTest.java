@@ -25,7 +25,7 @@ public class PipelineTest {
 	
 	@Before
 	public void setUp() throws FileNotFoundException, Exception {
-		File dir = ResourceUtils.getFile("classpath:fortest_velocity");
+		File dir = ResourceUtils.getFile("classpath:fortest_velocity/pipeline");
 
 		Properties props = new Properties();
 		props.setProperty("userdirective","cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective");
@@ -48,13 +48,16 @@ public class PipelineTest {
 	@Test
 	public void testFreemarker()  throws Exception  {
 		Configuration conf = new Configuration();
+		FreemarkerTemplateProcessor.exposeRapidMacros(conf);
 		conf.setTemplateLoader(new FileTemplateLoader(ResourceUtils.getFile("classpath:fortest_freemarker/pipeline")));
 		Pipeline p = new Pipeline();
 		StringWriter sw = new StringWriter();
 //		p.pipeline(engine,new String[] {"first.vm","second.vm","three.vm"}, new HashMap(), sw);
-		p.pipeline(conf,"first.flt|second.flt | three.flt", new HashMap(), sw);
+		HashMap model = new HashMap();
+		model.put("name", "badqiu");
+		p.pipeline(conf,"first.flt|second.flt | three.flt", model, sw);
 		System.out.println(sw.toString());
-		String expected = "<html><head></head><body></body><three><second>first</second></three></html>";
+		String expected = "<html><head></head><body></body><three><second>first:badqiu</second></three></html>";
 		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
 	}
 
