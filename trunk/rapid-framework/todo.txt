@@ -16,6 +16,7 @@ rapid-framework路线图
 	3) pipeline(pipetemplate[],context,writer)
 	4) String pipeline(template,pipetemplate[],context)
 5.输出内容为最后一个管理的输出
+6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
 
 整合MailEngine
 整合GroupProperties file,用于读取分组的配置文件
