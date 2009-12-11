@@ -3,15 +3,13 @@ package cn.org.rapid_framework.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import freemarker.core.Environment;
-import freemarker.ext.beans.StringModel;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateScalarModel;
 
 /**
  * @author badqiu
@@ -36,11 +34,11 @@ public class BlockDirective implements TemplateDirectiveModel{
 	}
 
 	private String getOverrideContent(Environment env, String name) throws TemplateModelException {
-		StringModel stringModel = ((StringModel)env.getVariable(Utils.getOverrideVariableName(name)));
-		if(stringModel == null)
+		TemplateScalarModel value = ((TemplateScalarModel)env.getVariable(Utils.getOverrideVariableName(name)));
+		if(value == null)
 			return null;
 		else
-			return stringModel.getAsString();
+			return value.getAsString();
 	}
 
 }
