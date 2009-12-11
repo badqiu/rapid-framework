@@ -34,13 +34,13 @@ import freemarker.template.Template;
  * 管道定义为: first.flt | secnond.flt
  * <br />
  * 
- * <h4>first.flt内容</h4>
+ * <h3>first.flt模板内容</h3>
  * <pre>
  * &lt;div>
  *  first
  * &lt;/div>
  * </pre>
- * <h4>second.flt内容,${pipeline_content}为前一个模板生成的内容</h4>
+ * <h3>second.flt模板内容,${pipeline_content}为前一个模板生成的内容</h3>
  * <pre>
  * &lt;html>
  *   &lt;body>
@@ -48,7 +48,7 @@ import freemarker.template.Template;
  *   &lt;/body>
  * &lt;/html>
  * </pre>
- * <h4>输出</h4>
+ * <h3>输出</h3>
  * <pre>
  * &lt;html>
  *   &lt;body>
@@ -62,6 +62,9 @@ import freemarker.template.Template;
  * <h2>API 使用</h2>
  * 
  * Pipeline.pipeline(VelocityEngine,"first.vm | second.vm | three.vm", model, writer);
+ * 
+ * <br />
+ * 
  * @author badqiu
  *
  */
@@ -121,23 +124,6 @@ public class Pipeline {
 		StringWriter result = new StringWriter(512);
 		pipeline(conf, pipeTemplates, model, result);
 		return result.toString();
-	}
-	
-	public static void main(String[] args) throws Exception {
-
-		VelocityEngine engine = new VelocityEngine();
-		File dir = ResourceUtils.getFile("classpath:fortest_velocity");
-		Pipeline p = new Pipeline();
-
-		Properties props = new Properties();
-		props.setProperty("userdirective","cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective");
-		props.put(Velocity.FILE_RESOURCE_LOADER_PATH, dir.getAbsolutePath());
-		engine.init(props);
-		
-		StringWriter sw = new StringWriter();
-		p.pipeline(engine,new String[] {"first.vm","second.vm","three.vm"}, new HashMap(), sw);
-		p.pipeline(engine,"first.vm|second.vm | three.vm", new HashMap(), sw);
-		System.out.println(sw);
 	}
 	
 }
