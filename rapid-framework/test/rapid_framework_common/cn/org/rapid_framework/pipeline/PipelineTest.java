@@ -57,7 +57,7 @@ public class PipelineTest {
 		model.put("name", "badqiu");
 		p.pipeline(conf,"first.flt|second.flt | three.flt", model, sw);
 		System.out.println(sw.toString());
-		String expected = "<html><head></head><body></body><three><second>first:badqiu</second></three></html>";
+		String expected = "<html><head>override_by_first</head><body>override_by_second</body><three><second>first:badqiu</second></three></html>";
 		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
 	}
 

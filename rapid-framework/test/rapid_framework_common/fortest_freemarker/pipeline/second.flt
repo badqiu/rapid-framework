@@ -1,5 +1,5 @@
 <@override name="body">
-  second_body
+  override_by_second
 </@override>
 <second>
  ${pipeline_content}
