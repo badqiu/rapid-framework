@@ -74,7 +74,7 @@ import freemarker.template.Template;
 public class Pipeline {
 	
 	public static final String PIPELINE_CONTENT_VAR_NAME = "pipeline_content";
-	private static final String PIPELINE_SEPERATORS = ",| ";
+	static final String PIPELINE_SEPERATORS = ",| ";
 
 	public static void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		
