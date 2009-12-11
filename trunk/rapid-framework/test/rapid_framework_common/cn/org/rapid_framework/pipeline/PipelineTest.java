@@ -36,29 +36,31 @@ public class PipelineTest {
 	@Test
 	public void testVelocity()  throws Exception  {
 		
-		Pipeline p = new Pipeline();
 		StringWriter sw = new StringWriter();
 //		p.pipeline(engine,new String[] {"first.vm","second.vm","three.vm"}, new HashMap(), sw);
-		p.pipeline(engine,"first.vm|second.vm | three.vm", new HashMap(), sw);
+		Pipeline.pipeline(engine,"first.vm|second.vm | three.vm", new HashMap(), sw);
 		System.out.println(sw.toString());
 		String expected = "<html><head>second_override_content</head><body>first_override_content<three><second>first</second></three></body></html>";
 		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
 	}
 	
-	@Test
-	public void testFreemarker()  throws Exception  {
-		Configuration conf = new Configuration();
+	Configuration conf = new Configuration();
+	@Before
+	public void setUpForFreemarker() throws FileNotFoundException, Exception {
 		FreemarkerTemplateProcessor.exposeRapidMacros(conf);
 		conf.setTemplateLoader(new FileTemplateLoader(ResourceUtils.getFile("classpath:fortest_freemarker/pipeline")));
-		Pipeline p = new Pipeline();
-		StringWriter sw = new StringWriter();
-//		p.pipeline(engine,new String[] {"first.vm","second.vm","three.vm"}, new HashMap(), sw);
+	}
+	@Test
+	public void testFreemarker()  throws Exception  {
+		
+		StringWriter out = new StringWriter();
 		HashMap model = new HashMap();
 		model.put("name", "badqiu");
-		p.pipeline(conf,"first.flt|second.flt | three.flt", model, sw);
-		System.out.println(sw.toString());
+		Pipeline.pipeline(conf,"first.flt|second.flt | three.flt", model, out);
+		
+		System.out.println(out.toString());
 		String expected = "<html><head>override_by_first</head><body>override_by_second</body><three><second>first:badqiu</second></three></html>";
-		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
+		Assert.assertEquals(expected,out.toString().replaceAll("\\s+", ""));
 	}
 
 }
