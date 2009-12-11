@@ -17,7 +17,11 @@ import freemarker.template.TemplateModelException;
  * @author badqiu
  */
 public class BlockDirective implements TemplateDirectiveModel{
-
+	
+	public String getName() {
+		return "block";
+	}
+	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {

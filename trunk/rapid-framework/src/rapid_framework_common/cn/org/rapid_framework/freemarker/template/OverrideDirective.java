@@ -17,6 +17,10 @@ import freemarker.template.TemplateModel;
  */
 public class OverrideDirective implements TemplateDirectiveModel {
 	
+	public String getName() {
+		return "override";
+	}
+	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {

@@ -17,6 +17,10 @@ import freemarker.template.TemplateModel;
  */
 public class ExtendsDirective implements TemplateDirectiveModel {
 	
+	public String getName() {
+		return "extends";
+	}
+	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
