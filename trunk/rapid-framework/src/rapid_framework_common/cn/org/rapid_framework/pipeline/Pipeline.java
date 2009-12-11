@@ -15,7 +15,9 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.util.StringTokenizerUtils;
+import freemarker.core.Environment;
 import freemarker.template.Configuration;
+import freemarker.template.SimpleScalar;
 import freemarker.template.Template;
 
 /**
@@ -82,9 +84,9 @@ public class Pipeline {
 			if(i == pipeTemplates.length - 1) {
 				template.merge(context, writer);
 			}else {
-				Writer out = new StringWriter(512);
-				template.merge(context, out);
-				context.put(PIPELINE_CONTENT_VAR_NAME, out.toString());
+				Writer tempOutput = new StringWriter(512);
+				template.merge(context, tempOutput);
+				context.put(PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
 			}
 		}
 		
@@ -100,29 +102,35 @@ public class Pipeline {
 		return result.toString();
 	}	
 	
-	public static void pipeline(Configuration conf,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(Configuration conf,String pipeTemplates[],Object rootMap,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		
+		Map globalContext = new HashMap();
 		for(int i = 0; i < pipeTemplates.length; i++) {
 			String templateName = pipeTemplates[i];
 			Template template = conf.getTemplate(templateName);
 			if(i == pipeTemplates.length - 1) {
-				template.process(model, writer);
+				Environment env = template.createProcessingEnvironment(rootMap, writer);
+				env.getCurrentNamespace().putAll(globalContext);
+				env.process();
 			}else {
-				Writer out = new StringWriter(512);
-				template.process(model, writer);
-				model.put(PIPELINE_CONTENT_VAR_NAME, out.toString());
+				Writer tempOutput = new StringWriter(512);
+				Environment env = template.createProcessingEnvironment(rootMap, tempOutput);
+				env.getCurrentNamespace().putAll(globalContext);
+				env.process();
+				globalContext.putAll(env.getCurrentNamespace().toMap());
+				globalContext.put(PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
 			}
 		}
 		
 	}
 	
-	public static void pipeline(Configuration conf,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		pipeline(conf, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), model, writer);
+	public static void pipeline(Configuration conf,String pipeTemplates,Object rootMap,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+		pipeline(conf, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), rootMap, writer);
 	}
 	
-	public static String pipeline(Configuration conf,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static String pipeline(Configuration conf,String pipeTemplates,Object rootMap) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		StringWriter result = new StringWriter(512);
-		pipeline(conf, pipeTemplates, model, result);
+		pipeline(conf, pipeTemplates, rootMap, result);
 		return result.toString();
 	}
 	
