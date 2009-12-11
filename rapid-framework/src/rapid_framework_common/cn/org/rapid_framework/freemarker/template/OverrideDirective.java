@@ -5,12 +5,12 @@ import java.io.StringWriter;
 import java.util.Map;
 
 import freemarker.core.Environment;
-import freemarker.ext.beans.BeansWrapper;
-import freemarker.ext.beans.StringModel;
+import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import freemarker.template.TemplateScalarModel;
 
 /**
  * @author badqiu
@@ -28,11 +28,11 @@ public class OverrideDirective implements TemplateDirectiveModel {
 		String overrideVariableName = Utils.getOverrideVariableName(name);
 		if(env.getVariable(overrideVariableName) == null) {
 			if(body == null) {
-				env.setVariable(overrideVariableName,new StringModel("",new BeansWrapper()));
+				env.setVariable(overrideVariableName,TemplateScalarModel.EMPTY_STRING);
 			}else {
 				StringWriter out = new StringWriter(512);
 				body.render(out);
-				env.setVariable(overrideVariableName,new StringModel(out.toString(),new BeansWrapper()));
+				env.setVariable(overrideVariableName,new SimpleScalar(out.toString()));
 			}
 		}
 	}
