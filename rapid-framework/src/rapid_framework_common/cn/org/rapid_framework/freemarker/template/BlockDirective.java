@@ -28,7 +28,8 @@ public class BlockDirective implements TemplateDirectiveModel{
 		String name = Utils.getRequiredParam(params, "name", env);
 		String overrideContent = getOverrideContent(env, name);
 		if(overrideContent == null) {
-			body.render(env.getOut());
+			if(body != null) 
+				body.render(env.getOut());
 		}else {
 			env.getOut().append(overrideContent);
 		}
