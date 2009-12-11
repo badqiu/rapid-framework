@@ -73,7 +73,7 @@ public class Pipeline {
 	public static final String PIPELINE_CONTENT_VAR_NAME = "pipeline_content";
 	private static final String PIPELINE_SEPERATORS = ",| ";
 
-	public void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		
 		VelocityContext context = new VelocityContext(model);
 		for(int i = 0; i < pipeTemplates.length; i++) {
@@ -90,17 +90,17 @@ public class Pipeline {
 		
 	}
 	
-	public void pipeline(VelocityEngine engine,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(VelocityEngine engine,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		pipeline(engine, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), model, writer);
 	}
 	
-	public String pipeline(VelocityEngine engine,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static String pipeline(VelocityEngine engine,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		StringWriter result = new StringWriter(512);
 		pipeline(engine, pipeTemplates, model, result);
 		return result.toString();
 	}	
 	
-	public void pipeline(Configuration conf,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(Configuration conf,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		
 		for(int i = 0; i < pipeTemplates.length; i++) {
 			String templateName = pipeTemplates[i];
@@ -116,11 +116,11 @@ public class Pipeline {
 		
 	}
 	
-	public void pipeline(Configuration conf,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(Configuration conf,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		pipeline(conf, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), model, writer);
 	}
 	
-	public String pipeline(Configuration conf,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static String pipeline(Configuration conf,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
 		StringWriter result = new StringWriter(512);
 		pipeline(conf, pipeTemplates, model, result);
 		return result.toString();
