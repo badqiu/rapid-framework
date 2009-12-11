@@ -13,6 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
+import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
+import freemarker.cache.FileTemplateLoader;
+import freemarker.template.Configuration;
+
 
 public class PipelineTest {
 	
@@ -30,7 +34,7 @@ public class PipelineTest {
 	}
 	
 	@Test
-	public void test()  throws Exception  {
+	public void testVelocity()  throws Exception  {
 		
 		Pipeline p = new Pipeline();
 		StringWriter sw = new StringWriter();
@@ -38,6 +42,19 @@ public class PipelineTest {
 		p.pipeline(engine,"first.vm|second.vm | three.vm", new HashMap(), sw);
 		System.out.println(sw.toString());
 		String expected = "<html><head>second_override_content</head><body>first_override_content<three><second>first</second></three></body></html>";
+		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
+	}
+	
+	@Test
+	public void testFreemarker()  throws Exception  {
+		Configuration conf = new Configuration();
+		conf.setTemplateLoader(new FileTemplateLoader(ResourceUtils.getFile("classpath:fortest_freemarker/pipeline")));
+		Pipeline p = new Pipeline();
+		StringWriter sw = new StringWriter();
+//		p.pipeline(engine,new String[] {"first.vm","second.vm","three.vm"}, new HashMap(), sw);
+		p.pipeline(conf,"first.flt|second.flt | three.flt", new HashMap(), sw);
+		System.out.println(sw.toString());
+		String expected = "<html><head></head><body></body><three><second>first</second></three></html>";
 		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
 	}
 
