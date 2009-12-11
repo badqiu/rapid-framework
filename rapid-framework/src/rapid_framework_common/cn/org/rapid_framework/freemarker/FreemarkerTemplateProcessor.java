@@ -22,7 +22,7 @@ import freemarker.template.TemplateException;
  * @author badqiu
  */
 public class FreemarkerTemplateProcessor implements InitializingBean{
-	Log log = LogFactory.getLog(FreemarkerTemplateProcessor.class);
+	static Log log = LogFactory.getLog(FreemarkerTemplateProcessor.class);
 	private Configuration configuration;
 	private boolean exposeRapidMacros = true;
 	
@@ -47,12 +47,16 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(configuration,"configuration property must be not null");
 		if(exposeRapidMacros) {
-			if(log.isInfoEnabled())
-				log.info("expose rapid macros: <@block> <@extends> <@override> for freemarker");
-			configuration.setSharedVariable(new BlockDirective().getName(), new BlockDirective());
-			configuration.setSharedVariable(new ExtendsDirective().getName(), new ExtendsDirective());
-			configuration.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
+			exposeRapidMacros(configuration);
 		}
+	}
+
+	public static void exposeRapidMacros(Configuration conf) {
+		if(log.isInfoEnabled())
+			log.info("expose rapid macros: <@block> <@extends> <@override> for freemarker");
+		conf.setSharedVariable(new BlockDirective().getName(), new BlockDirective());
+		conf.setSharedVariable(new ExtendsDirective().getName(), new ExtendsDirective());
+		conf.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
 	}
 	
 	public String processTemplate(String templateName, Object model) throws FreemarkerTemplateException{
