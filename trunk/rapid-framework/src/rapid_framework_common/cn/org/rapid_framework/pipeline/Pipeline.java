@@ -1,24 +1,21 @@
 package cn.org.rapid_framework.pipeline;
 
-import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
-import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.util.StringTokenizerUtils;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
-import freemarker.template.SimpleScalar;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * 模板之间可以完成类似操作系统的管道操作
@@ -103,7 +100,7 @@ public class Pipeline {
 		return result.toString();
 	}	
 	
-	public static void pipeline(Configuration conf,String pipeTemplates[],Object rootMap,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(Configuration conf,String pipeTemplates[],Object rootMap,Writer writer) throws IOException,TemplateException  {
 		
 		Map globalContext = new HashMap();
 		for(int i = 0; i < pipeTemplates.length; i++) {
@@ -125,7 +122,7 @@ public class Pipeline {
 		
 	}
 	
-	public static void pipeline(Configuration conf,String pipeTemplates,Object rootMap,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
+	public static void pipeline(Configuration conf,String pipeTemplates,Object rootMap,Writer writer) throws IOException,TemplateException  {
 		pipeline(conf, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), rootMap, writer);
 	}
 	
