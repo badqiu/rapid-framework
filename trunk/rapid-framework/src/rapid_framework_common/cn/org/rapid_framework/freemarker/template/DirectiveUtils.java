@@ -26,7 +26,7 @@ public class DirectiveUtils {
 		conf.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
 	}
 	
-	static String getRequiredParam(Map params,String key) throws TemplateException {
+	public static String getRequiredParam(Map params,String key) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
 			throw new TemplateModelException("not found required parameter:"+key+" for directive");
@@ -34,11 +34,8 @@ public class DirectiveUtils {
 		return value.toString();
 	}
 	
-	static String getParam(Map params,String key) throws TemplateException {
+	public static String getParam(Map params,String key) throws TemplateException {
 		Object value = params.get(key);
-		if(value == null || StringUtils.isEmpty(value.toString())) {
-			return null;
-		}
-		return value.toString();
+		return value == null ? null : value.toString();
 	}
 }
