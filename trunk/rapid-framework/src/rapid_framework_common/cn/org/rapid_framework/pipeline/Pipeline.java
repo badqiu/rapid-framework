@@ -73,10 +73,6 @@ public interface Pipeline {
 	public static final String PIPELINE_CONTENT_VAR_NAME = "pipeline_content";
 	
 	public static final String PIPELINE_TEMPLATE_SEPERATORS = ",| ";
-
-	public Writer pipeline(String pipeTemplates[],Object model,Writer writer) throws PipeException;
-	
-	public Writer pipeline(String pipeTemplates[],Map model,Writer writer) throws PipeException;
 	
 	public Writer pipeline(String pipeTemplates,Map model,Writer writer) throws PipeException;
 	
