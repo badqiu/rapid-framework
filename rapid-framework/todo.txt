@@ -1,5 +1,6 @@
 rapid-framework路线图
 
+session框架,可以将session存储在数据库,cache,文件
 pipeline中如果不能找到模板的异常处理
 
 实现模板引擎的pipeline处理模式:
