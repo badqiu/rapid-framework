@@ -77,5 +77,6 @@ public interface Pipeline {
 	public Writer pipeline(String pipeTemplates,Map model,Writer writer) throws PipeException;
 	
 	public Writer pipeline(String pipeTemplates,Object model,Writer writer) throws PipeException;
-	 
+	
+	// TODO expose interface for handle pipeline exception, etc: TemplateNotFound
 }
