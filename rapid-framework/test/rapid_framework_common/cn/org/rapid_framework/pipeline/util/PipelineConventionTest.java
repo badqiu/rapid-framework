@@ -1,6 +1,8 @@
-package cn.org.rapid_framework.pipeline;
+package cn.org.rapid_framework.pipeline.util;
 
 import org.junit.Test;
+
+import cn.org.rapid_framework.pipeline.util.PipelineConvention;
 import static org.junit.Assert.*;
 
 public class PipelineConventionTest {
