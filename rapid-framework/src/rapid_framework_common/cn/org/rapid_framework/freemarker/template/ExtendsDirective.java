@@ -24,8 +24,8 @@ public class ExtendsDirective implements TemplateDirectiveModel {
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-		String name = Utils.getRequiredParam(params, "name", env);
-		String encoding = Utils.getParam(params, "encoding", env);
+		String name = DirectiveUtils.getRequiredParam(params, "name", env);
+		String encoding = DirectiveUtils.getParam(params, "encoding", env);
 		env.include(name, encoding, true);
 	}
 

@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
+import cn.org.rapid_framework.freemarker.template.DirectiveUtils;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 
@@ -20,7 +21,7 @@ public class FreemarkerPipelineTest {
 	FreemarkerPipeline pipeline = null;
 	@Before
 	public void setUp() throws FileNotFoundException, Exception {
-		FreemarkerTemplateProcessor.exposeRapidMacros(conf);
+		DirectiveUtils.exposeRapidMacros(conf);
 		conf.setTemplateLoader(new FileTemplateLoader(ResourceUtils.getFile("classpath:fortest_freemarker/pipeline")));
 		pipeline = new FreemarkerPipeline(conf);
 	}

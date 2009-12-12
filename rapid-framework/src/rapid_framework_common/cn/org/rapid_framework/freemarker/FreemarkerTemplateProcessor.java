@@ -10,9 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import cn.org.rapid_framework.freemarker.template.BlockDirective;
-import cn.org.rapid_framework.freemarker.template.ExtendsDirective;
-import cn.org.rapid_framework.freemarker.template.OverrideDirective;
+import cn.org.rapid_framework.freemarker.template.DirectiveUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -47,16 +45,10 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(configuration,"configuration property must be not null");
 		if(exposeRapidMacros) {
-			exposeRapidMacros(configuration);
+			if(log.isInfoEnabled())
+				log.info("expose rapid macros: <@block> <@extends> <@override> for freemarker");
+			DirectiveUtils.exposeRapidMacros(configuration);
 		}
-	}
-
-	public static void exposeRapidMacros(Configuration conf) {
-		if(log.isInfoEnabled())
-			log.info("expose rapid macros: <@block> <@extends> <@override> for freemarker");
-		conf.setSharedVariable(new BlockDirective().getName(), new BlockDirective());
-		conf.setSharedVariable(new ExtendsDirective().getName(), new ExtendsDirective());
-		conf.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
 	}
 	
 	public String processTemplate(String templateName, Object model) throws FreemarkerTemplateException{
