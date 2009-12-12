@@ -81,9 +81,9 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		try {
 			template.process(model, out);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+template.getName()+" cause:"+e,e);
+			throw new FreemarkerTemplateException("process template occer IOException,templateName:"+template.getName(),e);
 		} catch (TemplateException e) {
-			throw new FreemarkerTemplateException("process template occer TemplateException,templateName:"+template.getName()+" cause:"+e,e);
+			throw new FreemarkerTemplateException("process template occer TemplateException,templateName:"+template.getName(),e);
 		}
 	}
 
@@ -91,7 +91,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		try {
 			return conf.getTemplate(templateName);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName,e);
 		}
 	}
 	
@@ -99,7 +99,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		try {
 			return conf.getTemplate(templateName,encoding);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName,e);
 		}
 	}
 	
@@ -107,7 +107,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 		try {
 			return conf.getTemplate(templateName,locale,encoding);
 		} catch (IOException e) {
-			throw new FreemarkerTemplateException("load template error,templateName:"+templateName+" cause:"+e,e);
+			throw new FreemarkerTemplateException("load template error,templateName:"+templateName,e);
 		}
 	}
 
