@@ -10,7 +10,7 @@ elseif (is_page() ) { single_post_title();}
 else { wp_title(‘’,true); } ?></title>
 <meta name="robots" content="index,follow" />
 <meta name="generator" content="WordPress <?php bloginfo('version'); ?>" />
-<meta name="description" content="rapid-framework脚手架,rapid-generator代码生成器,rapid-validation表单验证,jdbc ibatis3 ibatis分页方言(dialect),插件struts struts2 springmvc hibernate ibatis spring_jdbc flex extjs " />
+<meta name="description" content="rapid-framework脚手架,rapid-generator代码生成器,rapid-validation表单验证,jdbc ibatis3 ibatis分页方言(dialect),freemarker velocity jsp模板继承,插件struts struts2 springmvc hibernate ibatis spring_jdbc flex extjs " />
 <meta name="keywords"  content="rapid-framework,rapid-validation,rapid-xsqlbuilder,rapid-generator,jdbc dialect,ibatis dialect,ibstis3 dialect,代码生成器" />
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
