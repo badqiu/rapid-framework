@@ -37,4 +37,9 @@ public class FreemarkerPipelineTest {
 		Assert.assertEquals(expected,out.toString().replaceAll("\\s+", ""));
 	}
 	
+	@Test
+	public void testOtherMethod() {
+		pipeline.pipeline("first.flt|second.flt | three.flt", new Object(), new StringWriter());
+	}
+	
 }
