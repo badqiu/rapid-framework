@@ -40,4 +40,13 @@ public class VelocityPipelineTest {
 		Assert.assertEquals(expected,sw.toString().replaceAll("\\s+", ""));
 	}
 	
+	@Test(expected=UnsupportedOperationException.class)
+	public void testException1() {
+		pipeline.pipeline("first.vm|second.vm | three.vm", new Object(), new StringWriter());
+	}
+	
+	@Test(expected=UnsupportedOperationException.class)
+	public void testException2() {
+		pipeline.pipeline(new String[]{}, new Object(), new StringWriter());
+	}
 }

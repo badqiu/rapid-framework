@@ -5,17 +5,14 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
+import org.apache.velocity.context.Context;
 
 import cn.org.rapid_framework.util.StringTokenizerUtils;
-import freemarker.core.Environment;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
-public class VelocityPipeline {
+public class VelocityPipeline implements Pipeline{
 	
 	VelocityEngine engine;
 	
@@ -33,32 +30,48 @@ public class VelocityPipeline {
 		this.engine = engine;
 	}
 
-	public void pipeline(String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		
+	public Writer pipeline(String pipeTemplates[],Map model,Writer writer) throws PipeException  {
 		VelocityContext context = new VelocityContext(new HashMap(model));
-		for(int i = 0; i < pipeTemplates.length; i++) {
-			String templateName = pipeTemplates[i];
-			org.apache.velocity.Template template = engine.getTemplate(templateName);
-			if(i == pipeTemplates.length - 1) {
-				template.merge(context, writer);
-			}else {
-				Writer tempOutput = new StringWriter(512);
-				template.merge(context, tempOutput);
-				context.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+		return _pipeline(pipeTemplates,context,writer);
+	}
+
+	private Writer _pipeline(String[] pipeTemplates,Context context, Writer writer) throws PipeException {
+		try {
+			for(int i = 0; i < pipeTemplates.length; i++) {
+				String templateName = pipeTemplates[i];
+				org.apache.velocity.Template template = engine.getTemplate(templateName);
+				if(i == pipeTemplates.length - 1) {
+					template.merge(context, writer);
+				}else {
+					Writer tempOutput = new StringWriter(512);
+					template.merge(context, tempOutput);
+					context.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+				}
 			}
+			return writer;
+		}catch(Exception e) {
+			throw new PipeException("process Velocity template occer exception,pipeTemplates:"+StringUtils.join(pipeTemplates," | "));
 		}
-		
 	}
 	
-	public void pipeline(String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		pipeline(StringTokenizerUtils.split(pipeTemplates,Pipeline.PIPELINE_SEPERATORS), model, writer);
+	public Writer pipeline(String[] pipeTemplates, Object model, Writer writer) throws PipeException {
+		if(model instanceof Context) {
+			return _pipeline(pipeTemplates,(Context)model,writer);
+		}else {
+			throw new UnsupportedOperationException("velocity model instance must be Context or Map object");
+		}
 	}
 	
-	public String pipeline(String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		StringWriter result = new StringWriter(512);
-		pipeline(pipeTemplates, model, result);
-		return result.toString();
-	}	
-	
+	public Writer pipeline(String pipeTemplates,Map model,Writer writer) throws PipeException  {
+		return pipeline(StringTokenizerUtils.split(pipeTemplates,Pipeline.PIPELINE_TEMPLATE_SEPERATORS), model, writer);
+	}
+
+	public Writer pipeline(String pipeTemplates, Object model, Writer writer) throws PipeException {
+		if(model instanceof Context) {
+			return _pipeline(StringTokenizerUtils.split(pipeTemplates,Pipeline.PIPELINE_TEMPLATE_SEPERATORS),(Context)model,writer);
+		}else {
+			throw new UnsupportedOperationException("velocity model instance must be Context or Map object");
+		}
+	}
 	
 }

@@ -60,76 +60,26 @@ import freemarker.template.TemplateException;
  * 
  * <h2>API 使用</h2>
  * 
- * Pipeline.pipeline(velocityEngine,"first.vm | second.vm | three.vm", model, writer);
- * Pipeline.pipeline(freemarkerConfiguration,"first.vm | second.vm | three.vm", model, writer);
+ * pipeline.pipeline(velocityEngine,"first.vm | second.vm | three.vm", model, writer);
+ * pipeline.pipeline(freemarkerConfiguration,"first.vm | second.vm | three.vm", model, writer);
  * 
  * <br />
  * 
  * @author badqiu
  *
  */
-public class Pipeline {
+public interface Pipeline {
 	
 	public static final String PIPELINE_CONTENT_VAR_NAME = "pipeline_content";
-	static final String PIPELINE_SEPERATORS = ",| ";
+	
+	public static final String PIPELINE_TEMPLATE_SEPERATORS = ",| ";
 
-	public static void pipeline(VelocityEngine engine,String pipeTemplates[],Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		
-		VelocityContext context = new VelocityContext(new HashMap(model));
-		for(int i = 0; i < pipeTemplates.length; i++) {
-			String templateName = pipeTemplates[i];
-			org.apache.velocity.Template template = engine.getTemplate(templateName);
-			if(i == pipeTemplates.length - 1) {
-				template.merge(context, writer);
-			}else {
-				Writer tempOutput = new StringWriter(512);
-				template.merge(context, tempOutput);
-				context.put(PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
-			}
-		}
-		
-	}
+	public Writer pipeline(String pipeTemplates[],Object model,Writer writer) throws PipeException;
 	
-	public static void pipeline(VelocityEngine engine,String pipeTemplates,Map model,Writer writer) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		pipeline(engine, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), model, writer);
-	}
+	public Writer pipeline(String pipeTemplates[],Map model,Writer writer) throws PipeException;
 	
-	public static String pipeline(VelocityEngine engine,String pipeTemplates,Map model) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		StringWriter result = new StringWriter(512);
-		pipeline(engine, pipeTemplates, model, result);
-		return result.toString();
-	}	
+	public Writer pipeline(String pipeTemplates,Map model,Writer writer) throws PipeException;
 	
-	public static void pipeline(Configuration conf,String pipeTemplates[],Object rootMap,Writer writer) throws IOException,TemplateException  {
-		
-		Map globalContext = new HashMap();
-		for(int i = 0; i < pipeTemplates.length; i++) {
-			String templateName = pipeTemplates[i];
-			Template template = conf.getTemplate(templateName);
-			if(i == pipeTemplates.length - 1) {
-				Environment env = template.createProcessingEnvironment(rootMap, writer);
-				env.getCurrentNamespace().putAll(globalContext);
-				env.process();
-			}else {
-				Writer tempOutput = new StringWriter(512);
-				Environment env = template.createProcessingEnvironment(rootMap, tempOutput);
-				env.getCurrentNamespace().putAll(globalContext);
-				env.process();
-				globalContext.putAll(env.getCurrentNamespace().toMap());
-				globalContext.put(PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
-			}
-		}
-		
-	}
-	
-	public static void pipeline(Configuration conf,String pipeTemplates,Object rootMap,Writer writer) throws IOException,TemplateException  {
-		pipeline(conf, StringTokenizerUtils.split(pipeTemplates,PIPELINE_SEPERATORS), rootMap, writer);
-	}
-	
-	public static String pipeline(Configuration conf,String pipeTemplates,Object rootMap) throws ResourceNotFoundException, ParseErrorException, Exception  {
-		StringWriter result = new StringWriter(512);
-		pipeline(conf, pipeTemplates, rootMap, result);
-		return result.toString();
-	}
+	public Writer pipeline(String pipeTemplates,Object model,Writer writer) throws PipeException;
 	
 }
