@@ -59,10 +59,10 @@ import freemarker.template.TemplateException;
  * </pre>
  * 
  * <h2>API 使用</h2>
- * 
+ * <pre>
  * new VelocityPipeline(velocityEngine).pipeline("first.vm | second.vm | three.vm", model, writer); <br />
  * new FreemarkerPipeline(configuration).pipeline("first.vm | second.vm | three.vm", model, writer);
- * 
+ * </pre>
  * <br />
  * 
  * @author badqiu
