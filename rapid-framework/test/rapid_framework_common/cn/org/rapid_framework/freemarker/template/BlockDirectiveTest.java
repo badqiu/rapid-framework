@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
+import cn.org.rapid_framework.freemarker.FreemarkerTemplateException;
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
 import freemarker.template.Configuration;
 
@@ -37,5 +38,10 @@ public class BlockDirectiveTest {
 		assertEquals("<html><head>base_head_content</head><body>child_body_content</body></html>",processor.processTemplate("child.flt", new HashMap()).trim());
 		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processor.processTemplate("grandchild.flt", new HashMap()).trim());
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processor.processTemplate("base-ext.flt", new HashMap()));
+	}
+	
+	@Test(expected=FreemarkerTemplateException.class)
+	public void testDirective() {
+		assertEquals("",processor.processTemplate("all-directive-test.flt", new HashMap()));
 	}
 }

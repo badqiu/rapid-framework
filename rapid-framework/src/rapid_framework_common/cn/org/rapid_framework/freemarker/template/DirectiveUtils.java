@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateModelException;
 
 /**
  * @author badqiu
@@ -25,15 +26,15 @@ public class DirectiveUtils {
 		conf.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
 	}
 	
-	static String getRequiredParam(Map params,String key,Environment env) throws TemplateException {
+	static String getRequiredParam(Map params,String key) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
-			throw new TemplateException("not found required argument:"+key,env);
+			throw new TemplateModelException("not found required parameter:"+key+" for directive");
 		}
 		return value.toString();
 	}
 	
-	static String getParam(Map params,String key,Environment env) throws TemplateException {
+	static String getParam(Map params,String key) throws TemplateException {
 		Object value = params.get(key);
 		if(value == null || StringUtils.isEmpty(value.toString())) {
 			return null;
