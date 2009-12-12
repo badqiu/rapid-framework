@@ -12,6 +12,11 @@ import org.apache.velocity.context.Context;
 
 import cn.org.rapid_framework.util.StringTokenizerUtils;
 
+/**
+ * 
+ * @see Pipeline
+ * @author badqiu
+ */
 public class VelocityPipeline implements Pipeline{
 	
 	VelocityEngine engine;

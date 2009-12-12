@@ -16,7 +16,10 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
-
+/**
+ * @see Pipeline
+ * @author badqiu
+ */
 public class FreemarkerPipeline implements Pipeline{
 	
 	Configuration conf;

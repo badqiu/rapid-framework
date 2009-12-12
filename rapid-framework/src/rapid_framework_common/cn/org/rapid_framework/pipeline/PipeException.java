@@ -1,5 +1,9 @@
 package cn.org.rapid_framework.pipeline;
 
+/**
+ * @see Pipeline
+ * @author badqiu
+ */
 public class PipeException extends RuntimeException {
 
 	public PipeException() {
