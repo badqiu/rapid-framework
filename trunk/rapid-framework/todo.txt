@@ -1,5 +1,7 @@
 rapid-framework路线图
 
+pipeline中如果不能找到模板的异常处理
+
 实现模板引擎的pipeline处理模式:
 即有一个layout.flt
 <html>
