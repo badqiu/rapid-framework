@@ -23,7 +23,7 @@ public class BlockDirective implements TemplateDirectiveModel{
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
-		String name = Utils.getRequiredParam(params, "name", env);
+		String name = DirectiveUtils.getRequiredParam(params, "name", env);
 		String overrideContent = getOverrideContent(env, name);
 		if(overrideContent == null) {
 			if(body != null) 
@@ -34,7 +34,7 @@ public class BlockDirective implements TemplateDirectiveModel{
 	}
 
 	private String getOverrideContent(Environment env, String name) throws TemplateModelException {
-		TemplateScalarModel value = ((TemplateScalarModel)env.getVariable(Utils.getOverrideVariableName(name)));
+		TemplateScalarModel value = ((TemplateScalarModel)env.getVariable(DirectiveUtils.getOverrideVariableName(name)));
 		if(value == null)
 			return null;
 		else
