@@ -46,11 +46,11 @@ public class HSQLMemDataSourceFactoryBean implements FactoryBean{
 		DataSource ds = HSQLMemDataSourceUtils.getDataSource();
 		if(scriptLocations != null) {
 			for(Resource r : scriptLocations) {
-				HSQLMemDataSourceUtils.runDataSourceWithScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
+				HSQLMemDataSourceUtils.executeSqlScripts(new InputStreamReader(r.getInputStream(),encoding), ds);
 			}
 		}
 		if(sqlScript != null) {
-			HSQLMemDataSourceUtils.runDataSourceWithScripts(new StringReader(sqlScript), ds);
+			HSQLMemDataSourceUtils.executeSqlScripts(new StringReader(sqlScript), ds);
 		}
 		return ds;
 	}
