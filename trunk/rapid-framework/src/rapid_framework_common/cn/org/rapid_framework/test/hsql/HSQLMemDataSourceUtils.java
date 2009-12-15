@@ -69,7 +69,7 @@ public class HSQLMemDataSourceUtils {
 		DataSource ds = getDataSource();
 		
 		try {
-			runDataSourceWithScripts(initScripts, ds);
+			executeSqlScripts(initScripts, ds);
 		} catch (Exception e) {
 			throw new IllegalStateException("execute sql error",e);
 		}
@@ -86,7 +86,7 @@ public class HSQLMemDataSourceUtils {
 		return ds;
 	}
 
-	public static void runDataSourceWithScripts(Reader initScripts,DataSource ds) throws SQLException, IOException {
+	public static void executeSqlScripts(Reader initScripts,DataSource ds) throws SQLException, IOException {
 		Connection conn = ds.getConnection();
 		try {
 			String sql = IOUtils.toString(initScripts);
