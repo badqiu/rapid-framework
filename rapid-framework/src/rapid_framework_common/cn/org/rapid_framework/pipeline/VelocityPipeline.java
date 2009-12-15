@@ -36,7 +36,7 @@ public class VelocityPipeline implements Pipeline{
 	}
 
 	public Writer pipeline(String pipeTemplates[],Map model,Writer writer) throws PipeException  {
-		VelocityContext context = new VelocityContext(new HashMap(model));
+		VelocityContext context = new VelocityContext(model);
 		return _pipeline(pipeTemplates,context,writer);
 	}
 
