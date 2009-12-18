@@ -1,7 +1,10 @@
 /**
  * api for RESTful operation
  */
- 
+
+/**
+ * usecase: <a href="/user/12" onclick="doRestDelete(this,'confirm delete?');return false;">delete</a>
+ */
 function doRestDelete(anchor,confirmMsg) {
 	if (confirmMsg && confirm(confirmMsg)) {
 		var f = document.createElement("form");
