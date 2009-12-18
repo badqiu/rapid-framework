@@ -3,7 +3,7 @@
  */
 
 /**
- * usecase: <a href="/user/12" onclick="doRestDelete(this,'confirm delete?');return false;">delete</a>
+ * use case: <a href="/user/12" onclick="doRestDelete(this,'confirm delete?');return false;">delete</a>
  */
 function doRestDelete(anchor,confirmMsg) {
 	if (confirmMsg && confirm(confirmMsg)) {
