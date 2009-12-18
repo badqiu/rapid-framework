@@ -5,4 +5,4 @@
 	grandchild_body_content 
 #end
 
-#extends("child.vm")
+#parse("child.vm")
