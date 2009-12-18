@@ -37,12 +37,12 @@ public class OverrideDirectiveTest {
 	@Test
 	public void test() throws Exception {
 		
-		System.out.println(processTemplate("base.vm"));
-		System.out.println(processTemplate("child.vm"));
-		System.out.println(processTemplate("grandchild.vm"));
+		System.out.println(VelocityEngineUtils.mergeTemplateIntoString(engine,"base.vm",new HashMap()));
+		System.out.println(VelocityEngineUtils.mergeTemplateIntoString(engine,"child.vm",new HashMap()));
+		System.out.println(VelocityEngineUtils.mergeTemplateIntoString(engine,"grandchild.vm",new HashMap()));
 		 
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base.vm"));
-		assertEquals("<html><head>base_head_content</head><body>child_body_content</body></html>",processTemplate("child.vm"));
+		assertEquals("<html><head>base_head_content</head><body><divclass='content'>PoweredByrapid-framework</div></body></html>",processTemplate("child.vm"));
 		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processTemplate("grandchild.vm"));
 		
 //		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
@@ -67,10 +67,6 @@ public class OverrideDirectiveTest {
 
 	private String processTemplate(String name) throws ResourceNotFoundException, ParseErrorException, Exception {
 		String str =  VelocityEngineUtils.mergeTemplateIntoString(engine, name, new HashMap());
-		str = StringUtils.replace(str, "\r", "");
-		str = StringUtils.replace(str, "\n", "");
-		str = StringUtils.replace(str, "\r\n", "");
-		str = StringUtils.replace(str, " ", "");
 		return str.replaceAll("\\s+", "");
 	}
 	

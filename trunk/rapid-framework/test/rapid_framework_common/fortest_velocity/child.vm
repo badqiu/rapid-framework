@@ -1,4 +1,6 @@
-#override("body") 
-	child_body_content 
+#override("body")
+	<div class='content'>
+		Powered By rapid-framework
+	</div> 
 #end
-#parse("base.vm")
+#extends("base.vm")
