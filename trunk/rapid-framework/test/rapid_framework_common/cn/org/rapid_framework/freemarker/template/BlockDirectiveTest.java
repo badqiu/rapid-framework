@@ -33,11 +33,15 @@ public class BlockDirectiveTest {
 	@Test
 	public void testOverride() throws FileNotFoundException, IOException {
 
-		
-		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processor.processTemplate("base.flt", new HashMap()));
-		assertEquals("<html><head>base_head_content</head><body>child_body_content</body></html>",processor.processTemplate("child.flt", new HashMap()).trim());
-		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processor.processTemplate("grandchild.flt", new HashMap()).trim());
-		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processor.processTemplate("base-ext.flt", new HashMap()));
+		System.out.println(processor.processTemplate("child.flt",new HashMap()));
+		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base.flt"));
+		assertEquals("<html><head>base_head_content</head><body><divclass='content'>PoweredByrapid-framework</div></body></html>",processTemplate("child.flt").trim());
+		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processTemplate("grandchild.flt").trim());
+		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.flt"));
+	}
+
+	private String processTemplate(String templateName) {
+		return processor.processTemplate(templateName, new HashMap()).replaceAll("\\s", "");
 	}
 	
 	@Test(expected=FreemarkerTemplateException.class)
