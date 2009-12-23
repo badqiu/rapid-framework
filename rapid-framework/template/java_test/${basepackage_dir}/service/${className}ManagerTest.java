@@ -3,7 +3,6 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.service;
 
-import javax.annotation.Resource;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
