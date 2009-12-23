@@ -15,7 +15,6 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 	private ${className}Dao dao;
 	
 	/** autowire by name */
-	@Resource
 	public void set${className}Dao(${className}Dao dao) {
 		this.dao = dao;
 	}
