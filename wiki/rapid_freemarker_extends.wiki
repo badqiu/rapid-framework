@@ -50,7 +50,7 @@
 =三.指令介绍=
  
   * @block : 定义块，可以被子模板用@override指令覆盖显示,没有被override则显示自身的内容
-  * @override :  覆盖@block指令显示的内容
+  * @override :  重定义@block指令显示的内容
   * @extends : 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#include指令，只是为了提供统一的语义，即extends比include更好理解） 
 
 =四.使用说明=
