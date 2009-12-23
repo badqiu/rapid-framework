@@ -13,7 +13,6 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 	private ${className}Manager manager;
 	
 	// autowire by name
-	@Resource
 	public void set${className}Manager(${className}Manager manager) {
 		this.manager = manager;
 	}
