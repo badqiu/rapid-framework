@@ -1,15 +1,12 @@
-
 现扩展freemarker，新增加三个指令： @extends,@block,@override
  
 =一.目的=
-
- 
-父模板页面定义好布局,子模板可以重定义布局中的部分内容
-使模板可以实现类似"类"的继承关系,并不限继承层次
+  # 父模板页面定义好布局,子模板可以重定义布局中的部分内容
+  # 使模板可以实现类似"类"的继承关系,并不限继承层次
  
 =二.继承概榄=
 
-父模板: base.ftl
+*父模板: base.ftl*
  
 {{{
 <html>  
@@ -22,7 +19,7 @@
 </html>  
 }}}
  
-子模板child.ftl
+*子模板child.ftl*
  
 {{{
 <@override name="body">  
@@ -33,7 +30,7 @@
 <@extends name="base.flt"/>  
 }}}
  
-子模板child.ftl输出
+*子模板child.ftl<font color='red'>输出</font>*
  
 {{{ 
 <html>  
