@@ -5,6 +5,7 @@ package ${basepackage}.dao;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
@@ -14,7 +15,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 	
 	private ${className}Dao dao;
 	
-	/** autowire by name */
+	@Autowired
 	public void set${className}Dao(${className}Dao dao) {
 		this.dao = dao;
 	}
