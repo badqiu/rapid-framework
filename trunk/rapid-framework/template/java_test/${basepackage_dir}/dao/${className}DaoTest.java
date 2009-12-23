@@ -5,7 +5,6 @@ package ${basepackage}.dao;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
