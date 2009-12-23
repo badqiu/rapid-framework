@@ -1,0 +1,68 @@
+
+现扩展freemarker，新增加三个指令： @extends,@block,@override
+ 
+=一.目的=
+
+ 
+父模板页面定义好布局,子模板可以重定义布局中的部分内容
+使模板可以实现类似"类"的继承关系,并不限继承层次
+ 
+=二.继承概榄=
+
+父模板: base.ftl
+ 
+{{{
+<html>  
+    <head>  
+        <@block name="head">base_head_content</@block>  
+    </head>  
+    <body>  
+        <@block name="body">base_body_content</@block>  
+    </body>  
+</html>  
+}}}
+ 
+子模板child.ftl
+ 
+{{{
+<@override name="body">  
+    <div class='content'>  
+        Powered By rapid-framework  
+    </div>  
+</@override>  
+<@extends name="base.flt"/>  
+}}}
+ 
+子模板child.ftl输出
+ 
+{{{ 
+<html>  
+    <head>  
+        base_head_content  
+    </head>  
+    <body>  
+        <div class='content'>  
+            Powered By rapid-framework  
+        </div>  
+    </body>  
+</html>  
+}}}
+
+ 可以看到，body部分被重定义了，而head部分则还是显示父模板的内容。
+ 
+=三.指令介绍=
+ 
+  * @block : 定义块，可以被子模板用@override指令覆盖显示
+  * @override :  覆盖@block指令显示的内容
+  * @extends : 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#include指令，只是为了提供统一的语义，即extends比include更好理解） 
+
+=四.使用说明=
+
+要使用如上三个自定义指令，必须在freeemarker的Configuration中注册。
+使用如下代码：
+ 
+{{{
+configuration.setSharedVariable("block", new BlockDirective());  
+configuration.setSharedVariable("override", new OverrideDirective());  
+configuration.setSharedVariable("extends", new ExtendsDirective());  
+}}}
