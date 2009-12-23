@@ -3,6 +3,7 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
 import static junit.framework.Assert.*;
 
@@ -12,7 +13,7 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 
 	private ${className}Manager manager;
 	
-	// autowire by name
+	@Autowired
 	public void set${className}Manager(${className}Manager manager) {
 		this.manager = manager;
 	}
