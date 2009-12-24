@@ -53,6 +53,6 @@
   * [best_practice 最佳实践]
   * [changelog 修改日志]
   * [roadmap 路线图]
-  * [faq 常见问题解答]
+  * [faq 常见问题解答(FAQs)]
   * [http://groups.google.com/group/rapid-framework 加入google group参与讨论]
   * [powered_by_rapid powered by rapid]
