@@ -25,17 +25,17 @@ public class OverrideDirective implements TemplateDirectiveModel {
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
-		String bufferSize = DirectiveUtils.getParam(params, "bufferSize","512");
 		String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
+		
 		if(env.getVariable(overrideVariableName) == null) {
-			if(body == null) {
-				env.setVariable(overrideVariableName,TemplateScalarModel.EMPTY_STRING);
-			}else {
-				StringWriter out = new StringWriter(Integer.parseInt(bufferSize));
-				body.render(out);
-				env.setVariable(overrideVariableName,new SimpleScalar(out.toString()));
-			}
+			env.setVariable(overrideVariableName, new TemplateDirectiveBodyModel(body));
 		}
 	}
-
+	
+	public static class TemplateDirectiveBodyModel implements TemplateModel{
+		public TemplateDirectiveBody body;
+		public TemplateDirectiveBodyModel(TemplateDirectiveBody body) {
+			this.body = body;
+		}
+	}
 }
