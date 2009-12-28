@@ -34,8 +34,8 @@ public class DirectiveUtils {
 		return value.toString();
 	}
 	
-	static String getParam(Map params,String key) throws TemplateException {
+	static String getParam(Map params,String key,String defaultValue) throws TemplateException {
 		Object value = params.get(key);
-		return value == null ? null : value.toString();
+		return value == null ? defaultValue : value.toString();
 	}
 }
