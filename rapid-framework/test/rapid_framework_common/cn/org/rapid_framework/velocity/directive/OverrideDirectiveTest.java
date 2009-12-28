@@ -4,9 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
@@ -17,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 import org.springframework.util.ResourceUtils;
-import org.springframework.util.StringUtils;
 
 
 public class OverrideDirectiveTest {
@@ -31,6 +33,7 @@ public class OverrideDirectiveTest {
 		Properties p = new Properties();   
 		p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, path);
 		p.setProperty("userdirective","cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective");
+		p.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE, "true");
 		engine.init(p);
 	}
 
@@ -64,10 +67,41 @@ public class OverrideDirectiveTest {
 		engine.evaluate(context,out , "test.vm", "#block() diy \n #end");
 		System.out.println(out.toString());
 	}
+	
+	@Test(timeout=7000)
+	public void testPerformance() throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception {
+		
+		long start = System.currentTimeMillis();
+		int count = 100000;
+		String content = RandomStringUtils.random(8192);
+		for(int i = 0; i < count; i++) {
+			HashMap hashMap = new HashMap();
+			hashMap.put("content", content);
+			if(i % 100 == 0) {
+				System.out.println("current:"+i);
+			}
+			Template t = engine.getTemplate("performance.vm");
+			t.merge(new VelocityContext(hashMap), NULL_WRITER);
+//			engine.mergeTemplate("base.vm","UTF-8",new VelocityContext(hashMap),NULL_WRITER);
+		}
+		float cost = System.currentTimeMillis() - start;
+		System.out.println(cost+" "+ (count/(cost/1000))+" ");
+	}
 
 	private String processTemplate(String name) throws ResourceNotFoundException, ParseErrorException, Exception {
 		String str =  VelocityEngineUtils.mergeTemplateIntoString(engine, name, new HashMap());
 		return str.replaceAll("\\s+", "");
 	}
 	
+	Writer NULL_WRITER = new Writer() {
+		@Override
+		public void close()   {
+		}
+		@Override
+		public void flush()   {
+		}
+		@Override
+		public void write(char[] cbuf, int off, int len){
+		}
+	};
 }
