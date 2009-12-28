@@ -1,9 +1,9 @@
-package cn.org.rapid_framework.freemarker.template;
+package cn.org.rapid_framework.freemarker.directive;
 
 import java.io.IOException;
 import java.util.Map;
 
-import cn.org.rapid_framework.freemarker.template.OverrideDirective.TemplateDirectiveBodyModel;
+import cn.org.rapid_framework.freemarker.directive.OverrideDirective.TemplateDirectiveBodyModel;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;

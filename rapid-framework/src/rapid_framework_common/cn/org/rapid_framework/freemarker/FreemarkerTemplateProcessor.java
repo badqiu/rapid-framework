@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import cn.org.rapid_framework.freemarker.template.DirectiveUtils;
+import cn.org.rapid_framework.freemarker.directive.DirectiveUtils;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

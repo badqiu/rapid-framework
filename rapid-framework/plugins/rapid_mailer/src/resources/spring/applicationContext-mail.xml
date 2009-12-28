@@ -47,9 +47,9 @@
 	</bean>
 
 	<!-- 自定义freemarker指令 -->
-	<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.template.BlockDirective"></bean>
-	<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.template.OverrideDirective"></bean>
-	<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.template.ExtendsDirective"></bean>
+	<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.directive.BlockDirective"></bean>
+	<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.directive.OverrideDirective"></bean>
+	<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.directive.ExtendsDirective"></bean>
 	
 	<!-- freemarker模板相关配置-->	
 	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">

@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
-import cn.org.rapid_framework.freemarker.template.DirectiveUtils;
+import cn.org.rapid_framework.freemarker.directive.DirectiveUtils;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 
