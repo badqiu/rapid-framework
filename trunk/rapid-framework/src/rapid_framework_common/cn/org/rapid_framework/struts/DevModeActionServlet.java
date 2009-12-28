@@ -4,18 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.digester.Digester;
 import org.apache.struts.Globals;
 import org.apache.struts.action.ActionServlet;
-import org.apache.struts.action.RequestProcessor;
-import org.apache.struts.config.FormBeanConfig;
 import org.apache.struts.config.ModuleConfig;
-import org.apache.struts.config.ModuleConfigFactory;
 import org.apache.struts.util.ModuleUtils;
 /**
  * 使用struts支持开发模式,每次action请求重新reload配置文件
