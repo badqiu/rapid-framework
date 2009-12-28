@@ -1,0 +1,6 @@
+<@override name="body">
+  override_by_second
+</@override>
+<second>
+ ${pipeline_content}
+</second>

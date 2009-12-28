@@ -1,0 +1,40 @@
+<html>
+<body>
+
+包含自定义指令,用于实现freemarker模板可以继承其它模板.父模板定义好布局,子模板可以重定义布局中的部分内容
+
+<br />
+
+<style type="text/css">
+/*--------------------- code ----------------------*/
+CODE,PRE {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	padding-right: 10px;
+	border-right: #cccccc 1px dashed;
+	border-bottom: #cccccc 1px dashed;
+	border-top: #cccccc 1px dashed;
+	border-left-width: 0px;
+	background:#fafafa repeat-y fixed 0 0;
+	color: #4d87ce;
+	display: block;
+}
+
+</style> 
+<h3>自定义指令配置</h3>
+使用自定义指定前必须在freemarker的configuration中配置,java代码如下,spring中你可以使用配置文件配置
+<pre>configuration.setSharedVariable("block", new BlockDirective());
+configuration.setSharedVariable("override", new OverrideDirective());
+configuration.setSharedVariable("extends", new ExtendsDirective());
+</pre>
+<h3>模板继承概览</h3>
+<h4>父模板base.flt</h4>
+<code class="">&lt;html&gt; &nbsp;<br>&lt;haed&gt;<br>&nbsp;&nbsp; &lt;@block name=&quot;head&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; base_head_content<br>&nbsp;&nbsp; &lt;@/block&gt;<br>&lt;/head&gt; &nbsp;<br>&lt;body&gt; &nbsp;<br>&nbsp;&nbsp; &lt;br /&gt; &nbsp;<br>&nbsp;&nbsp; &lt;@block name=&quot;content&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; base_body_content<br>&nbsp;&nbsp; &lt;@/block&gt; <br>&lt;/body&gt; &nbsp;<br>&lt;/html&gt;
+</code>
+<h4>子模板child.flt</h4>
+<span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Simsun; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;" class="Apple-style-span"><span style="font-family: arial,sans-serif; font-size: 13px;" class="Apple-style-span"><a name="2.jsp继承示例说明"><pre style="border-left: 3px solid rgb(204, 204, 204); padding: 0.5em; font-size: 12px; margin-left: 2em;" class="prettyprint"><span style="color: rgb(102, 102, 0);" class="pun">&lt;%</span><span style="color: rgb(0, 0, 0);" class="pln"> </span><span style="color: rgb(136, 0, 0);" class="com">//重定义父页面的内容为content的内容 </span><span style="color: rgb(0, 0, 0);" class="pln">%&gt; &nbsp;<br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;@override</span><span style="color: rgb(0, 0, 0);" class="pln"> </span><span style="color: rgb(102, 0, 102);" class="atn">name</span><span style="color: rgb(102, 102, 0);" class="pun">=</span><span style="color: rgb(0, 136, 0);" class="atv">&quot;content&quot;</span><span style="color: rgb(0, 0, 136);" class="tag">&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br>&nbsp; &nbsp; &nbsp;</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;div&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;h2&gt;</span><span style="color: rgb(0, 0, 0);" class="pln">Entry one</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/h2&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;p&gt;</span><span style="color: rgb(0, 0, 0);" class="pln">This is my first entry.</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/p&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/div&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/@override&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br>&nbsp; &nbsp;<br></span><span style="color: rgb(0, 0, 0);" class="pln"></span><span style="color: rgb(102, 102, 0);" class="pun">&lt;@extends name=&quot;base.flt&quot;&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"></span></pre></a></span></span>
+<h4>child.flt输出</h4>
+<span style="border-collapse: separate; color: rgb(0, 0, 0); font-family: Simsun; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;" class="Apple-style-span"><span style="font-family: arial,sans-serif; font-size: 13px;" class="Apple-style-span"><a name="输出"><pre style="border-left: 3px solid rgb(204, 204, 204); padding: 0.5em; font-size: 12px; margin-left: 2em;" class="prettyprint"><span style="color: rgb(0, 0, 136);" class="tag">&lt;html&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;haed&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br>&nbsp;base_head_content<br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/haed&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;body&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br>&nbsp;</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;br</span><span style="color: rgb(0, 0, 0);" class="pln"> </span><span style="color: rgb(0, 0, 136);" class="tag">/&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br>&nbsp; &nbsp; &nbsp;</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;div&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;h2&gt;</span><span style="color: rgb(0, 0, 0);" class="pln">Entry one</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/h2&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; &nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;p&gt;</span><span style="color: rgb(0, 0, 0);" class="pln">This is my first entry.</span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/p&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br>&nbsp; &nbsp; </span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/div&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"><br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/body&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> &nbsp;<br></span><span style="color: rgb(0, 0, 136);" class="tag">&lt;/html&gt;</span><span style="color: rgb(0, 0, 0);" class="pln"> </span></pre></a></span></span>
+</body>
+</html>
