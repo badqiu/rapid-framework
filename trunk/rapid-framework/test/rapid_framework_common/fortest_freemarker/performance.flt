@@ -1,0 +1,7 @@
+<@override name="body">
+	<div class='content'>
+		Powered By rapid-framework
+	</div>
+	${content}
+</@override>
+<@extends name="base.flt"/>
