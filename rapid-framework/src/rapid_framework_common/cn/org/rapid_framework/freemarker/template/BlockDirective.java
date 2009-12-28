@@ -3,6 +3,7 @@ package cn.org.rapid_framework.freemarker.template;
 import java.io.IOException;
 import java.util.Map;
 
+import cn.org.rapid_framework.freemarker.template.OverrideDirective.TemplateDirectiveBodyModel;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
@@ -24,21 +25,16 @@ public class BlockDirective implements TemplateDirectiveModel{
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
-		String overrideContent = getOverrideContent(env, name);
-		if(overrideContent == null) {
-			if(body != null) 
-				body.render(env.getOut());
-		}else {
-			env.getOut().append(overrideContent);
+		TemplateDirectiveBodyModel overrideBody = getOverrideBody(env, name);
+		TemplateDirectiveBody outputBody = overrideBody == null ? body : overrideBody.body;
+		if(outputBody != null) {
+			outputBody.render(env.getOut());
 		}
 	}
 
-	private String getOverrideContent(Environment env, String name) throws TemplateModelException {
-		TemplateScalarModel value = ((TemplateScalarModel)env.getVariable(DirectiveUtils.getOverrideVariableName(name)));
-		if(value == null)
-			return null;
-		else
-			return value.getAsString();
+	private TemplateDirectiveBodyModel getOverrideBody(Environment env, String name) throws TemplateModelException {
+		TemplateDirectiveBodyModel value = (TemplateDirectiveBodyModel)env.getVariable(DirectiveUtils.getOverrideVariableName(name));
+		return value;
 	}
 
 }
