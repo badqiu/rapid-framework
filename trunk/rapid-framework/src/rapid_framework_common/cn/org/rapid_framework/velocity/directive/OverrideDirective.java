@@ -36,10 +36,7 @@ public class OverrideDirective extends org.apache.velocity.runtime.directive.Dir
         }
         
 		Node body = node.jjtGetChild(1);
-//		String body_tpl = body.literal();
-    	StringWriter bodyContent = new StringWriter(512);
-        body.render(context, bodyContent);
-    	context.put(Utils.getOverrideVariableName(name), bodyContent.toString());
+    	context.put(Utils.getOverrideVariableName(name), body);
 		return true;
 	}
 
