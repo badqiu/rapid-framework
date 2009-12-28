@@ -3,6 +3,7 @@ package cn.org.rapid_framework.velocity.directive;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -73,16 +74,23 @@ public class OverrideDirectiveTest {
 		
 		long start = System.currentTimeMillis();
 		int count = 100000;
-		String content = RandomStringUtils.random(8192);
+//		String content = RandomStringUtils.randomAscii(8192);
+		String content = "china";
 		for(int i = 0; i < count; i++) {
 			HashMap hashMap = new HashMap();
 			hashMap.put("content", content);
-			if(i % 100 == 0) {
+			hashMap.put("data", new String[]{"1","2"});
+			if(i % 1000 == 0) {
 				System.out.println("current:"+i);
 			}
 			Template t = engine.getTemplate("performance.vm");
-			t.merge(new VelocityContext(hashMap), NULL_WRITER);
-//			engine.mergeTemplate("base.vm","UTF-8",new VelocityContext(hashMap),NULL_WRITER);
+			if( i == count - 2) {
+				StringWriter out = new StringWriter();
+				t.merge(new VelocityContext(hashMap), out);
+				System.out.println(out.toString());
+			}else {
+				t.merge(new VelocityContext(hashMap),NULL_WRITER);
+			}
 		}
 		float cost = System.currentTimeMillis() - start;
 		System.out.println(cost+" "+ (count/(cost/1000))+" ");
@@ -93,7 +101,7 @@ public class OverrideDirectiveTest {
 		return str.replaceAll("\\s+", "");
 	}
 	
-	Writer NULL_WRITER = new Writer() {
+	public static Writer NULL_WRITER = new Writer() {
 		@Override
 		public void close()   {
 		}
