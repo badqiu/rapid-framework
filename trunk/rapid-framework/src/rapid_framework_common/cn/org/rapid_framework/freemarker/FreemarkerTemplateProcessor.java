@@ -72,7 +72,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	}
 
 	public static String processTemplateIntoString(Template template,Object model) throws FreemarkerTemplateException {
-		StringWriter out = new StringWriter();
+		StringWriter out = new StringWriter(512);
 		processTemplate(template, model, out);
 		return out.toString();
 	}
