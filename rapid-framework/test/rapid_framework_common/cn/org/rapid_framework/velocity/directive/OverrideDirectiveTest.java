@@ -3,13 +3,12 @@ package cn.org.rapid_framework.velocity.directive;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -67,6 +66,17 @@ public class OverrideDirectiveTest {
 		StringWriter out = new StringWriter();
 		engine.evaluate(context,out , "test.vm", "#block() diy \n #end");
 		System.out.println(out.toString());
+	}
+	
+	@Test
+	public void testSetDirective() throws ParseErrorException, MethodInvocationException, ResourceNotFoundException, IOException {
+		Map map = new HashMap();
+		VelocityContext context = new VelocityContext(map);
+		StringWriter out = new StringWriter();
+		engine.evaluate(context,out , "test.vm", "#set($v = '123')");
+		System.out.println(out.toString());
+		System.out.println("testSetDirective() map:"+map);
+		assertEquals("123",map.get("v"));
 	}
 	
 	@Test(timeout=7000)
