@@ -15,6 +15,9 @@ import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateException;
 import cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor;
+import cn.org.rapid_framework.freemarker.directive.BlockDirective;
+import cn.org.rapid_framework.freemarker.directive.ExtendsDirective;
+import cn.org.rapid_framework.freemarker.directive.OverrideDirective;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 
