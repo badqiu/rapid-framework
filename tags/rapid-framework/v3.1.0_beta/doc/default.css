@@ -1,0 +1,139 @@
+BODY {
+	font-family: tahoma, verdana, "????";
+	font-size: 14px;
+	COLOR: #777;
+	margin: 20px;
+	line-height: 180%;
+	BACKGROUND-IMAGE: url(../reference/images/body.jpg); 
+	BACKGROUND-REPEAT: repeat-x;
+	scrollbar-face-color: #eeeeee;
+	scrollbar-highlight-color: #ffffff;
+	scrollbar-shadow-color: #dee3e7;
+	scrollbar-3dlight-color: #d1d7dc;
+	scrollbar-arrow-color: #000000;
+	scrollbar-track-color: #ededed;
+	scrollbar-darkshadow-color: #808080
+}
+
+/*------------------- a -----------------------------*/
+ A {
+	PADDING-RIGHT: 2px; PADDING-LEFT: 2px; PADDING-BOTTOM: 2px; COLOR: #666; PADDING-TOP: 2px; TEXT-DECORATION: underline;
+}
+
+A:hover {
+	COLOR: #000; BACKGROUND-COLOR: #ebff99;TEXT-DECORATION: none
+}
+
+/*------------------ title ------------------------*/
+H1 {
+	FONT-SIZE: 28px; MARGIN: 10px 0px 20px; TEXT-TRANSFORM: uppercase; COLOR: #bfef01; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana; LETTER-SPACING: 3px;padding-bottom: 20px;
+}
+
+H1 A {
+	text-decoration: none;COLOR: red;
+}
+
+H2 {
+	FONT-SIZE: 18px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana;PADDING-BOTTOM: 0px; MARGIN: 0px 0px; PADDING-TOP: 0px; BORDER-BOTTOM: #eee 1px solid;
+}
+
+H3 {
+	FONT-SIZE: 16px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
+}
+
+H4 {
+	FONT-SIZE: 14px; MARGIN: 0px; COLOR: #333; FONT-FAMILY: "Trebuchet MS", Tahoma, Verdana
+}
+
+/*--------------------- code ----------------------*/
+PRE {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	padding-right: 10px;
+	border-right: #cccccc 1px dashed;
+	border-bottom: #cccccc 1px dashed;
+	border-top: #cccccc 1px dashed;
+	border-left-width: 0px;
+	background:#fafafa url(images/codebg.jpg) repeat-y fixed 0 0;
+	color: #4d87ce;
+}
+
+.code-keyword {
+  font-weight:bold;
+  color: #663300;
+  background-color: inherit;
+}
+
+.code-method {
+  color: #ff33cc;
+  background-color: inherit;
+}
+
+.code-object {
+  color: #910091;
+  background-color: inherit;
+}
+
+.code-quote {
+  color: #808080;
+  background-color: inherit;
+}
+
+.code-comment {
+  color: #009100;
+  background-color: inherit;
+}
+
+
+.code-xml .code-keyword {
+  color: inherit;
+  font-weight: bold;
+}
+
+.code-tag {
+  color: #000091;
+  background-color: inherit;
+}
+
+/*------------------ table ---------------------*/
+table{
+border: 1px solid #E0E0E0
+}
+TR {
+	line-height: 16px
+}
+
+/*--------------------li ui---------------------*/
+UL {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	padding-bottom: 0px;
+	padding-top: 0px
+}
+
+OL {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	padding-bottom: 0px;
+	padding-top: 0px
+}
+
+LI {
+	PADDING-RIGHT: 0px; BACKGROUND-POSITION: left top; PADDING-LEFT: 20px; PADDING-BOTTOM: 0px; BACKGROUND-REPEAT: no-repeat; 
+}
+
+#footer { 
+	clear: both; 
+	text-align: center;
+	line-height: 1.8em;
+	color: #808080;
+	background: #FFF;
+	padding: 10px 0 10px 0;
+	border-top: 1px solid #eee;
+}
+
+#footer a {
+	color: #9EC068;
+	background: #fff;
+}
