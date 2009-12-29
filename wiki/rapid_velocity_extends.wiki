@@ -1,3 +1,5 @@
+为velocity新增加三个指令：block,override,extends
+
 =一.目的：=
 
   * 父模板页面定义好布局,子模板可以重定义布局中的部分内容
