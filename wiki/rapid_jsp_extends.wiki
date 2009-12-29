@@ -1,10 +1,10 @@
 <wiki:toc max_depth="2" />
 
-=功能=
+=一.目的=
   # 使jsp可以实现类似"类"的继承关系,并不限继承层次
   # 父jsp页面定义好布局,子jsp可以重定义布局中的部分内容
 
-=1.介绍=
+=二.介绍=
 使用过python django模板的应该清楚，django里面有一个激动人心的功能就是模板可以使用类的继承关系。 即模板是可以继承的，并且不限继承的层次。
 
 如:
@@ -13,7 +13,7 @@
 
 这样，我们在base.jsp中定义好html布局,然后在“子jsp”（我们这样称呼吧）重定义部分父页面的内容即可
 
-=2.jsp继承示例说明=
+=三.jsp继承概览=
 现在我们来看jsp中如何实现此功能(django与下面的声明类似)。
 
 *父页面: base.jsp,定义布局*
@@ -69,7 +69,7 @@
 可以看到，child.jsp的的body输出内容被`<rapid:override/>`重定义了,而head部分还是base.jsp的内容.
 
 总共我们使用了两个jsp tag: block,override，还有@include指令.
-==jsp tag介绍==
+=四.jsp tag介绍=
 
   * *`block tag:`*
     * 定义块，可以被子模板用override tag覆盖显示,没有被override则显示自身的内容
@@ -78,88 +78,3 @@
   * *@include指令:*
     * 通过该指令来实现继承(extends)的功能（只能使用这个技巧），*该指令必须放置在页面的最后面*
 
-
-=3.具体实现:=
-
-==block tag==
-{{{
-public class BlockTag extends TagSupport{  
-   
- private String name;  
-   
- public void setName(String name) {  
-  this.name = name;  
- }  
-   
- @Override  
- public int doStartTag() throws JspException {  
-  return getOverriedContent() == null ? EVAL_BODY_INCLUDE : SKIP_BODY;  
- }  
-   
- @Override  
- public int doEndTag() throws JspException {  
-  String overriedContent = getOverriedContent();  
-  if(overriedContent == null) {  
-   return EVAL_PAGE;  
-  }  
-    
-  try {  
-   pageContext.getOut().write(overriedContent);  
-  } catch (IOException e) {  
-   throw new JspException("tag output error",e);  
-  }  
-  return EVAL_PAGE;  
- }  
-   
- private String getOverriedContent() {  
-  String varName = Utils.getOverrideVariableName(name);  
-  return (String)pageContext.getAttribute(varName);  
- }  
-}  
-}}}
-
-==override tag==
-{{{
-public class OverrideTag extends BodyTagSupport{  
-    
- private String name;  
-   
- public void setName(String name) {  
-  this.name = name;  
- }  
-   
- @Override  
- public int doStartTag() throws JspException {  
-  return isOverrided() ? SKIP_BODY : EVAL_BODY_BUFFERED;  
- }  
-   
- @Override  
- public int doEndTag() throws JspException {  
-  if(isOverrided()) {  
-   return EVAL_PAGE;  
-  }  
-  BodyContent b = getBodyContent();  
-  String varName = Utils.getOverrideVariableName(name);  
-  pageContext.setAttribute(varName, b.getString());  
-  return EVAL_PAGE;  
- }  
-   
- private boolean isOverrided() {  
-  String varName = Utils.getOverrideVariableName(name);  
-  return pageContext.getAttribute(varName) != null;  
- }  
-    
-}  
-}}}
-
-== 工具类 ==
-{{{
-class Utils {  
- public static String BLOCK = "__override__";  
- public static String getOverrideVariableName(String name) {  
-  return BLOCK + name;  
- }  
-}  
-}}}
-
-可以看到，实现代码不需要100行，重要是的实现技巧,由此，你从此可以放弃使用sitemesh,struts-tiles. 并且如上实现方式具有高性能。
