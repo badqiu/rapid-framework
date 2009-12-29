@@ -29,18 +29,17 @@ public class BlockDirective extends org.apache.velocity.runtime.directive.Direct
 			throws IOException, ResourceNotFoundException, ParseErrorException,MethodInvocationException {
 		String name = Utils.getRequiredArgument(context, node, 0,getName());
 		
-        if(isOverrided(context,name)) {
-        	Node overrideNode = (Node)context.get(Utils.getOverrideVariableName(name));
-        	overrideNode.render(context, writer);
-        }else {
-    		Node body = node.jjtGetChild(1);
-            body.render(context, writer);
+		Node outputNode = getOverrideNode(context,name);
+        if(outputNode == null) {
+        	outputNode = node.jjtGetChild(1);
         }
+        outputNode.render(context, writer);
         
         return true;
 	}
 
-	private boolean isOverrided(InternalContextAdapter context,String name) {
-		return context.get(Utils.getOverrideVariableName(name)) != null;
+	private Node getOverrideNode(InternalContextAdapter context,String name) {
+		return (Node)context.get(Utils.getOverrideVariableName(name));
 	}
+	
 }
