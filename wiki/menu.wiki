@@ -14,7 +14,7 @@
     * [rapid_flex_blazeds Flex BlazeDs与spring集成]
     * view层(new)
       * [rapid_validation 表单验证rapid-validation]
-      * [rapid_jsp_extends jsp实现"类"的继承关系(new)]
+      * [rapid_jsp_extends jsp实现模板继承(new)]
       * [rapid_freemarker_extends freemarker实现模板继承(new)]
       * [rapid_velocity_extends velocity实现模板继承(new)]
     * 持久层介绍
