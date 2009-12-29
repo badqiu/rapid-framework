@@ -60,12 +60,18 @@
 {{{
 userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective  
 }}}
-然后再初始化，即中使用自定义指令： 
+
+
+然后再初始化，即中使用自定义指令：
+ 
+
 {{{ 
 velocityEngine.init(properties);  
 }}}
 *使用注意(性能优化):*
    必须为velocity的ResourceLoader开启cache,因为 engine.getTemplate(name) 默认是没有使用cache的,而#extends是需要经常调用该函数,所以必须为ResourceLoader指定开启cache,如FileResourceLoader
+
+
 {{{
 file.resource.loader.cache = true  
 }}}
