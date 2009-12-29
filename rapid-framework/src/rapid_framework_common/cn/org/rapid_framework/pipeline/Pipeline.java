@@ -74,6 +74,8 @@ public interface Pipeline {
 	
 	public static final String PIPELINE_TEMPLATE_SEPERATORS = ",| ";
 	
+	public static final int DEFAULT_PIPELINE_BUFFER_SIZE = 1024;
+	
 	public Writer pipeline(String pipeTemplates,Map model,Writer writer) throws PipeException;
 	
 	public Writer pipeline(String pipeTemplates,Object model,Writer writer) throws PipeException;
