@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 
@@ -22,7 +23,8 @@ import freemarker.template.TemplateModelException;
  */
 public class FreemarkerPipeline implements Pipeline{
 	
-	Configuration conf;
+	private Configuration conf;
+	private int bufferSize = DEFAULT_PIPELINE_BUFFER_SIZE;
 	
 	public FreemarkerPipeline(){}
 	
@@ -38,6 +40,14 @@ public class FreemarkerPipeline implements Pipeline{
 		this.conf = conf;
 	}
 	
+	public int getBufferSize() {
+		return bufferSize;
+	}
+
+	public void setBufferSize(int bufferSize) {
+		this.bufferSize = bufferSize;
+	}
+	
 	public Writer pipeline(String pipeTemplates[],Object rootMap,Writer writer) throws PipeException   {
 		try {
 			Map globalContext = new HashMap();
@@ -49,7 +59,7 @@ public class FreemarkerPipeline implements Pipeline{
 					env.getCurrentNamespace().putAll(globalContext);
 					env.process();
 				}else {
-					Writer tempOutput = new StringWriter(512);
+					Writer tempOutput = new StringWriter(bufferSize);
 					Environment env = template.createProcessingEnvironment(rootMap, tempOutput);
 					env.getCurrentNamespace().putAll(globalContext);
 					env.process();

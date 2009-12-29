@@ -19,7 +19,8 @@ import cn.org.rapid_framework.util.StringTokenizerUtils;
  */
 public class VelocityPipeline implements Pipeline{
 	
-	VelocityEngine engine;
+	private VelocityEngine engine;
+	private int bufferSize = DEFAULT_PIPELINE_BUFFER_SIZE;
 	
 	public VelocityPipeline(){}
 	
@@ -33,6 +34,14 @@ public class VelocityPipeline implements Pipeline{
 
 	public void setVelocityEngine(VelocityEngine engine) {
 		this.engine = engine;
+	}
+	
+	public int getBufferSize() {
+		return bufferSize;
+	}
+
+	public void setBufferSize(int bufferSize) {
+		this.bufferSize = bufferSize;
 	}
 
 	public Writer pipeline(String pipeTemplates[],Map model,Writer writer) throws PipeException  {
@@ -48,7 +57,7 @@ public class VelocityPipeline implements Pipeline{
 				if(i == pipeTemplates.length - 1) {
 					template.merge(context, writer);
 				}else {
-					Writer tempOutput = new StringWriter(512);
+					Writer tempOutput = new StringWriter(bufferSize);
 					template.merge(context, tempOutput);
 					context.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
 				}
