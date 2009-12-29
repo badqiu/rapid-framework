@@ -57,7 +57,7 @@
 =四.使用说明:=
 
 在velocity的properties中可以设置:
-{{{{
+{{{
 userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective  
 }}}
 然后再初始化，即中使用自定义指令： 
