@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.freemarker.template;
+package cn.org.rapid_framework.freemarker.directive; 
 
 import java.io.IOException;
 import java.io.StringWriter;
