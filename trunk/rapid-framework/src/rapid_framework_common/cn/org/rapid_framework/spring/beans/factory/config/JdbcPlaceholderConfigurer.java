@@ -13,6 +13,8 @@ import org.springframework.util.Assert;
 
 /**
  * 通过数据库解析spring placeholder的值,配置示例
+ * 
+ * 
  * <pre>
  * 	&lt;bean id="propertyConfigurer" class="cn.org.rapid_framework.spring.beans.factory.config.JdbcPlaceholderConfigurer">
  *		&lt;property name="dataSource" ref="dataSource"/>
