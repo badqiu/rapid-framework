@@ -32,7 +32,7 @@
 #extends("base.vm") 
 }}}
  
-*子模板child.vm输出*
+*子模板child.vm<font color='red'>输出<font>*
 
 {{{ 
 <html>  
@@ -70,7 +70,7 @@ userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.ra
 {{{ 
 velocityEngine.init(properties);  
 }}}
-*使用注意(性能优化):*
+*<font color='red'>使用注意(性能优化):</font>*
    必须为velocity的ResourceLoader开启cache,因为 engine.getTemplate(name) 默认是没有使用cache的,而#extends是需要经常调用该函数,所以必须为ResourceLoader指定开启cache,如FileResourceLoader
 
 
