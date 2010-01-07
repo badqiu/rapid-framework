@@ -11,7 +11,7 @@ package ${basepackage}.${className}
 	
 	<#include "/actionscript_imports.include">
 	
-	public class ${className}Delegate extends DelegateBase
+	public class ${className}Delegate extends BaseDelegate
 	{
 		private var ${classNameLower}FlexService: Object;
 		public function ${className}Delegate(responder:IResponder)
