@@ -25,7 +25,8 @@ pipeline中如果不能找到模板的异常处理
 整合MailEngine
 整合GroupProperties file,用于读取分组的配置文件
 
-fixed number NaN => 0 : NaN => Null 
+fixed number NaN => 0 : NaN => Null
+https://bugs.adobe.com/jira/browse/BLZ-305
 http://flexblog.faratasystems.com/2010/01/09/custom-type-masrhaller-in-blazeds
 http://ajax.sys-con.com/node/1240225?page=0,1
 
