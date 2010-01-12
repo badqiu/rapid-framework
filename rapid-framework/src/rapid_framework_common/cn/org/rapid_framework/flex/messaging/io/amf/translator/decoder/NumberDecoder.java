@@ -22,6 +22,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import flex.messaging.io.SerializationContext;
+import flex.messaging.io.amf.translator.decoder.ActionScriptDecoder;
+import flex.messaging.io.amf.translator.decoder.DecoderFactory;
 
 /**
  * Decode an ActionScript type (a string or a double) to a Java number (of any type).
