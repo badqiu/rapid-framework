@@ -27,6 +27,10 @@ public class CustomTypeMarshaller extends Java15TypeMarshaller {
 
 	private static final NumberDecoder numberDecoder = new NumberDecoder();
 	
+	public CustomTypeMarshaller() {
+		System.out.println(CustomTypeMarshaller.class.getSimpleName()+" fixed number convert error: 'NaN => 0' to 'NaN => null'");
+	}
+	
 	public Object convert(Object source, Class desiredClass) {
 		if (DecoderFactory.isNumber(desiredClass)) {
 			return numberDecoder.decodeObject(source, desiredClass);
