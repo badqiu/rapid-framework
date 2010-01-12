@@ -26,9 +26,12 @@ import flex.messaging.io.amf.translator.decoder.ActionScriptDecoder;
 import flex.messaging.io.amf.translator.decoder.DecoderFactory;
 
 /**
+ * 
+ * 用于修正flex的number数据类型转换错误： NaN => 0 变为 NaN => null
+ * 
+ * <br />
  * Decode an ActionScript type (a string or a double) to a Java number (of any type).
- *
- * @exclude
+ * @author badqiu
  */
 public class NumberDecoder extends ActionScriptDecoder
 {
