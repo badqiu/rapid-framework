@@ -84,19 +84,24 @@ public class OffsetLimitInterceptor implements Interceptor{
 	
 	private MappedStatement copyFromMappedStatement(MappedStatement ms,SqlSource newSqlSource) {
 		Builder builder = new MappedStatement.Builder(ms.getConfiguration(),ms.getId(),newSqlSource,ms.getSqlCommandType());
+		
 		builder.resource(ms.getResource());
 		builder.fetchSize(ms.getFetchSize());
 		builder.statementType(ms.getStatementType());
 		builder.keyGenerator(ms.getKeyGenerator());
 		builder.keyProperty(ms.getKeyProperty());
 		
+		//setStatementTimeout()
 		builder.timeout(ms.getTimeout());
 		
+		//setStatementResultMap()
 		builder.parameterMap(ms.getParameterMap());
 		
+		//setStatementResultMap()
 		builder.resultMaps(ms.getResultMaps());
 		builder.resultSetType(ms.getResultSetType());
 	    
+		//setStatementCache()
 		builder.cache(ms.getCache());
 		builder.flushCacheRequired(ms.isFlushCacheRequired());
 		builder.useCache(ms.isUseCache());
