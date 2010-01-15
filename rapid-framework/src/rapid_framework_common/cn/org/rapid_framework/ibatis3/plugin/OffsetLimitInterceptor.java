@@ -76,7 +76,7 @@ public class OffsetLimitInterceptor implements Interceptor{
 			limit = RowBounds.NO_ROW_LIMIT;
 			
 			queryArgs[ROWBOUNDS_INDEX] = new RowBounds(offset,limit);
-			BoundSql newBoundSql = new BoundSql(sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
+			BoundSql newBoundSql = new BoundSql(ms.getConfiguration(),sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
 			MappedStatement newMs = copyFromMappedStatement(ms, new BoundSqlSqlSource(newBoundSql));
 			queryArgs[MAPPED_STATEMENT_INDEX] = newMs;
 		}
