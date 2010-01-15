@@ -106,7 +106,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	select <include refid="${classNameFirstLower}Columns" />
 	    from ${table.sqlName} 
 		<include refid="${classNameFirstLower}DynamicWhere"/>
-		<if test="sortColumns != null and sortColumns.length() != 0">
+		<if test="@Ognl@isNotEmpty(sortColumns)">
 			ORDER BY <@jspEl 'sortColumns'/>
 		</if>
     </select>
