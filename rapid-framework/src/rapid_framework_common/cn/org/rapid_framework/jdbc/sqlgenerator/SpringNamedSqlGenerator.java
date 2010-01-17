@@ -25,6 +25,14 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return table.getPrimaryKeyColumns();
 	}
 	
+	public boolean isMultiPrimaryKey() {
+		return getPrimaryKeyColumns().size() > 1;
+	}
+	
+	public boolean isSinglePrimaryKey() {
+		return getPrimaryKeyColumns().size() == 1;
+	}
+	
 	public String getInsertSql() {
 		StringBuilder sb = new StringBuilder("INSERT ").append(getTableName()).append(" (");
 		for(int i = 0; i < getColumns().size(); i++) {
@@ -44,8 +52,35 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		sb.append(" ) ");
 		return sb.toString();
 	}
+	
+	public String getDeleteByPkSql() {
+		if(isMultiPrimaryKey()) {
+			return getDeleteByMultiPkSql();
+		}else if(isSinglePrimaryKey()) {
+			return getDeleteBySinglePkSql();
+		}
+		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+	}
 
-	public String getUpdateSql() {
+	public String getSelectByPkSql() {
+		if(isMultiPrimaryKey()) {
+			return getSelectByMultiPkSql();
+		}else if(isSinglePrimaryKey()) {
+			return getSelectBySinglePkSql();
+		}
+		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+	}
+
+	public String getUpdateByPkSql() {
+		if(isMultiPrimaryKey()) {
+			return getUpdateByMultiPkSql();
+		}else if(isSinglePrimaryKey()) {
+			return getUpdateBySinglePkSql();
+		}
+		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+	}
+
+	public String getUpdateByMultiPkSql() {
 		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
 		for(int i = 0; i < getColumns().size(); i++) {
 			Column c = getColumns().get(i);
@@ -81,7 +116,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return sb.toString();
 	}
 
-	public String getDeleteByPrimaryKeysSql() {
+	public String getDeleteByMultiPkSql() {
 		StringBuilder sb = new StringBuilder("DELETE FROM ").append(getTableName());
 
 		sb.append(" WHERE ");
@@ -108,7 +143,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return sb.toString();
 	}
 
-	public String getSelectByPrimaryKeysSql() {
+	public String getSelectByMultiPkSql() {
 		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
 		for(int i = 0; i < primaryKeyColumns.size(); i++) {
