@@ -60,11 +60,27 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 			Column c = getPrimaryKeyColumns().get(i);
 			sb.append(c.getSqlName()+" = :"+c.getPropertyName());
 			if(i < getPrimaryKeyColumns().size() - 1) 
-				sb.append(",");
+				sb.append(" AND ");
 		}
 		return sb.toString();
 	}
 	
+	public String getUpdateBySinglePkSql() {
+		checkIsSinglePrimaryKey();
+		
+		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
+		for(int i = 0; i < getColumns().size(); i++) {
+			Column c = getColumns().get(i);
+			sb.append(c.getSqlName()+" = :"+c.getPropertyName());
+			if(i < getColumns().size() - 1) 
+				sb.append(",");
+		}
+		
+		sb.append(" ) WHERE ");
+		sb.append(getSinglePrimaryKeyWhere());
+		return sb.toString();
+	}
+
 	public String getDeleteByPrimaryKeysSql() {
 		StringBuilder sb = new StringBuilder("DELETE FROM ").append(getTableName());
 
@@ -81,20 +97,17 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 	
 	public String getDeleteBySinglePkSql() {
+		checkIsSinglePrimaryKey();
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		if(primaryKeyColumns.size() != 1) {
-			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+primaryKeyColumns);
-		}
 		
 		StringBuilder sb = new StringBuilder("DELETE FROM ").append(getTableName());
 
 		sb.append(" WHERE ");
 		
-		Column c = primaryKeyColumns.get(0);
-		sb.append(c.getSqlName()+" = :id");
+		sb.append(getSinglePrimaryKeyWhere());
 		return sb.toString();
 	}
-	
+
 	public String getSelectByPrimaryKeysSql() {
 		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
@@ -108,14 +121,11 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 	
 	public String getSelectBySinglePkSql() {
+		checkIsSinglePrimaryKey();
 		List<Column> primaryKeyColumns = getPrimaryKeyColumns();
-		if(primaryKeyColumns.size() != 1) {
-			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+primaryKeyColumns);
-		}
 		
 		StringBuilder sb = new StringBuilder("SELECT "+getColumnsSql()+" FROM " + getTableName()+" WHERE ");
-		Column c = primaryKeyColumns.get(0);
-		sb.append(c.getSqlName()+" = :id");
+		sb.append(getSinglePrimaryKeyWhere());
 		return sb.toString();
 	}
 	
@@ -130,4 +140,15 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return sb.toString();
 	}
 	
+	protected String getSinglePrimaryKeyWhere() {
+		Column c = getPrimaryKeyColumns().get(0);
+		return c.getSqlName()+" = :id";
+	}
+	
+	private void checkIsSinglePrimaryKey() {
+		if(getPrimaryKeyColumns().size() != 1) {
+			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+getPrimaryKeyColumns());
+		}
+	}
+
 }

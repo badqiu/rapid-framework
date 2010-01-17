@@ -19,6 +19,12 @@ public interface SqlGenerator {
 	public String getUpdateSql();
 	
 	/**
+	 * 用于单主键的表,使用固定的":id"来作为命名参数
+	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :id
+	 */
+	public String getUpdateBySinglePkSql();	
+	
+	/**
 	 * 用于联合主键
 	 * @return DELETE FROM user WHERE user_id = :userId AND group_id = :groupId
 	 */

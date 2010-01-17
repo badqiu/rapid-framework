@@ -25,6 +25,14 @@ public class SpringNamedSqlGeneratorTest {
 	public void updateSql() {
 		System.out.println(t.getUpdateSql());
 		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId", t.getUpdateSql());
+		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateSql());
+		
+		try {
+			assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateBySinglePkSql());
+			fail();
+		}catch(IllegalStateException e){
+			
+		}
 	}
 	
 	@Test
