@@ -1,11 +1,11 @@
-package cn.org.rapid_framework.jdbc.orm;
+package cn.org.rapid_framework.jdbc.sqlgenerator;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import cn.org.rapid_framework.jdbc.orm.metadata.Column;
-import cn.org.rapid_framework.jdbc.orm.metadata.Table;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
 
 
 public class SpringNamedSqlGeneratorTest {

@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.jdbc.orm;
+package cn.org.rapid_framework.jdbc.sqlgenerator;
 
 /**
  * 根据table映射生成增删改查的sql.
