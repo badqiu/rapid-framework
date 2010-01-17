@@ -14,39 +14,56 @@ public interface SqlGenerator {
 	public String getInsertSql();
 	
 	/**
-	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId
-	 */
-	public String getUpdateSql();
-	
-	/**
 	 * 用于单主键的表,使用固定的":id"来作为命名参数
 	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :id
-	 */
-	public String getUpdateBySinglePkSql();	
-	
-	/**
-	 * 用于联合主键
-	 * @return DELETE FROM user WHERE user_id = :userId AND group_id = :groupId
-	 */
-	public String getDeleteByPrimaryKeysSql();
-	
+	 */	
+	public String getUpdateByPkSql();
+
 	/**
 	 * 用于单主键的表,使用固定的":id"来作为命名参数
 	 * @return DELETE FROM user WHERE user_id = :id 
 	 */
-	public String getDeleteBySinglePkSql();
-	
-	/**
-	 * 用于联合主键
-	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId
-	 */
-	public String getSelectByPrimaryKeysSql();
-	
+	public String getDeleteByPkSql();
+
 	/**
 	 * 用于单主键的表,使用固定的":id"来作为命名参数
 	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :id
 	 */
-	public String getSelectBySinglePkSql();
+	public String getSelectByPkSql();
+//	/**
+//	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId
+//	 */
+//	public String getUpdateByMultiPkSql();
+//	
+//	/**
+//	 * 用于单主键的表,使用固定的":id"来作为命名参数
+//	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :id
+//	 */
+//	public String getUpdateBySinglePkSql();	
+//	
+//	/**
+//	 * 用于联合主键
+//	 * @return DELETE FROM user WHERE user_id = :userId AND group_id = :groupId
+//	 */
+//	public String getDeleteByMultiPkSql();
+//	
+//	/**
+//	 * 用于单主键的表,使用固定的":id"来作为命名参数
+//	 * @return DELETE FROM user WHERE user_id = :id 
+//	 */
+//	public String getDeleteBySinglePkSql();
+//	
+//	/**
+//	 * 用于联合主键
+//	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId
+//	 */
+//	public String getSelectByMultiPkSql();
+//	
+//	/**
+//	 * 用于单主键的表,使用固定的":id"来作为命名参数
+//	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :id
+//	 */
+//	public String getSelectBySinglePkSql();
 	
 	/**
 	 * 得到列的映射

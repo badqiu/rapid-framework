@@ -11,10 +11,10 @@ import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
 public class SpringNamedSqlGeneratorTest {
 
 	Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
-	SqlGenerator t = new SpringNamedSqlGenerator(table);
+	SpringNamedSqlGenerator t = new SpringNamedSqlGenerator(table);
 	
 	Table multiKeyTable = new Table("user",new Column("user_id","userId",true),new Column("group_id","groupId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
-	SqlGenerator multiKeySqlGenerator = new SpringNamedSqlGenerator(multiKeyTable);
+	SpringNamedSqlGenerator multiKeySqlGenerator = new SpringNamedSqlGenerator(multiKeyTable);
 	@Test
 	public void insertSql() {
 		System.out.println(t.getInsertSql());
@@ -23,9 +23,9 @@ public class SpringNamedSqlGeneratorTest {
 	
 	@Test
 	public void updateSql() {
-		System.out.println(t.getUpdateSql());
-		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId", t.getUpdateSql());
-		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateSql());
+		System.out.println(t.getUpdateByMultiPkSql());
+		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId", t.getUpdateByMultiPkSql());
+		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateByMultiPkSql());
 		
 		try {
 			assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateBySinglePkSql());
@@ -37,10 +37,10 @@ public class SpringNamedSqlGeneratorTest {
 	
 	@Test
 	public void deleteSql() {
-		System.out.println(t.getDeleteByPrimaryKeysSql());
-		assertEquals("DELETE FROM user WHERE user_id = :userId", t.getDeleteByPrimaryKeysSql());
+		System.out.println(t.getDeleteByMultiPkSql());
+		assertEquals("DELETE FROM user WHERE user_id = :userId", t.getDeleteByMultiPkSql());
 		
-		assertEquals("DELETE FROM user WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getDeleteByPrimaryKeysSql());
+		assertEquals("DELETE FROM user WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getDeleteByMultiPkSql());
 	}
 	
 	@Test
@@ -58,10 +58,10 @@ public class SpringNamedSqlGeneratorTest {
 	
 	@Test
 	public void getSelectByPrimaryKeysSql() {
-		System.out.println(t.getSelectByPrimaryKeysSql());
-		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId", t.getSelectByPrimaryKeysSql());
+		System.out.println(t.getSelectByMultiPkSql());
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :userId", t.getSelectByMultiPkSql());
 		
-		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getSelectByPrimaryKeysSql());
+		assertEquals("SELECT user_id userId,group_id groupId,user_name userName,pwd pwd FROM user WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getSelectByMultiPkSql());
 	}
 	
 	@Test
