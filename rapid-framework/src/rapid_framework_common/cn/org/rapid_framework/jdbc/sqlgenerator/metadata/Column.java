@@ -1,5 +1,8 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
+/**
+ * @author badqiu
+ */
 public class Column {
 
 	private String sqlName;
