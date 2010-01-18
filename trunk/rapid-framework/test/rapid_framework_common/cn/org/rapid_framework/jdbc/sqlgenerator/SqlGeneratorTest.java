@@ -11,7 +11,7 @@ public class SqlGeneratorTest {
 	SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
 
 	Table multiKeyTable = new Table("user",new Column("user_id","userId",true),new Column("group_id","groupId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
-	SqlGenerator multiGenerator = new SpringNamedSqlGenerator(multiKeyTable);
+	SqlGenerator multiGenerator = new CacheSqlGenerator( new SpringNamedSqlGenerator(multiKeyTable));
 
 	@Test
 	public void getInsertSql(){
