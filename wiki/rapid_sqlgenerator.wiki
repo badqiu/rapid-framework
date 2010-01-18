@@ -1,10 +1,9 @@
 = 介绍 =
 
-用于spring jdbc根据配置生成基本的增删改查SQL
-
+用于spring jdbc根据配置*生成*基本的*增删改查SQL*
 与spring jdbc的命名参数配置使用,进一步精简dao的实现
 
-接口声明如下:
+=Sql生成接口声明==
 {{{
 public interface SqlGenerator {
 	/**
