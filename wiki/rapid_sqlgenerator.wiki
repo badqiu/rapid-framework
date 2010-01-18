@@ -1,0 +1,41 @@
+
+= 介绍 =
+
+用于spring jdbc根据配置生成基本的增删改查SQL
+
+接口声明如下:
+{{{
+public interface SqlGenerator {
+	/**
+	 * @return INSERT user (user_id,user_name,pwd ) VALUES ( :userId,:userName,:pwd )
+	 */
+	public String getInsertSql();
+
+	/**
+	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :id
+	 */
+	public String getUpdateByPkSql();
+
+	/**
+	 * @return DELETE FROM user WHERE user_id = :id
+	 */
+	public String getDeleteByPkSql();
+
+	/**
+	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :id
+	 */
+	public String getSelectByPkSql();
+
+	/**
+	 * @return user_id userId,user_name userName,pwd pwd
+	 */
+	public String getColumnsSql();
+}
+}}}
+
+= API使用 =
+
+{{{
+Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
+	SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
+}}}
