@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.jdbc.orm.metadata;
+package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
 public class Column {
 
@@ -9,13 +9,13 @@ public class Column {
 	public Column(String sqlName, String propertyName) {
 		this(sqlName,propertyName,false);
 	}
-	
+
 	public Column(String sqlName, String propertyName,boolean isPrimaryKey) {
 		this.sqlName = sqlName;
 		this.propertyName = propertyName;
 		this.isPrimaryKey = isPrimaryKey;
 	}
-	
+
 	public String getSqlName() {
 		return sqlName;
 	}
@@ -34,10 +34,10 @@ public class Column {
 	public void setPrimaryKey(boolean isPrimaryKey) {
 		this.isPrimaryKey = isPrimaryKey;
 	}
-	
+
 	public String toString() {
 		return String.format("sqlName:%s propertyName:%s isPrimaryKey:%s",sqlName,propertyName,isPrimaryKey);
 	}
-	
-	
+
+
 }
