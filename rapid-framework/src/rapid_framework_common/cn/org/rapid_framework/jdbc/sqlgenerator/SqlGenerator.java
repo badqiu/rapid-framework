@@ -1,9 +1,11 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator;
 
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
+
 /**
- * 根据table映射生成增删改查的sql.
+ * 根据table映射生成增删改查的sql工具类.
  *
- *
+ * @see Table
  * @author badqiu
  *
  */

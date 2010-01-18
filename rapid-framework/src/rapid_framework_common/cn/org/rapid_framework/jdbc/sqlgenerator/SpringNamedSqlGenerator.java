@@ -5,6 +5,12 @@ import java.util.List;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
 
+/**
+ * spring的命名参数sql生成工具类
+ * @see Table
+ * @author badqiu
+ *
+ */
 public class SpringNamedSqlGenerator implements SqlGenerator{
 	Table table;
 
