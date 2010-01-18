@@ -39,7 +39,7 @@ public class OffsetLimitInterceptorTest {
 		int count = 10000 * 10;
 		long start = System.currentTimeMillis();
 		for(int i = 0; i < count; i++) {
-			Builder builder = new MappedStatement.Builder(conf,null,new StaticSqlSource("select * from userinfo "),null);
+			Builder builder = new MappedStatement.Builder(conf,null,new StaticSqlSource(conf,"select * from userinfo "),null);
 			MappedStatement ms = builder.build();
 			Object[] args = new Object[]{ms,new Object(),new RowBounds(100,200),null};
 			di.processIntercept(args);
