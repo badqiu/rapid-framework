@@ -1,23 +1,23 @@
-package cn.org.rapid_framework.jdbc.orm.metadata;
+package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Table {
-	
+
 	private String tableName;
 	private List<Column> columns;
-	
+
 	public Table(String tableName, Column... columns) {
 		this(tableName,Arrays.asList(columns));
 	}
-	
+
 	public Table(String tableName, List<Column> columns) {
 		this.setTableName(tableName);
 		this.setColumns(columns);
 	}
-	
+
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
 	}
@@ -42,7 +42,7 @@ public class Table {
 		}
 		return result;
 	}
-	
+
 	public String toString() {
 		return "tableName:"+getTableName()+" columns:"+getColumns();
 	}
