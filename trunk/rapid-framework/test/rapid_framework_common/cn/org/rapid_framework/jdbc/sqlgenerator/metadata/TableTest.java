@@ -1,17 +1,15 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
-import java.beans.IntrospectionException;
 
 import org.junit.Test;
 
-import sun.security.jca.GetInstance;
 import static org.junit.Assert.*;
 
 public class TableTest {
 
 	@Test
-	public void fromClass() throws IntrospectionException {
-		Table t = Table.fromClass(TestBean.class);
+	public void fromClass()  {
+		Table t = TableCreatorUtils.fromClass(TestBean.class);
 
 		assertEquals("test_bean",t.getTableName());
 		assertEquals(3,t.getColumns().size());
@@ -26,8 +24,8 @@ public class TableTest {
 	}
 	
 	@Test
-	public void fromClassWithAnnotation() throws IntrospectionException {
-		Table t = Table.fromClass(AnnotationTestBean.class);
+	public void fromClassWithAnnotation()   {
+		Table t = TableCreatorUtils.fromClass(AnnotationTestBean.class);
 
 		assertEquals("ann_test_bean",t.getTableName());
 		assertEquals(3,t.getColumns().size());
