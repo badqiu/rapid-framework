@@ -4,6 +4,8 @@ jsp 可以实现如类的继承体系: <rapid:block /> <rapid:override />
 freemarker 可以实现如类的继承体系: <@block /> <@override />
 spring jdbc增加增删改查的sql生成工具
 
+增加ThreadLocal for memcached
+
 --------------------------------------------------------
 rapid-framework v3.0
 
