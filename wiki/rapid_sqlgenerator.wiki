@@ -2,6 +2,8 @@
 
 用于spring jdbc根据配置生成基本的增删改查SQL
 
+与spring jdbc的命名参数配置使用,进一步精简dao的实现
+
 接口声明如下:
 {{{
 public interface SqlGenerator {
