@@ -14,19 +14,19 @@ public interface SqlGenerator {
 	public String getInsertSql();
 
 	/**
-	 * 用于单主键的表,使用固定的":id"来作为命名参数
+	 * 单主键的表,使用固定的":id"来作为命名参数,多主键则使用各自的column propertyName作为命名参数
 	 * @return UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :id
 	 */
 	public String getUpdateByPkSql();
 
 	/**
-	 * 用于单主键的表,使用固定的":id"来作为命名参数
+	 * 用于单主键的表,使用固定的":id"来作为命名参数,多主键则使用各自的column propertyName作为命名参数
 	 * @return DELETE FROM user WHERE user_id = :id
 	 */
 	public String getDeleteByPkSql();
 
 	/**
-	 * 用于单主键的表,使用固定的":id"来作为命名参数
+	 * 单主键的表,使用固定的":id"来作为命名参数,多主键则使用各自的column propertyName作为命名参数
 	 * @return SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :id
 	 */
 	public String getSelectByPkSql();
