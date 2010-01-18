@@ -55,11 +55,11 @@ public class Table {
 		return "tableName:"+getTableName()+" columns:"+getColumns();
 	}
 
-	public static Table fromClass(Class clazz) throws IntrospectionException {
+	public static Table fromClass(Class clazz) {
 
-		BeanInfo info = Introspector.getBeanInfo(clazz);
+		BeanInfo info = getBeanInfo(clazz);
 		PropertyDescriptor[] pds = info.getPropertyDescriptors();
-		List columns = new ArrayList();
+		List<Column> columns = new ArrayList();
 		for(PropertyDescriptor pd : pds) {
 			if("class".equals(pd.getName()))
 				continue;
@@ -74,6 +74,14 @@ public class Table {
 
 		Table t = new Table(getTableName(clazz),columns);
 		return t;
+	}
+
+	private static BeanInfo getBeanInfo(Class clazz) {
+		try {
+			return Introspector.getBeanInfo(clazz);
+		} catch (IntrospectionException e) {
+			throw new IllegalArgumentException("generate Table.class from Class error,clazz:"+clazz,e);
+		}
 	}
 
 	private static boolean isJPAClassAvaiable = false;
