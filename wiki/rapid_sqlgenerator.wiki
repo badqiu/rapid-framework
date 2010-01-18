@@ -2,7 +2,7 @@
 
 用于spring jdbc根据配置*生成*基本的*增删改查SQL*
 
-与spring jdbc的命名参数配置使用,进一步精简dao的实现
+与spring jdbc的命名参数配合使用,进一步精简dao的实现
 
 =Sql生成接口声明==
 {{{
