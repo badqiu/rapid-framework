@@ -2,6 +2,7 @@
 rapid-framework v3.1
 jsp 可以实现如类的继承体系: <rapid:block /> <rapid:override />
 freemarker 可以实现如类的继承体系: <@block /> <@override />
+spring jdbc增加增删改查的sql生成工具
 
 --------------------------------------------------------
 rapid-framework v3.0
@@ -18,30 +19,30 @@ rapid-generator代码生成器
 	jdbc分页方言(Dialect)提供占位符的方式
 	升级struts2 jars => 2.1.8
 	重构代码
-	
+
 --------------------------------------------------------
 rapid-framework v2.5.0
 	提升:
 	XsqlBuilder支持Object作为filters
 	PageRequest.filters使用范型
-	
+
 	新特性:
 	支持Ibatis的分页Dialect
 	新增其它数据库的分页Dialect
-	
+
 	生成器:
 	支持从数据库中读取注释作为alias
-	
+
 	生成器模板:
 	删除subpackage,使用namespace变量替换,但只作用于jsp
 	list.jsp现在包含查询
-	
+
 	新增插件:
 	simpletable 简单的列表分页
 	extjs		ext模板
-	
+
 	其它一些bugfixed及大量整理及重构
-	
+
 --------------------------------------------------------
 rapid-framework v2.0.1
 	jdbc Dialect:删除Oracle9Dialect并修正分页错误
@@ -51,7 +52,7 @@ rapid-framework v2.0.1
 	修正DBUnitUtils与dbunit2.2的编译兼容问题
 	修正BaseSpringJdbcDao的import编译问题
 	修改hibernate ${className}Dao.java模板，将"/~ order by #sortColumns# ~/"改为"/~ order by $sortColumns$ ~/"
-	
+
 
 --------------------------------------------------------
 rapid-framework v1.0.3
@@ -68,7 +69,7 @@ rapid-framework v1.0.3
 	Struts1的动态构造formBean使用WeakMap优化性能，以避免ClassLoader.forName,删除StrutsImprovment.jar
 	将BaseEntity.java的日期转换方法转移至DateConvertUtils.java
 	generator包重命名
-	generator重构 
+	generator重构
 	为BasePage增加getFirst() getLimit(),重构Page,不使用Hibernate3Page的继承体系
 	为XsqlBuilder增加自动根据Hibernate Dialect得到SafeSqlProcesser
 	为使用IbatisStyleXsqlBuilder,使用$column$，#column#
@@ -79,7 +80,7 @@ rapid-framework v1.0.3
 	修正在linux下FreeMarker的include指令不能找到文件的问题
 	struts2不使用simple theme
 	struts2 DirectResult 增加支持 forward:/redirect:前缀
-		
+
 --------------------------------------------------------
 rapid-framework v1.0.2
 
@@ -93,4 +94,3 @@ modules/struts2修改
 	struts2 的${className}Action.java实现Preparable接口
 其它
 	关键位置增加文档说明及目录增加相关readme说明
-	
