@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 
+ * table为metadata类,根据该类的数据生成增删改查sql
  * @author badqiu
  *
  */
