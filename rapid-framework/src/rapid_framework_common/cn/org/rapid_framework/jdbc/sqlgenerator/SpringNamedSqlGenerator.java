@@ -25,6 +25,10 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		return table.getPrimaryKeyColumns();
 	}
 
+	public Table getTable() {
+		return table;
+	}
+
 	public boolean isMultiPrimaryKey() {
 		return getPrimaryKeyColumns().size() > 1;
 	}
