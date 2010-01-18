@@ -23,7 +23,7 @@
       * [rapid_dialect jdbc分页方言]
       * [rapid_ibatis ibatis分页及方言]
       * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
-      * [rapid_sqlgenerator SQL生成工具]
+      * [rapid_sqlgenerator spring_jdbc SQL生成工具(new)]
     * 测试
       * [rapid_junit 单元测试]
       * [cruisecontrol 持续集成]
