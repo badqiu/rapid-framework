@@ -3,6 +3,7 @@ rapid-framework路线图
 spring xmlns to spring3.0.xsd
 session框架,可以将session存储在数据库,cache,文件
 pipeline中如果不能找到模板的异常处理
+spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 
 实现模板引擎的pipeline处理模式:
 即有一个layout.flt
