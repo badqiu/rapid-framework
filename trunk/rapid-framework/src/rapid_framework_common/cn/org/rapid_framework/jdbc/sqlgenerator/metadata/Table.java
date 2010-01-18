@@ -4,11 +4,13 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.jdbc.support.JdbcUtils;
+import javax.persistence.Id;
+
 
 public class Table {
 
@@ -61,14 +63,58 @@ public class Table {
 		for(PropertyDescriptor pd : pds) {
 			if("class".equals(pd.getName()))
 				continue;
-			if(pd.getReadMethod() == null || pd.getWriteMethod() == null){
+			Method readMethod = pd.getReadMethod();
+			if(readMethod == null || pd.getWriteMethod() == null){
 				continue;
 			}
-			columns.add(new Column(toUnderscoreName(pd.getName()),pd.getName()));
+			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
+			String sqlName = getColumnSqlName(pd,readMethod);
+			columns.add(new Column(sqlName,pd.getName(),isPrimaryKey));
 		}
 
-		Table t = new Table(toUnderscoreName(clazz.getSimpleName()),columns);
+		Table t = new Table(getTableName(clazz),columns);
 		return t;
+	}
+
+	private static boolean isJPAClassAvaiable = false;
+	static {
+		try {
+			Class.forName("javax.persistence.Table");
+			isJPAClassAvaiable = true;
+		} catch (ClassNotFoundException e) {
+		}
+	}
+	
+	private static boolean isPrimaryKeyColumn(Method readMethod) {
+		boolean isPrimaryKey = false;
+		if(isJPAClassAvaiable) {
+			if(readMethod.isAnnotationPresent(Id.class)) {
+				isPrimaryKey = true;
+			}
+		}
+		return isPrimaryKey;
+	}
+
+	private static String getColumnSqlName(PropertyDescriptor pd, Method readMethod) {
+		String sqlName = toUnderscoreName(pd.getName());
+		if(isJPAClassAvaiable) {
+			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			if(annColumn != null) {
+				sqlName = annColumn.name();
+			}
+		}
+		return sqlName;
+	}
+
+	private static String getTableName(Class clazz) {
+		String tableName = toUnderscoreName(clazz.getSimpleName());
+		if(isJPAClassAvaiable) {
+			javax.persistence.Table annTable = (javax.persistence.Table)clazz.getAnnotation(javax.persistence.Table.class);
+			if(annTable != null) {
+				tableName = annTable.name();
+			}
+		}
+		return tableName;
 	}
 
 	private static String toUnderscoreName(String name) {
