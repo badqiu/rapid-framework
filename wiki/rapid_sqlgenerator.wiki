@@ -62,7 +62,30 @@ Table table = new Table("user",new Column("user_id","userId",true),new Column("u
 SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
 }}}
 
-还有一个工具类可以创建Table对象.
+还有一个工具类可以创建Table对象. 
 {{{
 Table t = TableCreatorUtils.fromClass(User.class);
+}}}
+User可以使用JPA的annotation,现只支持@Table,@ID,@Column,示例如下:
+{{{
+@Table(name="ann_user")
+public class User {
+	private String userName;
+	private int age;
+	@Id
+	@Column(name="ann_id")
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	@Column(name="ann_age")
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+}
 }}}
