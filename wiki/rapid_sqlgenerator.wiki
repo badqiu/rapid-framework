@@ -20,7 +20,7 @@ public interface SqlGenerator {
 	 * 
 	 * <pre>
 	 * 单主键: UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = ?
-	 * 联合主键: UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = :user_id AND group_id = :group_id
+	 * 联合主键: UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = :userId AND group_id = :group_id
 	 * </pre>
 	 */
 	public String getUpdateByPkSql();
@@ -31,7 +31,7 @@ public interface SqlGenerator {
 	 * 
 	 * <pre>
 	 * 单主键: DELETE FROM user WHERE user_id = ?
-	 * 联合主键: DELETE FROM user WHERE user_id = :user_id AND group_id = :group_id
+	 * 联合主键: DELETE FROM user WHERE user_id = :userId AND group_id = :groupId
 	 * </pre>
 	 */
 	public String getDeleteByPkSql();
@@ -41,7 +41,7 @@ public interface SqlGenerator {
 	 * 
 	 * <pre>
 	 * 单主键: SELECT user_id userId,user_name userName FROM user WHERE user_id = ?
-	 * 联合主键: SELECT user_id userId,user_name userName FROM user WHERE user_id = :userId AND group_id = :group_id
+	 * 联合主键: SELECT user_id userId,user_name userName FROM user WHERE user_id = :userId AND group_id = :groupId
 	 * </pre>
 	 */
 	public String getSelectByPkSql();
