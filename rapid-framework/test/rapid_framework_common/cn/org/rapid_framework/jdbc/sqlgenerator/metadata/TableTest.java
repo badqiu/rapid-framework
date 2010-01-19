@@ -9,7 +9,7 @@ public class TableTest {
 
 	@Test
 	public void fromClass()  {
-		Table t = TableCreatorUtils.fromClass(TestBean.class);
+		Table t = MetadataCreateUtils.fromClass(TestBean.class);
 
 		assertEquals("test_bean",t.getTableName());
 		assertEquals(3,t.getColumns().size());
@@ -25,7 +25,7 @@ public class TableTest {
 	
 	@Test
 	public void fromClassWithAnnotation()   {
-		Table t = TableCreatorUtils.fromClass(AnnotationTestBean.class);
+		Table t = MetadataCreateUtils.fromClass(AnnotationTestBean.class);
 
 		assertEquals("ann_test_bean",t.getTableName());
 		assertEquals(3,t.getColumns().size());
