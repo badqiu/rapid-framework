@@ -69,7 +69,7 @@ public interface SqlGenerator {
 {{{
 Table t = MetadataCreateUtils.fromClass(User.class);
 }}}
-User.class可以使用[http://java.sun.com/javaee/technologies/persistence.jsp|JPA]的annotation,现只支持@Table,@ID,@Column,示例如下:
+User.class可以使用[http://java.sun.com/javaee/technologies/persistence.jsp JPA]的annotation,现只支持@Table,@ID,@Column,示例如下:
 {{{
 @Table(name="ann_user")
 public class User {
