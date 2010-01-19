@@ -9,7 +9,7 @@ import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
 
 
 public class SpringNamedSqlGeneratorTest {
-
+ 
 	Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
 	SpringNamedSqlGenerator t = new SpringNamedSqlGenerator(table);
 	
@@ -46,7 +46,7 @@ public class SpringNamedSqlGeneratorTest {
 	@Test
 	public void getDeleteBySinglePkSql() {
 		System.out.println(t.getDeleteBySinglePkSql());
-		assertEquals("DELETE FROM user WHERE user_id = :id", t.getDeleteBySinglePkSql());
+		assertEquals("DELETE FROM user WHERE user_id = ?", t.getDeleteBySinglePkSql());
 		
 		try {
 			multiKeySqlGenerator.getDeleteBySinglePkSql();
@@ -67,7 +67,7 @@ public class SpringNamedSqlGeneratorTest {
 	@Test
 	public void getSelectBySinglePkSql() {
 		System.out.println(t.getSelectBySinglePkSql());
-		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = :id", t.getSelectBySinglePkSql());
+		assertEquals("SELECT user_id userId,user_name userName,pwd pwd FROM user WHERE user_id = ?", t.getSelectBySinglePkSql());
 		
 		try {
 			multiKeySqlGenerator.getSelectBySinglePkSql();
