@@ -57,9 +57,12 @@ public interface SqlGenerator {
 = API使用 =
 
 {{{
-//table为metadata类,根据该类的数据生成增删改查sql
-Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
-SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
+ //table为metadata类,根据该类的数据生成增删改查sql
+ Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"));
+ SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
+ 
+ //sql的值为: INSERT user (user_id,user_name) VALUES (:userId,:userName)
+ String sql = singleGenerator.getInsertSql();
 }}}
 
 还有一个工具类可以创建Table对象. 
