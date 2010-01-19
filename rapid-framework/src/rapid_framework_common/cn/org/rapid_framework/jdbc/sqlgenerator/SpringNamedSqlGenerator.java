@@ -1,6 +1,10 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
@@ -45,20 +49,21 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 
 	public String getInsertSql() {
 		StringBuilder sb = new StringBuilder("INSERT ").append(getTableName()).append(" (");
+		
+		List<String> insertColumns = new ArrayList(getColumns().size());
+		List<String> insertPlaceholderColumns = new ArrayList(getColumns().size());
 		for(int i = 0; i < getColumns().size(); i++) {
 			Column c = getColumns().get(i);
-			sb.append(c.getSqlName());
-			if(i < getColumns().size() - 1)
-				sb.append(",");
+			if(c.isInsertable()) {
+				insertColumns.add(c.getSqlName());
+				insertPlaceholderColumns.add(getColumnPlaceholder(c));
+			}
 		}
+		
+		sb.append(StringUtils.join(insertColumns.iterator(), ","));
 		sb.append(" ) VALUES ( ");
 
-		for(int i = 0; i < getColumns().size(); i++) {
-			Column c = getColumns().get(i);
-			sb.append(getColumnPlaceholder(c));
-			if(i < getColumns().size() - 1)
-				sb.append(",");
-		}
+		sb.append(StringUtils.join(insertPlaceholderColumns.iterator(), ","));
 		sb.append(" ) ");
 		return sb.toString();
 	}
@@ -92,13 +97,8 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 
 	public String getUpdateByMultiPkSql() {
 		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
-		for(int i = 0; i < getColumns().size(); i++) {
-			Column c = getColumns().get(i);
-			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < getColumns().size() - 1)
-				sb.append(",");
-		}
-
+		
+		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
 		sb.append(" ) WHERE ");
 
 		for(int i = 0; i < getPrimaryKeyColumns().size(); i++) {
@@ -114,16 +114,22 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		checkIsSinglePrimaryKey();
 
 		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
-		for(int i = 0; i < getColumns().size(); i++) {
-			Column c = getColumns().get(i);
-			sb.append(c.getSqlName()+" = "+getColumnPlaceholder(c));
-			if(i < getColumns().size() - 1)
-				sb.append(",");
-		}
-
+		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
 		sb.append(" ) WHERE ");
 		sb.append(getSinglePrimaryKeyWhere());
 		return sb.toString();
+	}
+
+	private List getUpdateColumns() {
+		List<Column> columns = getColumns();
+		List updateColumns = new ArrayList(columns.size());
+		for(int i = 0; i < columns.size(); i++) {
+			Column c = columns.get(i);
+			if(c.isUpdatable()) {
+				updateColumns.add(c.getSqlName() + " = "+getColumnPlaceholder(c));
+			}
+		}
+		return updateColumns;
 	}
 
 	public String getDeleteByMultiPkSql() {
@@ -191,7 +197,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 
 	protected String getSinglePrimaryKeyWhere() {
 		Column c = getPrimaryKeyColumns().get(0);
-		return c.getSqlName()+" = :id";
+		return c.getSqlName()+" = ?";
 	}
 
 	private void checkIsSinglePrimaryKey() {
@@ -199,5 +205,4 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+getPrimaryKeyColumns());
 		}
 	}
-
 }
