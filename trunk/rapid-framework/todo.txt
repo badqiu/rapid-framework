@@ -6,6 +6,7 @@ pipeline中如果不能找到模板的异常处理
 spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 SQLServer2005Dialect不完善
 为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
+修改目录为标准的 java_src,java_test目录
 
 生成器:
 	增加通过一个查询得到列表界面的sql
