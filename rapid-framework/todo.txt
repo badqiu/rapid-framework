@@ -6,6 +6,9 @@ pipeline中如果不能找到模板的异常处理
 spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 SQLServer2005Dialect不完善
 
+生成器:
+	增加通过一个查询得到列表界面的sql
+
 实现模板引擎的pipeline处理模式:
 即有一个layout.flt
 <html>
