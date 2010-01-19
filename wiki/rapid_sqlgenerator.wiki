@@ -64,7 +64,7 @@ SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
 
 还有一个工具类可以创建Table对象. 
 {{{
-Table t = TableCreatorUtils.fromClass(User.class);
+Table t = MetadataCreateUtils.fromClass(User.class);
 }}}
 User可以使用JPA的annotation,现只支持@Table,@ID,@Column,示例如下:
 {{{
