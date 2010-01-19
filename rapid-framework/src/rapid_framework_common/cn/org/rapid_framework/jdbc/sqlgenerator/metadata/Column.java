@@ -8,6 +8,10 @@ public class Column {
 	private String sqlName;
 	private String propertyName;
 	private boolean isPrimaryKey;
+// TODO add updatable insertable unique for Column metadata
+//	private boolean updatable;
+//	private boolean insertable;
+//	private boolean unique;
 
 	public Column(String sqlName, String propertyName) {
 		this(sqlName,propertyName,false);
