@@ -4,6 +4,7 @@ spring xmlns to spring3.0.xsd
 session框架,可以将session存储在数据库,cache,文件
 pipeline中如果不能找到模板的异常处理
 spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
+SQLServer2005Dialect不完善
 
 实现模板引擎的pipeline处理模式:
 即有一个layout.flt
@@ -15,8 +16,8 @@ spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
 
 3.可以为每一个模板定义一组管道
-4.管理可以是一个数组,方法签名为 
-	1) pipeline(template,pipetemplate[],context,writer) 
+4.管理可以是一个数组,方法签名为
+	1) pipeline(template,pipetemplate[],context,writer)
 	2) pipeline(template,pipetemplate_queue,context,writer)
 	3) pipeline(pipetemplate[],context,writer)
 	4) String pipeline(template,pipetemplate[],context)
@@ -40,7 +41,7 @@ BlazeDS学习
 	PropertyProxy 可以得到序列化的getPropertyNames()
 	BeanProxy的includeReadOnly可以包含readOnly属性
 	//AmfxInput中直接new BeanProxy()导致无法设置includeReadOnly属性
-	
+
 	注册所有Serializable.class都IncludeReadOnly beanProperties
 		BeanProxy beanProxy = new BeanProxy();
 		beanProxy.setIncludeReadOnly(true);
@@ -72,26 +73,26 @@ rapid-validation
 其它
 
 	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
-	
+
 	提供复杂模板，完成多表关联操作
-	
+
 	编写配置系统的ant脚本
-	
+
 	查询页跟列表也整合到一起
-	
+
 	Generator.generateAllTable()方法在Oracle不可用
-	
+
 	为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
 
 	struts2重复提交，提示信息
-	
+
 	将<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
 	替换为
 	<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*.*(..))" advice-ref="txAdvice"/>
 	以可以拦截Manager的所有方法,并删除
 	<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
-	
+
 rapid-framework为你做好的二件事
 	1.项目脚手架
 	1.配置,
-	2.代码生成器模板,避免重复的代码编写	 
+	2.代码生成器模板,避免重复的代码编写
