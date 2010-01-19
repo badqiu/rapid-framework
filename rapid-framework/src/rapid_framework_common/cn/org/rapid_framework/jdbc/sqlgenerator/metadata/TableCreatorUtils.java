@@ -47,7 +47,7 @@ public class TableCreatorUtils {
 		try {
 			return Introspector.getBeanInfo(clazz);
 		} catch (IntrospectionException e) {
-			throw new IllegalArgumentException("generate Table.class from Class error,clazz:"+clazz,e);
+			throw new IllegalArgumentException("error: generate Table instance from Class,clazz:"+clazz,e);
 		}
 	}
 
