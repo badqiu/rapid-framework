@@ -46,7 +46,7 @@ public class SqlGeneratorTest {
 	@Test
 	public void test_insertable_and_updatable() {
 		assertEquals("INSERT user (user_id,pwd ) VALUES ( :userId,:pwd ) ",t3g.getInsertSql());
-		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = :id",t3g.getUpdateByPkSql());
+		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = ?",t3g.getUpdateByPkSql());
 		
 		assertEquals("INSERT user (user_id,group_id ) VALUES ( :userId,:groupId ) ",t4g.getInsertSql());
 		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId ) WHERE user_id = :userId AND group_id = :groupId",t4g.getUpdateByPkSql());
