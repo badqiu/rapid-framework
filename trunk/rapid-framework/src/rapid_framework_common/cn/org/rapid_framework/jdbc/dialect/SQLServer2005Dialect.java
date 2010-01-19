@@ -72,11 +72,11 @@ public class SQLServer2005Dialect extends Dialect{
 				.append("TOP 100 PERCENT ")
 				.append(" ROW_NUMBER() OVER (")
 				.append(orderby)
-				.append(") as __hibernate_row_nr__, ")
+				.append(") as __row_number__, ")
 				.append(pagingBuilder)
-				.append(") SELECT * FROM query WHERE __hibernate_row_nr__ > ")
-				.append(offsetPlaceholder)
-				.append(" ORDER BY __hibernate_row_nr__");
+				.append(") SELECT * FROM query WHERE __row_number__ BETWEEN ")
+				.append(offsetPlaceholder).append(" AND ").append(offset+limit)
+				.append(" ORDER BY __row_number__");
 
 		return result.toString();
 	}
