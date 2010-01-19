@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author badqiu
  *
  */
-public class TableCreatorUtils {
+public class MetadataCreateUtils {
 
 	public static Table fromClass(Class clazz) {
 
