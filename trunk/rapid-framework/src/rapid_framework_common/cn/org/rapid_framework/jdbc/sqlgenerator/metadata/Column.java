@@ -22,6 +22,15 @@ public class Column {
 		this.propertyName = propertyName;
 		this.isPrimaryKey = isPrimaryKey;
 	}
+	
+	public Column(String sqlName, String propertyName, boolean isPrimaryKey,boolean updatable, boolean insertable, boolean unique) {
+		this.sqlName = sqlName;
+		this.propertyName = propertyName;
+		this.isPrimaryKey = isPrimaryKey;
+		this.updatable = updatable;
+		this.insertable = insertable;
+		this.unique = unique;
+	}
 
 	public String getSqlName() {
 		return sqlName;
