@@ -11,7 +11,7 @@ import java.util.List;
 import javax.persistence.Id;
 /**
  * 用于生成Table对象实例的工具类
- * 
+ *
  * @see Table
  * @author badqiu
  *
@@ -32,7 +32,11 @@ public class TableCreatorUtils {
 			}
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
 			String sqlName = getColumnSqlName(pd,readMethod);
-			columns.add(new Column(sqlName,pd.getName(),isPrimaryKey));
+			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
+			column.setInsertable(getColumnInsertable(pd, readMethod));
+			column.setUpdatable(getColumnUpdatable(pd, readMethod));
+			column.setUnique(getColumnUnique(pd, readMethod));
+			columns.add(column);
 		}
 
 		Table t = new Table(getTableName(clazz),columns);
@@ -55,7 +59,7 @@ public class TableCreatorUtils {
 		} catch (ClassNotFoundException e) {
 		}
 	}
-	
+
 	private static boolean isPrimaryKeyColumn(Method readMethod) {
 		boolean isPrimaryKey = false;
 		if(isJPAClassAvaiable) {
@@ -75,6 +79,39 @@ public class TableCreatorUtils {
 			}
 		}
 		return sqlName;
+	}
+
+	private static boolean getColumnInsertable(PropertyDescriptor pd, Method readMethod) {
+		boolean insertable = true;
+		if(isJPAClassAvaiable) {
+			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			if(annColumn != null) {
+				insertable = annColumn.insertable();
+			}
+		}
+		return insertable;
+	}
+
+	private static boolean getColumnUpdatable(PropertyDescriptor pd, Method readMethod) {
+		boolean updatable = true;
+		if(isJPAClassAvaiable) {
+			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			if(annColumn != null) {
+				updatable = annColumn.updatable();
+			}
+		}
+		return updatable;
+	}
+
+	private static boolean getColumnUnique(PropertyDescriptor pd, Method readMethod) {
+		boolean unique = false;
+		if(isJPAClassAvaiable) {
+			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			if(annColumn != null) {
+				unique = annColumn.unique();
+			}
+		}
+		return unique;
 	}
 
 	private static String getTableName(Class clazz) {
@@ -126,5 +163,5 @@ public class TableCreatorUtils {
 		}
 		return result.toString();
 	}
-	
+
 }

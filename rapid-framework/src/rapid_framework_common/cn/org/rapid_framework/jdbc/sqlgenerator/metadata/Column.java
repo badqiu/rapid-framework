@@ -9,9 +9,9 @@ public class Column {
 	private String propertyName;
 	private boolean isPrimaryKey;
 // TODO add updatable insertable unique for Column metadata
-//	private boolean updatable;
-//	private boolean insertable;
-//	private boolean unique;
+	private boolean updatable = true;
+	private boolean insertable = true;
+	private boolean unique = false;
 
 	public Column(String sqlName, String propertyName) {
 		this(sqlName,propertyName,false);
@@ -40,6 +40,30 @@ public class Column {
 	}
 	public void setPrimaryKey(boolean isPrimaryKey) {
 		this.isPrimaryKey = isPrimaryKey;
+	}
+
+	public boolean isUpdatable() {
+		return updatable;
+	}
+
+	public void setUpdatable(boolean updatable) {
+		this.updatable = updatable;
+	}
+
+	public boolean isInsertable() {
+		return insertable;
+	}
+
+	public void setInsertable(boolean insertable) {
+		this.insertable = insertable;
+	}
+
+	public boolean isUnique() {
+		return unique;
+	}
+
+	public void setUnique(boolean unique) {
+		this.unique = unique;
 	}
 
 	public String toString() {
