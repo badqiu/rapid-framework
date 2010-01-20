@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.jms.core.SessionCallback;
 
 import cn.org.rapid_framework.web.session.store.SessionStore;
-import cn.org.rapid_framework.web.session.store.SessionStore.SessionContext;
 
 public class HttpSessionSessionStoreWrapper extends HttpSessionWrapper{
 	HttpServletRequest request;

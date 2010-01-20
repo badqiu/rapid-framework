@@ -18,13 +18,4 @@ public interface SessionStore {
 
 	public Map getSession(HttpServletRequest request,String sessionId,int timeoutMinute);
 
-	public static class SessionContext {
-		public HttpSession session;
-		public Map sessionData;
-		public String sessionId;
-		public long sessionTimeoutMinutes;
-		public HttpServletRequest request;
-		public HttpServletResponse response;
-	}
-
 }
