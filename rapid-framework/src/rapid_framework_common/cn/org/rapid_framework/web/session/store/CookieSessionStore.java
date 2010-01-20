@@ -12,7 +12,7 @@ import cn.org.rapid_framework.web.session.SessionStore;
 public class CookieSessionStore implements SessionStore{
 
 	public void deleteSession(HttpServletResponse response,String sessionId) {
-		Scope.Session.save(response, new HashMap(1),getSecretKey(),null);
+		Scope.Session.save(response, new HashMap(0),getSecretKey(),null);
 	}
 
 	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
