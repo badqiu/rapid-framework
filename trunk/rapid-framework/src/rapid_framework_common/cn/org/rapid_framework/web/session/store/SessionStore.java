@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.session;
+package cn.org.rapid_framework.web.session.store;
 
 import java.io.InputStream;
 import java.util.HashMap;
