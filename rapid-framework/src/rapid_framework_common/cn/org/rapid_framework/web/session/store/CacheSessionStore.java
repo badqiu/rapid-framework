@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.org.rapid_framework.web.mvc.Scope;
-import cn.org.rapid_framework.web.session.SessionStore;
 
 public class CacheSessionStore implements SessionStore{
 	public void deleteSession(HttpServletResponse response,String sessionId) {

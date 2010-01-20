@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
 import cn.org.rapid_framework.util.CalendarUtils;
-import cn.org.rapid_framework.web.session.SessionStore;
 /**
  * <pre>
  *	CREATE TABLE http_session (
