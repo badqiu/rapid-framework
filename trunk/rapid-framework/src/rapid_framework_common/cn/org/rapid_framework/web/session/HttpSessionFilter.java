@@ -43,15 +43,16 @@ public class HttpSessionFilter  extends OncePerRequestFilter implements Filter{
 		Cookie sessionIdCookie = getOrGenerateSessionId(request, response);
 		String sessionId = sessionIdCookie.getValue();
 
-		Map sessionData = sessionStore.getSession(request, sessionId);
+		HttpSession rawSession = request.getSession();
+		Map sessionData = sessionStore.getSession(request, sessionId,rawSession.getMaxInactiveInterval());
 		try {
-			HttpSession sessionWrapper = new HttpSessionSessionStoreWrapper(request.getSession(),
+			HttpSession sessionWrapper = new HttpSessionSessionStoreWrapper(rawSession,
 					request,response,
 					sessionStore,sessionId,sessionData);
 			
 			chain.doFilter(new HttpServletRequestSessionWrapper(request,sessionWrapper), response);
 		}finally {
-			sessionStore.saveSession(response, sessionId, sessionData);
+			sessionStore.saveSession(response, sessionId, sessionData,rawSession.getMaxInactiveInterval());
 		}
 	}
 
