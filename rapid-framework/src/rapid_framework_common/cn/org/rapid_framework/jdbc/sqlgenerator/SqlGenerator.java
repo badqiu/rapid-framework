@@ -10,11 +10,11 @@ import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
  * //table为metadata类,根据该类的数据生成增删改查sql
  * Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"));
  * SqlGenerator singleGenerator = new SpringNamedSqlGenerator(table);
- * 
+ *
  * //sql的值为: INSERT user (user_id,user_name) VALUES (:userId,:userName)
- * String sql = singleGenerator.getInsertSql(); 
+ * String sql = singleGenerator.getInsertSql();
  * </pre>
- * 
+ *
  * @see Table
  * @author badqiu
  *
@@ -27,7 +27,7 @@ public interface SqlGenerator {
 
 	/**
 	 * 单主键的表,使用固定的"?"来作为参数,联合主键则使用各自的column propertyName作为命名参数
-	 * 
+	 *
 	 * <pre>
 	 * 单主键: UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = ?
 	 * 联合主键: UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = :userId AND group_id = :groupId
@@ -36,9 +36,9 @@ public interface SqlGenerator {
 	public String getUpdateByPkSql();
 
 	/**
-	 * 
+	 *
 	 * 单主键的表,使用固定的"?"来作为参数,联合主键则使用各自的column propertyName作为命名参数
-	 * 
+	 *
 	 * <pre>
 	 * 单主键: DELETE FROM user WHERE user_id = ?
 	 * 联合主键: DELETE FROM user WHERE user_id = :userId AND group_id = :groupId
@@ -48,7 +48,7 @@ public interface SqlGenerator {
 
 	/**
 	 * 单主键的表,使用固定的"?"来作为参数,联合主键则使用各自的column propertyName作为命名参数
-	 * 
+	 *
 	 * <pre>
 	 * 单主键: SELECT user_id userId,user_name userName FROM user WHERE user_id = ?
 	 * 联合主键: SELECT user_id userId,user_name userName FROM user WHERE user_id = :userId AND group_id = :groupId
@@ -61,4 +61,7 @@ public interface SqlGenerator {
 	 * @return user_id userId,user_name userName
 	 */
 	public String getColumnsSql();
+
+
+	public Table getTable();
 }
