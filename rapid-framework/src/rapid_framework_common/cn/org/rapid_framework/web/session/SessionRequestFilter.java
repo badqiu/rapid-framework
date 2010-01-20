@@ -17,6 +17,11 @@ import cn.org.rapid_framework.web.mvc.Scope;
 public class SessionRequestFilter extends OncePerRequestFilter implements Filter{
 
 	@Override
+	protected void initFilterBean() throws ServletException {
+		super.initFilterBean();
+	}
+
+	@Override
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)throws ServletException, IOException {
 		Map sessionMap = Scope.Session.restore(request);
 		try {

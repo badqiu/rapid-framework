@@ -241,15 +241,7 @@ public class Scope {
 
         public static void save(HttpServletResponse response,Map<String,?> sessionMap) {
             try {
-                StringBuilder session = new StringBuilder();
-                for (String key : sessionMap.keySet()) {
-                    session.append("\u0000");
-                    session.append(key);
-                    session.append(":");
-                    session.append(sessionMap.get(key));
-                    session.append("\u0000");
-                }
-                String sessionData = URLEncoder.encode(session.toString(), "utf-8");
+                String sessionData = encodeSession(sessionMap);
                 String sign = Crypto.sign(sessionData, getProperty("application.secret").getBytes());
 
                 Cookie sessionCookie = new Cookie(COOKIE_PREFIX + "_SESSION", sign + "-" + sessionData);
@@ -262,6 +254,19 @@ public class Scope {
                 throw new IllegalStateException("Session serializationProblem", e);
             }
         }
+
+		private static String encodeSession(Map<String, ?> sessionMap) throws UnsupportedEncodingException {
+			StringBuilder session = new StringBuilder();
+			for (String key : sessionMap.keySet()) {
+			    session.append("\u0000");
+			    session.append(key);
+			    session.append(":");
+			    session.append(sessionMap.get(key));
+			    session.append("\u0000");
+			}
+			String sessionData = URLEncoder.encode(session.toString(), "utf-8");
+			return sessionData;
+		}
 
         public static String getProperty(String string) {
         	throw new UnsupportedOperationException();
