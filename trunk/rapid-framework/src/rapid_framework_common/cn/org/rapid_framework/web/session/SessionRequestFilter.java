@@ -13,6 +13,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.web.mvc.Scope;
+import cn.org.rapid_framework.web.session.wrapper.HttpSessionMapWrapper;
+import cn.org.rapid_framework.web.session.wrapper.HttpSessionSidWrapper;
 
 public class SessionRequestFilter extends OncePerRequestFilter implements Filter{
 
