@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator;
 
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
+
 public class CacheSqlGenerator implements SqlGenerator{
 	private static final String NULL = new String();
 	private SqlGenerator delegate;
@@ -49,5 +51,8 @@ public class CacheSqlGenerator implements SqlGenerator{
 		return updateByPkSql;
 	}
 
+	public Table getTable() {
+		return delegate.getTable();
+	}
 
 }
