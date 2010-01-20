@@ -188,7 +188,7 @@ public class Scope {
     	public static String SESSION_ID_KEY = "___ID";
         static Pattern sessionParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 
-        public static Map restore(HttpServletRequest request) {
+        public static Map restore(HttpServletRequest request,String secretKey) {
             try {
                 Map session = new HashMap();
                 Cookie cookie = CookieUtils.toMap(request.getCookies()).get(COOKIE_PREFIX + "_SESSION");
@@ -196,7 +196,7 @@ public class Scope {
                     String value = cookie.getValue();
                     String sign = value.substring(0, value.indexOf("-"));
                     String data = value.substring(value.indexOf("-") + 1);
-                    if (sign.equals(Crypto.sign(data, getProperty("application.secret").getBytes()))) {
+                    if (sign.equals(Crypto.sign(data, secretKey.getBytes()))) {
                         String sessionData = URLDecoder.decode(data, "utf-8");
                         Matcher matcher = sessionParser.matcher(sessionData);
                         while (matcher.find()) {
@@ -236,16 +236,17 @@ public class Scope {
         }
 
         public void save(HttpServletResponse response) {
-            save(response,this.data);
+//            save(response,this.data);
+        	throw new UnsupportedOperationException();
+        	//TODO fixed me
         }
-
-        public static void save(HttpServletResponse response,Map<String,?> sessionMap) {
+        
+        public static void save(HttpServletResponse response,Map<String,?> sessionMap,String secretKey,Integer maxAge) {
             try {
                 String sessionData = encodeSession(sessionMap);
-                String sign = Crypto.sign(sessionData, getProperty("application.secret").getBytes());
+                String sign = Crypto.sign(sessionData, secretKey.getBytes());
 
                 Cookie sessionCookie = new Cookie(COOKIE_PREFIX + "_SESSION", sign + "-" + sessionData);
-                Integer maxAge = new Integer(getProperty("application.session.maxAge"));
 				if(maxAge != null) {
 					sessionCookie.setMaxAge(maxAge);
                 }
@@ -266,10 +267,6 @@ public class Scope {
 			}
 			String sessionData = URLEncoder.encode(session.toString(), "utf-8");
 			return sessionData;
-		}
-
-        public static String getProperty(String string) {
-        	throw new UnsupportedOperationException();
 		}
 
 		public void put(String key, String value) {
