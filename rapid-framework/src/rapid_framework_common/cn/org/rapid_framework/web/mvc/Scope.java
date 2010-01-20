@@ -1,9 +1,11 @@
 package cn.org.rapid_framework.web.mvc;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,17 +13,20 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+import cn.org.rapid_framework.util.Crypto;
 import cn.org.rapid_framework.web.util.CookieUtils;
 /**
- * 
+ *
  * @author play-framework
  * @author badqiu
  *
  */
 // TODO 完善scope Flash
 public class Scope {
-
+	static Log log = LogFactory.getLog(Scope.class);
 	public static String COOKIE_PREFIX = "RAPID";
     /**
      * Flash scope
@@ -32,11 +37,7 @@ public class Scope {
         Map<String, String> out = new HashMap<String, String>();
         static Pattern flashParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 
-        static Flash restore() {
-        	return restore(null);
-        }
-
-        static Flash restore(HttpServletRequest request) {
+        public static Flash restore(HttpServletRequest request) {
             try {
                 Flash flash = new Flash();
                 Map<String,Cookie> cookies = CookieUtils.toMap(request.getCookies());
@@ -54,11 +55,7 @@ public class Scope {
             }
         }
 
-        void save() {
-            save(null);
-        }
-
-        void save(HttpServletResponse response) {
+        public void save(HttpServletResponse response) {
             try {
                 StringBuilder flash = new StringBuilder();
                 for (String key : out.keySet()) {
@@ -75,11 +72,38 @@ public class Scope {
             }
         }
 
+//        public static String encode(Map<String,String> map) throws UnsupportedEncodingException {
+//            StringBuilder flash = new StringBuilder();
+//            for (String key : map.keySet()) {
+//                flash.append("\u0000");
+//                flash.append(key);
+//                flash.append(":");
+//                flash.append(map.get(key));
+//                flash.append("\u0000");
+//            }
+//            String result = URLEncoder.encode(flash.toString(), "utf-8");
+//            return result;
+//        }
+//
+//        public static Map decode(String cookieString) throws UnsupportedEncodingException {
+//        	Map map = new HashMap();
+//            String flashData = URLDecoder.decode(cookieString, "utf-8");
+//            Matcher matcher = flashParser.matcher(flashData);
+//            while (matcher.find()) {
+//                map.put(matcher.group(1), matcher.group(2));
+//            }
+//            return map;
+//        }
+
         // ThreadLocal access
         static ThreadLocal<Flash> current = new ThreadLocal<Flash>();
 
         public static Flash current() {
             return current.get();
+        }
+
+        public static void setCurrent(Flash f) {
+            current.set(f);
         }
 
         public void put(String key, String value) {
@@ -149,6 +173,169 @@ public class Scope {
         public String toString() {
             return data.toString();
         }
+
+		public Map<String, String> getData() {
+			return data;
+		}
+
     }
 
+    /**
+     * Session scope
+     */
+    public static class Session {
+
+    	public static String SESSION_ID_KEY = "___ID";
+        static Pattern sessionParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
+
+        public static Map restore(HttpServletRequest request) {
+            try {
+                Map session = new HashMap();
+                Cookie cookie = CookieUtils.toMap(request.getCookies()).get(COOKIE_PREFIX + "_SESSION");
+                if (cookie != null) {
+                    String value = cookie.getValue();
+                    String sign = value.substring(0, value.indexOf("-"));
+                    String data = value.substring(value.indexOf("-") + 1);
+                    if (sign.equals(Crypto.sign(data, getProperty("application.secret").getBytes()))) {
+                        String sessionData = URLDecoder.decode(data, "utf-8");
+                        Matcher matcher = sessionParser.matcher(sessionData);
+                        while (matcher.find()) {
+                            session.put(matcher.group(1), matcher.group(2));
+                        }
+                    } else {
+                        log.warn("Corrupted HTTP session from "+request.getRemoteAddr());
+                    }
+                }
+				if(!session.containsKey(SESSION_ID_KEY)) {
+                    session.put(SESSION_ID_KEY, UUID.randomUUID().toString());
+                }
+                return session;
+            } catch (Exception e) {
+                throw new IllegalStateException("Corrupted HTTP session from " + request.getRemoteAddr(), e);
+            }
+        }
+
+        Map<String, String> data = new HashMap<String, String>();        // ThreadLocal access
+        public static ThreadLocal<Session> current = new ThreadLocal<Session>();
+
+        public Session(Map<String, String> data) {
+			super();
+			this.data = data;
+		}
+
+		public static Session current() {
+            return current.get();
+        }
+
+		public static void setCurrent(Session session) {
+			current.set(session);
+		}
+
+        public String getId() {
+            return data.get(SESSION_ID_KEY);
+        }
+
+        public void save(HttpServletResponse response) {
+            save(response,this.data);
+        }
+
+        public static void save(HttpServletResponse response,Map<String,?> sessionMap) {
+            try {
+                StringBuilder session = new StringBuilder();
+                for (String key : sessionMap.keySet()) {
+                    session.append("\u0000");
+                    session.append(key);
+                    session.append(":");
+                    session.append(sessionMap.get(key));
+                    session.append("\u0000");
+                }
+                String sessionData = URLEncoder.encode(session.toString(), "utf-8");
+                String sign = Crypto.sign(sessionData, getProperty("application.secret").getBytes());
+
+                Cookie sessionCookie = new Cookie(COOKIE_PREFIX + "_SESSION", sign + "-" + sessionData);
+                Integer maxAge = new Integer(getProperty("application.session.maxAge"));
+				if(maxAge != null) {
+					sessionCookie.setMaxAge(maxAge);
+                }
+				response.addCookie(sessionCookie);
+            } catch (Exception e) {
+                throw new IllegalStateException("Session serializationProblem", e);
+            }
+        }
+
+        public static String getProperty(String string) {
+        	throw new UnsupportedOperationException();
+		}
+
+		public void put(String key, String value) {
+            if (key.contains(":")) {
+                throw new IllegalArgumentException("Character ':' is invalid in a session key.");
+            }
+            data.put(key, value);
+        }
+
+        public void put(String key, Object value) {
+            if (value == null) {
+                put(key, (String) null);
+            }
+            put(key, value + "");
+        }
+
+        public String get(String key) {
+            return data.get(key);
+        }
+
+        public boolean remove(String key) {
+            return data.remove(key) != null;
+        }
+
+        public void remove(String... keys) {
+            for (String key : keys) {
+                remove(key);
+            }
+        }
+
+        public void clear() {
+            data.clear();
+        }
+
+        public boolean contains(String key) {
+            return data.containsKey(key);
+        }
+
+        @Override
+        public String toString() {
+            return data.toString();
+        }
+
+    }
+
+    /**
+     * Render args (used in template rendering)
+     */
+    public static class RenderArgs {
+
+        public Map<String, Object> data = new HashMap<String, Object>();        // ThreadLocal access
+        static ThreadLocal<RenderArgs> current = new ThreadLocal<RenderArgs>();
+
+        public static RenderArgs current() {
+            return current.get();
+        }
+
+        public static void setCurrent(RenderArgs r) {
+            current.set(r);
+        }
+
+        public void put(String key, Object arg) {
+            this.data.put(key, arg);
+        }
+
+        public Object get(String key) {
+            return data.get(key);
+        }
+
+        public <T> T get(String key, Class<T> clazz) {
+            return (T) this.get(key);
+        }
+    }
 }
