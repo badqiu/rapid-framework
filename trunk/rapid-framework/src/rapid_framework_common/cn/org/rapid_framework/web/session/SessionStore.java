@@ -12,11 +12,11 @@ import javax.servlet.http.HttpSession;
 
 public interface SessionStore {
 
-	public void saveSession(SessionContext context);
+	public void saveSession(HttpServletResponse response,String sessionId,Map sessionData);
 
-	public void deleteSession(SessionContext context);
+	public void deleteSession(HttpServletResponse response,String sessionId);
 
-	public Map getSession(SessionContext context);
+	public Map getSession(HttpServletRequest request,String sessionId);
 
 	public static class SessionContext {
 		public HttpSession session;

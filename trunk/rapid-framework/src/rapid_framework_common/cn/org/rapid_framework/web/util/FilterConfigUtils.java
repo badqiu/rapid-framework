@@ -15,4 +15,12 @@ public class FilterConfigUtils {
 		String v = getParameter(config,key,Integer.toString(defaultValue));
 		return Integer.parseInt(v);
 	}
+
+	public static int getIntegerParameter(FilterConfig config,String key,Integer defaultValue) {
+		String v = config.getInitParameter(key);
+		if(v == null)
+			return defaultValue;
+		else
+			return new Integer(v);
+	}
 }
