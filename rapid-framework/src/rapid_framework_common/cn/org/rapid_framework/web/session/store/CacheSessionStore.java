@@ -8,20 +8,39 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.org.rapid_framework.web.mvc.Scope;
 import cn.org.rapid_framework.web.session.SessionStore;
-import cn.org.rapid_framework.web.session.SessionStore.SessionContext;
 
 public class CacheSessionStore implements SessionStore{
-
 	public void deleteSession(HttpServletResponse response,String sessionId) {
-		Scope.Session.save(response, new HashMap());
+		Cache.delete(sessionId);
 	}
 
 	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
-		return Scope.Session.restore(request);
+		String sessionData = Cache.get(sessionId);
+		return SessionDataUtils.decode(sessionData);
 	}
 
 	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
-		Scope.Session.save(response,sessionData);
+		Cache.replace(sessionId,SessionDataUtils.encode(sessionData));
 	}
-
+	
+	public static class Cache {
+		static Map cache = new HashMap();
+		public static void set(String key,String value,long expire_data) {
+			cache.put(key, value);
+		}
+		
+		public static String get(String key) {
+			return (String)cache.get(key);
+		}
+		
+		public static void replace(String key,String value) {
+			if(cache.containsKey(key)) {
+				cache.put(key, value);
+			}
+		}
+		
+		public static void delete(String key) {
+			cache.remove(key);
+		}
+	}
 }

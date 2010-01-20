@@ -13,18 +13,20 @@ public class SessionDataUtils {
 	static Pattern sessionDataParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 	
 	public static String encode(Map<String, String> map) {
-		StringBuilder flash = new StringBuilder();
+		StringBuilder encodeString = new StringBuilder();
 		for (String key : map.keySet()) {
-			flash.append("\u0000");
-			flash.append(key);
-			flash.append(":");
-			flash.append(map.get(key));
-			flash.append("\u0000");
+			encodeString.append("\u0000");
+			encodeString.append(key);
+			encodeString.append(":");
+			encodeString.append(map.get(key));
+			encodeString.append("\u0000");
 		}
-		return flash.toString();
+		return encodeString.toString();
 	}
 
 	public static Map decode(String string)   {
+		if(string == null) return new HashMap();
+		
 		Map map = new HashMap();
 		Matcher matcher = sessionDataParser.matcher(string);
 		while (matcher.find()) {
