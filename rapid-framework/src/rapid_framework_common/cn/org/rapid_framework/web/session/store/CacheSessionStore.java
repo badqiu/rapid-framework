@@ -16,11 +16,11 @@ public class CacheSessionStore implements SessionStore{
 		Scope.Session.save(response, new HashMap());
 	}
 
-	public Map getSession(HttpServletRequest request, String sessionId) {
+	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
 		return Scope.Session.restore(request);
 	}
 
-	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData) {
+	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
 		Scope.Session.save(response,sessionData);
 	}
 

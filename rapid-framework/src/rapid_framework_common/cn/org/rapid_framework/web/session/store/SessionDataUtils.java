@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class SessionDataUtils {
 	static Pattern sessionDataParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 	
-	public static String encode(Map<String, String> map) throws UnsupportedEncodingException {
+	public static String encode(Map<String, String> map) {
 		StringBuilder flash = new StringBuilder();
 		for (String key : map.keySet()) {
 			flash.append("\u0000");
@@ -24,7 +24,7 @@ public class SessionDataUtils {
 		return flash.toString();
 	}
 
-	public static Map decode(String string) throws UnsupportedEncodingException {
+	public static Map decode(String string)   {
 		Map map = new HashMap();
 		Matcher matcher = sessionDataParser.matcher(string);
 		while (matcher.find()) {
