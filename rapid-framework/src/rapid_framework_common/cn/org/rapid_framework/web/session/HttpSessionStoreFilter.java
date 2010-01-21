@@ -2,6 +2,7 @@ package cn.org.rapid_framework.web.session;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -109,12 +110,20 @@ public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Fil
 
 	private Cookie generateCookie(HttpServletRequest request,HttpServletResponse response) {
 		Cookie sessionIdCookie;
-		String sid = java.util.UUID.randomUUID().toString();
+		String sid = request.getSession().getId();
+		if(StringUtils.isBlank(sid)) {
+			sid = generateUUID();
+		}
 		sessionIdCookie = new Cookie(sessionIdCookieName,sid);
 		sessionIdCookie.setDomain(cookieDomain);
 		sessionIdCookie.setPath(cookiePath);
 		sessionIdCookie.setMaxAge(request.getSession().getMaxInactiveInterval() * 60 * 60 * 1000);
 		response.addCookie(sessionIdCookie);
 		return sessionIdCookie;
+	}
+
+	private String generateUUID() {
+		String uuid = UUID.randomUUID().toString();
+		return org.springframework.util.StringUtils.replace(uuid, "_", "");
 	}
 }
