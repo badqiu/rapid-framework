@@ -3,14 +3,12 @@ input.required, textarea.required {
 	border: 1px solid #00A8E6;
 }
 
-select.validation-failed,input.validation-failed, textarea.validation-failed {
-	background: #FFFFFF url(invalid_line.gif) repeat-x scroll center bottom;
-	border: 1px solid #dd7870;
-	color : #FF3300;
+select.validation-failed, input.validation-failed, textarea.validation-failed {
+    border: 3px solid #FF0000;
 }
 
 * html select.validation-failed {
-    background-color: #E8CDB9;
+    background-color: #FF0000;
 }
 
 input.validation-passed, textarea.validation-passed {
