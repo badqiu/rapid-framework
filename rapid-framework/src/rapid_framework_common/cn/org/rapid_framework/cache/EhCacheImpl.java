@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.cache;
+package cn.org.rapid_framework.cache;
 
 import java.util.HashMap;
 import java.util.Map;

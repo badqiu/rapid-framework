@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.cache;
+package cn.org.rapid_framework.cache;
 
 import java.io.NotSerializableException;
 import java.io.Serializable;
