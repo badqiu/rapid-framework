@@ -33,9 +33,7 @@ public class CacheSessionStore extends SessionStore{
 		}
 
 		public static void replace(String key,String value) {
-			if(cache.containsKey(key)) {
-				cache.put(key, value);
-			}
+			cache.put(key, value);
 		}
 
 		public static void delete(String key) {
