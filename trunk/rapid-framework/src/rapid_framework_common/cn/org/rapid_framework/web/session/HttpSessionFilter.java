@@ -55,6 +55,8 @@ public class HttpSessionFilter  extends OncePerRequestFilter implements Filter{
 			chain.doFilter(new HttpServletRequestSessionWrapper(request,sessionWrapper), response);
 		}finally {
 			sessionStore.saveSession(response, sessionId, sessionData,rawSession.getMaxInactiveInterval());
+			sessionIdCookie.setMaxAge(request.getSession().getMaxInactiveInterval() * 60 * 60 * 1000);
+			response.addCookie(sessionIdCookie);
 		}
 	}
 
