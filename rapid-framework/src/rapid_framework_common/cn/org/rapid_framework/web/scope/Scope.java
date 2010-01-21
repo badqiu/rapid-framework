@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.mvc;
+package cn.org.rapid_framework.web.scope;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -250,6 +250,8 @@ public class Scope {
 				if(maxAge != null) {
 					sessionCookie.setMaxAge(maxAge);
                 }
+				sessionCookie.setPath("/");
+				sessionCookie.setDomain("");
 				response.addCookie(sessionCookie);
             } catch (Exception e) {
                 throw new IllegalStateException("Session serializationProblem", e);
