@@ -52,11 +52,13 @@ public class HttpSessionSessionStoreWrapper extends HttpSessionWrapper{
 	@Override
 	public void removeAttribute(String key) {
 		sessionData.remove(key);
+		store.onRemoveAttribute(response,sessionId,key,sessionData,getMaxInactiveInterval());
 	}
 
 	@Override
-	public void setAttribute(String key, Object v) {
-		sessionData.put(key, v);
+	public void setAttribute(String key, Object value) {
+		sessionData.put(key, value);
+		store.onSetAttribute(response, sessionId,key,sessionData,getMaxInactiveInterval());
 	}
 
 }
