@@ -23,21 +23,21 @@ public abstract class SessionStore {
 		this.isSaveSessionDataOnAttributeChange = isSaveSessionDataOnAttributeChange;
 	}
 
-	public abstract void saveSession(HttpServletResponse response,String sessionId,Map sessionData,int timeoutMinute);
+	public abstract void saveSession(HttpServletResponse response,String sessionId,Map sessionData,int timeoutSeconds);
 
 	public abstract void deleteSession(HttpServletResponse response,String sessionId);
 
 	public abstract Map getSession(HttpServletRequest request,String sessionId,int timeoutMinute);
 
-	public void onSetAttribute(HttpServletResponse response,String sessionId,String key,Map sessionData,int timeoutMinute) {
+	public void onSetAttribute(HttpServletResponse response,String sessionId,String key,Map sessionData,int timeoutSeconds) {
 		if(isSaveSessionDataOnAttributeChange) {
-			saveSession(response, sessionId, sessionData, timeoutMinute);
+			saveSession(response, sessionId, sessionData, timeoutSeconds);
 		}
 	}
 
-	public void onRemoveAttribute(HttpServletResponse response,String sessionId,String key,Map sessionData,int timeoutMinute) {
+	public void onRemoveAttribute(HttpServletResponse response,String sessionId,String key,Map sessionData,int timeoutSeconds) {
 		if(isSaveSessionDataOnAttributeChange) {
-			saveSession(response, sessionId, sessionData, timeoutMinute);
+			saveSession(response, sessionId, sessionData, timeoutSeconds);
 		}
 	}
 
