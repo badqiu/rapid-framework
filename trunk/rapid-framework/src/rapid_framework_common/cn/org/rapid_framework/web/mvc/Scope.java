@@ -206,9 +206,9 @@ public class Scope {
                         log.warn("Corrupted HTTP session from "+request.getRemoteAddr());
                     }
                 }
-				if(!session.containsKey(SESSION_ID_KEY)) {
-                    session.put(SESSION_ID_KEY, UUID.randomUUID().toString());
-                }
+//				if(!session.containsKey(SESSION_ID_KEY)) {
+//                    session.put(SESSION_ID_KEY, UUID.randomUUID().toString());
+//                }
                 return session;
             } catch (Exception e) {
                 throw new IllegalStateException("Corrupted HTTP session from " + request.getRemoteAddr(), e);
