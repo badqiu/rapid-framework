@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.org.rapid_framework.web.mvc.Scope;
+import cn.org.rapid_framework.web.scope.Scope;
 
 /**
  * 使用cookie存储session
