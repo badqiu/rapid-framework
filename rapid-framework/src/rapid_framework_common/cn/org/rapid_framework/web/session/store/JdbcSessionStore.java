@@ -30,7 +30,7 @@ import cn.org.rapid_framework.util.CalendarUtils;
  * @author badqiu
  *
  */
-public class JdbcSessionStore implements SessionStore{
+public class JdbcSessionStore extends SessionStore{
 	DataSource dataSource;
 
 	static String DELETE = "delete from http_session where session_id = ?";

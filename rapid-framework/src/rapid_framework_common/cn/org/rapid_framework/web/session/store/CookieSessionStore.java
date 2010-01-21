@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import cn.org.rapid_framework.web.mvc.Scope;
 
-public class CookieSessionStore implements SessionStore{
+public class CookieSessionStore extends SessionStore{
 
 	public void deleteSession(HttpServletResponse response,String sessionId) {
 		Scope.Session.save(response, new HashMap(0),getSecretKey(),null);
