@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.org.rapid_framework.web.cache.Cache;
+import cn.org.rapid_framework.cache.Cache;
 
 public class CacheSessionStore extends SessionStore{
 	public void deleteSession(HttpServletResponse response,String sessionId) {
