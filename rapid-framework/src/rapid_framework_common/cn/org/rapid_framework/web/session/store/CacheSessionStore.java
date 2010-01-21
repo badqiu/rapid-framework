@@ -22,13 +22,13 @@ public class CacheSessionStore extends SessionStore{
 		cache.delete(sessionId);
 	}
 
-	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
+	public Map getSession(HttpServletRequest request, String sessionId,int timeoutSeconds) {
 		String sessionData = (String)cache.get(sessionId);
 		return SessionDataUtils.decode(sessionData);
 	}
 
-	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
-		cache.replace(sessionId,SessionDataUtils.encode(sessionData),timeoutMinute * 60);
+	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutSeconds) {
+		cache.replace(sessionId,SessionDataUtils.encode(sessionData),timeoutSeconds);
 	}
 
 

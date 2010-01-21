@@ -30,12 +30,12 @@ public class CookieSessionStore extends SessionStore{
 		Scope.Session.save(response, new HashMap(0),getSecretKey(),null);
 	}
 
-	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
+	public Map getSession(HttpServletRequest request, String sessionId,int timeoutSeconds) {
 		return Scope.Session.restore(request,getSecretKey());
 	}
 
-	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
-		Scope.Session.save(response,sessionData,getSecretKey(),timeoutMinute * 60);
+	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutSeconds) {
+		Scope.Session.save(response,sessionData,getSecretKey(),timeoutSeconds);
 	}
 
 }

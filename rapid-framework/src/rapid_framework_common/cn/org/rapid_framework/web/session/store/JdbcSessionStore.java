@@ -45,27 +45,27 @@ public class JdbcSessionStore extends SessionStore{
 		getSimpleJdbcTemplate().update(DELETE, sessionId);
 	}
 
-	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
+	public Map getSession(HttpServletRequest request, String sessionId,int timeoutSeconds) {
 		List<Map> results = getSimpleJdbcTemplate().query(GET,new ParameterizedRowMapper<Map>(){
 			public Map mapRow(ResultSet rs, int row) throws SQLException {
 				String sessionData = rs.getString(1);
 				return decode(sessionData);
 			}
-		},sessionId,computeExpireDate(timeoutMinute));
+		},sessionId,computeExpireDate(timeoutSeconds));
 
 		return results.size() > 0 ? results.get(0) : new HashMap();
 	}
 
-	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
+	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutSeconds) {
 		deleteSession(response, sessionId);
 		String data = encode(sessionData);
 		Timestamp expire_date = new Timestamp(System.currentTimeMillis());
 		getSimpleJdbcTemplate().update(INSERT, sessionId,expire_date,data);
 	}
 
-	private Timestamp computeExpireDate(int timeoutMinute) {
+	private Timestamp computeExpireDate(int timeoutSeconds) {
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-		CalendarUtils.add(Calendar.MINUTE, now, -timeoutMinute * 60 * 1000);
+		CalendarUtils.add(Calendar.MINUTE, now, -timeoutSeconds * 1000);
 		return now;
 	}
 
