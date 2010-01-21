@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.session;
+package cn.org.rapid_framework.web.session.wrapper;
 
 
 import javax.servlet.http.HttpServletRequest;
