@@ -124,7 +124,7 @@ author:badqiu
 	<!-- 合并plugin/web_merge.xml 至 web.xml -->
 	<target name="_merge_web_xml" if="web_merge_xml?exists">
 		<echo>合并 ${plugin_name}/web_merge.xml 至 web.xml</echo>
-		<loadfile property="web_merge_xml_content" srcfile="${plugin_name}/web_merge.xml"></loadfile>
+		<loadfile property="web_merge_xml_content" srcfile="${plugin_name}/web_merge.xml" encoding="UTF-8"></loadfile>
 		<replace file="../web/WEB-INF/web.xml" value="${web_merge_xml_content}&#13;&#10;&lt;/web-app>" encoding="UTF-8" >
 			<replacetoken><![CDATA[</web-app>]]></replacetoken>
 		</replace>
