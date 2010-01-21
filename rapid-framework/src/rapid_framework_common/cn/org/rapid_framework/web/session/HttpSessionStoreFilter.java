@@ -16,14 +16,26 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import cn.org.rapid_framework.web.session.store.CacheSessionStore;
+import cn.org.rapid_framework.web.session.store.JdbcSessionStore;
 import cn.org.rapid_framework.web.session.store.SessionStore;
 import cn.org.rapid_framework.web.session.wrapper.HttpServletRequestSessionWrapper;
 import cn.org.rapid_framework.web.session.wrapper.HttpSessionSessionStoreWrapper;
 import cn.org.rapid_framework.web.util.CookieUtils;
-import cn.org.rapid_framework.web.util.FilterConfigUtils;
 
-public class HttpSessionFilter  extends OncePerRequestFilter implements Filter{
-	private String sessionIdCookieName = "RAPID_SESSION_ID";
+/**
+ * 使用自定义的session框架生成并管理HttpSession.
+ * 
+ * 通过自定义的SessionStore,可以将session存储在数据库,cookie,memcached中.
+ * 
+ * @See {@link SessionStore}
+ * @See {@link CacheSessionStore}
+ * @See {@link JdbcSessionStore}
+ * @author badqiu
+ *
+ */
+public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Filter{
+	private String sessionIdCookieName = "_rapid_session_id";
 
 	private String cookieDomain = "";
 
@@ -33,11 +45,37 @@ public class HttpSessionFilter  extends OncePerRequestFilter implements Filter{
 	@Override
 	protected void initFilterBean() throws ServletException {
 		super.initFilterBean();
-		cookieDomain = FilterConfigUtils.getParameter(getFilterConfig(), "cookieDomain", cookieDomain);
-		cookiePath = FilterConfigUtils.getParameter(getFilterConfig(), "cookiePath", cookiePath);
-		sessionIdCookieName = FilterConfigUtils.getParameter(getFilterConfig(), "sessionIdCookieName", sessionIdCookieName);
+//		cookieDomain = FilterConfigUtils.getParameter(getFilterConfig(), "cookieDomain", cookieDomain);
+//		cookiePath = FilterConfigUtils.getParameter(getFilterConfig(), "cookiePath", cookiePath);
+//		sessionIdCookieName = FilterConfigUtils.getParameter(getFilterConfig(), "sessionIdCookieName", sessionIdCookieName);
+		
+		sessionStore = lookSessionStore();
+//		wac.getAutowireCapableBeanFactory().autowireBeanProperties(this, AutowireCapableBeanFactory.AUTOWIRE_AUTODETECT, false);
+	}
 
+	protected SessionStore lookSessionStore() {
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+		SessionStore store = (SessionStore)wac.getBean("sessionStore",SessionStore.class);
+		if(logger.isInfoEnabled()) {
+			logger.info("Using '"+store.getClass().getSimpleName()+"' SessionStore for HttpSessionStoreFilter");
+		}
+		return store;
+	}
+	
+	public void setSessionIdCookieName(String sessionIdCookieName) {
+		this.sessionIdCookieName = sessionIdCookieName;
+	}
+
+	public void setCookieDomain(String cookieDomain) {
+		this.cookieDomain = cookieDomain;
+	}
+
+	public void setCookiePath(String cookiePath) {
+		this.cookiePath = cookiePath;
+	}
+	
+	public void setSessionStore(SessionStore sessionStore) {
+		this.sessionStore = sessionStore;
 	}
 
 	@Override
