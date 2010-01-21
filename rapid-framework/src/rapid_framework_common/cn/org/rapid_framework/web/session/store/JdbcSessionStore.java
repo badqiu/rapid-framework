@@ -26,17 +26,17 @@ import cn.org.rapid_framework.util.CalendarUtils;
  *	  expire_date timestamp
  *	);
  * </pre>
- * 
+ *
  * @author badqiu
  *
  */
 public class JdbcSessionStore implements SessionStore{
 	DataSource dataSource;
-	
+
 	static String DELETE = "delete from http_session where session_id = ?";
-	static String INSERT = "insert into http_session(session_id,session_data,expire_date) values (?,?,?)";
+	static String INSERT = "insert into http_session(session_id,expire_date,session_data) values (?,?,?)";
 	static String GET = "select session_data from http_session where session_id = ? and expire_date >= ?";
-	
+
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
@@ -52,14 +52,15 @@ public class JdbcSessionStore implements SessionStore{
 				return decode(sessionData);
 			}
 		},sessionId,computeExpireDate(timeoutMinute));
-		
+
 		return results.size() > 0 ? results.get(0) : new HashMap();
 	}
 
 	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
 		deleteSession(response, sessionId);
 		String data = encode(sessionData);
-		getSimpleJdbcTemplate().update(INSERT, sessionId,data,new Timestamp(System.currentTimeMillis()));
+		Timestamp expire_date = new Timestamp(System.currentTimeMillis());
+		getSimpleJdbcTemplate().update(INSERT, sessionId,expire_date,data);
 	}
 
 	private Timestamp computeExpireDate(int timeoutMinute) {
@@ -71,11 +72,11 @@ public class JdbcSessionStore implements SessionStore{
 	private SimpleJdbcTemplate getSimpleJdbcTemplate() {
 		return new SimpleJdbcTemplate(dataSource);
 	}
-	
+
 	public static Map decode(String sessionData) {
 		return SessionDataUtils.decode(sessionData);
 	}
-	
+
 	public static String encode(Map sessionData) {
 		return SessionDataUtils.encode(sessionData);
 	}
