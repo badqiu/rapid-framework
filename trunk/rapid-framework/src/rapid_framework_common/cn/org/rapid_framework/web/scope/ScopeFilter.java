@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.filter;
+package cn.org.rapid_framework.web.scope;
 
 import java.io.IOException;
 import java.util.Map;
@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import cn.org.rapid_framework.web.mvc.Scope;
-import cn.org.rapid_framework.web.mvc.Scope.Flash;
 
 public class ScopeFilter extends OncePerRequestFilter implements Filter{
 
