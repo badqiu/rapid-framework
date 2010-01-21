@@ -1,12 +1,11 @@
 package cn.org.rapid_framework.web.session.store;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.org.rapid_framework.web.mvc.Scope;
+import cn.org.rapid_framework.web.cache.Cache;
 
 public class CacheSessionStore extends SessionStore{
 	public void deleteSession(HttpServletResponse response,String sessionId) {
@@ -14,7 +13,7 @@ public class CacheSessionStore extends SessionStore{
 	}
 
 	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
-		String sessionData = Cache.get(sessionId);
+		String sessionData = (String)Cache.get(sessionId);
 		return SessionDataUtils.decode(sessionData);
 	}
 
@@ -22,22 +21,5 @@ public class CacheSessionStore extends SessionStore{
 		Cache.replace(sessionId,SessionDataUtils.encode(sessionData));
 	}
 
-	public static class Cache {
-		static Map cache = new HashMap();
-		public static void set(String key,String value,long expire_data) {
-			cache.put(key, value);
-		}
 
-		public static String get(String key) {
-			return (String)cache.get(key);
-		}
-
-		public static void replace(String key,String value) {
-			cache.put(key, value);
-		}
-
-		public static void delete(String key) {
-			cache.remove(key);
-		}
-	}
 }
