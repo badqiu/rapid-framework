@@ -16,7 +16,9 @@ public abstract class SessionStore {
 	public boolean isSaveSessionDataOnAttributeChange() {
 		return isSaveSessionDataOnAttributeChange;
 	}
-
+	/**
+	 * @param isSaveSessionDataOnAttributeChange default is false
+	 */
 	public void setSaveSessionDataOnAttributeChange(boolean isSaveSessionDataOnAttributeChange) {
 		this.isSaveSessionDataOnAttributeChange = isSaveSessionDataOnAttributeChange;
 	}
