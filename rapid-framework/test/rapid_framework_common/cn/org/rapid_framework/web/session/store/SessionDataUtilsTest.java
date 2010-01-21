@@ -11,11 +11,7 @@ import static org.junit.Assert.*;
 public class SessionDataUtilsTest {
 	@Test
 	public void encode() throws UnsupportedEncodingException {
-		Map map = new HashMap();
-		map.put("empty", "");
-		map.put("blank", "  ");
-		map.put("null", null);
-		map.put("abc", "abc");
+		Map map = createForTestMap();
 		String data = SessionDataUtils.encode(map);
 		System.out.println(data);
 		
@@ -24,8 +20,23 @@ public class SessionDataUtilsTest {
 		
 		assertEquals(decodeMap.get("empty"),"");
 		assertEquals(decodeMap.get("blank"),"  ");
-		assertEquals(decodeMap.get("abc"),"abc");
+		assertEquals(decodeMap.get("string"),"string");
 		assertEquals("null",decodeMap.get("null"));
 //		assertTrue(decodeMap.get("null") == null);
+	}
+
+	public static Map createForTestMap() {
+		Map map = new HashMap();
+		map.put("empty", "");
+		map.put("blank", "  ");
+		map.put("null", null);
+		map.put("string", "string");
+		return map;
+	}
+	
+	public static void assertForTestMap(Map decodeMap) {
+		assertEquals(decodeMap.get("empty"),"");
+		assertEquals(decodeMap.get("blank"),"  ");
+		assertEquals(decodeMap.get("string"),"string");
 	}
 }
