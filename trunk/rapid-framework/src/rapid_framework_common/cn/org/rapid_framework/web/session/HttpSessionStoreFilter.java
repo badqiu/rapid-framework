@@ -116,7 +116,7 @@ public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Fil
 		}
 		sessionIdCookie = new Cookie(sessionIdCookieName,sid);
 		sessionIdCookie.setDomain(cookieDomain);
-		sessionIdCookie.setPath(cookiePath);
+		sessionIdCookie.setPath(request.getContextPath());
 		sessionIdCookie.setMaxAge(request.getSession().getMaxInactiveInterval() * 60 * 60 * 1000);
 		response.addCookie(sessionIdCookie);
 		return sessionIdCookie;
