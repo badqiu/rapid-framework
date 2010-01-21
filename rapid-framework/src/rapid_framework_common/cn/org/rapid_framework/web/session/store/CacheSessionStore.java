@@ -5,20 +5,30 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.org.rapid_framework.cache.Cache;
+import cn.org.rapid_framework.cache.ICache;
 
 public class CacheSessionStore extends SessionStore{
+	private ICache cache;
+	
+	public ICache getCache() {
+		return cache;
+	}
+
+	public void setCache(ICache cache) {
+		this.cache = cache;
+	}
+
 	public void deleteSession(HttpServletResponse response,String sessionId) {
-		Cache.delete(sessionId);
+		cache.delete(sessionId);
 	}
 
 	public Map getSession(HttpServletRequest request, String sessionId,int timeoutMinute) {
-		String sessionData = (String)Cache.get(sessionId);
+		String sessionData = (String)cache.get(sessionId);
 		return SessionDataUtils.decode(sessionData);
 	}
 
 	public void saveSession(HttpServletResponse response, String sessionId,Map sessionData,int timeoutMinute) {
-		Cache.replace(sessionId,SessionDataUtils.encode(sessionData));
+		cache.replace(sessionId,SessionDataUtils.encode(sessionData),timeoutMinute * 60);
 	}
 
 
