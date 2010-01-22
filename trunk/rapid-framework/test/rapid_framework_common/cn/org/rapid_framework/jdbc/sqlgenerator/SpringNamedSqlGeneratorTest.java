@@ -18,7 +18,7 @@ public class SpringNamedSqlGeneratorTest {
 	@Test
 	public void insertSql() {
 		System.out.println(t.getInsertSql());
-		assertEquals("INSERT user (user_id,user_name,pwd ) VALUES ( :userId,:userName,:pwd ) ", t.getInsertSql());
+		assertEquals("INSERT INTO user (user_id,user_name,pwd ) VALUES ( :userId,:userName,:pwd ) ", t.getInsertSql());
 	}
 	
 	@Test
