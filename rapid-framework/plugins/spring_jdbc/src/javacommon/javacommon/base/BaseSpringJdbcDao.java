@@ -265,6 +265,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return primaryKeyColumns.get(0).getPropertyName();
 	}
 	
-	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(MetadataCreateUtils.fromClass(getEntityClass())));
+	//根据table对象可以生成增删改查的sql
+	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(MetadataCreateUtils.createTable(getEntityClass())));
 
 }
