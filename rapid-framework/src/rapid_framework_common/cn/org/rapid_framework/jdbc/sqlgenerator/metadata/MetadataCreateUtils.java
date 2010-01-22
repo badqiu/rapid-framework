@@ -18,7 +18,7 @@ import javax.persistence.Id;
  */
 public class MetadataCreateUtils {
 
-	public static Table fromClass(Class clazz) {
+	public static Table createTable(Class clazz) {
 
 		BeanInfo info = getBeanInfo(clazz);
 		PropertyDescriptor[] pds = info.getPropertyDescriptors();
