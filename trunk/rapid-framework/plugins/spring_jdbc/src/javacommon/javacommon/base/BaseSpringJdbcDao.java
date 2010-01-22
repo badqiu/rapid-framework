@@ -31,6 +31,7 @@ import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.jdbc.sqlgenerator.CacheSqlGenerator;
 import cn.org.rapid_framework.jdbc.sqlgenerator.SpringNamedSqlGenerator;
 import cn.org.rapid_framework.jdbc.sqlgenerator.SqlGenerator;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.MetadataCreateUtils;
 import cn.org.rapid_framework.jdbc.support.OffsetLimitResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
@@ -257,7 +258,11 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public String getIdentifierPropertyName() {
-		return getSqlGenerator().getTable().getPrimaryKeyColumns().get(0).getPropertyName();
+		List<Column> primaryKeyColumns = getSqlGenerator().getTable().getPrimaryKeyColumns();
+		if(primaryKeyColumns.isEmpty()) {
+			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
+		}
+		return primaryKeyColumns.get(0).getPropertyName();
 	}
 	
 	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(MetadataCreateUtils.fromClass(getEntityClass())));
