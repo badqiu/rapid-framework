@@ -91,10 +91,10 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 			throw new IllegalStateException("not found primary key on table:"+table.getTableName());
 		}
 		
-		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
+		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET ");
 		
 		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
-		sb.append(" ) WHERE ");
+		sb.append(" WHERE ");
 
 		for(int i = 0; i < getPrimaryKeyColumns().size(); i++) {
 			Column c = getPrimaryKeyColumns().get(i);
@@ -110,7 +110,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		List updateColumns = new ArrayList(columns.size());
 		for(int i = 0; i < columns.size(); i++) {
 			Column c = columns.get(i);
-			if(c.isUpdatable()) {
+			if(c.isUpdatable() && !c.isPrimaryKey()) {
 				updateColumns.add(c.getSqlName() + " = "+getColumnPlaceholder(c));
 			}
 		}
