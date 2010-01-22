@@ -24,10 +24,10 @@ public class SpringNamedSqlGeneratorTest {
 	@Test
 	public void updateSql() {
 		System.out.println(t.getUpdateByPkSql());
-		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId", t.getUpdateByPkSql());
-		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateByPkSql());
+		assertEquals("UPDATE user SET user_name = :userName,pwd = :pwd WHERE user_id = :userId", t.getUpdateByPkSql());
+		assertEquals("UPDATE user SET user_name = :userName,pwd = :pwd WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateByPkSql());
 		
-		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId,user_name = :userName,pwd = :pwd ) WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateByPkSql());
+		assertEquals("UPDATE user SET user_name = :userName,pwd = :pwd WHERE user_id = :userId AND group_id = :groupId", multiKeySqlGenerator.getUpdateByPkSql());
 
 	}
 	
