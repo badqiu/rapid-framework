@@ -7,6 +7,7 @@ package ${basepackage}.model;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import javax.persistence.*;
 
 <#include "/java_imports.include">
 
@@ -30,6 +31,9 @@ public class ${className} extends BaseEntity {
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
 	//columns END
+	
+	//注意： spring_jdbc的MetadataCreateUtils.fromTable(Entity.class) 可以读取JPA annotation的标注信息
+	//现支持 @Id,@Column,@Table标注
 
 <@generateConstructor className/>
 <@generateJavaColumns/>
@@ -66,6 +70,9 @@ public class ${className} extends BaseEntity {
 
 <#macro generateJavaColumns>
 	<#list table.columns as column>
+		<#if column.pk>
+	@Id
+		</#if>	
 		<#if column.isDateTimeColumn>
 	public String get${column.columnName}String() {
 		return date2String(get${column.columnName}(), FORMAT_${column.constantName});
@@ -75,13 +82,14 @@ public class ${className} extends BaseEntity {
 	}
 	
 		</#if>	
+	public ${column.javaType} get${column.columnName}() {
+		return this.${column.columnNameLower};
+	}
+	
 	public void set${column.columnName}(${column.javaType} value) {
 		this.${column.columnNameLower} = value;
 	}
 	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
 	</#list>
 </#macro>
 
