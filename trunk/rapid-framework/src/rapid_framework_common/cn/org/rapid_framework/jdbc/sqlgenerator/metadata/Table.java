@@ -2,6 +2,7 @@ package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,10 +26,11 @@ public class Table {
 
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
+		this.primaryKeyColumns = null;
 	}
 
 	public List<Column> getColumns() {
-		return columns;
+		return Collections.unmodifiableList(columns);
 	}
 
 	public void setTableName(String tableName) {
@@ -38,8 +40,16 @@ public class Table {
 	public String getTableName() {
 		return tableName;
 	}
-
+	
+	List<Column> primaryKeyColumns = null;
 	public List<Column> getPrimaryKeyColumns() {
+		if(primaryKeyColumns == null) {
+			primaryKeyColumns = getPrimaryKeyColumns0();
+		}
+		return primaryKeyColumns;
+	}
+
+	private List<Column> getPrimaryKeyColumns0() {
 		List result = new ArrayList();
 		for(Column c : getColumns()) {
 			if(c.isPrimaryKey())
