@@ -48,7 +48,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getInsertSql() {
-		StringBuilder sb = new StringBuilder("INSERT ").append(getTableName()).append(" (");
+		StringBuilder sb = new StringBuilder("INSERT INTO ").append(getTableName()).append(" (");
 		
 		List<String> insertColumns = new ArrayList(getColumns().size());
 		List<String> insertPlaceholderColumns = new ArrayList(getColumns().size());
