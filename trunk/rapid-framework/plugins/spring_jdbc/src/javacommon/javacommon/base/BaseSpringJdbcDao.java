@@ -28,6 +28,10 @@ import org.springframework.jdbc.support.incrementer.DB2SequenceMaxValueIncrement
 import org.springframework.jdbc.support.incrementer.OracleSequenceMaxValueIncrementer;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
+import cn.org.rapid_framework.jdbc.sqlgenerator.CacheSqlGenerator;
+import cn.org.rapid_framework.jdbc.sqlgenerator.SpringNamedSqlGenerator;
+import cn.org.rapid_framework.jdbc.sqlgenerator.SqlGenerator;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.MetadataCreateUtils;
 import cn.org.rapid_framework.jdbc.support.OffsetLimitResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -45,8 +49,6 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 
 	protected SimpleJdbcTemplate simpleJdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	
-	public abstract String getIdentifierPropertyName();
 	
 	public abstract Class getEntityClass();
 	
@@ -219,18 +221,15 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		throw new UnsupportedOperationException();
 	}
 	
-	public abstract String getFindByIdSql();
 	public E getById(PK id) {
-		List list = getSimpleJdbcTemplate().query(getFindByIdSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
+		List list = getSimpleJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
 		return (E)CollectionHelper.findSingleObject(list);
 	}
 
-	public abstract String getDeleteByIdSql();
 	public void deleteById(PK id) {
-		getSimpleJdbcTemplate().update(getDeleteByIdSql(), id);
+		getSimpleJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
 	}
 	
-
 	public void saveOrUpdate(E entity) {
 		Object id = getIdentifierPropertyValue(entity);
 		if(ObjectUtils.isNullOrEmptyString(id)) {
@@ -239,5 +238,28 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 			update(entity);
 		}
 	}
+	public void update(E entity) {
+		String sql = getSqlGenerator().getUpdateByPkSql();
+		getNamedParameterJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(entity));
+	}
+	
+	public List findAll() {
+		String sql = "SELECT "+getSqlGenerator().getColumnsSql()+" FROM " + getSqlGenerator().getTable().getTableName();
+		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
+	}
+	
+	/**
+	 * 得到生成增删改查的sql生成工具
+	 * @return
+	 */
+	public SqlGenerator getSqlGenerator() {
+		return sqlGenerator;
+	}
+	
+	public String getIdentifierPropertyName() {
+		return getSqlGenerator().getTable().getPrimaryKeyColumns().get(0).getPropertyName();
+	}
+	
+	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(MetadataCreateUtils.fromClass(getEntityClass())));
 
 }
