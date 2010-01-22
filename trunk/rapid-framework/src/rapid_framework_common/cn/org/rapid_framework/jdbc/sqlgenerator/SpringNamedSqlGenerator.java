@@ -166,16 +166,21 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getColumnsSql() {
+		return getColumnsSql(null);
+	}
+
+	public String getColumnsSql(String columnPrefix) {
+		String realPrefix = StringUtils.isEmpty(columnPrefix) ? "" : columnPrefix+".";
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < getColumns().size(); i++) {
 			Column c = getColumns().get(i);
-			sb.append(c.getSqlName()+" " + c.getPropertyName());
+			sb.append(realPrefix+c.getSqlName()+" " + c.getPropertyName());
 			if(i < getColumns().size() - 1)
 				sb.append(",");
 		}
 		return sb.toString();
 	}
-
+	
 	protected String getColumnPlaceholder(Column c) {
 		return ":"+c.getPropertyName();
 	}
@@ -190,4 +195,6 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 			throw new IllegalStateException("expected single primary key on table:"+getTableName()+",but was primary keys:"+getPrimaryKeyColumns());
 		}
 	}
+
+
 }

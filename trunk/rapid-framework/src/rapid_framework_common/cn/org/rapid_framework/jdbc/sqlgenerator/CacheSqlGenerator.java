@@ -55,4 +55,8 @@ public class CacheSqlGenerator implements SqlGenerator{
 		return delegate.getTable();
 	}
 
+	public String getColumnsSql(String columnPrefix) {
+		return delegate.getColumnsSql(columnPrefix);
+	}
+
 }
