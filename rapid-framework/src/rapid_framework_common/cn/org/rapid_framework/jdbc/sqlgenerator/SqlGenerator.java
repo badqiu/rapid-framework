@@ -61,6 +61,12 @@ public interface SqlGenerator {
 	 * @return user_id userId,user_name userName
 	 */
 	public String getColumnsSql();
+	
+	/**
+	 * 增加前缀,得到列的sql段用于其它sql的拼接查询
+	 * @return prefix.user_id prefix.userId,prefix.user_name userName
+	 */
+	public String getColumnsSql(String columnPrefix);
 
 
 	public Table getTable();
