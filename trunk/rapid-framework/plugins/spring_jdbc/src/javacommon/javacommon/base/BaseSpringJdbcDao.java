@@ -33,6 +33,7 @@ import cn.org.rapid_framework.jdbc.sqlgenerator.SpringNamedSqlGenerator;
 import cn.org.rapid_framework.jdbc.sqlgenerator.SqlGenerator;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.MetadataCreateUtils;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
 import cn.org.rapid_framework.jdbc.support.OffsetLimitResultSetExtractor;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -50,6 +51,10 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 
 	protected SimpleJdbcTemplate simpleJdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	
+	//根据table对象可以创建生成增删改查的sql的工具
+	Table table = MetadataCreateUtils.createTable(getEntityClass());
+	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(table));
 	
 	public abstract Class getEntityClass();
 	
@@ -265,7 +270,4 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return primaryKeyColumns.get(0).getPropertyName();
 	}
 	
-	//根据table对象可以生成增删改查的sql
-	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(MetadataCreateUtils.createTable(getEntityClass())));
-
 }
