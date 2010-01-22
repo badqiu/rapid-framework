@@ -1,10 +1,17 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator;
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.junit.Test;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Column;
 import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.Table;
+import cn.org.rapid_framework.test.hsql.HSQLMemDataSourceUtils;
 
 public class SqlGeneratorTest {
 	Table table = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
@@ -15,8 +22,8 @@ public class SqlGeneratorTest {
 
 	@Test
 	public void getInsertSql(){
-		assertEquals("INSERT user (user_id,user_name,pwd ) VALUES ( :userId,:userName,:pwd ) ",singleGenerator.getInsertSql());
-		assertEquals("INSERT user (user_id,group_id,user_name,pwd ) VALUES ( :userId,:groupId,:userName,:pwd ) ",multiGenerator.getInsertSql());
+		assertEquals("INSERT INTO user (user_id,user_name,pwd ) VALUES ( :userId,:userName,:pwd ) ",singleGenerator.getInsertSql());
+		assertEquals("INSERT INTO user (user_id,group_id,user_name,pwd ) VALUES ( :userId,:groupId,:userName,:pwd ) ",multiGenerator.getInsertSql());
 	}
 	@Test
 	public void getUpdateByPkSql(){
@@ -45,10 +52,24 @@ public class SqlGeneratorTest {
 	SqlGenerator t4g = new SpringNamedSqlGenerator(t4);
 	@Test
 	public void test_insertable_and_updatable() {
-		assertEquals("INSERT user (user_id,pwd ) VALUES ( :userId,:pwd ) ",t3g.getInsertSql());
+		assertEquals("INSERT INTO user (user_id,pwd ) VALUES ( :userId,:pwd ) ",t3g.getInsertSql());
 		assertEquals("UPDATE user SET (user_id = :userId,user_name = :userName ) WHERE user_id = :userId",t3g.getUpdateByPkSql());
 		
-		assertEquals("INSERT user (user_id,group_id ) VALUES ( :userId,:groupId ) ",t4g.getInsertSql());
+		assertEquals("INSERT INTO user (user_id,group_id ) VALUES ( :userId,:groupId ) ",t4g.getInsertSql());
 		assertEquals("UPDATE user SET (user_id = :userId,group_id = :groupId ) WHERE user_id = :userId AND group_id = :groupId",t4g.getUpdateByPkSql());
+	}
+	
+	DataSource ds = HSQLMemDataSourceUtils.getDataSource("create table user (user_id bigint primary key,user_name varchar(50),pwd varchar(50) )");
+	NamedParameterJdbcTemplate template = new NamedParameterJdbcTemplate(ds);
+	Table t = new Table("user",new Column("user_id","userId",true),new Column("user_name","userName"),new Column("pwd","pwd"));
+	SqlGenerator sg = new SpringNamedSqlGenerator(t);
+	Map data = new HashMap();
+	@Test
+	public void testJdbcWithSqlGenerator() {
+		data.put("userId", 1);
+		data.put("userName", "badqiu");
+		data.put("pwd", "123456");
+		template.update(sg.getInsertSql(),data);
+		
 	}
 }
