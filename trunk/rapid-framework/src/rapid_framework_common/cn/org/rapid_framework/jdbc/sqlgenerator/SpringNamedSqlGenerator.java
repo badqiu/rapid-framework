@@ -87,15 +87,10 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 	}
 
 	public String getUpdateByPkSql() {
-		if(isMultiPrimaryKey()) {
-			return getUpdateByMultiPkSql();
-		}else if(isSinglePrimaryKey()) {
-			return getUpdateBySinglePkSql();
+		if(getPrimaryKeyColumns().size() == 0) {
+			throw new IllegalStateException("not found primary key on table:"+table.getTableName());
 		}
-		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
-	}
-
-	public String getUpdateByMultiPkSql() {
+		
 		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
 		
 		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
@@ -107,16 +102,6 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 			if(i < getPrimaryKeyColumns().size() - 1)
 				sb.append(" AND ");
 		}
-		return sb.toString();
-	}
-
-	public String getUpdateBySinglePkSql() {
-		checkIsSinglePrimaryKey();
-
-		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET (");
-		sb.append(StringUtils.join(getUpdateColumns().iterator(), ","));
-		sb.append(" ) WHERE ");
-		sb.append(getSinglePrimaryKeyWhere());
 		return sb.toString();
 	}
 
