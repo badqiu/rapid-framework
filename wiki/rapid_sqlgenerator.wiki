@@ -67,7 +67,7 @@ public interface SqlGenerator {
 
 还有一个工具类可以创建Table对象. 
 {{{
-Table t = MetadataCreateUtils.fromClass(User.class);
+Table t = MetadataCreateUtils.createTable(User.class);
 }}}
 User.class可以使用[http://java.sun.com/javaee/technologies/persistence.jsp JPA]的annotation,现只支持@Table,@ID,@Column,示例如下:
 {{{
