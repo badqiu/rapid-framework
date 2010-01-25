@@ -1,29 +1,19 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/commons/taglibs.jsp" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<html>
+<#include "/commons/macro.ftl" />
 
-<head>
-	<%@ include file="/commons/meta.jsp" %>
-	<base href="<%=basePath%>">
+<@override name="head">
 	<title><%=UserInfo.TABLE_ALIAS%>新增</title>
-</head>
+</@override>
 
-<body>
-<%@ include file="/commons/messages.jsp" %>
-
-<form:form method="post" action="${ctx}/userinfo" modelAttribute="userInfo" >
+<@override name="content">
+<form method="post" action="${ctx}/userinfo" >
 	<input id="submitButton" name="submitButton" type="submit" value="提交" />
 	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
-	<%@ include file="form_include.jsp" %>
+	<#include "form_include.ftl" />
 	</table>
-</form:form>
+</form>
 
 <script>
 	
@@ -36,5 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}});
 </script>
 
-</body>
-</html>
+</@override>
+
+
+<@extends name="/base.ftl"/>

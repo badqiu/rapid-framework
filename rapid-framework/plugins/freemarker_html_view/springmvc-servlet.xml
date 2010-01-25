@@ -31,6 +31,7 @@
 	<!-- freemarker config for FreeMarkerViewResolver -->
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="templateLoaderPath" value="/freemarker/"/>
+		<property name="defaultEncoding" value="UTF-8"/>
 		<property name="freemarkerVariables">
 			<map>
 				<entry key="extends" value-ref="extendsDirective"></entry>
@@ -57,17 +58,18 @@
 		<property name="viewResolvers">
 			<list>
 				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
-				<!-- 
 			    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
 			        <property name="prefix" value=""/>
 			        <property name="suffix" value=".ftl"/>
+			        <property name="contentType" value="text/html;charset=UTF-8"/>
 			    </bean>
-				 -->
+				<!-- 
 			    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 			        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 			        <property name="prefix" value="/pages"/>
 			        <property name="suffix" value=".jsp"></property>
 			    </bean>			    
+				 -->
 			</list>
 		</property>
 		<property name="defaultViews">

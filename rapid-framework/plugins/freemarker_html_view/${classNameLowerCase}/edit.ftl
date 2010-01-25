@@ -1,23 +1,21 @@
-<html>
-
-<head>
-	<#include "/commons/meta.jsp" />
-	<base href="${basePath}">
+<#include "/commons/macro.ftl" />
+<@override name="haed">
 	<title><%=UserInfo.TABLE_ALIAS%>编辑</title>
-</head>
+</@override>
 
-<body>
-<%@ include file="/commons/messages.jsp" %>
+<@override name="content">
 
-<form:form method="put" action="${ctx}/userinfo/${userInfo.userId}" modelAttribute="userInfo">
+<form method="post" action="${ctx}/userinfo/${userInfo.userId}">
+	<input type="hidden" name="_method" value="put"/>
+	
 	<input id="submitButton" name="submitButton" type="submit" value="提交" />
 	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
 	<table class="formTable">
-	<%@ include file="form_include.jsp" %>
+	<#include "form_include.ftl" />
 	</table>
-</form:form>
+</form>
 
 <script>
 	
@@ -29,7 +27,6 @@
 		return disableSubmit(finalResult,'submitButton');
 	}});
 </script>
+</@override>
 
-</body>
-
-</html>
+<@extends name="/base.ftl"/>

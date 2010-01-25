@@ -1,51 +1,39 @@
-<%@page import="com.company.project.model.*" %>
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="/commons/taglibs.jsp" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<html>
+<#include "/commons/macro.ftl" />
 
-<head>
-	<%@ include file="/commons/meta.jsp" %>
-	<base href="<%=basePath%>">
+<@override name="head">
 	<title><%=UserInfo.TABLE_ALIAS%>信息</title>
-</head>
+</@override>
 
-<body>
-<%@ include file="/commons/messages.jsp" %>
-
-<form:form modelAttribute="userinfo"  >
+<@override name="content">
+<form>
 	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
 	<input type="button" value="后退" onclick="history.back();"/>
 	
-	<input type="hidden" id="userId" name="userId" value="${userInfo.userId}"/>
+	<input type="hidden" id="userId" name="userId" value="${userInfo.userId!}"/>
 
 	<table class="formTable">
 		<tr>	
-			<td class="tdLabel"><%=UserInfo.ALIAS_USERNAME%></td>	
-			<td><c:out value='${userInfo.username}'/></td>
+			<td class="tdLabel">UserInfo.ALIAS_USERNAME</td>	
+			<td>${userInfo.username!}</td>
 		</tr>
 		<tr>	
-			<td class="tdLabel"><%=UserInfo.ALIAS_PASSWORD%></td>	
-			<td><c:out value='${userInfo.password}'/></td>
+			<td class="tdLabel">UserInfo.ALIAS_PASSWORD</td>	
+			<td>${userInfo.password!}</td>
 		</tr>
 		<tr>	
-			<td class="tdLabel"><%=UserInfo.ALIAS_BIRTH_DATE%></td>	
-			<td><c:out value='${userInfo.birthDateString}'/></td>
+			<td class="tdLabel">UserInfo.ALIAS_BIRTH_DATE</td>	
+			<td>${userInfo.birthDateString!}</td>
 		</tr>
 		<tr>	
-			<td class="tdLabel"><%=UserInfo.ALIAS_SEX%></td>	
-			<td><c:out value='${userInfo.sex}'/></td>
+			<td class="tdLabel">UserInfo.ALIAS_SEX</td>	
+			<td>${userInfo.sex!}</td>
 		</tr>
 		<tr>	
-			<td class="tdLabel"><%=UserInfo.ALIAS_AGE%></td>	
-			<td><c:out value='${userInfo.age}'/></td>
+			<td class="tdLabel">UserInfo.ALIAS_AGE</td>	
+			<td>${userInfo.age!}</td>
 		</tr>
 	</table>
-</form:form>
+</form>
+</@override>
 
-</body>
-
-</html>
+<@extends name="/base.ftl"/>
