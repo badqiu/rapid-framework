@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
+import javax.persistence.Transient;
 /**
  * 用于生成Table对象实例的工具类
  *
@@ -30,6 +31,9 @@ public class MetadataCreateUtils {
 			if(readMethod == null || pd.getWriteMethod() == null){
 				continue;
 			}
+			if(isTransientProperty(readMethod,pd.getWriteMethod())) {
+				continue;
+			}
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
 			String sqlName = getColumnSqlName(pd,readMethod);
 			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
@@ -41,6 +45,15 @@ public class MetadataCreateUtils {
 
 		Table t = new Table(getTableName(clazz),columns);
 		return t;
+	}
+
+	private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
+		if(isJPAClassAvaiable) {
+			if(readMethod.isAnnotationPresent(Transient.class)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static BeanInfo getBeanInfo(Class clazz) {
