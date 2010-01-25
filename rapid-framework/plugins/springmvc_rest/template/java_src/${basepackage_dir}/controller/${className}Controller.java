@@ -49,7 +49,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		
 		ModelAndView result = toModelAndView(page, pageRequest);
 		result.addObject("${classNameFirstLower}",${classNameFirstLower});
-		result.setViewName("/${className?lower_case}/list");
+		result.setViewName("/${className?lower_case}/index");
 		return result;
 	}
 	
