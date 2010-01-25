@@ -244,8 +244,9 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 			getNamedParameterJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(),new BeanPropertySqlParameterSource(id));
 		}else if(getSqlGenerator().getTable().getPrimaryKeyColumns().size() == 1){
 			getSimpleJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
+		}else {
+			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
 		}
-		throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
 	}
 	
 	public void saveOrUpdate(E entity) {
