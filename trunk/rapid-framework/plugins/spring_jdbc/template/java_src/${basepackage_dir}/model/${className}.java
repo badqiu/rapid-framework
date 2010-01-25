@@ -74,6 +74,7 @@ public class ${className} extends BaseEntity {
 	@Id
 		</#if>	
 		<#if column.isDateTimeColumn>
+	@Transient
 	public String get${column.columnName}String() {
 		return date2String(get${column.columnName}(), FORMAT_${column.constantName});
 	}
