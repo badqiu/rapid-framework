@@ -31,6 +31,21 @@ import flex.messaging.io.amf.translator.decoder.DecoderFactory;
  * 
  * <br />
  * Decode an ActionScript type (a string or a double) to a Java number (of any type).
+ * 
+ * <br />
+ * <h3>使用方法:</h3>
+ * 在services-config.xml中增加如下配置:
+ * <pre>
+ *        &lt;channel-definition id="my-amf" class="mx.messaging.channels.AMFChannel">
+ *            &lt;endpoint url="http://{server.name}:{server.port}/{context.root}/messagebroker/amf" class="flex.messaging.endpoints.AMFEndpoint"/>
+ *            
+ *            &lt;properties>
+ *            	&lt;serialization>
+ *            		&lt;type-marshaller>cn.org.rapid_framework.flex.messaging.io.CustomTypeMarshaller</type-marshaller>
+ *            	&lt;/serialization>
+ *            &lt;/properties>
+ *        &lt;/channel-definition>
+ * </pre>
  * @author badqiu
  */
 public class NumberDecoder extends ActionScriptDecoder
