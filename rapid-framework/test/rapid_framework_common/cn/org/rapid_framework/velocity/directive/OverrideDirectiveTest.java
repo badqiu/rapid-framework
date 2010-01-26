@@ -111,6 +111,12 @@ public class OverrideDirectiveTest {
 		return str.replaceAll("\\s+", "");
 	}
 	
+	@Test(expected=ResourceNotFoundException.class)
+	public void test_extends_relative_path() throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception {
+		String str = processTemplate("/extends_relative_path/relative_child.vm");
+//		assertEquals("BBBBBB",str);
+	}
+	
 	public static Writer NULL_WRITER = new Writer() {
 		@Override
 		public void close()   {
