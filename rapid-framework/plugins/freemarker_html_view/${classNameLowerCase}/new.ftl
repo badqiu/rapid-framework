@@ -1,32 +1,37 @@
-<#include "/commons/macro.ftl" />
+<#include "/macro.include"/>
+<#include "/custom.include"/>  
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first> 
+<#assign classNameLowerCase = className?lower_case> 
 
-<@override name="head">
-	<title><%=UserInfo.TABLE_ALIAS%>新增</title>
-</@override>
+<#noparse><#include "/commons/macro.ftl" /></#noparse>
 
-<@override name="content">
-<form method="post" action="${ctx}/userinfo" >
-	<input id="submitButton" name="submitButton" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
-	<input type="button" value="后退" onclick="history.back();"/>
-	
-	<table class="formTable">
-	<#include "form_include.ftl" />
-	</table>
-</form>
+<#noparse><@override name="head"></#noparse>
+	<title>UserInfo.TABLE_ALIAS 新增</title>
+<#noparse></@override></#noparse>
 
-<script>
-	
-	new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
-		var finalResult = result;
+<#noparse><@override name="content"></#noparse>
+	<form method="post" action="<@jspEl 'ctx'/>/userinfo" >
+		<input id="submitButton" name="submitButton" type="submit" value="提交" />
+		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/userinfo'"/>
+		<input type="button" value="后退" onclick="history.back();"/>
 		
-		//在这里添加自定义验证
+		<table class="formTable">
+		<#noparse><#include "form_include.ftl" /></#noparse>
+		</table>
+	</form>
+	
+	<script>
 		
-		return disableSubmit(finalResult,'submitButton');
-	}});
-</script>
+		new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
+			var finalResult = result;
+			
+			//在这里添加自定义验证
+			
+			return disableSubmit(finalResult,'submitButton');
+		}});
+	</script>
+<#noparse></@override></#noparse>
 
-</@override>
 
-
-<@extends name="/base.ftl"/>
+<#noparse><@extends name="/base.ftl"/></#noparse>
