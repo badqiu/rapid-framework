@@ -23,7 +23,7 @@ public class JdbcSessionStoreTest {
 		sessionData.put("null", null);
 		sessionData.put("string", "string");
 		
-		String sql = "	CREATE TABLE http_session (session_id char(40) PRIMARY KEY,session_data varchar(4000),expire_date timestamp ) ";
+		String sql = "	CREATE TABLE http_session_store (session_id char(40) PRIMARY KEY,session_data varchar(4000),expire_date timestamp ) ";
 		store.setDataSource(HSQLMemDataSourceUtils.getDataSource(sql));
 
 		Map map = store.getSession(request, "123",100);
