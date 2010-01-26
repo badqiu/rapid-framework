@@ -7,7 +7,7 @@
 <#noparse><#include "/commons/macro.ftl" /></#noparse>
 
 <#noparse><@override name="head"></#noparse>
-	<title>UserInfo.TABLE_ALIAS 管理</title>
+	<title>${className}.TABLE_ALIAS 管理</title>
 	<#noparse>
 	<link href="${ctx}/widgets/simpletable/simpletable.css" type="text/css" rel="stylesheet">
 	<script src="${ctx}/widgets/simpletable/simpletable.js" type="text/javascript"></script>
@@ -56,7 +56,7 @@
 </form>
 </div>
 
-<form id="simpleTableForm" action="<@jspEl 'ctx'/>/userinfo" method="get" style="display: inline;">
+<form id="simpleTableForm" action="<@jspEl 'ctx'/>/${classNameLowerCase}" method="get" style="display: inline;">
 
 	<#noparse>
 	<!-- auto include parameters -->
@@ -116,9 +116,9 @@
 				</#list>
 								
 				<td>
-					<a href="<@jspEl 'ctx'/>/userinfo/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>">查看</a>&nbsp;&nbsp;
-					<a href="<@jspEl 'ctx'/>/userinfo/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>/edit">修改</a>&nbsp;&nbsp;
-					<a href="<@jspEl 'ctx'/>/userinfo/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
+					<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>">查看</a>&nbsp;&nbsp;
+					<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>/edit">修改</a>&nbsp;&nbsp;
+					<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
 				</td>
 			  </tr>
 			  <#noparse></#list></#noparse>
