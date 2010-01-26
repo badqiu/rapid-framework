@@ -1,49 +1,29 @@
+<#include "/macro.include"/>
+<#include "/custom.include"/>  
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first> 
+<#assign classNameLowerCase = className?lower_case> 
 
-	<input type="hidden" id="userId" name="userId" value="${userInfo.userId!}"/>
+<#list table.columns as column>
+<#if column.htmlHidden>
+	<input type="hidden" id="${column.columnNameLower}" name="${column.columnNameLower}" value="<@jspEl classNameFirstLower+"."+table.idColumn.columnNameFirstLower+"!"/>"/>
+</#if>
+</#list>
 
+<#list table.columns as column>
+	<#if !column.htmlHidden>	
 	<tr>	
 		<td class="tdLabel">
-			UserInfo.ALIAS_USERNAME:
+			<#if !column.nullable><span class="required">*</span></#if>${className}.ALIAS_${column.constantName}:
 		</td>		
 		<td>
-		<input value="${userInfo.username!}" name="username" class="" maxlength="50" />
+	<#if column.isDateTimeColumn>
+		<input value="<@jspEl classNameFirstLower+"."+column.columnNameLower+"String!"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="${column.columnNameLower}String" name="${column.columnNameLower}String"  maxlength="0" class="${column.validateString}" />
+	<#else>
+		<input value="<@jspEl classNameFirstLower+"."+column.columnNameLower+"!"/>" name="${column.columnNameLower}" id="${column.columnNameLower}" class="${column.validateString}" maxlength="${column.size}" />
+	</#if>
 		</td>
 	</tr>	
 	
-	<tr>	
-		<td class="tdLabel">
-			UserInfo.ALIAS_PASSWORD:
-		</td>		
-		<td>
-		<input value="${userInfo.password!}" name="password" class="" maxlength="50" />
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			UserInfo.ALIAS_BIRTH_DATE:
-		</td>		
-		<td>
-		<input value="${userInfo.birthDateString!}" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" id="birthDateString" name="birthDateString"  maxlength="0" class="" />
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			UserInfo.ALIAS_SEX:
-		</td>		
-		<td>
-		<input value="${userInfo.sex!}" name="sex" class="validate-integer max-value-127" maxlength="4" />
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			UserInfo.ALIAS_AGE:
-		</td>		
-		<td>
-		<input value="${userInfo.age!}" name="age" class="validate-integer max-value-2147483647" maxlength="11" />
-		</td>
-	</tr>	
-	
-		
+	</#if>
+</#list>

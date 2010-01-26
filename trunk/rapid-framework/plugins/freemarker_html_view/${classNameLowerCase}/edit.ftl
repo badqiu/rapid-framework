@@ -1,32 +1,38 @@
-<#include "/commons/macro.ftl" />
-<@override name="haed">
-	<title><%=UserInfo.TABLE_ALIAS%>编辑</title>
-</@override>
+<#include "/macro.include"/>
+<#include "/custom.include"/>  
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first> 
+<#assign classNameLowerCase = className?lower_case> 
 
-<@override name="content">
+<#noparse><#include "/commons/macro.ftl" /></#noparse>
 
-<form method="post" action="${ctx}/userinfo/${userInfo.userId}">
-	<input type="hidden" name="_method" value="put"/>
-	
-	<input id="submitButton" name="submitButton" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='${ctx}/userinfo'"/>
-	<input type="button" value="后退" onclick="history.back();"/>
-	
-	<table class="formTable">
-	<#include "form_include.ftl" />
-	</table>
-</form>
+<#noparse><@override name="head"></#noparse>
+	<title> ${className}.TABLE_ALIAS 编辑</title>
+<#noparse></@override></#noparse>
 
-<script>
-	
-	new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
-		var finalResult = result;
+<#noparse><@override name="content"></#noparse>
+	<form method="post" action="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl classNameFirstLower+'.'+table.idColumn.columnNameFirstLower/>">
+		<input type="hidden" name="_method" value="put"/>
 		
-		//在这里添加自定义验证
+		<input id="submitButton" name="submitButton" type="submit" value="提交" />
+		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
+		<input type="button" value="后退" onclick="history.back();"/>
 		
-		return disableSubmit(finalResult,'submitButton');
-	}});
-</script>
-</@override>
+		<table class="formTable">
+		<#noparse><#include "form_include.ftl" /></#noparse>
+		</table>
+	</form>
+	
+	<script>
+		
+		new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
+			var finalResult = result;
+			
+			//在这里添加自定义验证
+			
+			return disableSubmit(finalResult,'submitButton');
+		}});
+	</script>
+<#noparse></@override></#noparse>
 
-<@extends name="/base.ftl"/>
+<#noparse><@extends name="/base.ftl"/></#noparse>
