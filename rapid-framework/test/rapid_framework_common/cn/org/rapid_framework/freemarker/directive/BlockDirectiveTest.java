@@ -81,6 +81,7 @@ public class BlockDirectiveTest {
 	
 	@Test
 	public void test_extends_relative_path() {
-		processor.processTemplate("/extends_relative_path/relative_child.flt", new HashMap());
+		String str = processor.processTemplate("/extends_relative_path/relative_child.flt", new HashMap());
+		assertEquals("BBBBBB",str);
 	}
 }
