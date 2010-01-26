@@ -78,4 +78,9 @@ public class BlockDirectiveTest {
 	public void testDirective() {
 		assertEquals("",processor.processTemplate("all-directive-test.flt", new HashMap()));
 	}
+	
+	@Test
+	public void test_extends_relative_path() {
+		processor.processTemplate("/extends_relative_path/relative_child.flt", new HashMap());
+	}
 }
