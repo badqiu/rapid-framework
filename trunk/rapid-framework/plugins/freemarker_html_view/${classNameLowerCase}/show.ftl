@@ -7,12 +7,12 @@
 <#noparse><#include "/commons/macro.ftl" /></#noparse>
 
 <#noparse><@override name="head"></#noparse>
-	<title>UserInfo.TABLE_ALIAS 信息</title>
+	<title>${className}.TABLE_ALIAS 信息</title>
 <#noparse></@override></#noparse>
 
 <#noparse><@override name="content"></#noparse>
 	<form>
-		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/userinfo'"/>
+		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
 
 <#list table.columns as column>

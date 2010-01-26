@@ -7,13 +7,13 @@
 <#noparse><#include "/commons/macro.ftl" /></#noparse>
 
 <#noparse><@override name="head"></#noparse>
-	<title>UserInfo.TABLE_ALIAS 新增</title>
+	<title>${className}.TABLE_ALIAS 新增</title>
 <#noparse></@override></#noparse>
 
 <#noparse><@override name="content"></#noparse>
-	<form method="post" action="<@jspEl 'ctx'/>/userinfo" >
+	<form method="post" action="<@jspEl 'ctx'/>/${classNameLowerCase}" >
 		<input id="submitButton" name="submitButton" type="submit" value="提交" />
-		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/userinfo'"/>
+		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
 		
 		<table class="formTable">
