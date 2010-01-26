@@ -9,6 +9,8 @@ SQLServer2005Dialect不完善
 修改目录为标准的 java_src,java_test目录
 事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
 Freemarker中@extends指令中相对路径的处理。测试velocity中是否存在相同问题
+add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
+
 
 生成器:
 	增加通过一个查询得到列表界面的sql
