@@ -20,7 +20,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import cn.org.rapid_framework.util.CalendarUtils;
 /**
  * <pre>
- *	CREATE TABLE http_session (
+ *	CREATE TABLE http_session_store (
  *	  session_id char(40) PRIMARY KEY,
  *	  session_data text,
  *	  expire_date timestamp
@@ -33,9 +33,9 @@ import cn.org.rapid_framework.util.CalendarUtils;
 public class JdbcSessionStore extends SessionStore{
 	DataSource dataSource;
 
-	static String DELETE = "delete from http_session where session_id = ?";
-	static String INSERT = "insert into http_session(session_id,expire_date,session_data) values (?,?,?)";
-	static String GET = "select session_data from http_session where session_id = ? and expire_date >= ?";
+	static String DELETE = "delete from http_session_store where session_id = ?";
+	static String INSERT = "insert into http_session_store(session_id,expire_date,session_data) values (?,?,?)";
+	static String GET = "select session_data from http_session_store where session_id = ? and expire_date >= ?";
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
