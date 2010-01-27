@@ -1,30 +1,40 @@
 package cn.org.rapid_framework.web.session.store;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.test.hsql.HSQLMemDataSourceUtils;
 
 
-public class JdbcSessionStoreTest {
-	JdbcSessionStore store = new JdbcSessionStore();
-	Map sessionData = new HashMap();
+public class MemcachedSessionStoreTest {
 	
+	MemcachedSessionStore store = new MemcachedSessionStore();
+	Map sessionData = new HashMap();
+	Process process;
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		sessionData.put("empty", "");
 		sessionData.put("blank", " ");
 		sessionData.put("null", null);
 		sessionData.put("string", "string");
-		
-		String sql = "	CREATE TABLE http_session_store (session_id char(40) PRIMARY KEY,session_data varchar(4000),expire_date bigint ) ";
-		store.setDataSource(HSQLMemDataSourceUtils.getDataSource(sql));
+		File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
+		String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p 11633";
+		System.out.println("exec:"+cmd);
+		process = Runtime.getRuntime().exec(cmd);
+		store.setHosts("localhost:11633");
+		store.afterPropertiesSet();
+	}
+	@After
+	public void tearDown() {
+		if(process != null) process.destroy();
 	}
 	
 	@Test
@@ -38,7 +48,6 @@ public class JdbcSessionStoreTest {
 		//test get
 		map = store.getSession("123",5);
 		assertEquals(map.size(), 4);
-		assertMapEquals(map);
 		
 		//test delete
 		store.deleteSession("123");
@@ -56,12 +65,6 @@ public class JdbcSessionStoreTest {
 		//test get
 		Map map = store.getSession("for_test_timeout_1",0);
 		assertEquals(0,map.size());
-		
-		
-	}
-	
-	
-	private void assertMapEquals(Map map) {
 		
 	}
 }
