@@ -23,12 +23,14 @@ public class MemcachedSessionStoreTest {
 	List<Process> process = new ArrayList();
 	@Before
 	public void setUp() throws Exception {
-		new Thread(new Runnable() {
+		Thread t = new Thread(new Runnable() {
 			public void run() {
 				startMemcachedServer(11633);
-				startMemcachedServer(11933);
+//				startMemcachedServer(11933);
 			}
-		}).start();
+		});
+		t.setDaemon(false);
+		t.start();
 		Thread.sleep(1000);
 		
 		sessionData.put("empty", "");
@@ -44,6 +46,7 @@ public class MemcachedSessionStoreTest {
 	public void tearDown() throws Exception {
 		for(Process p : process) {
 			p.destroy();
+			p.waitFor();
 			System.out.println(" exit:"+p.exitValue());
 		}
 		Thread.sleep(1000);
