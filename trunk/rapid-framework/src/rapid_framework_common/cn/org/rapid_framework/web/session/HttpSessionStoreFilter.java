@@ -24,7 +24,7 @@ import cn.org.rapid_framework.web.session.wrapper.HttpSessionSessionStoreWrapper
 import cn.org.rapid_framework.web.util.CookieUtils;
 
 /**
- * 通过该filter自己管理session,可以将session存储在:数据库,cookie,memcached中
+ * 通过该filter自己管理session,可以将session存储在:数据库,memcached中
  * 
  * @See {@link SessionStore}
  * @See {@link CacheSessionStore}
