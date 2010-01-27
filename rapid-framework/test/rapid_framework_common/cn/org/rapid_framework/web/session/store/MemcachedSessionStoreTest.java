@@ -23,14 +23,14 @@ public class MemcachedSessionStoreTest {
 	List<Process> process = new ArrayList();
 	@Before
 	public void setUp() throws Exception {
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				startMemcachedServer(11633);
-//				startMemcachedServer(11933);
-			}
-		});
-		t.setDaemon(false);
-		t.start();
+//		Thread t = new Thread(new Runnable() {
+//			public void run() {
+////				startMemcachedServer(11933);
+//			}
+//		});
+//		t.setDaemon(true);
+//		t.start();
+		startMemcachedServer(11633);
 		Thread.sleep(1000);
 		
 		sessionData.put("empty", "");
