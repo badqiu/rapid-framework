@@ -3,6 +3,8 @@ package cn.org.rapid_framework.web.session.store;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,23 +20,30 @@ public class MemcachedSessionStoreTest {
 	
 	MemcachedSessionStore store = new MemcachedSessionStore();
 	Map sessionData = new HashMap();
-	Process process;
+	Process memcachedProcess;
 	@Before
 	public void setUp() throws Exception {
+		startMemcachedServer(11633);
 		sessionData.put("empty", "");
 		sessionData.put("blank", " ");
 		sessionData.put("null", null);
 		sessionData.put("string", "string");
-		File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
-		String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p 11633";
-		System.out.println("exec:"+cmd);
-		process = Runtime.getRuntime().exec(cmd);
+		
 		store.setHosts("localhost:11633");
 		store.afterPropertiesSet();
 	}
+
 	@After
 	public void tearDown() {
-		if(process != null) process.destroy();
+		if(memcachedProcess != null) memcachedProcess.destroy();
+	}
+	
+	private void startMemcachedServer(int port) throws FileNotFoundException,
+			IOException {
+		File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
+		String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p "+port;
+		System.out.println("exec:"+cmd);
+		memcachedProcess = Runtime.getRuntime().exec(cmd);
 	}
 	
 	@Test
