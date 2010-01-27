@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
@@ -67,11 +69,28 @@ public class JdbcSessionStore extends SessionStore{
 		return new SimpleJdbcTemplate(dataSource);
 	}
 
+	static Pattern sessionDataParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 	public static Map decode(String sessionData) {
-		return SessionDataUtils.decode(sessionData);
+		if(sessionData == null) return new HashMap();
+		
+		Map map = new HashMap();
+		Matcher matcher = sessionDataParser.matcher(sessionData);
+		while (matcher.find()) {
+			map.put(matcher.group(1), matcher.group(2));
+		}
+		return map;
 	}
 
-	public static String encode(Map sessionData) {
-		return SessionDataUtils.encode(sessionData);
+	public static String encode(Map<String,?> sessionData) {
+		StringBuilder encodeString = new StringBuilder();
+		for (String key : sessionData.keySet()) {
+			encodeString.append("\u0000");
+			encodeString.append(key);
+			encodeString.append(":");
+			encodeString.append(sessionData.get(key));
+			encodeString.append("\u0000");
+		}
+		return encodeString.toString();
 	}
+	
 }
