@@ -17,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import cn.org.rapid_framework.web.session.store.CacheSessionStore;
 import cn.org.rapid_framework.web.session.store.JdbcSessionStore;
 import cn.org.rapid_framework.web.session.store.SessionStore;
 import cn.org.rapid_framework.web.session.wrapper.HttpServletRequestSessionWrapper;
