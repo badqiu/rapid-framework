@@ -14,6 +14,10 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 /**
+ * 
+ * 用于将session存储在数据库中
+ * 
+ * 数据库表结构如下:
  * <pre>
  *	CREATE TABLE http_session_store (
  *	  session_id char(40) PRIMARY KEY,

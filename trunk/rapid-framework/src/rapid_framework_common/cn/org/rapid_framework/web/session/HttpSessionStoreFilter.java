@@ -18,6 +18,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.web.session.store.JdbcSessionStore;
+import cn.org.rapid_framework.web.session.store.MemcachedSessionStore;
 import cn.org.rapid_framework.web.session.store.SessionStore;
 import cn.org.rapid_framework.web.session.wrapper.HttpServletRequestSessionWrapper;
 import cn.org.rapid_framework.web.session.wrapper.HttpSessionSessionStoreWrapper;
@@ -26,8 +27,11 @@ import cn.org.rapid_framework.web.util.CookieUtils;
 /**
  * 通过该filter自己管理session,可以将session存储在:数据库,memcached中
  * 
+ * <h3>使用:</h3>
+ * 该filter会自动查找spring容器中id=sessionStore的对象作为session存储
+ * 
  * @See {@link SessionStore}
- * @See {@link CacheSessionStore}
+ * @See {@link MemcachedSessionStore}
  * @See {@link JdbcSessionStore}
  * @author badqiu
  *
