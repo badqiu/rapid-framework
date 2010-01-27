@@ -14,8 +14,6 @@ import cn.org.rapid_framework.test.hsql.HSQLMemDataSourceUtils;
 
 public class JdbcSessionStoreTest {
 	JdbcSessionStore store = new JdbcSessionStore();
-	MockHttpServletRequest request = new MockHttpServletRequest();
-	MockHttpServletResponse response = new MockHttpServletResponse();
 	Map sessionData = new HashMap();
 	
 	@Before
@@ -32,19 +30,19 @@ public class JdbcSessionStoreTest {
 	@Test
 	public void test_get_and_delete() {
 
-		Map map = store.getSession(request, "123",100);
+		Map map = store.getSession("123",100);
 		assertEquals(map.size(), 0);
 		
-		store.saveSession(response, "123", sessionData,100);
+		store.saveSession("123", sessionData,100);
 		
 		//test get
-		map = store.getSession(request, "123",5);
+		map = store.getSession("123",5);
 		assertEquals(map.size(), 4);
 		assertMapEquals(map);
 		
 		//test delete
-		store.deleteSession(response, "123");
-		map = store.getSession(request, "123",100);
+		store.deleteSession("123");
+		map = store.getSession("123",100);
 		assertEquals(map.size(), 0);
 		
 	}
@@ -52,11 +50,11 @@ public class JdbcSessionStoreTest {
 	@Test
 	public void test_timeout() throws InterruptedException {
 		
-		store.saveSession(response, "123", sessionData,3);
+		store.saveSession("123", sessionData,3);
 		
 		Thread.sleep(5 * 1000);
 		//test get
-		Map map = store.getSession(request, "123",0);
+		Map map = store.getSession("123",0);
 		assertEquals(0,map.size());
 		
 		
