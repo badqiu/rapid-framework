@@ -1,13 +1,6 @@
 package cn.org.rapid_framework.web.session.store;
 
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 
 public abstract class SessionStore {

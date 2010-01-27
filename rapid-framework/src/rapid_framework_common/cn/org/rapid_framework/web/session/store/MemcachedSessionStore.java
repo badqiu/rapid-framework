@@ -5,16 +5,11 @@ import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.InitializingBean;
-
 import net.spy.memcached.AddrUtil;
 import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.transcoders.SerializingTranscoder;
 
-import cn.org.rapid_framework.cache.ICache;
+import org.springframework.beans.factory.InitializingBean;
 
 public class MemcachedSessionStore extends SessionStore implements InitializingBean{
 	private MemcachedClient client;
