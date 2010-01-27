@@ -10,7 +10,11 @@ import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.transcoders.SerializingTranscoder;
 
 import org.springframework.beans.factory.InitializingBean;
-
+/**
+ * 用于将session存储在memcached中
+ * @author badqiu
+ *
+ */
 public class MemcachedSessionStore extends SessionStore implements InitializingBean{
 	private MemcachedClient client;
 	private SerializingTranscoder serializingTranscoder = new SerializingTranscoder();
