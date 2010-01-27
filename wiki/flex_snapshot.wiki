@@ -1,0 +1,10 @@
+
+= Introduction =
+
+以下界面为flex代码生成器生成的效果图.
+
+= Flex列表页 =
+   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/flex_cairngorm_list_object.jpg]
+
+= Flex新增对象页面 =
+   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/flex_cairngorm_new_object.jpg]
