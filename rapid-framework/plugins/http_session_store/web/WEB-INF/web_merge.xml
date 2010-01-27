@@ -1,0 +1,10 @@
+	<!-- 通过该filter自己管理session,可以将session存储在:数据库,memcached中 -->		
+	<filter>
+		<filter-name>HttpSessionStoreFilter</filter-name>
+		<filter-class>cn.org.rapid_framework.web.session.HttpSessionStoreFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>HttpSessionStoreFilter</filter-name>
+		<servlet-name>/*</servlet-name>
+	</filter-mapping>
