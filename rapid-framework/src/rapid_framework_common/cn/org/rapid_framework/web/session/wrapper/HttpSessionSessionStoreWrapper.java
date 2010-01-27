@@ -13,17 +13,13 @@ import org.springframework.jms.core.SessionCallback;
 import cn.org.rapid_framework.web.session.store.SessionStore;
 
 public class HttpSessionSessionStoreWrapper extends HttpSessionWrapper{
-	HttpServletRequest request;
-	HttpServletResponse response;
 	String sessionId;
 	Map sessionData;
 	SessionStore store;
 
-	public HttpSessionSessionStoreWrapper(HttpSession session,HttpServletRequest request,HttpServletResponse response,SessionStore store,String sessionId,Map sessionData) {
+	public HttpSessionSessionStoreWrapper(HttpSession session,SessionStore store,String sessionId,Map sessionData) {
 		super(session);
 		this.store = store;
-		this.request = request;
-		this.response = response;
 		this.sessionId = sessionId;
 		this.sessionData = sessionData;
 	}

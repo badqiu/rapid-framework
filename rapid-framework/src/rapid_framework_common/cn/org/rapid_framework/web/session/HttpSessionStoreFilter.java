@@ -84,7 +84,6 @@ public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Fil
 		Map sessionData = sessionStore.getSession(sessionId,rawSession.getMaxInactiveInterval());
 		try {
 			HttpSession sessionWrapper = new HttpSessionSessionStoreWrapper(rawSession,
-					request,response,
 					sessionStore,sessionId,sessionData);
 			chain.doFilter(new HttpServletRequestSessionWrapper(request,sessionWrapper), response);
 		}finally {
