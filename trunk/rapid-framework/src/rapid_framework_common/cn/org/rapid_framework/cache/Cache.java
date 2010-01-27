@@ -16,7 +16,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class Cache {
 	static Log logger = LogFactory.getLog(Cache.class);
-	private static Properties configuration;
     /**
      * The underlying cache implementation
      */
@@ -223,14 +222,17 @@ public abstract class Cache {
     /**
      * Init the cache system.
      */
-    public static void init() {
+    public static void init(Properties configuration) {
         if(forcedCacheImpl != null) {
             cacheImpl = forcedCacheImpl;
             return;
         }
         if (configuration.getProperty("memcached", "disabled").equals("enabled")) {
             try {
-                cacheImpl = MemcachedImpl.getInstance();
+            	MemcachedImpl c = new MemcachedImpl();
+            	c.setHosts(configuration.getProperty("memcached.hosts"));
+            	c.afterPropertiesSet();
+            	cacheImpl = c;
                 logger.info("Connected to memcached");
             } catch (Exception e) {
                 logger.error("Error while connecting to memcached",e);
