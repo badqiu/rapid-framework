@@ -20,9 +20,3 @@
 
 = Extjs的列表页 =
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/extjs_list.jpg]
-
-= Flex列表页 =
-   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/flex_cairngorm_list_object.jpg]
-
-= Flex新增对象页面 =
-   [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/flex_cairngorm_new_object.jpg]
