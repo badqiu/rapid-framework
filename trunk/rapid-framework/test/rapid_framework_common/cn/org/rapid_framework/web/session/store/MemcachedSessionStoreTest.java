@@ -3,17 +3,16 @@ package cn.org.rapid_framework.web.session.store;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.ResourceUtils;
-
-import cn.org.rapid_framework.test.hsql.HSQLMemDataSourceUtils;
 
 
 public class MemcachedSessionStoreTest {
@@ -21,29 +20,44 @@ public class MemcachedSessionStoreTest {
 	MemcachedSessionStore store = new MemcachedSessionStore();
 	Map sessionData = new HashMap();
 	Process memcachedProcess;
+	List<Process> process = new ArrayList();
 	@Before
 	public void setUp() throws Exception {
-		startMemcachedServer(11633);
+		new Thread(new Runnable() {
+			public void run() {
+				startMemcachedServer(11633);
+				startMemcachedServer(11933);
+			}
+		}).start();
+		Thread.sleep(1000);
+		
 		sessionData.put("empty", "");
 		sessionData.put("blank", " ");
 		sessionData.put("null", null);
 		sessionData.put("string", "string");
 		
-		store.setHosts("localhost:11633");
+		store.setHosts("localhost:11633 localhost:11933");
 		store.afterPropertiesSet();
 	}
 
 	@After
-	public void tearDown() {
-		if(memcachedProcess != null) memcachedProcess.destroy();
+	public void tearDown() throws Exception {
+		for(Process p : process) {
+			p.destroy();
+			System.out.println(" exit:"+p.exitValue());
+		}
+		Thread.sleep(1000);
 	}
 	
-	private void startMemcachedServer(int port) throws FileNotFoundException,
-			IOException {
-		File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
-		String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p "+port;
-		System.out.println("exec:"+cmd);
-		memcachedProcess = Runtime.getRuntime().exec(cmd);
+	private void startMemcachedServer(int port) {
+		try {
+			File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
+			String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p "+port;
+			System.out.println("exec:"+cmd);
+			process.add(Runtime.getRuntime().exec(cmd));
+		}catch(Exception e) {
+			throw new IllegalStateException("start memcached error",e);
+		}
 	}
 	
 	@Test
