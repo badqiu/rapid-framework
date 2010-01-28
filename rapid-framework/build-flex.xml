@@ -6,7 +6,7 @@
 <project name="rapid-framework" basedir="." default="compile-flex">
 
 	<!-- Define Flex Properties -->
-	<property name="flex.application.filename" value="main" />
+	<property name="flex.application.name" value="UserInfoIndex" description="需要编译的flex主文件"/>
 	
 	<property name="FLEX_HOME" value="${env.FLEX_HOME}"/>
 	<property name="FLEX_SWC" value="${basedir}/flex_libs"/>
@@ -19,8 +19,8 @@
 		<taskdef name="mxmlc" classname="flex.ant.MxmlcTask" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
 		<mxmlc
-            file="${basedir}/flex_src/${flex.application.filename}.mxml"
-            output="${basedir}/dist/web/flex/${flex.application.filename}.swf"  
+            file="${basedir}/flex_src/${flex.application.name}.mxml"
+            output="${basedir}/dist/web/flex/${flex.application.name}.swf"  
             actionscript-file-encoding="UTF-8"
             keep-generated-actionscript="true" 
             incremental="true" 
