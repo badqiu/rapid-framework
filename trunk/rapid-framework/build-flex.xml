@@ -15,8 +15,8 @@
 	<target name="compile-flex">
 		<echo message="FLEX_HOME:${FLEX_HOME}"/>
 
+		<!-- tasks: mxmlc,compc,html-wrapper -->
 		<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
-		<taskdef name="mxmlc" classname="flex.ant.MxmlcTask" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
 
 		<mxmlc
             file="${basedir}/flex_src/${flex.application.name}.mxml"
