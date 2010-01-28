@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:UserInfo="com.company.project.user_info.view.*"
+	>
+	<mx:ViewStack width="100%" height="100%" id="viewStack">
+			<mx:Panel id="HelloWorldView">
+				<mx:Button label="HelloWorld"/>			
+			</mx:Panel>
+			<UserInfo:UserInfoView width="100%" height="100%" id="UserInfoView"/>
+	</mx:ViewStack>
+</mx:Canvas>
