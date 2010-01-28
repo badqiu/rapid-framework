@@ -1,3 +1,8 @@
+
+<!-- 
+	tomcat自动部署脚本
+	运行前将${TOMCAT_HOME}/lib/catalina-ant.jar拷贝到${ANT_HOME}/lib下
+ -->
 <project name="rapid-framework" default="compile" basedir=".">
   <property environment="env"/>
   <property name="tomcat.home" value="${env.TOMCAT_HOME}"/>
@@ -10,7 +15,7 @@
   <property name="path"     value="/myapp"/>
 
   <!-- Configure properties to access the Manager application -->
-  <property name="url"      value="http://s01:8080/manager"/>
+  <property name="url"      value="http://localhost:8080/manager"/>
   <property name="username" value="manager"/>
   <property name="password" value="manager"/>
 
