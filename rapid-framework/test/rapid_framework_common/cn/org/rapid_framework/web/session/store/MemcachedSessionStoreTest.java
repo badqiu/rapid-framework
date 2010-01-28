@@ -32,6 +32,7 @@ public class MemcachedSessionStoreTest {
 //		t.start();
 		startMemcachedServer(11633);
 		Thread.sleep(1000);
+		System.out.println("memcached started");
 		
 		sessionData.put("empty", "");
 		sessionData.put("blank", " ");
@@ -55,7 +56,7 @@ public class MemcachedSessionStoreTest {
 	private void startMemcachedServer(int port) {
 		try {
 			File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
-			String cmd = "cmd.exe /c "+file.getAbsolutePath()+" -p "+port;
+			String cmd = ""+file.getAbsolutePath()+" -p "+port;
 			System.out.println("exec:"+cmd);
 			process.add(Runtime.getRuntime().exec(cmd));
 		}catch(Exception e) {
