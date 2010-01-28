@@ -25,7 +25,7 @@ public class SessionDataUtilsTest {
 		assertEquals(decodeMap.get("empty"),"");
 		assertEquals(decodeMap.get("blank"),"  ");
 		assertEquals(decodeMap.get("abc"),"abc");
-//		assertEquals("null",decodeMap.get("null"));
-		assertTrue(decodeMap.get("null") == null);
+		assertEquals("null",decodeMap.get("null"));
+//		assertTrue(decodeMap.get("null") == null);
 	}
 }
