@@ -1,4 +1,8 @@
 
+<!-- ======================================================================= -->
+<!-- 用于构建flex
+<!-- ======================================================================= -->
+
 <project name="rapid-framework" basedir="." default="compile-flex">
 	<!-- Define Flex Properties -->
 	<property name="FLEX_HOME" value="${env.FLEX_HOME}"/>
