@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
+				layout="absolute"
+				creationComplete="centerWindow();"
+				width="800"
+				height="400"
+				close="closeWindow();" currentState="new"
+				showCloseButton="true" xmlns:UserInfo="com.company.project.user_info.view.*">
+
+	<mx:Script>
+		<![CDATA[
+			import com.company.project.user_info.UserInfoModelLocator;
+			import com.company.project.vo.UserInfo;
+			import com.company.project.user_info.event.SaveUserInfoEvent;
+			import mx.managers.PopUpManager;
+
+			[Bindable]
+			public var model:UserInfoModelLocator = UserInfoModelLocator.getInstance();
+
+			public function centerWindow():void
+			{
+				PopUpManager.centerPopUp(this);
+			}
+
+			public function closeWindow():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
+			public function confirm() : void
+			{
+				if(!userInfoDetail.validate()){
+				 	return;
+				}
+				var userInfo: UserInfo = userInfoDetail.getUserInfo();
+				var event: SaveUserInfoEvent = new SaveUserInfoEvent(userInfo,this);
+				event.dispatch();
+			}
+		]]>
+	</mx:Script>
+	<UserInfo:UserInfoDetail id="userInfoDetail" userInfo="{model.selectedItem}"
+			 left="10" right="10" top="41" bottom="48"
+			 />
+			 
+	<mx:states>
+		<mx:State name="new">
+			<mx:SetProperty target="{this}" name="title" value="新增 UserInfo 提示"/>
+		</mx:State>
+		<mx:State name="edit">
+			<mx:SetProperty target="{this}" name="title" value="编辑 UserInfo 提示"/>
+		</mx:State>			
+	</mx:states>	 
+
+
+	<mx:ControlBar verticalAlign="middle"
+				   horizontalAlign="right"
+				   height="52" width="100%">
+		<mx:Spacer width="100%"/>
+		<mx:Button label="确定" click="confirm();"/>
+		<mx:Button label="取消" click="closeWindow();"/>
+	</mx:ControlBar>
+
+</mx:TitleWindow>

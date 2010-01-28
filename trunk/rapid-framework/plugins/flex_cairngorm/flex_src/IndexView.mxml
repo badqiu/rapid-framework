@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:index="*" >
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Container;
+			import mx.containers.ViewStack;
+			import appcommon.flex.event.ChangeViewEvent;
+			public function handleChangeView(event : Event) {
+				var e : ChangeViewEvent = ChangeViewEvent(event);
+				var viewName = e.viewName;
+				var viewStack : ViewStack = workspace.viewStack;
+				var currentView = viewStack.getChildByName(viewName) as Container;
+				viewStack.selectedChild = currentView;
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<index:TopBar width="100%" left="8" right="8" height="55" id="topBar"
+		businessManager="leftMenu.menuViewStack.selectedChild=leftMenu.businessManagerView" 
+		systemManager="leftMenu.menuViewStack.selectedChild=leftMenu.systemManagerView"
+		/>
+	<mx:HDividedBox 	left="8"
+						right="8"
+						top="61"
+						bottom="8"
+						id="contentBox"
+						horizontalGap="6">
+		<index:LeftMenu changeViewEvent="handleChangeView(event)" 
+			id="leftMenu" width="200" height="100%" letterSpacing="0"/>
+		<index:Workspace id="workspace" width="100%" height="100%"/>
+	</mx:HDividedBox>
+	
+</mx:Canvas>
