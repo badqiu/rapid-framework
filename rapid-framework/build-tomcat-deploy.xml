@@ -1,5 +1,8 @@
 <project name="rapid-framework" default="compile" basedir=".">
-
+  <property environment="env"/>
+  <property name="tomcat.home" value="${env.TOMCAT_HOME}"/>
+  <echo message="tomcat.home=${tomcat.home}" />
+	
   <!-- Configure the directory into which the web application is built -->
   <property name="build"    value="${basedir}/build"/>
 
@@ -7,20 +10,21 @@
   <property name="path"     value="/myapp"/>
 
   <!-- Configure properties to access the Manager application -->
-  <property name="url"      value="http://localhost:8080/manager"/>
-  <property name="username" value="myusername"/>
-  <property name="password" value="mypassword"/>
+  <property name="url"      value="http://s01:8080/manager"/>
+  <property name="username" value="manager"/>
+  <property name="password" value="manager"/>
 
   <!-- Configure the custom Ant tasks for the Manager application -->
-  <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask"/>
-  <taskdef name="list"      classname="org.apache.catalina.ant.ListTask"/>
-  <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask"/>
-  <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask"/>
-  <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask"/>
-  <taskdef name="start"     classname="org.apache.catalina.ant.StartTask"/>
-  <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask"/>
-  <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask"/>
-
+  <!-- tasks: deploy,undeploy,reload,stop,start,list,roles,resources -->
+  <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask" />
+  <taskdef name="list"      classname="org.apache.catalina.ant.ListTask" />
+  <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask" />
+  <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask" />
+  <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask" />
+  <taskdef name="start"     classname="org.apache.catalina.ant.StartTask" />
+  <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask" />
+  <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask" />
+	
   <!-- Executable Targets -->
   <target name="compile" description="Compile web application">
     <!-- ... construct web application in ${build} subdirectory, and
