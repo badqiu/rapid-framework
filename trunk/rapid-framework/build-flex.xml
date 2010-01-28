@@ -23,7 +23,7 @@
             file="${basedir}/flex_src/${flex.application.name}.mxml"
             output="${basedir}/dist/web/flex/${flex.application.name}.swf"  
             actionscript-file-encoding="UTF-8"
-            keep-generated-actionscript="true" 
+            keep-generated-actionscript="false" 
             incremental="true" 
 			compiler.show-actionscript-warnings="true"
 			compiler.show-binding-warnings="true"
