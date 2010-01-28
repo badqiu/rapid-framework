@@ -38,6 +38,13 @@
             generated a ${path}.war ... -->
   </target>
 
+  <target name="redeploy" description="Install web application" depends="_def_tomcat_tasks">
+  	<undeploy url="${url}" username="${username}" password="${password}" failonerror="false"
+  	            path="${path}"/>
+  	<deploy url="${url}" username="${username}" password="${password}"
+  	            path="${path}" war="file:${build}${path}.war"/>
+  </target>
+  
   <target name="deploy" description="Install web application" depends="_def_tomcat_tasks,compile">
     <deploy url="${url}" username="${username}" password="${password}"
             path="${path}" war="file:${build}${path}.war"/>
