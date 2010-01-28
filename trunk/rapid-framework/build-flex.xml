@@ -1,0 +1,48 @@
+
+<project name="rapid-framework" basedir="." default="compile-flex">
+	<!-- Define Flex Properties -->
+	<property name="FLEX_HOME" value="${env.FLEX_HOME}"/>
+	<property name="FLEX_SWC" value="${basedir}/flex_libs"/>
+	<property name="FLEX_SRC" value="${basedir}/flex_src"/>
+	<property name="flex.application.filename" value="main" />
+	
+	<target name="compile-flex">
+		<echo message="FLEX_HOME:${FLEX_HOME}"/>
+
+		<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+		<taskdef name="mxmlc" classname="flex.ant.MxmlcTask" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+
+		<mxmlc
+            file="${basedir}/flex_src/${flex.application.filename}.mxml"
+            output="${basedir}/dist/web/flex/${flex.application.filename}.swf"  
+            actionscript-file-encoding="UTF-8"
+            keep-generated-actionscript="true" 
+            incremental="true" 
+			compiler.show-actionscript-warnings="true"
+			compiler.show-binding-warnings="true"
+			compiler.show-unused-type-selector-warnings="true"
+			compiler.strict="true">
+
+			<!-- Get default compiler options. -->
+			<load-config filename="${FLEX_HOME}/frameworks/flex-config.xml"/>
+			<!-- List of path elements that form the roots of ActionScript class	hierarchies. -->
+			<compiler.source-path path-element="${FLEX_SRC}"/>
+
+            <source-path path-element="${FLEX_HOME}/frameworks" />   
+               
+            <!-- List of SWC files or directories that contain SWC files. -->   
+            <compiler.library-path dir="${FLEX_HOME}/frameworks" append="true">   
+                <include name="libs" />   
+                <include name="/locale/${application.locale}" />   
+            </compiler.library-path>   
+            <!-- 自定义或第三方包 -->   
+            <compiler.library-path dir="${basedir}" append="true">     
+                <include name="flex_libs" />    
+            </compiler.library-path>   
+			
+			<!-- -->
+			<compiler.debug>false</compiler.debug>
+		</mxmlc>
+
+	</target>
+</project>
