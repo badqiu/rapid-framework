@@ -40,7 +40,7 @@ package ${basepackage}.${underscoreName}.command
 		override public function result(event:Object):void
 		{
 			var ${classNameFirstLower}:${className} = event.result as ${className};
-			if(CollectionUtils.updateListItemByPropertyEqual(model.page.result,${classNameFirstLower},"${table.idColumn.columnNameFirstLower}")) {
+			if(CollectionUtils.updateListItemIfPropertyEqual(model.page.result,${classNameFirstLower},"${table.idColumn.columnNameFirstLower}")) {
 				// is update
 			}else {
 				// is new
