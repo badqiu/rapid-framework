@@ -19,5 +19,14 @@ package appcommon.flex
 			return instance;
 		}
 		
+		public function changeMainView(viewName : String)
+		{
+
+		}
+		
+		public function reflashCurrentView()
+		{
+
+		}		
 	}
 }
