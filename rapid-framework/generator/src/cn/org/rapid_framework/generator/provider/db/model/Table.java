@@ -70,6 +70,9 @@ public class Table {
 	public String getClassNameLowerCase() {
 		return getClassName().toLowerCase();
 	}
+	public String getUnderscoreName() {
+		return getSqlName().toLowerCase();
+	}
 	
 	public String getClassNameFirstLower() {
 		return StringHelper.uncapitalize(getClassName());

@@ -210,6 +210,10 @@ public class Column {
 		return _sqlName;
 	}
 
+	public String getUnderscoreName() {
+		return getSqlName().toLowerCase();
+	}
+	
 	/**
 	 * Gets the Pk attribute of the Column object
 	 * 
