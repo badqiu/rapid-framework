@@ -65,7 +65,7 @@
 				  />
 	</mx:HBox>
 	
-	<mx:HBox top="26" height="40" width="100%" horizontalGap="5" verticalAlign="middle" styleName="nav">
+	<mx:HBox top="26" height="40" width="100%" horizontalGap="5" verticalAlign="middle" styleName="topNav">
 		<mx:Label text="业务管理" styleName="nav_item"
 				  useHandCursor="true"
 				  buttonMode="true"

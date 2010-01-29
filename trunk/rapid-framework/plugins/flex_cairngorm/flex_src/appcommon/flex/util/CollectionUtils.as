@@ -10,11 +10,10 @@ package appcommon.flex.util
 		{
 		}
 		
-		public static function select(array:ArrayCollection,propertyName :String):ArrayCollection {
-			if(array == null) return new ArrayCollection();
+		public static function select(cursor:IViewCursor,propertyName :String):ArrayCollection {
+			if(cursor == null) return new ArrayCollection();
 			
 			var result : ArrayCollection = new ArrayCollection();
-			var cursor:IViewCursor = array.createCursor();
   	    	while(!cursor.afterLast){
   	    		var obj: Object = cursor.current;
   	    		if(!obj.hasOwnProperty(propertyName)) {
@@ -26,11 +25,10 @@ package appcommon.flex.util
   	    	return result;
 		}
 		
-		public static function selectIfTrue(array:ArrayCollection,propertyName :String):ArrayCollection {
-			if(array == null) return new ArrayCollection();
+		public static function selectIfTrue(cursor:IViewCursor,propertyName :String):ArrayCollection {
+			if(cursor == null) return new ArrayCollection();
 			
 			var result : ArrayCollection = new ArrayCollection();
-			var cursor:IViewCursor = array.createCursor();
   	    	while(!cursor.afterLast){
   	    		var obj: Object = cursor.current;
             	if(!obj.hasOwnProperty(propertyName)) {
@@ -54,8 +52,10 @@ package appcommon.flex.util
 				}
 			}
 		}
-		
-		public static function isPropertyEqual(list:ArrayCollection,forCompareObject:Object,equalPropertyName:String):Boolean {
+		/**
+		 * 判断list中的对象是否存在
+		 */
+		public static function existsByPropertyEqual(list:ArrayCollection,forCompareObject:Object,equalPropertyName:String):Boolean {
 			var cursor : IViewCursor =  list.createCursor();
 			while(!cursor.afterLast) {
 				var item:Object = cursor.current;
@@ -66,6 +66,24 @@ package appcommon.flex.util
 			}
 			return false;
 		}
-		
+	
+		/**
+		 * 假如list中与比较的对象的属性值相等,则更新List中某一个对象，
+		 */
+		public static function updateListItemByPropertyEqual(list:ArrayCollection,forCompareObject:Object,equalPropertyName:String):Boolean {
+			var hasUpdated : Boolean = false;
+			var cursor : IViewCursor =  list.createCursor();
+			while(!cursor.afterLast) {
+				var item:Object = cursor.current;
+				if(forCompareObject[equalPropertyName] == item[equalPropertyName]) {
+					cursor.remove();
+					cursor.insert(forCompareObject);
+					hasUpdated = true;
+				}
+				cursor.moveNext();
+			}
+			return hasUpdated;
+		}
+				
 	}
 }

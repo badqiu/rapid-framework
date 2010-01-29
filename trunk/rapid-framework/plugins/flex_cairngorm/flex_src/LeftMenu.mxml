@@ -3,11 +3,11 @@
 	paddingLeft="0" paddingRight="0" 
 	>
 	<mx:Metadata>
-		[Event(name="changeViewEvent")]
+		[Event(name="changeViewEvent",type="appcommon.flex.event.NamedEvent")]
 	</mx:Metadata>
 	<mx:Script>
 		<![CDATA[
-			import appcommon.flex.event.ChangeViewEvent;
+			import appcommon.flex.event.NamedEvent;
 			public function menuClick(event : Event) : void {
 				var tree:Tree = event.target as Tree;
 				var selected:Object=tree.selectedItem;
@@ -23,7 +23,7 @@
 					if (viewName != "")
 					{
 						//gm.actionQueue.removeAll();
-						var e : Event = new ChangeViewEvent(viewName);
+						var e : Event = new NamedEvent("changeViewEvent",viewName);
 						dispatchEvent(e);
 					}
 				}
@@ -53,28 +53,39 @@
 	        </node>              
 	    </node>  
     </mx:XMLList> 
+    
+    <!-- effects -->
+    <mx:Zoom id="menuViewStackEffect" 
+                zoomHeightFrom="0.0" 
+                zoomWidthFrom="0.0" 
+                zoomHeightTo="1.0" 
+                zoomWidthTo="1.0"    	
+    			duration="250"/>
         
     <mx:ViewStack width="100%" height="100%" id="menuViewStack">
-		<mx:Panel width="100%" height="100%" id="systemManagerView"
+		<mx:Panel width="100%" height="100%" id="systemManagerView" showEffect="{menuViewStackEffect}"
 				  styleName="leftMenuPanel" 
 				  title="后台管理">
 			<mx:Accordion  width="100%" height="100%">
 				<mx:Canvas label="menu1" width="100%" height="100%">
-					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData3}" width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
+					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData3}" selectable="true" 
+						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
 					</mx:Tree>
 				</mx:Canvas>
 			</mx:Accordion>
 		</mx:Panel>      	
-		<mx:Panel width="100%" height="100%" id="businessManagerView"
+		<mx:Panel width="100%" height="100%" id="businessManagerView" showEffect="{menuViewStackEffect}"
 				  styleName="leftMenuPanel" 
 				  title="业务管理">
 			<mx:Accordion  width="100%" height="100%" id="nav">
 				<mx:Canvas label="menu1" width="100%" height="100%">
-					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData1}" width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
+					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData1}" selectable="true"
+						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
 					</mx:Tree>
 				</mx:Canvas>
 				<mx:Canvas label="menu2" width="100%" height="100%">
-					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData2}" width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
+					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData2}" selectable="true"
+						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
 					</mx:Tree>					
 				</mx:Canvas>
 			</mx:Accordion>
