@@ -70,7 +70,7 @@ package appcommon.flex.util
 		/**
 		 * 假如list中与比较的对象的属性值相等,则更新List中某一个对象，
 		 */
-		public static function updateListItemByPropertyEqual(list:ArrayCollection,forCompareObject:Object,equalPropertyName:String):Boolean {
+		public static function updateListItemIfPropertyEqual(list:ArrayCollection,forCompareObject:Object,equalPropertyName:String):Boolean {
 			var hasUpdated : Boolean = false;
 			var cursor : IViewCursor =  list.createCursor();
 			while(!cursor.afterLast) {
