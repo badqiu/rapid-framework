@@ -3,19 +3,17 @@ package com.pomer.common
 
 	import mx.collections.ArrayCollection;
 	
-	
-
 
 	[Bindable]
 	public class GlobalModel
 	{
 
-		private static var globalModel:GlobalModel;
+		private static var instance:GlobalModel;
 
 
 		public function GlobalModel()
 		{
-			if (globalModel != null)
+			if (instance != null)
 			{
 				throw new Error("Only one GlobalModel instance should be instantiated");
 			}
@@ -23,11 +21,11 @@ package com.pomer.common
 
 		public static function getInstance():GlobalModel
 		{
-			if (globalModel == null)
+			if (instance == null)
 			{
-				globalModel=new GlobalModel();
+				instance = new GlobalModel();
 			}
-			return globalModel;
+			return instance;
 		}
 
 

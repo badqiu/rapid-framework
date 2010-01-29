@@ -10,26 +10,26 @@ package appcommon.flex.util
 			//TODO: implement function
 		}
 
-		public static function copyProperties(dest:Object, orig:Object):void{
-			if(orig is ArrayCollection){
+		public static function copyProperties(dest:Object, source:Object):void{
+			if(source is ArrayCollection){
 				return;
 			}
-			var classInfo:Object = ObjectUtil.getClassInfo(orig);
+			var classInfo:Object = ObjectUtil.getClassInfo(source);
             var properties:Array = classInfo.properties;
             for (var j:int = 0; j < properties.length; j++)
             {
-            	var prop:* = properties[j];
+            	var prop : * = properties[j];
             	if(dest.hasOwnProperty(prop.toString())){
-            		if(orig[prop] is Date){
-            			dest[prop] = orig[prop];
+            		if(source[prop] is Date){
+            			dest[prop] = source[prop];
             		}else{
-	            		var type:String = orig[prop] == null ? "null" : typeof(orig[prop]);
+	            		var type:String = source[prop] == null ? "null" : typeof(source[prop]);
 	            		
 	            		if("object" == type){
-	            			copyProperties(dest[prop],orig[prop]);
+	            			copyProperties(dest[prop],source[prop]);
 	            		}else{
 	            			try {
-	            				dest[prop] = orig[prop];
+	            				dest[prop] = source[prop];
 	            			}catch(e:Error){
 	            				trace(e.message);
 	            			}

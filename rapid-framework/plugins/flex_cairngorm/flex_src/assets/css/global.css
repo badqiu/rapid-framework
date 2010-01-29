@@ -4,14 +4,11 @@ Application
 	font-size: 					12;
 	color: 						#333333;
 	background-gradient-alphas: 0, 0;
-	background-color: 			#666666;
-	theme-color: 				#333333;
+	background-color: 			white;
+/* theme-color: 				white; */
 	font-weight:				normal;
 	background-gradient-alphas:  1.0, 1.0;
-	background-gradient-colors:  #244d9a, #FFFFFF;
 	background-size:			"100%";
-	modal-transparency-color:	#244d9a;
-	modal-transparency-blur:	2;
 }
 
 Panel
@@ -38,7 +35,7 @@ Panel
    titleStyleName: "mypanelTitle";
 }
 
-.nav {
+.topNav {
 	background-color: #FF6D06;
 	color: white;
 	color:#fff;

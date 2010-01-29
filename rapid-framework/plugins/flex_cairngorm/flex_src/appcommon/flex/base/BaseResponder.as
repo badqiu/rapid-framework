@@ -16,7 +16,7 @@ package appcommon.flex.base
 		
 		public function fault(info:Object):void
 		{
-			Alert.show(info.toString());
+			Alert.show(info.toString(),"Server Response Exception");
 		}
 		
 	}
