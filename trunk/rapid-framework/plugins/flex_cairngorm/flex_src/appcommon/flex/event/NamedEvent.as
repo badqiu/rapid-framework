@@ -9,7 +9,7 @@ package appcommon.flex.event
 		public var name : String;
 		public function NamedEvent(type : String,name : String, bubbles : Boolean = false, cancelable : Boolean = false)
 		{
-			super("changeViewEvent");
+			super(type);
 			this.name = name;
 		}
 	}
