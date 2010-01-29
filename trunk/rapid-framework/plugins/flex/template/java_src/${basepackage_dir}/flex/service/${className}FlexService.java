@@ -6,8 +6,6 @@ package ${basepackage}.flex.service;
 
 import org.springframework.stereotype.Component;
 
-import com.company.project.model.UserInfo;
-
 import cn.org.rapid_framework.util.HibernateBeanSerializer;
 
 <#include "/java_imports.include">
