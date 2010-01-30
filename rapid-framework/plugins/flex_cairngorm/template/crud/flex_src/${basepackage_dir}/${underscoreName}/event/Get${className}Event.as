@@ -11,7 +11,7 @@ package ${basepackage}.${underscoreName}.event
 
 	public class Get${className}Event extends CairngormCallbackEvent
 	{
-		public static var EVENT_NAME : String = "get${className}Event";
+		public static const EVENT_NAME : String = "get${className}Event";
 		public var id : Number;
 		public function Get${className}Event(id : Number)
 		{

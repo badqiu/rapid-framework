@@ -11,7 +11,7 @@ package ${basepackage}.${underscoreName}.event
 
 	public class Delete${className}Event extends CairngormCallbackEvent
 	{
-		public static var EVENT_NAME : String = "delete${className}Event";
+		public static const EVENT_NAME : String = "delete${className}Event";
 		[ArrayElementType("Number")]public var ids:Array;
 		public function Delete${className}Event(ids:Array)
 		{
