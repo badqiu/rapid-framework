@@ -13,7 +13,7 @@ package ${basepackage}.${underscoreName}.event
 
 	public class Save${className}Event extends CairngormCallbackEvent
 	{
-		public static var EVENT_NAME : String = "save${className}Event";
+		public static const EVENT_NAME : String = "save${className}Event";
 		public var ${classNameFirstLower}:${className};
 		public function Save${className}Event(${classNameFirstLower}:${className})
 		{
