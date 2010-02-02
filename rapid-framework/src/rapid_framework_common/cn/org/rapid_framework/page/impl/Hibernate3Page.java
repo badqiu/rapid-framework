@@ -14,6 +14,8 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  * @see BasePage
  */
+
+@Deprecated
 public class Hibernate3Page extends Page  {
 
 	/**
