@@ -6,6 +6,7 @@ import static cn.org.rapid_framework.util.SqlRemoveUtils.removeSelect;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -39,7 +40,6 @@ import org.springframework.util.StringUtils;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
-import cn.org.rapid_framework.page.impl.Hibernate3Page;
 import cn.org.rapid_framework.util.CollectionHelper;
 
 /**
@@ -82,7 +82,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 				
 				Query query = session.createQuery(queryString.toString());
 				Query countQuery = session.createQuery(countQueryString);
-				return new Hibernate3Page(query,countQuery,pageRequest);
+				return executeQueryForPage(pageRequest, query, countQuery);
 			}
 		});
 	}
@@ -126,9 +126,19 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 				Query query = setQueryParameters(session.createQuery(queryXsqlResult.getXsql()),queryXsqlResult.getAcceptedFilters());
 				Query countQuery = setQueryParameters(session.createQuery(removeOrders(countQueryXsqlResult.getXsql())),countQueryXsqlResult.getAcceptedFilters());
 				
-				return new Hibernate3Page(query,countQuery,pageRequest.getPageNumber(),pageRequest.getPageSize());
+				return executeQueryForPage(pageRequest, query, countQuery);
 			}
 		});
+	}
+	
+	private Object executeQueryForPage(final PageRequest pageRequest,Query query, Query countQuery) {
+		Page page = new Page(pageRequest,((Number)countQuery.uniqueResult()).intValue());
+		if(page.getTotalCount() == 0) {
+			page.setResult(new ArrayList(0));
+		}else {
+			page.setResult(query.setFirstResult(page.getFirstResult()).setMaxResults(page.getPageSize()).list());
+		}
+		return page;
 	}
 
 	public static Query setQueryParameters(Query q,Map params) {
