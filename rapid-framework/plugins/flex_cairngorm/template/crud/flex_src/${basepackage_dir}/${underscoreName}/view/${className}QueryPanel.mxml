@@ -5,6 +5,12 @@
 <#assign classNameLowerCase = className?lower_case/>
 
 <mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" title="搜索框">
+
+	<!-- 回车事件 -->
+	<mx:Metadata>
+		[Event(name="enter")]
+	</mx:Metadata>
+	
 	<mx:Script>
 		<![CDATA[
 			import ${basepackage}.vo.*;
@@ -12,6 +18,7 @@
 			import appcommon.flex.util.ConvertUtils;
 			
 			import mx.validators.Validator;
+			import mx.events.FlexEvent;
 			
 			[Bindable]
 			public var ${classNameFirstLower}: ${className};
@@ -60,7 +67,7 @@
 			</mx:FormItem>
 				<#else>
 			<mx:FormItem label="{${className}.ALIAS_${column.constantName}}">
-				<mx:TextInput id="${column.columnNameLower}Inp" text="{${classNameFirstLower}.${column.columnNameLower}}"/>
+				<mx:TextInput id="${column.columnNameLower}Inp" text="{${classNameFirstLower}.${column.columnNameLower}}" enter="dispatchEvent(new FlexEvent(FlexEvent.ENTER))"/>
 			</mx:FormItem>
 				</#if>
 			</#list>
