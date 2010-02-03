@@ -76,7 +76,7 @@ public class JaveBeanRemotingDestinationBootstrapService extends AbstractBootstr
 			createJavaBeanDestination(remotingService,clazz);
 			addedBeanNames.add(StringUtils.uncapitalize(ClassUtils.getShortName(clazz)));
 		}
-		System.out.println("======[Auto Export JavaBean to RemotingDestination],beans="+ addedBeanNames);
+		System.out.println("[Auto Export JavaBean to BlazeDS RemotingDestination],beans="+ addedBeanNames);
 	}
 	
 	protected void createJavaBeanDestination(Service service, Class clazz) {
