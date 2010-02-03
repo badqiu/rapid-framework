@@ -81,7 +81,7 @@ public class SpringRemotingDestinationBootstrapService extends AbstractBootstrap
 				addedBeanNames.add(beanName);
 			}
 		}
-		System.out.println("[Auto Export Spring to RemotingDestination],beanNames="+addedBeanNames);
+		System.out.println("[Auto Export Spring to BlazeDS RemotingDestination],beanNames="+addedBeanNames);
 	}
 
 	protected boolean isCreateDestination(String beanName,Class type) {
