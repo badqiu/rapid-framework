@@ -202,7 +202,7 @@
 		</zip>
 	</target>
 	
-	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
+	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip,download-google-wiki">
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="src/javacommon/**"/>
@@ -234,11 +234,9 @@
 			<zipfileset dir="./${dir.dist}" prefix="">
 				<include name="rapid-framework-common-${version}-src.zip"/>
 			</zipfileset>
-			<!--
 			<zipfileset dir="./${dir.dist}" prefix="">
-				<include name="rapid-generator-${version}.zip"/>
+				<include name="reference_doc"/>
 			</zipfileset>
-			 -->
 			
 			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
 				<include name="**"/>
@@ -247,6 +245,18 @@
 		</zip>
 	</target>
 
+	<target name="download-google-wiki">
+		<taskdef name="google-wiki" 
+			classname="cn.org.rapid_framework.tools.google_wiki_to_html.ext.ant.GoogleWikiTask" 
+			classpath="for_release_lib/google-code-wiki-to-html.jar;"
+			>
+		</taskdef>		
+		<google-wiki
+			googleprojectname="rapid-framework"
+			downloadfolder="${basedir}/dist/reference_doc"
+		/>
+	</target>
+				
 	<target name="cc_main">
 		<antcall target="clean"></antcall>
 		<antcall target="test"></antcall>
