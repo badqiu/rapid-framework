@@ -43,13 +43,15 @@ public class ActionScriptDataTypesUtils {
 		preferredAsTypeForJavaType.put("java.lang.Double", "Number");
 		preferredAsTypeForJavaType.put("float", "Number");
 		preferredAsTypeForJavaType.put("java.math.BigDecimal", "Number");
+		preferredAsTypeForJavaType.put("java.lang.Byte", "Number");
+		preferredAsTypeForJavaType.put("byte", "Number");
 
 		preferredAsTypeForJavaType.put("java.lang.Boolean", "Boolean");
 		preferredAsTypeForJavaType.put("boolen", "Boolean");
 
+		preferredAsTypeForJavaType.put("char", "String");
+		preferredAsTypeForJavaType.put("char[]", "String");
 		preferredAsTypeForJavaType.put("java.lang.String", "String");
-		preferredAsTypeForJavaType.put("java.lang.Byte", "String");
-		preferredAsTypeForJavaType.put("byte", "String");
 		preferredAsTypeForJavaType.put("java.sql.Clob", "String");
 
 		preferredAsTypeForJavaType.put("byte[]", "flash.utils.ByteArray");
@@ -60,6 +62,7 @@ public class ActionScriptDataTypesUtils {
 		preferredAsTypeForJavaType.put("java.util.List", "mx.collections.ArrayCollection");
 		preferredAsTypeForJavaType.put("java.util.ArrayList", "mx.collections.ArrayCollection");
 		preferredAsTypeForJavaType.put("java.util.ArrayList", "mx.collections.ArrayCollection");
+		
 		preferredAsTypeForJavaType.put("java.util.Set", "Object");
 		preferredAsTypeForJavaType.put("java.util.HashSet", "Object");
 		preferredAsTypeForJavaType.put("java.util.Map", "Object");
