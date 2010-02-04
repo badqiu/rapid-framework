@@ -235,7 +235,7 @@
 				<include name="rapid-framework-common-${version}-src.zip"/>
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="">
-				<include name="reference_doc"/>
+				<include name="reference_doc/**"/>
 			</zipfileset>
 			
 			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
