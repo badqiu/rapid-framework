@@ -14,10 +14,9 @@
 		<![CDATA[
 
 			import ${basepackage}.${underscoreName}.${className}ModelLocator;
-			import ${basepackage}.vo.*;
+			import ${basepackage}.model.*;
 			import ${basepackage}.${underscoreName}.event.*;
 			import ${basepackage}.${underscoreName}.command.*;
-			import ${basepackage}.vo.${className};
 
 			import appcommon.flex.base.*;
 			import appcommon.flex.page.*;
@@ -54,8 +53,8 @@
 			}
 
 			private function newRecord(): void{
-				model.${classNameFirstLower} = new ${className}();
-				PopUpManager.createPopUp(this,${className}DetailWindow,true);
+				var win : ${className}DetailWindow = ${className}DetailWindow(PopUpManager.createPopUp(this,${className}DetailWindow,true));
+				win.${classNameFirstLower} = new ${className}();
 			}
 
 			private function pageChangeHandler(e : PaginateEvent):void{
@@ -63,9 +62,12 @@
 			}
 			
 			private function edit(event : Event) : void {
-				model.${classNameFirstLower} = event.target.data;
-				var win : ${className}DetailWindow = ${className}DetailWindow(PopUpManager.createPopUp(this,${className}DetailWindow,true));
-				win.currentState = "edit";
+				//test for double click column header error
+				if(event.target.data is ${className}) { 
+					var win : ${className}DetailWindow = ${className}DetailWindow(PopUpManager.createPopUp(this,${className}DetailWindow,true));
+					win.${classNameFirstLower} = event.target.data;
+					win.currentState = "edit";
+				}
 			}
 			
 			private function search(pageNumber:Number = 1) : void {

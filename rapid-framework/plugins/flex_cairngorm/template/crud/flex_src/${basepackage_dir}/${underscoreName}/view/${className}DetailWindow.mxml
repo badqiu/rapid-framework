@@ -15,7 +15,7 @@
 	<mx:Script>
 		<![CDATA[
 			import ${basepackage}.${underscoreName}.${className}ModelLocator;
-			import ${basepackage}.vo.${className};
+			import ${basepackage}.model.${className};
 			import ${basepackage}.${underscoreName}.event.Save${className}Event;
 					
 			import appcommon.flex.event.Callback;
@@ -23,7 +23,7 @@
 			import mx.managers.PopUpManager;
 
 			[Bindable]
-			public var model:${className}ModelLocator = ${className}ModelLocator.getInstance();
+			public var ${classNameFirstLower} : ${className};
 
 			public function centerWindow():void
 			{
@@ -50,7 +50,7 @@
 			}
 		]]>
 	</mx:Script>
-	<${className}:${className}Detail id="${classNameFirstLower}Detail" ${classNameFirstLower}="{model.${classNameFirstLower}}"
+	<${className}:${className}Detail id="${classNameFirstLower}Detail" ${classNameFirstLower}="{${classNameFirstLower}}"
 			 left="10" right="10" top="41" bottom="48"
 			 />
 			 
@@ -65,11 +65,10 @@
 
 
 	<mx:ControlBar verticalAlign="middle"
-				   horizontalAlign="right"
+				   horizontalAlign="center"
 				   height="52" width="100%">
-		<mx:Spacer width="100%"/>
-		<mx:Button label="确定" click="confirm();"/>
-		<mx:Button label="取消" click="closeWindow();"/>
+		<mx:Button label="@Resource(bundle='controls',key='okLabel')" click="confirm();"/>
+		<mx:Button label="@Resource(bundle='controls',key='cancelLabel')" click="closeWindow();"/>
 	</mx:ControlBar>
 
 </mx:TitleWindow>

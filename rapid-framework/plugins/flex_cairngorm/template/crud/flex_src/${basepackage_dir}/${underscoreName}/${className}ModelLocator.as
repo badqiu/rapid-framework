@@ -10,7 +10,7 @@ package ${basepackage}.${underscoreName}{
 	import appcommon.flex.util.*;
 	
 	import com.adobe.cairngorm.model.IModelLocator;
-	import ${basepackage}.vo.*;
+	import ${basepackage}.model.*;
 	
 	import mx.collections.ArrayCollection;
 

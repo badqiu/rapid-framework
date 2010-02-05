@@ -15,7 +15,7 @@ package ${basepackage}.${underscoreName}
 	import appcommon.flex.page.*;
 	import appcommon.flex.util.*;
 
-	import ${basepackage}.vo.*;
+	import ${basepackage}.model.*;
 
 
 	public class ${className}Delegate extends BaseDelegate
