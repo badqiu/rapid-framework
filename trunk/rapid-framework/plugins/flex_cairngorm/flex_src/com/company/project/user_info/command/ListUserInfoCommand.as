@@ -6,19 +6,20 @@
 
 package com.company.project.user_info.command
 {
-
-	import com.adobe.cairngorm.control.CairngormEvent;
-	import com.adobe.cairngorm.commands.ICommand;
+	
 	import com.company.project.user_info.*;
+	import com.company.project.model.*;
 	import com.company.project.user_info.event.ListUserInfoEvent;
-	import com.company.project.vo.*;
-
+	
 	import appcommon.flex.base.*;
 	import appcommon.flex.page.*;
 	import appcommon.flex.util.*;
+	import appcommon.flex.event.CairngormCallbackEvent;
 
+	import com.adobe.cairngorm.control.CairngormEvent;
+	import com.adobe.cairngorm.commands.ICommand;
 	import mx.rpc.IResponder;
-
+	
 	public class ListUserInfoCommand extends BaseResponder implements  IResponder,ICommand
 	{
 		private var model : UserInfoModelLocator = UserInfoModelLocator.getInstance();
@@ -26,17 +27,14 @@ package com.company.project.user_info.command
 		public function execute(event:CairngormEvent):void
 		{
 			var pageRequest : PageRequest = ListUserInfoEvent(event).pageRequest;
-			var delegate: UserInfoDelegate = new UserInfoDelegate(this);
+			var delegate: UserInfoDelegate = new UserInfoDelegate([this,CairngormCallbackEvent(event).callback]);
 			delegate.list(pageRequest);
 		}
 
-		override public function result(data:Object):void
+		override public function result(event:Object):void
 		{
-			model.list = data.result.result;
-			if(model.list.length > 0){
-				model.selectedItem = model.list.getItemAt(0) as UserInfo;
-			}
-			BeanUtils.copyProperties(model.page,data.result);
+			model.page = event.result;
+			//BeanUtils.copyProperties(model.page,event.result);
 		}
 
 	}

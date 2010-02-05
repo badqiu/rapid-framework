@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
 	creationComplete="init()"
 	implements="appcommon.flex.base.ILoadData"
@@ -7,35 +8,31 @@
 	xmlns:pagging="com.wai.components.*">
 	<mx:Script>
 		<![CDATA[
-			import appcommon.flex.event.EditObjectEvent;
+
 			import com.company.project.user_info.UserInfoModelLocator;
-			import mx.managers.PopUpManager;
-			import mx.utils.ArrayUtil;
-			import com.wai.components.events.PaginateEvent;
-			import mx.collections.IViewCursor;
-			import mx.collections.ArrayCollection;
+			import com.company.project.model.*;
+			import com.company.project.user_info.event.*;
+			import com.company.project.user_info.command.*;
 
 			import appcommon.flex.base.*;
 			import appcommon.flex.page.*;
 			import appcommon.flex.util.*;
-
-			import com.company.project.vo.*;
-			import com.company.project.user_info.event.*;
-			import com.company.project.user_info.command.*;
-
-			import com.company.project.vo.UserInfo;
-
+			
+			import com.wai.components.events.PaginateEvent;
 			import mx.binding.utils.BindingUtils;
 			import mx.events.ListEvent;
 			import mx.events.CloseEvent;
 			import mx.controls.Alert;
-
+			import mx.managers.PopUpManager;
+			import mx.utils.ArrayUtil;
+			import mx.collections.IViewCursor;
+			import mx.collections.ArrayCollection;
+			
 			[Bindable]
 			public var model:UserInfoModelLocator = UserInfoModelLocator.getInstance();
 
 			private function init():void{
 				//userInfoList.userInfoGrid.addEventListener(ListEvent.CHANGE, userInfoGridChange);
-				BindingUtils.bindProperty(userInfoGrid.grid, "selectedItem",model,"selectedItem");
 			}
 
 			public function loadData(pageRequest : PageRequest) : void{
@@ -45,25 +42,28 @@
 
 			public function del():void{
 			  	AppCrudUtils.confirmDelete(userInfoGrid.getSelectedList(),function():void {
-	  		    	var ids:ArrayCollection = CollectionUtils.select(userInfoGrid.getSelectedList(),'userId');
+	  		    	var ids:ArrayCollection = CollectionUtils.select(userInfoGrid.getSelectedList().createCursor(),'userId');
 			      	var event :DeleteUserInfoEvent = new DeleteUserInfoEvent(ids.toArray());
 			      	event.dispatch();
 			  	});
 			}
 
 			private function newRecord(): void{
-				model.selectedItem = new UserInfo();
-				PopUpManager.createPopUp(this,UserInfoDetailWindow,true);
+				var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
+				win.userInfo = new UserInfo();
 			}
 
 			private function pageChangeHandler(e : PaginateEvent):void{
 				search(e.index + 1);
 			}
 			
-			private function handleEdit(event : EditObjectEvent) : void {
-				model.selectedItem = event.data;
-				var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
-				win.currentState = "edit";
+			private function edit(event : Event) : void {
+				//test for double click column header error
+				if(event.target.data is UserInfo) {  
+					var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
+					win.userInfo = event.target.data;
+					win.currentState = "edit";
+				}
 			}
 			
 			private function search(pageNumber:Number = 1) : void {
@@ -80,13 +80,15 @@
 	<mx:VBox width="100%" height="100%" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10">
 		<mx:Text text="UserInfo" styleName="moduleTitle"/>
 		<userInfo:UserInfoQueryPanel id="userInfoQueryPanel"
-			styleName="detailForm" width="100%"/>
+			styleName="detailForm" width="100%" enter="search()"/>
 		<component:CrudToolbar
 			deleteEvent="del()"
 			newEvent="newRecord()"
 			searchEvent="search()"/>
-		<userInfo:UserInfoGrid id="userInfoGrid"
-			list="{model.list}" editObjectEvent="handleEdit(event)"
+		<userInfo:UserInfoGrid id="userInfoGrid" 
+			doubleClickEnabled="true" doubleClick="edit(event)"
+			change="model.userInfo = userInfoGrid.selectedItem as UserInfo"
+			dataProvider="{model.page.result}"
 			width="100%" height="100%"/>
 		<mx:HBox>
 			<pagging:WAIPaginator id="paginator"

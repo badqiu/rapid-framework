@@ -15,15 +15,15 @@ package com.company.project.user_info
 	import appcommon.flex.page.*;
 	import appcommon.flex.util.*;
 
-	import com.company.project.vo.*;
+	import com.company.project.model.*;
 
 
 	public class UserInfoDelegate extends BaseDelegate
 	{
 		private var userInfoFlexService: Object;
-		public function UserInfoDelegate(responder:IResponder)
+		public function UserInfoDelegate(responders:Array)
 		{
-			this.responder = responder;
+			this.responders = responders;
 			this.userInfoFlexService = ServiceLocator.getInstance().getRemoteObject("userInfoFlexService");
 			//this.userInfoFlexService = new RemoteObject("userInfoFlexService");
 			//this.userInfoFlexService.endpoint = '../messagebroker/amf';
@@ -32,19 +32,23 @@ package com.company.project.user_info
 
 		public function save(userInfo:UserInfo):void{
 			var call:AsyncToken = userInfoFlexService.save(userInfo);
-			call.addResponder(this.responder);
+			addResponders(call);
 		}
 
 		public function del(ids:Array):void{
 			var call:AsyncToken = userInfoFlexService.del(ids);
-			call.addResponder(this.responder);
+			addResponders(call);
 		}
 
 		public function list(pageRequest:PageRequest):void{
 			var call:AsyncToken = userInfoFlexService.list(pageRequest);
-			call.addResponder(this.responder);
+			addResponders(call);
 		}
 
+		public function getById(id : Number):void{
+			var call:AsyncToken = userInfoFlexService.getById(id)
+			addResponders(call);
+		}
 	}
 
 }

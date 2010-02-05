@@ -16,13 +16,16 @@
 		]]>
 	</mx:Script>
 	
-	<index:TopBar width="100%" left="8" right="8" height="55" id="topBar"
+	<index:TopBar width="100%" left="8" right="8" height="66" id="topBar"
 		businessManager="leftMenu.menuViewStack.selectedChild=leftMenu.businessManagerView" 
 		systemManager="leftMenu.menuViewStack.selectedChild=leftMenu.systemManagerView"
-		/>
+		navLinkBarDataProvider="{leftMenu.menuViewStack}"
+		>
+		
+	</index:TopBar>
 	<mx:HDividedBox 	left="8"
 						right="8"
-						top="61"
+						top="67"
 						bottom="8"
 						id="contentBox"
 						horizontalGap="6">

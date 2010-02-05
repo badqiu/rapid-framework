@@ -5,15 +5,14 @@
 
 
 package com.company.project.user_info{
-	import com.adobe.cairngorm.model.IModelLocator;
-
-	import mx.collections.ArrayCollection;
-
 	import appcommon.flex.base.*;
 	import appcommon.flex.page.*;
 	import appcommon.flex.util.*;
-
-	import com.company.project.vo.*;
+	
+	import com.adobe.cairngorm.model.IModelLocator;
+	import com.company.project.model.*;
+	
+	import mx.collections.ArrayCollection;
 
 	[Bindable]
 	 public class UserInfoModelLocator implements IModelLocator
@@ -37,10 +36,9 @@ package com.company.project.user_info{
 	       return instance;
 	    }
 
-		public var selectedItem: UserInfo = new UserInfo();
-		public var list: ArrayCollection = new ArrayCollection();
-
-		public var page: Page = new Page();
-
+		public var userInfo : UserInfo = null;
+		//public var list : ArrayCollection = new ArrayCollection();
+		
+		public var page : Page = new Page();
 	 }
 }

@@ -1,59 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
 
-	<mx:Metadata>
-		[Event(name="selectObjectEvent",type="appcommon.flex.event.SelectObjectEvent")]
-		[Event(name="editObjectEvent",type="appcommon.flex.event.EditObjectEvent")]
-	</mx:Metadata>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" variableRowHeight="true">
 
 	<mx:Script>
 		<![CDATA[
-			import appcommon.flex.event.EditObjectEvent;
-			import appcommon.flex.event.SelectObjectEvent;
-			import mx.controls.Alert;
+			import com.company.project.model.UserInfo;
+
 			import appcommon.flex.util.CollectionUtils;
+						
+			import mx.controls.Alert;
 			import mx.collections.ArrayCollection;
 			import mx.collections.IViewCursor;
-			import com.company.project.vo.UserInfo;
-
-			[Bindable]
-			private var _list: ArrayCollection;
-
-			public function set list( list: ArrayCollection):void{
-				this._list =  list;
-			}
 
 			public function getSelectedList():ArrayCollection{
-  		    	return CollectionUtils.selectIfTrue(_list,"selected");
+  		    	return CollectionUtils.selectIfTrue(this.dataProvider.createCursor(),"selected");
   		    }
 
-  		    public function updateSelectedItem( event : Event ) : void
-			{
-				dispatchEvent(new SelectObjectEvent(event.target.selectedItem));
-			}
-
-			public function editSelectedItem(event : Object) : void
-			{
-				dispatchEvent(new EditObjectEvent(event.target.data));
-			}
 		]]>
 	</mx:Script>
 
-	<mx:DataGrid id="grid" doubleClickEnabled="true" doubleClick="editSelectedItem(event)" dataProvider="{_list}" left="0" top="0" width="100%" height="100%">
-		<mx:columns>
-			<mx:DataGridColumn headerText="S" dataField="selected" sortable="false" width="30" textAlign="center">
-	            <mx:itemRenderer>
-		            <mx:Component>
-		            	<mx:CheckBox selected="{data.selected}" click="data.selected = !data.selected"/>
-		            </mx:Component>
-	            </mx:itemRenderer>
-            </mx:DataGridColumn>      
-			<mx:DataGridColumn dataField="username" headerText="{UserInfo.ALIAS_USERNAME}"/>
-			<mx:DataGridColumn dataField="password" headerText="{UserInfo.ALIAS_PASSWORD}"/>
-			<mx:DataGridColumn dataField="birthDateString" headerText="{UserInfo.ALIAS_BIRTH_DATE}"/>
-			<mx:DataGridColumn dataField="sex" headerText="{UserInfo.ALIAS_SEX}"/>
-			<mx:DataGridColumn dataField="age" headerText="{UserInfo.ALIAS_AGE}"/>
-		</mx:columns>
-	</mx:DataGrid>
+	<mx:columns>
+		<mx:DataGridColumn headerText="S" dataField="selected" sortable="false" width="30" textAlign="center">
+            <mx:itemRenderer>
+	            <mx:Component>
+	            	<mx:CheckBox selected="{data.selected}" click="data.selected = !data.selected"/>
+	            </mx:Component>
+            </mx:itemRenderer>
+        </mx:DataGridColumn>      
+		<mx:DataGridColumn dataField="username" headerText="@Resource(bundle='UserInfo',key='username')"/>
+		<mx:DataGridColumn dataField="password" headerText="@Resource(bundle='UserInfo',key='password')"/>
+		<mx:DataGridColumn dataField="birthDateString" headerText="@Resource(bundle='UserInfo',key='birthDate')"/>
+		<mx:DataGridColumn dataField="sex" headerText="@Resource(bundle='UserInfo',key='sex')"/>
+		<mx:DataGridColumn dataField="age" headerText="@Resource(bundle='UserInfo',key='age')"/>
+	</mx:columns>
 
-</mx:Canvas>
+</mx:DataGrid>
