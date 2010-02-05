@@ -36,8 +36,6 @@
 	</path>
 	
 	<path id="dirs.java.src">
-	  	<pathelement path="src/javacommon"/>
-	  	<pathelement path="src/resources"/>
 	  	<pathelement path="java_src"/>
 	</path>
 
@@ -80,8 +78,6 @@
 		</javac>
 		
 		<copy todir="${dir.dist.java}">
-			<fileset dir="src/javacommon" excludes="**/*.java"/>
-			<fileset dir="src/resources" excludes="**/*.java"/>
 			<fileset dir="java_src" excludes="**/*.java"/>
 		</copy>
 		
@@ -100,8 +96,6 @@
 		</javac>
 		
 		<copy todir="${dir.dist.test}">
-			<fileset dir="src/javacommon" excludes="**/*.java"/>
-			<fileset dir="src/resources" excludes="**/*.java"/>
 			<fileset dir="java_test" excludes="**/*.java"/>
 		</copy>
 	</target>
@@ -168,9 +162,6 @@
 			<sourcepath refid="dirs.java.src"/>
 			<classpath refid="lib.classpath"/>
 			
-			<packageset dir="src">
-				<include name="javacommon/**"/>
-			</packageset>
 			
 			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
 			<bottom>API</bottom>
@@ -180,17 +171,10 @@
 	<target name="zip" depends="clean,prepare">
 		<zip zipfile="${dir.dist}/${ant.project.name}-${version}.zip">
 			<zipfileset dir="." prefix="${ant.project.name}-${version}">
-				<include name="src/**"/>
-				<include name="template/**"/>
-				<include name="web/**"/>
-				<include name="doc/**"/>
-				<include name="generator_lib/**"/>
-				<include name="plugins/**"/>
+				<include name="java_src/**"/>
 				<include name="build.xml"/>
 				<include name="build.properties"/>
 				<include name="readme.txt"/>
-				<include name="changeLog.txt"/>
-				<include name="MIT-LICENSE.txt"/>
 			</zipfileset>
 		</zip>
 	</target>
