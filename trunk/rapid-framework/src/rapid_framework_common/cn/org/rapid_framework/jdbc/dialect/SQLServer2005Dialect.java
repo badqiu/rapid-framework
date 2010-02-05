@@ -76,7 +76,7 @@ public class SQLServer2005Dialect extends Dialect{
 				.append(") as __row_number__, ")
 				.append(pagingBuilder)
 				.append(") SELECT * FROM query WHERE __row_number__ BETWEEN ")
-				.append(offsetPlaceholder).append(" AND ").append(offset+limit)
+				.append(offset).append(" AND ").append(offset+limit)
 				.append(" ORDER BY __row_number__");
 
 		return result.toString();
