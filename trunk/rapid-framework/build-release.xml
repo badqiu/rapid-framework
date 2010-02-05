@@ -205,8 +205,8 @@
 	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip,download-google-wiki">
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
-				<include name="src/javacommon/**"/>
-				<include name="src/resources/**"/>
+				<include name="java_src/**"/>
+				<include name="java_test/**"/>
 				<include name="generator/**"/>
 				<include name="template/**"/>
 				<include name="web/**"/>
