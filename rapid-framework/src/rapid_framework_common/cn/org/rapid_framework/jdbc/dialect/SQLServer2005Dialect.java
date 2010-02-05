@@ -25,12 +25,12 @@ public class SQLServer2005Dialect extends Dialect{
 	 * The LIMIT SQL will look like:
 	 *
 	 * WITH query AS
-	 * (SELECT TOP 100 percent ROW_NUMBER() OVER (ORDER BY orderby) as __hibernate_row_nr__, ... original_query)
+	 *      (SELECT TOP 100 percent ROW_NUMBER() OVER (ORDER BY CURRENT_TIMESTAMP) as __row_number__, * from table_name)
 	 * SELECT *
 	 * FROM query
-	 * WHERE __hibernate_row_nr__ > offset
-	 * ORDER BY __hibernate_row_nr__
-	 *
+	 * WHERE __row_number__ BETWEEN :offset and :lastRows
+	 * ORDER BY __row_number__
+	 * 
 	 * @param querySqlString The SQL statement to base the limit query off of.
 	 * @param offset         Offset of the first row to be returned by the query (zero-based)
 	 * @param last           Maximum number of rows to be returned by the query
@@ -38,14 +38,6 @@ public class SQLServer2005Dialect extends Dialect{
 	 */
 	@Override
 	public String getLimitString(String querySqlString, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
-		/*
-		 * WITH query AS
-		 *     (SELECT TOP 100 percent ROW_NUMBER() OVER (ORDER BY orderby) as __hibernate_row_nr__, ... original_query)
-		 * SELECT *
-		 * FROM query
-		 * WHERE __hibernate_row_nr__ > offset
-		 * ORDER BY __hibernate_row_nr__
-		 */
 		StringBuffer pagingBuilder = new StringBuffer();
 		String orderby = getOrderByPart(querySqlString);
 		String distinctStr = "";
