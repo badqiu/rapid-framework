@@ -15,7 +15,10 @@
 	
 	<mx:Script>
 		<![CDATA[
-			public var loginUsername : String = "";
+			public var loginUsername : String = "loginUser";
+			
+			[Bindable]
+			public var navLinkBarDataProvider : Object;
 		]]>
 	</mx:Script>
 	
@@ -28,10 +31,10 @@
 	<mx:HBox
 			 horizontalGap="5"
 			 horizontalAlign="right"
-			 verticalAlign="middle" backgroundColor="#000000" right="0" paddingRight="5" paddingLeft="10" height="26">
+			 verticalAlign="middle" backgroundColor="white" right="0" paddingRight="5" paddingLeft="10" height="26">
 		<mx:Spacer width="10"/>
 		<mx:Text text="{loginUsername}"
-				 useHandCursor="true"
+				 useHandCursor="false"
 				 buttonMode="true"
 				 mouseChildren="false"
 				 color="#FF0000"
@@ -42,7 +45,6 @@
 				  useHandCursor="true"
 				  buttonMode="true"
 				  mouseChildren="false"
-				  color="#FFFFFF"
 				  click="dispatchEvent(new Event('changePassword'));"
 				  textDecoration="underline"/>
 		<mx:VRule height="10"/>
@@ -50,7 +52,6 @@
 				  useHandCursor="true"
 				  buttonMode="true"
 				  mouseChildren="false"
-				  color="#FFFFFF"
 				  click="dispatchEvent(new Event('logout'));"
 				  textDecoration="underline"/>
 		<mx:VRule height="10"/>
@@ -60,26 +61,10 @@
 				  buttonMode="true"
 				  mouseChildren="false"
 				  textDecoration="underline"
-				  color="#FFFFFF"
 				  click="dispatchEvent(new Event('fullScreen'));"
 				  />
 	</mx:HBox>
 	
-	<mx:HBox top="26" height="40" width="100%" horizontalGap="5" verticalAlign="middle" styleName="topNav">
-		<mx:Label text="业务管理" styleName="nav_item"
-				  useHandCursor="true"
-				  buttonMode="true"
-				  mouseChildren="false"
-				  textDecoration="underline"
-				  click="dispatchEvent(new Event('businessManager'));"
-			/>
-		<mx:VRule height="30"/>
-		<mx:Label text="系统管理" styleName="navItem"
-				  useHandCursor="true"
-				  buttonMode="true"
-				  mouseChildren="false"
-				  textDecoration="underline"
-				  click="dispatchEvent(new Event('systemManager'));"			
-			/>
-	</mx:HBox>	
+	<mx:LinkBar id="navLinkBar" dataProvider="{navLinkBarDataProvider}"
+		top="26" height="40" width="100%" horizontalGap="5" verticalAlign="middle" styleName="topNav"/>
 </mx:Canvas>

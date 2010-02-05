@@ -1,5 +1,8 @@
 package appcommon.flex
 {
+	/**
+	 * 全局中介者，持有主要的view对象，使各个对象间的耦合松散。
+	 */
 	public class GlobalMediator
 	{
 		private static var instance:GlobalMediator;
@@ -24,7 +27,7 @@ package appcommon.flex
 
 		}
 		
-		public function reflashCurrentView()
+		public function reloadCurrentViewData()
 		{
 
 		}		

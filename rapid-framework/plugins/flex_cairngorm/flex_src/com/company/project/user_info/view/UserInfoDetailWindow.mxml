@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml"
 				layout="absolute"
 				creationComplete="centerWindow();"
@@ -10,12 +11,15 @@
 	<mx:Script>
 		<![CDATA[
 			import com.company.project.user_info.UserInfoModelLocator;
-			import com.company.project.vo.UserInfo;
+			import com.company.project.model.UserInfo;
 			import com.company.project.user_info.event.SaveUserInfoEvent;
+					
+			import appcommon.flex.event.Callback;
+			
 			import mx.managers.PopUpManager;
 
 			[Bindable]
-			public var model:UserInfoModelLocator = UserInfoModelLocator.getInstance();
+			public var userInfo : UserInfo;
 
 			public function centerWindow():void
 			{
@@ -33,12 +37,16 @@
 				 	return;
 				}
 				var userInfo: UserInfo = userInfoDetail.getUserInfo();
-				var event: SaveUserInfoEvent = new SaveUserInfoEvent(userInfo,this);
+				var event: SaveUserInfoEvent = new SaveUserInfoEvent(userInfo);
+				event.callback = new Callback(saveSuccess);
 				event.dispatch();
+			}
+			public function saveSuccess(event : Object) : void {
+					PopUpManager.removePopUp(this);
 			}
 		]]>
 	</mx:Script>
-	<UserInfo:UserInfoDetail id="userInfoDetail" userInfo="{model.selectedItem}"
+	<UserInfo:UserInfoDetail id="userInfoDetail" userInfo="{userInfo}"
 			 left="10" right="10" top="41" bottom="48"
 			 />
 			 
@@ -53,11 +61,10 @@
 
 
 	<mx:ControlBar verticalAlign="middle"
-				   horizontalAlign="right"
+				   horizontalAlign="center"
 				   height="52" width="100%">
-		<mx:Spacer width="100%"/>
-		<mx:Button label="确定" click="confirm();"/>
-		<mx:Button label="取消" click="closeWindow();"/>
+		<mx:Button label="@Resource(bundle='controls',key='okLabel')" click="confirm();"/>
+		<mx:Button label="@Resource(bundle='controls',key='cancelLabel')" click="closeWindow();"/>
 	</mx:ControlBar>
 
 </mx:TitleWindow>

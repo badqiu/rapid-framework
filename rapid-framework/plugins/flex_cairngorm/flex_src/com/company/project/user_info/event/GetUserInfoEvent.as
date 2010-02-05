@@ -9,14 +9,14 @@ package com.company.project.user_info.event
 	import appcommon.flex.event.CairngormCallbackEvent;
 	import com.adobe.cairngorm.control.CairngormEvent;
 
-	public class DeleteUserInfoEvent extends CairngormCallbackEvent
+	public class GetUserInfoEvent extends CairngormCallbackEvent
 	{
-		public static const EVENT_NAME : String = "deleteUserInfoEvent";
-		[ArrayElementType("Number")]public var ids:Array;
-		public function DeleteUserInfoEvent(ids:Array)
+		public static const EVENT_NAME : String = "getUserInfoEvent";
+		public var id : Number;
+		public function GetUserInfoEvent(id : Number)
 		{
 			super(EVENT_NAME);
-			this.ids = ids;
+			this.id = id;
 		}
 
 	}

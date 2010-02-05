@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="examples.script.*" layout="absolute">
 
- 
-    
     <mx:Script>
     	<![CDATA[
     		import mx.collections.ArrayCollection;
@@ -26,17 +24,15 @@
 	<mx:DataGrid x="164" y="119" dataProvider="{employees}">
 		<mx:columns>
 			<local:CheckBoxHeaderColumn 
-				headerRenderer="examples.script.CheckBoxHeaderRenderer"
-				
-		          dataField="active" textAlign="center" width="30">
+				headerRenderer="sandbox.script.CheckBoxHeaderRenderer"
+				dataField="active" textAlign="center" width="30">
 		          <local:itemRenderer>
 		          	<mx:Component>
 		          		<local:CheckBoxItemRenderer click="{data.active=!data.active}">
-		          			
 		          		</local:CheckBoxItemRenderer>
 		          	</mx:Component>
 		          </local:itemRenderer>
-		          </local:CheckBoxHeaderColumn>
+		    </local:CheckBoxHeaderColumn>
 			<mx:DataGridColumn headerText="Column 1" dataField="active"/>
 			<mx:DataGridColumn headerText="Column 2" dataField="phone"/>
 			<mx:DataGridColumn headerText="Column 3" dataField="email"/>
