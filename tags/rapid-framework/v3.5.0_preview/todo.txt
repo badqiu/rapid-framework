@@ -1,0 +1,110 @@
+rapid-framework路线图
+
+#session框架,可以将session存储在数据库,cache,文件
+#spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
+#Freemarker中@extends指令中相对路径的处理。测试velocity中是否存在相同问题
+
+spring xmlns to spring3.0.xsd
+pipeline中如果不能找到模板的异常处理
+SQLServer2005Dialect不完善
+为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
+修改目录为标准的 java_src,java_test目录
+事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
+add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
+缓存抽象
+完成Flash Scope
+
+
+生成器:
+	增加通过一个查询得到列表界面的sql
+
+实现模板引擎的pipeline处理模式:
+即有一个layout.flt
+<html>
+   ${pipeline}
+</html>
+两种实现方式
+1.其中${pileline}会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
+2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
+
+3.可以为每一个模板定义一组管道
+4.管理可以是一个数组,方法签名为
+	1) pipeline(template,pipetemplate[],context,writer)
+	2) pipeline(template,pipetemplate_queue,context,writer)
+	3) pipeline(pipetemplate[],context,writer)
+	4) String pipeline(template,pipetemplate[],context)
+5.输出内容为最后一个管理的输出
+6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
+
+整合MailEngine
+整合GroupProperties file,用于读取分组的配置文件
+
+fixed number NaN => 0 : NaN => Null
+https://bugs.adobe.com/jira/browse/BLZ-305
+http://flexblog.faratasystems.com/2010/01/09/custom-type-masrhaller-in-blazeds
+http://ajax.sys-con.com/node/1240225?page=0,1
+
+BlazeDS学习
+	MessageSerializer.writeObject()复杂对象的序列化
+	AmfxOutput 负责 具体实现writeObject()方法
+	AmfOutput的
+		1.PropertyProxyRegistry为PropertyProxy的全局注册器
+		2.writePropertyProxy()方法调用PropertyProxy的getPropertyNames()
+	PropertyProxy 可以得到序列化的getPropertyNames()
+	BeanProxy的includeReadOnly可以包含readOnly属性
+	//AmfxInput中直接new BeanProxy()导致无法设置includeReadOnly属性
+
+	注册所有Serializable.class都IncludeReadOnly beanProperties
+		BeanProxy beanProxy = new BeanProxy();
+		beanProxy.setIncludeReadOnly(true);
+		PropertyProxyRegistry.getRegistry().register(Serializable.class, beanProxy);
+
+整合其它显示层技术
+	Ext2
+增加列表组件
+	Jmesa,SimpleList
+整合SiteMesh
+
+整合安全框架
+	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
+数据访问层
+	JPA
+整合RichEditor
+    FckEditor
+寻找Tree组件
+
+模板文件
+	修改hiberante_xml使用CompositeId.java
+	增加简单版本的list.jsp,争取不喜欢extremeTable的用户
+	增加freemarker的CURD页面
+
+rapid-validation
+	3.ajax验证使用异步方式
+插件相关
+	支持plugin属性参数的修改
+其它
+
+	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
+
+	提供复杂模板，完成多表关联操作
+
+	编写配置系统的ant脚本
+
+	查询页跟列表也整合到一起
+
+	Generator.generateAllTable()方法在Oracle不可用
+
+	为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
+
+	struts2重复提交，提示信息
+
+	将<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+	替换为
+	<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*.*(..))" advice-ref="txAdvice"/>
+	以可以拦截Manager的所有方法,并删除
+	<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
+
+rapid-framework为你做好的二件事
+	1.项目脚手架
+	1.配置,
+	2.代码生成器模板,避免重复的代码编写

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()"
+	implements="appcommon.flex.base.ILoadData"
+	xmlns:userInfo="com.company.project.user_info.view.*"
+	xmlns:component="appcommon.flex.component.*"
+	xmlns:pagging="com.wai.components.*">
+	<mx:Script>
+		<![CDATA[
+
+			import com.company.project.user_info.UserInfoModelLocator;
+			import com.company.project.model.*;
+			import com.company.project.user_info.event.*;
+			import com.company.project.user_info.command.*;
+
+			import appcommon.flex.base.*;
+			import appcommon.flex.page.*;
+			import appcommon.flex.util.*;
+			
+			import com.wai.components.events.PaginateEvent;
+			import mx.binding.utils.BindingUtils;
+			import mx.events.ListEvent;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.utils.ArrayUtil;
+			import mx.collections.IViewCursor;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var model:UserInfoModelLocator = UserInfoModelLocator.getInstance();
+
+			private function init():void{
+				//userInfoList.userInfoGrid.addEventListener(ListEvent.CHANGE, userInfoGridChange);
+			}
+
+			public function loadData(pageRequest : PageRequest) : void{
+				var event : ListUserInfoEvent = new ListUserInfoEvent(pageRequest);
+				event.dispatch();
+			}
+
+			public function del():void{
+			  	AppCrudUtils.confirmDelete(userInfoGrid.getSelectedList(),function():void {
+	  		    	var ids:ArrayCollection = CollectionUtils.select(userInfoGrid.getSelectedList().createCursor(),'userId');
+			      	var event :DeleteUserInfoEvent = new DeleteUserInfoEvent(ids.toArray());
+			      	event.dispatch();
+			  	});
+			}
+
+			private function newRecord(): void{
+				var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
+				win.userInfo = new UserInfo();
+			}
+
+			private function pageChangeHandler(e : PaginateEvent):void{
+				search(e.index + 1);
+			}
+			
+			private function edit(event : Event) : void {
+				//test for double click column header error
+				if(event.target.data is UserInfo) {  
+					var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
+					win.userInfo = event.target.data;
+					win.currentState = "edit";
+				}
+			}
+			
+			private function search(pageNumber:Number = 1) : void {
+				if(!userInfoQueryPanel.validate()) {
+					return;
+				}
+				var pr : PageRequest = new PageRequest();
+				pr.filters = userInfoQueryPanel.getUserInfo();
+				pr.pageNumber = pageNumber;
+				loadData(pr);
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10">
+		<mx:Text text="UserInfo" styleName="moduleTitle"/>
+		<userInfo:UserInfoQueryPanel id="userInfoQueryPanel"
+			styleName="detailForm" width="100%" enter="search()"/>
+		<component:CrudToolbar
+			deleteEvent="del()"
+			newEvent="newRecord()"
+			searchEvent="search()"/>
+		<userInfo:UserInfoGrid id="userInfoGrid" 
+			doubleClickEnabled="true" doubleClick="edit(event)"
+			change="model.userInfo = userInfoGrid.selectedItem as UserInfo"
+			dataProvider="{model.page.result}"
+			width="100%" height="100%"/>
+		<mx:HBox>
+			<pagging:WAIPaginator id="paginator"
+				itemsPerPage="{PageRequest.DEFAULT_PAGE_SIZE}"
+				rangeCount="{5}"
+				itemsTotal="{model.page.totalCount}"
+				selectedIndex="1"
+				pageChange="pageChangeHandler(event)" />
+			<mx:Text id="resultsIndicator" text="{'Results: ' + String(model.page.thisPageFirstElementNumber) + ' - ' +
+				String(model.page.thisPageLastElementNumber) + ' of ' + model.page.totalCount}"/>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>
