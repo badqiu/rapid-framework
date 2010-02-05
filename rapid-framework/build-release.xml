@@ -41,12 +41,10 @@
 	</path>
 	
 	<path id="dirs.java.src">
-	  	<pathelement path="src/javacommon"/>
 	  	<pathelement path="src/rapid_framework_common"/>
 	</path>
 
 	<path id="dirs.test.src">
-		<path path="plugins/hibernate/src/javacommon"/>
 	  	<pathelement path="test/rapid_framework_common"/>
 	</path>
 	  		
@@ -73,7 +71,6 @@
 		</javac>
 		
 		<copy todir="${dir.dist.java}">
-			<fileset dir="src/javacommon" excludes="**/*.java"/>
 			<fileset dir="src/rapid_framework_common" excludes="**/*.java"/>
 		</copy>
 		
@@ -202,7 +199,7 @@
 		</zip>
 	</target>
 	
-	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip,download-google-wiki">
+	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="java_src/**"/>
@@ -261,6 +258,7 @@
 		<antcall target="clean"></antcall>
 		<antcall target="test"></antcall>
 		<antcall target="generator-zip"></antcall>
+		<antcall target="download-google-wiki"></antcall>
 		<antcall target="framework-zip"></antcall>
 		<antcall target="rapid-framework.jar"></antcall>
 		<antcall target="rapid-framework.src.jar.zip"></antcall>
