@@ -9,7 +9,7 @@ package ${basepackage}.${underscoreName}.command
 
 	import ${basepackage}.${underscoreName}.*;
 	import ${basepackage}.${underscoreName}.event.Save${className}Event;
-	import ${basepackage}.vo.*;
+	import ${basepackage}.model.*;
 	
 	import appcommon.flex.base.*;
 	import appcommon.flex.event.CairngormCallbackEvent;

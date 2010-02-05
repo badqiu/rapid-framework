@@ -6,7 +6,7 @@
 
 package ${basepackage}.${underscoreName}.event
 {
-	import ${basepackage}.vo.${className};
+	import ${basepackage}.model.${className};
 	
 	import appcommon.flex.event.CairngormCallbackEvent;
 	import flash.display.DisplayObject;

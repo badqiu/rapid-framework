@@ -8,7 +8,7 @@ package ${basepackage}.${underscoreName}.command
 {
 	
 	import ${basepackage}.${underscoreName}.*;
-	import ${basepackage}.vo.*;
+	import ${basepackage}.model.*;
 	import ${basepackage}.${underscoreName}.event.List${className}Event;
 	
 	import appcommon.flex.base.*;

@@ -8,9 +8,8 @@
 
 	<mx:Script>
 		<![CDATA[
-			import ${basepackage}.vo.${className};
+			import ${basepackage}.model.${className};
 
-			import appcommon.flex.event.WithDataEvent;
 			import appcommon.flex.util.CollectionUtils;
 						
 			import mx.controls.Alert;
@@ -35,9 +34,9 @@
 		<#list table.columns as column>
 		<#if !column.pk>
 			<#if column.isDateTimeColumn>
-		<mx:DataGridColumn dataField="${column.columnNameLower}String" headerText="{${className}.ALIAS_${column.constantName}}"/>
+		<mx:DataGridColumn dataField="${column.columnNameLower}String" headerText="@Resource(bundle='${className}',key='${column.columnNameFirstLower}')"/>
 			<#else>
-		<mx:DataGridColumn dataField="${column.columnNameLower}" headerText="{${className}.ALIAS_${column.constantName}}"/>
+		<mx:DataGridColumn dataField="${column.columnNameLower}" headerText="@Resource(bundle='${className}',key='${column.columnNameFirstLower}')"/>
 			</#if>
 		</#if>
 		</#list>
