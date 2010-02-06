@@ -1,5 +1,3 @@
-  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.0/ v3.0参考文档]
-----
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * demo
     * [snapshot html界面预览图]
@@ -63,3 +61,5 @@
   * [faq 常见问题解答(FAQs)]
   * [http://groups.google.hk/group/rapid-framework 加入google group参与讨论]
   * [powered_by_rapid powered by rapid]
+----
+  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.0/ v3.0参考文档]
