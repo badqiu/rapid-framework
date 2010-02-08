@@ -3,7 +3,7 @@
 ****************
 
 修改整个项目的属性为UTF-8编码
-项目搭建请查看doc/guide.html
+项目搭建请查看 http://code.google.com/p/rapid-framework/wiki/menu
 项目网站:http://code.google.com/p/rapid-framework/
 
 
