@@ -10,7 +10,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 public class TableTest extends TestCase{
 	
-	public void table() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	public void testTable() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		Table t = new Table();
 		t.setSqlName("user_info");
 		System.out.println(BeanUtils.describe(t));
