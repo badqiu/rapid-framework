@@ -23,9 +23,6 @@
 	
 	<!-- 主要路径修改START -->
 	<path id="lib.classpath">
-		<fileset dir="generator/lib">
-			<include name="**/*.jar"/>
-		</fileset>
 		<fileset dir="${dir.src.web}/WEB-INF/lib">
 			<include name="**/*.jar"/>
 		</fileset>
