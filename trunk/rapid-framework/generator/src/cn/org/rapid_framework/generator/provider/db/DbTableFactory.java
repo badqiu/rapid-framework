@@ -37,7 +37,7 @@ public class DbTableFactory {
 //	Properties props;
 	
 	private Connection connection;
-	private static DbTableFactory instance = new DbTableFactory();
+	private static DbTableFactory instance = null;
 	
 	private DbTableFactory() {
 		init();
@@ -52,7 +52,8 @@ public class DbTableFactory {
 		}
 	}
 	
-	public static DbTableFactory getInstance() {
+	public synchronized static DbTableFactory getInstance() {
+		if(instance == null) instance = new DbTableFactory();
 		return instance;
 	}
 	
