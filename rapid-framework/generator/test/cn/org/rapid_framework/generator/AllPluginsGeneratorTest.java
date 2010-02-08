@@ -49,6 +49,9 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 				continue;
 			}
 			File pluginTemplate = new File(child,"template").getAbsoluteFile();
+			if(!pluginTemplate.exists()) {
+				continue;
+			}
 			
 			Generator g = new Generator();
 			
