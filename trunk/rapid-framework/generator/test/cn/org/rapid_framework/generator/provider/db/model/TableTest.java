@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.junit.Test;
 
 
 
