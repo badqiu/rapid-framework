@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.generator.util;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
-import cn.org.rapid_framework.util.ProfileUtils;
+//import cn.org.rapid_framework.util.ProfileUtils;
 import junit.framework.TestCase;
 /**
  * @author badqiu
@@ -40,25 +40,25 @@ public class StringHelperTest extends TestCase {
 		assertEquals("Level1Channel",StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName("LEVEL1_CHANNEL")));
 	}
 
-	public void testPerformance() {
-		ProfileUtils.printCostTime("underscoreName", new Runnable() {
-			public void run() {
-				for(int i = 0; i < 1000000; i++ ) {
-					assertEquals("level1_channel",underscoreName("level1Channel"));
-				}
-			}
-		});
-		ProfileUtils.printCostTime("underscoreNameOld", new Runnable() {
-			public void run() {
-				for(int i = 0; i < 1000000; i++ ) {
-					assertEquals("level_1_channel",underscoreNameOld("level1Channel"));
-				}
-			}
-		});
-		
-		
-		System.out.println(underscoreName("level1channel"));
-	}
+//	public void testPerformance() {
+//		ProfileUtils.printCostTime("underscoreName", new Runnable() {
+//			public void run() {
+//				for(int i = 0; i < 1000000; i++ ) {
+//					assertEquals("level1_channel",underscoreName("level1Channel"));
+//				}
+//			}
+//		});
+//		ProfileUtils.printCostTime("underscoreNameOld", new Runnable() {
+//			public void run() {
+//				for(int i = 0; i < 1000000; i++ ) {
+//					assertEquals("level_1_channel",underscoreNameOld("level1Channel"));
+//				}
+//			}
+//		});
+//		
+//		
+//		System.out.println(underscoreName("level1channel"));
+//	}
 	
 	private String underscoreName(String name) {
 		StringBuffer result = new StringBuffer();

@@ -30,10 +30,11 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 			}
 		}
 		
-		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
-		for(Table t : allTables) {
-			g.generateByModelProvider(new DbTableGeneratorModelProvider(t));
-		}
+//		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
+//		for(Table t : allTables) {
+//			g.generateByModelProvider(new DbTableGeneratorModelProvider(t));
+//		}
+		g.generateByModelProvider(new DbTableGeneratorModelProvider(DbTableFactory.getInstance().getTable("USER_INFO")));
 		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
 	}
 	
@@ -69,7 +70,7 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 			System.out.println("pluginTemplate:"+pluginTemplate);
 			
 			g.addTemplateRootDir(pluginTemplate);
-			g.generateByModelProvider(new DbTableGeneratorModelProvider(DbTableFactory.getInstance().getTable("blog")));
+			g.generateByModelProvider(new DbTableGeneratorModelProvider(DbTableFactory.getInstance().getTable("USER_INFO")));
 		}
 		
 		Runtime.getRuntime().exec("cmd.exe /c start d:/generator-demo-output");
