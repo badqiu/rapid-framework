@@ -1,13 +1,12 @@
 package cn.org.rapid_framework.generator.util;
 
+
 import java.sql.Types;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
-import static org.junit.Assert.*;
 
-public class JdbcTypeTest {
-	@Test
+public class JdbcTypeTest extends TestCase {
 	public void test() {
 		assertEquals("BIT",JdbcType.getJdbcSqlTypeName(Types.BIT));
 		assertEquals("BLOB",JdbcType.getJdbcSqlTypeName(Types.BLOB));
