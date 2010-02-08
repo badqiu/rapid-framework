@@ -2,11 +2,11 @@
 <mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:index="*" >
 	<mx:Script>
 		<![CDATA[
-			import appcommon.flex.event.NamedEvent;
+			import mx.events.DynamicEvent;
 			import mx.core.Container;
 			import mx.containers.ViewStack;
 			public function handleChangeView(event : Event) : void {
-				var e : NamedEvent = NamedEvent(event);
+				var e : DynamicEvent = DynamicEvent(event);
 				var viewName :String = e.name;
 				var viewStack : ViewStack = workspace.viewStack;
 				var currentView = viewStack.getChildByName(viewName) as Container;

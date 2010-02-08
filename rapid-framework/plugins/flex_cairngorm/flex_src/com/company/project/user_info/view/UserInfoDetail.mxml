@@ -6,7 +6,7 @@
 			
 			import com.company.project.model.*;
 			
-			import appcommon.flex.util.ConvertUtils;
+			import appcommon.flex.util.NumberConvertUtils;
 			
 			import mx.validators.Validator;
 			
@@ -19,8 +19,8 @@
 				userInfo.username = usernameInp.text;
 				userInfo.password = passwordInp.text;
 				userInfo.birthDate = birthDateInp.selectedDate;
-				userInfo.sex = ConvertUtils.toNumber(sexInp.text);		
-				userInfo.age = ConvertUtils.toNumber(ageInp.text);		
+				userInfo.sex = NumberConvertUtils.toNumber(sexInp.text);		
+				userInfo.age = NumberConvertUtils.toNumber(ageInp.text);		
 								
 				return userInfo;
 			}
@@ -59,10 +59,10 @@
 			<mx:DateField id="birthDateInp" selectedDate="{userInfo.birthDate}" formatString="{UserInfo.FORMAT_BIRTH_DATE}" width="150" editable="true" yearNavigationEnabled="true"/>
 		</mx:FormItem>
 		<mx:FormItem label="@Resource(bundle='UserInfo',key='sex')">
-			<mx:TextInput id="sexInp" text="{userInfo.sex}"/>
+			<mx:TextInput id="sexInp" text="{NumberConvertUtils.format(userInfo.sex)}"/>
 		</mx:FormItem>
 		<mx:FormItem label="@Resource(bundle='UserInfo',key='age')">
-			<mx:TextInput id="ageInp" text="{userInfo.age}"/>
+			<mx:TextInput id="ageInp" text="{NumberConvertUtils.format(userInfo.age)}"/>
 		</mx:FormItem>
 	</mx:Form>
 	

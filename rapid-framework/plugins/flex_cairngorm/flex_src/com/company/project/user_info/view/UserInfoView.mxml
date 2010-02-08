@@ -59,7 +59,7 @@
 			
 			private function edit(event : Event) : void {
 				//test for double click column header error
-				if(event.target.data is UserInfo) {  
+				if(event.target.data is UserInfo) { 
 					var win : UserInfoDetailWindow = UserInfoDetailWindow(PopUpManager.createPopUp(this,UserInfoDetailWindow,true));
 					win.userInfo = event.target.data;
 					win.currentState = "edit";
