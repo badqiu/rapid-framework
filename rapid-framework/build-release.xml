@@ -191,12 +191,8 @@
 		
 		<zip zipfile="${dir.dist}/rapid-generator-${version}.zip">
 			<zipfileset dir="." prefix="rapid-generator-${version}">
-				<include name="src/generator/**"/>
 				<include name="template/**"/>
 				<include name="generator/**"/>
-				<include name="doc/**"/>
-				
-				<exclude name="generator/test/**"/>
 			</zipfileset>
 		</zip>
 	</target>
