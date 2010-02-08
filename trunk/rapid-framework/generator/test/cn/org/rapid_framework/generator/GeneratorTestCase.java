@@ -16,7 +16,11 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
 	public void setUp()throws Exception {
-		runScripts();
+		try {
+			runScripts();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		g = new Generator();
 		if(isRuningByAnt()) {
