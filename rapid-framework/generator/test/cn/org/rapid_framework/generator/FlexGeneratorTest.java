@@ -16,6 +16,7 @@ public class FlexGeneratorTest extends GeneratorTestCase{
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		g.addTemplateRootDir(new File("plugins/flex/template"));
+		g.addTemplateRootDir(new File("plugins/flex_cairngorm/template"));
 		
 		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
 		
