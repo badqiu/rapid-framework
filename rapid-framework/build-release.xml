@@ -41,10 +41,12 @@
 	</path>
 	
 	<path id="dirs.java.src">
+		<path path="java_src"/>
 	  	<pathelement path="src/rapid_framework_common"/>
 	</path>
 
 	<path id="dirs.test.src">
+		<path path="plugins/hibernate/java_src"/>
 	  	<pathelement path="test/rapid_framework_common"/>
 	</path>
 	  		
