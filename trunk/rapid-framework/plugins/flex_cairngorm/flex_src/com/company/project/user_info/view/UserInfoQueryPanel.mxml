@@ -11,7 +11,7 @@
 		<![CDATA[
 			import com.company.project.model.*;
 			
-			import appcommon.flex.util.ConvertUtils;
+			import appcommon.flex.util.NumberConvertUtils;
 			
 			import mx.validators.Validator;
 			import mx.events.FlexEvent;
@@ -24,8 +24,8 @@
 				userInfo.username = usernameInp.text;
 				userInfo.password = passwordInp.text;
 				userInfo.birthDate = birthDateInp.selectedDate;
-				userInfo.sex = ConvertUtils.toNumber(sexInp.text);		
-				userInfo.age = ConvertUtils.toNumber(ageInp.text);		
+				userInfo.sex = NumberConvertUtils.toNumber(sexInp.text);		
+				userInfo.age = NumberConvertUtils.toNumber(ageInp.text);		
 								
 				return userInfo;
 			}
