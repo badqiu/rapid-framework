@@ -15,7 +15,7 @@
 		<![CDATA[
 			import ${basepackage}.model.*;
 			
-			import appcommon.flex.util.ConvertUtils;
+			import appcommon.flex.util.NumberConvertUtils;
 			
 			import mx.validators.Validator;
 			import mx.events.FlexEvent;
@@ -30,7 +30,7 @@
 						<#if column.isDateTimeColumn>
 				${classNameFirstLower}.${column.columnNameLower} = ${column.columnNameLower}Inp.selectedDate;
 						<#elseif column.isNumberColumn>
-				${classNameFirstLower}.${column.columnNameLower} = ConvertUtils.toNumber(${column.columnNameLower}Inp.text);		
+				${classNameFirstLower}.${column.columnNameLower} = NumberConvertUtils.toNumber(${column.columnNameLower}Inp.text);		
 						<#else>
 				${classNameFirstLower}.${column.columnNameLower} = ${column.columnNameLower}Inp.text;
 						</#if>
