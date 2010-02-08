@@ -15,8 +15,6 @@ import cn.org.rapid_framework.generator.provider.db.model.Table;
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
 	public void testGenerate() throws Exception{
-		Generator g = new Generator();
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		File[] listFiles = new File("plugins").listFiles();

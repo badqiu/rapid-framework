@@ -16,9 +16,6 @@ public class SpringMVCGeneratorTest extends GeneratorTestCase{
 
 	public void testGenerate() throws Exception{
 		
-		Generator g = new Generator();
-		g.setOutRootDir(".");
-		
 		System.out.println(DbTableFactory.getInstance().getAllTables());
 		
 		Table table = DbTableFactory.getInstance().getTable("USER_INFO");
