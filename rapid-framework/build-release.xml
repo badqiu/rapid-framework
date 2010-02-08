@@ -253,13 +253,14 @@
 	</target>
 				
 	<target name="cc_main">
-		<antcall target="clean"></antcall>
-		<antcall target="test"></antcall>
-		<antcall target="generator-zip"></antcall>
-		<antcall target="download-google-wiki"></antcall>
-		<antcall target="framework-zip"></antcall>
-		<antcall target="rapid-framework.jar"></antcall>
-		<antcall target="rapid-framework.src.jar.zip"></antcall>
+		<antcall target="clean" />
+		<antcall target="test" />
+		<antcall target="generator-zip" />
+		<antcall target="download-google-wiki" />
+		<antcall target="framework-zip" />
+		<antcall target="rapid-framework.jar" />
+		<antcall target="rapid-framework.src.jar.zip" />
+		<ant antfile="build-generator.xml" target="cc_main" />
 	</target>
 	
 	<target name="daily_build" >
