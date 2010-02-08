@@ -35,7 +35,7 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 //			g.generateByModelProvider(new DbTableGeneratorModelProvider(t));
 //		}
 		g.generateByModelProvider(new DbTableGeneratorModelProvider(DbTableFactory.getInstance().getTable("USER_INFO")));
-		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+//		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
 	}
 	
 	public void testGenerateForDemo() throws Exception{
@@ -76,7 +76,7 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 			g.generateByModelProvider(new DbTableGeneratorModelProvider(DbTableFactory.getInstance().getTable("USER_INFO")));
 		}
 		
-		Runtime.getRuntime().exec("cmd.exe /c start d:/generator-demo-output");
+//		Runtime.getRuntime().exec("cmd.exe /c start d:/generator-demo-output");
 	}
 	
 }
