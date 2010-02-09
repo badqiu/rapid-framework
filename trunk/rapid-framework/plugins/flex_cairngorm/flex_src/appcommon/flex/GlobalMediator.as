@@ -12,9 +12,9 @@ package appcommon.flex
 	 */
 	public class GlobalMediator
 	{
-		public var worksapce : ViewStack;
-		public var menu : ViewStack;
-		public var top : UIComponent;
+		public static var worksapce : ViewStack;
+		public static var menu : ViewStack;
+		public static var top : UIComponent;
 				
 		public static function changeMainView(viewName : String)
 		{
