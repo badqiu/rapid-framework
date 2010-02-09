@@ -58,21 +58,24 @@ public class PropertiesHelper {
 	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_NEVER;
 
 	public PropertiesHelper(Properties p) {
-		if(p == null) throw new IllegalArgumentException("properties must be not null");
-		this.p = p;
+		setProperties(p);
 	}
 	
 	public PropertiesHelper(Properties p,int systemPropertiesMode) {
-		if(p == null) throw new IllegalArgumentException("properties must be not null");
+		setProperties(p);
 		if(systemPropertiesMode != SYSTEM_PROPERTIES_MODE_NEVER && systemPropertiesMode != SYSTEM_PROPERTIES_MODE_FALLBACK && systemPropertiesMode != SYSTEM_PROPERTIES_MODE_OVERRIDE) {
 			throw new IllegalArgumentException("error systemPropertiesMode mode:"+systemPropertiesMode);
 		}
-		this.p = p;
 		this.systemPropertiesMode = systemPropertiesMode;
 	}
 	
 	public Properties getProperties() {
 		return p;
+	}
+	
+	public void setProperties(Properties props) {
+		if(props == null) throw new IllegalArgumentException("properties must be not null");
+		this.p = props;
 	}
 	
 	public String getRequiredString(String key) {
