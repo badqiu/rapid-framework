@@ -1,5 +1,8 @@
 package appcommon.flex
 {
+	import mx.containers.ViewStack;
+	import mx.core.UIComponent;
+	
 	/**
 	 * 全局中介者，持有主要的view对象，使各个对象间的耦合松散。
 	 * 
@@ -9,29 +12,16 @@ package appcommon.flex
 	 */
 	public class GlobalMediator
 	{
-		private static var instance:GlobalMediator;
-		public function GlobalMediator()
-		{
-			if (instance != null)
-			{
-				throw new Error("Only one GlobalMediator instance should be instantiated");
-			}
-		}
-		public static function getInstance():GlobalMediator
-		{
-			if (instance == null)
-			{
-				instance = new GlobalMediator();
-			}
-			return instance;
-		}
-		
-		public function changeMainView(viewName : String)
+		public var worksapce : ViewStack;
+		public var menu : ViewStack;
+		public var top : UIComponent;
+				
+		public static function changeMainView(viewName : String)
 		{
 
 		}
 		
-		public function reloadCurrentViewData()
+		public static function reloadCurrentViewData()
 		{
 
 		}		
