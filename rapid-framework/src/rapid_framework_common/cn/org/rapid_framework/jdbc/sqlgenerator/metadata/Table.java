@@ -48,6 +48,10 @@ public class Table {
 		}
 		return primaryKeyColumns;
 	}
+	
+	public int getPrimaryKeyCount() {
+		return getPrimaryKeyColumns().size();
+	}
 
 	private List<Column> getPrimaryKeyColumns0() {
 		List result = new ArrayList();

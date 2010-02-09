@@ -229,9 +229,9 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	
 	public E getById(PK id) {
 		List list = null;
-		if(getSqlGenerator().getTable().getPrimaryKeyColumns().size() > 1) {
+		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
 			list = getNamedParameterJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), new BeanPropertySqlParameterSource(id), new BeanPropertyRowMapper(getEntityClass()));
-		}else if(getSqlGenerator().getTable().getPrimaryKeyColumns().size() == 1){
+		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
 			list = getSimpleJdbcTemplate().query(getSqlGenerator().getSelectByPkSql(), ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), id);
 		}else {
 			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
@@ -240,9 +240,9 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 
 	public void deleteById(PK id) {
-		if(getSqlGenerator().getTable().getPrimaryKeyColumns().size() > 1) {
+		if(getSqlGenerator().getTable().getPrimaryKeyCount() > 1) {
 			getNamedParameterJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(),new BeanPropertySqlParameterSource(id));
-		}else if(getSqlGenerator().getTable().getPrimaryKeyColumns().size() == 1){
+		}else if(getSqlGenerator().getTable().getPrimaryKeyCount() == 1){
 			getSimpleJdbcTemplate().update(getSqlGenerator().getDeleteByPkSql(), id);
 		}else {
 			throw new IllegalStateException("not found primary key on table:"+getSqlGenerator().getTable().getTableName());
