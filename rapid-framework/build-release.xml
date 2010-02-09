@@ -219,6 +219,7 @@
 				<exclude name="${dir.src.web}/WEB-INF/classes/**"/>
 				<exclude name="generator/test/**"/>
 				<exclude name="plugins/ext/**"/>
+				<exclude name="plugins/flex/**"/>
 				<exclude name="plugins/plugin_template/**"/>
 				<exclude name="plugins/menu*/**"/>
 				
