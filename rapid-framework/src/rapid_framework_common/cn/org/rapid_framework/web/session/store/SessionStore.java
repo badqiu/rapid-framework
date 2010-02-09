@@ -20,7 +20,7 @@ public abstract class SessionStore {
 
 	public abstract void deleteSession(String sessionId);
 
-	public abstract Map getSession(String sessionId,int timeoutMinute);
+	public abstract Map getSession(String sessionId,int timeoutSeconds);
 
 	public void onSetAttribute(String sessionId,String key,Map sessionData,int timeoutSeconds) {
 		if(isSaveSessionDataOnAttributeChange) {
