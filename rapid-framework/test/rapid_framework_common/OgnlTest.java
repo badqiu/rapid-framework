@@ -1,3 +1,9 @@
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,5 +53,27 @@ public class OgnlTest {
 		Assert.assertTrue(Ognl.isNotEmpty(" "));
 		Assert.assertTrue(Ognl.isNotEmpty(new Object()));
 		Assert.assertTrue(Ognl.isNotEmpty("a"));
+	}
+	
+	@Test
+	public void isNumber() {
+		Assert.assertFalse(Ognl.isNumber(""));
+		Assert.assertFalse(Ognl.isNumber(null));
+		Assert.assertFalse(Ognl.isNumber(" "));
+		
+		Assert.assertTrue(Ognl.isNumber("1.1"));
+		Assert.assertTrue(Ognl.isNumber("1"));
+		Assert.assertTrue(Ognl.isNumber("-1"));
+		Assert.assertTrue(Ognl.isNumber(1));
+		Assert.assertTrue(Ognl.isNumber(1.1));
+		Assert.assertTrue(Ognl.isNumber(new Integer(1)));
+	}
+	
+	@Test
+	public void testPrintSystemProperties() throws FileNotFoundException {
+		PrintStream out = new PrintStream(System.out);
+		for(Map.Entry entry : System.getProperties().entrySet()) {
+			out.println(entry.getKey()+":"+entry.getValue());
+		}
 	}
 }

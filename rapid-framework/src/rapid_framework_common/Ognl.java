@@ -1,3 +1,5 @@
+import org.springframework.util.NumberUtils;
+
 /**
  * Ognl工具类，主要是为了在ognl表达式访问静态方法时可以减少长长的类名称编写
  * Ognl访问静态方法的表达式为: @class@method(args)
@@ -12,6 +14,7 @@
  *
  */
 public class Ognl {
+	private Ognl() {}
 	
 	public static boolean isEmpty(Object o) {
 		if(o == null)
@@ -31,6 +34,22 @@ public class Ognl {
 	
 	public static boolean isNotBlank(Object o) {
 		return !isBlank(o);
+	}
+	
+	public static boolean isNumber(Object o) {
+		if(o == null) return false;
+		if(o instanceof Number) {
+			return true;
+		}
+		if(o instanceof String) {
+			try {
+				Double.parseDouble((String)o);
+				return true;
+			}catch(NumberFormatException e) {
+				return false;
+			}
+		}
+		return false;
 	}
 	
 	public static boolean isBlank(Object o) {
