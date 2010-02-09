@@ -16,6 +16,7 @@
 			import ${basepackage}.model.*;
 			
 			import appcommon.flex.util.NumberConvertUtils;
+			import appcommon.flex.util.ValidatorUtils;
 			
 			import mx.validators.Validator;
 			import mx.events.FlexEvent;
@@ -41,18 +42,13 @@
 			}
 						
 			public function validate(): Boolean{
-				var error:Array = Validator.validateAll([
+				return ValidatorUtils.validateAll([
 				<#list table.columns as column>
 					<#if !column.pk>
 					${column.columnNameLower}Vld<#if column_has_next>,</#if>
 					</#if>
 				</#list>
 				]);
-				if(error.length > 0){
-					return false;
-				} else{
-					return true;
-				}
 			}
 		]]>
 	</mx:Script>
