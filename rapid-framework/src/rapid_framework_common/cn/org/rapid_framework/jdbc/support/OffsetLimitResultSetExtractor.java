@@ -29,16 +29,26 @@ public class OffsetLimitResultSetExtractor implements ResultSetExtractor {
 	}
 
 	public Object extractData(ResultSet rs) throws SQLException,DataAccessException {
-		List results = new ArrayList(limit > 200 ? 200 : limit);
+		List results = new ArrayList(limit > 50 ? 50 : limit);
 		
 		if (offset > 0) {
-			rs.absolute(offset);
+			// Skip Results
+	        if (rs.getType() == ResultSet.TYPE_FORWARD_ONLY) {
+	        	for (int i = 0; i < offset; i++) {
+		            if (!rs.next()) {
+		              return new ArrayList(0);
+		            }
+		        }
+	        } else {
+	        	rs.absolute(offset);
+	        }
 		}
+		
 		int rowNum = 0;
 		while (rs.next()) {
 			Object row = rowMapper.mapRow(rs, rowNum++);
 			results.add(row);
-			if(limit == (rowNum + 1))
+			if((rowNum + 1) >= limit)
 				break;
 		}
 		return results;
