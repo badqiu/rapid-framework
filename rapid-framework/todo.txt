@@ -15,6 +15,10 @@ pipeline中如果不能找到模板的异常处理
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 完成Flash Scope
 
+flex权限控制
+	参考: http://code.google.com/p/flexible-chimp/
+	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
+	
 
 生成器:
 	增加通过一个查询得到列表界面的sql
