@@ -6,7 +6,6 @@ package appcommon.flex
 
 	
 	import com.adobe.cairngorm.control.FrontController;
-	import com.company.project.user_info.UserInfoRegister;
 
 	public class GlobalController extends FrontController
 	{
@@ -14,10 +13,13 @@ package appcommon.flex
 		{
 			initialiseCommands();
 		}
-
+		
+		/**
+		 * register command to event mapping
+		 */
 		public function initialiseCommands():void
 		{
-			UserInfoRegister.initialiseCommands(this);
+			// UserInfoRegister.initialiseCommands(this);
 		}
 
 
