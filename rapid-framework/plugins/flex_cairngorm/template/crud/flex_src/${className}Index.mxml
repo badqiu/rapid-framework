@@ -7,7 +7,6 @@
 	xmlns:${className}="com.company.project.${underscoreName}.view.*"
 	xmlns:common="appcommon.flex.*"
 	>
-	<mx:Style source="./assets/css/global.css"/>
 	<mx:Script>
 		<![CDATA[
 		]]>
