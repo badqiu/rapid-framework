@@ -2,8 +2,9 @@
 rapid-framework v3.1
 jsp 可以实现如类的继承体系: <rapid:block /> <rapid:override />
 freemarker 可以实现如类的继承体系: <@block /> <@override />
+dao层:
 spring jdbc增加增删改查的sql生成工具
-
+增加SqlServer2005Dialect用于分页
 增加ThreadLocal for memcached
 
 --------------------------------------------------------
