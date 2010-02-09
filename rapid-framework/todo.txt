@@ -7,11 +7,12 @@ rapid-framework路线图
 #修改目录为标准的 java_src,java_test目录
 #事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
 
+  #缓存抽象
+
 spring xmlns to spring3.0.xsd
 pipeline中如果不能找到模板的异常处理
 为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
-缓存抽象
 完成Flash Scope
 
 
