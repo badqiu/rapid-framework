@@ -48,19 +48,22 @@
  	 -->
     
 	<!-- 支持 @Transactional 标记 -->
-<!--	<tx:annotation-driven/>-->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
 	<!-- 支持 @AspectJ 标记-->
 <!--	<aop:aspectj-autoproxy/>-->
 
 	<!-- 以AspectJ方式 定义 AOP -->
+	<!-- 
 	<aop:config proxy-target-class="true">
 		<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
 		<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
 	</aop:config>
+	 -->
 
 	<!-- 基本事务定义,使用transactionManager作事务管理,默认get* find*方法的事务为readonly,其余方法按默认设置.
 			 默认的设置请参考Spring文档事务一章. -->
+	<!-- 
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="find*" read-only="true"/>
@@ -69,6 +72,7 @@
 			<tx:method name="*" read-only="false"/>
 		</tx:attributes>
 	</tx:advice>
+	 -->
 	
 	<!-- 用于持有ApplicationContext,可以使用ApplicationContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
 	<!-- <bean class="cn.org.rapid_framework.util.ApplicationContextHolder"/> -->
