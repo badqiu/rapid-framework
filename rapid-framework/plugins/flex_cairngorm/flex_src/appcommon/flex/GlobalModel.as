@@ -1,4 +1,4 @@
-package com.pomer.common
+package appcommon.flex
 {
 
 	import mx.collections.ArrayCollection;
