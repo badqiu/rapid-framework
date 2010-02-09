@@ -2,10 +2,5 @@
 <cairngorm:ServiceLocator xmlns="*"
 						  xmlns:mx="http://www.adobe.com/2006/mxml"
 						  xmlns:cairngorm="http://www.adobe.com/2006/cairngorm">
-	<!--userInfoFlexService-->
-	<mx:RemoteObject endpoint="../messagebroker/amf"
-					 id="userInfoFlexService"
-					 destination="userInfoFlexService"
-					 showBusyCursor="true"/>
 
 </cairngorm:ServiceLocator>
