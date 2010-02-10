@@ -7,7 +7,7 @@
 			import mx.containers.ViewStack;
 			public function handleChangeView(event : Event) : void {
 				var e : DynamicEvent = DynamicEvent(event);
-				var viewName :String = e.name;
+				var viewName :String = e.viewName;
 				var viewStack : ViewStack = workspace.viewStack;
 				var currentView = viewStack.getChildByName(viewName) as Container;
 				viewStack.selectedChild = currentView;
