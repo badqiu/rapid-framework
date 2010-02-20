@@ -16,14 +16,53 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/1.jpg]
 ==2.拷贝rapid-framework至项目根目录==
 将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝完效果如下. 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/2.jpg]
 ==3.设置项目的编码为utf-8==
 右键点击项目,修改项目属性 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg]
 ==4.设置源码路径==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
+==5.将generator/lib的jars加入classpath==
+点击"Add jars"按钮将生成器依赖的jar包需要加入classpath 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg]
+
+==6.安装插件 hibernate及struts2==
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层) 
+
+打开plugins/build.xml,并打开eclipse的 Outline 视图 
+
+现运行 install_flex_cairngorm及 install_dao_hibernate 任务
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg]
+
+==7.在mysql数据库中创建表user_info==
+在test数据库创建表,运行如下sql 
+{{{
+CREATE TABLE `user_info` ( 
+  `user_id` bigint(20) NOT NULL AUTO_INCREMENT, 
+  `username` varchar(50) DEFAULT NULL, 
+  `password` varchar(50) DEFAULT NULL, 
+  `birth_date` date DEFAULT NULL, 
+  `sex` int(11) DEFAULT NULL, 
+  `age` int(11) DEFAULT NULL, 
+  PRIMARY KEY (`user_id`) 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+}}}
+
+==8.修改生成器配置文件generator.properties的jdbc数据库连接信息 其它属性暂不修改==
+{{{
+jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8 
+jdbc.driver=com.mysql.jdbc.Driver 
+jdbc.username=root 
+jdbc.password=abc123
+}}}
+
+==9.运行代码生成器 GeneratorMain.java==
+以application的方式运行cn.org.rapid_framework.generator.GeneratorMain?,直接修改源码,在便生成不同的表. 
+
+==10.拷贝生成的代码至项目根目录==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/8.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/9.jpg]
