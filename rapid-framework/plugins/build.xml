@@ -70,13 +70,13 @@ author:badqiu
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
-	<target name="install_web_ext" description="安装Extjs">
+	<target name="install_extjs" description="安装Extjs">
 		<property name="plugin_name" value="extjs"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
-	<target name="install_flex" description="安装flex">
-		<property name="plugin_name" value="flex"/>
+	<target name="install_flex_cairngorm" description="安装flex">
+		<property name="plugin_name" value="flex_cairngorm"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
