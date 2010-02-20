@@ -29,3 +29,4 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_6.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_7.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/last.jpg]
