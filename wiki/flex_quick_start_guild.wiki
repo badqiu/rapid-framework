@@ -37,6 +37,7 @@
 打开plugins/build.xml,并打开eclipse的 Outline 视图 
 
 现运行 install_flex_cairngorm及 install_dao_hibernate 任务
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg]
 
 ===1.7 在mysql数据库中创建表user_info===
