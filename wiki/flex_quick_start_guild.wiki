@@ -26,7 +26,7 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg]
 ===1.4 设置源码路径===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
-==1.5 将generator/lib的jars加入classpath==
+===1.5 将generator/lib的jars加入classpath===
 点击"Add jars"按钮将生成器依赖的jar包需要加入classpath 
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg]
