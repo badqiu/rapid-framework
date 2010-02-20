@@ -61,23 +61,44 @@ jdbc.password=abc123
 }}}
 
 ==9.运行代码生成器 GeneratorMain.java==
-以application的方式运行cn.org.rapid_framework.generator.GeneratorMain?,直接修改源码,在便生成不同的表. 
+以application的方式运行cn.org.rapid_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表. 
+{{{
+public class GeneratorMain {
+	/**
+	 * 请直接修改以下代码调用不同的方法以执行相关生成任务.
+	 */
+	public static void main(String[] args) throws Exception {
+		GeneratorFacade g = new GeneratorFacade();
+//		g.printAllTableNames();				//打印数据库中的表名称
+		
+		g.clean();							//删除生成器的输出目录
+		g.generateByTable("user_info");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
+
+		//打开文件夹
+		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+	}
+}
+}}}
+
 
 ==10.拷贝生成的代码至项目根目录==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg]
 
-==12.增加Flex Project Nature(1)==
+==二.flex配置==
+===2.1 增加Flex Project Nature(1)===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_1.jpg]
-==12.增加Flex Project Nature(2)==
+===2.2 增加Flex Project Nature(2)===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_2.jpg]
-==12.增加Flex Project Nature(3)==
+===2.3 增加Flex Project Nature(3)===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_3.jpg]
-==13.设置Flex Build Path ==
+===2.4 设置Flex Build Path ===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_4.jpg]
-==14.设置Flex Applications==
+===2.5 设置Flex Applications===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg]
-==15.修改src/resources/jdbc.properties的数据库连接信息==
+
+==三.部署==
+===3.1 修改src/resources/jdbc.properties的数据库连接信息===
 该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与第7步的数据库连接配置相同即可 
-==16.部署应用struts2_demo至tomcat==
-==17.启动tomcat,访问URL: http://localhost:8080/flexdemo/flex/UserInfoIndex.swf==
+===3.2 部署应用struts2_demo至tomcat===
+===3.3 启动tomcat,访问URL: http://localhost:8080/flexdemo/flex/UserInfoIndex.swf===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/last.jpg]
