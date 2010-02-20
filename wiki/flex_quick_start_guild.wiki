@@ -99,7 +99,7 @@ public class GeneratorMain {
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_4.jpg]
 ===2.5 设置Flex Applications===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg]
-==2.6  ==
+===2.6 flex源代码的相关配置修改 ===
 根据生成器生成的flex_src/readme.txt执行如下相关操作.
 {{{
 	//copy follow code to appcommon.flex.GlobalControler.as: cairngorm中event与command的映射
