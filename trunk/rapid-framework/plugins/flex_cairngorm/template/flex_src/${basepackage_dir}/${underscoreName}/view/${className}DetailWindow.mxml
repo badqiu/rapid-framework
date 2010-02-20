@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<#include "/flex_macro.include"/>
 <#assign className = table.className>   
 <#assign classNameFirstLower = className?uncap_first>
 <#assign underscoreName = table.underscoreName/>
