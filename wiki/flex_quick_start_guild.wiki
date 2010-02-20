@@ -1,0 +1,31 @@
+<wiki:toc max_depth="2" />
+
+= 介绍 =
+
+以下将详细描述flex+hibernate的项目搭建方法
+
+=环境介绍=
+  * IDE: MyEclipse 6.5
+  * 数据库: Mysql 5
+  * JDK: 1.5
+  * flex builder3插件版本
+  * flex sdk 3.5
+
+=flex+hibernate详细搭建介绍=
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/1.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/2.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/8.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/9.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/10.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_1.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_2.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_3.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_4.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_6.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_7.jpg]
