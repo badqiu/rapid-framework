@@ -261,7 +261,7 @@
 		<antcall target="framework-zip" />
 		<antcall target="rapid-framework.jar" />
 		<antcall target="rapid-framework.src.jar.zip" />
-		<ant antfile="build-generator.xml" target="cc_main" />
+		<ant antfile="build-generator.xml" target="cc_main" inheritall="false" inheritrefs="false" />
 	</target>
 	
 	<target name="daily_build" >
