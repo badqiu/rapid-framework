@@ -1,4 +1,4 @@
-<#assign useI18N = true>
+<#assign useI18N = false>
 
 <#macro getMxmlColumnLabel column>
 <#compress>
