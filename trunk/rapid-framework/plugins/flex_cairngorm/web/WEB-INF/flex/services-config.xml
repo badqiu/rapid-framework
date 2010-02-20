@@ -114,8 +114,9 @@
     </logging>
 
     <system>
+		<manageable>false</manageable>
         <redeploy>
-            <enabled>true</enabled>
+            <enabled>false</enabled>
             <watch-interval>20</watch-interval>
             <watch-file>{context.root}/WEB-INF/flex/services-config.xml</watch-file>
             <watch-file>{context.root}/WEB-INF/flex/proxy-config.xml</watch-file>
