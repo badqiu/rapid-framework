@@ -12,9 +12,15 @@
   * flex sdk 3.5
 
 =flex+hibernate详细搭建介绍=
+==1.创建名称为flexdemo的web project==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/1.jpg]
+==2.拷贝rapid-framework至项目根目录==
+将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝完效果如下. 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/2.jpg]
+==3.设置项目的编码为utf-8==
+右键点击项目,修改项目属性 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg]
+==4.设置源码路径==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg]
