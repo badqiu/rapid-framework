@@ -8,7 +8,7 @@
   * IDE: MyEclipse 6.5
   * 数据库: Mysql 5
   * JDK: 1.5
-  * flex builder3插件版本
+  * flex builder3 eclipse插件版本
   * flex sdk 3.5
 
 =flex+hibernate详细搭建介绍=
