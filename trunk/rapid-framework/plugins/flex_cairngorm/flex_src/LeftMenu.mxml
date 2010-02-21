@@ -40,20 +40,6 @@
 	        </node>                    
 	    </node>  
     </mx:XMLList> 
-	<mx:XMLList id="treeData2">  
-	    <node id="10000" label="权限管理">  
-	        <node id="10100" label="角色管理">  
-	            <node id="10101" label="角色新增" viewName="RoleView"/>  
-	        </node>              
-	    </node>  
-    </mx:XMLList> 
-	<mx:XMLList id="treeData3">  
-	    <node id="10000" label="后台管理">  
-	        <node id="10100" label="后台管理">  
-	            <node id="10101" label="系统属性设置" viewName="SystemPropertiesView"/>  
-	        </node>              
-	    </node>  
-    </mx:XMLList> 
     
     <!-- effects -->
     <mx:Zoom id="menuViewStackEffect" 
@@ -67,13 +53,6 @@
 		<mx:Panel width="100%" height="100%" id="systemManagerView" showEffect="{menuViewStackEffect}"
 				  styleName="leftMenuPanel" label="后台管理"
 				  title="后台管理">
-			<mx:Accordion  width="100%" height="100%">
-				<mx:Canvas label="menu1" width="100%" height="100%">
-					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData3}" selectable="true" 
-						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
-					</mx:Tree>
-				</mx:Canvas>
-			</mx:Accordion>
 		</mx:Panel>      	
 		<mx:Panel width="100%" height="100%" id="businessManagerView" showEffect="{menuViewStackEffect}"
 				  styleName="leftMenuPanel" label="业务管理"
@@ -83,11 +62,6 @@
 					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData1}" selectable="true"
 						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
 					</mx:Tree>
-				</mx:Canvas>
-				<mx:Canvas label="menu2" width="100%" height="100%">
-					<mx:Tree itemClick="menuClick(event)" dataProvider="{treeData2}" selectable="true"
-						width="100%" height="100%" wordWrap="true" showRoot="false" labelField="@label">
-					</mx:Tree>					
 				</mx:Canvas>
 			</mx:Accordion>
 		</mx:Panel>    	
