@@ -50,10 +50,6 @@
     			duration="250"/>
         
     <mx:ViewStack width="100%" height="100%" id="menuViewStack">
-		<mx:Panel width="100%" height="100%" id="systemManagerView" showEffect="{menuViewStackEffect}"
-				  styleName="leftMenuPanel" label="后台管理"
-				  title="后台管理">
-		</mx:Panel>      	
 		<mx:Panel width="100%" height="100%" id="businessManagerView" showEffect="{menuViewStackEffect}"
 				  styleName="leftMenuPanel" label="业务管理"
 				  title="业务管理">
@@ -64,7 +60,11 @@
 					</mx:Tree>
 				</mx:Canvas>
 			</mx:Accordion>
-		</mx:Panel>    	
+		</mx:Panel>
+		<mx:Panel width="100%" height="100%" id="systemManagerView" showEffect="{menuViewStackEffect}"
+				  styleName="leftMenuPanel" label="后台管理"
+				  title="后台管理">
+		</mx:Panel>   		    	
     </mx:ViewStack>    
 	
 </mx:Canvas>
