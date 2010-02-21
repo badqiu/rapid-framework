@@ -6,14 +6,14 @@
 ///////////////////////////
 // ${className} readme
 ///////////////////////////
-	//copy follow code to GlobalControler.as
+	//copy follow code to appcommon.flex.GlobalControler.as
 
 			import ${basepackage}.${underscoreName}.${className}Register;
 	
 			// ${className} event and command mapping
 			${className}Register.initialiseCommands(this)
 
-	//copy follow code to Services.mxml
+	//copy follow code to appcommon.flex.Services.mxml
 
 	<!--${classNameFirstLower}FlexService-->
 	<mx:RemoteObject endpoint="../messagebroker/amf"
