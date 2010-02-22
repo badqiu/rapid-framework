@@ -31,7 +31,7 @@
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg]
 
-===1.6 安装插件 hibernate及struts2===
+===1.6 安装插件 hibernate及flex_cairngorm===
 项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层) 
 
 打开plugins/build.xml,并打开eclipse的 Outline 视图 
