@@ -14,7 +14,7 @@ BlazeDS本身提供一个[http://livedocs.adobe.com/livecycle/es/sdkHelp/program
 
 h5. 原生的Cairngorm MVC 概览
 
-!cairngorm_overview.png|border=1!
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex/cairngorm_overview.png]
 
 *存在的问题:*
 
