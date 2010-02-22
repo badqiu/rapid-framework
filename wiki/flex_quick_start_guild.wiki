@@ -63,7 +63,7 @@ jdbc.username=root
 jdbc.password=abc123
 }}}
 
-===1.9 运行代码生成器 GeneratorMain.java===
+===1.9 运行代码生成器`GeneratorMain.java`===
 以application的方式运行cn.org.rapid_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表. 
 {{{
 public class GeneratorMain {
