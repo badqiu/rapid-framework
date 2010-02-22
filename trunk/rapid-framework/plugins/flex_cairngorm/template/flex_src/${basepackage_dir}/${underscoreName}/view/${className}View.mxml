@@ -8,7 +8,6 @@
 	creationComplete="init()"
 	implements="appcommon.flex.base.ILoadData"
 	xmlns:${classNameFirstLower}="${basepackage}.${underscoreName}.view.*"
-	xmlns:component="appcommon.flex.component.*"
 	xmlns:pagging="com.wai.components.*">
 	<mx:Script>
 		<![CDATA[
@@ -85,10 +84,24 @@
 		<mx:Text text="${className}" styleName="moduleTitle"/>
 		<${classNameFirstLower}:${className}QueryPanel id="${classNameFirstLower}QueryPanel"
 			styleName="detailForm" width="100%" enter="search()"/>
-		<component:CrudToolbar
-			deleteEvent="del()"
-			newEvent="newRecord()"
-			searchEvent="search()"/>
+		<mx:HBox height="35" styleName="crudToolBar" width="100%" verticalAlign="middle" horizontalAlign="right">
+			<mx:Spacer/>
+			<mx:Button 
+				id="${classNameFirstLower}_search" 	
+				label="Search" styleName=""
+				click="search()" 
+				fillAlphas="[1.0, 1.0]" fillColors="[#FFEA00, #FFEA00]"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button 
+				id="${classNameFirstLower}_new"
+				label="New Record"  styleName=""
+				click="newRecord()"/>
+			<mx:Button 
+				id="${classNameFirstLower}_delete"
+				label="Delete Record" styleName=""
+				click="del()"/>
+			<mx:Spacer/>
+		</mx:HBox>
 		<${classNameFirstLower}:${className}Grid id="${classNameFirstLower}Grid" 
 			doubleClickEnabled="true" doubleClick="edit(event)"
 			change="model.${classNameFirstLower} = ${classNameFirstLower}Grid.selectedItem as ${className}"
