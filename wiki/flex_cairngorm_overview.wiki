@@ -1,13 +1,13 @@
 = 概述=
 
-现使用abode的[Cairngorm|http://opensource.adobe.com/wiki/display/cairngorm/Cairngorm]作为flex mvc框架.
-flex与后台的通讯方式使用[BlazeDS|http://opensource.adobe.com/wiki/display/blazeds/BlazeDS/]的RemoteObject进行通讯。通讯协议为AMF3.
+现使用abode的[http://opensource.adobe.com/wiki/display/cairngorm/Cairngorm Cairngorm]作为flex mvc框架.
+flex与后台的通讯方式使用[http://opensource.adobe.com/wiki/display/blazeds/BlazeDS/ BlazeDS]的RemoteObject进行通讯。通讯协议为AMF3.
 通过扩展BlazeDS，flex前台可以直接调用后台spring容器里面的bean方法。
 
 =BlazeDS扩展=
 
-BlazeDS本身提供一个[AbstractBootstrapService|http://livedocs.adobe.com/livecycle/es/sdkHelp/programmer/lcdsjavadoc/flex/messaging/services/AbstractBootstrapService.html]的类用于扩展,该类主要是在BlazeDS初始化时用于动态创建 services, destinations, and adapters. 通过扩展该类,用于将spring applicationContext的bean自动导出为destination,以供flex客户端调用.你也可以将JavaBean,EJB bean,其它IOC框架如Guice Bean全部导出为flex remote destinations. 比spring框架本身的[BlazeDS Intergration|http://www.springsource.org/spring-flex]更加灵活，不需要依赖于spring
-具体实现请查看[与Spring BlazeDS Integration相比，更简单的实现来调用spring bean|http://badqiu.javaeye.com/blog/485836]
+BlazeDS本身提供一个[http://livedocs.adobe.com/livecycle/es/sdkHelp/programmer/lcdsjavadoc/flex/messaging/services/AbstractBootstrapService.html AbstractBootstrapService]的类用于扩展,该类主要是在BlazeDS初始化时用于动态创建 services, destinations, and adapters. 通过扩展该类,用于将spring applicationContext的bean自动导出为destination,以供flex客户端调用.你也可以将JavaBean,EJB bean,其它IOC框架如Guice Bean全部导出为flex remote destinations. 比spring框架本身的[http://www.springsource.org/spring-flex Spring BlazeDS Intergration]更加灵活，不需要依赖于spring
+具体实现请查看[与Spring BlazeDS Integration相比，更简单的实现来调用spring bean http://badqiu.javaeye.com/blog/485836]
 
 =Caringorm扩展=
 
