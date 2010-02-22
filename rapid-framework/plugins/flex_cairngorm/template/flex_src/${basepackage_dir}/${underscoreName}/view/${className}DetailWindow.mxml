@@ -68,7 +68,7 @@
 	<mx:ControlBar verticalAlign="middle"
 				   horizontalAlign="center"
 				   height="52" width="100%">
-		<mx:Button label="@Resource(bundle='controls',key='okLabel')" click="confirm();"/>
+		<mx:Button label="@Resource(bundle='controls',key='okLabel')" click="confirm();" id="${classNameFirstLower}_write"/>
 		<mx:Button label="@Resource(bundle='controls',key='cancelLabel')" click="closeWindow();"/>
 	</mx:ControlBar>
 
