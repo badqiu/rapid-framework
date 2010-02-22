@@ -17,7 +17,6 @@
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
     * [rapid_generator 代码生成器rapid-generator]
     * [rapid_ant ant脚本]
-    * [rapid_flex_blazeds Flex BlazeDs与spring集成]
     * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承(new)]
@@ -37,6 +36,10 @@
       * [rapid_async_io 异步的IO]
       * [rapid_async_token AsyncToken替换Listener设计模式]
       * [rapid_utils 其它工具类介绍]
+    * flex
+      * [flex_cairngorm_overview Flex概述]
+      * [rapid_flex_blazeds Flex BlazeDs与spring集成]
+     
   * 插件说明
     * web框架
       * [plugin_struts2 web_struts2]
