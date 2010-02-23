@@ -10,7 +10,7 @@ applicationContext-resources.xml
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 }}}
 
-= service层代码 =
+==== service层代码 ====
 {{{
 @Transactional
 public class UserInfoManager extends BaseManager<UserInfo,java.lang.Long>{
@@ -25,6 +25,7 @@ public class UserInfoManager extends BaseManager<UserInfo,java.lang.Long>{
 }}}
 
 
+----
 = Spring <aop:config />事务=
 
 你也可以根据喜好，继续使用<aop:config /> <tx:advice />来配置事务
