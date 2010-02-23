@@ -1,7 +1,33 @@
-= Spring事务=
+= Spring @Transaction标注声明事务=
 
-现rapid中使用<aop:config /> <tx:advice />来配置事务，未使用annotation.
-根本自己需要修改是否使用annotation
+现默认使用spring提供的@Transaction标注来声明事务管理。
+
+事务的开启在下面的配置文件中:
+
+applicationContext-resources.xml
+{{{
+<!-- 支持 @Transactional 标记 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+}}}
+
+= service层代码 =
+{{{
+@Transactional
+public class UserInfoManager extends BaseManager<UserInfo,java.lang.Long>{
+        //.... 
+
+	@Transactional(readOnly=true)
+	public Page findByPageRequest(PageRequest pr) {
+		return userInfoDao.findByPageRequest(pr);
+	}
+	
+}
+}}}
+
+
+= Spring <aop:config />事务=
+
+你也可以根据喜好，继续使用<aop:config /> <tx:advice />来配置事务
 
 配置文件在:
 
