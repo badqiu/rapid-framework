@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.web.session;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -37,10 +40,10 @@ import cn.org.rapid_framework.web.util.CookieUtils;
  *
  */
 public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Filter{
+	private static Log log = LogFactory.getLog(HttpSessionStoreFilter.class);
 	private String sessionIdCookieName = "_rapid_session_id";
 
 	private String cookieDomain = null;
-
 
 	SessionStore sessionStore;
 	@Override
@@ -81,15 +84,30 @@ public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Fil
 		String sessionId = sessionIdCookie.getValue();
 
 		HttpSession rawSession = request.getSession();
-		Map sessionData = sessionStore.getSession(sessionId,rawSession.getMaxInactiveInterval());
+		
+		Map sessionData = loadSessionData(sessionId, rawSession);
 		try {
 			HttpSession sessionWrapper = new HttpSessionSessionStoreWrapper(rawSession,
 					sessionStore,sessionId,sessionData);
 			chain.doFilter(new HttpServletRequestSessionWrapper(request,sessionWrapper), response);
 		}finally {
-			sessionStore.saveSession(sessionId, sessionData,rawSession.getMaxInactiveInterval());
-			response.addCookie(sessionIdCookie);
+			try {
+				sessionStore.saveSession(sessionId, sessionData,rawSession.getMaxInactiveInterval());
+			}catch(Exception e) {
+				log.warn("save session data error,cause:"+e,e);
+			}
 		}
+	}
+
+	private Map loadSessionData(String sessionId, HttpSession rawSession) {
+		Map sessionData = null;
+		try {
+			sessionData = sessionStore.getSession(sessionId,rawSession.getMaxInactiveInterval());
+		}catch(Exception e) {
+			sessionData = new HashMap();
+			log.warn("load session data error,cause:"+e,e);
+		}
+		return sessionData;
 	}
 
 	private Cookie getOrGenerateSessionId(HttpServletRequest request,
