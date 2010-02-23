@@ -16,8 +16,13 @@ import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 /**
  * 
  * 用于将session存储在数据库中
@@ -82,7 +87,7 @@ public class JdbcSessionStore extends SessionStore{
 	public static Map decode(String sessionData) {
 		ObjectInputStream ois;
 		try {
-			ois = new ObjectInputStream(new ByteArrayInputStream(sessionData.getBytes("UTF-8")));
+			ois = new ObjectInputStream(new ByteArrayInputStream(new BASE64Decoder().decodeBuffer(sessionData)));
 			return (Map)ois.readObject();
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException("decode session data error:UnsupportedEncodingException",e);
@@ -98,7 +103,8 @@ public class JdbcSessionStore extends SessionStore{
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(byteOutput);
 			oos.writeObject(sessionData);
-			return byteOutput.toString("UTF-8");
+			byte[] bytes = byteOutput.toByteArray();
+			return new BASE64Encoder().encode(bytes);
 		}catch(IOException e) {
 			throw new RuntimeException("encode session data error",e);
 		}
