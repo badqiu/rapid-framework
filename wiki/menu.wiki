@@ -26,7 +26,7 @@
       * [rapid_velocity_extends velocity实现模板继承(new)]
       * [rapid_pipeline freemarker,velocity模板管道操作(new)]
     * dao层介绍(new)
-      * [rapid_transaction spring事务]
+      * [rapid_transaction spring事务(new)]
       * [rapid_dialect jdbc分页方言]
       * [rapid_ibatis ibatis分页及方言]
       * [rapid_xsqlbuilder 动态sql构造工具rapid-xsqlbuilder]
