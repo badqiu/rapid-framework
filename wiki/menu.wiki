@@ -47,17 +47,17 @@
       * [plugin_struts web_struts]
       * [plugin_springmvc web_springmvc]
       * [plugin_springmvc_rest web_springmvc_rest v3.0]
-    * dao层
+    * dao层(new)
       * [plugin_hibernate dao_hibernate]
-      * [plugin_spring_jdbc dao_spring_jdbc]
+      * [plugin_spring_jdbc dao_spring_jdbc(new)]
       * [plugin_ibatis dao_ibatis]
       * [plugin_ibatis3 dao_ibatis3 v3.0]
     * 分页列表组件
       * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer v3.0]
-    * 其它UI
+    * 其它UI(new)
       * [plugin_extjs extjs]
-      * [plugin_flex flex]
+      * [plugin_flex flex(new)]
   * 贡献代码
     * [dev_env 开发环境]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
