@@ -58,4 +58,27 @@
 		</mxmlc>
 
 	</target>
+	
+	<!-- 注意: 需要自己手工修改flexTasks.jar\templates\html-templates的模板内容，以适应自己的需要。如增加允许flex全屏幕功能 -->
+	<target name="html-wrapper" depends="prepare">
+		<!-- tasks: mxmlc,compc,html-wrapper -->
+		<taskdef resource="flexTasks.tasks" classpath="${FLEX_HOME}/ant/lib/flexTasks.jar" />
+		
+		<!-- 此处使用技巧为js指定:allowFullScreen,true  -->
+        <html-wrapper 
+            title="Welcome to My Flex App"
+            file="${flex.application.name}.html"
+            height="100%"
+            width="100%"
+            bgcolor="#869ca7&quot;,'allowFullScreen', &quot;true"
+            application="app"
+            swf="${flex.application.name}"
+            version-major="9"
+            version-minor="0"
+            version-revision="124"
+            history="true"
+            template="express-installation"
+            output="${basedir}/dist/web/flex/"/>
+	</target>
+		
 </project>
