@@ -1,12 +1,17 @@
 package cn.org.rapid_framework.web.session.store;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.sql.DataSource;
@@ -75,26 +80,28 @@ public class JdbcSessionStore extends SessionStore{
 
 	static Pattern sessionDataParser = Pattern.compile("\u0000([^:]*):([^\u0000]*)\u0000");
 	public static Map decode(String sessionData) {
-		if(sessionData == null) return new HashMap();
-		
-		Map map = new HashMap();
-		Matcher matcher = sessionDataParser.matcher(sessionData);
-		while (matcher.find()) {
-			map.put(matcher.group(1), matcher.group(2));
+		ObjectInputStream ois;
+		try {
+			ois = new ObjectInputStream(new ByteArrayInputStream(sessionData.getBytes("UTF-8")));
+			return (Map)ois.readObject();
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException("decode session data error:UnsupportedEncodingException",e);
+		} catch (IOException e) {
+			throw new RuntimeException("decode session data error:IOException",e);
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException("decode session data error:ClassNotFoundException",e);
 		}
-		return map;
 	}
 
 	public static String encode(Map<String,?> sessionData) {
-		StringBuilder encodeString = new StringBuilder();
-		for (String key : sessionData.keySet()) {
-			encodeString.append("\u0000");
-			encodeString.append(key);
-			encodeString.append(":");
-			encodeString.append(sessionData.get(key));
-			encodeString.append("\u0000");
+		try {
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(byteOutput);
+			oos.writeObject(sessionData);
+			return byteOutput.toString("UTF-8");
+		}catch(IOException e) {
+			throw new RuntimeException("encode session data error",e);
 		}
-		return encodeString.toString();
 	}
 	
 }
