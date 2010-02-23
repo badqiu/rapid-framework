@@ -42,7 +42,7 @@
       * [flex_cairngorm_overview Flex概述]
       * [rapid_flex_blazeds Flex BlazeDs与spring集成]
   * 插件说明
-    * web框架
+    * web mvc 框架
       * [plugin_struts2 web_struts2]
       * [plugin_struts web_struts]
       * [plugin_springmvc web_springmvc]
@@ -52,12 +52,12 @@
       * [plugin_spring_jdbc dao_spring_jdbc]
       * [plugin_ibatis dao_ibatis]
       * [plugin_ibatis3 dao_ibatis3 v3.0]
-    * view组件
-      * [plugin_extjs extjs]
-      * [plugin_flex flex]
     * 分页列表组件
       * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer v3.0]
+    * 其它UI
+      * [plugin_extjs extjs]
+      * [plugin_flex flex]
   * 贡献代码
     * [dev_env 开发环境]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
