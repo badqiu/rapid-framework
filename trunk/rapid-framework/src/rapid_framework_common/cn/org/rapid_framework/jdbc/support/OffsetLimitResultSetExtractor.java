@@ -33,15 +33,15 @@ public class OffsetLimitResultSetExtractor implements ResultSetExtractor {
 		
 		if (offset > 0) {
 			// Skip Results
-	        if (rs.getType() == ResultSet.TYPE_FORWARD_ONLY) {
-	        	for (int i = 0; i < offset; i++) {
-		            if (!rs.next()) {
-		              return new ArrayList(0);
-		            }
-		        }
-	        } else {
-	        	rs.absolute(offset);
-	        }
+//	        if (rs.getType() == ResultSet.TYPE_FORWARD_ONLY) {
+//	        	for (int i = 0; i < offset; i++) {
+//		            if (!rs.next()) {
+//		              return new ArrayList(0);
+//		            }
+//		        }
+//	        } else {
+	        rs.absolute(offset);
+//	        }
 		}
 		
 		int rowNum = 0;
