@@ -5,10 +5,10 @@
 
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * [flex_quick_start_guild flex快速开始(v3.5)]
-  * demo
+  * demo(new)
     * [snapshot html界面预览图]
     * [flex_snapshot flex界面预览图(new)]
-    * [http://rapid-flex.appspot.com/ flex在线demo]
+    * [http://rapid-flex.appspot.com/ flex在线demo(new)]
     * [generator_template_and_output 生成器模板及输出demo]
     * [demo_video demo视频]
     * [online_demo 在线sprngmvc_rest+ibatis3示例]
