@@ -1,58 +1,58 @@
 = Table.java 参考 =
 
 || *属性* || *描述* || *示例值* ||
-||sqlName|| ||USER_INFO||
-||classNameFirstLower|| ||userInfo||
-||underscoreName|| ||user_info||
+||sqlName|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
+||className|| 通过sqlName生成的类名称 ||UserInfo||
+||classNameFirstLower|| 类名称第一个字母小写 ||userInfo||
+||classNameLowerCase|| className并全部小写 ||userinfo||
+||underscoreName|| 下划线类名称 ||user_info||
 ||columns|| ||USER_ID||
-||remarks|| ||null||
-||compositeId|| ||false||
-||notPkColumns|| ||USERNAME||
-||pkCount|| ||1||
-||idColumn|| ||USER_ID||
-||classNameLowerCase|| ||userinfo||
-||pkColumns|| ||USER_ID||
-||singleId|| ||true||
-||compositeIdColumns|| ||USER_ID||
-||tableAlias|| ||UserInfo||
-||notCompositeId|| ||true||
-||primaryKeyColumns|| ||USER_ID||
-||ownerSynonymName|| ||null||
-||className|| ||UserInfo||
-||constantName|| ||USER_INFO||
+||remarks|| 数据库的注释 ||null||
+||notPkColumns|| 非主键的column对象 ||||
+||pkCount|| 主键数 ||1||
+||singleId|| pkCount = 1时为true ||true||
+||compositeId|| pkCount >= 2时为true ||false||
+||idColumn|| 表的单一主键 ||USER_ID||
+||pkColumns|| 所有的主键列,column对象 || ||
+||compositeIdColumns|| 等价于pkColumns,该属性已经过时|| ||
+||tableAlias|| 表的别名,值为 remarks == null ? className : remarks ||UserInfo||
+||notCompositeId|| pkCount < 2 时为true||true||
+||primaryKeyColumns|| 所有主键列 || ||
+||ownerSynonymName|| || ||
+||constantName|| 常量名,等于sqlName.toUpperCase() ||USER_INFO||
 ||importedKeys|| || ||
 ||exportedKeys|| || ||
 
 = Column.java 参考 =
 || *属性* || *描述* || *示例值* ||
-||sqlName|| ||USER_ID||
-||sqlTypeName|| ||BIGINT||
-||sqlType|| ||-5||
+||sqlName|| 数据库原生列名 ||USER_ID||
+||sqlTypeName|| 数据库原生列类型 ||BIGINT||
+||sqlType|| 数据库原生列类型 ||-5||
 ||validateString|| ||required validate-integer ||
-||unique|| ||true||
-||underscoreName|| ||user_id||
-||columnNameLower|| ||userId||
-||indexed|| ||true||
-||remarks|| ||null||
-||fk|| ||false||
+||unique|| 是否唯一 ||true||
+||underscoreName|| 下划列名称 ||user_id||
+||columnNameLower|| 已经过时，使用columNameFirstLower替代 ||userId||
+||indexed|| 是否索引列 ||true||
+||remarks|| 数据库原生番注 ||null||
+||fk|| 是否外键 ||false||
 ||noRequiredValidateString|| ||validate-integer ||
-||isNumberColumn|| ||true||
-||isStringColumn|| ||false||
+||isNumberColumn|| 是否是number类型的列 ||true||
+||isStringColumn|| 是否是String类型的列 ||false||
 ||decimalDigits|| ||0||
-||htmlHidden|| ||true||
-||columnName|| ||UserId||
-||defaultValue|| ||null||
-||isDateTimeColumn|| ||false||
-||constantName|| ||USER_ID||
-||isNotIdOrVersionField|| ||false||
-||columnNameLowerCase|| ||userid||
-||nullable|| ||false||
-||jdbcSqlTypeName|| ||BIGINT||
-||testData|| ||173||
+||htmlHidden|| 是否需要html隐藏 ||true||
+||columnName|| 将sqlName删除下划线，并首字母大写 ||UserId||
+||defaultValue|| 数据库原生默认值 ||null||
+||isDateTimeColumn|| 是否是日期类型的列 ||false||
+||constantName|| 常量名称，等于sqlName.toUpperCase() ||USER_ID||
+||isNotIdOrVersionField|| 不是主键并且不等于version时为true ||false||
+||columnNameLowerCase|| 等于columnName.toLowerCase() ||userid||
+||nullable|| 是否允许为空 ||false||
+||jdbcSqlTypeName|| 数据库列类型 ||BIGINT||
+||testData|| 该列生成的测试数据 ||173||
 ||size|| ||64||
-||javaType|| ||java.lang.Long||
-||asType|| ||Number||
-||columnNameFirstLower|| ||userId||
-||columnAlias|| ||userId||
-||pk|| ||true||
-||table|| || ||
+||javaType|| 与列相对应的java类型 ||java.lang.Long||
+||asType|| 与列相对应的ActionScript类型||Number||
+||columnNameFirstLower|| columnName的第一个字母小写 ||userId||
+||columnAlias|| 列的别名,值为 remarks == null ? columnName: remarks ||userId||
+||pk|| 是否主键 ||true||
+||table|| 列相对应的table对象 || ||
