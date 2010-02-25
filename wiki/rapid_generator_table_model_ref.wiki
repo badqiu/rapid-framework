@@ -4,7 +4,6 @@
 ||classNameFirstLower||userInfo|| ||
 ||underscoreName||user_info|| ||
 ||columns||USER_ID|| ||
-||class||class cn.org.rapid_framework.generator.provider.db.model.Table|| ||
 ||remarks||null|| ||
 ||compositeId||false|| ||
 ||notPkColumns||USERNAME|| ||
@@ -47,7 +46,6 @@
 ||constantName||USER_ID|| ||
 ||isNotIdOrVersionField||false|| ||
 ||columnNameLowerCase||userid|| ||
-||class||class cn.org.rapid_framework.generator.provider.db.model.Column|| ||
 ||nullable||false|| ||
 ||table||Database Table:USER_INFO to ClassName:UserInfo|| ||
 ||jdbcSqlTypeName||BIGINT|| ||
