@@ -17,7 +17,7 @@ public class GeneratorTestCase extends TestCase{
 	protected Generator g;
 	public void setUp()throws Exception {
 		try {
-			runScripts();
+			runSqlScripts();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("java.class.path").indexOf("ant.jar") >= 0;
 	}
 
-	private void runScripts() throws SQLException, IOException {
+	public static void runSqlScripts() throws SQLException, IOException {
 		GeneratorProperties.setProperty("jdbc.url", "jdbc:hsqldb:mem:generatorDB");
 		GeneratorProperties.setProperty("jdbc.driver", "org.hsqldb.jdbcDriver");
 		GeneratorProperties.setProperty("jdbc.username", "sa");
