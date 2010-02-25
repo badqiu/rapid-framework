@@ -30,28 +30,28 @@
 ||sqlName|| 数据库原生列名 ||USER_ID||
 ||sqlTypeName|| 数据库原生列类型 ||BIGINT||
 ||sqlType|| 数据库原生列类型 ||-5||
-||validateString|| ||required validate-integer ||
-||unique|| 是否唯一 ||true||
+||defaultValue|| 数据库原生默认值 ||null||
+||remarks|| 数据库原生番注 ||用户ID||
 ||columnName|| 将sqlName删除下划线，并首字母大写 ||UserId||
 ||underscoreName|| 下划列名称 ||user_id||
 ||columnNameLower|| 已经过时，使用columNameFirstLower替代 ||userId||
 ||columnNameFirstLower|| columnName的第一个字母小写 ||userId||
 ||columnNameLowerCase|| 等于columnName.toLowerCase() ||userid||
 ||columnAlias|| 列的别名,值为 remarks == null ? columnName: remarks ||userId||
-||indexed|| 是否索引列 ||true||
-||remarks|| 数据库原生番注 ||null||
-||nullable|| 是否允许为空 ||false||
-||defaultValue|| 数据库原生默认值 ||null||
-||noRequiredValidateString|| ||validate-integer ||
+||constantName|| 常量名称，等于sqlName.toUpperCase() ||USER_ID||
+||validateString|| 用于rapid-validation的验证表达式 ||required validate-integer ||
+||noRequiredValidateString|| 用于rapid-validation的验证表达式 ||validate-integer ||
 ||decimalDigits|| ||0||
-||htmlHidden|| 是否需要html隐藏 ||true||
+||indexed|| 是否索引列 ||true||
+||nullable|| 是否允许为空 ||false||
+||unique|| 是否唯一 ||true||
 ||fk|| 是否外键 ||false||
 ||pk|| 是否主键 ||true||
 ||isNumberColumn|| 是否是number类型的列 ||true||
 ||isStringColumn|| 是否是String类型的列 ||false||
 ||isDateTimeColumn|| 是否是日期类型的列 ||false||
 ||isNotIdOrVersionField|| 不是主键并且不等于version时为true ||false||
-||constantName|| 常量名称，等于sqlName.toUpperCase() ||USER_ID||
+||htmlHidden|| 是否需要html隐藏 ||true||
 ||jdbcSqlTypeName|| 数据库列类型 ||BIGINT||
 ||testData|| 该列生成的测试数据 ||173||
 ||size|| ||64||
