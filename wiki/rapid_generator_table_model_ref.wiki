@@ -30,29 +30,29 @@
 ||sqlType|| 数据库原生列类型 ||-5||
 ||validateString|| ||required validate-integer ||
 ||unique|| 是否唯一 ||true||
+||columnName|| 将sqlName删除下划线，并首字母大写 ||UserId||
 ||underscoreName|| 下划列名称 ||user_id||
 ||columnNameLower|| 已经过时，使用columNameFirstLower替代 ||userId||
+||columnNameFirstLower|| columnName的第一个字母小写 ||userId||
+||columnNameLowerCase|| 等于columnName.toLowerCase() ||userid||
+||columnAlias|| 列的别名,值为 remarks == null ? columnName: remarks ||userId||
 ||indexed|| 是否索引列 ||true||
 ||remarks|| 数据库原生番注 ||null||
-||fk|| 是否外键 ||false||
+||nullable|| 是否允许为空 ||false||
+||defaultValue|| 数据库原生默认值 ||null||
 ||noRequiredValidateString|| ||validate-integer ||
-||isNumberColumn|| 是否是number类型的列 ||true||
-||isStringColumn|| 是否是String类型的列 ||false||
 ||decimalDigits|| ||0||
 ||htmlHidden|| 是否需要html隐藏 ||true||
-||columnName|| 将sqlName删除下划线，并首字母大写 ||UserId||
-||defaultValue|| 数据库原生默认值 ||null||
+||fk|| 是否外键 ||false||
+||pk|| 是否主键 ||true||
+||isNumberColumn|| 是否是number类型的列 ||true||
+||isStringColumn|| 是否是String类型的列 ||false||
 ||isDateTimeColumn|| 是否是日期类型的列 ||false||
-||constantName|| 常量名称，等于sqlName.toUpperCase() ||USER_ID||
 ||isNotIdOrVersionField|| 不是主键并且不等于version时为true ||false||
-||columnNameLowerCase|| 等于columnName.toLowerCase() ||userid||
-||nullable|| 是否允许为空 ||false||
+||constantName|| 常量名称，等于sqlName.toUpperCase() ||USER_ID||
 ||jdbcSqlTypeName|| 数据库列类型 ||BIGINT||
 ||testData|| 该列生成的测试数据 ||173||
 ||size|| ||64||
 ||javaType|| 与列相对应的java类型 ||java.lang.Long||
 ||asType|| 与列相对应的ActionScript类型||Number||
-||columnNameFirstLower|| columnName的第一个字母小写 ||userId||
-||columnAlias|| 列的别名,值为 remarks == null ? columnName: remarks ||userId||
-||pk|| 是否主键 ||true||
 ||table|| 列相对应的table对象 || ||
