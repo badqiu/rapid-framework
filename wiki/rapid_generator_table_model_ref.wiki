@@ -47,7 +47,7 @@
 ||isNotIdOrVersionField||false|| ||
 ||columnNameLowerCase||userid|| ||
 ||nullable||false|| ||
-||table||Database Table:USER_INFO to ClassName:UserInfo|| ||
+||table|||| ||
 ||jdbcSqlTypeName||BIGINT|| ||
 ||testData||294|| ||
 ||size||64|| ||
