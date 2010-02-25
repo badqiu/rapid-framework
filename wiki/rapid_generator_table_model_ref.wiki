@@ -1,58 +1,58 @@
 = Table.java 参考 =
 
-|| *属性* || *示例值* || *描述* ||
-||classNameFirstLower||userInfo|| ||
-||underscoreName||user_info|| ||
-||columns||USER_ID|| ||
-||remarks||null|| ||
-||compositeId||false|| ||
-||notPkColumns||USERNAME|| ||
-||pkCount||1|| ||
-||idColumn||USER_ID|| ||
-||classNameLowerCase||userinfo|| ||
-||exportedKeys|||| ||
-||sqlName||USER_INFO|| ||
-||pkColumns||USER_ID|| ||
-||singleId||true|| ||
-||compositeIdColumns||USER_ID|| ||
-||tableAlias||UserInfo|| ||
-||notCompositeId||true|| ||
-||primaryKeyColumns||USER_ID|| ||
-||ownerSynonymName||null|| ||
-||className||UserInfo|| ||
-||constantName||USER_INFO|| ||
+|| *属性* || *描述* || *示例值* ||
+||sqlName|| ||USER_INFO||
+||classNameFirstLower|| ||userInfo||
+||underscoreName|| ||user_info||
+||columns|| ||USER_ID||
+||remarks|| ||null||
+||compositeId|| ||false||
+||notPkColumns|| ||USERNAME||
+||pkCount|| ||1||
+||idColumn|| ||USER_ID||
+||classNameLowerCase|| ||userinfo||
+||pkColumns|| ||USER_ID||
+||singleId|| ||true||
+||compositeIdColumns|| ||USER_ID||
+||tableAlias|| ||UserInfo||
+||notCompositeId|| ||true||
+||primaryKeyColumns|| ||USER_ID||
+||ownerSynonymName|| ||null||
+||className|| ||UserInfo||
+||constantName|| ||USER_INFO||
 ||importedKeys|| || ||
+||exportedKeys|| || ||
 
 = Column.java 参考 =
-|| *属性* || *示例值* || *描述* ||
-||validateString||required validate-integer || ||
-||unique||true|| ||
-||underscoreName||user_id|| ||
-||columnNameLower||userId|| ||
-||indexed||true|| ||
-||remarks||null|| ||
-||fk||false|| ||
-||noRequiredValidateString||validate-integer || ||
-||isNumberColumn||true|| ||
-||isStringColumn||false|| ||
-||sqlTypeName||BIGINT|| ||
-||sqlType||-5|| ||
-||decimalDigits||0|| ||
-||sqlName||USER_ID|| ||
-||htmlHidden||true|| ||
-||columnName||UserId|| ||
-||defaultValue||null|| ||
-||isDateTimeColumn||false|| ||
-||constantName||USER_ID|| ||
-||isNotIdOrVersionField||false|| ||
-||columnNameLowerCase||userid|| ||
-||nullable||false|| ||
-||table|||| ||
-||jdbcSqlTypeName||BIGINT|| ||
-||testData||294|| ||
-||size||64|| ||
-||javaType||java.lang.Long|| ||
-||asType||Number|| ||
-||columnNameFirstLower||userId|| ||
-||columnAlias||userId|| ||
-||pk||true|| ||
+|| *属性* || *描述* || *示例值* ||
+||sqlName|| ||USER_ID||
+||sqlTypeName|| ||BIGINT||
+||sqlType|| ||-5||
+||validateString|| ||required validate-integer ||
+||unique|| ||true||
+||underscoreName|| ||user_id||
+||columnNameLower|| ||userId||
+||indexed|| ||true||
+||remarks|| ||null||
+||fk|| ||false||
+||noRequiredValidateString|| ||validate-integer ||
+||isNumberColumn|| ||true||
+||isStringColumn|| ||false||
+||decimalDigits|| ||0||
+||htmlHidden|| ||true||
+||columnName|| ||UserId||
+||defaultValue|| ||null||
+||isDateTimeColumn|| ||false||
+||constantName|| ||USER_ID||
+||isNotIdOrVersionField|| ||false||
+||columnNameLowerCase|| ||userid||
+||nullable|| ||false||
+||jdbcSqlTypeName|| ||BIGINT||
+||testData|| ||173||
+||size|| ||64||
+||javaType|| ||java.lang.Long||
+||asType|| ||Number||
+||columnNameFirstLower|| ||userId||
+||columnAlias|| ||userId||
+||pk|| ||true||
+||table|| || ||
