@@ -17,8 +17,10 @@
     * [rapid_dir_desc 目录结构(new)]
     * [rapid_plugin_install_desc 插件安装器介绍]
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
-    * [rapid_generator 代码生成器rapid-generator]
     * [rapid_ant ant脚本]
+    * 代码生成器(new)
+      * [rapid_generator 代码生成器rapid-generator]
+      * [rapid_generator_table_model_ref 模板model引用参考]
     * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承(new)]
