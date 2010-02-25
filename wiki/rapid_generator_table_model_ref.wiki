@@ -11,7 +11,7 @@
 ||pkCount||1|| ||
 ||idColumn||USER_ID|| ||
 ||classNameLowerCase||userinfo|| ||
-||exportedKeys||cn.org.rapid_framework.generator.provider.db.model.ForeignKeys@134bed0|| ||
+||exportedKeys|||| ||
 ||sqlName||USER_INFO|| ||
 ||pkColumns||USER_ID|| ||
 ||singleId||true|| ||
@@ -22,7 +22,7 @@
 ||ownerSynonymName||null|| ||
 ||className||UserInfo|| ||
 ||constantName||USER_INFO|| ||
-||importedKeys||cn.org.rapid_framework.generator.provider.db.model.ForeignKeys@1db4f6f|| ||
+||importedKeys|| || ||
 
 = Column.java 参考 =
 || *属性* || *示例值* || *描述* ||
