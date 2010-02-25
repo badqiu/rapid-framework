@@ -1,6 +1,6 @@
-
 = Table.java 参考 =
 
+|| *属性* || *示例值* || *描述* ||
 ||classNameFirstLower||userInfo|| ||
 ||underscoreName||user_info|| ||
 ||columns||USER_ID|| ||
@@ -25,6 +25,7 @@
 ||importedKeys||cn.org.rapid_framework.generator.provider.db.model.ForeignKeys@1db4f6f|| ||
 
 = Column.java 参考 =
+|| *属性* || *示例值* || *描述* ||
 ||validateString||required validate-integer || ||
 ||unique||true|| ||
 ||underscoreName||user_id|| ||
