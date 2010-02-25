@@ -1,6 +1,7 @@
 以下为代码生成器的模板可以引用的table变量的参考.
 
 = Table.java 参考 =
+Table对象为对应的数据库表
 
 || *属性* || *描述* || *示例值* ||
 ||sqlName|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
@@ -26,6 +27,8 @@
 ||exportedKeys|| || ||
 
 = Column.java 参考 =
+Column为数据库对应的列
+
 || *属性* || *描述* || *示例值* ||
 ||sqlName|| 数据库原生列名 ||USER_ID||
 ||sqlTypeName|| 数据库原生列类型 ||BIGINT||
