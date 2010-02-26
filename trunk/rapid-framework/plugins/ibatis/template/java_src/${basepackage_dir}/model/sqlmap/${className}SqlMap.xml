@@ -51,10 +51,8 @@
     <update id="update" parameterClass="${classNameLower}">
     <![CDATA[
         UPDATE ${table.sqlName} SET
-	        <#list table.columns as column>
-	        <#if !column.pk>
+	        <#list table.notPkColumns as column>
 	        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
-	        </#if>
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
