@@ -27,11 +27,8 @@ package ${basepackage}.${underscoreName}.command
 	{
 		private var model :${className}ModelLocator = ${className}ModelLocator.getInstance();
 		
-		private var callbackEvent : CairngormCallbackEvent;
 		public function execute(event:CairngormEvent):void
 		{
-			this.callbackEvent = CairngormCallbackEvent(event);
-			
 			var ${classNameFirstLower} : ${className} = Save${className}Event(event).${classNameFirstLower};
 			var delegate: ${className}Delegate = new ${className}Delegate([this,CairngormCallbackEvent(event).callback]);
 			delegate.save(${classNameFirstLower});
