@@ -50,10 +50,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<update id="update" parameterType="${basepackage}.model.${className}">
     <![CDATA[
         UPDATE ${table.sqlName} SET
-	        <#list table.columns as column>
-	        <#if !column.pk>
+	        <#list table.notPkColumns as column>
 	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower+',jdbcType='+column.jdbcSqlTypeName/> <#if column_has_next>,</#if>
-	        </#if>
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
@@ -116,7 +114,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <select id="getBy${column.columnName}" resultMap="${className}Result" parameterType="${column.javaType}">
 	    select <include refid="${classNameFirstLower}Columns"/>
 	    <![CDATA[
-	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
+	        from ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
 	    ]]>
     </select>
     
