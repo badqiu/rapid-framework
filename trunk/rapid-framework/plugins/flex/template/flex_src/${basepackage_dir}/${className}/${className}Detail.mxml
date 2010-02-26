@@ -28,10 +28,8 @@
 			
 			public function validate(): Boolean{
 				var error:Array = Validator.validateAll([
-				<#list table.columns as column>
-					<#if !column.pk>
+				<#list table.notPkColumns as column>
 					${column.columnNameLower}Vld<#if column_has_next>,</#if>
-					</#if>
 				</#list>
 				]);
 				if(error.length > 0){
