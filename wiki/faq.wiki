@@ -2,8 +2,8 @@
 
 =不要提问的问题=
 
-`不要问如hibernate的sequence id generator怎么配置的问题,此类问题你查阅hibernate文档即可.
-包括struts,struts2,springmvc,ibatis这些框架你应该本身了解它的运作原理,rapid只是一个脚手架,帮你将各个框架组合好搭建在一起,有rapid扩展的部分已经说明,如具体碰到框架使用问题请查询各个框架本身的文档.`
+不要问如hibernate的sequence id generator怎么配置的问题,此类问题你查阅hibernate文档即可.
+包括struts,struts2,springmvc,ibatis这些框架你应该本身了解它的运作原理,rapid只是一个脚手架,帮你将各个框架组合好搭建在一起,有rapid扩展的部分已经说明,如具体碰到框架使用问题请查询各个框架本身的文档.
 
 =一般问题=
 == 默认为何没有使用国际化? ==
