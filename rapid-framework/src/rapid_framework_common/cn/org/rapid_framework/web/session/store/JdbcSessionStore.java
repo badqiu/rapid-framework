@@ -21,6 +21,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.springframework.jdbc.core.simple.ParameterizedRowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 
+// #TODO fixed me, cannot use sun.misc.BASE64Decoder
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 /**
