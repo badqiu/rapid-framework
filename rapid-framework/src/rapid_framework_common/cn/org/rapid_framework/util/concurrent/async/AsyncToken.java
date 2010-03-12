@@ -60,9 +60,9 @@ import javax.swing.SwingUtilities;
  */
 public class AsyncToken<T>  {
 	public static final String DEFAULT_TOKEN_GROUP = "default";
+	private static AtomicLong tokenIdSequence = new AtomicLong(1);
 	
-	
-	//tokenGroup tokenName tokenDescription tokenId  用于可以增加描述信息
+	//tokenGroup tokenName tokenId  
 	private String tokenGroup = DEFAULT_TOKEN_GROUP;
 	private String tokenName;
 	private long tokenId;
@@ -75,8 +75,6 @@ public class AsyncToken<T>  {
 	private boolean _isFiredResult;
 	
 	private CountDownLatch awaitResultSignal = null;
-	
-    private static AtomicLong tokenIdSequence = new AtomicLong(1);
     
 	public AsyncToken(){
 		this(null);
@@ -223,17 +221,13 @@ public class AsyncToken<T>  {
 	 * @see Future
 	 */
 	public Object waitForResult() throws InterruptedException,Exception {
-		return waitForResult(false, -1, null);
+		return waitForResult(-1, null);
 	}
 	/**
 	 *  等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future.get()可以使用
 	 *  @see Future
 	 */
 	public Object waitForResult(long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
-		return waitForResult(true, timeout, timeUnit);
-	}
-	
-	private Object waitForResult(boolean hasTimeout,long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
 		synchronized(this) {
 			if(_isFiredResult) {
 				if(_fault != null) {
@@ -246,7 +240,7 @@ public class AsyncToken<T>  {
 			awaitResultSignal = new CountDownLatch(1);
 		}
 		
-		if(hasTimeout) {
+		if(timeout > 0) {
 			awaitResultSignal.await(timeout,timeUnit);
 		}else {
 			awaitResultSignal.await();
@@ -257,7 +251,6 @@ public class AsyncToken<T>  {
 		}else {
 			return _result;
 		}
-		
 	}
-		
+	
 }
