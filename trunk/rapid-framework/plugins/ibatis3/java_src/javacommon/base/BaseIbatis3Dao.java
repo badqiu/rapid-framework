@@ -1,6 +1,7 @@
 package javacommon.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,12 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
 		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(),pageRequest.getFilters());
+		if(totalCount.intValue() <= 0) {
+			Page page = new Page(pageRequest,0);
+			page.setResult(new ArrayList(0));
+			return page;
+		}
+		
 		Page page = new Page(pageRequest,totalCount.intValue());
 		
 		//其它分页参数,用于不喜欢或是因为兼容性而不使用方言(Dialect)的分页用户使用. 与getSqlMapClientTemplate().queryForList(statementName, parameterObject)配合使用
