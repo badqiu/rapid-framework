@@ -150,6 +150,9 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 
 	private Page pageQuery(String sql, Map paramMap, final int totalCount,int pageSize, int pageNumber, RowMapper rowMapper) {
+		if(totalCount <= 0) {
+			return new Page(pageNumber,pageSize,0);
+		}
 		Page page = new Page(pageNumber,pageSize,totalCount);
 		List list = pageQuery(sql, paramMap,page.getFirstResult(),pageSize,rowMapper);
 		page.setResult(list);
