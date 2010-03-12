@@ -95,10 +95,8 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
 		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(),pageRequest.getFilters());
-		if(totalCount.intValue() <= 0) {
-			Page page = new Page(pageRequest,0);
-			page.setResult(new ArrayList(0));
-			return page;
+		if(totalCount == null || totalCount.intValue() <= 0) {
+			return new Page(pageRequest,0);
 		}
 		
 		Page page = new Page(pageRequest,totalCount.intValue());
