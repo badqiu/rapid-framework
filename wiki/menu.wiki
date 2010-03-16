@@ -1,7 +1,4 @@
-*现本文档随v3.5持续更新*
-
-*v3.0文档请查看下面链接*
-
+*v3.5 文档*
 
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * [flex_quick_start_guild flex快速开始(v3.5)]
