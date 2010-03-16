@@ -1,7 +1,10 @@
 #labels changelog
 #修改日志
 
-=rapid-framework v3.0==
+==rapid-framework v3.5==
+
+----
+==rapid-framework v3.0==
 
 *新增插件*
   # springmvc_rest : spring restful插件,现基于springmvc3.0 rc1版本，并且rc1还有一个bug,现rapid自带一个类手工修复
