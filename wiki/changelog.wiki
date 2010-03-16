@@ -9,12 +9,14 @@
   # rapid_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
 
 *rapid-generator代码生成器*
+
 增加g.generateByTable(’sql_table_name’,'className’)可以指定要生成的className;
 
 *其它*
   # jdbc分页方言(Dialect)提供占位符的方式
   # 升级struts2 jars => 2.1.8
 
+----
 ==rapid-framework v2.5.0==
 {{{
 	提升:
@@ -39,6 +41,7 @@
 	其它一些bugfixed及大量整理及重构
 }}}
 
+----
 ==rapid-framework v2.0.1==
 	* jdbc Dialect:删除Oracle9Dialect并修正分页错误
 	* 修正flex模板错误
@@ -48,6 +51,7 @@
 	* 修正BaseSpringJdbcDao的import编译问题
 	* 修改hibernate ${className}Dao.java模板，将"/~ order by #sortColumns# ~/"改为"/~ order by $sortColumns$ ~/"
 
+----
 ==rapid-framework v1.0.2==
 
 jar升级
