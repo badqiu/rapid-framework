@@ -30,7 +30,7 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_resource_encoding.jpg]
 
 ==4.设置源码路径==
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_source_folder_1.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
 
 ==5.将generator/lib的jars加入classpath==
 点击"Add jars"按钮将生成器依赖的jar包需要加入classpath
@@ -77,16 +77,13 @@ jdbc.password=abc123
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
-==11.将 java_src,java_test加入源代码路径==
-参考第4步,设置完后效果如下
-
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_java_src_and_java_test_to_source_folder.jpg]
 
-==12.修改src/resources/jdbc.properties的数据库连接信息==
+==11.修改src/resources/jdbc.properties的数据库连接信息==
 该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与第7步的数据库连接配置相同即可
 
-==13.部署应用struts2_demo至tomcat==
+==12.部署应用struts2_demo至tomcat==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg]
 
-==14.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
+==13.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/view_jsp_list.jpg]
