@@ -78,8 +78,6 @@ jdbc.password=abc123
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_java_src_and_java_test_to_source_folder.jpg]
-
 ==11.修改src/resources/jdbc.properties的数据库连接信息==
 该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与第7步的数据库连接配置相同即可
 
