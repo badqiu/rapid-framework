@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="rapid-springrest">
+        <wb-resource deploy-path="/" source-path="/web"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/java_src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/java_test"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/generator/src"/>
+        <property name="context-root" value="rapid-springrest"/>
+        <property name="java-output-path" value="/rapid-springrest/build/classes"/>
+    </wb-module>
+</project-modules>
