@@ -1,6 +1,20 @@
 #labels changelog
 #修改日志
 
+=rapid-framework v3.0==
+
+*新增插件*
+  # springmvc_rest : spring restful插件,现基于springmvc3.0 rc1版本，并且rc1还有一个bug,现rapid自带一个类手工修复
+  # ibatis3 : 现在跟随ibatis3 beta5版本，扩展实现了基于dialect的分页
+  # rapid_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
+
+*rapid-generator代码生成器*
+增加g.generateByTable(’sql_table_name’,'className’)可以指定要生成的className;
+
+*其它*
+  # jdbc分页方言(Dialect)提供占位符的方式
+  # 升级struts2 jars => 2.1.8
+
 ==rapid-framework v2.5.0==
 {{{
 	提升:
