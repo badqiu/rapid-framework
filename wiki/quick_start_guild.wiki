@@ -30,7 +30,7 @@
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_resource_encoding.jpg]
 
 ==4.设置源码路径==
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/4.jpg]
 
 ==5.将generator/lib的jars加入classpath==
 点击"Add jars"按钮将生成器依赖的jar包需要加入classpath
