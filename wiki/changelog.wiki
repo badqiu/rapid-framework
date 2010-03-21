@@ -8,6 +8,7 @@
   # 新增分页方言: SQLServer2005Dialect
   # spring事务配置采用@Transactional替换xml配置
   # session框架,可以将session存储在数据库,cache
+  # jdbc增加了sql生成工具类,构建最简单orm,用于进一步封装spring jdbc操作 
 
 *新增插件*
   # *flex_cairngorm:*  基于cairngorm mvc的flex插件,代码生成器生成的在线demo
