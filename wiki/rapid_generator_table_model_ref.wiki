@@ -4,27 +4,27 @@
 Table对象为对应的数据库表
 
 || *属性* || *描述* || *示例值* ||
-|| *sqlName*|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
-|| *className*|| 通过sqlName生成的类名称 ||UserInfo||
+||*sqlName*|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
+||*className*|| 通过sqlName生成的类名称 ||UserInfo||
 ||*classNameFirstLower*|| 类名称第一个字母小写 ||userInfo||
-||classNameLowerCase|| className并全部小写 ||userinfo||
-||underscoreName|| 下划线类名称 ||user_info||
-||columns|| ||USER_ID||
-||remarks|| 数据库的注释 ||null||
-||notPkColumns|| 非主键的column对象 ||||
-||pkCount|| 主键数 ||1||
-||singleId|| pkCount = 1时为true ||true||
-||compositeId|| pkCount >= 2时为true ||false||
-||idColumn|| 表的单一主键 ||USER_ID||
-||pkColumns|| 所有的主键列,column对象 || ||
-||compositeIdColumns|| 等价于pkColumns,该属性已经过时|| ||
-||tableAlias|| 表的别名,值为 remarks == null ? className : remarks ||UserInfo||
-||notCompositeId|| pkCount < 2 时为true||true||
-||primaryKeyColumns|| 所有主键列 || ||
-||ownerSynonymName|| || ||
-||constantName|| 常量名,等于sqlName.toUpperCase() ||USER_INFO||
-||importedKeys|| || ||
-||exportedKeys|| || ||
+||*classNameLowerCase*|| className并全部小写 ||userinfo||
+||*underscoreName*|| 下划线类名称 ||user_info||
+||*columns*|| ||USER_ID||
+||*remarks*|| 数据库的注释 ||null||
+||*notPkColumns*|| 非主键的column对象 ||||
+||*pkCount*|| 主键数 ||1||
+||*singleId*|| pkCount = 1时为true ||true||
+||*compositeId*|| pkCount >= 2时为true ||false||
+||*idColumn*|| 表的单一主键 ||USER_ID||
+||*pkColumns*|| 所有的主键列,column对象 || ||
+||*compositeIdColumns*|| 等价于pkColumns,该属性已经过时|| ||
+||*tableAlias*|| 表的别名,值为 remarks == null ? className : remarks ||UserInfo||
+||*notCompositeId*|| pkCount < 2 时为true||true||
+||*primaryKeyColumns*|| 所有主键列 || ||
+||*ownerSynonymName*|| || ||
+||*constantName*|| 常量名,等于sqlName.toUpperCase() ||USER_INFO||
+||*importedKeys*|| || ||
+||*exportedKeys*|| || ||
 
 = Column.java 参考 =
 Column为数据库对应的列
