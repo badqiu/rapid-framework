@@ -15,7 +15,7 @@ BlazeDS本身提供一个[http://livedocs.adobe.com/livecycle/es/sdkHelp/program
 =Caringorm扩展=
 
 
-h5. 原生的Cairngorm MVC 概览
+==原生的Cairngorm MVC 概览==
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex/cairngorm_overview.png]
 
@@ -23,8 +23,8 @@ h5. 原生的Cairngorm MVC 概览
 
 在上面的模型中，存在一个问题，即command在处理响应(Respond)时只能更新model的值来刷新界面的显示。但如下面这个案例会比较难以解决。
 *弹出窗口新增一个对象*
-1. 弹出一个窗口，并点击'确定'按钮保存新增对象
-2. 通过后台保存新增对象，保存成功则关闭窗口，保存失败则不关闭窗口
+  # 弹出一个窗口，并点击'确定'按钮保存新增对象
+  # 通过后台保存新增对象，保存成功则关闭窗口，保存失败则不关闭窗口
 
 在上面的需求中，如果直接使用Cairngorm 的ModelLocator会比较难以解决。因为在command中是没有持有UI对象的，所以不能关闭窗口。
 
