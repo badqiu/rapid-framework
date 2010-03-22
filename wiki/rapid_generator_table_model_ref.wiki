@@ -41,23 +41,23 @@ Column为数据库对应的列
 || *columnNameFirstLower* || columnName的第一个字母小写 ||userId||
 || *columnNameLowerCase* || 等于columnName.toLowerCase() ||userid||
 || *columnAlias* || 列的别名,值为 remarks == null ? columnName: remarks ||userId||
-||constantName* || 常量名称，等于sqlName.toUpperCase() ||USER_ID||
-||validateString* || 用于rapid-validation的验证表达式 ||required validate-integer ||
-||noRequiredValidateString* || 用于rapid-validation的验证表达式 ||validate-integer ||
-||decimalDigits* || ||0||
-||indexed* || 是否索引列 ||true||
-||nullable* || 是否允许为空 ||false||
-||unique* || 是否唯一 ||true||
-||fk* || 是否外键 ||false||
-||pk* || 是否主键 ||true||
-||isNumberColumn* || 是否是number类型的列 ||true||
-||isStringColumn* || 是否是String类型的列 ||false||
-||isDateTimeColumn* || 是否是日期类型的列 ||false||
-||isNotIdOrVersionField* || 不是主键并且不等于version时为true ||false||
-||htmlHidden* || 是否需要html隐藏 ||true||
-||jdbcSqlTypeName* || 数据库列类型 ||BIGINT||
-||testData* || 该列生成的测试数据 ||173||
-||size* || ||64||
-||javaType* || 与列相对应的java类型 ||java.lang.Long||
-||asType* || 与列相对应的ActionScript类型||Number||
-||table* || 列相对应的table对象 || ||
+|| *constantName* || 常量名称，等于sqlName.toUpperCase() ||USER_ID||
+|| *validateString* || 用于rapid-validation的验证表达式 ||required validate-integer ||
+|| *noRequiredValidateString* || 用于rapid-validation的验证表达式 ||validate-integer ||
+|| *decimalDigits* || ||0||
+|| *indexed* || 是否索引列 ||true||
+|| *nullable* || 是否允许为空 ||false||
+|| *unique* || 是否唯一 ||true||
+|| *fk* || 是否外键 ||false||
+|| *pk* || 是否主键 ||true||
+|| *isNumberColumn* || 是否是number类型的列 ||true||
+|| *isStringColumn* || 是否是String类型的列 ||false||
+|| *isDateTimeColumn* || 是否是日期类型的列 ||false||
+|| *isNotIdOrVersionField* || 不是主键并且不等于version时为true ||false||
+|| *htmlHidden* || 是否需要html隐藏 ||true||
+|| *jdbcSqlTypeName* || 数据库列类型 ||BIGINT||
+|| *testData* || 该列生成的测试数据 ||173||
+|| *size* || ||64||
+|| *javaType* || 与列相对应的java类型 ||java.lang.Long||
+|| *asType* || 与列相对应的ActionScript类型||Number||
+|| *table* || 列相对应的table对象 || ||
