@@ -1,0 +1,7 @@
+#summary One-sentence summary of this page.
+
+= 开发环境 =
+
+myEclipse
+
+通过svn checkout项目,然后导入myEclipse中,拷贝IDE/dev/myeclipse下面的.project,.classpath,.mymetadata至项目根目录即可

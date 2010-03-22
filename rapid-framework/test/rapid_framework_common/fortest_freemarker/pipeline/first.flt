@@ -1,4 +1,0 @@
-<@override name="head">
-  override_by_first
-</@override>
-first:${name!}

@@ -1,0 +1,114 @@
+<wiki:toc max_depth="2" />
+
+=核心理念=
+ 为你生成一切,再根据所需手工copy回工作区 
+ 
+
+=通常代码生成器存在的问题.=
+
+  * 二次开发困难,没有源码可以修改模板文件的model对象等 
+  * 过于智能,自动插入我们的项目中,程序员还需考虑旧的代码会不会被覆盖的问题 
+  * 生成文件的时候让你选要生成那些文件,而rapid只负责生成代码，这样生成器核心一分精简 
+  * 没有将存放模板的目录名称及文件名称利用起来,导致还需配置每个模板文件生成的文件名,目录结构
+  * 具体请查看我写的文章:[http://badqiu.javaeye.com/blog/212881 为何代码生成器都要这么智能呢?] 
+
+=特性=
+  * 基于FreeMarker模板语言,并且模板易于修改
+  * 基于数据库,内建好数据库的model,并支持多种数据库(mysql,sql server,oracle测试通过) 
+  * 半手工方式,生成的代码放在某个目录,再手工拷贝回来工作区 
+  * 易于做二次开发,整个生成器本身就是java源代码,源代码核心十分精简,并且鼓励你修改代码,也可以作为任何语言的代码生成器 
+  * 配置简单,只有一个配置文件generator.properties 
+  * 以application方式运行生成器,生成不同的table直接修改相关java代码即可 
+  * 自动搜索某个目录所有模板文件,无需配置 
+  * *模板文件的的名称与目录名称可以直接引用相关变量,如 ${basepackage}/${className}.java* 
+  * *生成的代码可以插入文档的某个部位* 
+  * *根据条件判断某些文件是否生成*
+
+=生成器的运行=
+  # 配置classpath,将generator/lib中的jar加入classpath,lib自带了几种常用jdbc驱动 
+  # 修改generator.properties的数据库连接属性及其它属性 
+  # 以application的方式运行GeneratorMain类,要生成不同的table,直接修改代码即可 
+{{{
+public class GeneratorMain {
+	public static void main(String[] args) throws Exception {
+		GeneratorFacade g = new GeneratorFacade();
+		
+		g.clean(); //删除生成的输入目录
+		
+		g.generateByTable("blog"); //根据表名生成文件
+//		g.generateByAllTable();
+		
+		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+	}
+}
+}}}
+
+
+----
+=生成器讲解=
+==代码template目录结构==
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
+
+如上所示，目录及文件名称可以引用相关变量。
+
+==创建一个生成器模板文件==
+在temppate目录创建一个文件,如${className}SpringControler.java
+则代码生成器会自动将该模板文件加载并生成该文件
+
+==模板可以引用的变量==
+默认传递的变量是table对象及generator.properties的内容
+具体请看Generator.java的 getTemplateDateModel() 方法
+{{{
+	/**
+	 * 得到FreeMarker的Model
+	 **/
+	private Map getTemplateDataModel(IGeneratorModelProvider modelProvider) throws Exception {
+		Map model = new HashMap();
+		model.putAll(PropertiesProvider.getProperties()); //generator.properties的内容
+		modelProvider.mergeTemplateModel(model);
+		return model;
+	}
+}}}
+
+==文件路径可以引用的变量==
+可以引用table对象的属性及generator.properties的内容
+具体请查看Generator.java的 getFilepathDataModel() 方法
+{{{
+	/**
+	 * 得到生成"文件目录/文件路径"的Model
+	 **/
+	private Map getFilePathDataModel(IGeneratorModelProvider modelProvider) throws Exception {
+		Map model = new HashMap();
+		model.putAll(PropertiesProvider.getProperties()); //generator.properties的内容
+		modelProvider.mergeFilePathModel(model);
+		return model;
+	}
+}}}
+
+IGeneratorModelProvider为模板的model提供者,可以修改方法以提供不同model 
+{{{
+public class DbTableGeneratorModelProvider implements IGeneratorModelProvider {
+	Table table;
+
+	public void mergeFilePathModel(Map model) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		model.putAll(BeanUtils.describe(table));
+	}
+
+	public void mergeTemplateModel(Map model) {
+		model.put("table",table);
+	}
+
+}
+}}}
+
+==生成的代码插入文档的某个部位==
+如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用
+
+*充分利用各种文件的注释*
+如在.xml中我们可以使用 <!-- generator-insert-location -->
+在.properties文件中我们可以使用 #generator-insert-location
+具体请查看template/insert_demo目录的内容
+ 
+
+==条件判断是否生成某文件==
+以@testExpression结尾的模板文件为有条件忽略,如果testExpression的值在model为true则生成该文件,生成的文件不会包含@testExpression,反之则不生成该文件(应用场景:用于在是否要生成hibernate联合主建的文件中) 
