@@ -56,7 +56,7 @@ public function doSave() : void
 	event.dispatch();
 }
 public function saveSuccess(event : Object) : void {
-		PopUpManager.removePopUp(this);
+      PopUpManager.removePopUp(this);
 }
 public function saveFailure(event : Object) : void {
 }
