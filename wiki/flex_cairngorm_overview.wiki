@@ -1,21 +1,21 @@
 <wiki:toc max_depth="2" />
 
-= 概述=
+= 1.概述=
 
 现使用abode的[http://opensource.adobe.com/wiki/display/cairngorm/Cairngorm Cairngorm]作为flex mvc框架.
 flex与后台的通讯方式使用[http://opensource.adobe.com/wiki/display/blazeds/BlazeDS/ BlazeDS]的RemoteObject进行通讯。通讯协议为AMF3.
 通过扩展BlazeDS，flex前台可以直接调用后台spring容器里面的bean方法。
 
-=BlazeDS扩展=
+= 2.BlazeDS扩展=
 
 BlazeDS本身提供一个[http://livedocs.adobe.com/livecycle/es/sdkHelp/programmer/lcdsjavadoc/flex/messaging/services/AbstractBootstrapService.html AbstractBootstrapService]的类用于扩展,该类主要是在BlazeDS初始化时用于动态创建 services, destinations, and adapters. 通过扩展该类,用于将spring applicationContext的bean自动导出为destination,以供flex客户端调用.你也可以将JavaBean,EJB bean,其它IOC框架如Guice Bean全部导出为flex remote destinations. 比spring框架本身的[http://www.springsource.org/spring-flex Spring BlazeDS Intergration]更加灵活，不需要依赖于spring
 
 具体实现请查看[rapid_flex_blazeds 与Spring BlazeDS Integration相比，更简单的实现来调用spring bean]
 
-=Caringorm扩展=
+= 3.Caringorm扩展 =
 
 
-==原生的Cairngorm MVC 概览==
+== 3.1原生的Cairngorm MVC 概览 ==
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex/cairngorm_overview.png]
 
@@ -63,7 +63,7 @@ public function saveFailure(event : Object) : void {
 }}}
 
 
-= flex权限控制=
+= 4. flex权限控制=
 
 *快速开始*
 
