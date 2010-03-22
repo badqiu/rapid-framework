@@ -4,9 +4,9 @@
 Table对象为对应的数据库表
 
 || *属性* || *描述* || *示例值* ||
-||sqlName|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
-||className|| 通过sqlName生成的类名称 ||UserInfo||
-||classNameFirstLower|| 类名称第一个字母小写 ||userInfo||
+|| *sqlName*|| 数据库的列名称,很多其它值都是通过此列派生 ||USER_INFO||
+|| *className*|| 通过sqlName生成的类名称 ||UserInfo||
+||*classNameFirstLower*|| 类名称第一个字母小写 ||userInfo||
 ||classNameLowerCase|| className并全部小写 ||userinfo||
 ||underscoreName|| 下划线类名称 ||user_info||
 ||columns|| ||USER_ID||
