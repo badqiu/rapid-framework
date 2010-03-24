@@ -16,25 +16,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import cn.org.rapid_framework.generator.Generator;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.util.GLogger;
 /**
  * 
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
 public class DbTableFactory {
-	/**
-	 * Logger for this class
-	 */
-	private static final Log _log = LogFactory.getLog(Generator.class);
 
-//	Properties props;
 	
 	private Connection connection;
 	private static DbTableFactory instance = null;
@@ -172,7 +164,7 @@ public class DbTableFactory {
 	         }
 	      } catch (SQLException e) {
 	         String databaseStructure = getDatabaseStructureInfo();
-	         _log.error(e.getMessage(), e);
+	         GLogger.error(e.getMessage(), e);
 	         throw new RuntimeException("Exception in getting synonym owner " + databaseStructure);
 	      } finally {
 	         if (rs != null) {
@@ -208,7 +200,7 @@ public class DbTableFactory {
 	            sb.append("  ").append(schemaRs.getString("TABLE_SCHEM")).append(nl);
 	         }
 	      } catch (SQLException e2) {
-	         _log.warn("Couldn't get schemas", e2);
+	         GLogger.warn("Couldn't get schemas", e2);
 	         sb.append("  ?? Couldn't get schemas ??").append(nl);
 	      } finally {
 	         try {
@@ -224,7 +216,7 @@ public class DbTableFactory {
 	            sb.append("  ").append(catalogRs.getString("TABLE_CAT")).append(nl);
 	         }
 	      } catch (SQLException e2) {
-	         _log.warn("Couldn't get catalogs", e2);
+	         GLogger.warn("Couldn't get catalogs", e2);
 	         sb.append("  ?? Couldn't get catalogs ??").append(nl);
 	      } finally {
 	         try {
@@ -240,7 +232,7 @@ public class DbTableFactory {
 	}
 	
 	private void retriveTableColumns(Table table) throws SQLException {
-	      _log.debug("-------setColumns(" + table.getSqlName() + ")");
+	      GLogger.debug("-------setColumns(" + table.getSqlName() + ")");
 
 	      List primaryKeys = getTablePrimaryKeys(table);
 	      table.setPrimaryKeyColumns(primaryKeys);
@@ -264,7 +256,7 @@ public class DbTableFactory {
 	         while (indexRs.next()) {
 	            String columnName = indexRs.getString("COLUMN_NAME");
 	            if (columnName != null) {
-	               _log.debug("index:" + columnName);
+	               GLogger.debug("index:" + columnName);
 	               indices.add(columnName);
 	            }
 
@@ -280,7 +272,7 @@ public class DbTableFactory {
 	               }
 	               l.add(columnName);
 	               uniqueIndices.put(columnName, indexName);
-	               _log.debug("unique:" + columnName + " (" + indexName + ")");
+	               GLogger.debug("unique:" + columnName + " (" + indexName + ")");
 	            }
 	         }
 	      } catch (Throwable t) {
@@ -301,7 +293,7 @@ public class DbTableFactory {
 
 	      // In case none of the columns were primary keys, issue a warning.
 	      if (primaryKeys.size() == 0) {
-	         _log.warn("WARNING: The JDBC driver didn't report any primary key columns in " + table.getSqlName());
+	         GLogger.warn("WARNING: The JDBC driver didn't report any primary key columns in " + table.getSqlName());
 	      }
 	}
 
@@ -338,7 +330,7 @@ public class DbTableFactory {
 
 	         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
 	         if (isUnique) {
-	            _log.debug("unique column:" + columnName);
+	            GLogger.debug("unique column:" + columnName);
 	         }
 	         Column column = new Column(
 	               table,
@@ -382,7 +374,7 @@ public class DbTableFactory {
 	      }
 	      while (primaryKeyRs.next()) {
 	         String columnName = primaryKeyRs.getString("COLUMN_NAME");
-	         _log.debug("primary key:" + columnName);
+	         GLogger.debug("primary key:" + columnName);
 	         primaryKeys.add(columnName);
 	      }
 	      primaryKeyRs.close();
