@@ -2,11 +2,9 @@ package cn.org.rapid_framework.generator.provider.db.model;
 
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.JdbcType;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
@@ -84,7 +82,6 @@ public class Column {
 	/**
 	 * Get static reference to Log4J Logger
 	 */
-	private static Log _log = LogFactory.getLog(Column.class);
 
 //	String description;
 //
@@ -152,7 +149,7 @@ public class Column {
 		_defaultValue = defaultValue;
 		_remarks = remarks;
 		
-		_log.debug(sqlName + " isPk -> " + _isPk);
+		GLogger.debug(sqlName + " isPk -> " + _isPk);
 
 	}
 
