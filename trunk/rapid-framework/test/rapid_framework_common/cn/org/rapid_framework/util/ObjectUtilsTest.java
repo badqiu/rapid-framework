@@ -18,6 +18,7 @@ public class ObjectUtilsTest {
 	}
 	@Test
 	public void testIsEmpty() {
+		Assert.assertTrue(ObjectUtils.isEmpty(null));
 		Assert.assertTrue(ObjectUtils.isEmpty(""));
 		Assert.assertTrue(ObjectUtils.isEmpty(new ArrayList()));
 		Assert.assertTrue(ObjectUtils.isEmpty(new HashMap()));
