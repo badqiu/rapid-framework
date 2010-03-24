@@ -9,34 +9,34 @@ public class GLogger {
 	public static int logLevel = INFO;
 
 	public static void debug(String s) {
-		if (logLevel >= DEBUG)
+		if (logLevel <= DEBUG)
 			System.out.println("[Generator DEBUG] " + s);
 	}
 
 	public static void info(String s) {
-		if (logLevel >= INFO)
+		if (logLevel <= INFO)
 			System.out.println("[Generator INFO] " + s);
 	}
 
 	public static void warn(String s) {
-		if (logLevel >= WARN)
+		if (logLevel <= WARN)
 			System.err.println("[Generator WARN] " + s);
 	}
 
 	public static void warn(String s, Throwable e) {
-		if (logLevel >= WARN) {
+		if (logLevel <= WARN) {
 			System.err.println("[Generator WARN] " + s);
 			e.printStackTrace();
 		}
 	}
 
 	public static void error(String s) {
-		if (logLevel >= ERROR)
+		if (logLevel <= ERROR)
 			System.err.println("[Generator ERROR] " + s);
 	}
 
 	public static void error(String s, Throwable e) {
-		if (logLevel >= ERROR) {
+		if (logLevel <= ERROR) {
 			System.err.println("[Generator ERROR] " + s);
 			e.printStackTrace();
 		}
