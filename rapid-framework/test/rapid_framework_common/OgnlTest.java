@@ -44,8 +44,17 @@ public class OgnlTest {
 		Assert.assertTrue(Ognl.isEmpty(""));
 		
 		Assert.assertFalse(Ognl.isEmpty(" "));
-		Assert.assertFalse(Ognl.isEmpty(new Object()));
 		Assert.assertFalse(Ognl.isEmpty("a"));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void isEmptyWithObjectException() {
+		Assert.assertFalse(Ognl.isEmpty(new Object()));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void isNotEmptyWithObjectException() {
+		Assert.assertFalse(Ognl.isNotEmpty(new Object()));
 	}
 	
 	HashMap NOT_EMPTY_MAP = new HashMap();
@@ -77,7 +86,6 @@ public class OgnlTest {
 		Assert.assertFalse(Ognl.isNotEmpty(""));
 		
 		Assert.assertTrue(Ognl.isNotEmpty(" "));
-		Assert.assertTrue(Ognl.isNotEmpty(new Object()));
 		Assert.assertTrue(Ognl.isNotEmpty("a"));
 	}
 	
