@@ -1,11 +1,14 @@
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import flex.messaging.io.ArrayList;
 
 
 
@@ -43,6 +46,29 @@ public class OgnlTest {
 		Assert.assertFalse(Ognl.isEmpty(" "));
 		Assert.assertFalse(Ognl.isEmpty(new Object()));
 		Assert.assertFalse(Ognl.isEmpty("a"));
+	}
+	
+	HashMap NOT_EMPTY_MAP = new HashMap();
+	@Before
+	public void setUp() {
+		NOT_EMPTY_MAP.put("1", 1);
+	}
+	@Test
+	public void testIsEmpty() {
+		Assert.assertTrue(Ognl.isEmpty(""));
+		Assert.assertTrue(Ognl.isEmpty(new ArrayList()));
+		Assert.assertTrue(Ognl.isEmpty(new HashMap()));
+		Assert.assertTrue(Ognl.isEmpty(new Object[]{}));
+		
+		Assert.assertTrue(!Ognl.isEmpty(" "));
+		Assert.assertTrue(!Ognl.isEmpty(Arrays.asList(1,2,3)));
+		Assert.assertTrue(!Ognl.isEmpty(NOT_EMPTY_MAP));
+		Assert.assertTrue(!Ognl.isEmpty(new Object[]{1,2,3}));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testIsEmptyWithIeelgalArgument() {
+		Assert.assertTrue(Ognl.isEmpty(new Object()));
 	}
 	
 	@Test
