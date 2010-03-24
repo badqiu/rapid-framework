@@ -4,7 +4,7 @@
 <#assign classNameLowerCase = className?lower_case/>
 <?xml version="1.0" encoding="UTF-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
-	xmlns:${className}="com.company.project.${underscoreName}.view.*"
+	xmlns:${className}="${basepackage}.${underscoreName}.view.*"
 	xmlns:common="appcommon.flex.*"
 	>
 	<mx:Script>
