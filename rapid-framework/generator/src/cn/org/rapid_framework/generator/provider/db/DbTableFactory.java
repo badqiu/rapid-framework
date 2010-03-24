@@ -78,6 +78,21 @@ public class DbTableFactory {
 	}
 	
 	public Table getTable(String sqlTableName) throws Exception {
+		Table t = _getTable(sqlTableName);
+		if(t == null && !sqlTableName.equals(sqlTableName.toUpperCase())) {
+			t = _getTable(sqlTableName.toUpperCase());
+		}
+		if(t == null && !sqlTableName.equals(sqlTableName.toLowerCase())) {
+			t = _getTable(sqlTableName.toLowerCase());
+		}
+		
+		if(t == null) {
+			throw new RuntimeException("not found table with give name:"+sqlTableName);
+		}
+		return t;
+	}
+
+	private Table _getTable(String sqlTableName) throws SQLException {
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), sqlTableName, null);
@@ -85,7 +100,7 @@ public class DbTableFactory {
 			Table table = createTable(conn, rs);
 			return table;
 		}
-		throw new RuntimeException("not found table with give name:"+sqlTableName);
+		return null;
 	}
 
 	private Table createTable(Connection conn, ResultSet rs) throws SQLException {
