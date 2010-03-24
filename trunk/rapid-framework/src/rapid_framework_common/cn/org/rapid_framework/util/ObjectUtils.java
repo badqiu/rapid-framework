@@ -26,30 +26,25 @@ public class ObjectUtils {
 	 */
 	public static boolean isEmpty(Object c) throws IllegalArgumentException {
 		if(c == null) return true;
-		boolean isSequence = c instanceof Map || c instanceof Collection || c instanceof String || c.getClass().isArray();
-		if(!isSequence) {
-			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String");
-		}
-
+		
 		if(c instanceof String) {
 			if(((String)c).length() == 0){
 				return true;
 			}
-		}
-		if(c instanceof Collection) {
+		} else if(c instanceof Collection) {
 			if(((Collection)c).isEmpty()){
 				return true;
 			}
-		}
-		if(c.getClass().isArray()) {
+		} else if(c.getClass().isArray()) {
 			if(((Object[])c).length == 0){
 				return true;
 			}
-		}
-		if(c instanceof Map) {
+		} else if(c instanceof Map) {
 			if(((Map)c).isEmpty()){
 				return true;
 			}
+		}else {
+			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String");
 		}
 
 		return false;
