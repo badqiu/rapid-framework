@@ -1,3 +1,6 @@
+import java.util.Collection;
+import java.util.Map;
+
 
 /**
  * Ognl工具类，主要是为了在ognl表达式访问静态方法时可以减少长长的类名称编写
@@ -14,18 +17,47 @@
  */
 public class Ognl {
 	
-	public static boolean isEmpty(Object o) {
-		if(o == null)
-			return true;
-		if(o instanceof String) {
-			String str = (String)o;
-			if(str.length() == 0) {
+	/**
+	 * 可以用于判断 Map,Collection,String,Array是否为空
+	 * @param c
+	 * @return
+	 */
+	public static boolean isEmpty(Object c) throws IllegalArgumentException {
+		if(c == null) return true;
+		boolean isSequence = c instanceof Map || c instanceof Collection || c instanceof String || c.getClass().isArray();
+		if(!isSequence) {
+			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String");
+		}
+
+		if(c instanceof String) {
+			if(((String)c).length() == 0){
 				return true;
 			}
 		}
+		if(c instanceof Collection) {
+			if(((Collection)c).isEmpty()){
+				return true;
+			}
+		}
+		if(c.getClass().isArray()) {
+			if(((Object[])c).length == 0){
+				return true;
+			}
+		}
+		if(c instanceof Map) {
+			if(((Map)c).isEmpty()){
+				return true;
+			}
+		}
+
 		return false;
 	}
 	
+	/**
+	 * 可以用于判断 Map,Collection,String,Array是否不为空
+	 * @param c
+	 * @return
+	 */	
 	public static boolean isNotEmpty(Object o) {
 		return !isEmpty(o);
 	}
