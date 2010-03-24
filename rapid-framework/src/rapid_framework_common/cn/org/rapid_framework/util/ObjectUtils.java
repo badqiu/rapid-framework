@@ -28,11 +28,11 @@ public class ObjectUtils {
 		if(c == null) return true;
 		boolean isSequence = c instanceof Map || c instanceof Collection || c instanceof String || c.getClass().isArray();
 		if(!isSequence) {
-			throw new IllegalArgumentException("illegal argument type,must be : Map,Collection,Array,String");
+			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String");
 		}
-		
-		if(c instanceof Map) {
-			if(((Map)c).isEmpty()){
+
+		if(c instanceof String) {
+			if(((String)c).length() == 0){
 				return true;
 			}
 		}
@@ -46,11 +46,12 @@ public class ObjectUtils {
 				return true;
 			}
 		}
-		if(c instanceof String) {
-			if(((String)c).length() == 0){
+		if(c instanceof Map) {
+			if(((Map)c).isEmpty()){
 				return true;
 			}
 		}
+
 		return false;
 	}
 
