@@ -19,7 +19,12 @@ public class ObjectUtils {
 		return false;
 	}
 	
-	public static boolean isEmpty(Object c) {
+	/**
+	 * 可以用于判断 Map,Collection,String,Array是否为空
+	 * @param c
+	 * @return
+	 */
+	public static boolean isEmpty(Object c) throws IllegalArgumentException {
 		if(c == null) return true;
 		boolean isSequence = c instanceof Map || c instanceof Collection || c instanceof String || c.getClass().isArray();
 		if(!isSequence) {
@@ -48,8 +53,13 @@ public class ObjectUtils {
 		}
 		return false;
 	}
-	
-	public static boolean isNotEmpty(Object c) {
+
+	/**
+	 * 可以用于判断 Map,Collection,String,Array是否不为空
+	 * @param c
+	 * @return
+	 */
+	public static boolean isNotEmpty(Object c) throws IllegalArgumentException{
 		return !isEmpty(c);
 	}
 	
