@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.FileUtils;
-
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import freemarker.cache.FileTemplateLoader;
@@ -223,8 +221,8 @@ public class Generator {
 
 	public void clean() throws IOException {
 		String outRoot = getOutRootDir();
-		FileUtils.deleteDirectory(new File(outRoot));
 		System.out.println("[Delete Dir]	"+outRoot);
+		FileHelper.deleteDirectory(new File(outRoot));
 	}
 
 	private String getOutRootDir() {
