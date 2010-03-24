@@ -19,30 +19,30 @@ public class Ognl {
 	
 	/**
 	 * 可以用于判断 Map,Collection,String,Array是否为空
-	 * @param c
+	 * @param o
 	 * @return
 	 */
-	public static boolean isEmpty(Object c) throws IllegalArgumentException {
-		if(c == null) return true;
+	public static boolean isEmpty(Object o) throws IllegalArgumentException {
+		if(o == null) return true;
 
-		if(c instanceof String) {
-			if(((String)c).length() == 0){
+		if(o instanceof String) {
+			if(((String)o).length() == 0){
 				return true;
 			}
-		} else if(c instanceof Collection) {
-			if(((Collection)c).isEmpty()){
+		} else if(o instanceof Collection) {
+			if(((Collection)o).isEmpty()){
 				return true;
 			}
-		} else if(c.getClass().isArray()) {
-			if(((Object[])c).length == 0){
+		} else if(o.getClass().isArray()) {
+			if(((Object[])o).length == 0){
 				return true;
 			}
-		} else if(c instanceof Map) {
-			if(((Map)c).isEmpty()){
+		} else if(o instanceof Map) {
+			if(((Map)o).isEmpty()){
 				return true;
 			}
 		}else {
-			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String");
+			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String. but was:"+o.getClass());
 		}
 
 		return false;

@@ -64,6 +64,7 @@ public class OgnlTest {
 	}
 	@Test
 	public void testIsEmpty() {
+		Assert.assertTrue(Ognl.isEmpty(null));
 		Assert.assertTrue(Ognl.isEmpty(""));
 		Assert.assertTrue(Ognl.isEmpty(new ArrayList()));
 		Assert.assertTrue(Ognl.isEmpty(new HashMap()));
