@@ -13,7 +13,6 @@
  *
  */
 public class Ognl {
-	private Ognl() {}
 	
 	public static boolean isEmpty(Object o) {
 		if(o == null)
