@@ -16,7 +16,8 @@ pipeline中如果不能找到模板的异常处理
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 完成Flash Scope
 
-增加生成器的type mapping:
+生成器:
+	1.增加生成器的type mapping:
     <typemap from="java.sql.Date" to="java.util.Date"/>
     <typemap from="java.sql.Timestamp" to="java.util.Date"/>
     <typemap from="java.math.BigDecimal" to="Long"/>
@@ -24,6 +25,8 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
     <typemap from="short" to="Integer"/>
     实现 java_typemap.byte=Integer
      java_typemap.short=Integer
+     
+     2.智能的解析properties,如将string "true" => boolean, "123" => integer
 
 flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
