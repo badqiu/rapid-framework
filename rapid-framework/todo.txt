@@ -22,7 +22,8 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
     <typemap from="java.math.BigDecimal" to="Long"/>
     <typemap from="byte" to="Integer"/>
     <typemap from="short" to="Integer"/>
-    
+    实现 java_typemap.byte=Integer
+     java_typemap.short=Integer
 
 flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
