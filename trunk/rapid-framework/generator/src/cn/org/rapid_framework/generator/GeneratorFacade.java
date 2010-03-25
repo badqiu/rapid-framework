@@ -49,8 +49,7 @@ public class GeneratorFacade {
 	private void generateByTable(Generator g, Table table) throws Exception {
 		GeneratorModel m = GeneratorModel.newFromTable(table);
 		String displayText = table.getSqlName()+" => "+table.getClassName();
-		printBeginGenerateInfo(displayText);
-		g.generateBy(m.templateModel,m.filePathModel);
+		generateBy(g, m, displayText);
 	}
 	
 	public void generateByTable(String tableName,String className) throws Exception {
@@ -64,16 +63,16 @@ public class GeneratorFacade {
 		Generator g = createGeneratorForJavaClass();
 		GeneratorModel m = GeneratorModel.newFromClass(clazz);
 		String displayText = "JavaClass:"+clazz.getSimpleName();
-		printBeginGenerateInfo(displayText);
-		g.generateBy(m.templateModel,m.filePathModel);
+		generateBy(g, m, displayText);
 	}
 
-	private void printBeginGenerateInfo(String displayText) {
+	private void generateBy(Generator g, GeneratorModel m, String displayText) throws Exception {
 		System.out.println("***************************************************************");
 		System.out.println("* BEGIN generate " + displayText);
 		System.out.println("***************************************************************");
+		g.generateBy(m.templateModel,m.filePathModel);
 	}
-	
+
 	public void clean() throws IOException {
 		Generator g = createGeneratorForDbTable();
 		g.clean();
