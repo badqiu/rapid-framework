@@ -16,6 +16,14 @@ pipeline中如果不能找到模板的异常处理
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 完成Flash Scope
 
+增加生成器的type mapping:
+    <typemap from="java.sql.Date" to="java.util.Date"/>
+    <typemap from="java.sql.Timestamp" to="java.util.Date"/>
+    <typemap from="java.math.BigDecimal" to="Long"/>
+    <typemap from="byte" to="Integer"/>
+    <typemap from="short" to="Integer"/>
+    
+
 flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
 	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
