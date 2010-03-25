@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
 
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.model.Table;
 
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
@@ -56,6 +57,16 @@ public class GeneratorTestCase extends TestCase{
 		stat.execute(sqlTables);
 		stat.close();
 		
+	}
+	
+	public void generateByTable(Table table) throws Exception {
+		GeneratorModel m = GeneratorModel.newFromTable(table);
+		g.generateBy(m.templateModel, m.filePathModel);
+	}
+	
+	public void generateByTable(Generator g,Table table) throws Exception {
+		GeneratorModel m = GeneratorModel.newFromTable(table);
+		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
 	public String getTempDir() {

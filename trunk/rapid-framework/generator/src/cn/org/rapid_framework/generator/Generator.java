@@ -64,19 +64,16 @@ public class Generator {
 		this.outRootDir = v;
 	}
 
-	public void generateByModelProvider(IGeneratorModelProvider modelProvider) throws Exception {
-		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' is empty");
+	public void generateBy(Map templateModel,Map filePathModel) throws Exception {
+		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
 		
-		System.out.println("***************************************************************");
-		System.out.println("* BEGIN generate "+modelProvider.getDisaplyText());
-		System.out.println("***************************************************************");
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			generateByModelProvider(templateRootDir,modelProvider);
+			generateBy(templateRootDir,templateModel,filePathModel);
 		}
 	}
 	
-	private void generateByModelProvider(File templateRootDir, IGeneratorModelProvider modelProvider) throws Exception {
+	private void generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
 		
@@ -99,8 +96,7 @@ public class Generator {
 			if((testExpressionIndex = templateRelativePath.indexOf('@')) != -1) {
 				outputFilePath = templateRelativePath.substring(0, testExpressionIndex);
 				String testExpressionKey = templateRelativePath.substring(testExpressionIndex+1);
-				Map map = getFilePathDataModel(modelProvider);
-				Object expressionValue = map.get(testExpressionKey);
+				Object expressionValue = filePathModel.get(testExpressionKey);
 				if(expressionValue == null) {
 					System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateRelativePath+"]");
 					continue;
@@ -111,9 +107,9 @@ public class Generator {
 				}
 			}
 			try {
-				generateNewFileOrInsertIntoFile(modelProvider, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
+				generateNewFileOrInsertIntoFile(templateModel,filePathModel, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
-				throw new RuntimeException("generate '"+modelProvider.getDisaplyText()+"' oucur error,template is:"+templateRelativePath,e);
+				throw new RuntimeException("generate oucur error,template is:"+templateRelativePath,e);
 			}
 		}
 	}
@@ -134,17 +130,16 @@ public class Generator {
 		return config;
 	}
 
-	private void generateNewFileOrInsertIntoFile(IGeneratorModelProvider modelProvider, Configuration config, String templateFile,String outputFilePath) throws Exception {
+	private void generateNewFileOrInsertIntoFile( Map templateModel,Map filePathModel, Configuration config, String templateFile,String outputFilePath) throws Exception {
 		Template template = config.getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
-		String targetFilename = getTargetFilename(modelProvider, outputFilePath);
+		String targetFilename = getTargetFilename(filePathModel, outputFilePath);
 		
-		Map templateDataModel = getTemplateDataModel(modelProvider);
 		File absoluteOutputFilePath = getAbsoluteOutputFilePath(targetFilename);
 		if(absoluteOutputFilePath.exists()) {
 			StringWriter newFileContentCollector = new StringWriter();
-			if(isFoundInsertLocation(template, templateDataModel, absoluteOutputFilePath, newFileContentCollector)) {
+			if(isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
 				System.out.println("[insert]\t generate content into:"+targetFilename);
 				IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
 				return;
@@ -152,37 +147,18 @@ public class Generator {
 		}
 		
 		System.out.println("[generate]\t template:"+templateFile+" to "+targetFilename);
-		saveNewOutputFileContent(template, templateDataModel, absoluteOutputFilePath);
+		saveNewOutputFileContent(template, templateModel, absoluteOutputFilePath);
 	}
 
-	private String getTargetFilename(IGeneratorModelProvider modelProvider, String templateFilepath) throws Exception {
-		Map fileModel = getFilePathDataModel(modelProvider);
+	private String getTargetFilename(Map filePathModel, String templateFilepath) throws Exception {
 		StringWriter out = new StringWriter();
 		Template template = new Template("filePath",new StringReader(templateFilepath),newFreeMarkerConfiguration());
 		try {
-			template.process(fileModel, out);
+			template.process(filePathModel, out);
 			return out.toString();
 		}catch(Exception e) {
 			throw new IllegalStateException("cannot generate filePath from templateFilepath:"+templateFilepath+" cause:"+e,e);
 		}
-	}
-	/**
-	 * 得到生成"文件目录/文件路径"的Model
-	 **/
-	private Map getFilePathDataModel(IGeneratorModelProvider modelProvider) throws Exception {
-		Map model = new HashMap();
-		model.putAll(GeneratorProperties.getProperties()); //generator.properties的内容
-		modelProvider.mergeFilePathModel(model);
-		return model;
-	}
-	/**
-	 * 得到FreeMarker的Model
-	 **/
-	private Map getTemplateDataModel(IGeneratorModelProvider modelProvider) throws Exception {
-		Map model = new HashMap();
-		model.putAll(GeneratorProperties.getProperties()); //generator.properties的内容
-		modelProvider.mergeTemplateModel(model);
-		return model;
 	}
 
 	private File getAbsoluteOutputFilePath(String targetFilename) {

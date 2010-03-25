@@ -2,10 +2,7 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.DbTableGeneratorModelProvider;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 
 public class IbatisGeneratorTest extends GeneratorTestCase{
@@ -17,7 +14,7 @@ public class IbatisGeneratorTest extends GeneratorTestCase{
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		g.addTemplateRootDir(new File("plugins/ibatis/template"));
 		
-		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
+		generateByTable(table);
 		
 		//Runtime.getRuntime().exec("cmd.exe /c start "+new File(g.outRootDir).getAbsolutePath());
 	}
