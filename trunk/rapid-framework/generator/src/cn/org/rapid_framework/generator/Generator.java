@@ -63,7 +63,13 @@ public class Generator {
 		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
 		this.outRootDir = v;
 	}
-
+	
+	/**
+	 * 生成器的生成入口
+	 * @param templateModel 生成器模板可以引用的变量
+	 * @param filePathModel 文件路径可以引用的变量
+	 * @throws Exception
+	 */
 	public void generateBy(Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
 		
