@@ -2,15 +2,11 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.apache.commons.io.FileUtils;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.DbTableGeneratorModelProvider;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
