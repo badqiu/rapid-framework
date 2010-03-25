@@ -3,13 +3,14 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.DbTableGeneratorModelProvider;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
-import cn.org.rapid_framework.generator.provider.java.JavaClassGeneratorModelProvider;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 /**
  * 
  * @author badqiu
@@ -40,20 +41,37 @@ public class GeneratorFacade {
 	
 	public void generateByTable(String tableName) throws Exception {
 		Generator g = createGeneratorForDbTable();
+		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
-		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
+		generateByTable(g, table);
+	}
+
+	private void generateByTable(Generator g, Table table) throws Exception {
+		GeneratorModel m = GeneratorModel.newFromTable(table);
+		String displayText = table.getSqlName()+" => "+table.getClassName();
+		printBeginGenerateInfo(displayText);
+		g.generateBy(m.templateModel,m.filePathModel);
 	}
 	
 	public void generateByTable(String tableName,String className) throws Exception {
 		Generator g = createGeneratorForDbTable();
 		Table table = DbTableFactory.getInstance().getTable(tableName);
 		table.setClassName(className);
-		g.generateByModelProvider(new DbTableGeneratorModelProvider(table));
+		generateByTable(g,table);
 	}
 	
 	public void generateByClass(Class clazz) throws Exception {
 		Generator g = createGeneratorForJavaClass();
-		g.generateByModelProvider(new JavaClassGeneratorModelProvider(new JavaClass(clazz)));
+		GeneratorModel m = GeneratorModel.newFromClass(clazz);
+		String displayText = "JavaClass:"+clazz.getSimpleName();
+		printBeginGenerateInfo(displayText);
+		g.generateBy(m.templateModel,m.filePathModel);
+	}
+
+	private void printBeginGenerateInfo(String displayText) {
+		System.out.println("***************************************************************");
+		System.out.println("* BEGIN generate " + displayText);
+		System.out.println("***************************************************************");
 	}
 	
 	public void clean() throws IOException {
@@ -73,5 +91,37 @@ public class GeneratorFacade {
 		g.setTemplateRootDir(new File("template/javaclass").getAbsoluteFile());
 		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		return g;
+	}
+	
+	public static class GeneratorModel {
+		public Map filePathModel;
+		public Map templateModel;
+		public GeneratorModel(Map templateModel, Map filePathModel) {
+			super();
+			this.templateModel = templateModel;
+			this.filePathModel = filePathModel;
+		}
+		
+		public static GeneratorModel newFromTable(Table table) {
+			Map templateModel = new HashMap();
+			templateModel.putAll(GeneratorProperties.getProperties());
+			templateModel.put("table", table);
+			
+			Map filePathModel = new HashMap();
+			filePathModel.putAll(GeneratorProperties.getProperties());
+			filePathModel.putAll(BeanHelper.describe(table));
+			return new GeneratorModel(templateModel,filePathModel);
+		}
+		
+		public static GeneratorModel newFromClass(Class clazz) {
+			Map templateModel = new HashMap();
+			templateModel.putAll(GeneratorProperties.getProperties());
+			templateModel.put("clazz", new JavaClass(clazz));
+			
+			Map filePathModel = new HashMap();
+			filePathModel.putAll(GeneratorProperties.getProperties());
+			filePathModel.putAll(BeanHelper.describe(clazz));
+			return new GeneratorModel(templateModel,filePathModel);
+		}
 	}
 }
