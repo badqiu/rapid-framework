@@ -1,16 +1,12 @@
 package cn.org.rapid_framework.generator.provider.db.model;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.util.Map;
 
 import junit.framework.TestCase;
-
-import org.apache.commons.beanutils.BeanUtils;
-
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 
 
 
@@ -29,7 +25,7 @@ public class TableTest extends TestCase{
 
 	private void print(Object o) throws IllegalAccessException,
 			InvocationTargetException, NoSuchMethodException {
-		Map map = BeanUtils.describe(o);
+		Map map = BeanHelper.describe(o);
 		System.out.println("|| *属性* || *描述* || *示例值* ||");
 		for(Object key : map.keySet()) {
 			System.out.println(String.format("||%s|| ||%s||",key,map.get(key)));
