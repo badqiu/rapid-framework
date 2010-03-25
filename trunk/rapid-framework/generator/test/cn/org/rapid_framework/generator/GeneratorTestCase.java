@@ -7,12 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import junit.framework.TestCase;
-
-import org.apache.commons.io.FileUtils;
-
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
@@ -52,7 +50,7 @@ public class GeneratorTestCase extends TestCase{
 		System.out.println(conn.getCatalog());
 		
 		Statement stat = conn.createStatement();
-		String sqlTables = FileUtils.readFileToString(new File("generator/test/generator_test_table.sql"), "UTF-8");
+		String sqlTables = IOHelper.readFile(new File("generator/test/generator_test_table.sql"));
 		System.out.println(sqlTables);
 		stat.execute(sqlTables);
 		stat.close();
