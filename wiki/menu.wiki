@@ -69,5 +69,5 @@
   * [http://groups.google.hk/group/rapid-framework 加入google group参与讨论]
   * [powered_by_rapid powered by rapid]
 ----
-  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.5.x/menu.html v3.5.x参考文档]
-  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.0/menu.html v3.0参考文档]
+  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.5.x/ v3.5.x参考文档]
+  * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.0/ v3.0参考文档]
