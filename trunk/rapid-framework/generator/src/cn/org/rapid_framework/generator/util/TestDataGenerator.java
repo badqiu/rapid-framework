@@ -37,13 +37,15 @@ public class TestDataGenerator {
 	}
 
 	private boolean isNumberType(String javaType) {
-		if(javaType.indexOf("Byte") >= 0 
-				|| javaType.indexOf("Short") >= 0 
-				|| javaType.indexOf("Integer") >= 0 
-				|| javaType.indexOf("Long") >= 0 
-				|| javaType.indexOf("Double") >= 0 
-				|| javaType.indexOf("BigDecimal") >= 0 
-				|| javaType.indexOf("Float") >= 0) {
+		javaType = javaType.toLowerCase();
+		if(javaType.indexOf("byte") >= 0 
+				|| javaType.indexOf("short") >= 0 
+				|| javaType.indexOf("integer") >= 0 
+				|| javaType.indexOf("int") >= 0 
+				|| javaType.indexOf("long") >= 0 
+				|| javaType.indexOf("double") >= 0 
+				|| javaType.indexOf("bigdecimal") >= 0 
+				|| javaType.indexOf("float") >= 0) {
 			return true;
 		}
 		return false;
