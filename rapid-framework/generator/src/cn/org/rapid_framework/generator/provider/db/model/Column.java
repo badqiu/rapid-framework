@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.model;
 
 
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -339,7 +340,7 @@ public class Column {
 		return getColumnName().toLowerCase();
 	}
 	/**
-	 * @deprecated
+	 * @deprecated use getColumnNameFirstLower() instead
 	 */
 	public String getColumnNameLower() {
 		return getColumnNameFirstLower();
@@ -412,7 +413,8 @@ public class Column {
 	}
 	
 	public String getJavaType() {
-		return DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
+		String normalJdbcJavaType = DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
+		return GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
 	}
 	
 	public String getAsType() {
