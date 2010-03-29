@@ -13,11 +13,11 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -33,6 +33,7 @@ public class Generator {
 	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
+	private boolean ignoreTemplateGenerateException = false;
 	
 	String encoding = "UTF-8";
 	public Generator() {
@@ -50,7 +51,15 @@ public class Generator {
 		templateRootDirs.add(f);
 	}
 	
-	public String getEncoding() {
+	public boolean isIgnoreTemplateGenerateException() {
+        return ignoreTemplateGenerateException;
+    }
+
+    public void setIgnoreTemplateGenerateException(boolean ignoreTemplateGenerateException) {
+        this.ignoreTemplateGenerateException = ignoreTemplateGenerateException;
+    }
+
+    public String getEncoding() {
 		return encoding;
 	}
 
@@ -63,29 +72,32 @@ public class Generator {
 		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
 		this.outRootDir = v;
 	}
-	
-	/**
-	 * 生成器的生成入口
-	 * @param templateModel 生成器模板可以引用的变量
-	 * @param filePathModel 文件路径可以引用的变量
-	 * @throws Exception
-	 */
+
+    /**
+     * 生成器的生成入口
+     * @param templateModel 生成器模板可以引用的变量
+     * @param filePathModel 文件路径可以引用的变量
+     * @throws Exception
+     */
 	public void generateBy(Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
 		
+		List allExceptions = new ArrayList();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			generateBy(templateRootDir,templateModel,filePathModel);
+			List exceptions = generateBy(templateRootDir,templateModel,filePathModel);
+			allExceptions.addAll(exceptions); 
 		}
 	}
 	
-	private void generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
+	private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
 		
 		List templateFiles = new ArrayList();
 		FileHelper.listFiles(templateRootDir, templateFiles);
 		
+		List exceptions = new ArrayList();
 		for(int i = 0; i < templateFiles.size(); i++) {
 			File templateFile = (File)templateFiles.get(i);
 			String templateRelativePath = FileHelper.getRelativePath(templateRootDir, templateFile);
@@ -115,9 +127,16 @@ public class Generator {
 			try {
 				generateNewFileOrInsertIntoFile(templateModel,filePathModel, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
-				throw new RuntimeException("generate oucur error,template is:"+templateRelativePath,e);
+			    if (ignoreTemplateGenerateException) {
+			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath,e);
+                    exceptions.add(e);
+                } else {
+                    throw new RuntimeException(
+                        "generate oucur error,template is:" + templateRelativePath, e);
+                }
 			}
 		}
+		return exceptions;
 	}
 
 	private Configuration newFreeMarkerConfiguration() throws IOException {
