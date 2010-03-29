@@ -1,6 +1,6 @@
 <#assign ctx='/web_scaffold'/>
 <#assign URL_PREFIX='/web_scaffold'/>
-<#macro pageToolBar page pageSizeSelectList isShowPageSizeList>
+<#macro pageToolBar page pageSizeSelectList=[10,20,30] isShowPageSizeList=true>
 <table width="100%"  border="0" cellspacing="0" class="gridToolbar">
   <tr>
 	<td>
