@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{
 
 	private ${className}Dao ${classNameLower}Dao;
-	/**增加setXXXX()方法,spring就可以通过autowire自动设置对象属性*/
+	/**增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,请注意大小写*/
 	public void set${className}Dao(${className}Dao dao) {
 		this.${classNameLower}Dao = dao;
 	}
