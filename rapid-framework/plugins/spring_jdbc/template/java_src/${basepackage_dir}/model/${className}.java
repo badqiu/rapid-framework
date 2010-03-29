@@ -103,12 +103,12 @@ public class ${className} extends BaseEntity {
 	<#assign fkPojoClassVar = fkPojoClass?uncap_first>
 	
 	private Set ${fkPojoClassVar}s = new HashSet(0);
-	public void set${fkPojoClass}s(Set<${fkPojoClass}> ${fkPojoClassVar}){
-		this.${fkPojoClassVar}s = ${fkPojoClassVar};
-	}
-	
+	@Transient
 	public Set<${fkPojoClass}> get${fkPojoClass}s() {
 		return ${fkPojoClassVar}s;
+	}	
+	public void set${fkPojoClass}s(Set<${fkPojoClass}> ${fkPojoClassVar}){
+		this.${fkPojoClassVar}s = ${fkPojoClassVar};
 	}
 	</#list>
 </#macro>
@@ -121,13 +121,12 @@ public class ${className} extends BaseEntity {
 	<#assign fkPojoClassVar = fkPojoClass?uncap_first>
 	
 	private ${fkPojoClass} ${fkPojoClassVar};
-	
-	public void set${fkPojoClass}(${fkPojoClass} ${fkPojoClassVar}){
-		this.${fkPojoClassVar} = ${fkPojoClassVar};
-	}
-	
+	@Transient
 	public ${fkPojoClass} get${fkPojoClass}() {
 		return ${fkPojoClassVar};
+	}	
+	public void set${fkPojoClass}(${fkPojoClass} ${fkPojoClassVar}){
+		this.${fkPojoClassVar} = ${fkPojoClassVar};
 	}
 	</#list>
 </#macro>
