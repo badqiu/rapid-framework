@@ -27,6 +27,7 @@
 		<script src="../scripts/jquery.js" type="text/javascript"></script>
 		
 		<script src="../scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+		<script src="../scripts/rest.js" type="text/javascript"></script>
 		   
    	    <@block name='head'></@block>   
    </head>
