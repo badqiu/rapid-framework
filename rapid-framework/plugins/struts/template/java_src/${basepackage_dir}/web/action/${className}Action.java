@@ -31,7 +31,7 @@ public class ${className}Action extends BaseStrutsAction {
 	private ${className}Manager ${classNameLower}Manager;
 	
 	/** 
-	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性
+	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,注意大小写
 	 **/
 	public void set${className}Manager(${className}Manager manager) {
 		this.${classNameLower}Manager = manager;
