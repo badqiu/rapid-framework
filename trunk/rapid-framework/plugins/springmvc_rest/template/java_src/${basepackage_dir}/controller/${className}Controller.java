@@ -33,7 +33,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
 		
 	/** 
-	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性
+	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,注意大小写
 	 **/
 	public void set${className}Manager(${className}Manager manager) {
 		this.${classNameFirstLower}Manager = manager;
