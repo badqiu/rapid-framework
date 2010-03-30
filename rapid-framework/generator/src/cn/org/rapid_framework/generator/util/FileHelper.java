@@ -37,11 +37,12 @@ public class FileHelper {
 		ignoreList.add(".svn");
 		ignoreList.add("CVS");
 		ignoreList.add(".cvsignore");
-		ignoreList.add(".copyarea.db");
+		ignoreList.add(".copyarea.db"); //ClearCase
 		ignoreList.add("SCCS");
 		ignoreList.add("vssver.scc");
 		ignoreList.add(".DS_Store");
 		ignoreList.add(".git");
+		ignoreList.add(".gitignore");
 		for(int i = 0; i < ignoreList.size(); i++) {
 			if(file.getName().equals(ignoreList.get(i))) {
 				return true;
