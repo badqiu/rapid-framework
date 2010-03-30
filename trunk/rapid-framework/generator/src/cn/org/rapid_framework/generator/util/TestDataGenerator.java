@@ -9,7 +9,7 @@ import java.sql.Timestamp;
  */
 public class TestDataGenerator {
 
-	public String getTestData(String columnName,String javaType, int size) {
+	public String getDBUnitTestData(String columnName,String javaType, int size) {
 		int MAX_SIZE = 3;
 		if(javaType.indexOf("Boolean") >= 0) {
 			return "0";
