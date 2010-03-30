@@ -428,6 +428,6 @@ public class Column {
 	}
 	
 	public String getTestData() {
-		return new TestDataGenerator().getTestData(getColumnName(),getJavaType(),getSize());
+		return new TestDataGenerator().getDBUnitTestData(getColumnName(),getJavaType(),getSize());
 	}
 }
