@@ -124,15 +124,18 @@ public class Generator {
 					continue;
 				}
 			}
+			
+			String targetFilename = null;
 			try {
-				generateNewFileOrInsertIntoFile(templateModel,filePathModel, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
+				targetFilename = getTargetFilename(filePathModel, outputFilePath);
+				generateNewFileOrInsertIntoFile(templateModel,targetFilename, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
 			    if (ignoreTemplateGenerateException) {
 			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath,e);
                     exceptions.add(e);
                 } else {
                     throw new RuntimeException(
-                        "generate oucur error,template is:" + templateRelativePath, e);
+                        "generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
                 }
 			}
 		}
@@ -155,11 +158,9 @@ public class Generator {
 		return config;
 	}
 
-	private void generateNewFileOrInsertIntoFile( Map templateModel,Map filePathModel, Configuration config, String templateFile,String outputFilePath) throws Exception {
+	private void generateNewFileOrInsertIntoFile( Map templateModel,String targetFilename, Configuration config, String templateFile,String outputFilePath) throws Exception {
 		Template template = config.getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
-		
-		String targetFilename = getTargetFilename(filePathModel, outputFilePath);
 		
 		File absoluteOutputFilePath = getAbsoluteOutputFilePath(targetFilename);
 		if(absoluteOutputFilePath.exists()) {
