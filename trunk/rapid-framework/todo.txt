@@ -32,7 +32,7 @@ flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
 	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
 
-PullTool
+PullTool( rename to applicationContext-template-share-variable.xml )
 	常量
 	spring bean	
 
