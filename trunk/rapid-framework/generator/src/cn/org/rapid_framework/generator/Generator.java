@@ -33,7 +33,7 @@ public class Generator {
 	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
-	private boolean ignoreTemplateGenerateException = false;
+	private boolean ignoreTemplateGenerateException = true;
 	
 	String encoding = "UTF-8";
 	public Generator() {
@@ -79,7 +79,7 @@ public class Generator {
      * @param filePathModel 文件路径可以引用的变量
      * @throws Exception
      */
-	public void generateBy(Map templateModel,Map filePathModel) throws Exception {
+	public List generateBy(Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
 		
 		List allExceptions = new ArrayList();
@@ -88,6 +88,7 @@ public class Generator {
 			List exceptions = generateBy(templateRootDir,templateModel,filePathModel);
 			allExceptions.addAll(exceptions); 
 		}
+		return allExceptions;
 	}
 	
 	private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
