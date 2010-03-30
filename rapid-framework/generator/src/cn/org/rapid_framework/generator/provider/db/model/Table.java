@@ -4,7 +4,9 @@ package cn.org.rapid_framework.generator.provider.db.model;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -20,13 +22,13 @@ public class Table {
 	String customClassName;
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
-	List columns = new ArrayList();
-	List primaryKeyColumns = new ArrayList();
+	Set<Column> columns = new LinkedHashSet();
+	List<Column> primaryKeyColumns = new ArrayList();
 
-	public List getColumns() {
+	public Set<Column> getColumns() {
 		return columns;
 	}
-	public void setColumns(List columns) {
+	public void setColumns(Set columns) {
 		this.columns = columns;
 	}
 	public String getOwnerSynonymName() {
@@ -35,10 +37,10 @@ public class Table {
 	public void setOwnerSynonymName(String ownerSynonymName) {
 		this.ownerSynonymName = ownerSynonymName;
 	}
-	public List getPrimaryKeyColumns() {
+	public List<Column> getPrimaryKeyColumns() {
 		return primaryKeyColumns;
 	}
-	public void setPrimaryKeyColumns(List primaryKeyColumns) {
+	public void setPrimaryKeyColumns(List<Column> primaryKeyColumns) {
 		this.primaryKeyColumns = primaryKeyColumns;
 	}
 	public String getSqlName() {
@@ -96,8 +98,7 @@ public class Table {
 	
 	public int getPkCount() {
 		int pkCount = 0;
-		for(int i = 0; i < columns.size(); i++) {
-			Column c = (Column)columns.get(i);
+		for(Column c : columns){
 			if(c.isPk()) {
 				pkCount ++;
 			}
@@ -114,9 +115,7 @@ public class Table {
 	
 	public List getPkColumns() {
 		List results = new ArrayList();
-		List columns = getColumns();
-		for(int i = 0; i < columns.size(); i++) {
-			Column c = (Column)columns.get(i);
+		for(Column c : getColumns()) {
 			if(c.isPk())
 				results.add(c);
 		}
@@ -125,9 +124,7 @@ public class Table {
 
 	public List getNotPkColumns() {
 		List results = new ArrayList();
-		List columns = getColumns();
-		for(int i = 0; i < columns.size(); i++) {
-			Column c = (Column)columns.get(i);
+		for(Column c : getColumns()) {
 			if(!c.isPk())
 				results.add(c);
 		}
@@ -135,9 +132,7 @@ public class Table {
 	}
 	
 	public Column getIdColumn() {
-		List columns = getColumns();
-		for(int i = 0; i < columns.size(); i++) {
-			Column c = (Column)columns.get(i);
+		for(Column c : getColumns()) {
 			if(c.isPk())
 				return c;
 		}

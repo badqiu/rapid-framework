@@ -359,7 +359,7 @@ public class DbTableFactory {
 		return columnRs;
 	}
 
-	private List getTablePrimaryKeys(Table table) throws SQLException {
+	private List<String> getTablePrimaryKeys(Table table) throws SQLException {
 		// get the primary keys
 	      List primaryKeys = new LinkedList();
 	      ResultSet primaryKeyRs = null;
