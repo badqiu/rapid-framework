@@ -1,9 +1,15 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
+
+import cn.org.rapid_framework.generator.GeneratorProperties;
 
 public class PropertiesHelper {
 	Properties p;
@@ -94,5 +100,24 @@ public class PropertiesHelper {
 	}
 	
 	
-	
+	public static Properties loadAllPropertiesFromClassLoader(String resourceName) throws IOException {
+		Properties properties = new Properties();
+		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
+		while (urls.hasMoreElements()) {
+			URL url = (URL) urls.nextElement();
+			InputStream input = null;
+			try {
+				URLConnection con = url.openConnection();
+				con.setUseCaches(false);
+				input = con.getInputStream();
+				properties.load(input);
+			}
+			finally {
+				if (input != null) {
+					input.close();
+				}
+			}
+		}
+		return properties;
+	}
 }
