@@ -292,8 +292,14 @@ public class Column {
 	 * @todo-javadoc Write javadocs for return value
 	 */
 	public boolean equals(Object o) {
-		// we can compare by identity, since there won't be dupes
-		return this == o;
+		if(this == o) return true;
+		if(o instanceof Column) {
+			Column other = (Column)o;
+			if(getSqlName().equals(other.getSqlName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
