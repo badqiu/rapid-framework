@@ -20,7 +20,7 @@ public class TableTest extends TestCase{
 		print(t);
 		
 		System.out.println("\n\n column: \n");
-		print(t.getColumns().get(0));
+		print(t.getColumns().iterator().next());
 	}
 
 	private void print(Object o) throws IllegalAccessException,
