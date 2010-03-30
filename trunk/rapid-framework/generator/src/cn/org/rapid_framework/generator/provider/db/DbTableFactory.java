@@ -325,8 +325,6 @@ public class DbTableFactory {
 	         if (uniqueIndex != null) {
 	            columnsInUniqueIndex = (List)uniqueColumns.get(uniqueIndex);
 	         }
-	         
-	         
 
 	         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
 	         if (isUnique) {
@@ -346,19 +344,18 @@ public class DbTableFactory {
 	               columnDefaultValue,
 	               remarks);
 	         columns.add(column);
-	      }
-	      columnRs.close();
+	    }
+	    columnRs.close();
 		return columns;
 	}
 
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {
 		ResultSet columnRs = null;
-	      if (table.getOwnerSynonymName() != null) {
+	    if (table.getOwnerSynonymName() != null) {
 	         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getSqlName(), null);
-	      }
-	      else {
+	    } else {
 	         columnRs = getMetaData().getColumns(getCatalog(), getSchema(), table.getSqlName(), null);
-	      }
+	    }
 		return columnRs;
 	}
 
