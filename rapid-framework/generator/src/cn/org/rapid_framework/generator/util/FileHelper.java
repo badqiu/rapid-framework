@@ -41,6 +41,7 @@ public class FileHelper {
 		ignoreList.add("SCCS");
 		ignoreList.add("vssver.scc");
 		ignoreList.add(".DS_Store");
+		ignoreList.add(".git");
 		for(int i = 0; i < ignoreList.size(); i++) {
 			if(file.getName().equals(ignoreList.get(i))) {
 				return true;
