@@ -1,5 +1,7 @@
 #labels changelog
 #修改日志
+==rapid-framework v3.5.1==
+
 
 ==rapid-framework v3.5==
 *更新内容:*
