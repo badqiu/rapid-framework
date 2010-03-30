@@ -37,6 +37,7 @@ public class FileHelper {
 		ignoreList.add(".svn");
 		ignoreList.add("CVS");
 		ignoreList.add(".cvsignore");
+		ignoreList.add(".copyarea.db");
 		ignoreList.add("SCCS");
 		ignoreList.add("vssver.scc");
 		ignoreList.add(".DS_Store");
