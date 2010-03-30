@@ -31,7 +31,10 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
 flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
 	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
-	
+
+PullTool
+	常量
+	spring bean	
 
 生成器:
 	增加通过一个查询得到列表界面的sql
