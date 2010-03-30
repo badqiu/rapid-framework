@@ -27,7 +27,7 @@ public class GeneratorProperties {
 	private static void loadProperties() {
 		try {
 			System.out.println("Load [generator.properties] from classpath");
-			props = new PropertiesHelper(loadAllPropertiesByClassLoader(PROPERTIES_FILE_NAME));
+			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 			
 			String basepackage = getRequiredProperty("basepackage");
 			String basepackage_dir = basepackage.replace('.', '/');
@@ -87,24 +87,4 @@ public class GeneratorProperties {
 		props = new PropertiesHelper(v);
 	}
 
-	public static Properties loadAllPropertiesByClassLoader(String resourceName) throws IOException {
-		Properties properties = new Properties();
-		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
-		while (urls.hasMoreElements()) {
-			URL url = (URL) urls.nextElement();
-			InputStream input = null;
-			try {
-				URLConnection con = url.openConnection();
-				con.setUseCaches(false);
-				input = con.getInputStream();
-				properties.load(input);
-			}
-			finally {
-				if (input != null) {
-					input.close();
-				}
-			}
-		}
-		return properties;
-	}
 }
