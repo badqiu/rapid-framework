@@ -27,14 +27,17 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
      java_typemap.short=Integer
      
      2.智能的解析properties,如将string "true" => boolean, "123" => integer
+     
+     3.支持从视图中生成数据,并增加视图的专有模板 template/view
+     
+     4.支持从sql query中生成数据, sql query可以作为一个文件储存起来 template/query
+
+修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 
 flex权限控制
 	参考: http://code.google.com/p/flexible-chimp/
 	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
-
-PullTool( rename to applicationContext-template-share-variable.xml )
-	常量
-	spring bean	
+	
 
 生成器:
 	增加通过一个查询得到列表界面的sql
