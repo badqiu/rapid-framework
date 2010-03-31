@@ -71,9 +71,12 @@ public class GeneratorFacade {
 		System.out.println("* BEGIN generate " + displayText);
 		System.out.println("***************************************************************");
 		List<Exception> exceptions = g.generateBy(m.templateModel,m.filePathModel);
-		System.err.println("[generate summary]");
-		for(Exception e : exceptions) {
-			System.err.println("[GENERATE ERROR]:"+e);
+		if(exceptions.size() > 0) {
+			System.err.println("[Generate Error Summary]");
+			for(Exception e : exceptions) {
+				System.err.println("[GENERATE ERROR]:"+e);
+				e.printStackTrace();
+			}
 		}
 	}
 

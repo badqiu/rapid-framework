@@ -132,7 +132,7 @@ public class Generator {
 				generateNewFileOrInsertIntoFile(templateModel,targetFilename, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
 			    if (ignoreTemplateGenerateException) {
-			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath,e);
+			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath+" cause:"+e);
                     exceptions.add(e);
                 } else {
                     throw new RuntimeException(
