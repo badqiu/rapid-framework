@@ -24,6 +24,7 @@ public class AsyncOutputStream extends OutputStream{
 	private DataProcessorThread dataProcessor;
 	
 	private boolean isClosed = false;
+	private boolean isStartd = false;
 	OutputStream output;
 	BlockingQueue queue;
 	
@@ -39,7 +40,11 @@ public class AsyncOutputStream extends OutputStream{
 		this.output = output;
 		this.queue = queue;
 		this.dataProcessor = new DataProcessorThread();
+	}
+	
+	public void start() {
 		this.dataProcessor.start();
+		isStartd = true;
 	}
 	
 	private AsyncExceptinHandler asyncExceptinHandler = new DefaultAsyncExceptinHandler();
@@ -89,6 +94,7 @@ public class AsyncOutputStream extends OutputStream{
 	
 	@Override
 	public void write(int b) throws IOException {
+		if(!isStartd) throw new IOException("must start() before wirte()");
 		if(isClosed) throw new IOException("output is closed");
 		synchronized (this) {
 			try {
@@ -101,6 +107,7 @@ public class AsyncOutputStream extends OutputStream{
 
 	@Override
 	public void write(byte[] b, int off, int len) throws IOException {
+		if(!isStartd) throw new IOException("must start() before wirte()");
 		if (b == null)  throw new NullPointerException();
 		synchronized (this) {
 			if(isClosed) throw new IOException("output is closed");

@@ -32,6 +32,7 @@ public class AsyncWriter extends Writer {
 	private Writer out;
 	private DataProcessorThread dataProcessor;
 	private boolean isClosed = false;
+	private boolean isStartd = false;
 	private BlockingQueue<char[]> queue ;
 	
 	private AsyncExceptinHandler asyncExceptinHandler = new DefaultAsyncExceptinHandler();
@@ -95,7 +96,6 @@ public class AsyncWriter extends Writer {
 		if(dataProcesserThreadPriority != Thread.NORM_PRIORITY) {
 			this.dataProcessor.setPriority(dataProcesserThreadPriority);
 		}
-		this.dataProcessor.start();
 		this.out = out;
 	}
 	
@@ -103,8 +103,14 @@ public class AsyncWriter extends Writer {
 		this(out);
 		setAsyncExceptinHandler(handler);
 	}
+	
+	public void start() {
+		this.dataProcessor.start();
+		isStartd = true;
+	}
 
 	public void write(char[] buf, int offset, int length) throws IOException {
+		if(!isStartd) throw new IOException("must start() before wirte()");
 		synchronized (lock) {
 			if(isClosed) throw new IOException("already closed");
 			try {
