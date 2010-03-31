@@ -27,10 +27,10 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 			}
 		}
 		
-		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
-		for(Table t : allTables) {
-			generateByTable(t);
-		}
+//		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
+//		for(Table t : allTables) {
+//			generateByTable(t);
+//		}
 		generateByTable(DbTableFactory.getInstance().getTable("USER_INFO"));
 //		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
 	}
