@@ -1,0 +1,43 @@
+
+<!--
+	for auto publish build results
+-->
+<project name="rapid-framework" basedir="." default="publish" >
+
+	<tstamp>
+		<format property="today" pattern="yyyyMMdd"/>
+	</tstamp>
+	
+	<property name="ftp.server" value="www.xxx.com"/>
+	<property name="ftp.userid" value="xxx"/>
+	<property name="ftp.password" value="xxx"/>
+	
+	<target name="delete-ftp">
+		<ftp server="${ftp.server}" remotedir="/rapid/daily-build"
+			userid="${ftp.userid}" passive="yes" verbose="true" action="del"
+			password="${ftp.password}">
+			<fileset dir="dist">
+				<exclude name="*${today}*.*"/>
+				<include name="*.zip"/>
+			</fileset>
+		</ftp>
+	</target>
+	
+	<target name="publish-ftp">
+		<ftp server="${ftp.server}" remotedir="/rapid/daily-build"
+			userid="${ftp.userid}" passive="yes" verbose="true"
+			password="${ftp.password}">
+			<fileset dir="dist">
+				<include name="*.zip"/>
+				<include name="testreport/**"/>
+				<include name="javadoc/**"/>
+			</fileset>
+		</ftp>
+	</target>
+	
+	<target name="publish">
+		<antcall target="publish-ftp"/>
+		<antcall target="delete-ftp"/>
+	</target>
+	
+</project>

@@ -1,0 +1,9 @@
+text from freemarker!!!
+
+<br/>
+
+<h1>username:${username}</h1>
+
+<h1>测试中文的邮件编码: test encoding</h1>
+
+rapid-framework

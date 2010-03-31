@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	   default-autowire="byName" default-lazy-init="false">
+
+	<!-- 属性文件读入,使用rapid中的JdbcPlaceholderConfigurer则可以从数据库读取配置信息 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+		
+	<!-- 数据源定义,使用Apache DBCP 连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"/>
+		<property name="url" value="${jdbc.url}"/>
+		<property name="username" value="${jdbc.username}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<!-- 
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
+    </bean>
+ 	-->
+ 	
+ 	<!-- 用于测试或demo的hsql的内存dataSource,可以在创建数据库时运行指定的初始化sql语句,如建表,插入测试数据,sql语句之间使用分号";"分隔 -->
+ 	<!-- 
+ 	<bean id="dataSource" class="cn.org.rapid_framework.test.hsql.HSQLMemDataSourceFactoryBean">
+		<property name="encoding" value="UTF-8"/>
+		<property name="scriptLocations">
+			<value>classpath*:hsql_test_scripts.sql</value>
+		</property>
+		<property name="sqlScript">
+			<value>
+				create table blog(id int);
+				insert into blog values (1);
+			</value>
+		</property>		
+	</bean>
+ 	 -->
+    
+	<!-- 以 @Transactional 标注来定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+
+	<!-- 支持 @AspectJ 标记-->
+<!--	<aop:aspectj-autoproxy/>-->
+
+	<!-- 以AspectJ方式 定义 事务 -->
+	<!-- 
+	<aop:config proxy-target-class="true">
+		<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+	</aop:config>
+	 -->
+
+	<!-- 基本事务定义,使用transactionManager作事务管理,默认get* find*方法的事务为readonly,其余方法按默认设置.
+			 默认的设置请参考Spring文档事务一章. -->
+	<!-- 
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="query*" read-only="true"/>
+			<tx:method name="*" read-only="false"/>
+		</tx:attributes>
+	</tx:advice>
+	 -->
+	
+	<!-- 用于持有ApplicationContext,可以使用ApplicationContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
+	<!-- <bean class="cn.org.rapid_framework.util.ApplicationContextHolder"/> -->
+	
+</beans>

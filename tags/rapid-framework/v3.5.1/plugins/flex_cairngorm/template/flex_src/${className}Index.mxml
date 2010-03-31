@@ -1,0 +1,19 @@
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first>
+<#assign underscoreName = table.underscoreName/>
+<#assign classNameLowerCase = className?lower_case/>
+<?xml version="1.0" encoding="UTF-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute"
+	xmlns:${className}="${basepackage}.${underscoreName}.view.*"
+	xmlns:common="appcommon.flex.*"
+	>
+	<mx:Script>
+		<![CDATA[
+		]]>
+	</mx:Script>
+	
+	<${className}:${className}View width="100%" height="100%"/>
+	<common:GlobalController/>
+	<common:Services/>
+
+</mx:Application>
