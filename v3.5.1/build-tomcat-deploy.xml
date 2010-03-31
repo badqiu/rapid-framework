@@ -1,0 +1,62 @@
+
+<!-- 
+	tomcat自动部署脚本
+	运行前将${TOMCAT_HOME}/lib/catalina-ant.jar拷贝到${ANT_HOME}/lib下
+ -->
+<project name="rapid-framework" default="compile" basedir=".">
+  <property environment="env"/>
+  <property name="tomcat.home" value="${env.TOMCAT_HOME}"/>
+  <echo message="tomcat.home=${tomcat.home}" />
+	
+  <!-- Configure the directory into which the web application is built -->
+  <property name="build"    value="${basedir}/build"/>
+
+  <!-- Configure the context path for this application -->
+  <property name="path"     value="/myapp"/>
+
+  <!-- Configure properties to access the Manager application -->
+  <property name="url"      value="http://localhost:8080/manager"/>
+  <property name="username" value="manager"/>
+  <property name="password" value="manager"/>
+
+  <!-- Configure the custom Ant tasks for the Manager application -->
+  <target name="_def_tomcat_tasks">
+	  <!-- tasks: deploy,undeploy,reload,stop,start,list,roles,resources -->
+	  <taskdef name="deploy"    classname="org.apache.catalina.ant.DeployTask" />
+	  <taskdef name="list"      classname="org.apache.catalina.ant.ListTask" />
+	  <taskdef name="reload"    classname="org.apache.catalina.ant.ReloadTask" />
+	  <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask" />
+	  <taskdef name="roles"     classname="org.apache.catalina.ant.RolesTask" />
+	  <taskdef name="start"     classname="org.apache.catalina.ant.StartTask" />
+	  <taskdef name="stop"      classname="org.apache.catalina.ant.StopTask" />
+	  <taskdef name="undeploy"  classname="org.apache.catalina.ant.UndeployTask" />
+  </target>
+  	
+  <!-- Executable Targets -->
+  <target name="compile" description="Compile web application">
+    <!-- ... construct web application in ${build} subdirectory, and
+            generated a ${path}.war ... -->
+  </target>
+
+  <target name="redeploy" description="Remove and Install web application" depends="_def_tomcat_tasks">
+  	<antcall target="undeploy"/>
+  	<antcall target="deploy"/>
+  </target>
+	  	
+  <target name="deploy" description="Install web application" depends="_def_tomcat_tasks,compile">
+    <deploy url="${url}" username="${username}" password="${password}"
+            path="${path}" war="file:${build}${path}.war"/>
+  </target>
+
+  <target name="undeploy" description="Remove web application" depends="_def_tomcat_tasks">
+    <undeploy url="${url}" username="${username}" password="${password}"
+            path="${path}" failonerror="false"/>
+  </target>
+	
+  <target name="reload" description="Reload web application" depends="_def_tomcat_tasks,compile">
+    <reload  url="${url}" username="${username}" password="${password}"
+            path="${path}"/>
+  </target>
+
+</project>
+
