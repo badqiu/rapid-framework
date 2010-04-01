@@ -34,39 +34,39 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
 
 修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 
-flex权限控制
-	参考: http://code.google.com/p/flexible-chimp/
-	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
+#flex权限控制
+#	参考: http://code.google.com/p/flexible-chimp/
+#	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
 	
 
 生成器:
 	增加通过一个查询得到列表界面的sql
 
-实现模板引擎的pipeline处理模式:
-即有一个layout.flt
-<html>
-   ${pipeline}
-</html>
-两种实现方式
-1.其中${pileline}会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
-2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
+	#实现模板引擎的pipeline处理模式:
+	#即有一个layout.flt
+	#<html>
+	#   ${pipeline}
+	#</html>
+	#两种实现方式
+	#1.其中${pileline}会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
+	#2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
+	
+	#3.可以为每一个模板定义一组管道
+	#4.管理可以是一个数组,方法签名为
+	#	1) pipeline(template,pipetemplate[],context,writer)
+	#	2) pipeline(template,pipetemplate_queue,context,writer)
+	#	3) pipeline(pipetemplate[],context,writer)
+	#	4) String pipeline(template,pipetemplate[],context)
+	#5.输出内容为最后一个管理的输出
+	#6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
 
-3.可以为每一个模板定义一组管道
-4.管理可以是一个数组,方法签名为
-	1) pipeline(template,pipetemplate[],context,writer)
-	2) pipeline(template,pipetemplate_queue,context,writer)
-	3) pipeline(pipetemplate[],context,writer)
-	4) String pipeline(template,pipetemplate[],context)
-5.输出内容为最后一个管理的输出
-6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
-
-整合MailEngine
+#整合MailEngine
 整合GroupProperties file,用于读取分组的配置文件
 
-fixed number NaN => 0 : NaN => Null
-https://bugs.adobe.com/jira/browse/BLZ-305
-http://flexblog.faratasystems.com/2010/01/09/custom-type-masrhaller-in-blazeds
-http://ajax.sys-con.com/node/1240225?page=0,1
+#fixed number NaN => 0 : NaN => Null
+	https://bugs.adobe.com/jira/browse/BLZ-305
+	http://flexblog.faratasystems.com/2010/01/09/custom-type-masrhaller-in-blazeds
+	http://ajax.sys-con.com/node/1240225?page=0,1
 
 BlazeDS学习
 	MessageSerializer.writeObject()复杂对象的序列化
@@ -83,8 +83,8 @@ BlazeDS学习
 		beanProxy.setIncludeReadOnly(true);
 		PropertyProxyRegistry.getRegistry().register(Serializable.class, beanProxy);
 
-整合其它显示层技术
-	Ext2
+#整合其它显示层技术
+#	Ext2
 增加列表组件
 	Jmesa,SimpleList
 整合SiteMesh
@@ -99,8 +99,8 @@ BlazeDS学习
 
 模板文件
 	修改hiberante_xml使用CompositeId.java
-	增加简单版本的list.jsp,争取不喜欢extremeTable的用户
-	增加freemarker的CURD页面
+#	增加简单版本的list.jsp,争取不喜欢extremeTable的用户
+#	增加freemarker的CURD页面
 
 rapid-validation
 	3.ajax验证使用异步方式
@@ -128,7 +128,3 @@ rapid-validation
 	以可以拦截Manager的所有方法,并删除
 	<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
 
-rapid-framework为你做好的二件事
-	1.项目脚手架
-	1.配置,
-	2.代码生成器模板,避免重复的代码编写
