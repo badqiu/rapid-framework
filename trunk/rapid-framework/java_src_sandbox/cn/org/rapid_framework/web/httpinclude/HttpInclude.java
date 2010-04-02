@@ -65,7 +65,7 @@ public class HttpInclude {
         }
     }
 
-    private boolean isRemoteHttpRequest(String includePath) {
+    private static boolean isRemoteHttpRequest(String includePath) {
         return  includePath != null && (
         			includePath.toLowerCase().startsWith("http://") ||
         			includePath.toLowerCase().startsWith("https://")
@@ -99,9 +99,8 @@ public class HttpInclude {
         printWriter.flush();
     }
     //TODO handle cookies and http query parameters, cookie并且需要处理不可见的 session id cookie问题
-    private void getHttpRemoteContent(final OutputStream outputStream,String includePath) throws MalformedURLException, IOException {
-        URL resource = new URL(includePath);
-        URLConnection conn = resource.openConnection();
+    private void getHttpRemoteContent(final OutputStream outputStream,String url) throws MalformedURLException, IOException {
+        URLConnection conn = new URL(url).openConnection();
         conn.setReadTimeout(3000);
         conn.setConnectTimeout(3000);
         IOUtils.copy(conn.getInputStream(),outputStream);
