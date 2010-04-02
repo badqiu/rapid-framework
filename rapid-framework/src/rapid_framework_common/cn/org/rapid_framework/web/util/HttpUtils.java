@@ -105,7 +105,6 @@ public class HttpUtils {
 							s.substring(i + 1, i + 3), 16));
 					i += 2;
 				} catch (NumberFormatException e) {
-					// XXX
 					// need to be more specific about illegal arg
 					throw new IllegalArgumentException();
 				} catch (StringIndexOutOfBoundsException e) {
