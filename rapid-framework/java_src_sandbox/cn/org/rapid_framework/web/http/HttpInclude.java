@@ -58,12 +58,15 @@ public class HttpInclude {
     }
     
     private void include(final OutputStream outputStream,String includePath) throws ServletException, IOException {
-        boolean isRemoteHttpRequest = includePath != null && includePath.toLowerCase().startsWith("http");
-        if(isRemoteHttpRequest) {
+        if(isRemoteHttpRequest(includePath)) {
             getHttpRemoteContent(outputStream, includePath);
         }else {
             getLocalContent(outputStream, includePath);
         }
+    }
+
+    private boolean isRemoteHttpRequest(String includePath) {
+        return  includePath != null && includePath.toLowerCase().startsWith("http");
     }
 
     private void getLocalContent(final OutputStream outputStream,String includePath) throws ServletException, IOException {
