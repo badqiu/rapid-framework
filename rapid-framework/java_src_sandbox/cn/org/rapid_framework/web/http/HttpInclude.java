@@ -24,9 +24,9 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * 示例使用:
  * <pre>
  * $httpInclude.include("http://www.google.com");
- * $httpInclude.include("/servlet/head");
+ * $httpInclude.include("/servlet/head?p1=v1&p2=v2");
  * $httpInclude.include("/head.jsp");
- * $httpInclude.include("/head.do");
+ * $httpInclude.include("/head.do?p1=v1&p2=v2");
  * $httpInclude.include("/head.htm");
  * </pre>
  * 
