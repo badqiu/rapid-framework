@@ -66,7 +66,10 @@ public class HttpInclude {
     }
 
     private boolean isRemoteHttpRequest(String includePath) {
-        return  includePath != null && includePath.toLowerCase().startsWith("http");
+        return  includePath != null && (
+        			includePath.toLowerCase().startsWith("http://") ||
+        			includePath.toLowerCase().startsWith("https://")
+        		);
     }
 
     private void getLocalContent(final OutputStream outputStream,String includePath) throws ServletException, IOException {
