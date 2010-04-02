@@ -16,6 +16,10 @@ pipeline中如果不能找到模板的异常处理
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 完成Flash Scope
 
+为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
+	示便: local: includer.include("/head.htm") 
+	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
+
 生成器:
 	#1.增加生成器的type mapping:
     #<typemap from="java.sql.Date" to="java.util.Date"/>
