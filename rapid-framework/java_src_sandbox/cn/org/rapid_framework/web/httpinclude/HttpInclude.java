@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.web.http;
+package cn.org.rapid_framework.web.httpinclude;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
