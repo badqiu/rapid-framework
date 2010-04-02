@@ -104,7 +104,12 @@ public class HttpInclude {
         conn.setReadTimeout(3000);
         conn.setConnectTimeout(3000);
 //        conn.setRequestProperty("Cookie", cookie);
-        IOUtils.copy(conn.getInputStream(),outputStream);
+        InputStream input = conn.getInputStream();
+        try {
+        	IOUtils.copy(input,outputStream);
+        }finally {
+        	if(input != null) input.close();
+        }
     }
     
     static class IOUtils { 
