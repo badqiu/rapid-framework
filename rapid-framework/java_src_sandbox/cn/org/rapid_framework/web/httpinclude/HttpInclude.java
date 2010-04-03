@@ -14,6 +14,7 @@ import java.net.URLConnection;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -74,6 +75,7 @@ public class HttpInclude {
 
     private void getLocalContent(final OutputStream outputStream,String includePath) throws ServletException, IOException {
         // TODO handle getLocalContent() encoding 
+    	// TODO printWriter must be auto flush on write()
         final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream,"UTF-8"));
         request.getRequestDispatcher(includePath).include(request, new HttpServletResponseWrapper(response) {
             public PrintWriter getWriter() throws IOException {
@@ -103,7 +105,7 @@ public class HttpInclude {
         URLConnection conn = new URL(url).openConnection();
         conn.setReadTimeout(3000);
         conn.setConnectTimeout(3000);
-//        conn.setRequestProperty("Cookie", cookie);
+//        conn.setRequestProperty("Cookie", toCookieString());
         InputStream input = conn.getInputStream();
         try {
         	IOUtils.copy(input,outputStream);
