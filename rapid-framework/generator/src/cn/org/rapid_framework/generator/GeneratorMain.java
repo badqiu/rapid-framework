@@ -22,6 +22,6 @@ public class GeneratorMain {
 //		g.generateByClass(Blog.class);
 		
 		//打开文件夹
-		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+		Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
 	}
 }
