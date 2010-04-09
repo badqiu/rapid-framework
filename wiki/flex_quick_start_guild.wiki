@@ -83,7 +83,7 @@ public class GeneratorMain {
 }}}
 
 
-===1.10 拷贝生成的代码至项目根目录===
+===1.10 拷贝生成的代码至项目根目录,并刷新项目===
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg]
 
 ----
