@@ -14,9 +14,9 @@
 =插件的目录结构=
 {{{
 plugin_name
-	--src			#java源代码目录
-	   --resources   		#存放配置文件
-	      --spring    			#存放spring配置文件,框架会自动加载该目录的xml文件
+	--java_src			#java源代码目录
+	      --spring    			#存放spring配置文件,框架会自动加载该目录的xml文件 
+        --java_test             #java测试源代码
 	--web			#web源代码目录
 	--template		#代码生成器的模板目录
 	   --java_src	           #模板存放java源代码的地方
