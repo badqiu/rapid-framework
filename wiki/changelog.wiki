@@ -1,10 +1,10 @@
 #labels changelog
 #修改日志
 ==rapid-framework v3.5.1==
-spring_jdbc插件的${className}.java模板增加@Transnit标注
-flex模板修正
-生成器忽略生成错误
-生成器忽略表名的大小写
+  * spring_jdbc插件的${className}.java模板增加@Transnit标注
+  * flex模板修正
+  * 生成器忽略生成错误
+  * 生成器忽略表名的大小写
 
 ==rapid-framework v3.5==
 *更新内容:*
