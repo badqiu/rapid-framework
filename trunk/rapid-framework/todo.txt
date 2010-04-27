@@ -1,5 +1,12 @@
 rapid-framework路线图
 
+将project全部应用maven构建并如下项目划分
+	project-generator
+	project-common
+	project-dao
+	project-service
+	project-web
+
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 #Freemarker中@extends指令中相对路径的处理。测试velocity中是否存在相同问题
