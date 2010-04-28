@@ -10,6 +10,7 @@ rapid-framework路线图
 使用设计来避免生成器代码的重复生成问题: BaseDao生成 Dao编写业务逻辑
 Page,PageRequest重构,PageRequest用于继承以替代filter
 生成MockDao,MockManager以供调用
+Dao.save() rename to Dao.insert()
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
