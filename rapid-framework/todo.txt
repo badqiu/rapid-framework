@@ -6,6 +6,7 @@ rapid-framework路线图
 	project-dao
 	project-service
 	project-web
+为DAO层指定readonly属性，以禁止标准的insert update语句不能执行
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
