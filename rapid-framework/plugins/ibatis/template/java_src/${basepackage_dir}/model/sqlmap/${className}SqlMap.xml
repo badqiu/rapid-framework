@@ -26,8 +26,7 @@
 	
     <insert id="insert" parameterClass="${classNameLower}">
     <![CDATA[
-        INSERT INTO
-        ${table.sqlName} (
+        INSERT INTO ${table.sqlName} (
         <#list table.columns as column>
         	${column.sqlName} <#if column_has_next>,</#if>
         </#list>
@@ -63,7 +62,7 @@
 
     <delete id="delete" parameterClass="${table.idColumn.javaType}">
     <![CDATA[
-        delete from ${table.sqlName} where
+        DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
         ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
 		</#list>
@@ -71,10 +70,10 @@
     </delete>
     
     <select id="getById" resultMap="${classNameLower}Result">
-	    select <include refid="commonColumns"/>
+	    SELECT <include refid="commonColumns"/>
 	    <![CDATA[
-	        from ${table.sqlName} 
-	        where 
+	        FROM ${table.sqlName} 
+	        WHERE 
 				<#list table.compositeIdColumns as column>
 		        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
 		        </#list>
@@ -93,7 +92,7 @@
 	 
     <select id="count" resultClass="long">
     <![CDATA[
-        select count(*) from ${table.sqlName}
+        SELECT count(*) FROM ${table.sqlName}
     ]]>
 		<include refid="dynamicWhere"/>    
     </select>
@@ -103,8 +102,8 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="pageSelect" resultMap="${classNameLower}Result">
-    	select <include refid="commonColumns"/>
-	    from ${table.sqlName} 
+    	SELECT <include refid="commonColumns"/>
+	    FROM ${table.sqlName} 
 		<include refid="dynamicWhere"/>
 		<dynamic prepend="ORDER BY">
 			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
@@ -114,9 +113,9 @@
     <#list table.columns as column>
     <#if column.unique && !column.pk>
     <select id="getBy${column.columnName}" resultMap="${classNameLower}Result" parameterClass="${column.javaType}">
-	    select <include refid="commonColumns"/>
+	    SELECT <include refid="commonColumns"/>
 	    <![CDATA[
-	        from ${table.sqlName} where ${column.sqlName} = #${column.columnNameLower}#
+	        FROM ${table.sqlName} WHERE ${column.sqlName} = #${column.columnNameLower}#
 	    ]]>
     </select>
     
