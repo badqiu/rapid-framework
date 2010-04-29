@@ -13,6 +13,7 @@ Page,PageRequest重构,PageRequest用于继承以替代filter
 Dao.save() rename to Dao.insert()
 支持一条sql语句生成操作，可以使用ZQL来解析sql
 DAO层中orderby语句需要验证
+日期类型的dao sql生成 dateBegin,dateEnd输入
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
