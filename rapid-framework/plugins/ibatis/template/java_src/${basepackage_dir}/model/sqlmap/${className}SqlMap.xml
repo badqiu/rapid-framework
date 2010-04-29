@@ -83,9 +83,18 @@
 	<sql id="dynamicWhere">
 	    <dynamic prepend="WHERE">
 	       <#list table.columns as column>
-	       <isNotEmpty prepend="AND" property="${column.columnNameLower}">
-	             ${column.sqlName} = #${column.columnNameLower}#
-	       </isNotEmpty>
+		        <#if column.isDateTimeColumn>
+		       <isNotEmpty prepend="AND" property="${column.columnNameLower}Begin">
+		             ${column.sqlName} >= #${column.columnNameLower}Begin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="${column.columnNameLower}End">
+		             ${column.sqlName} &lt;= #${column.columnNameLower}End#
+		       </isNotEmpty>
+				<#else>
+		       <isNotEmpty prepend="AND" property="${column.columnNameLower}">
+		             ${column.sqlName} = #${column.columnNameLower}#
+		       </isNotEmpty>
+				</#if>
 	       </#list>
 	    </dynamic>	
 	</sql>
