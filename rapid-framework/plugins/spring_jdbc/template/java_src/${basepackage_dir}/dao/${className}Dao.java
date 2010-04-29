@@ -37,7 +37,12 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		String sql = "select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 "
 			<#list table.columns as column>
 			  	<#if column.isNotIdOrVersionField>
-				+ "/~ and t.${column.sqlName} = '[${column.columnNameLower}]' ~/"
+			  	<#if column.isDateTimeColumn>
+				+ "/~ and t.${column.sqlName} >= '[${column.columnNameLower}Begin]' ~/"
+				+ "/~ and t.${column.sqlName} <= '[${column.columnNameLower}End]' ~/"
+				<#else>
+			  	+ "/~ and t.${column.sqlName} = '[${column.columnNameLower}]' ~/"
+			  	</#if>
 				</#if>
 			</#list>
 				+ "/~ order by [sortColumns] ~/";
