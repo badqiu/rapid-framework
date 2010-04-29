@@ -27,8 +27,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}" 
 	>
     <![CDATA[
-        INSERT INTO
-        ${table.sqlName} (
+        INSERT INTO ${table.sqlName} (
         <#list table.columns as column>
         	${column.sqlName} <#if column_has_next>,</#if>
         </#list>
@@ -62,7 +61,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <delete id="delete" parameterType="${table.idColumn.javaType}">
     <![CDATA[
-        delete from ${table.sqlName} where
+        DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
         ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
 		</#list>
@@ -70,10 +69,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     </delete>
     
     <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${className}Result">
-		select <include refid="${classNameFirstLower}Columns" />
+		SELECT <include refid="${classNameFirstLower}Columns" />
 	    <![CDATA[
-		    from ${table.sqlName} 
-	        where 
+		    FROM ${table.sqlName} 
+	        WHERE 
 				<#list table.compositeIdColumns as column>
 		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
 		        </#list>    
@@ -85,14 +84,14 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<where>
 	       <#list table.columns as column>
 	       <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower})">
-				and ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
+				AND ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
 			</if>
 	       </#list>			
 		</where>
 	</sql>
 		
     <select id="count" resultType="long">
-        select count(*) from ${table.sqlName} 
+        SELECT count(*) FROM ${table.sqlName} 
 		<include refid="${classNameFirstLower}DynamicWhere"/>    
     </select>
     
@@ -101,8 +100,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="pageSelect" resultMap="${className}Result">
-    	select <include refid="${classNameFirstLower}Columns" />
-	    from ${table.sqlName} 
+    	SELECT <include refid="${classNameFirstLower}Columns" />
+	    FROM ${table.sqlName} 
 		<include refid="${classNameFirstLower}DynamicWhere"/>
 		<if test="@Ognl@isNotEmpty(sortColumns)">
 			ORDER BY <@jspEl 'sortColumns'/>
@@ -112,9 +111,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <#list table.columns as column>
     <#if column.unique && !column.pk>
     <select id="getBy${column.columnName}" resultMap="${className}Result" parameterType="${column.javaType}">
-	    select <include refid="${classNameFirstLower}Columns"/>
+	    SELECT <include refid="${classNameFirstLower}Columns"/>
 	    <![CDATA[
-	        from ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
+	        FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
 	    ]]>
     </select>
     
