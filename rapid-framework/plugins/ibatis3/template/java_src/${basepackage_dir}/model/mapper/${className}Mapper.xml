@@ -81,11 +81,20 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	
 	<sql id="${classNameFirstLower}DynamicWhere">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
-		<where>
+		<where>	      				
 	       <#list table.columns as column>
+	       <#if column.isDateTimeColumn>
+	       <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower}Begin)">
+				AND ${column.sqlName} >= <@mapperEl column.columnNameFirstLower+"Begin"/>
+		   </if>
+		   <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower}End)">
+				AND ${column.sqlName} &lt;= <@mapperEl column.columnNameFirstLower+"End"/>
+		   </if>
+	       <#else>
 	       <if test="@Ognl@isNotEmpty(${column.columnNameFirstLower})">
 				AND ${column.sqlName} = <@mapperEl column.columnNameFirstLower/>
 			</if>
+	       </#if>
 	       </#list>			
 		</where>
 	</sql>
