@@ -105,7 +105,7 @@
 		             ${column.sqlName} >= #${column.columnNameLower}Begin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}End">
-		             ${column.sqlName} <= #${column.columnNameLower}End#
+		             ${column.sqlName} &lt;= #${column.columnNameLower}End#
 		       </isNotEmpty>
 				<#else>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}">
@@ -138,6 +138,7 @@
 		        ${column.sqlName} <#if column_has_next>,</#if>
 		    </#list>
 		    FROM ${table.sqlName} 
+		    ]]>
 		</sql>
 		<sqlmap>
 			<![CDATA[
@@ -154,7 +155,7 @@
 		             ${column.sqlName} >= #${column.columnNameLower}Begin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}End">
-		             ${column.sqlName} <= #${column.columnNameLower}End#
+		             ${column.sqlName} &lt;= #${column.columnNameLower}End#
 		       </isNotEmpty>
 				<#else>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}">
