@@ -21,7 +21,12 @@ public class ${className}Dao extends BaseHibernateDao<${className},${table.idCol
 		String sql = "select t from ${className} t where 1=1 "
 			<#list table.columns as column>
 			  	<#if column.isNotIdOrVersionField>
-				+ "/~ and t.${column.columnNameLower} = '[${column.columnNameLower}]' ~/"
+			  	<#if column.isDateTimeColumn>
+				+ "/~ and t.${column.columnNameLower} >= '[${column.columnNameLower}Begin]' ~/"
+				+ "/~ and t.${column.columnNameLower} <= '[${column.columnNameLower}End]' ~/"
+				<#else>
+			  	+ "/~ and t.${column.columnNameLower} = '[${column.columnNameLower}]' ~/"
+			  	</#if>
 				</#if>
 			</#list>
 				+ "/~ order by [sortColumns] ~/";
