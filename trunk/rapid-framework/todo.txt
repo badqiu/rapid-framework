@@ -14,6 +14,7 @@ Dao.save() rename to Dao.insert()
 支持一条sql语句生成操作，可以使用ZQL来解析sql
 DAO层中orderby语句需要验证
 日期类型的dao sql生成 dateBegin,dateEnd输入
+ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
