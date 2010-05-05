@@ -25,6 +25,9 @@ public class TestDataGenerator {
 		if(javaType.indexOf("java.sql.Time") >= 0) {
 			return  new java.sql.Time(System.currentTimeMillis()).toString();
 		}
+		if(javaType.indexOf("java.util.Date") >= 0) {
+			return  new Timestamp(System.currentTimeMillis()).toString();
+		}
 		if(javaType.indexOf("String") >= 0) {
 			if(size > columnName.length()) {
 				int tempSize = Math.min(size - columnName.length(), MAX_SIZE);
