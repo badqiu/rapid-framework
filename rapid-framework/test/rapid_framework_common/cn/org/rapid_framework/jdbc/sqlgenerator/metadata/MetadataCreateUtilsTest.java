@@ -16,6 +16,9 @@ public class MetadataCreateUtilsTest {
         Assert.assertTrue(MetadataCreateUtils.isNativeJavaType(Ref.class));
         Assert.assertFalse(MetadataCreateUtils.isNativeJavaType(null));
         Assert.assertFalse(MetadataCreateUtils.isNativeJavaType(AAA.class));
+        Assert.assertFalse(MetadataCreateUtils.isNativeJavaType(new Integer[]{}.getClass()));
+        Assert.assertFalse(MetadataCreateUtils.isNativeJavaType(new int[]{}.getClass()));
+        System.out.println(new Integer[]{}.getClass().getName());
     }
     
     private static class AAA {}
