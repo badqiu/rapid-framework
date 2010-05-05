@@ -423,6 +423,18 @@ public class Column {
 		return GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
 	}
 	
+	public String getSimpleJavaType() {
+		String javaType = getJavaType();
+		boolean isNativeJavaType = true;
+		//TODO 实现isNativeJavaType判断
+		if(isNativeJavaType ) {
+			int lastIndexOf = javaType.lastIndexOf(".");
+			return lastIndexOf == -1 ? javaType : javaType.substring(lastIndexOf);
+		}else {
+			return javaType;
+		}
+	}
+	
 	public String getAsType() {
 		return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
 	}
