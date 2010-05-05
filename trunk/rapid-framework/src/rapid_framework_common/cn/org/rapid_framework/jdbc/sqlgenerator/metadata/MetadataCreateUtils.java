@@ -34,7 +34,7 @@ public class MetadataCreateUtils {
 			if(isTransientProperty(readMethod,pd.getWriteMethod())) {
 				continue;
 			}
-			if(!isNativeJavaType(readMethod)) {
+			if(!isNativeJavaType(readMethod.getReturnType())) {
 			    continue;
 			}
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
@@ -50,9 +50,11 @@ public class MetadataCreateUtils {
 		return t;
 	}
 	
-	/** TODO 实现isNativeJavaType()*/
-	private static boolean isNativeJavaType(Method readMethod) {
-        return false;
+	static boolean isNativeJavaType(Class clazz) {
+	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.") || clazz.getName().startsWith("javax.")) {
+	        return true;
+	    }
+	    return false;
     }
 
     private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
