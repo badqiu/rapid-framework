@@ -2,14 +2,17 @@ package cn.org.rapid_framework.page;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * 分页信息
  * 第一页从1开始
  * @author badqiu
  */
-public class Page<T> implements Serializable
+public class Page<T> implements Serializable,Iterable<T>
 {
 	
 	protected List<T> result;
@@ -164,5 +167,9 @@ public class Page<T> implements Serializable
 	public int getFirstResult() {
 		return PageUtils.getFirstResult(pageNumber, pageSize);
 	}
+
+    public Iterator<T> iterator() {
+        return result == null ? Collections.emptyList().iterator() : result.iterator();
+    }
 }
 
