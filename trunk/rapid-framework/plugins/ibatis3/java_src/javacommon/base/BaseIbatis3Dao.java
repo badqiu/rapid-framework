@@ -88,13 +88,13 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     	return getEntityClass().getSimpleName()+".delete";
     }
 
-    public String getCountQuery() {
-		return getEntityClass().getSimpleName() +".count";
+    public String getCountQuery(String statementName) {
+		return statementName +"-count";
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(),pageRequest.getFilters());
+		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(statementName),pageRequest.getFilters());
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}

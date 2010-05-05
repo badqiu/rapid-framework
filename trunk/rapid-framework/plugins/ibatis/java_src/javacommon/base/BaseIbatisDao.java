@@ -66,13 +66,13 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     	return getEntityClass().getSimpleName()+".delete";
     }
 
-    public String getCountQuery() {
-		return getEntityClass().getSimpleName() +".count";
+    public String getCountQuery(String statementName) {
+		return statementName+"-count";
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(),pageRequest.getFilters());
+		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(statementName),pageRequest.getFilters());
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
