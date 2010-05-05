@@ -29,7 +29,7 @@ public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getByUsername",v);
+		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getBy${column.columnName}",v);
 	}	
 	</#if>
 	</#list>
