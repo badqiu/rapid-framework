@@ -34,6 +34,9 @@ public class MetadataCreateUtils {
 			if(isTransientProperty(readMethod,pd.getWriteMethod())) {
 				continue;
 			}
+			if(!isNativeJavaType(readMethod)) {
+			    continue;
+			}
 			boolean isPrimaryKey = isPrimaryKeyColumn(readMethod);
 			String sqlName = getColumnSqlName(pd,readMethod);
 			Column column = new Column(sqlName,pd.getName(),isPrimaryKey);
@@ -46,8 +49,13 @@ public class MetadataCreateUtils {
 		Table t = new Table(getTableName(clazz),columns);
 		return t;
 	}
+	
+	/** TODO 实现isNativeJavaType()*/
+	private static boolean isNativeJavaType(Method readMethod) {
+        return false;
+    }
 
-	private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
+    private  static boolean isTransientProperty(Method readMethod,Method writeMethod) {
 		if(isJPAClassAvaiable) {
 			if(readMethod.isAnnotationPresent(Transient.class)) {
 				return true;
