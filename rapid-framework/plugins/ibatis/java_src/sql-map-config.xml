@@ -7,9 +7,9 @@
 	    cacheModelsEnabled="true"
 	    lazyLoadingEnabled="true"
 	    enhancementEnabled="true"
-	    maxSessions="64"
-	    maxTransactions="20"
-	    maxRequests="128"
+	    maxSessions="1500"
+	    maxTransactions="1500"
+	    maxRequests="1500"
 	    useStatementNamespaces="true"/>
     
     <!-- 这里无需配置sqlMap,可以通过spring的配置加载某个目录的多个SqlMap.xml-->
