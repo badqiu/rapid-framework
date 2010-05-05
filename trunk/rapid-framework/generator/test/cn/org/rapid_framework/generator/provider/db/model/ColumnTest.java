@@ -23,4 +23,18 @@ public class ColumnTest  extends TestCase{
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "testJavaLongType");
 		assertEquals("testJavaLongType",c.getJavaType());
 	}
+	
+	public void testGetSimpleJavaType() {
+		Column c = new Column(new Table(),1,"int","user_name",1,2,true,true,true,true,"","remarks");
+		assertEquals("java.lang.String",c.getJavaType());
+		assertEquals("String",c.getSimpleJavaType());
+		
+		c = new Column(new Table(),Types.NUMERIC,"int","user_name",1,2,true,true,true,true,"","remarks");
+		assertEquals("Long",c.getSimpleJavaType());
+		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "testJavaLongType");
+		assertEquals("testJavaLongType",c.getSimpleJavaType());
+		
+		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "abc.badqiu.testJavaLongType");
+		assertEquals("abc.badqiu.testJavaLongType",c.getSimpleJavaType());
+	}
 }
