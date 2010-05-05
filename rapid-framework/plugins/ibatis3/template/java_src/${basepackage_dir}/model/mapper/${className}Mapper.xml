@@ -99,7 +99,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
 		
-    <select id="count" resultType="long">
+    <select id="pageSelect-count" resultType="long">
         SELECT count(*) FROM ${table.sqlName} 
 		<include refid="${classNameFirstLower}DynamicWhere"/>    
     </select>

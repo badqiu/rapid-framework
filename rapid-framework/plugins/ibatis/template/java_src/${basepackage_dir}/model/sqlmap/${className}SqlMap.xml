@@ -80,7 +80,7 @@
 	    ]]>
     </select>
 
-	<sql id="dynamicWhere">
+	<sql id="pageSelect-where">
 	    <dynamic prepend="WHERE">
 	       <#list table.columns as column>
 		        <#if column.isDateTimeColumn>
@@ -99,11 +99,11 @@
 	    </dynamic>	
 	</sql>
 	 
-    <select id="count" resultClass="long">
+    <select id="pageSelect-count" resultClass="long">
     <![CDATA[
         SELECT count(*) FROM ${table.sqlName}
     ]]>
-		<include refid="dynamicWhere"/>    
+		<include refid="pageSelect-where"/>    
     </select>
     
     <!--
@@ -113,7 +113,7 @@
     <select id="pageSelect" resultMap="${classNameLower}Result">
     	SELECT <include refid="commonColumns"/>
 	    FROM ${table.sqlName} 
-		<include refid="dynamicWhere"/>
+		<include refid="pageSelect-where"/>
 		<dynamic prepend="ORDER BY">
 			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
 		</dynamic>
