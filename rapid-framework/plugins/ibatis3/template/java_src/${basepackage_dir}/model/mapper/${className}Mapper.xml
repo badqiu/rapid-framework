@@ -79,7 +79,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
-	<sql id="${classNameFirstLower}DynamicWhere">
+	<sql id="pageSelect-where">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
 		<where>	      				
 	       <#list table.columns as column>
@@ -101,7 +101,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		
     <select id="pageSelect-count" resultType="long">
         SELECT count(*) FROM ${table.sqlName} 
-		<include refid="${classNameFirstLower}DynamicWhere"/>    
+		<include refid="pageSelect-where"/>    
     </select>
     
     <!--
@@ -111,7 +111,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <select id="pageSelect" resultMap="${className}Result">
     	SELECT <include refid="${classNameFirstLower}Columns" />
 	    FROM ${table.sqlName} 
-		<include refid="${classNameFirstLower}DynamicWhere"/>
+		<include refid="pageSelect-where"/>
 		<if test="@Ognl@isNotEmpty(sortColumns)">
 			ORDER BY <@jspEl 'sortColumns'/>
 		</if>
