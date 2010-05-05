@@ -52,6 +52,8 @@ public class MetadataCreateUtils {
 	
 	static boolean isNativeJavaType(Class clazz) {
 	    if(clazz == null) return false;
+	    if(clazz.isArray()) return false;
+	    
 	    if(clazz.isPrimitive() || clazz.getName().startsWith("java.") || clazz.getName().startsWith("javax.")) {
 	        return true;
 	    }
