@@ -5,10 +5,10 @@ package ${basepackage}.dao;
 
 <#include "/java_imports.include">
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 
-@Component
+@Repository
 public class ${className}Dao extends BaseIbatis3Dao<${className},${table.idColumn.javaType}>{
 
 	public Class getEntityClass() {
