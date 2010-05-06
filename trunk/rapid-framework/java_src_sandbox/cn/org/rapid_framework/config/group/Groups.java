@@ -75,6 +75,8 @@ public class Groups implements java.io.Serializable{
 	public void storeAsXml(OutputStream out) throws IOException {
 		storeAsXml(out, getComment());
 	}
+	
+	//TODO 增加groups config的变量引用,如 group1.username=${group2.password}/diy
 
 	public String getComment() {
 		return comment;
