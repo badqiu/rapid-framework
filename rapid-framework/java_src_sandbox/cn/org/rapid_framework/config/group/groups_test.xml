@@ -2,7 +2,7 @@
 <!DOCTYPE groups SYSTEM "http://rapid-framework.googlecode.com/svn/trunk/dtd/groups.dtd">
 <groups>
 
-	<comment></comment>
+	<comment>12123</comment>
 	
 	<group name="g1">
 		<property key="g1_1">v1_1</property>

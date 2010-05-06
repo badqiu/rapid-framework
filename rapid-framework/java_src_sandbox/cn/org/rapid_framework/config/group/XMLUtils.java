@@ -147,11 +147,11 @@ class XMLUtils {
             assert(false);
         }
         Document doc = db.newDocument();
-        Element groupConfig =  (Element)
+        Element groupsElement =  (Element)
             doc.appendChild(doc.createElement("groups"));
 
         if (comment != null) {
-            Element comments = (Element)groupConfig.appendChild(
+            Element comments = (Element)groupsElement.appendChild(
                 doc.createElement("comment"));
             comments.appendChild(doc.createTextNode(comment));
         }
@@ -160,16 +160,17 @@ class XMLUtils {
         Iterator i = keys.iterator();
         while(i.hasNext()) {
             String key = (String)i.next();
-            Element group = (Element)groupConfig.appendChild(
+            Element groupElement = (Element)groupsElement.appendChild(
                 doc.createElement("group"));
-            group.setAttribute("name", key);
+            groupElement.setAttribute("name", key);
             
             Properties props = groups.getGroup(key);
             for(Map.Entry prop : props.entrySet()) {
             	Element propertyElement = doc.createElement("property");
             	propertyElement.setAttribute("key", (String)prop.getKey());
             	propertyElement.appendChild(doc.createTextNode((String)prop.getValue()));
-				group.appendChild(propertyElement);
+				groupElement.appendChild(propertyElement);
+//				groupElement.appendChild(doc.createTextNode("    \n"));
             }
         }
         emitDocument(doc, os, encoding);
