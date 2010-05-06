@@ -26,10 +26,10 @@ public class GroupsTest {
 		System.out.println("\n\n");
 		
 		Groups g = verifyXml(new FileInputStream(ResourceUtils.getFile("classpath:cn/org/rapid_framework/config/group/groups_test.xml")));		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		g.storeAsXml(out);
 		g.storeAsXml(System.out);
 		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		g.storeAsXml(out);
 		verifyXml(new ByteArrayInputStream(out.toByteArray()));
 		
 		
