@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-public class Groups {
+public class Groups implements java.io.Serializable{
 	Map<String,Properties> groups = new LinkedHashMap();
 	
 	public Set<String> getGroupNames() {
