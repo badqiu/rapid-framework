@@ -60,7 +60,7 @@ class XMLUtils {
     "<!ELEMENT comment (#PCDATA) >" +
     "<!ELEMENT group ( property* ) >" +
     "<!ELEMENT property (#PCDATA) >" +
-    "<!ATTLIST property key CDATA #REQUIRED>" +
+    "<!ATTLIST property name CDATA #REQUIRED>" +
     "<!ATTLIST group name CDATA #REQUIRED>" ;
  
     /**
@@ -130,9 +130,9 @@ class XMLUtils {
     	Properties properties = new Properties();
     	for(int i = 0; i < nodeList.getLength(); i++) {
     		Element entry = (Element)nodeList.item(i);
-    		if(entry.hasAttribute("key")) {
+    		if(entry.hasAttribute("name")) {
     			String val = (entry == null) ? "" : entry.getFirstChild().getNodeValue();
-    			String key = entry.getAttribute("key");
+    			String key = entry.getAttribute("name");
 				properties.setProperty(key, val);
     		}
     	}
@@ -171,7 +171,7 @@ class XMLUtils {
             Properties props = groups.getGroup(key);
             for(Map.Entry prop : props.entrySet()) {
             	Element propertyElement = doc.createElement("property");
-            	propertyElement.setAttribute("key", (String)prop.getKey());
+            	propertyElement.setAttribute("name", (String)prop.getKey());
             	propertyElement.appendChild(doc.createTextNode((String)prop.getValue()));
 				groupElement.appendChild(propertyElement);
 //				groupElement.appendChild(doc.createTextNode("    \n"));
