@@ -52,17 +52,17 @@ class XMLUtils {
 
     // The required DTD URI for exported properties
     private static final String PROPS_DTD_URI =
-    "http://rapid-framework.googlecode.com/svn/trunk/dtd/groups-config.dtd";
+    "http://rapid-framework.googlecode.com/svn/trunk/dtd/groups.dtd";
 
     private static final String PROPS_DTD =
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-    "<!ELEMENT groups-config ( comment?,group-properties* ) >"                +
-    "<!ELEMENT comment (#PCDATA) >"+
-    "<!ELEMENT group-properties ( property* ) >"+
-    "<!ELEMENT property (#PCDATA) >"                       +
-    "<!ATTLIST property key CDATA #REQUIRED>"         +
-    "<!ATTLIST group-properties groupName CDATA #REQUIRED>";
-
+    "<!ELEMENT groups ( comment?,group* ) >" +
+    "<!ELEMENT comment (#PCDATA) >" +
+    "<!ELEMENT group ( property* ) >" +
+    "<!ELEMENT property (#PCDATA) >" +
+    "<!ATTLIST property key CDATA #REQUIRED>" +
+    "<!ATTLIST group name CDATA #REQUIRED>" ;
+ 
     /**
      * Version number for the format of exported properties files.
      */
@@ -114,9 +114,9 @@ class XMLUtils {
             entries.item(0).getNodeName().equals("comment") ? 1 : 0;
         for (int i=start; i<numEntries; i++) {
             Element entry = (Element)entries.item(i);
-            if (entry.hasAttribute("groupName")) {
+            if (entry.hasAttribute("name")) {
                 NodeList nodeList = entry.getChildNodes();
-                String groupName = entry.getAttribute("groupName");
+                String groupName = entry.getAttribute("name");
 				props.addGroup(groupName, importProperties(nodeList));
             }
         }
@@ -148,7 +148,7 @@ class XMLUtils {
         }
         Document doc = db.newDocument();
         Element groupConfig =  (Element)
-            doc.appendChild(doc.createElement("groups-config"));
+            doc.appendChild(doc.createElement("groups"));
 
         if (comment != null) {
             Element comments = (Element)groupConfig.appendChild(
@@ -161,8 +161,8 @@ class XMLUtils {
         while(i.hasNext()) {
             String key = (String)i.next();
             Element group = (Element)groupConfig.appendChild(
-                doc.createElement("group-properties"));
-            group.setAttribute("groupName", key);
+                doc.createElement("group"));
+            group.setAttribute("name", key);
             
             Properties props = groups.getGroup(key);
             for(Map.Entry prop : props.entrySet()) {
