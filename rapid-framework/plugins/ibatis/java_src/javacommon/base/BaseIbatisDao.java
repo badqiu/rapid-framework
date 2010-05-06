@@ -1,7 +1,6 @@
 package javacommon.base;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
-import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.util.MapAndObject;
@@ -51,24 +49,28 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     }
 
     public String getFindByPrimaryKeyQuery() {
-        return getEntityClass().getSimpleName()+".getById";
+        return getIbatisSqlMapNamespace()+".getById";
     }
 
     public String getInsertQuery() {
-        return getEntityClass().getSimpleName()+".insert";
+        return getIbatisSqlMapNamespace()+".insert";
     }
 
     public String getUpdateQuery() {
-    	return getEntityClass().getSimpleName()+".update";
+    	return getIbatisSqlMapNamespace()+".update";
     }
 
     public String getDeleteQuery() {
-    	return getEntityClass().getSimpleName()+".delete";
+    	return getIbatisSqlMapNamespace()+".delete";
     }
 
     public String getCountQuery(String statementName) {
 		return statementName+"-count";
 	}
+    
+    public String getIbatisSqlMapNamespace() {
+        return getEntityClass().getSimpleName();
+    }
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
