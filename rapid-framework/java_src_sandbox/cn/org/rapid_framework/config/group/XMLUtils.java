@@ -7,14 +7,35 @@
 
 package cn.org.rapid_framework.config.group;
 
-import java.io.*;
-import org.xml.sax.*;
-import org.xml.sax.helpers.*;
-import org.w3c.dom.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.*;
-import javax.xml.transform.stream.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringReader;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * A class used to aid in Properties load and save in XML. Keeping this
@@ -31,25 +52,23 @@ class XMLUtils {
 
     // The required DTD URI for exported properties
     private static final String PROPS_DTD_URI =
-    "http://java.sun.com/dtd/properties.dtd";
+    "http://rapid-framework.googlecode.com/svn/trunk/dtd/groups-config.dtd";
 
     private static final String PROPS_DTD =
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
-    "<!-- DTD for properties -->"                +
-    "<!ELEMENT properties ( comment?, entry* ) >"+
-    "<!ATTLIST properties"                       +
-        " version CDATA #FIXED \"1.0\">"         +
-    "<!ELEMENT comment (#PCDATA) >"              +
-    "<!ELEMENT entry (#PCDATA) >"                +
-    "<!ATTLIST entry "                           +
-        " key CDATA #REQUIRED>";
+    "<!ELEMENT groups-config ( comment?,group-properties* ) >"                +
+    "<!ELEMENT comment (#PCDATA) >"+
+    "<!ELEMENT group-properties ( property* ) >"+
+    "<!ELEMENT property (#PCDATA) >"                       +
+    "<!ATTLIST property key CDATA #REQUIRED>"         +
+    "<!ATTLIST group-properties groupName CDATA #REQUIRED>";
 
     /**
      * Version number for the format of exported properties files.
      */
     private static final String EXTERNAL_XML_VERSION = "1.0";
 
-    static void load(Properties props, InputStream in)
+    static void load(Groups props, InputStream in)
         throws IOException, InvalidPropertiesFormatException
     {
         Document doc = null;
@@ -66,7 +85,7 @@ class XMLUtils {
                 " is not supported. This java installation can read" +
                 " versions " + EXTERNAL_XML_VERSION + " or older. You" +
                 " may need to install a newer version of JDK.");
-        importProperties(props, propertiesElement);
+        importGroups(props, propertiesElement);
     }
 
     static Document getLoadingDoc(InputStream in)
@@ -88,22 +107,35 @@ class XMLUtils {
 	}
     }
 
-    static void importProperties(Properties props, Element propertiesElement) {
+    static void importGroups(Groups props, Element propertiesElement) {
         NodeList entries = propertiesElement.getChildNodes();
         int numEntries = entries.getLength();
         int start = numEntries > 0 && 
             entries.item(0).getNodeName().equals("comment") ? 1 : 0;
         for (int i=start; i<numEntries; i++) {
             Element entry = (Element)entries.item(i);
-            if (entry.hasAttribute("key")) {
-                Node n = entry.getFirstChild();
-                String val = (n == null) ? "" : n.getNodeValue();
-                props.setProperty(entry.getAttribute("key"), val);
+            if (entry.hasAttribute("groupName")) {
+                NodeList nodeList = entry.getChildNodes();
+                String groupName = entry.getAttribute("groupName");
+				props.addGroup(groupName, importProperties(nodeList));
             }
         }
     }
 
-    static void save(Properties props, OutputStream os, String comment, 
+    private static Properties importProperties(NodeList nodeList) {
+    	Properties properties = new Properties();
+    	for(int i = 0; i < nodeList.getLength(); i++) {
+    		Element entry = (Element)nodeList.item(i);
+    		if(entry.hasAttribute("key")) {
+    			String val = (entry == null) ? "" : entry.getFirstChild().getNodeValue();
+    			String key = entry.getAttribute("key");
+				properties.setProperty(key, val);
+    		}
+    	}
+		return properties;
+	}
+
+	static void save(Groups groups, OutputStream os, String comment, 
                      String encoding) 
         throws IOException
     {
@@ -115,23 +147,30 @@ class XMLUtils {
             assert(false);
         }
         Document doc = db.newDocument();
-        Element properties =  (Element)
-            doc.appendChild(doc.createElement("properties"));
+        Element groupConfig =  (Element)
+            doc.appendChild(doc.createElement("groups-config"));
 
         if (comment != null) {
-            Element comments = (Element)properties.appendChild(
+            Element comments = (Element)groupConfig.appendChild(
                 doc.createElement("comment"));
             comments.appendChild(doc.createTextNode(comment));
         }
 
-        Set keys = props.keySet();
+        Set keys = groups.getGroupNames();
         Iterator i = keys.iterator();
         while(i.hasNext()) {
             String key = (String)i.next();
-            Element entry = (Element)properties.appendChild(
-                doc.createElement("entry"));
-            entry.setAttribute("key", key);
-            entry.appendChild(doc.createTextNode(props.getProperty(key)));
+            Element group = (Element)groupConfig.appendChild(
+                doc.createElement("group-properties"));
+            group.setAttribute("groupName", key);
+            
+            Properties props = groups.getGroup(key);
+            for(Map.Entry prop : props.entrySet()) {
+            	Element propertyElement = doc.createElement("property");
+            	propertyElement.setAttribute("key", (String)prop.getKey());
+            	propertyElement.appendChild(doc.createTextNode((String)prop.getValue()));
+				group.appendChild(propertyElement);
+            }
         }
         emitDocument(doc, os, encoding);
     }

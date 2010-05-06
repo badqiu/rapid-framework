@@ -1,7 +1,9 @@
 package cn.org.rapid_framework.config.group;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -51,19 +53,23 @@ public class Groups {
 		this.groups = groups;
 	}
 	
-	public void loadFromWindowIni(InputStream in) {
+	public void loadFromWindowsInI(InputStream in) {
 		
 	}
 	
-	public void saveAsWindowIni(InputStream in) {
+	public void saveAsWindowsInI(InputStream in) {
 		
 	}
 	
-	public void loadFromXml(InputStream in) {
-		
+	public void loadFromXml(InputStream in) throws InvalidPropertiesFormatException, IOException {
+		XMLUtils.load(this, in);
 	}
 	
-	public void saveAsXml(OutputStream out) {
-		
+	public void storeAsXml(OutputStream out,String comment) throws IOException {
+		XMLUtils.save(this, out, comment, "UTF-8");
+	}
+	
+	public void storeAsXml(OutputStream out) throws IOException {
+		storeAsXml(out, null);
 	}
 }
