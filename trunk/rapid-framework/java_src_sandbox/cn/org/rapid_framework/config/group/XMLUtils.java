@@ -69,7 +69,7 @@ class XMLUtils {
     private static final String EXTERNAL_XML_VERSION = "1.0";
 
     static void load(Groups props, InputStream in)
-        throws IOException, InvalidPropertiesFormatException
+        throws IOException
     {
         Document doc = null;
         try {
@@ -80,8 +80,8 @@ class XMLUtils {
         Element propertiesElement = (Element)doc.getChildNodes().item(1);
         String xmlVersion = propertiesElement.getAttribute("version");
         if (xmlVersion.compareTo(EXTERNAL_XML_VERSION) > 0)
-            throw new InvalidPropertiesFormatException(
-                "Exported Properties file format version " + xmlVersion +
+            throw new IllegalStateException(
+                "Exported group file format version " + xmlVersion +
                 " is not supported. This java installation can read" +
                 " versions " + EXTERNAL_XML_VERSION + " or older. You" +
                 " may need to install a newer version of JDK.");

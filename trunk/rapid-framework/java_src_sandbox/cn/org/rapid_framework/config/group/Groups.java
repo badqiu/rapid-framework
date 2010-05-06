@@ -61,7 +61,7 @@ public class Groups {
 //		
 //	}
 	
-	public void loadFromXml(InputStream in) throws InvalidPropertiesFormatException, IOException {
+	public void loadFromXml(InputStream in) throws IOException {
 		XMLUtils.load(this, in);
 	}
 	
