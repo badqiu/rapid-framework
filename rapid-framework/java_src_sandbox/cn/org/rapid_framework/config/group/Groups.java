@@ -53,13 +53,13 @@ public class Groups {
 		this.groups = groups;
 	}
 	
-	public void loadFromWindowsInI(InputStream in) {
-		
-	}
-	
-	public void saveAsWindowsInI(InputStream in) {
-		
-	}
+//	public void loadFromWindowsInI(InputStream in) {
+//		
+//	}
+//	
+//	public void saveAsWindowsInI(InputStream in) {
+//		
+//	}
 	
 	public void loadFromXml(InputStream in) throws InvalidPropertiesFormatException, IOException {
 		XMLUtils.load(this, in);
