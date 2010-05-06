@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT groups ( comment?,group* ) >
+<!ELEMENT comment (#PCDATA) >
+<!ELEMENT group ( property* ) >
+<!ELEMENT property (#PCDATA) >
+<!ATTLIST property key CDATA #REQUIRED>
+<!ATTLIST group name CDATA #REQUIRED>
