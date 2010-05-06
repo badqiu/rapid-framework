@@ -1,7 +1,6 @@
 package javacommon.base;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,20 +71,24 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     protected void prepareObjectForSaveOrUpdate(E o) {
     }
 
+    public String getIbatisMapperNamesapce() {
+        return getEntityClass().getSimpleName();
+    }
+    
     public String getFindByPrimaryKeyQuery() {
-        return getEntityClass().getSimpleName()+".getById";
+        return getIbatisMapperNamesapce()+".getById";
     }
 
     public String getInsertQuery() {
-        return getEntityClass().getSimpleName()+".insert";
+        return getIbatisMapperNamesapce()+".insert";
     }
 
     public String getUpdateQuery() {
-    	return getEntityClass().getSimpleName()+".update";
+    	return getIbatisMapperNamesapce()+".update";
     }
 
     public String getDeleteQuery() {
-    	return getEntityClass().getSimpleName()+".delete";
+    	return getIbatisMapperNamesapce()+".delete";
     }
 
     public String getCountQuery(String statementName) {
