@@ -175,7 +175,8 @@ class XMLUtils {
         }
         emitDocument(doc, os, encoding);
     }
-
+	
+	//TODO 美化groups config的xml输出
     static void emitDocument(Document doc, OutputStream os, String encoding)
         throws IOException
     {
