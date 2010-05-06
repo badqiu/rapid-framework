@@ -10,7 +10,8 @@ import java.util.Properties;
 import java.util.Set;
 
 public class Groups implements java.io.Serializable{
-	Map<String,Properties> groups = new LinkedHashMap();
+	private String comment;
+	private Map<String,Properties> groups = new LinkedHashMap();
 	
 	public Set<String> getGroupNames() {
 		return groups.keySet();
@@ -61,6 +62,8 @@ public class Groups implements java.io.Serializable{
 //		
 //	}
 	
+	
+	
 	public void loadFromXml(InputStream in) throws IOException {
 		XMLUtils.load(this, in);
 	}
@@ -70,6 +73,14 @@ public class Groups implements java.io.Serializable{
 	}
 	
 	public void storeAsXml(OutputStream out) throws IOException {
-		storeAsXml(out, null);
+		storeAsXml(out, getComment());
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

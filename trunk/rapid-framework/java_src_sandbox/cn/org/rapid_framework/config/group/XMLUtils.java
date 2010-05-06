@@ -110,8 +110,12 @@ class XMLUtils {
     static void importGroups(Groups props, Element propertiesElement) {
         NodeList entries = propertiesElement.getChildNodes();
         int numEntries = entries.getLength();
-        int start = numEntries > 0 && 
-            entries.item(0).getNodeName().equals("comment") ? 1 : 0;
+        boolean hasCommentElement = numEntries > 0 && entries.item(0).getNodeName().equals("comment");
+        if(hasCommentElement) {
+        	props.setComment(entries.item(0).getFirstChild().getNodeValue());
+        }
+        
+        int start = hasCommentElement ? 1 : 0;
         for (int i=start; i<numEntries; i++) {
             Element entry = (Element)entries.item(i);
             if (entry.hasAttribute("name")) {
