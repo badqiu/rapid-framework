@@ -112,7 +112,7 @@ class XMLUtils {
         int numEntries = entries.getLength();
         boolean hasCommentElement = numEntries > 0 && entries.item(0).getNodeName().equals("comment");
         if(hasCommentElement) {
-        	props.setComment(entries.item(0).getFirstChild().getNodeValue());
+//        	props.setComment(entries.item(0).getFirstChild().getNodeValue());
         }
         
         int start = hasCommentElement ? 1 : 0;
