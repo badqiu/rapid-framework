@@ -113,8 +113,8 @@ public class Ognl {
 	 * checkOrderby("user asc,pwd desc","user,pwd") 正常
 	 * checkOrderby("user asc,pwd desc","user"),pwd不能排序,将抛出异常
 	 * </pre>
-	 * @param orderby
-	 * @param validSortColumns
+	 * @param orderby 需要验证的order by字符串
+	 * @param validSortColumns 可以排序的列
 	 * @throws DataAccessException
 	 */
 	public static void checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
