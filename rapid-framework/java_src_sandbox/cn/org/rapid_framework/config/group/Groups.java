@@ -3,6 +3,8 @@ package cn.org.rapid_framework.config.group;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -77,7 +79,41 @@ public class Groups implements java.io.Serializable{
 	public void storeToXML(OutputStream out) throws IOException {
 	    storeToXML(out, null);
 	}
+
+   public Properties toProperties() {
+        return toProperties(".");
+    }
+	   
+	public Properties toProperties(String seperator) {
+	    Properties properties = new Properties();
+	    Set<Map.Entry<String, Properties>> entrySet = getGroups().entrySet();
+	    for(Map.Entry<String, Properties> entry : entrySet) {
+	        String group = entry.getKey();
+	        Properties p = entry.getValue();
+	        for(Object key : p.keySet()) {
+	            properties.put(group+seperator+key, p.get(key));
+	        }
+	    }
+	    return properties;
+	}
 	
+	public void toWindowsInIFormat(Writer writer) {
+	    PrintWriter pw = new PrintWriter(writer);
+	    Set<Map.Entry<String, Properties>> entrySet = getGroups().entrySet();
+        for(Map.Entry<String, Properties> entry : entrySet) {
+            String group = entry.getKey();
+            Properties p = entry.getValue();
+            pw.println("["+group+"]");
+            for(Object key : p.keySet()) {
+                pw.println(key+"="+p.getProperty((String)key));
+            }
+            pw.println("");
+        }
+        pw.flush();
+    }
+	
+//	public String toString() {
+//	}
 	//TODO 增加groups config的变量引用,如 group1.username=${group2.password}/diy
 
 

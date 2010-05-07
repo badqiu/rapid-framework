@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
@@ -18,7 +19,7 @@ import org.springframework.util.ResourceUtils;
 
 public class GroupsTest {
 	@Test
-	public void test() throws InvalidPropertiesFormatException, IOException {
+	public void test_storeToXML_and_loadFromXML() throws InvalidPropertiesFormatException, IOException {
 		Properties props = new Properties();
 		props.setProperty("1", "1");
 		props.setProperty("1222", "222");
@@ -34,9 +35,25 @@ public class GroupsTest {
 		g.storeToXML(out);
 		verifyXml(new ByteArrayInputStream(out.toByteArray()));
 		
-		
 	}
 
+   @Test
+    public void test() throws InvalidPropertiesFormatException, IOException {
+        
+        Groups g = verifyXml(new FileInputStream(ResourceUtils.getFile("classpath:cn/org/rapid_framework/config/group/groups_test.xml")));      
+        g.storeToXML(System.out);
+        
+        System.out.println("****************************");
+        System.out.println(" toProperties() ");
+        System.out.println("****************************");
+        System.out.println(g.toProperties());
+
+        System.out.println("****************************");
+        System.out.println(" toWindowsInIFormat() ");
+        System.out.println("****************************");
+        g.toWindowsInIFormat(new PrintWriter(System.out));
+    }
+	   
 	private Groups verifyXml(InputStream input) throws InvalidPropertiesFormatException,
 			IOException, FileNotFoundException {
 		Groups g = new Groups();
