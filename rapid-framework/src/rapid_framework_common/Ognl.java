@@ -2,6 +2,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 
@@ -108,27 +109,41 @@ public class Ognl {
 	/**
 	 * 用于验证那些列可以排序
 	 * 
+	 * ibatis示列使用
+	 * &lt;if test="@Ognl@checkOrderby(orderby,'username,password')">
+	 *		ORDER BY ${orderby}
+	 * &lt;/if>
+	 * 
 	 * <pre>
-	 * 示例: 
-	 * checkOrderby("user asc,pwd desc","user,pwd") 正常
-	 * checkOrderby("user asc,pwd desc","user"),pwd不能排序,将抛出异常
+	 * 返回示例: 
+	 * 返回false相关验证:
+	 * checkOrderby(null,"user,pwd") 
+	 * checkOrderby(" ","user,pwd") 
+	 * checkOrderby("user asc,pwd desc","user") pwd不能排序
+	 * 
+	 * 返回true相关验证:
+	 * checkOrderby("user asc,pwd desc",null) 
+	 * checkOrderby("user asc,pwd desc","") 
+	 * checkOrderby("user asc,pwd desc","user,pwd") 
 	 * </pre>
 	 * @param orderby 需要验证的order by字符串
 	 * @param validSortColumns 可以排序的列
 	 * @throws DataAccessException
 	 */
-	public static void checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
-		if(orderby == null) return;
-		if(validSortColumns == null) return;
+	public static boolean checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
+		if(StringUtils.isBlank(orderby)) return false;
+		if(StringUtils.isBlank(validSortColumns)) return true;
 		
 		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
 		String[] conditionsArray = validSortColumns.split(",");
 		for(SortInfo info : infos) {
 			String columnName = info.getColumnName();
 			if(!isPass(conditionsArray, info, columnName)) {
-				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
+//				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private static boolean isPass(String[] conditionsArray, SortInfo info, String columnName) {

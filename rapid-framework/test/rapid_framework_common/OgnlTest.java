@@ -115,41 +115,21 @@ public class OgnlTest {
 	
 	@Test
 	public void checkOrderby() {
-		Ognl.checkOrderby(null, "");
-		Ognl.checkOrderby(null, null);
-		Ognl.checkOrderby("", null);
+		Assert.assertFalse(Ognl.checkOrderby(null, ""));
+		Assert.assertFalse(Ognl.checkOrderby(null, null));
+		Assert.assertFalse(Ognl.checkOrderby("", null));
+		Assert.assertFalse(Ognl.checkOrderby(" ", null));
 		
-		Ognl.checkOrderby(" username ", "username");
-		Ognl.checkOrderby("username", "username");
-		Ognl.checkOrderby("username asc", "username");
-		Ognl.checkOrderby("username  desc", "username");
-		Ognl.checkOrderby("username asc,password desc", "username,password");
-		Ognl.checkOrderby("username asc,password desc", "username,password");
+		Assert.assertTrue(Ognl.checkOrderby(" username ", "username"));
+		Assert.assertTrue(Ognl.checkOrderby("username", "username"));
+		Assert.assertTrue(Ognl.checkOrderby("username asc", "username"));
+		Assert.assertTrue(Ognl.checkOrderby("username  desc", "username"));
+		Assert.assertTrue(Ognl.checkOrderby("username asc,password desc", "username,password"));
+		Assert.assertTrue(Ognl.checkOrderby("username asc,password desc", "username,password"));
 		
-		
-		try {
-			Ognl.checkOrderby(" username ", "password");
-			Assert.fail();
-		}catch(DataAccessException expected) {
-		}
-		
-		try {
-			Ognl.checkOrderby("username asc", "password");
-			Assert.fail();
-		}catch(DataAccessException expected) {
-		}
-		
-		try {
-			Ognl.checkOrderby("username asc,password desc,blog", "password");
-			Assert.fail();
-		}catch(DataAccessException expected) {
-		}
-		
-		try {
-			Ognl.checkOrderby("username asc,password   desc", "password");
-			Assert.fail();
-		}catch(DataAccessException expected) {
-		}
-		
+		Assert.assertFalse(Ognl.checkOrderby(" username ", "password"));
+		Assert.assertFalse(Ognl.checkOrderby("username asc", "password"));
+		Assert.assertFalse(Ognl.checkOrderby("username asc,password desc,blog", "password"));
+		Assert.assertFalse(Ognl.checkOrderby("username asc,password   desc", "password"));
 	}
 }
