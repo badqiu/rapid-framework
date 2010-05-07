@@ -42,7 +42,7 @@ public class SortInfo implements Serializable{
 	
 	public static List<SortInfo> parseSortColumns(String sortColumns) {
 		if(sortColumns == null) {
-			return Collections.<SortInfo>emptyList();
+			return new ArrayList(0);
 		}
 		
 		List<SortInfo> results = new ArrayList();
