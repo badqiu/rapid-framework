@@ -26,10 +26,10 @@ public class GroupsTest {
 		System.out.println("\n\n");
 		
 		Groups g = verifyXml(new FileInputStream(ResourceUtils.getFile("classpath:cn/org/rapid_framework/config/group/groups_test.xml")));		
-		g.storeAsXml(System.out);
+		g.storeToXML(System.out);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		g.storeAsXml(out);
+		g.storeToXML(out);
 		verifyXml(new ByteArrayInputStream(out.toByteArray()));
 		
 		
@@ -38,7 +38,7 @@ public class GroupsTest {
 	private Groups verifyXml(InputStream input) throws InvalidPropertiesFormatException,
 			IOException, FileNotFoundException {
 		Groups g = new Groups();
-		g.loadFromXml(input);
+		g.loadFromXML(input);
 		
 		assertEquals(2, g.size());
 		assertNotNull(g.getGroup("g1"));

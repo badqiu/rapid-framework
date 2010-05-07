@@ -62,16 +62,16 @@ public class Groups implements java.io.Serializable{
 	
 	
 	
-	public void loadFromXml(InputStream in) throws IOException {
+	public void loadFromXML(InputStream in) throws IOException {
 		XMLUtils.load(this, in);
 	}
 	
-	public void storeAsXml(OutputStream out,String comment) throws IOException {
+	public void storeToXML(OutputStream out,String comment) throws IOException {
 		XMLUtils.save(this, out, comment, "UTF-8");
 	}
 	
-	public void storeAsXml(OutputStream out) throws IOException {
-		storeAsXml(out, null);
+	public void storeToXML(OutputStream out) throws IOException {
+	    storeToXML(out, null);
 	}
 	
 	//TODO 增加groups config的变量引用,如 group1.username=${group2.password}/diy
