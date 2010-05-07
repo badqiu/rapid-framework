@@ -20,7 +20,6 @@ import cn.org.rapid_framework.util.MapAndObject;
 public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapClientDaoSupport implements EntityDao<E,PK> {
     protected final Log log = LogFactory.getLog(getClass());
     
-    public abstract Class getEntityClass();
     
     public Object getById(PK primaryKey) {
         Object object = getSqlMapClientTemplate().queryForObject(getFindByPrimaryKeyQuery(), primaryKey);
@@ -69,7 +68,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 	}
     
     public String getIbatisSqlMapNamespace() {
-        return getEntityClass().getSimpleName();
+    	 throw new RuntimeException("not yet implement");
     }
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {

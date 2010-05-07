@@ -10,9 +10,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn.javaType}>{
-
-	public Class getEntityClass() {
-		return ${className}.class;
+	
+	@Override
+	public String getIbatisSqlMapNamespace() {
+		return "${className}";
 	}
 	
 	public void saveOrUpdate(${className} entity) {
