@@ -2,7 +2,7 @@ rapid-framework路线图
 
 将project全部应用maven构建并如下项目划分
 	project-generator
-	project-common
+	project-common : common-util common-vo
 	project-dao
 	project-service
 	project-web
