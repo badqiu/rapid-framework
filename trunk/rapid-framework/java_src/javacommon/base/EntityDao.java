@@ -13,8 +13,10 @@ public interface EntityDao <E,PK extends Serializable>{
 	
 	public void deleteById(PK id) throws DataAccessException;
 	
+	/** 插入数据 */
 	public void save(E entity) throws DataAccessException;
 	
+	/** 更新数据 */
 	public void update(E entity) throws DataAccessException;
 
 	public void saveOrUpdate(E entity) throws DataAccessException;
