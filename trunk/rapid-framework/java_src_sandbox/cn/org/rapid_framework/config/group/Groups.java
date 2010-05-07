@@ -3,14 +3,12 @@ package cn.org.rapid_framework.config.group;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
 public class Groups implements java.io.Serializable{
-	private String comment;
 	private Map<String,Properties> groups = new LinkedHashMap();
 	
 	public Set<String> getGroupNames() {
@@ -73,16 +71,10 @@ public class Groups implements java.io.Serializable{
 	}
 	
 	public void storeAsXml(OutputStream out) throws IOException {
-		storeAsXml(out, getComment());
+		storeAsXml(out, null);
 	}
 	
 	//TODO 增加groups config的变量引用,如 group1.username=${group2.password}/diy
 
-	public String getComment() {
-		return comment;
-	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 }
