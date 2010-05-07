@@ -39,8 +39,6 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		this.sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
 	}
 
-	public abstract Class getEntityClass();
-    
     public SqlSessionTemplate getSqlSessionTemplate() {
     	return sqlSessionTemplate;
     }
@@ -72,7 +70,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     }
 
     public String getIbatisMapperNamesapce() {
-        return getEntityClass().getSimpleName();
+        throw new RuntimeException("not yet implement");
     }
     
     public String getFindByPrimaryKeyQuery() {
