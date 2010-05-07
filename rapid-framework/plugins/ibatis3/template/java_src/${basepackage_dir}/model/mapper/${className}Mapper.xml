@@ -113,7 +113,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM ${table.sqlName} 
 		<include refid="pageSelect-where"/>
 		
-		<!-- 第二个参数可以指定可以排序的列,如@Ognl@checkOrderby(sortColumns,'pwd,user'),则只能按pwd,user两列排序 -->
+		<!-- 指定可以排序的列,如@Ognl@checkOrderby(sortColumns,'pwd,user'),则只能按pwd,user两列排序 -->
 		<if test="@Ognl@checkOrderby(sortColumns,'')">
 			ORDER BY <@jspEl 'sortColumns'/>
 		</if>
