@@ -1,5 +1,11 @@
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+
+import cn.org.rapid_framework.page.SortInfo;
 
 
 /**
@@ -98,6 +104,40 @@ public class Ognl {
 			}
 		}
 		return true;
+	}
+	/**
+	 * 用于验证那些列可以排序
+	 * 
+	 * <pre>
+	 * 示例: 
+	 * checkOrderby("user asc,pwd desc","user,pwd") 正常
+	 * checkOrderby("user asc,pwd desc","user"),pwd不能排序,将抛出异常
+	 * </pre>
+	 * @param orderby
+	 * @param validSortColumns
+	 * @throws DataAccessException
+	 */
+	public static void checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
+		if(orderby == null) return;
+		if(validSortColumns == null) return;
+		
+		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
+		String[] conditionsArray = validSortColumns.split(",");
+		for(SortInfo info : infos) {
+			String columnName = info.getColumnName();
+			if(!isPass(conditionsArray, info, columnName)) {
+				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
+			}
+		}
+	}
+
+	private static boolean isPass(String[] conditionsArray, SortInfo info, String columnName) {
+		for(String condition : conditionsArray) {
+			if(condition.equalsIgnoreCase(info.getColumnName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

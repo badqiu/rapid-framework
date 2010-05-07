@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DataAccessException;
 
 import flex.messaging.io.ArrayList;
 
@@ -110,5 +111,45 @@ public class OgnlTest {
 		for(Map.Entry entry : System.getProperties().entrySet()) {
 			out.println(entry.getKey()+":"+entry.getValue());
 		}
+	}
+	
+	@Test
+	public void checkOrderby() {
+		Ognl.checkOrderby(null, "");
+		Ognl.checkOrderby(null, null);
+		Ognl.checkOrderby("", null);
+		
+		Ognl.checkOrderby(" username ", "username");
+		Ognl.checkOrderby("username", "username");
+		Ognl.checkOrderby("username asc", "username");
+		Ognl.checkOrderby("username  desc", "username");
+		Ognl.checkOrderby("username asc,password desc", "username,password");
+		Ognl.checkOrderby("username asc,password desc", "username,password");
+		
+		
+		try {
+			Ognl.checkOrderby(" username ", "password");
+			Assert.fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc", "password");
+			Assert.fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc,password desc,blog", "password");
+			Assert.fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc,password   desc", "password");
+			Assert.fail();
+		}catch(DataAccessException expected) {
+		}
+		
 	}
 }
