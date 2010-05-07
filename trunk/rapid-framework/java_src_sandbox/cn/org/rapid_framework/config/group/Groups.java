@@ -97,7 +97,7 @@ public class Groups implements java.io.Serializable{
 	    return properties;
 	}
 	
-	public void toWindowsInIFormat(Writer writer) {
+	public void storeAsWindowsInI(Writer writer) {
 	    PrintWriter pw = new PrintWriter(writer);
 	    Set<Map.Entry<String, Properties>> entrySet = getGroups().entrySet();
         for(Map.Entry<String, Properties> entry : entrySet) {
