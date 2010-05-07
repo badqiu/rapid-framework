@@ -66,6 +66,10 @@ public class Groups implements java.io.Serializable{
 		XMLUtils.load(this, in);
 	}
 	
+	public void storeToXML(OutputStream out,String comment,String encoding) throws IOException {
+        XMLUtils.save(this, out, comment, encoding);
+    }
+	
 	public void storeToXML(OutputStream out,String comment) throws IOException {
 		XMLUtils.save(this, out, comment, "UTF-8");
 	}

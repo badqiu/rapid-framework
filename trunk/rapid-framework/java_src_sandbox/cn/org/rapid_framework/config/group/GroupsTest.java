@@ -24,6 +24,8 @@ public class GroupsTest {
 		props.setProperty("1222", "222");
 		props.storeToXML(System.out, "comment");
 		System.out.println("\n\n");
+		props.store(System.out, "comments");
+		System.out.println("\n\n");
 		
 		Groups g = verifyXml(new FileInputStream(ResourceUtils.getFile("classpath:cn/org/rapid_framework/config/group/groups_test.xml")));		
 		g.storeToXML(System.out);
