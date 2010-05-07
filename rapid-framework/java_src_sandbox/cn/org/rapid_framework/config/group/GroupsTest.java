@@ -51,7 +51,7 @@ public class GroupsTest {
         System.out.println("****************************");
         System.out.println(" toWindowsInIFormat() ");
         System.out.println("****************************");
-        g.toWindowsInIFormat(new PrintWriter(System.out));
+        g.storeAsWindowsInI(new PrintWriter(System.out));
     }
 	   
 	private Groups verifyXml(InputStream input) throws InvalidPropertiesFormatException,
