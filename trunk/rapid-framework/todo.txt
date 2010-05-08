@@ -22,6 +22,7 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 UserManager.findByPageRequest() rename to UserManager.findPage
 考虑是否将 springmvc的package.controller => package.web.controller
 考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
+考虑在service中增加表单验证功能
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
