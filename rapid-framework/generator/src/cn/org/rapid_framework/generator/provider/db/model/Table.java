@@ -168,43 +168,15 @@ public class Table {
 	}
 	
 	/**
-	 * 得到日期类型的column,但过滤掉包含start,begin,end等字符的column
-	 * @return
-	 */
-	public List getNotRangeDateColumns() {
-		String[] ignoreKeywords = new String[]{"start","begin","end"};
-		List results = new ArrayList();
-		for(Column c : getIgnoreKeywordsColumns(ignoreKeywords)) {
-			if(c.getIsDateTimeColumn()) {
-				results.add(c);
-			}
-		}
-		return results;
-	}
-	/**
-	 * 得到日期类型的columns
-	 * @return
-	 */	
-	public List getDateColumns() {
-		List results = new ArrayList();
-		for(Column c : getColumns()) {
-			if(c.getIsDateTimeColumn()) {
-				results.add(c);
-			}
-		}
-		return results;
-	}
-	
-	/**
-	 * 忽略过滤掉某些关键字的列,关键字不区分大小写
+	 * 忽略过滤掉某些关键字的列,关键字不区分大小写,以逗号分隔
 	 * @param ignoreKeywords
 	 * @return
 	 */
-	public List<Column> getIgnoreKeywordsColumns(String... ignoreKeywords) {
+	public List<Column> getIgnoreKeywordsColumns(String ignoreKeywords) {
 		List results = new ArrayList();
 		for(Column c : getColumns()) {
 			String sqlname = c.getSqlName().toLowerCase();
-			if(StringHelper.contains(sqlname,ignoreKeywords)) {
+			if(StringHelper.contains(sqlname,ignoreKeywords.split(","))) {
 				continue;
 			}
 			results.add(c);

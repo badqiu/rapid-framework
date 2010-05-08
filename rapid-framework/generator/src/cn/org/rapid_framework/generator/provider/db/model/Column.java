@@ -413,6 +413,11 @@ public class Column {
 	public boolean getIsNumberColumn() {
 		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) || DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
 	}
+	/** 检查是否包含某些关键字,关键字以逗号分隔 */
+	public boolean contains(String keywords) {
+		if(keywords == null) throw new IllegalArgumentException("'keywords' must be not null");
+		return StringHelper.contains(getSqlName(), keywords.split(","));
+	}
 	
 	public boolean isHtmlHidden() {
 		return isPk() && _table.isSingleId();
