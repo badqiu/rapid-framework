@@ -26,15 +26,38 @@ public class ${className}Query implements Serializable {
 
 <#macro generateFields>
 
-	<#list table.columns as column>
+	<#list table.notPkColumns as column>
 	/** ${column.columnAlias} */
+	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+	private ${column.javaType} ${column.columnNameLower}Begin;
+	private ${column.javaType} ${column.columnNameLower}End;
+	<#else>
 	private ${column.javaType} ${column.columnNameLower};
+	</#if>
 	</#list>
 
 </#macro>
 
 <#macro generateProperties>
-	<#list table.columns as column>
+	<#list table.notPkColumns as column>
+	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+	public ${column.javaType} get${column.columnName}Begin() {
+		return this.${column.columnNameLower};
+	}
+	
+	public void set${column.columnName}Begin(${column.javaType} value) {
+		this.${column.columnNameLower} = value;
+	}	
+	
+	public ${column.javaType} get${column.columnName}End() {
+		return this.${column.columnNameLower};
+	}
+	
+	public void set${column.columnName}End(${column.javaType} value) {
+		this.${column.columnNameLower} = value;
+	}
+	
+	<#else>
 	public ${column.javaType} get${column.columnName}() {
 		return this.${column.columnNameLower};
 	}
@@ -43,6 +66,7 @@ public class ${className}Query implements Serializable {
 		this.${column.columnNameLower} = value;
 	}
 	
+	</#if>	
 	</#list>
 </#macro>
 
