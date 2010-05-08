@@ -28,7 +28,7 @@ public class TableTest extends TestCase{
 		Map map = BeanHelper.describe(o);
 		System.out.println("|| *属性* || *描述* || *示例值* ||");
 		for(Object key : map.keySet()) {
-			System.out.println(String.format("||%s|| ||%s||",key,map.get(key)));
+			System.out.println(String.format("||*%s*|| ||%s||",key,map.get(key)));
 		}
 	}
 }
