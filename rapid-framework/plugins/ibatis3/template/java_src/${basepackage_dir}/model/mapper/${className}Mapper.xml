@@ -10,7 +10,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="${className}">
 
-	<resultMap id="${className}Result" type="${basepackage}.model.${className}">
+	<resultMap id="${classNameFirstLower}Result" type="${basepackage}.model.${className}">
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
@@ -68,7 +68,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${className}Result">
+    <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${classNameFirstLower}Result">
 		SELECT <include refid="${classNameFirstLower}Columns" />
 	    <![CDATA[
 		    FROM ${table.sqlName} 
@@ -108,7 +108,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
     	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
-    <select id="pageSelect" resultMap="${className}Result">
+    <select id="pageSelect" resultMap="${classNameFirstLower}Result">
     	SELECT <include refid="${classNameFirstLower}Columns" />
 	    FROM ${table.sqlName} 
 		<include refid="pageSelect-where"/>
@@ -121,7 +121,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <#list table.columns as column>
     <#if column.unique && !column.pk>
-    <select id="getBy${column.columnName}" resultMap="${className}Result" parameterType="${column.javaType}">
+    <select id="getBy${column.columnName}" resultMap="${classNameFirstLower}Result" parameterType="${column.javaType}">
 	    SELECT <include refid="${classNameFirstLower}Columns"/>
 	    <![CDATA[
 	        FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
