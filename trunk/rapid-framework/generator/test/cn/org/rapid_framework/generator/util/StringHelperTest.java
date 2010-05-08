@@ -35,11 +35,25 @@ public class StringHelperTest extends TestCase {
 		assertEquals("u_se_r",StringHelper.toUnderscoreName("uSeR"));
 		assertEquals("user",StringHelper.toUnderscoreName("user"));
 		assertEquals("中",StringHelper.toUnderscoreName("中"));
+		assertEquals("中_se_r",StringHelper.toUnderscoreName("中SeR"));
 		
 		assertEquals("level1_channel",StringHelper.toUnderscoreName("LEVEL1_CHANNEL"));
 		assertEquals("Level1Channel",StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName("LEVEL1_CHANNEL")));
 	}
 
+	public void testContains() {
+		assertTrue(StringHelper.contains("badqiu", "adq"));
+		assertTrue(StringHelper.contains("badqiu", "ADQ"));
+		assertTrue(StringHelper.contains("badqiu", "abc","dqi"));
+		
+		assertFalse(StringHelper.contains(null,"blog"));
+		assertFalse(StringHelper.contains("badqiu", "ddd","ggg"));
+		
+		try {
+		assertFalse(StringHelper.contains("bad",null));
+		fail();
+		}catch(Exception e) {}
+	}
 //	public void testPerformance() {
 //		ProfileUtils.printCostTime("underscoreName", new Runnable() {
 //			public void run() {
