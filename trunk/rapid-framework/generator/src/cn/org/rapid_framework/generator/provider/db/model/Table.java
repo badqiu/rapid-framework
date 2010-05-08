@@ -139,6 +139,35 @@ public class Table {
 		return null;
 	}
 	
+	public List getNotRangeDateColumns() {
+		String[] ignoreKeywords = new String[]{"start","begin","end"};
+		List results = new ArrayList();
+		for(Column c : getIgnoreKeywordsColumns(ignoreKeywords)) {
+			if(c.getIsDateTimeColumn()) {
+				continue;
+			}
+			results.add(c);
+		}
+		return results;
+	}
+	
+	/**
+	 * 忽略过滤掉某些关键字的列,关键字不区分大小写
+	 * @param ignoreKeywords
+	 * @return
+	 */
+	public List<Column> getIgnoreKeywordsColumns(String... ignoreKeywords) {
+		List results = new ArrayList();
+		for(Column c : getColumns()) {
+			String sqlname = c.getSqlName().toLowerCase();
+			if(StringHelper.contains(sqlname,ignoreKeywords)) {
+				continue;
+			}
+			results.add(c);
+		}
+		return results;
+	}
+	
 	/**
 	 * This method was created in VisualAge.
 	 */
