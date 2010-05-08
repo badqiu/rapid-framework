@@ -24,6 +24,34 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 考虑在service中增加表单验证功能
 为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
 生成器增加 column的 enum数据生成,如生成 BizTypeEnum
+增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
+使用
+	--dto
+		--result
+		--parameter
+		--query
+		--model
+	--service
+		--vo
+			--result
+			--parameter
+			--query
+				--result
+			--model
+		--iface
+			--impl
+	--dao
+		--vo
+			--query
+				--result
+			--model
+		--iface
+			--impl			
+不要使用
+	--dto
+	--result
+	--parameter
+	--query
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
