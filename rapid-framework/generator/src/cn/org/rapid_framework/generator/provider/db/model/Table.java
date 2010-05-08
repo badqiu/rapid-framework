@@ -181,6 +181,19 @@ public class Table {
 		}
 		return results;
 	}
+	/**
+	 * 得到日期类型的columns
+	 * @return
+	 */	
+	public List getDateColumns() {
+		List results = new ArrayList();
+		for(Column c : getColumns()) {
+			if(c.getIsDateTimeColumn()) {
+				results.add(c);
+			}
+		}
+		return results;
+	}
 	
 	/**
 	 * 忽略过滤掉某些关键字的列,关键字不区分大小写
