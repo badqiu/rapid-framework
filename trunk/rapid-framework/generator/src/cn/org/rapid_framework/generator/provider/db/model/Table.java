@@ -144,9 +144,8 @@ public class Table {
 		List results = new ArrayList();
 		for(Column c : getIgnoreKeywordsColumns(ignoreKeywords)) {
 			if(c.getIsDateTimeColumn()) {
-				continue;
+				results.add(c);
 			}
-			results.add(c);
 		}
 		return results;
 	}
