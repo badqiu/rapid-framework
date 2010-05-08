@@ -21,7 +21,9 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
  * 请设置好要装载的spring配置文件,一般开发数据库与测试数据库分开
  * 所以你要装载的资源文件应改为"classpath:/spring/*-test-resource.xml"
  */
-@ContextConfiguration(locations={"classpath:/spring/*-resource.xml","classpath:/spring/*-dao.xml","classpath:/spring/*-service.xml"})
+@ContextConfiguration(locations={"classpath:/spring/*-resource.xml",
+                                 "classpath:/spring/*-dao.xml",
+                                 "classpath:/spring/*-service.xml"})
 public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContextTests{
 
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
