@@ -9,6 +9,18 @@ import java.util.Random;
  */
 public class StringHelper {
 	
+	public static boolean contains(String str,String... keywords) {
+		if(str == null) return false;
+		if(keywords == null) throw new IllegalArgumentException("'keywords' must be not null");
+		
+		for(String keyword : keywords) {
+			if(str.contains(keyword.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public static String emptyIf(String value,String defaultValue) {
 		if(value == null || "".equals(value)) {
 			return defaultValue;
