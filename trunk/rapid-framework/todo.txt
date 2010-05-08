@@ -17,12 +17,13 @@ DAO层中orderby语句需要验证
 #增加manual-${className}SqlMap.xml
 __#日期类型的dao sql生成 dateBegin,dateEnd输入
 #ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
-为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
 增加生成一个${Project}Exception用于区别不同的系统异常
 UserManager.findByPageRequest() rename to UserManager.findPage
 考虑是否将 springmvc的package.controller => package.web.controller
 考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
 考虑在service中增加表单验证功能
+为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
+生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
