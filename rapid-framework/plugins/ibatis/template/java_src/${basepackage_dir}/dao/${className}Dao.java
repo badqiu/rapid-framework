@@ -32,6 +32,7 @@ public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
 		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getBy${column.columnName}",v);
 	}	
+	
 	</#if>
 	</#list>
 
