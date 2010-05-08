@@ -69,17 +69,33 @@ public class Table {
 	public String getTableAlias() {
 		return  StringHelper.emptyIf(getRemarks(), getClassName());
 	}
+	
+	/**
+	 * 等价于getClassName().toLowerCase()
+	 * @return
+	 */
 	public String getClassNameLowerCase() {
 		return getClassName().toLowerCase();
 	}
+	/**
+	 * 等价于getSqlName().toLowerCase()
+	 * @return
+	 */
 	public String getUnderscoreName() {
 		return getSqlName().toLowerCase();
 	}
-	
+	/**
+	 * 返回值为getClassName()的第一个字母小写
+	 * @return
+	 */
 	public String getClassNameFirstLower() {
 		return StringHelper.uncapitalize(getClassName());
 	}
 	
+	/**
+	 * 根据getClassName()计算而来,用于得到常量名,如 userInfo转换为USER_INFO
+	 * @return
+	 */
 	public String getConstantName() {
 		return StringHelper.toUnderscoreName(getClassName()).toUpperCase();
 	}
@@ -96,6 +112,10 @@ public class Table {
 		return !isCompositeId();
 	}
 	
+	/**
+	 * 得到主键总数
+	 * @return
+	 */
 	public int getPkCount() {
 		int pkCount = 0;
 		for(Column c : columns){
@@ -113,6 +133,10 @@ public class Table {
 		return getPkColumns();
 	}
 	
+	/**
+	 * 得到是主键的全部column
+	 * @return
+	 */	
 	public List getPkColumns() {
 		List results = new ArrayList();
 		for(Column c : getColumns()) {
@@ -121,7 +145,11 @@ public class Table {
 		}
 		return results;
 	}
-
+	
+	/**
+	 * 得到不是主键的全部column
+	 * @return
+	 */
 	public List getNotPkColumns() {
 		List results = new ArrayList();
 		for(Column c : getColumns()) {
@@ -139,6 +167,10 @@ public class Table {
 		return null;
 	}
 	
+	/**
+	 * 得到日期类型的column,但过滤掉包含start,begin,end等字符的column
+	 * @return
+	 */
 	public List getNotRangeDateColumns() {
 		String[] ignoreKeywords = new String[]{"start","begin","end"};
 		List results = new ArrayList();
