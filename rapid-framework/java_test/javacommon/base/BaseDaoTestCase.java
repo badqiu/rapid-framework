@@ -1,6 +1,8 @@
 package javacommon.base;
 
 
+import static junit.framework.Assert.assertNotNull;
+
 import javax.sql.DataSource;
 
 import org.springframework.test.context.ContextConfiguration;
@@ -10,8 +12,6 @@ import org.springframework.test.context.transaction.BeforeTransaction;
 
 import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
 
-import static junit.framework.Assert.*;
-
 /**
  * 本基类主要为子类指定好要装载的spring配置文件
  * 及在运行测试前通过dbunit插入测试数据在数据库中,运行完测试删除测试数据 
@@ -20,7 +20,8 @@ import static junit.framework.Assert.*;
  * 请设置好要装载的spring配置文件,一般开发数据库与测试数据库分开
  * 所以你要装载的资源文件应改为"classpath:/spring/*-test-resource.xml"
  */
-@ContextConfiguration(locations={"classpath:/spring/*-resource.xml","classpath:/spring/*-dao.xml"})
+@ContextConfiguration(locations={"classpath:/spring/*-resource.xml",
+                                 "classpath:/spring/*-dao.xml"})
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
 
