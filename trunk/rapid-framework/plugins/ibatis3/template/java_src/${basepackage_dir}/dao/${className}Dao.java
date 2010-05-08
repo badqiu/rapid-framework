@@ -32,6 +32,7 @@ public class ${className}Dao extends BaseIbatis3Dao<${className},${table.idColum
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
 		return (${className})getSqlSessionTemplate().selectOne("${className}.getBy${column.columnName}",v);
 	}	
+	
 	</#if>
 	</#list>
 
