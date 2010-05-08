@@ -55,6 +55,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		String sql = "select " + getSqlGenerator().getColumnsSql() + " from ${table.sqlName} where ${column.columnNameLower}=?";
 		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v);
 	}	
+	
 	</#if>
 	</#list>
 
