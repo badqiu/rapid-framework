@@ -15,6 +15,22 @@ public class BizTemplate {
 	
 	private BizExceptionResolver bizExceptionResolver = new DefaultBizExceptionResolver();
 	
+	public BizTemplate(){
+	}
+	
+	public BizTemplate(BizExceptionResolver bizExceptionResolver) {
+		super();
+		this.bizExceptionResolver = bizExceptionResolver;
+	}
+
+	public BizExceptionResolver getBizExceptionResolver() {
+		return bizExceptionResolver;
+	}
+
+	public void setBizExceptionResolver(BizExceptionResolver bizExceptionResolver) {
+		this.bizExceptionResolver = bizExceptionResolver;
+	}
+
 	public <T extends WSResult>T execute(T result,BizCommand cmd) {
 		try {
 			beforeExecCommand(result);
@@ -39,10 +55,11 @@ public class BizTemplate {
 	protected <T extends WSResult> void resolveException(T result, Exception e) {
 		ErrorCode code = bizExceptionResolver.resoverException(e);
 		if(code == null) {
+			String errorInfo = "resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver+" exceptionClass:"+e.getClass()+" exceptionCause:"+e;
 			if(log.isErrorEnabled()) {
-				log.error("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver);
+				log.error(errorInfo,e);
 			}
-			throw new IllegalStateException("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver);
+			throw new IllegalStateException(errorInfo);
 		}
 		result.setErrorCode(code);
 	}
