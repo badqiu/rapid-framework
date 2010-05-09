@@ -431,8 +431,7 @@ public class Column {
 	public String getSimpleJavaType() {
 		String javaType = getJavaType();
 		if(javaType == null) return null;
-		boolean isNativeJavaType = javaType.startsWith("java.") || javaType.startsWith("javax.") ;
-		if(isNativeJavaType) {
+		if(javaType.startsWith("java.lang.")) {
 			int lastIndexOf = javaType.lastIndexOf(".");
 			return lastIndexOf == -1 ? javaType : javaType.substring(lastIndexOf+1);
 		}else {
