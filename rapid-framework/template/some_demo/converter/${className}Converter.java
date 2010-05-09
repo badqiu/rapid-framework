@@ -8,7 +8,12 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import com.company.project.facade.dto.UserInfoDTO;
+import com.company.project.model.UserInfo;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 <#include "/java_imports.include">
 
@@ -31,5 +36,14 @@ public class ${className}Converter {
 		
 		return target;
 	}
+
+	public static List<${className}${targetSuffix}> convertFrom(List<${className}${sourceSuffix}> list) {
+		List<${className}${targetSuffix}> results = new ArrayList();
+		for(UserInfo source : list) {
+			results.add(convert(source));
+		}
+		return results;
+	}
+
 	
 </#macro>
