@@ -25,6 +25,7 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
 生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
+增加了exception package及web.enums
 使用
 	--dto
 		--result
@@ -53,6 +54,12 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 	--parameter
 	--query
 
+	//问题: 系统不能启动
+	//错误提示: error_code:9959,error_detail:非法参数
+	//操作(action): 验证身份, can null or lookupByErrorCode
+	//原因(cause): 表单验证错误,可以lookupByErrorCodeAndAction
+	//解决办法(fix): 请验证输入数据,可以lookupByErrorCodeAndAction
+	
 #session框架,可以将session存储在数据库,cache
 #spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
 #Freemarker中@extends指令中相对路径的处理。测试velocity中是否存在相同问题
