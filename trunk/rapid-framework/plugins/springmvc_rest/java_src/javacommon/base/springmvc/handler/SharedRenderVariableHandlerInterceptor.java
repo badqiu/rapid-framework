@@ -39,7 +39,8 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 		HashMap model = new HashMap();
 		
 		model.put("share_current_request_time", new Date());
-		model.put("share_current_login_username", request.getUserPrincipal());
+		model.put("share_current_login_username", "badqiu");
+		model.put("share_context_path", request.getContextPath());
 		
 		return model;
 	}
