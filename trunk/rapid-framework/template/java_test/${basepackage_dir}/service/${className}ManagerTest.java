@@ -23,7 +23,7 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
 	}
 
-	//测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
+	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	@Test
 	public void crud() {
 		${className} obj = new ${className}();
