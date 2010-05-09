@@ -57,7 +57,7 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 	//问题: 系统不能启动
 	//错误提示: error_code:9959,error_detail:非法参数
 	//操作(action): 验证身份, can null or lookupByErrorCode
-	//原因(cause): 表单验证错误,可以lookupByErrorCodeAndAction
+	//原因(reason): 表单验证错误,可以lookupByErrorCodeAndAction
 	//解决办法(fix): 请验证输入数据,可以lookupByErrorCodeAndAction
 	
 #session框架,可以将session存储在数据库,cache
