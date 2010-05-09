@@ -22,7 +22,7 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 	static Log log = LogFactory.getLog(SharedRenderVariableHandlerInterceptor.class);
 	
 	//系统启动并初始化一次的变量
-	Map sharedRenderVariables = new HashMap();
+	private Map globalRenderVariables = new HashMap();
 	
 	@Override
 	public void postHandle(HttpServletRequest request,
@@ -30,7 +30,7 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 			ModelAndView modelAndView) throws Exception {
 		log.info("请注意,在这里可以存放渲染视图时需要的的共享变量");
 		
-		modelAndView.addAllObjects(sharedRenderVariables);
+		modelAndView.addAllObjects(globalRenderVariables);
 		
 		modelAndView.addAllObjects(perRequest(request,response));
 	}
@@ -38,15 +38,15 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 	protected Map perRequest(HttpServletRequest request,HttpServletResponse response) {
 		HashMap model = new HashMap();
 		
-		model.put("current_request_time", new Date());
-		model.put("current_login_username", request.getUserPrincipal());
+		model.put("share_current_request_time", new Date());
+		model.put("share_current_login_username", request.getUserPrincipal());
 		
 		return model;
 	}
 
 	//用于初始化 sharedRenderVariables
 	private void initSharedRenderVariables() {
-		sharedRenderVariables.put("systemStartupTime", new Date());
+		globalRenderVariables.put("global_system_start_time", new Date());
 		
 		// FormInputEnumUtils是工具类,可以将enum转换为Map类型的数据
 		//sharedRenderVariables.put("userTypeEnum",FormInputEnumUtils.toMap(UserTypeEnum.values()));
