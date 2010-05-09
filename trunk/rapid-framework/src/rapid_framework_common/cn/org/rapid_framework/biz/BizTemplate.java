@@ -13,7 +13,7 @@ import cn.org.rapid_framework.exception.ErrorCodeImpl;
 public class BizTemplate {
 	final static Log log = LogFactory.getLog(BizTemplate.class);
 	
-	private BizExceptionResolver bizExceptionResolver;
+	private BizExceptionResolver bizExceptionResolver = new DefaultBizExceptionResolver();
 	
 	public <T extends WSResult>T execute(T result,BizCommand cmd) {
 		try {
