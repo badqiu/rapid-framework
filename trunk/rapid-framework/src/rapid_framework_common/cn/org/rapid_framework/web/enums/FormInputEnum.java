@@ -11,11 +11,11 @@ package cn.org.rapid_framework.web.enums;
  *		this.label = v;
  *	}
  *	
- *	public String getInputKey() {
+ *	public String getFormInputKey() {
  *		return name();
  *	}
  *
- *	public String getDisplayLabel() {
+ *	public String getFormInputLabel() {
  *		return label;
  *	}
  *
@@ -26,8 +26,8 @@ package cn.org.rapid_framework.web.enums;
  */
 public interface FormInputEnum {
 	
-	public String getInputKey();
+	public String getFormInputKey();
 	
-	public String getDisplayLabel();
+	public String getFormInputLabel();
 	
 }
