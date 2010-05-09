@@ -27,6 +27,8 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package及web.enums
 
+业务流程处理框架,用于记录当前执行至那一步时发生错误
+
 spring xmlns to spring3.0.xsd
 pipeline中如果不能找到模板的异常处理
 继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
@@ -80,8 +82,29 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
 #修改目录为标准的 java_src,java_test目录
 #事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
 
-  #缓存抽象
+  #缓存抽象,搞一个Map类型的cache
 
+权限处理指南
+// 性能很好,cache刷新问题, 还有 resourceString auto deploy to database
+// if(lookup cache #resourcString for roles fail)
+//      这几步的 #resourceList可以定时刷新
+// 		lookup resource list => #resourceList: big
+// 		convert #resourcString by #resourceList => #resourceRole
+// 		put #resourcString and #resourceRoleList => cache, 间隔: 1小时,2小时,1天
+// else
+//		test #resourceRole with #loginRoles
+
+/** 
+ * permission deny
+ *  if not login 
+ *  	if has ticket
+ *  		auto login with ticket and find user roles => #loginRoles
+ *  	else
+ *  		forward to login page #### big error
+ *  else
+ *  	display permission deny
+ */
+		 
 
 生成器:
 	#1.增加生成器的type mapping:
