@@ -8,11 +8,11 @@ public enum RapidAreaEnum implements FormInputEnum {
 		this.label = v;
 	}
 	
-	public String getInputKey() {
+	public String getFormInputKey() {
 		return name();
 	}
 
-	public String getDisplayLabel() {
+	public String getFormInputLabel() {
 		return label;
 	}
 
