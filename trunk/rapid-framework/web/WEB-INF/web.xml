@@ -93,5 +93,10 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
+	<!-- web系统启动时的执行的初始化操作 -->
+	<listener>
+		<listener-class>javacommon.startup.WebProjectStartup</listener-class>
+	</listener>
+	
 </web-app>
 
