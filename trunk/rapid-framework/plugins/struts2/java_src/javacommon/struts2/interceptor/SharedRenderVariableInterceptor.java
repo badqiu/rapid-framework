@@ -11,7 +11,11 @@ import org.apache.commons.logging.LogFactory;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.Interceptor;
 import com.opensymphony.xwork2.util.ValueStack;
-
+/**
+ * 提供视图渲染的共享变量拦截器
+ * @author badqiu
+ *
+ */
 public class SharedRenderVariableInterceptor implements Interceptor {
 	static Log log = LogFactory.getLog(SharedRenderVariableInterceptor.class);
 	
