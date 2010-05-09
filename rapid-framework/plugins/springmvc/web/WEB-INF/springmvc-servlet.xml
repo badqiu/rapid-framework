@@ -29,6 +29,11 @@
 		<!-- <property name="caseSensitive" value="true"/> -->
 		<!-- 前缀可选 -->
 		<property name="pathPrefix" value="/pages"></property>
+		
+		<!-- 拦截器注册 -->
+		<property name="interceptors">
+			<bean class="javacommon.base.springmvc.handler.SharedRenderVariableHandlerInterceptor"/>
+		</property>
 	</bean>
 
     <!-- Default ViewResolver -->
