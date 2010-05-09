@@ -25,6 +25,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
 	}
 	
+	//测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	@Test
 	public void findByPageRequest() {
 		int pageNumber = 1;
