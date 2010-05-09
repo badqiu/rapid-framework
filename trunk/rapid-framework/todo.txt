@@ -33,6 +33,7 @@ pipeline中如果不能找到模板的异常处理
 为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
 add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 完成Flash Scope
+考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
 
 为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
 	示便: local: includer.include("/head.htm") 
