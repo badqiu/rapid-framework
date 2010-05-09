@@ -13,12 +13,12 @@ public class ActionException extends ErrorCodeException{
 	//解决办法(fix): 请验证输入数据,可以lookupByErrorCodeAndAction
 	private String action;
 	
-	public ActionException(ErrorCode errorEnum) {
-		this(null,errorEnum);
+	public ActionException(ErrorCode errorCode) {
+		this(null,errorCode);
 	}
 	
-	public ActionException(String action, ErrorCode errorEnum) {
-		super(errorEnum);
+	public ActionException(String action, ErrorCode errorCode) {
+		super(errorCode);
 		this.action = action;
 	}
 	
