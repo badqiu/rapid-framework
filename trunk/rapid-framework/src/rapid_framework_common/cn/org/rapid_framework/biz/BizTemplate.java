@@ -17,17 +17,33 @@ public class BizTemplate {
 	
 	public <T extends WSResult>T execute(T result,BizCommand cmd) {
 		try {
+			beforeExecCommand(result);
 			cmd.execute();
+			afterExecCommand(result);
 		} catch(Exception e) {
-			ErrorCode code = bizExceptionResover.resoverException(e);
-			if(code == null) {
-				if(log.isErrorEnabled()) {
-					log.error("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
-				}
-				throw new IllegalStateException("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
-			}
-			result.setErrorCode(code);
+			handleException(result, e);
 		}
 		return (T)result;
+	}
+	
+	protected <T extends WSResult> void beforeExecCommand(T result) {
+	}
+	
+	protected <T extends WSResult> void afterExecCommand(T result) {
+	}
+
+	private <T extends WSResult> void handleException(T result, Exception e) {
+		resolveException(result, e);
+	}
+
+	protected <T extends WSResult> void resolveException(T result, Exception e) {
+		ErrorCode code = bizExceptionResover.resoverException(e);
+		if(code == null) {
+			if(log.isErrorEnabled()) {
+				log.error("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
+			}
+			throw new IllegalStateException("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
+		}
+		result.setErrorCode(code);
 	}
 }
