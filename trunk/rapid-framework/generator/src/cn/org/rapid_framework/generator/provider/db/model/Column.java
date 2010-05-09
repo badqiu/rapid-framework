@@ -430,11 +430,11 @@ public class Column {
 	
 	public String getSimpleJavaType() {
 		String javaType = getJavaType();
-		boolean isNativeJavaType = true;
-		//TODO 实现isNativeJavaType判断
-		if(isNativeJavaType ) {
+		if(javaType == null) return null;
+		boolean isNativeJavaType = javaType.startsWith("java.") || javaType.startsWith("javax.") ;
+		if(isNativeJavaType) {
 			int lastIndexOf = javaType.lastIndexOf(".");
-			return lastIndexOf == -1 ? javaType : javaType.substring(lastIndexOf);
+			return lastIndexOf == -1 ? javaType : javaType.substring(lastIndexOf+1);
 		}else {
 			return javaType;
 		}
