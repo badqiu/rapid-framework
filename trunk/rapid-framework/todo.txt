@@ -26,6 +26,18 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package及web.enums
+
+spring xmlns to spring3.0.xsd
+pipeline中如果不能找到模板的异常处理
+继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
+为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
+add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
+完成Flash Scope
+
+为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
+	示便: local: includer.include("/head.htm") 
+	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
+
 使用
 	--dto
 		--result
@@ -69,16 +81,6 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 
   #缓存抽象
 
-spring xmlns to spring3.0.xsd
-pipeline中如果不能找到模板的异常处理
-继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
-为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
-add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
-完成Flash Scope
-
-为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
-	示便: local: includer.include("/head.htm") 
-	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
 
 生成器:
 	#1.增加生成器的type mapping:
