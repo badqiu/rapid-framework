@@ -30,6 +30,7 @@ public class ErrorCodeException extends RuntimeException{
 	}
 
 	public String toString() {
+		if(errorCode == null) return super.toString();
 		return String.format("errorCode:[%s],errorDetails:%s",errorCode.getErrorCode(),errorCode.getErrorDetails());
 	}
 	
