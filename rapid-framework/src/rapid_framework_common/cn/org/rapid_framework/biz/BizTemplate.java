@@ -13,7 +13,7 @@ import cn.org.rapid_framework.exception.ErrorCodeImpl;
 public class BizTemplate {
 	final static Log log = LogFactory.getLog(BizTemplate.class);
 	
-	private BizExceptionResover bizExceptionResover;
+	private BizExceptionResolver bizExceptionResolver;
 	
 	public <T extends WSResult>T execute(T result,BizCommand cmd) {
 		try {
@@ -37,12 +37,12 @@ public class BizTemplate {
 	}
 
 	protected <T extends WSResult> void resolveException(T result, Exception e) {
-		ErrorCode code = bizExceptionResover.resoverException(e);
+		ErrorCode code = bizExceptionResolver.resoverException(e);
 		if(code == null) {
 			if(log.isErrorEnabled()) {
-				log.error("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
+				log.error("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver);
 			}
-			throw new IllegalStateException("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResover);
+			throw new IllegalStateException("resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver);
 		}
 		result.setErrorCode(code);
 	}

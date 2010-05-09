@@ -5,7 +5,7 @@ import cn.org.rapid_framework.exception.ErrorCodeException;
 import cn.org.rapid_framework.exception.ErrorCodeImpl;
 
 
-public class ErrorCodeExceptionResover implements BizExceptionResover {
+public class DefaultBizExceptionResolver implements BizExceptionResolver {
 
 	public ErrorCode resoverException(Exception e) {
 		if(e instanceof ErrorCodeException) {
