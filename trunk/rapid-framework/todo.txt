@@ -30,6 +30,8 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
 所以确保WebService的返回结果是WSResult
 
+增加一个@Cache('message_key#id')自动将method执行结果存放在cache
+
 业务流程处理框架,用于记录当前执行至那一步时发生错误
 
 spring xmlns to spring3.0.xsd
