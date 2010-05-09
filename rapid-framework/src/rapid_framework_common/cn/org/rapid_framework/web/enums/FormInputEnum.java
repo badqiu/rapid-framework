@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.web.enums;
+
 /**
- * 用于构建得到form表单中的select input值
+ * 用于enum继承,以便将enum转换为用于构建form表单中的select input值
  * 
  * <pre>
  * public enum RapidAreaEnum implements FormInputEnum {
