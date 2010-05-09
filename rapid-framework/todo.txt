@@ -26,6 +26,7 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package及web.enums
+增加generate dto by javaClass
 
 WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
 所以确保WebService的返回结果是WSResult
