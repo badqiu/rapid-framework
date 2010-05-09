@@ -423,11 +423,19 @@ public class Column {
 		return isPk() && _table.isSingleId();
 	}
 	
+	/**
+	 * 得到对应的javaType,如java.lang.String,
+	 * @return
+	 */
 	public String getJavaType() {
 		String normalJdbcJavaType = DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
 		return GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
 	}
 	
+	/**
+	 * 得到简短的java.lang.javaType,如java.lang.String将返回String,而非java.lang包的,将直接返回getJavaType()
+	 * @return
+	 */
 	public String getSimpleJavaType() {
 		String javaType = getJavaType();
 		if(javaType == null) return null;
