@@ -20,6 +20,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  */
 public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAdapter implements InitializingBean{
 	static Log log = LogFactory.getLog(SharedRenderVariableHandlerInterceptor.class);
+	
+	//系统启动并初始化一次的变量
 	Map sharedRenderVariables = new HashMap();
 	
 	@Override
@@ -30,13 +32,14 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 		
 		modelAndView.addAllObjects(sharedRenderVariables);
 		
-		modelAndView.addAllObjects(perRequest());
+		modelAndView.addAllObjects(perRequest(request,response));
 	}
 	
-	protected Map perRequest() {
+	protected Map perRequest(HttpServletRequest request,HttpServletResponse response) {
 		HashMap model = new HashMap();
 		
 		model.put("current_request_time", new Date());
+		model.put("current_login_username", request.getUserPrincipal());
 		
 		return model;
 	}
