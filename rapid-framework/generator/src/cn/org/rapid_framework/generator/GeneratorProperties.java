@@ -24,7 +24,7 @@ public class GeneratorProperties {
 	static PropertiesHelper props;
 	private GeneratorProperties(){}
 	
-	private static void loadProperties() {
+	public static void loadProperties() {
 		try {
 			System.out.println("Load [generator.properties] from classpath");
 			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
