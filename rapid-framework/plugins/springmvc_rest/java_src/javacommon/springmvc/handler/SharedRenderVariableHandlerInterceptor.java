@@ -1,4 +1,4 @@
-package javacommon.base.springmvc.handler;
+package javacommon.springmvc.handler;
 
 import java.util.Date;
 import java.util.HashMap;
