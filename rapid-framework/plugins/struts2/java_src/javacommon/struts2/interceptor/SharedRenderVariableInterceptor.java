@@ -1,4 +1,4 @@
-package javacommon.base.struts2.Interceptor;
+package javacommon.struts2.interceptor;
 
 
 import java.util.Date;
@@ -19,12 +19,12 @@ public class SharedRenderVariableInterceptor implements Interceptor {
 	Map<String,Object> globalRenderVariables = new HashMap();
 	
 	public String intercept(ActionInvocation invocation) throws Exception {
+		before(invocation);
 		String result = invocation.invoke();
-		after(invocation);
 		return result;
 	}
 
-	private void after(ActionInvocation invocation) {
+	private void before(ActionInvocation invocation) {
 		log.info("请注意,在这里可以存放渲染视图时需要的的共享变量");
 		ValueStack vs = invocation.getInvocationContext().getValueStack();
 		for(String key : globalRenderVariables.keySet()) {
@@ -33,12 +33,13 @@ public class SharedRenderVariableInterceptor implements Interceptor {
 		
 		preRequest(vs);
 	}
-
+	
 	private void preRequest(ValueStack vs) {
 		vs.set("share_current_request_time", new Date());
 		vs.set("share_current_login_username", "badqiu");
 	}
 
+	//注意,如果变量是global,请尽量增加global前缀
 	private void initSharedRenderVariables() {
 		globalRenderVariables.put("global_system_start_time", new Date());
 	}

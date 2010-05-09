@@ -27,7 +27,7 @@
             <result-type name="direct" class="cn.org.rapid_framework.struts2.dispatcher.DirectResult"/>
         </result-types>
         <interceptors>
-        	<interceptor name="sharedRenderVariableInterceptor" class="javacommon.base.struts2.Interceptor.SharedRenderVariableInterceptor"/>
+        	<interceptor name="sharedRenderVariableInterceptor" class="javacommon.struts2.interceptor.SharedRenderVariableInterceptor"/>
             <interceptor-stack name="customDefaultCrudStack">
                 <interceptor-ref name="paramsPrepareParamsStack"/>
                 <interceptor-ref name="sharedRenderVariableInterceptor"/>
