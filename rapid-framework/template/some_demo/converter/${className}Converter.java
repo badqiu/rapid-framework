@@ -37,7 +37,7 @@ public class ${className}Converter {
 		return target;
 	}
 
-	public static List<${className}${targetSuffix}> convertFrom(List<${className}${sourceSuffix}> list) {
+	public static List<${className}${targetSuffix}> convert2${targetSuffix}(List<${className}${sourceSuffix}> list) {
 		List<${className}${targetSuffix}> results = new ArrayList();
 		for(UserInfo source : list) {
 			results.add(convert(source));
