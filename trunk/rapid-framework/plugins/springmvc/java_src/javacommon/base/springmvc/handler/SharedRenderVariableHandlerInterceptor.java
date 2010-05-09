@@ -49,6 +49,8 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 	private void initSharedRenderVariables() {
 		globalRenderVariables.put("global_system_start_time", new Date());
 		
+		//也可以存放一些共享的工具类,以便视图使用,如StringUtils
+		
 		// FormInputEnumUtils是工具类,可以将enum转换为Map类型的数据
 		//sharedRenderVariables.put("userTypeEnum",FormInputEnumUtils.toMap(UserTypeEnum.values()));
 		//sharedRenderVariables.put("areaEnum",FormInputEnumUtils.toMap(AreaEnum.values()));
