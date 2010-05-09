@@ -27,7 +27,9 @@ UserManager.findByPageRequest() rename to UserManager.findPage
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package及web.enums
 
-WebService中直接抛异常,通过拦截器拦截至 WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode
+WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
+所以确保WebService的返回结果是WSResult
+
 业务流程处理框架,用于记录当前执行至那一步时发生错误
 
 spring xmlns to spring3.0.xsd
