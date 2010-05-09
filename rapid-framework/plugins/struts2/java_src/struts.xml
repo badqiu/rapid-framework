@@ -28,8 +28,12 @@
         </result-types>
         <interceptors>
         	<interceptor name="sharedRenderVariableInterceptor" class="javacommon.base.struts2.Interceptor.SharedRenderVariableInterceptor"/>
+            <interceptor-stack name="customDefaultCrudStack">
+                <interceptor-ref name="paramsPrepareParamsStack"/>
+                <interceptor-ref name="sharedRenderVariableInterceptor"/>
+            </interceptor-stack>
         </interceptors>
-        <default-interceptor-ref name="paramsPrepareParamsStack"/>
+        <default-interceptor-ref name="customDefaultCrudStack"/>
   	</package>
   	
   	<!-- 修改为你自己的namespace -->
