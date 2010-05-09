@@ -1,16 +1,11 @@
 package cn.org.rapid_framework.exception;
 
 /**
- * 
+ * 用于业务方法的异常
  * @author badqiu
  *
  */
 public class ActionException extends ErrorCodeException{
-	//问题: 系统不能启动
-	//错误提示: error_code:9959,error_detail:非法参数
-	//操作(action): 验证身份, can null or lookupByErrorCode
-	//原因(reason): 表单验证错误,可以lookupByErrorCodeAndAction
-	//解决办法(fix): 请验证输入数据,可以lookupByErrorCodeAndAction
 	private String action;
 	
 	public ActionException(ErrorCode errorCode) {
