@@ -42,19 +42,19 @@ public class ${className}Query implements Serializable {
 	<#list table.notPkColumns as column>
 	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
 	public ${column.javaType} get${column.columnName}Begin() {
-		return this.${column.columnNameLower};
+		return this.${column.columnNameLower}Begin;
 	}
 	
 	public void set${column.columnName}Begin(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
+		this.${column.columnNameLower}Begin = value;
 	}	
 	
 	public ${column.javaType} get${column.columnName}End() {
-		return this.${column.columnNameLower};
+		return this.${column.columnNameLower}End;
 	}
 	
 	public void set${column.columnName}End(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
+		this.${column.columnNameLower}End = value;
 	}
 	
 	<#else>
