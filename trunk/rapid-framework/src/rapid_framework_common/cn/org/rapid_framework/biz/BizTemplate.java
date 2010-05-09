@@ -33,26 +33,31 @@ public class BizTemplate {
 
 	public <T extends WSResult>T execute(T result,BizCommand cmd) {
 		try {
-			beforeExecCommand(result);
+			onBeforeExecCommand(result);
 			cmd.execute();
-			afterExecCommand(result);
+			onAfterExecCommand(result);
 		} catch(Exception e) {
-			handleException(result, e);
+			resolveException(result, e);
+			onException(result, e);
+		} finally {
+			onCompletedExecCommand();
 		}
 		return (T)result;
 	}
 	
-	protected <T extends WSResult> void beforeExecCommand(T result) {
+	protected void onCompletedExecCommand() {
+	}
+
+	protected <T extends WSResult> void onBeforeExecCommand(T result) {
 	}
 	
-	protected <T extends WSResult> void afterExecCommand(T result) {
+	protected <T extends WSResult> void onAfterExecCommand(T result) {
 	}
 
-	private <T extends WSResult> void handleException(T result, Exception e) {
-		resolveException(result, e);
+	protected <T extends WSResult> void onException(T result, Exception e) {
 	}
 
-	protected <T extends WSResult> void resolveException(T result, Exception e) {
+	private <T extends WSResult> void resolveException(T result, Exception e) {
 		ErrorCode code = bizExceptionResolver.resoverException(e);
 		if(code == null) {
 			String errorInfo = "resoverException for errorCode fail,bizExceptionResover:"+bizExceptionResolver+" exceptionClass:"+e.getClass()+" exceptionCause:"+e;
