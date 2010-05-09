@@ -107,7 +107,7 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
  *  	else
  *  		forward to login page #### big error
  *  else
- *  	display permission deny
+ *  	display permission deny, permission deny还需要自定义错误消息,如: 成为小组成员才能发贴,
  */
 		 
 
