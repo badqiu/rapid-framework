@@ -19,7 +19,12 @@
 	<!-- 自动搜索@Controller标注的类 -->
 	<context:component-scan base-package="com.**.controller"/>
 	
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<!-- 拦截器注册 -->
+		<property name="interceptors">
+			<bean class="javacommon.base.springmvc.handler.SharedRenderVariableHandlerInterceptor"/>
+		</property>
+	</bean>
 
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 
