@@ -85,7 +85,7 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
   #缓存抽象,搞一个Map类型的cache
 
 权限处理指南
-// 性能很好,cache刷新问题, 还有 resourceString auto deploy to database
+// 性能很好,cache刷新问题, 还有 resourceString auto deploy to database, url auto deploy需要小心
 // if(lookup cache #resourcString for roles fail)
 //      这几步的 #resourceList可以定时刷新
 // 		lookup resource list => #resourceList: big
