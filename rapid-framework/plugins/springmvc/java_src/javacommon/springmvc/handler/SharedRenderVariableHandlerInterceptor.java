@@ -45,7 +45,7 @@ public class SharedRenderVariableHandlerInterceptor extends HandlerInterceptorAd
 		return model;
 	}
 
-	//用于初始化 sharedRenderVariables
+	//用于初始化 sharedRenderVariables, 全局共享变量请尽量用global前缀
 	private void initSharedRenderVariables() {
 		globalRenderVariables.put("global_system_start_time", new Date());
 		
