@@ -8,6 +8,7 @@ rapid-framework路线图
 	project-web
 使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
 
+增加DTO converter的测试框架
 增加特殊后缀来实现如 .no_generate
 status and type关键字将自动生成Enum
 为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
