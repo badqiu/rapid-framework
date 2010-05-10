@@ -50,7 +50,7 @@ public class Create${className} extends McenterScreenBase {
 		Group group = form.getGroup("create${className}");
 
         <#list table.notPkColumns as column>
-        ${column.javaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").getValue();
+        ${column.simpleJavaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").get${column.simpleJavaType}Value();
         </#list>
 		
 		Create${className}Request r = new Create${className}Request();
