@@ -1,0 +1,71 @@
+package cn.org.rapid_framework.generator.util;
+
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
+import java.util.Map;
+
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
+/**
+ * 提供附加数据的拦截器,拦截getProperty()的执行,如果data中存在该数据则返回数据
+ * @author badqiu
+ *
+ */
+public class MapBaseMethodInterceptor implements MethodInterceptor {
+	Map data = new HashMap();
+	Object target = new Object();
+	
+	public MapBaseMethodInterceptor(Map data,Object target) {
+		super();
+		this.data = data;
+		this.target = target;
+	}
+
+	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+//		System.out.println(String.format("args:%s",args));
+		System.out.println(String.format("method:%s,",method));
+		System.out.println(String.format("proxy:%s",proxy));
+		Object result = process(obj, method, args, proxy);
+//		System.out.println(method.getName()+"() => "+result);
+		return result;
+	}
+
+	private Object process(Object obj, Method method, Object[] args,MethodProxy proxy) throws Throwable {
+		
+		String propety = toProperty(method,args);
+		if(propety == null) {
+			return invokeTarget(obj, args, proxy);
+		}
+		
+		Object value = data.get(propety);
+		if(isEmptyString(value)) {
+			return invokeTarget(obj, args, proxy);
+		}else {
+			return value;
+		}
+	}
+
+	private Object invokeTarget(Object obj, Object[] args, MethodProxy proxy) throws Throwable {
+		return proxy.invoke(target, args);
+	}
+	
+	private boolean isEmptyString(Object value) {
+		if(value == null) return true;
+		return value instanceof String && ((String)value).isEmpty();
+	}
+	
+	private String toProperty(Method method,Object[] args) {
+		if(args != null && args.length > 0) return null;
+		
+		String name = method.getName();
+		if(name.startsWith("get")) {
+			return StringHelper.uncapitalize(name.substring(3));
+		}else if(name.startsWith("is") && method.getReturnType() == Boolean.class) {
+			return StringHelper.uncapitalize(name.substring(2));
+		}
+		return null;
+	}
+
+}
