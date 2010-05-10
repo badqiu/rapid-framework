@@ -7,15 +7,15 @@
 		<columnName>类名称</columnName>
 		<columnAlias>别名</columnAlias>
 		<unique>是否唯一性约束</unique>
-		<nullable>是否不能为空</nullable>
+		<nullable>是否可以为空</nullable>
 		<javaType>java class类名称</javaType>
 		<pk>是否主键</pk>
 		<enumValus>是否枚举,枚举值格式为:{"1","23",1,30}</enumValus>
 	</column>
  -->
-<table className="${className}" remarks="${table.tableAlias}" >
+<table id="${table.sqlName}" className="${className}" remarks="${table.tableAlias}" >
 <#list table.notPkColumns as c>
-	<column>
+	<column id="${c.sqlName!}">
 		<columnName>${c.columnName!}</columnName>
 		<columnAlias>${c.columnAlias!}</columnAlias>
 		<unique>${c.unique?string}</unique>
