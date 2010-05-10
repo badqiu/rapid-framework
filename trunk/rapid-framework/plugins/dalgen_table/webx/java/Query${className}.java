@@ -51,10 +51,10 @@ public class Query${className} extends McenterScreenBase {
 
         <#list table.notPkColumns as column>
         <#if column.isDateTimeColumn>
-        ${column.javaType} ${column.columnNameFirstLower}Begin = group.getField("${column.columnNameFirstLower}Begin").getValue();
-        ${column.javaType} ${column.columnNameFirstLower}End = group.getField("${column.columnNameFirstLower}End").getValue();
+        ${column.simpleJavaType} ${column.columnNameFirstLower}Begin = group.getField("${column.columnNameFirstLower}Begin").get${column.simpleJavaType}Value();
+        ${column.simpleJavaType} ${column.columnNameFirstLower}End = group.getField("${column.columnNameFirstLower}End").get${column.simpleJavaType}Value();
         <#else>
-        ${column.javaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").getValue();
+        ${column.simpleJavaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").get${column.simpleJavaType}Value();
         </#if>
         </#list>
 		

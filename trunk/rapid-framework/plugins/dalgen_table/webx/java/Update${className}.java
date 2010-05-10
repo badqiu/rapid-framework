@@ -50,7 +50,7 @@ public class Update${className} extends McenterScreenBase {
 		Group group = form.getGroup("update${className}");
 
         <#list table.notPkColumns as column>
-        ${column.javaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").getValue();
+        ${column.simpleJavaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").get${column.simpleJavaType}Value();
         </#list>
 		
 		Update${className}Request r = new Update${className}Request();
