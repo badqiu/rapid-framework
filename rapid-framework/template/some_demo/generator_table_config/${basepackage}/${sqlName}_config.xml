@@ -1,0 +1,41 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<table className="${className}" remarks="${table}.remarks" >
+<#list table.notPkColumns as c>
+	<column>
+		<validateString>${c.validateString!}</validateString>
+		<unique>${c.unique?string}</unique>
+		<underscoreName>${c.underscoreName!}</underscoreName>
+		<columnNameLower>${c.columnNameLower!}</columnNameLower>
+		<indexed>${c.indexed?string}</indexed>
+		<remarks>${c.remarks!}</remarks>
+		<fk>${c.fk?string}</fk>
+		<noRequiredValidateString>${c.noRequiredValidateString!}</noRequiredValidateString>
+		<isNumberColumn>${c.isNumberColumn?string}</isNumberColumn>
+		<isStringColumn>${c.isStringColumn?string}</isStringColumn>
+		<sqlTypeName>${c.sqlTypeName!}</sqlTypeName>
+		<sqlType>${c.sqlType!}</sqlType>
+		<sqlName>${c.sqlName!}</sqlName>
+		<decimalDigits>${c.decimalDigits!}</decimalDigits>
+		<htmlHidden>${c.htmlHidden?string}</htmlHidden>
+		<columnName>${c.columnName!}</columnName>
+		<defaultValue>${c.defaultValue!}</defaultValue>
+		<isDateTimeColumn>${c.isDateTimeColumn?string}</isDateTimeColumn>
+		<constantName>${c.constantName!}</constantName>
+		<isNotIdOrVersionField>${c.isNotIdOrVersionField?string}</isNotIdOrVersionField>
+		<simpleJavaType>${c.simpleJavaType!}</simpleJavaType>
+		<columnNameLowerCase>${c.columnNameLowerCase!}</columnNameLowerCase>
+		<class>${c.class!}</class>
+		<nullable>${c.nullable?string}</nullable>
+		<table>${c.table!}</table>
+		<jdbcSqlTypeName>${c.jdbcSqlTypeName!}</jdbcSqlTypeName>
+		<testData>${c.testData!}</testData>
+		<size>${c.size!}</size>
+		<javaType>${c.javaType!}</javaType>
+		<asType>${c.asType!}</asType>
+		<columnNameFirstLower>${c.columnNameFirstLower!}</columnNameFirstLower>
+		<columnAlias>${c.columnAlias!}</columnAlias>
+		<pk>${c.pk?string}</pk>
+	</column>
+</#list>
+</table>
