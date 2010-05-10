@@ -18,22 +18,22 @@ public class Column {
 	/**
 	 * Reference to the containing table
 	 */
-	private final Table _table;
+	private Table _table;
 
 	/**
 	 * The java.sql.Types type
 	 */
-	private final int _sqlType;
+	private int _sqlType;
 
 	/**
 	 * The sql typename. provided by JDBC driver
 	 */
-	private final String _sqlTypeName;
+	private String _sqlTypeName;
 
 	/**
 	 * The name of the column
 	 */
-	private final String _sqlName;
+	private String _sqlName;
 
 	/**
 	 * True if the column is a primary key
@@ -48,37 +48,37 @@ public class Column {
 	/**
 	 * @todo-javadoc Describe the column
 	 */
-	private final int _size;
+	private int _size;
 
 	/**
 	 * @todo-javadoc Describe the column
 	 */
-	private final int _decimalDigits;
+	private int _decimalDigits;
 
 	/**
 	 * True if the column is nullable
 	 */
-	private final boolean _isNullable;
+	private boolean _isNullable;
 
 	/**
 	 * True if the column is indexed
 	 */
-	private final boolean _isIndexed;
+	private boolean _isIndexed;
 
 	/**
 	 * True if the column is unique
 	 */
-	private final boolean _isUnique;
+	private boolean _isUnique;
 
 	/**
 	 * Null if the DB reports no default value
 	 */
-	private final String _defaultValue;
+	private String _defaultValue;
 	
 	/**
 	 * The comments of column
 	 */
-	private final String _remarks;
+	private String _remarks;
 	
 	/**
 	 * Get static reference to Log4J Logger
@@ -94,6 +94,8 @@ public class Column {
 //
 //	String validateString;
 
+	
+	
 	/**
 	 * Describe what the DbColumn constructor does
 	 * 
@@ -154,6 +156,9 @@ public class Column {
 
 	}
 
+	public Column() {
+	}
+	
 	/**
 	 * Gets the SqlType attribute of the Column object
 	 * 
@@ -235,7 +240,7 @@ public class Column {
 	 * 
 	 * @return The Nullable value
 	 */
-	public final boolean isNullable() {
+	public  boolean isNullable() {
 		return _isNullable;
 	}
 
@@ -244,7 +249,7 @@ public class Column {
 	 * 
 	 * @return The Indexed value
 	 */
-	public final boolean isIndexed() {
+	public  boolean isIndexed() {
 		return _isIndexed;
 	}
 
@@ -262,11 +267,11 @@ public class Column {
 	 * 
 	 * @return The DefaultValue value
 	 */
-	public final String getDefaultValue() {
+	public  String getDefaultValue() {
 		return _defaultValue;
 	}
 	
-	public final String getRemarks() {
+	public  String getRemarks() {
 		return _remarks;
 	}
 
@@ -320,7 +325,7 @@ public class Column {
 	 * @todo-javadoc Write javadocs for method
 	 * @todo-javadoc Write javadocs for return value
 	 */
-	protected final String prefsPrefix() {
+	protected  String prefsPrefix() {
 		return "tables/" + getTable().getSqlName() + "/columns/" + getSqlName();
 	}
 
