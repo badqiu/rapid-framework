@@ -6,6 +6,8 @@ rapid-framework路线图
 	project-dao
 	project-service
 	project-web
+使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
+
 为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
 使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
 Page,PageRequest重构,PageRequest用于继承以替代filter
