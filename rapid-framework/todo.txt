@@ -10,6 +10,13 @@ rapid-framework路线图
 
 增加DTO converter的测试框架
 增加特殊后缀来实现如 .no_generate
+生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
+	内容: javaType配置
+		  alias 配置
+		  validation配置
+		  order配置
+		  Enum配置
+	
 status and type关键字将自动生成Enum
 为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
 使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
