@@ -1,0 +1,17 @@
+	<filter>
+		<filter-name>struts2-cleanup</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
+	</filter>
+	<filter>
+	      <filter-name>struts2Filter</filter-name>
+	      <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+    
+    <filter-mapping>
+        <filter-name>struts2-cleanup</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>		
+    <filter-mapping>
+        <filter-name>struts2Filter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>    

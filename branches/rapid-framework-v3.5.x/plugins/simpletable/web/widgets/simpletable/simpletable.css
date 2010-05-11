@@ -1,0 +1,73 @@
+.gridTable {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+/** grid body */
+.gridTable .gridBody {
+	border-right: 1px solid silver;
+	border-top: 1px solid silver;
+}
+.gridTable .gridBody .tableHeader th {
+	border-left: 1px solid silver;
+	border-bottom: 1px solid silver;
+	vertical-align: middle;
+	background-color: #E5E5E5;
+	padding:0 10px 0 0;
+}
+.gridTable .gridBody .tableBody td {
+	border-left: 1px solid silver;
+	border-bottom: 1px solid silver;
+	color: black;
+}
+
+/** grid header sort */
+.gridTable th.sort {
+}
+.gridTable th.sort.desc {
+	background:#c5c5c5 url(images/sort_desc.gif) center right no-repeat
+}
+.gridTable th.sort.asc {
+	background:#c5c5c5 url(images/sort_asc.gif) center right no-repeat
+}
+
+/** mouse hove over sort header */
+.gridTable .tableHeaderSortHover {
+	background-color: #f5f5f5 !important;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/** gridBody row colors */
+.gridTable .gridBody .odd {
+	background-color: #FFFFFF;
+}
+.gridTable .gridBody .even {
+	background-color: #F8F8F8;
+}
+.gridTable .highlight {
+	background-color: #fdeccf !important;
+}
+
+/** grid toolbar */
+.gridTable .gridToolbar .leftControls {
+}
+.gridTable .gridToolbar .paginationControls .buttonLabel{
+	margin:0 0 0 12px
+}
+.gridTable .gridToolbar .box div {
+	display:inline;
+	float:left;
+}
+.gridTable .gridToolbar .box .paginationControls {
+	float:right;
+}
+.gridTable .gridToolbar td{
+	background-color: #F4F4F4;
+}
+
+.gridTable .odd a, .even a {
+	font-size: 12px;
+	color: 005C9C !important;
+}
