@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.config.group;
+package cn.org.rapid_framework.util.config.group;
 
 import java.io.IOException;
 import java.io.InputStream;
