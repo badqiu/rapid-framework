@@ -75,6 +75,11 @@ public class XMLHelper {
         Document doc = getLoadingDoc(in);
         return new XMLHelper().treeWalk(doc.getDocumentElement());
     }
+
+    public NodeData parseXML(File file) throws SAXException, IOException {
+        FileInputStream in = new FileInputStream(file);
+		try {return parseXML(in);}finally{in.close();}
+    }
     
     public static class NodeData {
         public String nodeName;

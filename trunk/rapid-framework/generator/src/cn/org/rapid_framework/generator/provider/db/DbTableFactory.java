@@ -1,6 +1,9 @@
 package cn.org.rapid_framework.generator.provider.db;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -16,10 +19,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.ResourceUtils;
+import org.xml.sax.SAXException;
+
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.GLogger;
+import cn.org.rapid_framework.generator.util.MapBaseMethodInterceptor;
+import cn.org.rapid_framework.generator.util.XMLHelper;
+import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 /**
  * 
  * @author badqiu
@@ -84,6 +93,21 @@ public class DbTableFactory {
 		return t;
 	}
 
+	private Map getTableConfigMap(String tableSqlName){
+		NodeData nd = getTableConfigXml(tableSqlName+".xml");
+		return nd == null ? new HashMap() : nd.getElementMap("sqlName");
+	}
+
+	private NodeData getTableConfigXml(String tableSqlName){
+		try {
+			File file = ResourceUtils.getFile("classpath:"+tableSqlName);
+			return new XMLHelper().parseXML(file);
+		}catch(Exception e) {//ignore
+			GLogger.info("getTableConfigMap exception:"+e);
+			return null;
+		}
+	}
+
 	private Table _getTable(String sqlTableName) throws SQLException {
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
@@ -119,7 +143,7 @@ public class DbTableFactory {
 			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			return table;
+			return (Table)MapBaseMethodInterceptor.createProxy(Table.class, table, getTableConfigMap(table.getSqlName()));
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
 		}
@@ -343,10 +367,27 @@ public class DbTableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         columns.add(column);
+	         Column proxy = createColumnProxyIfHasConfig(table, column);
+	         if(proxy == null) {
+	        	 columns.add(column);
+	         }else {
+	        	 columns.add(column);
+	         }
 	    }
 	    columnRs.close();
 		return columns;
+	}
+
+	private Column createColumnProxyIfHasConfig(Table table, Column column) {
+		NodeData root = getTableConfigXml(table.getSqlName());
+		 if(root != null){
+			 for(NodeData item : root.childs) {
+				 if(item.nodeName.equals(column.getSqlName())) {
+					 return (Column)MapBaseMethodInterceptor.createProxy(Column.class, column, item.getElementMap("sqlName"));
+				 }
+		     }
+		 }
+		 return null;
 	}
 
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {

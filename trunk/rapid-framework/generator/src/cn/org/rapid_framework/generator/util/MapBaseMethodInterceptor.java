@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -66,6 +67,13 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 			return StringHelper.uncapitalize(name.substring(2));
 		}
 		return null;
+	}
+	
+	public static Object createProxy(Class clazz,Object target, Map map) {
+		Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(clazz);
+		enhancer.setCallback(new MapBaseMethodInterceptor(map,target));
+        return enhancer.create();
 	}
 
 }
