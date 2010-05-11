@@ -2,21 +2,18 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
 <!-- 
-	本文件用于自定义表及列的属性,你也可以随便增加属性值,即可在freemarker中引用
-	<column>
-		<columnName>类名称</columnName>
-		<columnAlias>别名</columnAlias>
-		<unique>是否唯一性约束</unique>
-		<nullable>是否可以为空</nullable>
-		<javaType>java class类名称</javaType>
-		<pk>是否主键</pk>
-		<enumValues>是否枚举,枚举值格式为:{"1","23",1,30}</enumValues>
-	</column>
+<数据库表名 className="类名称" tableAlias="别名">
+	<数据库列名 columnAlias="别名" 
+	unique="是否唯一性约束" nullable="是否可以为空"
+	javaType="自定义javaType" pk="是否主键" 
+	enumValues="枚举值,格式为:{"1":"23",1:30}" 
+	enumClassName="如果枚举有值,生成的类名称将是这个"	
+	/>
+</数据库表名>
  -->
 <${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
 <#list table.notPkColumns as c>
-	<${c.sqlName!} 
-		columnName="${c.columnName!}" columnAlias="${c.columnAlias!}"
+	<${c.sqlName!} columnAlias="${c.columnAlias!}"
 		unique="${c.unique?string}" nullable="${c.nullable?string}"
 		javaType="${c.simpleJavaType!}" pk="${c.pk?string}" 
 		enumValues="" enumClassName="${c.columnName!}"
