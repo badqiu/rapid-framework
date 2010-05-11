@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+<!-- 
+	本文件用于自定义表及列的属性,你也可以随便增加属性值,即可在freemarker中引用
+	<column>
+		<columnName>类名称</columnName>
+		<columnAlias>别名</columnAlias>
+		<unique>是否唯一性约束</unique>
+		<nullable>是否可以为空</nullable>
+		<javaType>java class类名称</javaType>
+		<pk>是否主键</pk>
+		<enumValues>是否枚举,枚举值格式为:{"1","23",1,30}</enumValues>
+	</column>
+ -->
+<${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
+<#list table.notPkColumns as c>
+	<${c.sqlName!} 
+		columnName="${c.columnName!}" columnAlias="${c.columnAlias!}"
+		unique="${c.unique?string}" nullable="${c.nullable?string}"
+		javaType="${c.simpleJavaType!}" pk="${c.pk?string}" 
+		enumValues="" enumClassName="${c.columnName!}"
+	/>
+</#list>
+</${table.sqlName}>
