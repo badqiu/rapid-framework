@@ -26,8 +26,8 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 
 	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
 //		System.out.println(String.format("args:%s",args));
-		System.out.println(String.format("method:%s,",method));
-		System.out.println(String.format("proxy:%s",proxy));
+//		System.out.println(String.format("method:%s,",method));
+//		System.out.println(String.format("proxy:%s",proxy));
 		Object result = process(obj, method, args, proxy);
 //		System.out.println(method.getName()+"() => "+result);
 		return result;
