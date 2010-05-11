@@ -84,6 +84,12 @@ public class XMLHelper {
         public String toString() {
             return "nodeName="+nodeName+",attributes="+attributes+" child:\n"+childs;
         }
+        public Map getElementMap(String nodeNameKey) {
+            Map map = new HashMap();
+            map.putAll(attributes);
+            map.put(nodeNameKey, nodeName);
+            return map;
+        }
     }
     
     public static void main(String[] args) throws FileNotFoundException, SAXException, IOException {
