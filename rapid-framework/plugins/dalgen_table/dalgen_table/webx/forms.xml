@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+
+<form>
+	
+	<!-- ${className} relate actions START -->
+    <group name="create${className}">
+		<#list table.notPkColumns as column>
+		<field name="${column.columnNameFirstLower}" displayName="${column.columnName}">
+        </field>
+		</#list>
+    </group>
+
+    <group name="update${className}">
+		<#list table.notPkColumns as column>
+		<field name="${column.columnNameFirstLower}" displayName="${column.columnName}">
+        </field>
+		</#list>
+    </group>
+
+    <group name="query${className}">
+		<#list table.notPkColumns as column>
+		<#if column.isDateTimeColumn>
+		<field name="${column.columnNameFirstLower}Begin" displayName="${column.columnName}Begin">
+        </field>
+		<field name="${column.columnNameFirstLower}End" displayName="${column.columnName}End">
+        </field>
+        <#else>
+		<field name="${column.columnNameFirstLower}" displayName="${column.columnName}">
+        </field>                
+        </#if>
+		</#list>
+    </group>
+    <!-- ${className} relate actions END -->
+        
+    <!-- generator-insert-location -->    
+</form>
