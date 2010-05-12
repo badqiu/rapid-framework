@@ -48,6 +48,12 @@
 <%@ include file="base.jsp" %> 
 }}}
 
+*v3.5以后将支持<jsp:include/>*
+<jsp:include page="base.jsp">
+   <jsp:param name=”fitstParamer” value=”firstValue”>
+   <jsp:param name=”secondParamer” value=”secondValue”>
+</jsp:include>
+
 ==输出==
 
 *访问child.jsp输出:*
@@ -77,4 +83,3 @@
     * 重定义block tag显示的内容
   * *@include指令:*
     * 通过该指令来实现继承(extends)的功能（只能使用这个技巧），*该指令必须放置在页面的最后面*
-
