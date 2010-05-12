@@ -28,7 +28,7 @@ public class IOHelper {
 		return out.toString();
 	}
 	
-	public static void saveFile(File file,String content) throws IOException {
+	public static void saveFile(File file,String content)  {
 		try {
 		Writer writer = new FileWriter(file);
 		writer.write(content);
