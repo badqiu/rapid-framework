@@ -29,9 +29,13 @@ public class IOHelper {
 	}
 	
 	public static void saveFile(File file,String content) throws IOException {
+		try {
 		Writer writer = new FileWriter(file);
 		writer.write(content);
 		writer.close();
+		}catch(IOException e){
+			throw new RuntimeException(e);
+		}
 	}
-	
+
 }
