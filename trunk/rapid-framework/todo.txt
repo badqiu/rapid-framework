@@ -22,6 +22,8 @@ Bean.copyProps()测试主流程思想
 	3.得到target代理的set调用次数
 	4.assertEquals(期待set调用次数,实际的target set调用次数)
 
+spring服务发布增加: spring/internal, spring/publish两个目录,internal的bean,外部不能引用,publish反之
+
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 	
 status and type关键字将自动生成Enum
