@@ -1,7 +1,6 @@
 package cn.org.rapid_framework.generator.util;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +53,7 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 	
 	private boolean isEmptyString(Object value) {
 		if(value == null) return true;
-		return value instanceof String && ((String)value).isEmpty();
+		return value instanceof String && ((String)value).length() == 0;
 	}
 	
 	private String toProperty(Method method,Object[] args) {
