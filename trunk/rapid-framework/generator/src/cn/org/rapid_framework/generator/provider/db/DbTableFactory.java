@@ -36,7 +36,7 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
  */
 public class DbTableFactory {
 
-	
+	private DbHelper dbHelper = new DbHelper();
 	private Connection connection;
 	private static DbTableFactory instance = null;
 	
@@ -127,7 +127,7 @@ public class DbTableFactory {
 			realTableName = rs.getString("TABLE_NAME");
 			String tableType = rs.getString("TABLE_TYPE");
 			String remarks = rs.getString("REMARKS");
-			if(remarks == null && isOracleDataBase()) {
+			if(remarks == null && dbHelper.isOracleDataBase()) {
 				remarks = getOracleTableComments(realTableName);
 			}
 			
@@ -135,7 +135,7 @@ public class DbTableFactory {
 			table.setSqlName(realTableName);
 			table.setRemarks(remarks);
 			
-			if ("SYNONYM".equals(tableType) && isOracleDataBase()) {
+			if ("SYNONYM".equals(tableType) && dbHelper.isOracleDataBase()) {
 			    table.setOwnerSynonymName(getSynonymOwner(realTableName));
 			}
 			
@@ -160,17 +160,7 @@ public class DbTableFactory {
 		return tables;
 	}
 
-	private boolean isOracleDataBase() {
-		boolean ret = false;
-		try {
-			ret = (getMetaData().getDatabaseProductName().toLowerCase()
-					.indexOf("oracle") != -1);
-		} catch (Exception ignore) {
-		}
-		return ret;
-	}
-	   
-   private String getSynonymOwner(String synonymName)  {
+	private String getSynonymOwner(String synonymName)  {
 	      PreparedStatement ps = null;
 	      ResultSet rs = null;
 	      String ret = null;
@@ -191,18 +181,7 @@ public class DbTableFactory {
 	         GLogger.error(e.getMessage(), e);
 	         throw new RuntimeException("Exception in getting synonym owner " + databaseStructure);
 	      } finally {
-	         if (rs != null) {
-	            try {
-	               rs.close();
-	            } catch (Exception e) {
-	            }
-	         }
-	         if (ps != null) {
-	            try {
-	               ps.close();
-	            } catch (Exception e) {
-	            }
-	         }
+	         dbHelper.close(rs,ps);
 	      }
 	      return ret;
 	   }
@@ -227,10 +206,7 @@ public class DbTableFactory {
 	         GLogger.warn("Couldn't get schemas", e2);
 	         sb.append("  ?? Couldn't get schemas ??").append(nl);
 	      } finally {
-	         try {
-	            schemaRs.close();
-	         } catch (Exception ignore) {
-	         }
+	         dbHelper.close(schemaRs,null);
 	      }
 
 	      try {
@@ -243,10 +219,7 @@ public class DbTableFactory {
 	         GLogger.warn("Couldn't get catalogs", e2);
 	         sb.append("  ?? Couldn't get catalogs ??").append(nl);
 	      } finally {
-	         try {
-	            catalogRs.close();
-	         } catch (Exception ignore) {
-	         }
+	         dbHelper.close(catalogRs,null);
 	      }
 	      return sb.toString();
     }
@@ -303,9 +276,7 @@ public class DbTableFactory {
 	         // Bug #604761 Oracle getIndexInfo() needs major grants
 	         // http://sourceforge.net/tracker/index.php?func=detail&aid=604761&group_id=36044&atid=415990
 	      } finally {
-	         if (indexRs != null) {
-	            indexRs.close();
-	         }
+	         dbHelper.close(indexRs,null);
 	      }
 
 	      List columns = getTableColumns(table, primaryKeys, indices, uniqueIndices, uniqueColumns);
@@ -333,7 +304,7 @@ public class DbTableFactory {
 	         String columnDefaultValue = columnRs.getString("COLUMN_DEF");
 	         
 	         String remarks = columnRs.getString("REMARKS");
-	         if(remarks == null && isOracleDataBase()) {
+	         if(remarks == null && dbHelper.isOracleDataBase()) {
 	        	 remarks = getOracleColumnComments(table.getSqlName(), columnName);
 	         }
 	         
@@ -421,35 +392,50 @@ public class DbTableFactory {
 
 	private String getOracleTableComments(String table)  {
 		String sql = "SELECT comments FROM user_tab_comments WHERE table_name='"+table+"'";
-		return queryForString(sql);
+		return dbHelper.queryForString(sql);
 	}
 
-	private String queryForString(String sql) {
-		Statement s = null;
-		ResultSet rs = null;
-		try {
-			s =  getConnection().createStatement();
-			rs = s.executeQuery(sql);
-			if(rs.next()) {
-				return rs.getString(1);
-			}
-			return null;
-		}catch(SQLException e) {
-			e.printStackTrace();
-			return null;
-		}finally {
-			try {
-				if(s != null)
-					s.close();
-				if(rs != null) rs.close();
-			} catch (SQLException e) {
-			}
-		}
-	}
-	
 	private String getOracleColumnComments(String table,String column)  {
 		String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
-		return queryForString(sql);
+		return dbHelper.queryForString(sql);
 	}
+
 	
+	class DbHelper {
+		public void close(ResultSet rs,PreparedStatement ps,Statement... statements) {
+			try {
+				if(ps != null) ps.close();
+				if(rs != null) rs.close();
+				for(Statement s : statements) {s.close();}
+			}catch(Exception e){
+			}
+		}
+		public boolean isOracleDataBase() {
+			boolean ret = false;
+			try {
+				ret = (getMetaData().getDatabaseProductName().toLowerCase()
+						.indexOf("oracle") != -1);
+			} catch (Exception ignore) {
+			}
+			return ret;
+		}
+		
+		public String queryForString(String sql) {
+			Statement s = null;
+			ResultSet rs = null;
+			try {
+				s =  getConnection().createStatement();
+				rs = s.executeQuery(sql);
+				if(rs.next()) {
+					return rs.getString(1);
+				}
+				return null;
+			}catch(SQLException e) {
+				e.printStackTrace();
+				return null;
+			}finally {
+				close(rs,null,s);
+			}
+		}		
+	}
 }
