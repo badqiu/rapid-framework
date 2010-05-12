@@ -5,7 +5,7 @@
 <数据库表名 className="类名称" tableAlias="表的别名">
 	<数据库列名 columnAlias="列的别名" 
 	unique="是否唯一性约束" nullable="是否可以为空"
-	javaType="自定义javaType" pk="是否主键" 
+	javaType="自定义javaType" pk="是否主键,在表没有主键的情况下,可以指定一个代理主键" 
 	enumValues="枚举值,格式为:{"1":"23",1:30}" 
 	enumClassName="如果枚举有值,生成的类名称将是这个,没有枚举值，该配置无用"	
 	/>
