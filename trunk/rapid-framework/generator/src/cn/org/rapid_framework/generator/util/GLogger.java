@@ -25,20 +25,19 @@ public class GLogger {
 
 	public static void warn(String s, Throwable e) {
 		if (logLevel <= WARN) {
-			System.err.println("[Generator WARN] " + s);
-			e.printStackTrace();
+			System.err.println("[Generator WARN] " + s + " cause:"+e);
 		}
 	}
 
 	public static void error(String s) {
 		if (logLevel <= ERROR)
-			System.err.println("[Generator ERROR] " + s);
+			System.err.println("[Generator ERROR] " + s + " cause:");
 	}
 
 	public static void error(String s, Throwable e) {
 		if (logLevel <= ERROR) {
-			System.err.println("[Generator ERROR] " + s);
-			e.printStackTrace();
+			System.err.println("[Generator ERROR] " + s + " cause:"+e);
+//			e.printStackTrace();
 		}
 	}
 }
