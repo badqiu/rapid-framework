@@ -16,6 +16,13 @@ rapid-framework路线图
 		  validation配置
 		  order配置
 		  Enum配置
+Bean.copyProps()测试主流程思想
+	1.生成target代理
+	2.Bean.copyProps(source,target)
+	3.得到target代理的set调用次数
+	4.assertEquals(期待set调用次数,实际的target set调用次数)
+
+	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 	
 status and type关键字将自动生成Enum
 为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
