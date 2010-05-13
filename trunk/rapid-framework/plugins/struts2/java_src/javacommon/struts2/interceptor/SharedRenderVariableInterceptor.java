@@ -46,6 +46,8 @@ public class SharedRenderVariableInterceptor implements Interceptor {
 	//注意,如果变量是global,请尽量增加global前缀
 	private void initSharedRenderVariables() {
 		globalRenderVariables.put("global_system_start_time", new Date());
+		globalRenderVariables.put("url_prefix", "http://www.rapid-framework.org.cn");
+		globalRenderVariables.put("media_url_prefix", "/images");
 	}
 	
 	public void destroy() {
