@@ -32,7 +32,7 @@
 		
 		<!-- 拦截器注册 -->
 		<property name="interceptors">
-			<bean class="javacommon.springmvc.handler.SharedRenderVariableHandlerInterceptor"/>
+			<bean class="javacommon.springmvc.interceptor.SharedRenderVariableInterceptor"/>
 		</property>
 	</bean>
 
