@@ -46,21 +46,11 @@ var SimpleTable = function(form,pageNumber,pageSize,sortColumns,pageNumberKey,pa
 };
 SimpleTable.prototype = {
 	doJump : function(pageNumber,pageSize,sortColumns) {
-		//pageNumber = pageNumber || this.pageNumber;		
-		//pageSize = pageSize || this.pageSize;		
-		//sortColumns = sortColumns || this.sortColumns ;	
-		
-		//$('#pageNumber').val(pageNumber);	
-		//$('#pageSize').val(pageSize);	
-		//$('#sortColumns').val(sortColumns);
 		//alert("pageNumber:"+pageNumber+" pageSize:"+pageSize+" sortColumns:"+sortColumns+" this.form:"+this.form);
 		var pair = function(k,v) {return ' <input type="hidden" name="'+k+'" value="'+v+'" '};
 		var params = pair(this.pageNumberKey,this.pageNumber)+pair(this.pageSizeKey,this.pageSize)+pair(this.sortColumnsKey,this.sortColumns)
 		$('#'+this.form).append(params);
-		//this.form.action = this.form.action+"?"+params;
-		//alert(this.form.action);
 		SimpleTableUtils.fireSubmit(this.form);
-		//document.getElementById(this.form).submit();	
 	},
 	togglePage : function(pageNumber) {
 		this.pageNumber = pageNumber;
