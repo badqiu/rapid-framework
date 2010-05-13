@@ -30,15 +30,11 @@ public class ActionException extends ErrorCodeException{
 		return action;
 	}
 
-	public void setAction(String action) {
-		this.action = action;
-	}
-
 	public String toString() {
 		if(action == null) {
-			return String.format("execute [%s] occer error,errorCode:[%s],errorDetails:%s",action,getErrorCode().getErrorCode(),getErrorCode().getErrorDetails());
+			return String.format("execute [%s] occer error,errorCode:[%s],errorDetails:%s",action,getErrorCode().getErrorCode(),getErrorCode().getErrorCodeDetails());
 		}else {
-			return String.format("errorCode:[%s],errorDetails:%s",getErrorCode().getErrorCode(),getErrorCode().getErrorDetails());
+			return String.format("errorCode:[%s],errorDetails:%s",getErrorCode().getErrorCode(),getErrorCode().getErrorCodeDetails());
 		}
 	}
 	

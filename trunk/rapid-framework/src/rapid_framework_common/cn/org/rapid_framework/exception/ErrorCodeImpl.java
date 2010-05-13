@@ -20,7 +20,7 @@ public class ErrorCodeImpl implements ErrorCode{
 	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
-	public String getErrorDetails() {
+	public String getErrorCodeDetails() {
 		return errorDetails;
 	}
 	public void setErrorDetails(String errorDetails) {
