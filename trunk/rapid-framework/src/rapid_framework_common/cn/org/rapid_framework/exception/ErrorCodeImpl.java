@@ -6,25 +6,22 @@ package cn.org.rapid_framework.exception;
  * @see ErrorCodeException
  */
 public class ErrorCodeImpl implements ErrorCode{
-	private String errorCode;
-	private String errorDetails;
+	private static final long serialVersionUID = 6335800965783920460L;
 	
-	public ErrorCodeImpl(String errorCode, String errorDetails) {
+	private String errorCode;
+	private String errorCodeDetails;
+	
+	public ErrorCodeImpl(String errorCode, String errorCodeDetails) {
 		this.errorCode = errorCode;
-		this.errorDetails = errorDetails;
+		this.errorCodeDetails = errorCodeDetails;
 	}
 	
 	public String getErrorCode() {
 		return errorCode;
 	}
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
+
 	public String getErrorCodeDetails() {
-		return errorDetails;
-	}
-	public void setErrorDetails(String errorDetails) {
-		this.errorDetails = errorDetails;
+		return errorCodeDetails;
 	}
 	
 }
