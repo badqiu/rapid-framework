@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javacommon.springmvc.handler.SharedRenderVariableHandlerInterceptor;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,7 +19,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  *
  */
 public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter implements InitializingBean{
-	static Log log = LogFactory.getLog(SharedRenderVariableHandlerInterceptor.class);
+	static Log log = LogFactory.getLog(SharedRenderVariableInterceptor.class);
 	
 	//系统启动并初始化一次的变量
 	private Map globalRenderVariables = new HashMap();
