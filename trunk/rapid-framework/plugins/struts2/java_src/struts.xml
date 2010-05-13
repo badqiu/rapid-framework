@@ -30,8 +30,8 @@
         	<!-- 提供视图渲染的共享变量拦截器 -->
         	<interceptor name="sharedRenderVariableInterceptor" class="javacommon.struts2.interceptor.SharedRenderVariableInterceptor"/>
             <interceptor-stack name="customDefaultCrudStack">
-                <interceptor-ref name="sharedRenderVariableInterceptor"/>
                 <interceptor-ref name="paramsPrepareParamsStack"/>
+                <interceptor-ref name="sharedRenderVariableInterceptor"/>
             </interceptor-stack>
         </interceptors>
         <default-interceptor-ref name="customDefaultCrudStack"/>
@@ -44,19 +44,7 @@
 		<action name="*/*" method="{2}" class="com.company.project.action.{1}Action">
 		    <result name="*" type="direct">通过Action直接返回，这一行无需修改</result>
 		</action>
-		
-		<!-- 打开以下配置用于使用struts2自带的验证框架
-		<action name="*/save" method="save" class="com.company.system.action.{1}Action">
-			<result name="input" type="dispatcher">/demo/{1}/create.do</result>
-		    <result name="*" type="direct">通过Action直接返回</result>
-		</action>
-
-		<action name="*/update" method="update" class="com.company.system.action.{1}Action">
-			<result name="input" type="dispatcher">/demo/{1}/edit.do</result>
-		    <result name="*" type="direct">通过Action直接返回</result>
-		</action>
-		-->
-								
+					
     </package>
     
 </struts>
