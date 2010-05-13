@@ -40,7 +40,7 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 		
 		model.put("share_current_request_time", new Date());
 		model.put("share_current_login_username", "badqiu");
-		model.put("share_context_path", request.getContextPath());
+		model.put("ctx", request.getContextPath());
 		
 		return model;
 	}
@@ -48,6 +48,10 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 	//用于初始化 sharedRenderVariables, 全局共享变量请尽量用global前缀
 	private void initSharedRenderVariables() {
 		globalRenderVariables.put("global_system_start_time", new Date());
+		globalRenderVariables.put("url_prefix", "http://www.rapid-framework.org.cn");
+		globalRenderVariables.put("img_url_prefix", "http://img.rapid-framework.org.cn");
+		globalRenderVariables.put("media_url_prefix", "http://media.rapid-framework.org.cn");
+		globalRenderVariables.put("static_url_prefix", "http://static.rapid-framework.org.cn");
 		
 		//也可以存放一些共享的工具类,以便视图使用,如StringUtils
 		
