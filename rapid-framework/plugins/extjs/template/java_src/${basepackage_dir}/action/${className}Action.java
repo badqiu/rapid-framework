@@ -90,7 +90,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	public void extlist() throws IOException
 	{
 		PageRequest<Map> pr = ExtJsPageHelper.createPageRequestForExtJs(getRequest(), DEFAULT_SORT_COLUMNS);
-		Page page = ${classNameLower}Manager.findByPageRequest(pr);
+		Page page = ${classNameLower}Manager.findPage(pr);
 		
 		List<${className}> ${className}list = (List) page.getResult();
 		ListRange<${className}> resultList = new ListRange<${className}>();

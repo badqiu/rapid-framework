@@ -23,7 +23,7 @@ public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn
 			update(entity);
 	}
 	
-	public Page findByPageRequest(PageRequest pageRequest) {
+	public Page findPage(PageRequest pageRequest) {
 		return pageQuery("${className}.pageSelect",pageRequest);
 	}
 	

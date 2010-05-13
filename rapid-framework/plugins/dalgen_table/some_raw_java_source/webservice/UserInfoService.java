@@ -111,11 +111,11 @@ public class UserInfoService {
 		});
 	}
 	
-	public PageQueryUserInfoResult findByPageRequest(final UserInfoQuery query) {
+	public PageQueryUserInfoResult findPage(final UserInfoQuery query) {
 		final PageQueryUserInfoResult r = new PageQueryUserInfoResult();
 		return getBizTemplate().execute(r,new BizCommand(){
 			public void execute() throws ActionException, Exception {
-				Page page = userInfoManager.findByPageRequest(query);
+				Page page = userInfoManager.findPage(query);
 				List<UserInfoDTO> list = UserInfoServiceConverter.convertFrom(page.getResult());
 				
 				r.setPageNo(page.getThisPageNumber());

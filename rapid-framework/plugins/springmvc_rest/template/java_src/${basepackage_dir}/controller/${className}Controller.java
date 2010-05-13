@@ -45,7 +45,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
-		Page page = this.${classNameFirstLower}Manager.findByPageRequest(pageRequest);
+		Page page = this.${classNameFirstLower}Manager.findPage(pageRequest);
 		
 		ModelAndView result = toModelAndView(page, pageRequest);
 		result.addObject("${classNameFirstLower}",${classNameFirstLower});
