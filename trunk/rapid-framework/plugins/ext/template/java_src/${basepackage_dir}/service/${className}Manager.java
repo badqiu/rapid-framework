@@ -22,10 +22,9 @@ public class ${className}Manager extends BaseManager<${className}>{
 		return this.${classNameLower}Dao;
 	}
 	/**通过PageRequest查询*/
-	public Page findByPageRequest(PageRequest info) {
-		return ${classNameLower}Dao.findByPageRequest(info);
+	public Page findPage(PageRequest info) {
+		return ${classNameLower}Dao.findPage(info);
 	}
-	
 	
 	public Object get${className}ById(String id) {
 		return super.getById(id);

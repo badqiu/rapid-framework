@@ -21,8 +21,8 @@ public class ${className}Manager extends BaseManager<${className},${table.idColu
 	}
 	
 	@Transactional(readOnly=true)
-	public Page findByPageRequest(PageRequest pr) {
-		return ${classNameLower}Dao.findByPageRequest(pr);
+	public Page findPage(PageRequest pr) {
+		return ${classNameLower}Dao.findPage(pr);
 	}
 	
 <#list table.columns as column>

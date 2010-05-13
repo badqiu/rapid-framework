@@ -30,7 +30,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		//insertWithAssigned(entity,sql); //手工分配
 	}
 	
-	public Page findByPageRequest(PageRequest<Map> pageRequest) {
+	public Page findPage(PageRequest<Map> pageRequest) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
 		// [column]为字符串拼接, {column}为使用占位符. 以下为图方便采用sql拼接,适用性能要求不高的应用,使用占位符方式可以优化性能. 
 		// [column] 为PageRequest.getFilters()中的key

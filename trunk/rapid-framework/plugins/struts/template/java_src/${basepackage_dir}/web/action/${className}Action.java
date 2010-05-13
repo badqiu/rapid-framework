@@ -53,7 +53,7 @@ public class ${className}Action extends BaseStrutsAction {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
-		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
+		Page page = this.${classNameLower}Manager.findPage(pageRequest);
 		savePage(page,pageRequest,request);
 		return LIST_FORWARD;
 	}

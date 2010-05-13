@@ -74,7 +74,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 		PageRequest<Map> pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters().put("key",value);     //add custom filter
 		
-		Page page = ${classNameLower}Manager.findByPageRequest(pageRequest);
+		Page page = ${classNameLower}Manager.findPage(pageRequest);
 		savePage(page,pageRequest);
 		return LIST_JSP;
 	}

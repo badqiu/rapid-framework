@@ -27,7 +27,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 	
 	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	@Test
-	public void findByPageRequest() {
+	public void findPage() {
 		int pageNumber = 1;
 		int pageSize = 10;
 		
@@ -42,7 +42,7 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 			</#if>
 		</#list>
 		
-		Page page = dao.findByPageRequest(pageRequest);
+		Page page = dao.findPage(pageRequest);
 		
 		assertEquals(pageNumber,page.getThisPageNumber());
 		assertEquals(pageSize,page.getPageSize());

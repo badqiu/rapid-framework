@@ -48,7 +48,7 @@ public class ${className}Controller extends BaseSpringController{
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
-		Page page = this.${classNameLower}Manager.findByPageRequest(pageRequest);
+		Page page = this.${classNameLower}Manager.findPage(pageRequest);
 		ModelAndView result = toModelAndView(page, pageRequest);
 		result.addObject("${classNameLower}",${classNameLower});
 		result.setViewName("/${className?lower_case}/list");
