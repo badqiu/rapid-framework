@@ -25,7 +25,9 @@ Bean.copyProps()测试主流程思想
 
 spring服务发布增加: spring/internal, spring/publish两个目录,internal的bean,外部不能引用,publish反之
 
-status and type关键字将自动生成Enum
+Enum
+	生成器增加 column的 enum数据生成,如生成 BizTypeEnum
+	status and type关键字将自动生成Enum
 将数据库的数据load出来,作为dbUnit的测试数据源
 为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
 使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
@@ -46,9 +48,8 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 考虑是否将 springmvc的package.controller => package.web.controller
 考虑在service中增加表单验证功能
 为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
-生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
-增加了exception package及web.enums
+增加了exception package
 增加generate dto by javaClass
 
 WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
