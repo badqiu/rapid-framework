@@ -8,6 +8,7 @@ rapid-framework路线图
 	project-web
 使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
 支持文件名称扩展名为.gen,并自动移除该扩展名,再生成文件
+generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 增加特殊后缀来实现如 .no_generate
