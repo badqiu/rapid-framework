@@ -20,7 +20,7 @@
 		</sql>
 	</operation>
 
-	<operation name="delete" paramtype="object">
+	<operation name="delete">
 		<sql>
 		    <![CDATA[
 		        DELETE FROM ${table.sqlName} WHERE
@@ -97,7 +97,6 @@
 		<sqlmap>
 			<![CDATA[
 	    	SELECT count(*) FROM ${table.sqlName} 
-		    ]]>
 		    <dynamic prepend="WHERE">
 		       <#list table.notPkColumns as column>
 		        <#if column.isDateTimeColumn>
@@ -113,7 +112,8 @@
 		       </isNotEmpty>
 				</#if>
 		       </#list>
-		    </dynamic>
+		    </dynamic>	    	
+		    ]]>
 		</sqlmap>		
 	</operation>
 	
@@ -147,12 +147,11 @@
 		        ${column.sqlName} <#if column_has_next>,</#if>
 		    </#list>
 		    FROM ${table.sqlName} 
-		    ]]>
 		    <dynamic prepend="WHERE">
 		       <#list table.notPkColumns as column>
 		        <#if column.isDateTimeColumn>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}Begin">
-		             ${column.sqlName} >= #${column.columnNameLower}Begin#
+		             ${column.sqlName} &gt;= #${column.columnNameLower}Begin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}End">
 		             ${column.sqlName} &lt;= #${column.columnNameLower}End#
@@ -165,7 +164,12 @@
 		       </#list>
 		    </dynamic>
 		    LIMIT #startRow#,#pageSize#
-		    ORDER BY #orderby#
+		    <dynamic prepend="ORDER BY">
+		    	<isNotEmpty property="orderby">
+		    	ORDER BY #orderby#
+		    	</isNotEmpty>
+		    </dynamic>		    		    
+		    ]]>
 		</sqlmap>		
 	</operation>
 
