@@ -1,22 +1,20 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
+<#assign classNameLower = className?uncap_first>   
 package ${basepackage}.service;
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
-<#include "/java_imports.include">
-public interface ${className}Service{
-
-    public void create${className}(${className} v);
+public interface ${className}Service  {
     
-    public void update${className}(${className} v);
+    public ${className} update(${className} o);
     
-    public void delete${className}(int id);
+    public ${className} create(${className} o);
     
-    public void get${className}(int id);
+    public void removeById(${table.idColumn.javaType} id);
     
-    public void pageQuery${className}(${className}Query q);
+    public ${className} queryById(${table.idColumn.javaType} id);
+    
+    public PageList<${className}> findPage(${className}Query query);
     
 }
