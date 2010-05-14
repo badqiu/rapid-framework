@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
+<!-- 本配置文件可以删除，如果你不想自定义配置 -->
 <!-- 
 <数据库表名 className="类名称" tableAlias="表的别名">
 	<数据库列名 columnAlias="列的别名" 
