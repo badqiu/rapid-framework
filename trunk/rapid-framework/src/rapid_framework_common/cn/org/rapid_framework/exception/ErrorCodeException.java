@@ -57,7 +57,7 @@ public class ErrorCodeException extends RuntimeException{
 
 	public String toString() {
 		if(errorCode == null) return super.toString();
-		return String.format("errorCode:[%s],errorCodeDesc:%s,message",errorCode.getErrorCode(),errorCode.getErrorCodeDetails(),super.toString());
+		return String.format("errorCode:[%s],errorCodeDetails:%s,exception message:%s",errorCode.getErrorCode(),errorCode.getErrorCodeDetails(),super.toString());
 	}
 	
 }
