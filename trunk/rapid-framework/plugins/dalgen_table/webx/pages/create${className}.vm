@@ -15,7 +15,10 @@
 	<tr>
 	<#list rows as column>
 			<td width="15%" align="right">${column.columnName}</td>
-			<td><input type="text" name="$!group.${column.columnNameFirstLower}.key" value="$!group.${column.columnNameFirstLower}.value"/></td>
+			<td>
+				<input type="text" name="$!group.${column.columnNameFirstLower}.key" value="$!group.${column.columnNameFirstLower}.value"/>
+				#errorMessage($!group.${column.columnNameFirstLower})
+			</td>
 
 	</#list>
 	</tr>
