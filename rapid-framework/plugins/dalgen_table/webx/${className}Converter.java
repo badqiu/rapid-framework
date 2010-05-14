@@ -19,7 +19,7 @@ public class ${className}Converter {
 }
         
 <#macro generateConvertMethod sourceSuffix targetSuffix>
-	public ${className}${targetSuffix} convert(${className}${sourceSuffix} source) {
+	public ${className}${targetSuffix} convert2${className}${targetSuffix}(${className}${sourceSuffix} source) {
 		${className}${targetSuffix} target = new ${className}${targetSuffix}();
 	
 		<#list table.notPkColumns as column>
