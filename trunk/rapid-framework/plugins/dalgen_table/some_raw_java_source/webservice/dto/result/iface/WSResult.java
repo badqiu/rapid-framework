@@ -9,9 +9,15 @@ public interface WSResult {
 	 * 未知系统内部错误,系统内部错误,,数据库错误
 	 */
 	public boolean isError();
+	public void setError();
 	
-	public ErrorCode getErrorCode();
+	public String getErrorCode();
+	public void setErrorCode(String code);
 	
-	public void setErrorCode(ErrorCode code);
+	public String getErrorCodeDetails();
+	public void setErrorCodeDetails(String details);
+	
+	public String getSystemName();
+	public void setSystemName(String name);
 	
 }
