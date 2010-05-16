@@ -1,4 +1,5 @@
 rapid-framework路线图
+增加BaseQuery或者将PageRequest.getSortInfos() => PageRequest.fetchSortInfos();
 
 将project全部应用maven构建并如下项目划分,并且考虑是否需要支持 dao-module1,service-module2,web-module1,2,3,4
 	project-generator
