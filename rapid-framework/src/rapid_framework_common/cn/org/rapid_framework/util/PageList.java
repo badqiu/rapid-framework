@@ -30,13 +30,6 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
         this.totalCount = totalCount;
     }
 
-    public int fetchTotalPage() {
-        if (pageSize == 0) {
-            return 0;
-        }
-        return (int) Math.ceil((double) totalCount / (double) pageSize);
-    }
-
     public int getPageSize() {
         return pageSize;
     }
