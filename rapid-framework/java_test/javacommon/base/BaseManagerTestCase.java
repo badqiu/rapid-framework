@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
+import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
 
@@ -50,4 +51,13 @@ public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContex
 	protected String[] getDbUnitDataFiles() {
 		return new String[]{};
 	}
+	
+    protected void insertTestData(String classpathFileName) {
+        try {
+            dbUnitHelper.insertTestData(ResourceUtils.getFile("classpath:"+classpathFileName));
+        }catch(Exception e) {
+            throw new RuntimeException("insertTestData error",e);
+        }
+    }
+    
 }
