@@ -49,12 +49,12 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 		return new String[]{};
 	}
 	
-	protected void insertTestData(String classpathFileName) {
-	    try {
-	        dbUnitHelper.insertTestData(ResourceUtils.getFile("classpath:"+classpathFileName));
-	    }catch(Exception e) {
-	        throw new RuntimeException("insertTestData error",e);
-	    }
-	}
+    protected void insertTestData(String classpathFileName) {
+        try {
+            dbUnitHelper.insertTestData(ResourceUtils.getFile("classpath:"+classpathFileName));
+        }catch(Exception e) {
+            throw new RuntimeException("insertTestData error,classpathFileName:"+classpathFileName,e);
+        }
+    }
 	
 }

@@ -56,7 +56,7 @@ public class BaseManagerTestCase extends AbstractTransactionalJUnit4SpringContex
         try {
             dbUnitHelper.insertTestData(ResourceUtils.getFile("classpath:"+classpathFileName));
         }catch(Exception e) {
-            throw new RuntimeException("insertTestData error",e);
+            throw new RuntimeException("insertTestData error,classpathFileName:"+classpathFileName,e);
         }
     }
     
