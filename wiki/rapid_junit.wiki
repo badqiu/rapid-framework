@@ -11,6 +11,26 @@ Action那一层不要包含过多逻辑，一般不进去单元测试.
 想要查询插入的数据是否成功也是可以查得到的.
 
 =[http://www.dbunit.org/ DBUnit]=
-是数据库单元测试的工具类，主要为数据库插入测试数据非常方便，也可以将数据库测试数据导出功能
+是数据库单元测试的工具类，主要为数据库插入测试数据(现rapid使用rapid文件格式)非常方便，也可以将数据库测试数据导出功能
+
+===dbunit xml数据样例如下===
+{{{
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- DBUnit flatXml DataFile -->
+<dataset>
+
+  <product 
+	id='830' 
+	platform='06' 
+	category='901' 
+	code='299' 
+	name='Name689' 
+	old_name='OldName549' 
+	create='2008-01-01 23:20:20' 
+	modified='2008-01-01 23:20:20' 
+  />
+  
+</dataset>
+}}}
 
 具体查看BaseDaoTestCase.java,BaseManagerTestCase.java的代码.
