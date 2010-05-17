@@ -42,7 +42,13 @@ public class KeyValueUtils {
    public static <T extends KeyValue> Object getKey(T kv) {
        if(kv == null) return null;
        return kv.getKey();
-  }
+   }
+   
+   public static <T extends KeyValue> Object getValue(T kv) {
+       if(kv == null) return null;
+       return kv.getValue();
+   }
+   
    /**
     * 根据code得到KeyValue,找不到则抛异常
     * @param key
