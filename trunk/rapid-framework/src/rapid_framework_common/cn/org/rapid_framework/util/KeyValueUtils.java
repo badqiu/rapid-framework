@@ -30,15 +30,19 @@ public class KeyValueUtils {
     * @param values
     * @return
     */
-   public static KeyValue getByKey(String key,KeyValue[] values) {
-        for(KeyValue item : values) {
+   public static <T extends KeyValue> T getByKey(String key,T[] values) {
+        for(T item : values) {
             if(item.getKey().equals(key)) {
                 return item;
             }
         }
         return null;
    }
-   
+
+   public static <T extends KeyValue> Object getKey(T kv) {
+       if(kv == null) return null;
+       return kv.getKey();
+  }
    /**
     * 根据code得到KeyValue,找不到则抛异常
     * @param key
