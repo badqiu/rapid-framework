@@ -49,7 +49,8 @@ public class Ognl {
 				return true;
 			}
 		}else {
-			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String. but was:"+o.getClass());
+			return false;
+//			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String. but was:"+o.getClass());
 		}
 
 		return false;
