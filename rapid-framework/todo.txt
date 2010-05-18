@@ -24,6 +24,7 @@ Bean.copyProps()测试主流程思想
 	2.Bean.copyProps(source,target)
 	3.得到target代理的set调用次数
 	4.assertEquals(期待set调用次数,实际的target set调用次数)
+使用freemarker invokeMacro()替换XsqlBuilder动态sql构造工具
 
 spring服务发布增加: spring/internal, spring/publish两个目录,internal的bean,外部不能引用,publish反之
 
