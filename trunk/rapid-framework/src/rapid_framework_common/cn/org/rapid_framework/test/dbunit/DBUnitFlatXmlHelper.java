@@ -13,6 +13,7 @@ import java.util.ListIterator;
 import javax.sql.DataSource;
 
 import org.dbunit.DatabaseUnitException;
+import org.dbunit.database.AmbiguousTableNameException;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.QueryDataSet;
 import org.dbunit.dataset.CachedDataSet;
@@ -88,9 +89,13 @@ public class DBUnitFlatXmlHelper {
 	 * @link http://dbunit.sourceforge.net/components.html#dataset
 	 */
 	public void insertTestData(File flatXMLFile) throws FileNotFoundException, IOException, DatabaseUnitException, SQLException {
+	    try {
 		IDataSet testDataSet = new FlatXmlDataSet(new FileInputStream(flatXMLFile));
 		DatabaseOperation.REFRESH.execute(getDatabaseConnection(),testDataSet);
 		testDataSets.add(testDataSet);
+	    }catch(AmbiguousTableNameException e) {
+	        throw new DatabaseUnitException("出现AmbiguousTableNameException异常，使用命令:purge recyclebin清空一下oracle回收站,并为dbunit指定jdbcSchema",e);
+	    }
 	}
 
 	/**删除测试数据*/
