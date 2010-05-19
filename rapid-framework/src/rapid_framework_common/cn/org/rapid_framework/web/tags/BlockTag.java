@@ -38,7 +38,7 @@ public class BlockTag extends TagSupport{
 		try {
 			pageContext.getOut().write(overriedContent);
 		} catch (IOException e) {
-			throw new JspException("tag output error",e);
+			throw new JspException("tag output error,block name:"+name,e);
 		}
 		return EVAL_PAGE;
 	}
