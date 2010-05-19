@@ -34,7 +34,7 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 	
 	@BeforeTransaction
 	public void onSetUpBeforeTransaction() throws Exception {
-		String jdbcSchema = null;  // set schema for oracle
+		String jdbcSchema = null;  // set schema for oracle,出现AmbiguousTableNameException时，使用命令:purge recyclebin清空一下oracle回收站
 		dbUnitHelper.setDataSource(getDataSource(),jdbcSchema);
 		dbUnitHelper.insertTestDatas(getDbUnitDataFiles());
 	}
