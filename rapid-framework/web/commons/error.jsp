@@ -8,7 +8,12 @@
 	<script language="javascript">
 		function showDetail()
 		{
-			document.getElementById('detail_error_msg').style.display = "";
+			var elm = document.getElementById('detail_system_error_msg');
+			if(elm.style.display == '') {
+				elm.style.display = 'none';
+			}else {
+				elm.style.display = '';
+			}
 		}
 	</script>
 </head>
@@ -31,7 +36,7 @@
 
 	<p><a href="#" onclick="showDetail();">Administrator click here to get the detail.</a></p>
 
-	<div id="detail_error_msg" style="display:none">
+	<div id="detail_system_error_msg" style="display:none">
 		<pre><%exception.printStackTrace(new java.io.PrintWriter(out));%></pre>
 	</div>
 </div>
