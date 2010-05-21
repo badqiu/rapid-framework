@@ -58,9 +58,10 @@ public class KeyValueUtils {
        KeyValue v = getByKey(key,values);
        if(v == null) {
            if(values.length > 0) {
-               throw new IllegalArgumentException("not found KeyValue object by key:"+key+" on "+values[0].getClass().getName() +" array");
+               String className = values[0].getClass().getName();
+               throw new IllegalArgumentException("not found "+className+" by key:"+key);
            }else {
-               throw new IllegalArgumentException("not found KeyValue object by key:"+key);
+               throw new IllegalArgumentException("not found KeyValue by key:"+key);
            }
        }
        return (T)v;
