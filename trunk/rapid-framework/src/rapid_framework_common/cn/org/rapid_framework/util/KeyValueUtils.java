@@ -37,6 +37,21 @@ public class KeyValueUtils {
         }
         return null;
    }
+   
+   /**
+    * 根据code得到KeyValue
+    * @param key
+    * @param values
+    * @return
+    */
+   public static <T extends KeyValue> T getByValue(String value,T[] values) {
+        for(T item : values) {
+            if(item.getValue().equals(value)) {
+                return item;
+            }
+        }
+        return null;
+   }
 
    public static <T extends KeyValue> Object getKey(T kv) {
        if(kv == null) return null;
