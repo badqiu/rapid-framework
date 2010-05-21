@@ -17,11 +17,13 @@
 		</property>
 	</bean>
 		
+
+	<!-- 支持 @AspectJ 标记
+		<aop:aspectj-autoproxy/>
+	-->
+
 	<!-- 以 @Transactional 标注来定义事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-
-	<!-- 支持 @AspectJ 标记-->
-<!--	<aop:aspectj-autoproxy/>-->
 
 	<!-- 以AspectJ方式 定义 事务 -->
 	<!-- 
