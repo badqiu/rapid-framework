@@ -15,7 +15,7 @@ import org.springframework.util.ReflectionUtils;
  */
 public class KeyValueUtils {
     
-    public static LinkedHashMap<String,String> toMap(KeyValue[] values) {
+    public static  <T extends KeyValue<?,?>> LinkedHashMap<?,?> toMap(T[] values) {
         LinkedHashMap map = new LinkedHashMap();
         for(KeyValue item : values) {
             map.put(item.getKey(), item.getValue());
@@ -24,7 +24,7 @@ public class KeyValueUtils {
     }
     
    /**
-    * 根据code得到KeyValue
+    * 根据key查找得到KeyValue
     * @param key
     * @param values
     * @return
