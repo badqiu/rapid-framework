@@ -2,11 +2,14 @@ package cn.org.rapid_framework.generator.provider.db.model;
 
 
 
+import java.util.Map;
+
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.JdbcType;
+import cn.org.rapid_framework.generator.util.StringConvertHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
 /**
@@ -79,7 +82,7 @@ public class Column {
 	 * The comments of column
 	 */
 	private String _remarks;
-	
+		
 	/**
 	 * Get static reference to Log4J Logger
 	 */
@@ -459,4 +462,29 @@ public class Column {
 	public String getTestData() {
 		return new TestDataGenerator().getDBUnitTestData(getColumnName(),getJavaType(),getSize());
 	}
+	
+	public boolean isUpdatable() {
+		return true;
+	}
+
+	public boolean isInsertable() {
+		return true;
+	}
+	
+	public String getEnumClassName() {
+		return getColumnName()+"Enum";
+	}
+	
+	public String getEnumMapString() {
+		return null;
+	}
+	
+	public Map getEnumMap() {
+		return StringConvertHelper.string2Map(getEnumMapString());
+	}
+	
+	public boolean isEnumColumn() {
+		return !getEnumMap().isEmpty();
+	}
+	
 }
