@@ -4,6 +4,7 @@
 package cn.org.rapid_framework.util.fortest_enum;
 import cn.org.rapid_framework.util.KeyValue;
 import cn.org.rapid_framework.util.KeyValueUtils;
+import cn.org.rapid_framework.util.fortest_enum.SomeTypeEnum;
 
 public class ${className}Enum {
 
@@ -29,14 +30,18 @@ public class ${className}Enum {
 			this.value = value;
 		}
 		
-		public ${column.enumClassName} getByKey(String key) {
+		public static ${column.enumClassName} getByKey(String key) {
 			return KeyValueUtils.getByKey(key, values());
 		}
 		
-		public ${column.enumClassName} getRequiredByKey(String key) {
+		public static ${column.enumClassName} getByValue(String value) {
+			return KeyValueUtils.getByValue(value, values());
+		}
+		
+		public static ${column.enumClassName} getRequiredByKey(String key) {
 			return KeyValueUtils.getRequiredByKey(key, values());
 		}
-	
+		
 		public String getKey() {
 			return key;
 		}
