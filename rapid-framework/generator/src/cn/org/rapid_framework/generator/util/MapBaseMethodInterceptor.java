@@ -39,11 +39,11 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 			return invokeTarget(obj, args, proxy);
 		}
 		
-		Object value = data.get(propetyName);
-		if(isEmptyString(value)) {
+		Object result = data.get(propetyName);
+		if(isEmptyString(result)) {
 			return invokeTarget(obj, args, proxy);
 		}else {
-			return value;
+			return result;
 		}
 	}
 
