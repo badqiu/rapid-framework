@@ -54,7 +54,7 @@ public class KeyValueUtils {
     * @param values
     * @return
     */
-   public static KeyValue getRequiredByKey(String key,KeyValue[] values) {
+   public static <T extends KeyValue> T getRequiredByKey(String key,T[] values) {
        KeyValue v = getByKey(key,values);
        if(v == null) {
            if(values.length > 0) {
@@ -63,7 +63,7 @@ public class KeyValueUtils {
                throw new IllegalArgumentException("not found KeyValue object by key:"+key);
            }
        }
-       return v;
+       return (T)v;
    }
    
    public static LinkedHashMap<Object,String> extractKeyValue(String keyProperty,String valueProperty,Object... arrays) {
