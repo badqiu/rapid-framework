@@ -12,6 +12,7 @@ public class ${className}Enum {
 	<#if column.enumColumn>
 		<@genEnumClassBody column/>
 	</#if>
+	
 </#list>
 
 }
@@ -19,7 +20,7 @@ public class ${className}Enum {
 <#macro genEnumClassBody column>
 	public static enum ${column.enumClassName} implements KeyValue<String,String>{
 		<#list column.enumMap?keys as key>
-		${key}(${key},${column.enumMap[key]})<#if key_has_next>,</#if>
+		${key}("${key}","${column.enumMap[key]}")<#if key_has_next>,</#if>
 		</#list>
 		;
 		
