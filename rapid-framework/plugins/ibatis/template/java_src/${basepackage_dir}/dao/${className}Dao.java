@@ -24,7 +24,7 @@ public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn
 	}
 	
 	public Page findPage(PageRequest pageRequest) {
-		return pageQuery("${className}.pageSelect",pageRequest);
+		return pageQuery("${className}.findPage",pageRequest);
 	}
 	
 	<#list table.columns as column>
