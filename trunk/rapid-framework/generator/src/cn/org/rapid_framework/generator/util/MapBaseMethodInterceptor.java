@@ -34,12 +34,12 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 
 	private Object process(Object obj, Method method, Object[] args,MethodProxy proxy) throws Throwable {
 		
-		String propety = toProperty(method,args);
-		if(propety == null) {
+		String propetyName = getPropertyName(method,args);
+		if(propetyName == null) {
 			return invokeTarget(obj, args, proxy);
 		}
 		
-		Object value = data.get(propety);
+		Object value = data.get(propetyName);
 		if(isEmptyString(value)) {
 			return invokeTarget(obj, args, proxy);
 		}else {
@@ -56,7 +56,7 @@ public class MapBaseMethodInterceptor implements MethodInterceptor {
 		return value instanceof String && ((String)value).length() == 0;
 	}
 	
-	private String toProperty(Method method,Object[] args) {
+	private String getPropertyName(Method method,Object[] args) {
 		if(args != null && args.length > 0) return null;
 		
 		String name = method.getName();
