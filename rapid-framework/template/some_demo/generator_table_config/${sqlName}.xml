@@ -5,21 +5,21 @@
 <!-- 
 <数据库表名 className="类名称" tableAlias="表的别名">
 	<数据库列名 columnAlias="列的别名" 
-	unique="是否唯一性约束" nullable="是否可以为空"
-	javaType="自定义javaType" pk="是否主键,在表没有主键的情况下,可以指定一个代理主键" 
+	javaType="自定义javaType"
+	unique="是否唯一性约束" nullable="是否可以为空" pk="是否主键,在表没有主键的情况下,可以指定一个代理主键" 
+	updatable="是否可以更新" insertable="是否插入"	
 	enumMapString="枚举值,格式为键值对,并以逗号分隔,如:k1="str",k2=30,k3=40" 
 	enumClassName="如果枚举有值,生成的类名称将是这个,没有枚举值，该配置无用"
-	updatable="是否可以更新" insertable="是否插入"	
 	/>
 </数据库表名>
  -->
 <${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
 <#list table.notPkColumns as c>
 	<${c.sqlName!} columnAlias="${c.columnAlias!}"
-		unique="${c.unique?string}" nullable="${c.nullable?string}"
-		javaType="${c.simpleJavaType!}" pk="${c.pk?string}" 
-		enumValues="" enumClassName="${c.columnName!}"
+		javaType="${c.simpleJavaType!}" 
+		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
 		updatable="${c.updatable?string}" insertable="${c.insertable?string}"
+		enumMapString="" enumClassName="${c.columnName!}"
 	/>
 </#list>
 </${table.sqlName}>
