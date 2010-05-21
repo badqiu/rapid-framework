@@ -17,36 +17,6 @@
 		</property>
 	</bean>
 		
-	<!-- 数据源定义,使用Apache DBCP 连接池 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driver}"/>
-		<property name="url" value="${jdbc.url}"/>
-		<property name="username" value="${jdbc.username}"/>
-		<property name="password" value="${jdbc.password}"/>
-	</bean>
-	
-	<!-- 
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
-    </bean>
- 	-->
- 	
- 	<!-- 用于测试或demo的hsql的内存dataSource,可以在创建数据库时运行指定的初始化sql语句,如建表,插入测试数据,sql语句之间使用分号";"分隔 -->
- 	<!-- 
- 	<bean id="dataSource" class="cn.org.rapid_framework.test.hsql.HSQLMemDataSourceFactoryBean">
-		<property name="encoding" value="UTF-8"/>
-		<property name="scriptLocations">
-			<value>classpath*:hsql_test_scripts.sql</value>
-		</property>
-		<property name="sqlScript">
-			<value>
-				create table blog(id int);
-				insert into blog values (1);
-			</value>
-		</property>		
-	</bean>
- 	 -->
-    
 	<!-- 以 @Transactional 标注来定义事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 

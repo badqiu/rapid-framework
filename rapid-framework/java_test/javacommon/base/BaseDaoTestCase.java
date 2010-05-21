@@ -22,6 +22,7 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
  * 所以你要装载的资源文件应改为"classpath:/spring/*-test-resource.xml"
  */
 @ContextConfiguration(locations={"classpath:/spring/*-resource.xml",
+                                 "classpath:/spring/*-datasource.xml",
                                  "classpath:/spring/*-dao.xml"})
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
