@@ -31,6 +31,7 @@ public class ${className}Manager extends BaseManager<${className},${table.idColu
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
 		return ${classNameLower}Dao.getBy${column.columnName}(v);
 	}	
+	
 	</#if>
 </#list>
 }
