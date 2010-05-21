@@ -19,7 +19,7 @@
 		javaType="${c.simpleJavaType!}" 
 		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
 		updatable="${c.updatable?string}" insertable="${c.insertable?string}"
-		enumMapString="" enumClassName="${c.columnName!}"
+		enumMapString="${c.enumMapString!}" enumClassName="${c.enumClassName!}"
 	/>
 </#list>
 </${table.sqlName}>
