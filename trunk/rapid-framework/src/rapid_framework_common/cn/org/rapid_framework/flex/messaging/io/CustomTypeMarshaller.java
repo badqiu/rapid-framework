@@ -5,7 +5,7 @@ import flex.messaging.io.Java15TypeMarshaller;
 import flex.messaging.io.amf.translator.decoder.DecoderFactory;
 
 /**
- * 用于修正flex的number数据类型转换错误： NaN => 0 变为 NaN => null
+ * 用于修正flex的number数据类型转换错误： NaN(AS) => 0(Java) 变为 NaN(AS) => null(Java)
  * 
  * <br />
  * 配置:
@@ -28,7 +28,7 @@ public class CustomTypeMarshaller extends Java15TypeMarshaller {
 	private static final NumberDecoder numberDecoder = new NumberDecoder();
 	
 	public CustomTypeMarshaller() {
-		System.out.println(CustomTypeMarshaller.class.getSimpleName()+" fixed number convert error: 'NaN => 0' to 'NaN => null'");
+		System.out.println(CustomTypeMarshaller.class.getSimpleName()+" fixed number convert error: 'NaN(AS) => 0(Java)' to 'NaN(AS) => null(Java)'");
 	}
 	
 	public Object convert(Object source, Class desiredClass) {
