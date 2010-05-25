@@ -1,8 +1,8 @@
 /**
  * author: badqiu
  */
-var SimpleTable = function(form,pageNumber,pageSize,sortColumns,pageNumberKey,pageSizeKey,sortColumnsKey) {
-	this.form = form;
+var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,pageSizeKey,sortColumnsKey) {
+	this.form = formId;
 	this.pageNumber = pageNumber;
 	this.pageSize = pageSize;
 	this.sortColumns = sortColumns;
