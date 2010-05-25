@@ -7,13 +7,13 @@ javax.validation.constraints.Digits.message=数值超出范围(必须为整数�
 javax.validation.constraints.Future.message=必须大于当前时间
 javax.validation.constraints.Max.message=必须小于或等于 {value}
 javax.validation.constraints.Min.message=必须大于或等于 {value}
-javax.validation.constraints.NotNull.message=不能为空
+javax.validation.constraints.NotNull.message=请输入值
 javax.validation.constraints.Null.message=必须为空
 javax.validation.constraints.Past.message=必须小于当前时间
 javax.validation.constraints.Pattern.message=不匹配合法值
 javax.validation.constraints.Size.message=大小必须在 {min} 至 {max} 之间
 org.hibernate.validator.constraints.Email.message=不是合法的邮件地址
 org.hibernate.validator.constraints.Length.message=长度必须在 {min} 至 {max} 之间
-org.hibernate.validator.constraints.NotEmpty.message=不能为空
+org.hibernate.validator.constraints.NotEmpty.message=请输入值
 org.hibernate.validator.constraints.Range.message=必须在 {min} 至 {max} 之间
 
