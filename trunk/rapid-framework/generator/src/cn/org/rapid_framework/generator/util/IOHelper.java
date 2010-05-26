@@ -1,9 +1,11 @@
 package cn.org.rapid_framework.generator.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -23,6 +25,13 @@ public class IOHelper {
 	
 	public static String readFile(File file) throws IOException {
 		Reader in = new FileReader(file);
+		StringWriter out = new StringWriter();
+		copy(in,out);
+		return out.toString();
+	}
+	
+	public static String readFile(File file,String encoding) throws IOException {
+		Reader in = new InputStreamReader(new FileInputStream(file),encoding);
 		StringWriter out = new StringWriter();
 		copy(in,out);
 		return out.toString();
