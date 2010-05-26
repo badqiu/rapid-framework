@@ -34,6 +34,7 @@ public class Generator {
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
+	private String removeExtensions = ".gen";
 	
 	String encoding = "UTF-8";
 	public Generator() {
@@ -124,6 +125,9 @@ public class Generator {
 					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateRelativePath);
 					continue;
 				}
+			}
+			if(outputFilePath.endsWith(removeExtensions)) {
+				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
 			}
 			
 			String targetFilename = null;
@@ -231,6 +235,10 @@ public class Generator {
 	private String getOutRootDir() {
 		if(outRootDir == null) throw new IllegalStateException("'outRootDir' property must be not null.");
 		return outRootDir;
+	}
+
+	public void setRemoveExtensions(String removeExtensions) {
+		this.removeExtensions = removeExtensions;
 	}
 	
 }
