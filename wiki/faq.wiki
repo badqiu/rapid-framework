@@ -51,3 +51,7 @@
 
 == oracle数据库为何生成 `BigDecimal` 的字段，而我实际需要Integer/Long? ==
 请为你的number类型指定长度，oracle number如果没有指定长度，默认是一个精度为38位的十进制浮点数. 如可以指定为number(8).
+
+== Exception in thread "main" java.lang.RuntimeException: create table object error,tableName:BIN$/0cekC/HTwaKQCpYhs6EoQ==$0 ==
+Caused by: java.sql.SQLException: ORA-01424: 转义符之后字符缺失或非法
+oracle回收站问题，可以使用命令: purge recyclebin;清空回收站
