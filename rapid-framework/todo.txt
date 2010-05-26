@@ -7,18 +7,27 @@ rapid-framework路线图
 	project-dao
 	project-service
 	project-web
-使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
-支持文件名称扩展名为.gen,并自动移除该扩展名,再生成文件
-generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
-增加DTO converter的测试框架
-	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
-增加特殊后缀来实现如 .no_generate
-	#生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
+
+修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)	
+# ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
+#增加manual-${className}SqlMap.xml
+__#日期类型的dao sql生成 dateBegin,dateEnd输入
+#ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
+#UserManager.findByPageRequest() rename to UserManager.findPage
+#考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
+#使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
+#支持文件名称扩展名为.gen,并自动移除该扩展名,再生成文件
+#生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
 		内容: javaType配置
 			  alias 配置
 			  validation配置
 			  order配置
 			  Enum配置
+generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
+增加DTO converter的测试框架
+	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
+增加特殊后缀来实现如 .no_generate
+
 Bean.copyProps()测试主流程思想
 	1.生成target代理
 	2.Bean.copyProps(source,target)
@@ -39,12 +48,7 @@ Page,PageRequest重构,PageRequest用于继承以替代filter
 Dao.save() rename to Dao.insert()
 支持一条sql语句生成操作，可以使用ZQL来解析sql
 DAO层中orderby语句需要验证
-# ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
-#增加manual-${className}SqlMap.xml
-__#日期类型的dao sql生成 dateBegin,dateEnd输入
-#ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
-#UserManager.findByPageRequest() rename to UserManager.findPage
-#考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
+
 考虑增加<rapid:override/> tag以统一语义
 为自动化配置及单元测试的配置文件区分提供更多支持
 增加生成一个${Project}Exception用于区别不同的系统异常
@@ -155,7 +159,7 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
      
      4.支持从sql query中生成数据, sql query可以作为一个文件储存起来 template/query
 
-修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
+
 
 #flex权限控制
 #	参考: http://code.google.com/p/flexible-chimp/
@@ -184,7 +188,7 @@ add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView
 	#6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
 
 #整合MailEngine
-整合GroupProperties file,用于读取分组的配置文件
+#整合GroupProperties file,用于读取分组的配置文件
 
 #fixed number NaN => 0 : NaN => Null
 	https://bugs.adobe.com/jira/browse/BLZ-305
@@ -237,7 +241,7 @@ rapid-validation
 
 	编写配置系统的ant脚本
 
-	查询页跟列表也整合到一起
+	#查询页跟列表也整合到一起
 
 	Generator.generateAllTable()方法在Oracle不可用
 
