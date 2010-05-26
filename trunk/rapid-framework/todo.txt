@@ -27,6 +27,7 @@ generator_insert_location增加判断生成的数据已经存在该文件,将不
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 增加特殊后缀来实现如 .no_generate
+继续完成jdbc_all_crud_sql的基类
 
 Bean.copyProps()测试主流程思想
 	1.生成target代理
