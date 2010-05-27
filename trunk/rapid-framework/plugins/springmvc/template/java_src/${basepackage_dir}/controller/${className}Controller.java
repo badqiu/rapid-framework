@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
@@ -33,12 +35,13 @@ public class ${className}Controller extends BaseSpringController{
 	public void set${className}Manager(${className}Manager manager) {
 		this.${classNameLower}Manager = manager;
 	}
-	
-	/** 
-	 * 进入查询页面
-	 **/
-	public ModelAndView query(HttpServletRequest request,HttpServletResponse response) {
-		return new ModelAndView("${jspFileBasePath}/query");
+
+	/**
+	 * 增加了@ModelAttribute的方法可以在本controller的方法调用前执行,可以存放一些共享变量,如枚举值
+	 */
+	@ModelAttribute
+	public void init(ModelMap model) {
+		model.put("now", new java.sql.Timestamp(System.currentTimeMillis()));
 	}
 	
 	/** 
