@@ -2,8 +2,6 @@ package cn.org.rapid_framework.generator.provider.db;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -20,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.ResourceUtils;
-import org.xml.sax.SAXException;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
@@ -94,13 +92,14 @@ public class DbTableFactory {
 	}
 
 	private Map getTableConfigMap(String tableSqlName){
-		NodeData nd = getTableConfigXml(tableSqlName+".xml");
+		NodeData nd = getTableConfigXml(tableSqlName);
 		return nd == null ? new HashMap() : nd.getElementMap("sqlName");
 	}
 
 	private NodeData getTableConfigXml(String tableSqlName){
 		try {
-			File file = ResourceUtils.getFile("classpath:"+tableSqlName);
+			File file = ResourceUtils.getFile("classpath:"+tableSqlName+".xml");
+			GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
 			return new XMLHelper().parseXML(file);
 		}catch(Exception e) {//ignore
 			GLogger.info("getTableConfigMap exception:"+e);
@@ -143,7 +142,8 @@ public class DbTableFactory {
 			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			return (Table)MapBaseMethodInterceptor.createProxy(Table.class, table, getTableConfigMap(table.getSqlName()));
+			BeanUtils.copyProperties(table, getTableConfigMap(table.getSqlName()));
+			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
 		}
@@ -338,27 +338,23 @@ public class DbTableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         Column proxy = createColumnProxyIfHasConfig(table, column);
-	         if(proxy == null) {
-	        	 columns.add(column);
-	         }else {
-	        	 columns.add(column);
-	         }
+	         BeanUtils.copyProperties(column,getColumnOverrideValue(table,column));
+	         columns.add(column);
 	    }
 	    columnRs.close();
 		return columns;
 	}
 
-	private Column createColumnProxyIfHasConfig(Table table, Column column) {
+	private Map getColumnOverrideValue(Table table, Column column) {
 		NodeData root = getTableConfigXml(table.getSqlName());
 		 if(root != null){
 			 for(NodeData item : root.childs) {
 				 if(item.nodeName.equals(column.getSqlName())) {
-					 return (Column)MapBaseMethodInterceptor.createProxy(Column.class, column, item.getElementMap("sqlName"));
+					 return item.getElementMap("sqlName");
 				 }
 		     }
 		 }
-		 return null;
+		 return new HashMap();
 	}
 
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {
