@@ -90,7 +90,7 @@ public class DbTableFactory {
 		return t;
 	}
 
-	private Map getTableConfigMap(String tableSqlName){
+	private Map getTableOverrideValues(String tableSqlName){
 		NodeData nd = getTableConfigXml(tableSqlName);
 		return nd == null ? new HashMap() : nd.getElementMap("sqlName");
 	}
@@ -141,7 +141,7 @@ public class DbTableFactory {
 			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			BeanUtils.copyProperties(table, getTableConfigMap(table.getSqlName()));
+			BeanUtils.copyProperties(table, getTableOverrideValues(table.getSqlName()));
 			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
@@ -337,14 +337,14 @@ public class DbTableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         BeanUtils.copyProperties(column,getColumnOverrideValue(table,column));
+	         BeanUtils.copyProperties(column,getColumnOverrideValues(table,column));
 	         columns.add(column);
 	    }
 	    columnRs.close();
 		return columns;
 	}
 
-	private Map getColumnOverrideValue(Table table, Column column) {
+	private Map getColumnOverrideValues(Table table, Column column) {
 		NodeData root = getTableConfigXml(table.getSqlName());
 		 if(root != null){
 			 for(NodeData item : root.childs) {
