@@ -135,12 +135,12 @@ public class Generator {
 				targetFilename = getTargetFilename(filePathModel, outputFilePath);
 				generateNewFileOrInsertIntoFile(templateModel,targetFilename, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
+                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
 			    if (ignoreTemplateGenerateException) {
 			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath+" cause:"+e);
-                    exceptions.add(e);
+                    exceptions.add(throwException);
                 } else {
-                    throw new RuntimeException(
-                        "generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
+					throw throwException;
                 }
 			}
 		}
