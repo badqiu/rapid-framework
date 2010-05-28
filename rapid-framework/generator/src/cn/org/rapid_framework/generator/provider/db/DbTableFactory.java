@@ -90,22 +90,6 @@ public class DbTableFactory {
 		return t;
 	}
 
-	private Map getTableOverrideValues(String tableSqlName){
-		NodeData nd = getTableConfigXml(tableSqlName);
-		return nd == null ? new HashMap() : nd.getElementMap("sqlName");
-	}
-
-	private NodeData getTableConfigXml(String tableSqlName){
-		try {
-			File file = ResourceUtils.getFile("classpath:"+tableSqlName+".xml");
-			GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
-			return new XMLHelper().parseXML(file);
-		}catch(Exception e) {//ignore
-			GLogger.info("getTableConfigMap exception:"+e);
-			return null;
-		}
-	}
-
 	private Table _getTable(String sqlTableName) throws SQLException {
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
@@ -141,7 +125,7 @@ public class DbTableFactory {
 			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			BeanUtils.copyProperties(table, getTableOverrideValues(table.getSqlName()));
+			BeanUtils.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
 			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
@@ -337,25 +321,13 @@ public class DbTableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         BeanUtils.copyProperties(column,getColumnOverrideValues(table,column));
+	         BeanUtils.copyProperties(column,TableOverrideValuesProvider.getColumnOverrideValues(table,column));
 	         columns.add(column);
 	    }
 	    columnRs.close();
 		return columns;
 	}
-
-	private Map getColumnOverrideValues(Table table, Column column) {
-		NodeData root = getTableConfigXml(table.getSqlName());
-		 if(root != null){
-			 for(NodeData item : root.childs) {
-				 if(item.nodeName.equals(column.getSqlName())) {
-					 return item.getElementMap("sqlName");
-				 }
-		     }
-		 }
-		 return new HashMap();
-	}
-
+	
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {
 		ResultSet columnRs = null;
 	    if (table.getOwnerSynonymName() != null) {
@@ -394,7 +366,37 @@ public class DbTableFactory {
 		String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
 		return dbHelper.queryForString(sql);
 	}
-
+	
+	/** 得到表的自定义配置信息 */
+	public static class TableOverrideValuesProvider {
+		
+		private static Map getTableOverrideValues(String tableSqlName){
+			NodeData nd = getTableConfigXmlNodeData(tableSqlName);
+			return nd == null ? new HashMap() : nd.getElementMap("sqlName");
+		}
+	
+		private static Map getColumnOverrideValues(Table table, Column column) {
+			NodeData root = getTableConfigXmlNodeData(table.getSqlName());
+			 if(root != null){
+				 for(NodeData item : root.childs) {
+					 if(item.nodeName.equals(column.getSqlName())) {
+						 return item.getElementMap("sqlName");
+					 }
+			     }
+			 }
+			 return new HashMap();
+		}
+		private static NodeData getTableConfigXmlNodeData(String tableSqlName){
+			try {
+				File file = ResourceUtils.getFile("classpath:"+tableSqlName+".xml");
+				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
+				return new XMLHelper().parseXML(file);
+			}catch(Exception e) {//ignore
+				GLogger.info("not found table config xml, exception:"+e);
+				return null;
+			}
+		}
+	}
 	
 	class DbHelper {
 		public void close(ResultSet rs,PreparedStatement ps,Statement... statements) {
