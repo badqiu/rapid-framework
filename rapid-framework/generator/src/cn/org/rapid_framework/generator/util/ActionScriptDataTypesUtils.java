@@ -32,20 +32,33 @@ public class ActionScriptDataTypesUtils {
 
 	static {
 
+		preferredAsTypeForJavaType.put("Short", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Short", "Number");
 		preferredAsTypeForJavaType.put("short", "Number");
+		
+		preferredAsTypeForJavaType.put("Integer", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Integer", "Number");
 		preferredAsTypeForJavaType.put("int", "Number");
+		
+		preferredAsTypeForJavaType.put("Long", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Long", "Number");
 		preferredAsTypeForJavaType.put("long", "Number");
+		
+		preferredAsTypeForJavaType.put("Float", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Float", "Number");
 		preferredAsTypeForJavaType.put("float", "Number");
+		
+		preferredAsTypeForJavaType.put("Double", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Double", "Number");
-		preferredAsTypeForJavaType.put("float", "Number");
-		preferredAsTypeForJavaType.put("java.math.BigDecimal", "Number");
+		preferredAsTypeForJavaType.put("double", "Number");
+		
+		preferredAsTypeForJavaType.put("Byte", "Number");
 		preferredAsTypeForJavaType.put("java.lang.Byte", "Number");
 		preferredAsTypeForJavaType.put("byte", "Number");
+		
+		preferredAsTypeForJavaType.put("java.math.BigDecimal", "Number");
 
+		preferredAsTypeForJavaType.put("Boolean", "Boolean");
 		preferredAsTypeForJavaType.put("java.lang.Boolean", "Boolean");
 		preferredAsTypeForJavaType.put("boolen", "Boolean");
 
