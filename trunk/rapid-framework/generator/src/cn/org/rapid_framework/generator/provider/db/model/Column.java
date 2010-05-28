@@ -488,6 +488,46 @@ public class Column {
 		return getEnumMap() != null && !getEnumMap().isEmpty();
 	}
 	
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
+	}
+
+	public void setColumnAlias(String columnAlias) {
+		this.columnAlias = columnAlias;
+	}
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+
+	public void setAsType(String asType) {
+		this.asType = asType;
+	}
+
+	public void setEnumClassName(String enumClassName) {
+		this.enumClassName = enumClassName;
+	}
+
+	public void setUpdatable(boolean updatable) {
+		this.updatable = updatable;
+	}
+
+	public void setInsertable(boolean insertable) {
+		this.insertable = insertable;
+	}
+	
+	public void setNullable(boolean v) {
+		this._isNullable = v;
+	}
+	
+	public void setUnique(boolean unique) {
+		_isUnique = unique;
+	}
+
+	public void setPk(boolean v) {
+		this._isPk = v;
+	}
+
 	private void initOtherProperties() {
 		String normalJdbcJavaType = DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
 		javaType = GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
