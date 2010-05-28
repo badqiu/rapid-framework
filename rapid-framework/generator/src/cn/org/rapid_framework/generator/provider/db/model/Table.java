@@ -19,7 +19,7 @@ public class Table {
 
 	String sqlName;
 	String remarks;
-	String customClassName;
+	String className;
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
 	Set<Column> columns = new LinkedHashSet();
@@ -37,37 +37,51 @@ public class Table {
 	public void setOwnerSynonymName(String ownerSynonymName) {
 		this.ownerSynonymName = ownerSynonymName;
 	}
+	
+	/** 使用 getPkColumns() 替换*/
+	@Deprecated
 	public List<Column> getPrimaryKeyColumns() {
 		return primaryKeyColumns;
 	}
+	/** 使用 getPkColumns() 替换*/
+	@Deprecated
 	public void setPrimaryKeyColumns(List<Column> primaryKeyColumns) {
 		this.primaryKeyColumns = primaryKeyColumns;
 	}
+	
 	public String getSqlName() {
 		return sqlName;
 	}
 	public void setSqlName(String sqlName) {
 		this.sqlName = sqlName;
+		className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 	}
 	public String getRemarks() {
 		return remarks;
 	}
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+		tableAlias = StringHelper.emptyIf(getRemarks(), getClassName());
 	}
 	public void addColumn(Column column) {
 		columns.add(column);
 	}
 	
 	public void setClassName(String customClassName) {
-		this.customClassName = customClassName;
+		this.className = customClassName;
+		tableAlias = StringHelper.emptyIf(getRemarks(), getClassName());
 	}
+	
 	public String getClassName() {
-		String defaultValue = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
-		return StringHelper.emptyIf(customClassName, defaultValue);
+		return className;
 	}
+	
+	String tableAlias;
 	public String getTableAlias() {
-		return  StringHelper.emptyIf(getRemarks(), getClassName());
+		return  tableAlias;
+	}
+	public void setTableAlias(String v) {
+		this.tableAlias = v;
 	}
 	
 	/**
@@ -78,11 +92,11 @@ public class Table {
 		return getClassName().toLowerCase();
 	}
 	/**
-	 * 等价于getSqlName().toLowerCase()
+	 * 等价于getClassName().toLowerCase()
 	 * @return
 	 */
 	public String getUnderscoreName() {
-		return getSqlName().toLowerCase();
+		return StringHelper.toUnderscoreName(getClassName()).toLowerCase();
 	}
 	/**
 	 * 返回值为getClassName()的第一个字母小写
@@ -100,14 +114,20 @@ public class Table {
 		return StringHelper.toUnderscoreName(getClassName()).toUpperCase();
 	}
 	
+	/** 使用 getPkCount() 替换*/
+	@Deprecated
 	public boolean isSingleId() {
 		return getPkCount() == 1 ? true : false;
 	}
 	
+	/** 使用 getPkCount() 替换*/
+	@Deprecated
 	public boolean isCompositeId() {
 		return getPkCount() > 1 ? true : false;
 	}
 
+	/** 使用 getPkCount() 替换*/
+	@Deprecated
 	public boolean isNotCompositeId() {
 		return !isCompositeId();
 	}
@@ -158,7 +178,17 @@ public class Table {
 		}
 		return results;
 	}
+
+	public Column getPkColumn() {
+		for(Column c : getColumns()) {
+			if(c.isPk())
+				return c;
+		}
+		return null;
+	}
 	
+	/**使用 getPkColumn()替换 */
+	@Deprecated
 	public Column getIdColumn() {
 		for(Column c : getColumns()) {
 			if(c.isPk())
