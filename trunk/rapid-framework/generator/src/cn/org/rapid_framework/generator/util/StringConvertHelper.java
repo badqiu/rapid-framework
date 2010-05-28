@@ -15,10 +15,12 @@ public class StringConvertHelper {
 		String[] data_arr = data.split(",");
 		for (int i = 0; i < data_arr.length; i++) {
 			int equ_pos = data_arr[i].indexOf('=');
+			if(equ_pos == -1) continue;
 			String key = data_arr[i].substring(0, equ_pos);
 			String value = data_arr[i].substring(equ_pos + 1);
 			commands.put(key, value);
 		}
 		return commands;
 	}
+	
 }
