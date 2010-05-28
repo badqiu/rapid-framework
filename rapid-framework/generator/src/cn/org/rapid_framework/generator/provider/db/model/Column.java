@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.model;
 
 
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
@@ -156,7 +157,8 @@ public class Column {
 		_remarks = remarks;
 		
 		GLogger.debug(sqlName + " isPk -> " + _isPk);
-
+		
+		initOtherProperties();
 	}
 
 	public Column() {
@@ -216,9 +218,6 @@ public class Column {
 		return _sqlName;
 	}
 
-	public String getUnderscoreName() {
-		return getSqlName().toLowerCase();
-	}
 	
 	/**
 	 * Gets the Pk attribute of the Column object
@@ -342,8 +341,12 @@ public class Column {
 		_isFk = flag;
 	}
 	
+	public String getUnderscoreName() {
+		return getSqlName().toLowerCase();
+	}
+	
 	public String getColumnName() {
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
+		return columnName;
 	}
 	
 	public String getColumnNameFirstLower() {
@@ -367,11 +370,11 @@ public class Column {
 	}
 	
 	public String getColumnAlias() {
-		return StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
+		return columnAlias;
 	}
 	
 	public String getConstantName() {
-		return StringHelper.toUnderscoreName(getSqlName()).toUpperCase();
+		return constantName;
 	}
 	
 	public boolean getIsNotIdOrVersionField() {
@@ -404,9 +407,6 @@ public class Column {
 				result += "max-value-"+Byte.MAX_VALUE;
 			}
 		}
-//		if(DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits())) {
-//			result += "validate-date ";
-//		}
 		return result;
 	}
 	
@@ -421,6 +421,7 @@ public class Column {
 	public boolean getIsNumberColumn() {
 		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) || DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
 	}
+	
 	/** 检查是否包含某些关键字,关键字以逗号分隔 */
 	public boolean contains(String keywords) {
 		if(keywords == null) throw new IllegalArgumentException("'keywords' must be not null");
@@ -436,8 +437,7 @@ public class Column {
 	 * @return
 	 */
 	public String getJavaType() {
-		String normalJdbcJavaType = DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
-		return GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
+		return javaType;
 	}
 	
 	/**
@@ -456,7 +456,7 @@ public class Column {
 	}
 	
 	public String getAsType() {
-		return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
+		return asType;
 	}
 	
 	public String getTestData() {
@@ -464,27 +464,47 @@ public class Column {
 	}
 	
 	public boolean isUpdatable() {
-		return true;
+		return updatable;
 	}
 
 	public boolean isInsertable() {
-		return true;
+		return insertable;
 	}
 	
 	public String getEnumClassName() {
-		return getColumnName()+"Enum";
+		return enumClassName;
 	}
 	
+	public void setEnumMapString(String str) {
+		this.enumMapString = str == null ? "" : str;
+	}
 	public String getEnumMapString() {
-		return null;
+		return enumMapString;
 	}
-	
 	public Map getEnumMap() {
 		return StringConvertHelper.string2Map(getEnumMapString());
 	}
-	
 	public boolean isEnumColumn() {
-		return !getEnumMap().isEmpty();
+		return getEnumMap() != null && !getEnumMap().isEmpty();
 	}
 	
+	private void initOtherProperties() {
+		String normalJdbcJavaType = DatabaseDataTypesUtils.getPreferredJavaType(getSqlType(), getSize(), getDecimalDigits());
+		javaType = GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
+		columnName = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
+		enumClassName = getColumnName()+"Enum";		
+		constantName = StringHelper.toUnderscoreName(getColumnName()).toUpperCase();
+		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
+		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
+	}
+	
+	private String enumMapString = "";
+	private String javaType;
+	private String columnAlias;
+	private String columnName;
+	private String constantName;
+	private String asType;	
+	private String enumClassName;
+	private boolean updatable = true;	
+	private boolean insertable = true;	
 }
