@@ -21,11 +21,11 @@ public class StringHelper {
 		return false;
 	}
 	
-	public static String emptyIf(String value,String defaultValue) {
+	public static String emptyIf(Object value,String defaultValue) {
 		if(value == null || "".equals(value)) {
 			return defaultValue;
 		}
-		return value;
+		return value.toString();
 	}
 	
 	public static String makeAllWordFirstLetterUpperCase(String sqlName) {
