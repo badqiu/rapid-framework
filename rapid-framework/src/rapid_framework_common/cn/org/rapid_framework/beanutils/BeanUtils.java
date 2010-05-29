@@ -25,9 +25,8 @@ public class BeanUtils {
 	}
 
 	public static <T> T copyProperties(Class<T> destClass,Object orig) {
-		Object target = null;
 		try {
-			target = destClass.newInstance();
+			Object target = destClass.newInstance();
 			copyProperties((Object)target, orig);
 			return (T)target;
 		}catch(Exception e) {
