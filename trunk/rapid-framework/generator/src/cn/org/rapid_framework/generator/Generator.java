@@ -122,7 +122,7 @@ public class Generator {
 			try {
 				outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
 				if(outputFilepath != null ) {
-					generateNewFileOrInsertIntoFile(templateModel,outputFilepath, templateFile);
+					generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
 				}
 			}catch(Exception e) {
                 RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
@@ -165,7 +165,7 @@ public class Generator {
 		return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
 	}
 
-	private void generateNewFileOrInsertIntoFile( Map templateModel,String outputFilepath, String templateFile) throws Exception {
+	private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
 		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
