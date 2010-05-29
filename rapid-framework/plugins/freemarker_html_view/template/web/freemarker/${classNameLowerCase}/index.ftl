@@ -15,7 +15,7 @@
 	<script type="text/javascript" >
 		$(document).ready(function() {
 			// 分页需要依赖的初始化动作
-			window.simpleTable = new SimpleTable('simpleTableForm','${page.thisPageNumber!}','${page.pageSize!}','${pageRequest.sortColumns!}');
+			window.simpleTable = new SimpleTable('queryForm','${page.thisPageNumber!}','${page.pageSize!}','${pageRequest.sortColumns!}');
 		});
 	</script>
 	</#noparse>
@@ -24,7 +24,7 @@
 <#noparse><@override name="content"></#noparse>
 
 <div class="queryPanel">
-<form method="get" style="display: inline;">
+<form id="queryForm" method="get" style="display: inline;">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -56,19 +56,6 @@
 </form>
 </div>
 
-<form id="simpleTableForm" action="<@jspEl 'ctx'/>/${classNameLowerCase}" method="get" style="display: inline;">
-
-	<#noparse>
-	<!-- auto include parameters -->
-	<#list pageRequest.filters?keys as key>
-		<input type="hidden" name="s_${key}" value="${pageRequest.filters[key]}"/>
-	</#list>
-	</#noparse>
-	
-	<input type="hidden" name="pageNumber" id="pageNumber" />
-	<input type="hidden" name="pageSize" id="pageSize"/>
-	<input type="hidden" name="sortColumns" id="sortColumns"/>
-	
 	<div class="gridTable">
 	
 		<#noparse><@pageToolBar page=page></#noparse>
