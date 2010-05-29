@@ -14,6 +14,17 @@ import freemarker.ext.dom.NodeModel;
 /**
  * 生成器模板控制器,用于模板中可以控制生成器执行相关控制操作
  * 如: 是否覆盖目标文件
+ * 
+ * <pre>
+ * 使用方式:
+ * 可以在freemarker或是veloctiy中直接控制模板的生成
+ * 
+ * ${gg.generateFile('d:/g_temp.log','info_from_generator')}
+ * ${gg.setIgnoreOutput(true)}
+ * </pre>
+ * 
+ * ${gg.setIgnoreOutput(true)}将设置为true如果不生成
+ * 
  * @author badqiu
  *
  */
