@@ -73,6 +73,15 @@ public class Generator {
 		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
 		this.outRootDir = v;
 	}
+	
+	private String getOutRootDir() {
+		if(outRootDir == null) throw new IllegalStateException("'outRootDir' property must be not null.");
+		return outRootDir;
+	}
+
+	public void setRemoveExtensions(String removeExtensions) {
+		this.removeExtensions = removeExtensions;
+	}
 
     /**
      * 生成器的生成入口
@@ -82,7 +91,6 @@ public class Generator {
      */
 	public List generateBy(Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
-		
 		List allExceptions = new ArrayList();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
@@ -103,13 +111,11 @@ public class Generator {
 		for(int i = 0; i < templateFiles.size(); i++) {
 			File templateFile = (File)templateFiles.get(i);
 			String templateRelativePath = FileHelper.getRelativePath(templateRootDir, templateFile);
+			
+			templateModel.put("gg", new GeneratorControl());
+			
 			String outputFilePath = templateRelativePath;
-			if(templateFile.isDirectory() || templateFile.isHidden())
-				continue;
-			if(templateRelativePath.trim().equals(""))
-				continue;
-			if(templateFile.getName().toLowerCase().endsWith(".include")){
-				System.out.println("[skip]\t\t endsWith '.include' template:"+templateRelativePath);
+			if(isIgnoreTemplateProcess(templateFile, templateRelativePath)) {
 				continue;
 			}
 			int testExpressionIndex = -1;
@@ -132,7 +138,7 @@ public class Generator {
 			
 			String targetFilename = null;
 			try {
-				targetFilename = getTargetFilename(filePathModel, outputFilePath);
+				targetFilename = FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,newFreeMarkerConfiguration());
 				generateNewFileOrInsertIntoFile(templateModel,targetFilename, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
 			}catch(Exception e) {
                 RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
@@ -146,28 +152,28 @@ public class Generator {
 		}
 		return exceptions;
 	}
+	
+	public boolean isIgnoreTemplateProcess(File templateFile,String templateRelativePath) {
+		if(templateFile.isDirectory() || templateFile.isHidden())
+			return true;
+		if(templateRelativePath.trim().equals(""))
+			return true;
+		if(templateFile.getName().toLowerCase().endsWith(".include")){
+			System.out.println("[skip]\t\t endsWith '.include' template:"+templateRelativePath);
+			return true;
+		}
+		return false;
+	}
 
 	private Configuration newFreeMarkerConfiguration() throws IOException {
-		Configuration config = new Configuration();
-		
-		FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
-		for(int i = 0; i < templateRootDirs.size(); i++) {
-			templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
-		}
-		MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
-		
-		config.setTemplateLoader(multiTemplateLoader);
-		config.setNumberFormat("###############");
-		config.setBooleanFormat("true,false");
-		config.setDefaultEncoding(encoding);
-		return config;
+		return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
 	}
 
 	private void generateNewFileOrInsertIntoFile( Map templateModel,String targetFilename, Configuration config, String templateFile,String outputFilePath) throws Exception {
 		Template template = config.getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
-		File absoluteOutputFilePath = getAbsoluteOutputFilePath(targetFilename);
+		File absoluteOutputFilePath = FileHelper.mkdir(getOutRootDir(),targetFilename);
 		if(absoluteOutputFilePath.exists()) {
 			StringWriter newFileContentCollector = new StringWriter();
 			if(isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
@@ -178,25 +184,7 @@ public class Generator {
 		}
 		
 		System.out.println("[generate]\t template:"+templateFile+" to "+targetFilename);
-		saveNewOutputFileContent(template, templateModel, absoluteOutputFilePath);
-	}
-
-	private String getTargetFilename(Map filePathModel, String templateFilepath) throws Exception {
-		StringWriter out = new StringWriter();
-		Template template = new Template("filePath",new StringReader(templateFilepath),newFreeMarkerConfiguration());
-		try {
-			template.process(filePathModel, out);
-			return out.toString();
-		}catch(Exception e) {
-			throw new IllegalStateException("cannot generate filePath from templateFilepath:"+templateFilepath+" cause:"+e,e);
-		}
-	}
-
-	private File getAbsoluteOutputFilePath(String targetFilename) {
-		String outRoot = getOutRootDir();
-		File outputFile = new File(outRoot,targetFilename);
-		outputFile.getParentFile().mkdirs();
-		return outputFile;
+		FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
 	}
 
 	private boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
@@ -219,26 +207,44 @@ public class Generator {
 		reader.close();
 		return isFoundInsertLocation;
 	}
-
-	private void saveNewOutputFileContent(Template template, Map model, File outputFile) throws IOException, TemplateException {
-		Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),encoding));
-		template.process(model,out);
-		out.close();
-	}
-
+	
 	public void clean() throws IOException {
 		String outRoot = getOutRootDir();
 		System.out.println("[Delete Dir]	"+outRoot);
 		FileHelper.deleteDirectory(new File(outRoot));
 	}
 
-	private String getOutRootDir() {
-		if(outRootDir == null) throw new IllegalStateException("'outRootDir' property must be not null.");
-		return outRootDir;
-	}
-
-	public void setRemoveExtensions(String removeExtensions) {
-		this.removeExtensions = removeExtensions;
-	}
 	
+	static class FreemarkerUtils {
+		public static void processTemplate(Template template, Map model, File outputFile,String encoding) throws IOException, TemplateException {
+			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),encoding));
+			template.process(model,out);
+			out.close();
+		}
+		public static String processTemplateString(Map model, String templateString,Configuration conf) {
+			StringWriter out = new StringWriter();
+			try {
+				Template template = new Template("templateString...",new StringReader(templateString),conf);
+				template.process(model, out);
+				return out.toString();
+			}catch(Exception e) {
+				throw new IllegalStateException("cannot process templateString:"+templateString+" cause:"+e,e);
+			}
+		}
+		public static Configuration newFreeMarkerConfiguration(List<File> templateRootDirs,String defaultEncoding) throws IOException {
+			Configuration config = new Configuration();
+			
+			FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
+			for(int i = 0; i < templateRootDirs.size(); i++) {
+				templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
+			}
+			MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
+			
+			config.setTemplateLoader(multiTemplateLoader);
+			config.setNumberFormat("###############");
+			config.setBooleanFormat("true,false");
+			config.setDefaultEncoding(defaultEncoding);
+			return config;
+		}
+	}
 }
