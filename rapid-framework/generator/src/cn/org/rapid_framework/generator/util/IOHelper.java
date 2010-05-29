@@ -15,7 +15,8 @@ import java.io.Writer;
  * @email badqiu(a)gmail.com
  */
 public class IOHelper {
-
+	public static Writer NULL_WRITER = new NullWriter();
+	
 	public static void copy(Reader in,Writer out) throws IOException {
 		int c = -1;
 		while((c = in.read()) != -1) {
@@ -46,5 +47,13 @@ public class IOHelper {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
+	private static class NullWriter extends Writer {
+		public void close() throws IOException {
+		}
+		public void flush() throws IOException {
+		}
+		public void write(char[] cbuf, int off, int len) throws IOException {
+		}
+	}
 }

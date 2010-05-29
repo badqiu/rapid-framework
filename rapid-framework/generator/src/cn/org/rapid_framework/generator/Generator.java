@@ -112,11 +112,11 @@ public class Generator {
 			File srcFile = (File)templateFiles.get(i);
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			
-			templateModel.put("gg", new GeneratorControl());
-			
 			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
 				continue;
 			}
+			GeneratorControl generatorControl = processForGeneratorControl(templateModel, templateFile);
+			generatorControl.getOutputEncoding();
 			
 			String outputFilepath = null;
 			try {
@@ -135,6 +135,14 @@ public class Generator {
 			}
 		}
 		return exceptions;
+	}
+
+	private GeneratorControl processForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
+		GeneratorControl generatorControl = new GeneratorControl();
+		templateModel.put("gg", generatorControl);
+		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
+		template.process(templateModel, IOHelper.NULL_WRITER);
+		return generatorControl;
 	}
 	
 	/** 处理文件路径的变量变成输出路径 */
