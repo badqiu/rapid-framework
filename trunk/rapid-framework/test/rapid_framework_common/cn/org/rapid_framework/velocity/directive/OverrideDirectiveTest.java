@@ -103,7 +103,7 @@ public class OverrideDirectiveTest {
 			}
 		}
 		float cost = System.currentTimeMillis() - start;
-		System.out.println(cost+" "+ (count/(cost/1000))+" ");
+		System.out.println("testPerformance() cost:"+cost+" "+ (count/(cost/1000))+" ");
 	}
 
 	private String processTemplate(String name) throws ResourceNotFoundException, ParseErrorException, Exception {
