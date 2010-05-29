@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
+import cn.org.rapid_framework.web.scope.Flash;
 
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.ModelDriven;
@@ -63,11 +64,6 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	public void setItems(String[] items) {
 		this.items = items;
 	}
-
-	/** 进入查询页面 */
-	public String query() {
-		return QUERY_JSP;
-	}
 	
 	/** 执行搜索 */
 	public String list() {
@@ -92,6 +88,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	/** 保存新增对象 */
 	public String save() {
 		${classNameLower}Manager.save(${classNameLower});
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
 		return LIST_ACTION;
 	}
 	
@@ -103,6 +100,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	/**保存更新对象*/
 	public String update() {
 		${classNameLower}Manager.update(this.${classNameLower});
+		Flash.current().success(UPDATE_SUCCESS);
 		return LIST_ACTION;
 	}
 	
@@ -119,6 +117,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 			</#if>
 			${classNameLower}Manager.removeById(id);
 		}
+		Flash.current().success(DELETE_SUCCESS);
 		return LIST_ACTION;
 	}
 
