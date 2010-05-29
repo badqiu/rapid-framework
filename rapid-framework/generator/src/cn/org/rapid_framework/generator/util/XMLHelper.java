@@ -24,7 +24,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * 将xml
+ * 将xml解析成NodeData,NodeData主要是使用Map及List来装attribute
+ * 
+ * <pre>
+ *        String nodeName;
+ *        Map attributes = new HashMap();
+ *        List<NodeData> childs = new ArrayList();
+ * </pre>
  * @author badqiu
  */
 public class XMLHelper {
