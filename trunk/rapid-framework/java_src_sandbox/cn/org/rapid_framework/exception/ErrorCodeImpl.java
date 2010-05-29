@@ -20,7 +20,7 @@ public class ErrorCodeImpl implements ErrorCode{
 		return errorCode;
 	}
 
-	public String getErrorCodeDetails() {
+	public String getMessage() {
 		return errorCodeDetails;
 	}
 	

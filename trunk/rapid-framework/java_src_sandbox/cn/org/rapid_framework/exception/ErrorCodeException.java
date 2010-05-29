@@ -7,9 +7,9 @@ package cn.org.rapid_framework.exception;
  * 
  * @author badqiu
  */
-public class ErrorCodeException extends RuntimeException{
+public class ErrorCodeException extends RuntimeException implements ErrorCode{
 	//TODO 考虑是否需要suberror, 如parernt error=1000,child error=500, full_error=1000.500
-	private ErrorCode errorCode;
+	private String errorCode;
 	
 	public ErrorCodeException() {
 		super();
@@ -28,36 +28,36 @@ public class ErrorCodeException extends RuntimeException{
 	}
 
 	public ErrorCodeException(ErrorCode errorCode) {
-		super();
-		this.errorCode = errorCode;
+		super(errorCode.getMessage());
+		this.errorCode = errorCode.getErrorCode();
 	}
 
 	public ErrorCodeException(ErrorCode errorCode,String message) {
 		super(message);
-		this.errorCode = errorCode;
+		this.errorCode = errorCode.getErrorCode();
 	}
 	
 	public ErrorCodeException(ErrorCode errorCode,Throwable cause) {
-		super(cause);
-		this.errorCode = errorCode;
+		super(errorCode.getMessage(),cause);
+		this.errorCode = errorCode.getErrorCode();
 	}
 	
 	public ErrorCodeException(ErrorCode errorCode,String message,Throwable cause) {
 		super(message,cause);
-		this.errorCode = errorCode;
+		this.errorCode = errorCode.getErrorCode();
 	}
 	
 	/**
 	 * 得到errorCode,有可能返回null
 	 * @return
 	 */
-	public ErrorCode getErrorCode() {
+	public String getErrorCode() {
 		return errorCode;
 	}
 
 	public String toString() {
 		if(errorCode == null) return super.toString();
-		return String.format("errorCode:[%s],errorCodeDetails:%s,exception message:%s",errorCode.getErrorCode(),errorCode.getErrorCodeDetails(),super.toString());
+		return String.format("errorCode:[%s],message:[%s]",errorCode,getMessage());
 	}
 	
 }
