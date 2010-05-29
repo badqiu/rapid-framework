@@ -12,6 +12,6 @@ public interface ErrorCode extends java.io.Serializable{ //ErrorCoded
 
 	public String getErrorCode();
 
-	public String getErrorCodeDetails();
+	public String getMessage();
 
 }
