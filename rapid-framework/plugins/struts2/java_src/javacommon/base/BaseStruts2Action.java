@@ -20,9 +20,9 @@ import cn.org.rapid_framework.util.ObjectUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public abstract class BaseStruts2Action extends ActionSupport implements RequestAware {
-	protected final String CREATED_SUCCESS = "创建成功";
-	protected final String UPDATE_SUCCESS = "更新成功";
-	protected final String DELETE_SUCCESS = "删除成功";
+	protected final static String CREATED_SUCCESS = "创建成功";
+	protected final static String UPDATE_SUCCESS = "更新成功";
+	protected final static String DELETE_SUCCESS = "删除成功";
 	
 	protected Map requestMap = null;
 	static {
