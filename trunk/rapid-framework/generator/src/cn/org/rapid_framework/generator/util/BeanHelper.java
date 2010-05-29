@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
+
 public class BeanHelper {
 	/**
 	 * @see #org.apache.commons.beanutils.BeanUtils.BeanUtils.describe(obj)
@@ -44,5 +46,14 @@ public class BeanHelper {
 			descriptors = new PropertyDescriptor[0];
 		}
 		return descriptors;
+	}
+	
+
+	public static void copyProperties(Object dest, Object orig) {
+		try {
+			BeanUtils.copyProperties(dest, orig);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 }

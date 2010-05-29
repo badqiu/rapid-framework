@@ -17,10 +17,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.XMLHelper;
@@ -124,7 +124,7 @@ public class DbTableFactory {
 			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			BeanUtils.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
+			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
 			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
@@ -320,7 +320,7 @@ public class DbTableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         BeanUtils.copyProperties(column,TableOverrideValuesProvider.getColumnOverrideValues(table,column));
+	         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnOverrideValues(table,column));
 	         columns.add(column);
 	    }
 	    columnRs.close();
