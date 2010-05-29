@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 <#include "/java_imports.include">
 
-public class ${className}Query implements Serializable {
+public class ${className}Query extends BaseQuery implements Serializable {
 	
 	<@generateFields/>
 	<@generateProperties/>
@@ -26,7 +26,7 @@ public class ${className}Query implements Serializable {
 
 <#macro generateFields>
 
-	<#list table.notPkColumns as column>
+	<#list table.columns as column>
 	/** ${column.columnAlias} */
 	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
 	private ${column.javaType} ${column.columnNameLower}Begin;
@@ -39,7 +39,7 @@ public class ${className}Query implements Serializable {
 </#macro>
 
 <#macro generateProperties>
-	<#list table.notPkColumns as column>
+	<#list table.columns as column>
 	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
 	public ${column.javaType} get${column.columnName}Begin() {
 		return this.${column.columnNameLower}Begin;
