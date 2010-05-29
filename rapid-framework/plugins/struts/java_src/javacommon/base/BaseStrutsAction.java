@@ -83,6 +83,7 @@ public class BaseStrutsAction extends AutowireMappingDispatchAction{
 		request.setAttribute(tableId+"page", page);
 		request.setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
 		request.setAttribute(tableId+"pageRequest", pageRequest);
+		request.setAttribute(tableId+"query", pageRequest);
 	}
 	
 	public <T extends PageRequest>T newPageRequest(HttpServletRequest request,Class<T> queryClazz,String defaultSortColumns){
