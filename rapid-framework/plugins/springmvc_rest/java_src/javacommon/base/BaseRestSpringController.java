@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 注意: 覆盖时请使用@Override,以确保不会发生错误
  * <pre>
  * /userinfo                => index()  
- * /userinfo/new            => _new()  
+ * /userinfo/new            => _new()  注意: 不使用/userinfo/add => add()的原因是ad会被一些浏览器当做广告URL拦截
  * /userinfo/{id}           => show()  
  * /userinfo/{id}/edit      => edit()  
  * /userinfo        POST    => create()  
