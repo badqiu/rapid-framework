@@ -79,7 +79,7 @@ public class OverrideDirectiveTest {
 		assertEquals("123",map.get("v"));
 	}
 	
-	@Test(timeout=7000)
+	@Test(timeout=8100)
 	public void testPerformance() throws ResourceNotFoundException, ParseErrorException, MethodInvocationException, Exception {
 		
 		long start = System.currentTimeMillis();
