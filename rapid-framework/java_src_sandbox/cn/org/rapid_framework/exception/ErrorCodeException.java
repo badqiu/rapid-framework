@@ -10,6 +10,7 @@ package cn.org.rapid_framework.exception;
 public class ErrorCodeException extends RuntimeException implements ErrorCode{
 	//TODO 考虑是否需要suberror, 如parernt error=1000,child error=500, full_error=1000.500
 	private String errorCode;
+	private ErrorCode errorCodeObject; //FIXME errorCodeObject现在没有用处
 	
 	public ErrorCodeException() {
 		super();
@@ -30,21 +31,25 @@ public class ErrorCodeException extends RuntimeException implements ErrorCode{
 	public ErrorCodeException(ErrorCode errorCode) {
 		super(errorCode.getMessage());
 		this.errorCode = errorCode.getErrorCode();
+		this.errorCodeObject = errorCode;
 	}
 
 	public ErrorCodeException(ErrorCode errorCode,String message) {
 		super(message);
 		this.errorCode = errorCode.getErrorCode();
+		this.errorCodeObject = errorCode;
 	}
 	
 	public ErrorCodeException(ErrorCode errorCode,Throwable cause) {
 		super(errorCode.getMessage(),cause);
 		this.errorCode = errorCode.getErrorCode();
+		this.errorCodeObject = errorCode;
 	}
 	
 	public ErrorCodeException(ErrorCode errorCode,String message,Throwable cause) {
 		super(message,cause);
 		this.errorCode = errorCode.getErrorCode();
+		this.errorCodeObject = errorCode;
 	}
 	
 	/**
