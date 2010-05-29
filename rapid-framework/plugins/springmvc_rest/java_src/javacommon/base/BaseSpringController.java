@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -32,11 +33,11 @@ public class BaseSpringController extends MultiActionController{
 		ConvertRegisterHelper.registerConverters();
 	}
 	
-	public void copyProperties(Object target,Object source) {
+	public static void copyProperties(Object target,Object source) {
 		BeanUtils.copyProperties(target, source);
 	}
 
-	public <T> T copyProperties(Class<T> destClass,Object orig) {
+	public static <T> T copyProperties(Class<T> destClass,Object orig) {
 		return BeanUtils.copyProperties(destClass, orig);
 	}
 	
@@ -55,51 +56,32 @@ public class BaseSpringController extends MultiActionController{
         binder.registerCustomEditor(BigInteger.class, new CustomNumberEditor(BigInteger.class, true));
     }
 	
-	public ModelAndView toModelAndView(Page<?> page,PageRequest<?> pageRequest) {
-		return toModelAndView("",page, pageRequest);
+	public static ModelMap toModelMap(Page page,PageRequest pageRequest) {
+		return toModelMap("",page, pageRequest);
 	}
 	
-	public ModelAndView toModelAndView(String tableId,Page<?> page,PageRequest<?> pageRequest) {
-		ModelAndView model = new ModelAndView();
-		saveIntoModelAndView(tableId,page,pageRequest,model);
+	public static ModelMap toModelMap(String tableId,Page page,PageRequest pageRequest) {
+		ModelMap model = new ModelMap();
+		saveIntoModelMap(tableId,page,pageRequest,model);
 		return model;
 	}
 	/**
 	 * 用于一个页面有多个extremeTable是使用
 	 * @param tableId 等于extremeTable的tableId属性
 	 */
-	public void saveIntoModelAndView(String tableId,Page<?> page,PageRequest<?> pageRequest,ModelAndView model){
+	public static void saveIntoModelMap(String tableId,Page page,PageRequest pageRequest,ModelMap model){
 		Assert.notNull(tableId,"tableId must be not null");
 		Assert.notNull(page,"page must be not null");
 		
-		model.addObject(tableId+"page", page);
-		model.addObject(tableId+"totalRows", new Integer(page.getTotalCount()));
-		model.addObject(tableId+"pageRequest", pageRequest);
+		model.addAttribute(tableId+"page", page);
+		model.addAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
+		model.addAttribute(tableId+"pageRequest", pageRequest);
 	}
 	
-	public PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
+	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
 		return PageRequestFactory.newPageRequest(request, defaultSortColumns);
     }
 	
-	/**
-	 * 保存消息在request中,messages.jsp会取出来显示此消息
-	 */
-    protected static void saveMessage(HttpServletRequest request, String message) {
-        if (StringUtils.isNotBlank(message)) {
-        	List list = getOrCreateRequestAttribute(request, "springMessages",ArrayList.class);
-            list.add(message);
-        }
-    }
-    /**
-	 * 保存错误消息在request中,messages.jsp会取出来显示此消息
-	 */
-    protected static void saveError(HttpServletRequest request, String errorMsg) {
-        if (StringUtils.isNotBlank(errorMsg)) {
-        	List list = getOrCreateRequestAttribute(request, "springErrors",ArrayList.class);
-            list.add(errorMsg);
-        }
-    }
-    
 	public static <T> T getOrCreateRequestAttribute(HttpServletRequest request, String key,Class<T> clazz) {
 		Object value = request.getAttribute(key);
 		if(value == null) {
