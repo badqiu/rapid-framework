@@ -17,6 +17,7 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  * @see Page
  */
+@Deprecated
 public class JdbcScrollPage extends Page //implements Page
 {
 

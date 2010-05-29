@@ -11,6 +11,7 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  * @see BasePage
  */
+@Deprecated
 public class ListPage extends Page {
     /**
      * 构建ListPage对象，完成List数据的分页处理
