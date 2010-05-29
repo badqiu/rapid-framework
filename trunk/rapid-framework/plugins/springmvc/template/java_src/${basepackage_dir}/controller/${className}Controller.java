@@ -80,7 +80,7 @@ public class ${className}Controller extends BaseSpringController{
 	 **/
 	public ModelAndView save(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
 		${classNameLower}Manager.save(${classNameLower});
-		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return new ModelAndView(LIST_ACTION);
 	}
 	

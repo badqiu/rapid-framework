@@ -88,7 +88,7 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	/** 保存新增对象 */
 	public String save() {
 		${classNameLower}Manager.save(${classNameLower});
-		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;
 	}
 	
