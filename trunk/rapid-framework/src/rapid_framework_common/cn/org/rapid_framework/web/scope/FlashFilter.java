@@ -20,6 +20,7 @@ public class FlashFilter  extends OncePerRequestFilter implements Filter{
 	protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)throws ServletException, IOException {
 		try {
 			Flash.setCurrent(Flash.restore(request));
+			chain.doFilter(request, response);
 		}finally {
 			Flash.current().save(request, response);
 		}
