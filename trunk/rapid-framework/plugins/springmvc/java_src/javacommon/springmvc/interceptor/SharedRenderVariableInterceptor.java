@@ -13,6 +13,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import cn.org.rapid_framework.web.scope.Flash;
+
 /**
  * 拦截器,用于存放渲染视图时需要的的共享变量
  * @author badqiu
@@ -41,6 +43,7 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 		model.put("share_current_request_time", new Date());
 		model.put("share_current_login_username", "badqiu");
 		model.put("ctx", request.getContextPath());
+		model.put("flash", Flash.current().getData());
 		
 		return model;
 	}
