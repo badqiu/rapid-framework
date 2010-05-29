@@ -19,17 +19,17 @@ import freemarker.ext.dom.NodeModel;
  */
 public class GeneratorControl {
 	private Date now = new Date();
-	private boolean isOverride = true; //pass
-	private boolean ignoreOutput = false; // or isGenerate //pass
+	private boolean isOverride = true; 
+	private boolean ignoreOutput = false; // or isGenerate
 	private boolean isMergeIfExists = true;
-	private String mergeLocation;
-	private String outRoot; // pass
-	private String outputEncoding;
-	private String sourceFile; //pass
-	private String sourceDir; //pass
-	private String sourceFileName; //pass
-	private String sourceEncoding; //? 难道process两次确定sourceEncoding
-	private String databaseType; //mysql,oracle,用于生成不同的sql
+	private String mergeLocation; //no pass
+	private String outRoot; 
+	private String outputEncoding; //no pass
+	private String sourceFile; 
+	private String sourceDir; 
+	private String sourceFileName; 
+	private String sourceEncoding; //no pass //? 难道process两次确定sourceEncoding
+	private String databaseType; //no pass //mysql,oracle,用于生成不同的sql 
 	
 	/** load xml data */
 	public NodeModel loadXml(String file,boolean ignoreError) {
@@ -47,7 +47,7 @@ public class GeneratorControl {
 	
 	public void generateFile(String outputFile,String content) {
 		try {
-			IOHelper.saveFile(new File(outRoot,outputFile), content);
+			IOHelper.saveFile(new File(outputFile), content);
 		} catch (Exception e) {
 			GLogger.warn("generate outputFile occer error,caused by:"+e);
 		}
