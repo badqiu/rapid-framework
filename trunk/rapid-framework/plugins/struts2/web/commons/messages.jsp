@@ -1,17 +1,15 @@
 <%@ include file="/commons/taglibs.jsp" %>
 
-<s:if test="%{actionErrors != null && actionErrors.size > 0}">
-	<div class="error">
-		<s:iterator value="%{actionErrors}">
-			<img src="${ctx}/images/iconWarning.gif" alt="Warning"/><s:property/><br/>
-		</s:iterator>
-	</div>
-</s:if>
+<%-- Error Messages --%>
+<c:if test="${flash.success != null}">
+	<div class="flash_success">
+		${flash.success}<br/>
+	</div>    
+</c:if>
 
-<s:if test="%{actionMessages != null && actionMessages.size > 0}">	
-	<div class="message">
-		<s:iterator value="%{actionMessages}">
-			<img src="${ctx}/images/iconInformation.gif" alt="Info"/><s:property/><br/>
-		</s:iterator>
-	</div>
-</s:if>	
+<%-- Info Messages --%>
+<c:if test="${flash.error != null}">
+	<div class="flash_error">
+		${flash.error}<br/>
+	</div> 
+</c:if>
