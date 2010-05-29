@@ -73,7 +73,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(statementName),pageRequest.getFilters());
+		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(statementName),pageRequest);
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
@@ -88,7 +88,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
-		Map parameterObject = new MapAndObject(otherFilters,pageRequest.getFilters());
+		Map parameterObject = new MapAndObject(otherFilters,pageRequest);
 		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;

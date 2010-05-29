@@ -95,7 +95,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(statementName),pageRequest.getFilters());
+		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(statementName),pageRequest);
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
@@ -109,13 +109,8 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		filters.put("lastRows", page.getFirstResult() + page.getPageSize());
 		filters.put("sortColumns", pageRequest.getSortColumns());
 		
-		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
-		if(pageRequest.getFilters() instanceof Map) {
-			filters.putAll((Map)pageRequest.getFilters());
-		}else {
-			Map parameterObject = BeanUtils.describe(pageRequest.getFilters());
-			filters.putAll(parameterObject);
-		}
+		Map parameterObject = BeanUtils.describe(pageRequest);
+		filters.putAll(parameterObject);
 		
 		List list = getSqlSessionTemplate().selectList(statementName, filters,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
