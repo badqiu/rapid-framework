@@ -48,68 +48,70 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 执行搜索 
 	 **/
-	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
+	public String list(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
 		Page page = this.${classNameLower}Manager.findPage(pageRequest);
-		ModelAndView result = toModelAndView(page, pageRequest);
-		result.addObject("${classNameLower}",${classNameLower});
-		result.setViewName("/${className?lower_case}/list");
-		return result;
+		model.addAllAttributes(toModelMap(page, pageRequest));
+		model.addAttribute("${classNameLower}",${classNameLower});
+		return "/${className?lower_case}/list";
 	}
 	
 	/** 
 	 * 查看对象
 	 **/
-	public ModelAndView show(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String show(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
-		return new ModelAndView("${jspFileBasePath}/show","${classNameLower}",${classNameLower});
+		model.addAttribute("${classNameLower}",${classNameLower});
+		return "${jspFileBasePath}/show";
 	}
 	
 	/** 
 	 * 进入新增页面
 	 **/
-	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
-		return new ModelAndView("${jspFileBasePath}/create","${classNameLower}",${classNameLower});
+	public String create(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
+		model.addAttribute("${classNameLower}",${classNameLower});
+		return "${jspFileBasePath}/create";
 	}
 	
 	/** 
 	 * 保存新增对象
 	 **/
-	public ModelAndView save(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
+	public String save(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
 		${classNameLower}Manager.save(${classNameLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 	/**
 	 * 进入更新页面
 	 **/
-	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String edit(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
-		return new ModelAndView("${jspFileBasePath}/edit","${classNameLower}",${classNameLower});
+		model.addAttribute("${classNameLower}",${classNameLower});
+		return "${jspFileBasePath}/edit";
 	}
 	
 	/**
 	 * 保存更新对象
 	 **/
-	public ModelAndView update(HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String update(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
 		bind(request,${classNameLower});
 		${classNameLower}Manager.update(${classNameLower});
 		Flash.current().success(UPDATE_SUCCESS);
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 	/**
 	 *删除对象
 	 **/
-	public ModelAndView delete(HttpServletRequest request,HttpServletResponse response) {
+	public String delete(ModelMap model,HttpServletRequest request,HttpServletResponse response) {
 		String[] items = request.getParameterValues("items");
 		for(int i = 0; i < items.length; i++) {
 			Hashtable params = HttpUtils.parseQueryString(items[i]);
@@ -125,7 +127,7 @@ public class ${className}Controller extends BaseSpringController{
 			${classNameLower}Manager.removeById(id);
 		}
 		Flash.current().success(DELETE_SUCCESS);
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 }
