@@ -1,5 +1,6 @@
 /**
  * author: badqiu
+ * depend on JQuery
  */
 var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,pageSizeKey,sortColumnsKey) {
 	this.form = formId;
