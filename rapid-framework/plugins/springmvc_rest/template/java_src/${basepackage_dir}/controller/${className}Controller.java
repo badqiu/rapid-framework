@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.servlet.ModelAndView;
 import cn.org.rapid_framework.web.scope.Flash;
-
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -51,27 +52,23 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 	
 	/** 列表 */
-	@Override
-	public String index(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) {
-		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
-		//pageRequest.getFilters(); //add custom filters
+	@RequestMapping
+	public String index(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
+		Page page = this.${classNameFirstLower}Manager.findPage(query);
 		
-		Page page = this.${classNameFirstLower}Manager.findPage(pageRequest);
-		
-		model.addAllAttributes(toModelMap(page, pageRequest));
-		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		model.addAllAttributes(toModelMap(page, query));
 		return "/${className?lower_case}/index";
 	}
 	
 	/** 进入新增 */
-	@Override
-	public String _new(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
+	@RequestMapping(value="/new")
+	public String _new(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
 		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
 		return "/${classNameLowerCase}/new";
 	}
 	
 	/** 显示 */
-	@Override
+	@RequestMapping(value="/{id}")
 	public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
@@ -79,7 +76,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 	
 	/** 编辑 */
-	@Override
+	@RequestMapping(value="/{id}/edit")
 	public String edit(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
@@ -87,15 +84,15 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 	
 	/** 保存新增 */
-	@Override
-	public String create(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
+	@RequestMapping(method=RequestMethod.POST)
+	public String create(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
 		${classNameFirstLower}Manager.save(${classNameFirstLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;
 	}
 	
 	/** 保存更新 */
-	@Override
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public String update(ModelMap model,@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		bind(request,${classNameFirstLower});
@@ -105,7 +102,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 	
 	/** 删除 */
-	@Override
+	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	public String delete(ModelMap model,@PathVariable ${pkJavaType} id) {
 		${classNameFirstLower}Manager.removeById(id);
 		Flash.current().success(DELETE_SUCCESS);
@@ -113,8 +110,8 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 
 	/** 批量删除 */
-	@Override
-	public String batchDelete(ModelMap model,${pkJavaType}[] items) {
+	@RequestMapping(method=RequestMethod.DELETE)
+	public String batchDelete(ModelMap model,@RequestParam("items") ${pkJavaType}[] items) {
 		for(int i = 0; i < items.length; i++) {
 			${classNameFirstLower}Manager.removeById(items[i]);
 		}

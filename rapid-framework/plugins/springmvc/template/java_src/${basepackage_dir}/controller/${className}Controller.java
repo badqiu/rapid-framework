@@ -48,13 +48,10 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 执行搜索 
 	 **/
-	public String list(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) {
-		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
-		//pageRequest.getFilters(); //add custom filters
+	public String list(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
+		Page page = this.${classNameLower}Manager.findPage(query);
 		
-		Page page = this.${classNameLower}Manager.findPage(pageRequest);
-		model.addAllAttributes(toModelMap(page, pageRequest));
-		model.addAttribute("${classNameLower}",${classNameLower});
+		model.addAllAttributes(toModelMap(page, query));
 		return "/${className?lower_case}/list";
 	}
 	
@@ -71,7 +68,7 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 进入新增页面
 	 **/
-	public String create(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
+	public String create(ModelMap model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
 		model.addAttribute("${classNameLower}",${classNameLower});
 		return "${jspFileBasePath}/create";
 	}
@@ -79,7 +76,7 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 保存新增对象
 	 **/
-	public String save(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
+	public String save(ModelMap model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
 		${classNameLower}Manager.save(${classNameLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;

@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@ include file="/commons/messages.jsp" %>
 
 <div class="queryPanel">
-<form id="queryForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
+<form id="queryForm" name="queryForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -46,9 +46,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="s_${column.columnNameLower}" name="s_${column.columnNameLower}"   />
+				<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}Begin" name="${column.columnNameLower}Begin"   />
+				<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}End" name="${column.columnNameLower}End"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" id="${column.columnNameLower}" name="s_${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
+				<input value="<@jspEl "query."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
 				</#if>
 			</td>
 			</#if>
