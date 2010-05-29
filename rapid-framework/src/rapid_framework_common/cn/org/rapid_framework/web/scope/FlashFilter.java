@@ -10,7 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.filter.OncePerRequestFilter;
 /**
- * 配合Flash需要使用的Filter
+ * <pre>
+ * 配合Flash需要使用的Filter,并且会在request中设置flash
+ * request.setAttribute("flash",Flash.current().getData());
+ * </pre>
  * 
  * @see Flash
  * @author badqiu
