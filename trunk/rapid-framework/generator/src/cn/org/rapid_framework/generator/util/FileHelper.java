@@ -32,6 +32,12 @@ public class FileHelper {
 		}
 	}
 	
+	public static File mkdir(String dir,String file) {
+		File outputFile = new File(dir,file);
+		outputFile.getParentFile().mkdirs();
+		return outputFile;
+	}
+	
 	private static boolean isIgnoreFile(File file) {
 		List ignoreList = new ArrayList();
 		ignoreList.add(".svn");
