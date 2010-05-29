@@ -115,7 +115,7 @@ public class Generator {
 			templateModel.put("gg", new GeneratorControl());
 			
 			String outputFilePath = templateRelativePath;
-			if(isIgnoreTemplateProcess(templateFile, templateRelativePath)) {
+			if(FreemarkerUtils.isIgnoreTemplateProcess(templateFile, templateRelativePath)) {
 				continue;
 			}
 			int testExpressionIndex = -1;
@@ -138,8 +138,8 @@ public class Generator {
 			
 			String targetFilename = null;
 			try {
-				targetFilename = FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,newFreeMarkerConfiguration());
-				generateNewFileOrInsertIntoFile(templateModel,targetFilename, newFreeMarkerConfiguration(), templateRelativePath,outputFilePath);
+				targetFilename = FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
+				generateNewFileOrInsertIntoFile(templateModel,targetFilename, templateRelativePath,outputFilePath);
 			}catch(Exception e) {
                 RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
 			    if (ignoreTemplateGenerateException) {
@@ -153,30 +153,19 @@ public class Generator {
 		return exceptions;
 	}
 	
-	public boolean isIgnoreTemplateProcess(File templateFile,String templateRelativePath) {
-		if(templateFile.isDirectory() || templateFile.isHidden())
-			return true;
-		if(templateRelativePath.trim().equals(""))
-			return true;
-		if(templateFile.getName().toLowerCase().endsWith(".include")){
-			System.out.println("[skip]\t\t endsWith '.include' template:"+templateRelativePath);
-			return true;
-		}
-		return false;
-	}
 
-	private Configuration newFreeMarkerConfiguration() throws IOException {
+	private Configuration getFreeMarkerConfiguration() throws IOException {
 		return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
 	}
 
-	private void generateNewFileOrInsertIntoFile( Map templateModel,String targetFilename, Configuration config, String templateFile,String outputFilePath) throws Exception {
-		Template template = config.getTemplate(templateFile);
+	private void generateNewFileOrInsertIntoFile( Map templateModel,String targetFilename, String templateFile,String outputFilePath) throws Exception {
+		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
 		File absoluteOutputFilePath = FileHelper.mkdir(getOutRootDir(),targetFilename);
 		if(absoluteOutputFilePath.exists()) {
 			StringWriter newFileContentCollector = new StringWriter();
-			if(isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
+			if(FreemarkerUtils.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
 				System.out.println("[insert]\t generate content into:"+targetFilename);
 				IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
 				return;
@@ -187,35 +176,45 @@ public class Generator {
 		FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
 	}
 
-	private boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
-		LineNumberReader reader = new LineNumberReader(new FileReader(outputFile));
-		String line = null;
-		boolean isFoundInsertLocation = false;
-		
-		PrintWriter writer = new PrintWriter(newFileContent);
-		while((line = reader.readLine()) != null) {
-			writer.println(line);
-			// only insert once
-			if(!isFoundInsertLocation && line.indexOf(GENERATOR_INSERT_LOCATION) >= 0) {
-				template.process(model,writer);
-				writer.println();
-				isFoundInsertLocation = true;
-			}
-		}
-		
-		writer.close();
-		reader.close();
-		return isFoundInsertLocation;
-	}
-	
 	public void clean() throws IOException {
 		String outRoot = getOutRootDir();
 		System.out.println("[Delete Dir]	"+outRoot);
 		FileHelper.deleteDirectory(new File(outRoot));
 	}
-
 	
 	static class FreemarkerUtils {
+		public static boolean isIgnoreTemplateProcess(File templateFile,String templateRelativePath) {
+			if(templateFile.isDirectory() || templateFile.isHidden())
+				return true;
+			if(templateRelativePath.trim().equals(""))
+				return true;
+			if(templateFile.getName().toLowerCase().endsWith(".include")){
+				System.out.println("[skip]\t\t endsWith '.include' template:"+templateRelativePath);
+				return true;
+			}
+			return false;
+		}		
+		private static boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
+			LineNumberReader reader = new LineNumberReader(new FileReader(outputFile));
+			String line = null;
+			boolean isFoundInsertLocation = false;
+			
+			PrintWriter writer = new PrintWriter(newFileContent);
+			while((line = reader.readLine()) != null) {
+				writer.println(line);
+				// only insert once
+				if(!isFoundInsertLocation && line.indexOf(GENERATOR_INSERT_LOCATION) >= 0) {
+					template.process(model,writer);
+					writer.println();
+					isFoundInsertLocation = true;
+				}
+			}
+			
+			writer.close();
+			reader.close();
+			return isFoundInsertLocation;
+		}	
+		
 		public static void processTemplate(Template template, Map model, File outputFile,String encoding) throws IOException, TemplateException {
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),encoding));
 			template.process(model,out);
