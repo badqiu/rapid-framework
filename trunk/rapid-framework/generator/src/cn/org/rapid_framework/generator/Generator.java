@@ -91,15 +91,39 @@ public class Generator {
      * @param filePathModel 文件路径可以引用的变量
      * @throws Exception
      */
-	public List generateBy(Map templateModel,Map filePathModel) throws Exception {
+	public List<Exception> generateBy(Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
-		List allExceptions = new ArrayList();
+		List<Exception> allExceptions = new ArrayList<Exception>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			List exceptions = new GeneratorProcessor().generateBy(templateRootDir,templateModel,filePathModel);
+			List<Exception> exceptions = generateBy(templateRootDir,templateModel,filePathModel);
 			allExceptions.addAll(exceptions); 
 		}
 		return allExceptions;
+	}
+	
+	private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
+		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
+		System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
+		
+		List templateFiles = new ArrayList();
+		FileHelper.listFiles(templateRootDir, templateFiles);
+		
+		List<Exception> exceptions = new ArrayList();
+		for(int i = 0; i < templateFiles.size(); i++) {
+			File srcFile = (File)templateFiles.get(i);
+			try {
+				new GeneratorProcessor().execute(templateRootDir, templateModel,filePathModel, srcFile);
+			}catch(Exception e) {
+				if (ignoreTemplateGenerateException) {
+			        GLogger.warn("iggnore generate error,template is:" + srcFile+" cause:"+e);
+			        exceptions.add(e);
+			    } else {
+					throw e;
+			    }
+			}
+		}
+		return exceptions;
 	}
 	
 	public void clean() throws IOException {
@@ -110,46 +134,30 @@ public class Generator {
 	
 	public class GeneratorProcessor {
 		private GeneratorControl gg = new GeneratorControl();
-		private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
-			if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
-			System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
+		private void execute(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
+			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			
-			List templateFiles = new ArrayList();
-			FileHelper.listFiles(templateRootDir, templateFiles);
-			
-			List exceptions = new ArrayList();
-			for(int i = 0; i < templateFiles.size(); i++) {
-				File srcFile = (File)templateFiles.get(i);
-				String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
-				
-				if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
-					continue;
-				}
-				
-				initGeneratorControlProperties(srcFile);
-				processForGeneratorControl(templateModel, templateFile);
-				if(gg.isIgnoreOutput()) {
-					System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
-					continue;
-				}
-				
-				String outputFilepath = null;
-				try {
-					outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
-					if(outputFilepath != null ) {
-						generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
-					}
-				}catch(Exception e) {
-	                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
-				    if (ignoreTemplateGenerateException) {
-				        GLogger.warn("iggnore generate error,template is:" + templateFile+" cause:"+e);
-	                    exceptions.add(throwException);
-	                } else {
-						throw throwException;
-	                }
-				}
+			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
+				return;
 			}
-			return exceptions;
+			
+			initGeneratorControlProperties(srcFile);
+			processTemplateForGeneratorControl(templateModel, templateFile);
+			
+			if(gg.isIgnoreOutput()) {
+				System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
+				return;
+			}
+			
+			String outputFilepath = null;
+			try {
+				outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
+				if(outputFilepath != null ) {
+					generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
+				}
+			}catch(Exception e) {
+			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
+			}
 		}
 
 		private void initGeneratorControlProperties(File srcFile) throws SQLException {
@@ -163,11 +171,10 @@ public class Generator {
 			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
 		}
 	
-		private GeneratorControl processForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
+		private void processTemplateForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
 			templateModel.put("gg", gg);
 			Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
 			template.process(templateModel, IOHelper.NULL_WRITER);
-			return gg;
 		}
 		
 		/** 处理文件路径的变量变成输出路径 */
