@@ -24,7 +24,8 @@ public class ${className}FlexService extends BaseRemoteFlexService<${className}>
 	
 	/**通过PageRequest查询列表*/
 	public Page list(PageRequest pr) {
-		Page page = ${classNameLower}Manager.findPage(pr);
+		${className}Query query = newQuery(${className}Query.class,pr);
+		Page page = ${classNameLower}Manager.findPage(query);
 		return page;
 	}
 	

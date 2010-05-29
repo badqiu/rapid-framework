@@ -6,6 +6,8 @@ package ${basepackage}.flex.service;
 
 import org.springframework.stereotype.Component;
 
+import com.company.project.valueobject.query.UserInfoQuery;
+
 import cn.org.rapid_framework.util.HibernateBeanSerializer;
 
 <#include "/java_imports.include">
@@ -24,7 +26,8 @@ public class ${className}FlexService extends BaseRemoteFlexService<${className}>
 	
 	/**通过PageRequest查询列表*/
 	public Page list(PageRequest pr) {
-		Page page = ${classNameLower}Manager.findPage(pr);
+		UserInfoQuery query = newQuery(UserInfoQuery.class,pr); 
+		Page page = ${classNameLower}Manager.findPage(query);
 		return page;
 	}
 	
