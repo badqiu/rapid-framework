@@ -14,7 +14,7 @@ public class SpringMVCGeneratorTest extends GeneratorTestCase{
 		Table table = DbTableFactory.getInstance().getTable("USER_INFO");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		g.addTemplateRootDir(new File("plugins/springmvc_rest/template"));
+		g.addTemplateRootDir(new File("plugins/springmvc/template"));
 		
 		generateByTable(table);
 		
