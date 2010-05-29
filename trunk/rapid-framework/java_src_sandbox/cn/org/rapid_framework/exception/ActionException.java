@@ -32,9 +32,9 @@ public class ActionException extends ErrorCodeException{
 
 	public String toString() {
 		if(action == null) {
-			return String.format("execute [%s] occer error,errorCode:[%s],errorDetails:%s",action,getErrorCode().getErrorCode(),getErrorCode().getErrorCodeDetails());
+			return String.format("execute [%s] occer error,errorCode:[%s],errorDetails:%s",action,getErrorCode(),getMessage());
 		}else {
-			return String.format("errorCode:[%s],errorDetails:%s",getErrorCode().getErrorCode(),getErrorCode().getErrorCodeDetails());
+			return String.format("errorCode:[%s],errorDetails:%s",getErrorCode(),getMessage());
 		}
 	}
 	
