@@ -53,8 +53,8 @@ public class OffsetLimitInterceptorTest {
 			Assert.assertEquals(expectedLimit,limit);
 			Assert.assertEquals(expctedSql,sql.getSql());
 		}
-		long cost = System.currentTimeMillis() - start;
+		float cost = System.currentTimeMillis() - start;
 		
-		System.out.println(String.format("costTime:%s perMethodCost:%s %s",cost,cost/(double)count,dialect.getClass().getSimpleName()));
+		System.out.println(String.format("costTime:%s perMethodCost:%s tps:%s %s",cost,cost/count,count/(cost/1000),dialect.getClass().getSimpleName()));
 	}
 }
