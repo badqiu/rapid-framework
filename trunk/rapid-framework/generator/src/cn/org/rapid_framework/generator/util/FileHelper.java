@@ -33,6 +33,7 @@ public class FileHelper {
 	}
 	
 	public static File mkdir(String dir,String file) {
+		if(dir == null) throw new IllegalArgumentException("dir must be not null");
 		File outputFile = new File(dir,file);
 		outputFile.getParentFile().mkdirs();
 		return outputFile;
