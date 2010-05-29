@@ -22,7 +22,7 @@ public class OffsetLimitInterceptorTest {
 	
 	OffsetLimitInterceptor di = new OffsetLimitInterceptor();
 	
-	@Test(timeout=3000)
+	@Test(timeout=4500)
 	public void preformance_processIntercept() throws Throwable {
 		testWithDialect(new MySQLDialect(), RowBounds.NO_ROW_OFFSET,RowBounds.NO_ROW_LIMIT,"select * from userinfo limit 100,200");
 		testWithDialect(new OracleDialect(),RowBounds.NO_ROW_OFFSET,RowBounds.NO_ROW_LIMIT, "select * from ( select row_.*, rownum rownum_ from ( select * from userinfo ) row_ ) where rownum_ <= 100+200 and rownum_ > 100");
