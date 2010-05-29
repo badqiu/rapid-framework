@@ -11,11 +11,13 @@ import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -94,109 +96,131 @@ public class Generator {
 		List allExceptions = new ArrayList();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			List exceptions = generateBy(templateRootDir,templateModel,filePathModel);
+			List exceptions = new GeneratorProcessor().generateBy(templateRootDir,templateModel,filePathModel);
 			allExceptions.addAll(exceptions); 
 		}
 		return allExceptions;
 	}
 	
-	private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
-		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
-		System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
-		
-		List templateFiles = new ArrayList();
-		FileHelper.listFiles(templateRootDir, templateFiles);
-		
-		List exceptions = new ArrayList();
-		for(int i = 0; i < templateFiles.size(); i++) {
-			File srcFile = (File)templateFiles.get(i);
-			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
-			
-			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
-				continue;
-			}
-			GeneratorControl generatorControl = processForGeneratorControl(templateModel, templateFile);
-			generatorControl.getOutputEncoding();
-			
-			String outputFilepath = null;
-			try {
-				outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
-				if(outputFilepath != null ) {
-					generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
-				}
-			}catch(Exception e) {
-                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
-			    if (ignoreTemplateGenerateException) {
-			        GLogger.warn("iggnore generate error,template is:" + templateFile+" cause:"+e);
-                    exceptions.add(throwException);
-                } else {
-					throw throwException;
-                }
-			}
-		}
-		return exceptions;
-	}
-
-	private GeneratorControl processForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
-		GeneratorControl generatorControl = new GeneratorControl();
-		templateModel.put("gg", generatorControl);
-		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
-		template.process(templateModel, IOHelper.NULL_WRITER);
-		return generatorControl;
-	}
-	
-	/** 处理文件路径的变量变成输出路径 */
-	private String proceeForOutputFilepath(Map filePathModel,String templateFile) throws IOException {
-		String outputFilePath = templateFile;
-		int testExpressionIndex = -1;
-		if((testExpressionIndex = templateFile.indexOf('@')) != -1) {
-			outputFilePath = templateFile.substring(0, testExpressionIndex);
-			String testExpressionKey = templateFile.substring(testExpressionIndex+1);
-			Object expressionValue = filePathModel.get(testExpressionKey);
-			if(expressionValue == null) {
-				System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateFile+"]");
-					return null;
-			}
-			if(!"true".equals(String.valueOf(expressionValue))) {
-				System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateFile);
-					return null;
-			}
-		}
-		if(outputFilePath.endsWith(removeExtensions)) {
-			outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
-		}
-		return FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
-	}
-	
-
-	private Configuration getFreeMarkerConfiguration() throws IOException {
-		return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
-	}
-
-	private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
-		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
-		template.setOutputEncoding(encoding);
-		
-		File absoluteOutputFilePath = FileHelper.mkdir(getOutRootDir(),outputFilepath);
-		if(absoluteOutputFilePath.exists()) {
-			StringWriter newFileContentCollector = new StringWriter();
-			if(FreemarkerUtils.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
-				System.out.println("[insert]\t generate content into:"+outputFilepath);
-				IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
-				return;
-			}
-		}
-		
-		System.out.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
-		FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
-	}
-
 	public void clean() throws IOException {
 		String outRoot = getOutRootDir();
 		System.out.println("[Delete Dir]	"+outRoot);
 		FileHelper.deleteDirectory(new File(outRoot));
 	}
 	
+	public class GeneratorProcessor {
+		private GeneratorControl gg = new GeneratorControl();
+		private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
+			if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
+			System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
+			
+			List templateFiles = new ArrayList();
+			FileHelper.listFiles(templateRootDir, templateFiles);
+			
+			List exceptions = new ArrayList();
+			for(int i = 0; i < templateFiles.size(); i++) {
+				File srcFile = (File)templateFiles.get(i);
+				String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
+				
+				if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
+					continue;
+				}
+				
+				initGeneratorControlProperties(srcFile);
+				processForGeneratorControl(templateModel, templateFile);
+				if(gg.isIgnoreOutput()) {
+					System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
+					continue;
+				}
+				
+				String outputFilepath = null;
+				try {
+					outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
+					if(outputFilepath != null ) {
+						generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
+					}
+				}catch(Exception e) {
+	                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
+				    if (ignoreTemplateGenerateException) {
+				        GLogger.warn("iggnore generate error,template is:" + templateFile+" cause:"+e);
+	                    exceptions.add(throwException);
+	                } else {
+						throw throwException;
+	                }
+				}
+			}
+			return exceptions;
+		}
+
+		private void initGeneratorControlProperties(File srcFile) throws SQLException {
+			gg.setSourceFile(srcFile.getAbsolutePath());
+			gg.setSourceFileName(srcFile.getName());
+			gg.setSourceDir(srcFile.getParent());
+			gg.setDatabaseType(DbTableFactory.getInstance().getConnection().getMetaData().getDatabaseProductName()); //FIXME 提供枚举:oracle mysql,sqlserver
+			gg.setOutRoot(getOutRootDir());
+			gg.setOutputEncoding(encoding);
+			gg.setSourceEncoding(encoding);
+			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
+		}
+	
+		private GeneratorControl processForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
+			templateModel.put("gg", gg);
+			Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
+			template.process(templateModel, IOHelper.NULL_WRITER);
+			return gg;
+		}
+		
+		/** 处理文件路径的变量变成输出路径 */
+		private String proceeForOutputFilepath(Map filePathModel,String templateFile) throws IOException {
+			String outputFilePath = templateFile;
+			int testExpressionIndex = -1;
+			if((testExpressionIndex = templateFile.indexOf('@')) != -1) {
+				outputFilePath = templateFile.substring(0, testExpressionIndex);
+				String testExpressionKey = templateFile.substring(testExpressionIndex+1);
+				Object expressionValue = filePathModel.get(testExpressionKey);
+				if(expressionValue == null) {
+					System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateFile+"]");
+						return null;
+				}
+				if(!"true".equals(String.valueOf(expressionValue))) {
+					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateFile);
+						return null;
+				}
+			}
+			if(outputFilePath.endsWith(removeExtensions)) {
+				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
+			}
+			return FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
+		}
+	
+		private Configuration getFreeMarkerConfiguration() throws IOException {
+			return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
+		}
+	
+		private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
+			Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
+			template.setOutputEncoding(encoding);
+			
+			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
+			if(absoluteOutputFilePath.exists()) {
+				StringWriter newFileContentCollector = new StringWriter();
+				if(FreemarkerUtils.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
+					System.out.println("[insert]\t generate content into:"+outputFilepath);
+					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
+					return;
+				}
+			}
+			
+			if(absoluteOutputFilePath.exists() && !gg.isOverride()) {
+				System.out.println("[not generate]\t by gg.isOverride()=false and outputFile exist:"+outputFilepath);
+				return;
+			}
+			
+			System.out.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
+			FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
+		}
+	}
+
 	static class FreemarkerUtils {
 		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile) {
 			if(srcFile.isDirectory() || srcFile.isHidden())
