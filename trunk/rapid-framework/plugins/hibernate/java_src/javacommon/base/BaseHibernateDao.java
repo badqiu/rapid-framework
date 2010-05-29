@@ -87,20 +87,20 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		});
 	}
 	
-	public Page pageQuery(final String query,final PageRequest pageRequest) {
-		final String countQuery = "select count(*) " + removeSelect(removeFetchKeyword((query)));
-		return pageQuery(query,countQuery,pageRequest);
+	public Page pageQuery(final String sql,final PageRequest pageRequest) {
+		final String countQuery = "select count(*) " + removeSelect(removeFetchKeyword((sql)));
+		return pageQuery(sql,countQuery,pageRequest);
 	}
 
-	public Page pageQuery(final String query,String countQuery,final PageRequest pageRequest) {
+	public Page pageQuery(final String sql,String countQuery,final PageRequest pageRequest) {
 		Map otherFilters = new HashMap(1);
 		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
 		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
-		XsqlFilterResult queryXsqlResult = builder.generateHql(query,otherFilters,pageRequest.getFilters());
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,otherFilters,pageRequest.getFilters());
+		XsqlFilterResult queryXsqlResult = builder.generateHql(sql,pageRequest);
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,pageRequest);
 		
 		return pageQuery(pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
@@ -133,7 +133,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	
 	private Object executeQueryForPage(final PageRequest pageRequest,Query query, Query countQuery) {
 		Page page = new Page(pageRequest,((Number)countQuery.uniqueResult()).intValue());
-		if(page.getTotalCount() == 0) {
+		if(page.getTotalCount() <= 0) {
 			page.setResult(new ArrayList(0));
 		}else {
 			page.setResult(query.setFirstResult(page.getFirstResult()).setMaxResults(page.getPageSize()).list());
