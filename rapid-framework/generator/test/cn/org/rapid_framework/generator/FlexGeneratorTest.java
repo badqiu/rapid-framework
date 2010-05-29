@@ -12,7 +12,7 @@ public class FlexGeneratorTest extends GeneratorTestCase{
 		Table table = DbTableFactory.getInstance().getTable("USER_INFO");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		g.addTemplateRootDir(new File("plugins/flex/template"));
+//		g.addTemplateRootDir(new File("plugins/flex/template"));
 		g.addTemplateRootDir(new File("plugins/flex_cairngorm/template"));
 		
 		generateByTable(table);
