@@ -38,14 +38,6 @@ public class ${className}Action extends BaseStrutsAction {
 	}
 	
 	/** 
-	 * 进入查询页面
-	 **/
-	public ActionForward query(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) {
-		return QUERY_FORWARD;
-	}
-	
-	/** 
 	 * 执行搜索 
 	 **/
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request,
