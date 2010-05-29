@@ -3,8 +3,15 @@ package cn.org.rapid_framework.generator.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
+
+import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
  * 
  * @author badqiu
@@ -43,6 +50,14 @@ public class FileHelper {
 		if(outputFile.getParentFile() != null) {
 			outputFile.getParentFile().mkdirs();
 		}
+	}
+	
+	public static File getRsourcesByClassLoader(String resourceName) throws IOException {
+		Enumeration<URL> urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
+		while (urls.hasMoreElements()) {
+			return new File(urls.nextElement().getFile());
+		}
+		throw new FileNotFoundException(resourceName);
 	}
 	
 	private static boolean isIgnoreFile(File file) {

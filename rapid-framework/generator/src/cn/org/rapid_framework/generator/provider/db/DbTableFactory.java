@@ -17,12 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.ResourceUtils;
-
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
@@ -388,7 +387,7 @@ public class DbTableFactory {
 		}
 		private static NodeData getTableConfigXmlNodeData(String tableSqlName){
 			try {
-				File file = ResourceUtils.getFile("classpath:"+tableSqlName+".xml");
+				File file = FileHelper.getRsourcesByClassLoader("generator_config/table/"+tableSqlName+".xml");
 				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
 				return new XMLHelper().parseXML(file);
 			}catch(Exception e) {//ignore
