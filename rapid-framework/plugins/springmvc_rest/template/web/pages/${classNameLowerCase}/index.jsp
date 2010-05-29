@@ -24,9 +24,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="queryPanel">
 <form id="queryForm" name="queryForm" method="get" style="display: inline;">
-<input type="hidden" value="${query.pageNumber}" name="pageNumber"/>
-<input type="hidden" value="${query.pageSize}" name="pageSize"/>
-<input type="hidden" value="${query.sortColumns}" name="sortColumns"/>
+<input type="hidden" value="<@jspEl 'query.pageNumber'/>" name="pageNumber"/>
+<input type="hidden" value="<@jspEl 'query.pageSize'/>" name="pageSize"/>
+<input type="hidden" value="<@jspEl 'query.sortColumns'/>" name="sortColumns"/>
 <fieldset>
 	<legend>搜索</legend>
 	<table>

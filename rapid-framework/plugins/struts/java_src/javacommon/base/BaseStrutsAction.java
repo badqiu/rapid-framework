@@ -85,8 +85,8 @@ public class BaseStrutsAction extends AutowireMappingDispatchAction{
 		request.setAttribute(tableId+"pageRequest", pageRequest);
 	}
 	
-	public PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
-		return PageRequestFactory.newPageRequest(request, defaultSortColumns);
+	public <T extends PageRequest>T newPageRequest(HttpServletRequest request,Class<T> queryClazz,String defaultSortColumns){
+		return (T)PageRequestFactory.newPageRequest(request,queryClazz,defaultSortColumns);
     }
 	
 	/**
