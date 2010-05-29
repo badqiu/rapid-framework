@@ -57,6 +57,7 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 		getRequest().setAttribute(tableId+"page", page);
 		getRequest().setAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
 		getRequest().setAttribute(tableId+"pageRequest", pageRequest);
+		getRequest().setAttribute(tableId+"query", pageRequest);
 	}
 	
 	public <T extends PageRequest> T newQuery(Class<T> queryClazz,String defaultSortColumns){
