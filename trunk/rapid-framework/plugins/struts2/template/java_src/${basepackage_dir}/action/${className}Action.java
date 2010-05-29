@@ -67,11 +67,10 @@ public class ${className}Action extends BaseStruts2Action implements Preparable,
 	
 	/** 执行搜索 */
 	public String list() {
-		PageRequest<Map> pageRequest = newPageRequest(DEFAULT_SORT_COLUMNS);
-		//pageRequest.getFilters().put("key",value);     //add custom filter
+		${className}Query query = newQuery(${className}Query.class,DEFAULT_SORT_COLUMNS);
 		
-		Page page = ${classNameLower}Manager.findPage(pageRequest);
-		savePage(page,pageRequest);
+		Page page = ${classNameLower}Manager.findPage(query);
+		savePage(page,query);
 		return LIST_JSP;
 	}
 	

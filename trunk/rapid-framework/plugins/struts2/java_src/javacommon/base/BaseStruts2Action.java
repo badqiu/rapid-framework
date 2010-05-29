@@ -59,8 +59,9 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 		getRequest().setAttribute(tableId+"pageRequest", pageRequest);
 	}
 	
-	public PageRequest newPageRequest(String defaultSortColumns){
-		return PageRequestFactory.newPageRequest(ServletActionContext.getRequest(), defaultSortColumns);
+	public <T extends PageRequest> T newQuery(Class<T> queryClazz,String defaultSortColumns){
+		PageRequest query = PageRequestFactory.newPageRequest(ServletActionContext.getRequest(),queryClazz,defaultSortColumns);
+		return (T)query;
     }
 	
 	public boolean isNullOrEmptyString(Object o) {

@@ -50,11 +50,10 @@ public class ${className}Action extends BaseStrutsAction {
 	 **/
 	public ActionForward list(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			  HttpServletResponse response) {
-		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
-		//pageRequest.getFilters(); //add custom filters
+		${className}Query query = newPageRequest(request,${className}Query.class,DEFAULT_SORT_COLUMNS);
 		
-		Page page = this.${classNameLower}Manager.findPage(pageRequest);
-		savePage(page,pageRequest,request);
+		Page page = this.${classNameLower}Manager.findPage(query);
+		savePage(page,query,request);
 		return LIST_FORWARD;
 	}
 	
