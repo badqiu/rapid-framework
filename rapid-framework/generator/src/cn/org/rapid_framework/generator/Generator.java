@@ -109,41 +109,25 @@ public class Generator {
 		
 		List exceptions = new ArrayList();
 		for(int i = 0; i < templateFiles.size(); i++) {
-			File templateFile = (File)templateFiles.get(i);
-			String templateRelativePath = FileHelper.getRelativePath(templateRootDir, templateFile);
+			File srcFile = (File)templateFiles.get(i);
+			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			
 			templateModel.put("gg", new GeneratorControl());
 			
-			String outputFilePath = templateRelativePath;
-			if(FreemarkerUtils.isIgnoreTemplateProcess(templateFile, templateRelativePath)) {
+			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
 				continue;
 			}
-			int testExpressionIndex = -1;
-			if((testExpressionIndex = templateRelativePath.indexOf('@')) != -1) {
-				outputFilePath = templateRelativePath.substring(0, testExpressionIndex);
-				String testExpressionKey = templateRelativePath.substring(testExpressionIndex+1);
-				Object expressionValue = filePathModel.get(testExpressionKey);
-				if(expressionValue == null) {
-					System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateRelativePath+"]");
-					continue;
-				}
-				if(!"true".equals(String.valueOf(expressionValue))) {
-					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateRelativePath);
-					continue;
-				}
-			}
-			if(outputFilePath.endsWith(removeExtensions)) {
-				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
-			}
 			
-			String targetFilename = null;
+			String outputFilepath = null;
 			try {
-				targetFilename = FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
-				generateNewFileOrInsertIntoFile(templateModel,targetFilename, templateRelativePath,outputFilePath);
+				outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
+				if(outputFilepath != null ) {
+					generateNewFileOrInsertIntoFile(templateModel,outputFilepath, templateFile);
+				}
 			}catch(Exception e) {
-                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateRelativePath+" => "+ targetFilename, e);
+                RuntimeException throwException = new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
 			    if (ignoreTemplateGenerateException) {
-			        GLogger.warn("iggnore generate error,template is:" + templateRelativePath+" cause:"+e);
+			        GLogger.warn("iggnore generate error,template is:" + templateFile+" cause:"+e);
                     exceptions.add(throwException);
                 } else {
 					throw throwException;
@@ -153,26 +137,49 @@ public class Generator {
 		return exceptions;
 	}
 	
+	/** 处理文件路径的变量变成输出路径 */
+	private String proceeForOutputFilepath(Map filePathModel,String templateFile) throws IOException {
+		String outputFilePath = templateFile;
+		int testExpressionIndex = -1;
+		if((testExpressionIndex = templateFile.indexOf('@')) != -1) {
+			outputFilePath = templateFile.substring(0, testExpressionIndex);
+			String testExpressionKey = templateFile.substring(testExpressionIndex+1);
+			Object expressionValue = filePathModel.get(testExpressionKey);
+			if(expressionValue == null) {
+				System.err.println("[not-generate] WARN: test expression is null by key:["+testExpressionKey+"] on template:["+templateFile+"]");
+					return null;
+			}
+			if(!"true".equals(String.valueOf(expressionValue))) {
+				System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateFile);
+					return null;
+			}
+		}
+		if(outputFilePath.endsWith(removeExtensions)) {
+			outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
+		}
+		return FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
+	}
+	
 
 	private Configuration getFreeMarkerConfiguration() throws IOException {
 		return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
 	}
 
-	private void generateNewFileOrInsertIntoFile( Map templateModel,String targetFilename, String templateFile,String outputFilePath) throws Exception {
+	private void generateNewFileOrInsertIntoFile( Map templateModel,String outputFilepath, String templateFile) throws Exception {
 		Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
 		template.setOutputEncoding(encoding);
 		
-		File absoluteOutputFilePath = FileHelper.mkdir(getOutRootDir(),targetFilename);
+		File absoluteOutputFilePath = FileHelper.mkdir(getOutRootDir(),outputFilepath);
 		if(absoluteOutputFilePath.exists()) {
 			StringWriter newFileContentCollector = new StringWriter();
 			if(FreemarkerUtils.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
-				System.out.println("[insert]\t generate content into:"+targetFilename);
+				System.out.println("[insert]\t generate content into:"+outputFilepath);
 				IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
 				return;
 			}
 		}
 		
-		System.out.println("[generate]\t template:"+templateFile+" to "+targetFilename);
+		System.out.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
 		FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
 	}
 
@@ -183,13 +190,13 @@ public class Generator {
 	}
 	
 	static class FreemarkerUtils {
-		public static boolean isIgnoreTemplateProcess(File templateFile,String templateRelativePath) {
-			if(templateFile.isDirectory() || templateFile.isHidden())
+		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile) {
+			if(srcFile.isDirectory() || srcFile.isHidden())
 				return true;
-			if(templateRelativePath.trim().equals(""))
+			if(templateFile.trim().equals(""))
 				return true;
-			if(templateFile.getName().toLowerCase().endsWith(".include")){
-				System.out.println("[skip]\t\t endsWith '.include' template:"+templateRelativePath);
+			if(srcFile.getName().toLowerCase().endsWith(".include")){
+				System.out.println("[skip]\t\t endsWith '.include' template:"+templateFile);
 				return true;
 			}
 			return false;
