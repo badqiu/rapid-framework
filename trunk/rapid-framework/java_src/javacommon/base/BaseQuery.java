@@ -5,15 +5,15 @@ public class BaseQuery implements java.io.Serializable {
 
 	private int pageNumber;
 	private int pageSize;
-	private String orderBy;
+	private String sortColumns;
 	
 	public BaseQuery() {
 	}
 	
-	public BaseQuery(int pageNumber, int pageSize, String orderBy) {
+	public BaseQuery(int pageNumber, int pageSize, String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
-		this.orderBy = orderBy;
+		this.sortColumns = sortColumns;
 	}
 
 	public int getPageNumber() {
@@ -32,16 +32,16 @@ public class BaseQuery implements java.io.Serializable {
 		this.pageSize = pageSize;
 	}
 
-	public String getOrderBy() {
-		return orderBy;
+	public String getSortColumns() {
+		return sortColumns;
 	}
 
-	public void setOrderBy(String orderBy) {
-		this.orderBy = orderBy;
+	public void setSortColumns(String sortColumns) {
+		this.sortColumns = sortColumns;
 	}
-	
+
 	public String toString() {
-		return String.format("pageNumber:%s pageSize:%s orderBy:%s",pageNumber,pageSize,orderBy);
+		return String.format("pageNumber:%s pageSize:%s sortColumns:%s",pageNumber,pageSize,sortColumns);
 	}
 
 }
