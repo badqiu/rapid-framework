@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 /**
  * 实现Flash Scope,存储在Flash中的数据可以在下一次http请求时获得.
  * 
@@ -22,16 +23,27 @@ public class Flash {
 
     public static Flash restore(HttpServletRequest request) {
         Flash flash = new Flash();
-		Map flashData = (Map)request.getSession().getAttribute(FLASH_IN_SESSION_KEY);
-        if(flashData != null) {
-        	flash.data = flashData;
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+			Map flashData = (Map)session.getAttribute(FLASH_IN_SESSION_KEY);
+	        if(flashData != null) {
+	        	flash.data = flashData;
+	        }
         }
         return flash;
     }
 
     public void save(HttpServletRequest request,HttpServletResponse response) {
     	try {
-    		request.getSession().setAttribute(FLASH_IN_SESSION_KEY, out);
+    		if(out.isEmpty()) {
+    			HttpSession session = request.getSession(false);
+    			if(session != null) {
+    				session.setAttribute(FLASH_IN_SESSION_KEY, session);
+    			}
+    		}else {
+    			HttpSession session = request.getSession(true);
+        		session.setAttribute(FLASH_IN_SESSION_KEY, out);
+    		}
     	}catch(Exception e) {
     		throw new IllegalStateException("Flash serializationProblem", e);
     	}
