@@ -52,72 +52,74 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	
 	/** 列表 */
 	@Override
-	public ModelAndView index(HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) {
+	public String index(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) {
 		PageRequest<Map> pageRequest = newPageRequest(request,DEFAULT_SORT_COLUMNS);
 		//pageRequest.getFilters(); //add custom filters
 		
 		Page page = this.${classNameFirstLower}Manager.findPage(pageRequest);
 		
-		ModelAndView result = toModelAndView(page, pageRequest);
-		result.addObject("${classNameFirstLower}",${classNameFirstLower});
-		result.setViewName("/${className?lower_case}/index");
-		return result;
+		model.addAllAttributes(toModelMap(page, pageRequest));
+		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		return "/${className?lower_case}/index";
 	}
 	
 	/** 进入新增 */
 	@Override
-	public ModelAndView _new(HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
-		return new ModelAndView("/${classNameLowerCase}/new","${classNameFirstLower}",${classNameFirstLower});
+	public String _new(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
+		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		return "/${classNameLowerCase}/new";
 	}
 	
 	/** 显示 */
 	@Override
-	public ModelAndView show(@PathVariable ${pkJavaType} id) throws Exception {
+	public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		return new ModelAndView("/${classNameLowerCase}/show","${classNameFirstLower}",${classNameFirstLower});
+		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		return "/${classNameLowerCase}/show";
 	}
 	
 	/** 编辑 */
 	@Override
-	public ModelAndView edit(@PathVariable ${pkJavaType} id) throws Exception {
+	public String edit(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		return new ModelAndView("/${classNameLowerCase}/edit","${classNameFirstLower}",${classNameFirstLower});
+		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		return "/${classNameLowerCase}/edit";
 	}
 	
 	/** 保存新增 */
 	@Override
-	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
+	public String create(ModelMap model,HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
 		${classNameFirstLower}Manager.save(${classNameFirstLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 	/** 保存更新 */
 	@Override
-	public ModelAndView update(@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String update(ModelMap model,@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		bind(request,${classNameFirstLower});
 		${classNameFirstLower}Manager.update(${classNameFirstLower});
 		Flash.current().success(UPDATE_SUCCESS);
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 	/** 删除 */
 	@Override
-	public ModelAndView delete(@PathVariable ${pkJavaType} id) {
+	public String delete(ModelMap model,@PathVariable ${pkJavaType} id) {
 		${classNameFirstLower}Manager.removeById(id);
 		Flash.current().success(DELETE_SUCCESS);
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 
 	/** 批量删除 */
 	@Override
-	public ModelAndView batchDelete(${pkJavaType}[] items) {
+	public String batchDelete(ModelMap model,${pkJavaType}[] items) {
 		for(int i = 0; i < items.length; i++) {
 			${classNameFirstLower}Manager.removeById(items[i]);
 		}
 		Flash.current().success(DELETE_SUCCESS);
-		return new ModelAndView(LIST_ACTION);
+		return LIST_ACTION;
 	}
 	
 }
