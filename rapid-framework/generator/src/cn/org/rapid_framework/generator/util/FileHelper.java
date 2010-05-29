@@ -34,9 +34,15 @@ public class FileHelper {
 	
 	public static File mkdir(String dir,String file) {
 		if(dir == null) throw new IllegalArgumentException("dir must be not null");
-		File outputFile = new File(dir,file);
-		outputFile.getParentFile().mkdirs();
-		return outputFile;
+		File result = new File(dir,file);
+		parnetMkdir(result);
+		return result;
+	}
+
+	public static void parnetMkdir(File outputFile) {
+		if(outputFile.getParentFile() != null) {
+			outputFile.getParentFile().mkdirs();
+		}
 	}
 	
 	private static boolean isIgnoreFile(File file) {
