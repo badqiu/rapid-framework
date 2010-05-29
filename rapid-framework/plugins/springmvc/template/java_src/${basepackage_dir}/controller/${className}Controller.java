@@ -7,6 +7,7 @@ package ${basepackage}.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.org.rapid_framework.web.scope.Flash;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -79,6 +80,7 @@ public class ${className}Controller extends BaseSpringController{
 	 **/
 	public ModelAndView save(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
 		${classNameLower}Manager.save(${classNameLower});
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
 		return new ModelAndView(LIST_ACTION);
 	}
 	
@@ -100,6 +102,7 @@ public class ${className}Controller extends BaseSpringController{
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
 		bind(request,${classNameLower});
 		${classNameLower}Manager.update(${classNameLower});
+		Flash.current().success(UPDATE_SUCCESS);
 		return new ModelAndView(LIST_ACTION);
 	}
 	
@@ -121,6 +124,7 @@ public class ${className}Controller extends BaseSpringController{
 			
 			${classNameLower}Manager.removeById(id);
 		}
+		Flash.current().success(DELETE_SUCCESS);
 		return new ModelAndView(LIST_ACTION);
 	}
 	
