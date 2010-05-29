@@ -67,6 +67,13 @@ public class Flash {
         data.put(key, value);
         out.put(key, value);
     }
+    
+    public void now(String key, String value) {
+        if (key.contains(":")) {
+            throw new IllegalArgumentException("Character ':' is invalid in a flash key.");
+        }
+        data.put(key, value);
+    }
 
     public void put(String key, Object value) {
         if (value == null) {
