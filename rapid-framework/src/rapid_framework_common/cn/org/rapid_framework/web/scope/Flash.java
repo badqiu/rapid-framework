@@ -34,19 +34,15 @@ public class Flash {
     }
 
     public void save(HttpServletRequest request,HttpServletResponse response) {
-    	try {
-    		if(out.isEmpty()) {
-    			HttpSession session = request.getSession(false);
-    			if(session != null) {
-    				session.setAttribute(FLASH_IN_SESSION_KEY, session);
-    			}
-    		}else {
-    			HttpSession session = request.getSession(true);
-        		session.setAttribute(FLASH_IN_SESSION_KEY, out);
-    		}
-    	}catch(Exception e) {
-    		throw new IllegalStateException("Flash serializationProblem", e);
-    	}
+		if(out.isEmpty()) {
+			HttpSession session = request.getSession(false);
+			if(session != null) {
+				session.setAttribute(FLASH_IN_SESSION_KEY, session);
+			}
+		}else {
+			HttpSession session = request.getSession(true);
+    		session.setAttribute(FLASH_IN_SESSION_KEY, out);
+		}
     }
 
     // ThreadLocal access
