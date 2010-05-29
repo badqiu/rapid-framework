@@ -35,9 +35,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="s_${column.columnNameLower}"   />
+				<input value="<@jspEl "query."+column.columnNameLower+"Begin"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}Begin"   />
+				<input value="<@jspEl "query."+column.columnNameLower+"End"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}End"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>"  name="s_${column.columnNameLower}"  />
+				<input value="<@jspEl "query."+column.columnNameLower/>"  name="${column.columnNameLower}"  />
 				</#if>
 			</td>
 			</#if>

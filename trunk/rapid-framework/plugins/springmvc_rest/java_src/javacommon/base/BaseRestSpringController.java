@@ -1,5 +1,6 @@
 package javacommon.base;
 
+import javax.print.attribute.standard.PageRanges;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import cn.org.rapid_framework.page.PageRequest;
+
+import com.company.project.valueobject.query.UserInfoQuery;
 
 /**
  * 定义标准的rest方法以对应实体对象的操作,以达到统一rest的方法名称,
@@ -34,7 +39,7 @@ public class BaseRestSpringController<Entity,PK> extends BaseSpringController{
 	// 如果你不喜欢 HttpServletRequest request,HttpServletResponse response作为方法参数，也请删除
 	
 	@RequestMapping
-	public String index(ModelMap model,HttpServletRequest request,HttpServletResponse response,Entity entity) {
+	public <T extends PageRequest> String index(ModelMap model,HttpServletRequest request,HttpServletResponse response,T query) {
 		throw new UnsupportedOperationException("not yet implement");
 	}
 	
@@ -79,4 +84,5 @@ public class BaseRestSpringController<Entity,PK> extends BaseSpringController{
 	public String batchDelete(ModelMap model,@RequestParam("items") PK[] items) {
 		throw new UnsupportedOperationException("not yet implement");
 	}
+
 }

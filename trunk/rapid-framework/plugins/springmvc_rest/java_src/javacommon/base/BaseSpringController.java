@@ -76,6 +76,7 @@ public class BaseSpringController extends MultiActionController{
 		model.addAttribute(tableId+"page", page);
 		model.addAttribute(tableId+"totalRows", new Integer(page.getTotalCount()));
 		model.addAttribute(tableId+"pageRequest", pageRequest);
+		model.addAttribute(tableId+"query", pageRequest);
 	}
 	
 	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){

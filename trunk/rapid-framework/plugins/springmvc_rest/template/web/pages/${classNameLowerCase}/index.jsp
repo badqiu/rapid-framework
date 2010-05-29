@@ -23,7 +23,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%@ include file="/commons/messages.jsp" %>
 
 <div class="queryPanel">
-<form method="get" style="display: inline;">
+<form id="queryForm" name="queryForm" method="get" style="display: inline;">
+<input type="hidden" value="${query.pageNumber}" name="pageNumber"/>
+<input type="hidden" value="${query.pageSize}" name="pageSize"/>
+<input type="hidden" value="${query.sortColumns}" name="sortColumns"/>
 <fieldset>
 	<legend>搜索</legend>
 	<table>
@@ -36,9 +39,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="s_${column.columnNameLower}"   />
+				<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}"   />
+				<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower/>"  name="s_${column.columnNameLower}"  />
+				<input value="<@jspEl "query."+column.columnNameLower/>"  name="${column.columnNameLower}"  />
 				</#if>
 			</td>
 			</#if>
@@ -55,9 +59,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </form>
 </div>
 
-<ec:table items='page.result' var="item" method="get"
+<ec:table items='page.result' var="item" method="get" form="queryForm"
 	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="<@jspEl 'ctx'/>/${classNameLowerCase}" autoIncludeParameters="true">
+	action="<@jspEl 'ctx'/>/${classNameLowerCase}" autoIncludeParameters="false">
 	<ec:row>
 		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
 			<input type="checkbox" name="items" value="<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>"/>
