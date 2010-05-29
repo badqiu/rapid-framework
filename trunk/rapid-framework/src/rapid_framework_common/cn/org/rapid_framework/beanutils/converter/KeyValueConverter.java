@@ -11,10 +11,18 @@ public class KeyValueConverter implements Converter {
 
     public Object convert(Class type, Object value) {
         if(value == null) return null;
-        return convertKeyValue2TargetType(type, value);
+        if(type.isAssignableFrom(KeyValue.class)) {
+        	return convert2KeyValue(value);
+        }else {
+        	return convertKeyValue2TargetType(type, value);
+        }
     }
 
-    private Object convertKeyValue2TargetType(Class type, Object value) {
+    private Object convert2KeyValue(Object value) {
+    	throw new IllegalArgumentException("not yet implement");
+	}
+
+	private Object convertKeyValue2TargetType(Class type, Object value) {
         KeyValue kv = (KeyValue)value;
         if(kv.getKey() == null) return null;
         
@@ -33,7 +41,4 @@ public class KeyValueConverter implements Converter {
         }
     }
     
-    private Object convert2KeyValue(Class type, Object value) {
-        return null;
-    }
 }
