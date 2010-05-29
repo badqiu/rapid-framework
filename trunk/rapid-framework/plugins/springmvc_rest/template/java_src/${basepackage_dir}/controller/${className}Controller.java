@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import cn.org.rapid_framework.web.scope.Flash;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -87,6 +88,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	@Override
 	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
 		${classNameFirstLower}Manager.save(${classNameFirstLower});
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
 		return new ModelAndView(LIST_ACTION);
 	}
 	
@@ -96,6 +98,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		bind(request,${classNameFirstLower});
 		${classNameFirstLower}Manager.update(${classNameFirstLower});
+		Flash.current().success(UPDATE_SUCCESS);
 		return new ModelAndView(LIST_ACTION);
 	}
 	
@@ -103,6 +106,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	@Override
 	public ModelAndView delete(@PathVariable ${pkJavaType} id) {
 		${classNameFirstLower}Manager.removeById(id);
+		Flash.current().success(DELETE_SUCCESS);
 		return new ModelAndView(LIST_ACTION);
 	}
 
@@ -112,6 +116,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		for(int i = 0; i < items.length; i++) {
 			${classNameFirstLower}Manager.removeById(items[i]);
 		}
+		Flash.current().success(DELETE_SUCCESS);
 		return new ModelAndView(LIST_ACTION);
 	}
 	
