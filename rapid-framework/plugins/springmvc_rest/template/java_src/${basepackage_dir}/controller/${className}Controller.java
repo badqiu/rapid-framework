@@ -88,7 +88,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	@Override
 	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,${className} ${classNameFirstLower}) throws Exception {
 		${classNameFirstLower}Manager.save(${classNameFirstLower});
-		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return new ModelAndView(LIST_ACTION);
 	}
 	
