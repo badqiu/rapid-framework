@@ -1,7 +1,10 @@
 package cn.org.rapid_framework.generator.util;
 
 import java.sql.Types;
-
+/**
+ * 用于ibatis的JdbcType
+ * @author badqiu
+ */
 public enum JdbcType {
 
   BIT(Types.BIT),
