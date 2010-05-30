@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -9,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * 
  * @author badqiu
@@ -24,6 +27,17 @@ public class IOHelper {
 		}
 	}
 	
+    public static List readLines(Reader input) throws IOException {
+        BufferedReader reader = new BufferedReader(input);
+        List list = new ArrayList();
+        String line = reader.readLine();
+        while (line != null) {
+            list.add(line);
+            line = reader.readLine();
+        }
+        return list;
+    }
+    
 	public static String readFile(File file) throws IOException {
 		Reader in = new FileReader(file);
 		StringWriter out = new StringWriter();

@@ -2,14 +2,14 @@ package cn.org.rapid_framework.generator.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
@@ -19,7 +19,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
  */
 public class FileHelper {
 	/**
-	 * ���baseDir�õ�file�����·��
+	 * 得到相对路径
 	 */
 	public static String getRelativePath(File baseDir,File file) {
 		if(baseDir.equals(file))
@@ -79,6 +79,38 @@ public class FileHelper {
 		return false;
 	}
 	
+	public static  Set binaryExtentionsList = new HashSet();
+	static {
+	    loadBinaryExtentionsList("cn/org/rapid_framework/generator/util/binary_filelist.txt");
+	}
+	
+	public static void loadBinaryExtentionsList(String resourceName) {
+	    try {
+        File file = FileHelper.getRsourcesByClassLoader(resourceName);
+	    binaryExtentionsList.addAll(IOHelper.readLines(new FileReader(file)));
+	    }catch(Exception e) {
+	        throw new RuntimeException(e);
+	    }
+    }
+	
+	/** 检查文件是否是二进制文件 */
+    public static boolean isBinary(File file) throws IOException {
+//        if(file == null) return false;
+        return binaryExtentionsList.contains(getExtension(file.getName()));
+    }
+	
+    public static String getExtension(String filename) {
+        if (filename == null) {
+            return null;
+        }
+        int index = filename.indexOf(".");
+        if (index == -1) {
+            return "";
+        } else {
+            return filename.substring(index + 1);
+        }
+    }
+    
 	   //-----------------------------------------------------------------------
     /**
      * Deletes a directory recursively. 
