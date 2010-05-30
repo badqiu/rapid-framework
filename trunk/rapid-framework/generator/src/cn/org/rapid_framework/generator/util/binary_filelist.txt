@@ -15,6 +15,7 @@ iso
 z
 war
 ear
+dat
 
 tiff
 bmp
@@ -22,6 +23,7 @@ gif
 jpg
 jpeg
 png
+ico
 
 doc
 docx
@@ -36,3 +38,24 @@ exe
 msi
 scr
 com
+so
+dll
+
+wav
+mp3
+cd
+gg
+asf
+wma
+wav
+mp3pro
+rm
+real
+ape
+module
+midi
+vqf
+
+hlp
+pyc
+obj
