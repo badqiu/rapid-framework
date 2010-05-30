@@ -190,11 +190,7 @@ public class Table {
 	/**使用 getPkColumn()替换 */
 	@Deprecated
 	public Column getIdColumn() {
-		for(Column c : getColumns()) {
-			if(c.isPk())
-				return c;
-		}
-		return null;
+		return getPkColumn();
 	}
 	
 	/**
