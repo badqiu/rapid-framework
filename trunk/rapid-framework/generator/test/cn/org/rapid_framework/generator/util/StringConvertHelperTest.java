@@ -24,6 +24,15 @@ public class StringConvertHelperTest extends  TestCase{
 	public void test_string2ColumnEnumList_with_three_argument() {
 		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata("F(1,女);M(0,男)");
 		verify3Argument(list);
+		
+		list= StringConvertHelper.string2EnumMetadata("F(1,女),M(0,男)");
+        verify3Argument(list);
+        
+        list= StringConvertHelper.string2EnumMetadata("F(1,女),M(2,男),G(3,未知)");
+        assertEquals(3,list.size());
+        verifyMetadata(list.get(0), "F", "女", "1");
+        verifyMetadata(list.get(1), "M", "男", "2");
+        verifyMetadata(list.get(2), "G", "未知", "3");
 	}
 
     private void verify3Argument(List<EnumMetadada> list) {
@@ -41,7 +50,19 @@ public class StringConvertHelperTest extends  TestCase{
 		verify2Argument(list);
 		list= StringConvertHelper.string2EnumMetadata("F(女),M(男)");
 		verify2Argument(list);
+		
+	    list= StringConvertHelper.string2EnumMetadata("F(女),M(男);G(未知)");
+	    assertEquals(3,list.size());
+	    verifyMetadata(list.get(0), "F", "女", "F");
+	    verifyMetadata(list.get(1), "M", "男", "M");
+	    verifyMetadata(list.get(2), "G", "未知", "G");
 	}
+
+	public void testEmptyString() {
+        assertTrue(StringConvertHelper.string2EnumMetadata("").isEmpty());
+		assertTrue(StringConvertHelper.string2EnumMetadata("  ").isEmpty());
+		assertTrue(StringConvertHelper.string2EnumMetadata(null).isEmpty());
+    }
 
     private void verify2Argument(List<EnumMetadada> list) {
         assertEquals(2,list.size());
