@@ -114,7 +114,7 @@ public class Column {
 		_defaultValue = defaultValue;
 		_remarks = remarks;
 		
-		GLogger.debug(sqlName + " isPk -> " + _isPk);
+		GLogger.trace(sqlName + " isPk -> " + _isPk);
 		
 		initOtherProperties();
 	}

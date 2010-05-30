@@ -1,13 +1,19 @@
 package cn.org.rapid_framework.generator.util;
 
 public class GLogger {
-	private static final int DEBUG = 1;
-	private static final int INFO = 5;
-	private static final int ERROR = 10;
-	private static final int WARN = 15;
+	private static final int TRACE = 60;
+	private static final int DEBUG = 70;
+	private static final int INFO = 80;
+	private static final int ERROR = 90;
+	private static final int WARN = 100;
 
 	public static int logLevel = INFO;
 
+	public static void trace(String s) {
+		if (logLevel <= TRACE)
+			System.out.println("[Generator TRACE] " + s);
+	}
+	
 	public static void debug(String s) {
 		if (logLevel <= DEBUG)
 			System.out.println("[Generator DEBUG] " + s);
