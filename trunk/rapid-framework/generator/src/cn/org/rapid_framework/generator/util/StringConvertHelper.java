@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.org.rapid_framework.generator.provider.db.model.Column.ColumnEnum;
+import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMedatada;
 
 public class StringConvertHelper {
 
@@ -32,16 +32,16 @@ public class StringConvertHelper {
 	 * 将string转换为List<ColumnEnum>,每个枚举使用逗号分隔: 格式为: "enumAlias(enumKey,enumDesc)"
 	 */
 	static Pattern rex = Pattern.compile("(.*)\\((.*),(.*)\\)");
-	public static List<ColumnEnum> string2ColumnEnumList(String data) {
+	public static List<EnumMedatada> string2ColumnEnumList(String data) {
 		if(data == null || data.trim().isEmpty()) return new ArrayList();
 		//enumAlias(enumKey,enumDesc),enumAlias(enumDesc)
 		
-		List<ColumnEnum> list = new ArrayList();
+		List<EnumMedatada> list = new ArrayList();
 		String[] data_arr = data.split(";");
 		for (int i = 0; i < data_arr.length; i++) {
 			Matcher m = rex.matcher(data_arr[i]);
 			if(m.find()) {
-				list.add(new ColumnEnum(m.group(1),m.group(2),m.group(3)));
+				list.add(new EnumMedatada(m.group(1),m.group(2),m.group(3)));
 			}else {
 				throw new IllegalArgumentException("error enumString format:"+data+" expected format:F(1,Female);M(0,Male)");
 			}
