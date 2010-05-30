@@ -58,7 +58,7 @@ DAO层中orderby语句需要验证
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package
 增加generate dto by javaClass
-增加从注释中抽取enumString:F(男);M(女)
+增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
 考虑是否增加 
  EnumColumn {
  	getCode();
