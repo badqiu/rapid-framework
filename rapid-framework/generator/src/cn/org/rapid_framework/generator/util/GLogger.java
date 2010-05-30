@@ -36,7 +36,7 @@ public class GLogger {
 	public static void warn(String s, Throwable e) {
 		if (logLevel <= WARN) {
 			err.println("[Generator WARN] " + s + " cause:"+e);
-			e.printStackTrace();
+			e.printStackTrace(err);
 		}
 	}
 
@@ -48,7 +48,7 @@ public class GLogger {
 	public static void error(String s, Throwable e) {
 		if (logLevel <= ERROR) {
 			err.println("[Generator ERROR] " + s + " cause:"+e);
-			e.printStackTrace();
+			e.printStackTrace(err);
 		}
 	}
 }

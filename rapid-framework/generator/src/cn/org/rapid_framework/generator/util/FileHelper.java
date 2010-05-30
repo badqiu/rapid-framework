@@ -86,8 +86,10 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName) {
 	    try {
-        File file = FileHelper.getRsourcesByClassLoader(resourceName);
-	    binaryExtentionsList.addAll(IOHelper.readLines(new FileReader(file)));
+	        File file = FileHelper.getRsourcesByClassLoader(resourceName);
+		    FileReader reader = new FileReader(file);
+			binaryExtentionsList.addAll(IOHelper.readLines(reader));
+			reader.close();
 	    }catch(Exception e) {
 	        throw new RuntimeException(e);
 	    }
@@ -100,7 +102,7 @@ public class FileHelper {
 
     public static boolean isBinaryFile(String filename) {
     	if(StringHelper.isBlank(getExtension(filename))) return false;
-        return binaryExtentionsList.contains(getExtension(filename));
+        return binaryExtentionsList.contains(getExtension(filename).toLowerCase());
     }
 	
     public static String getExtension(String filename) {
