@@ -13,7 +13,7 @@ import cn.org.rapid_framework.generator.util.JdbcType;
 
 public class SqlQueryFactory {
     
-    public Table getByQuery(String sql) throws SQLException {
+    public Table getByQuery(String sql) throws Exception {
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
         if(sql.contains("?")) {
@@ -29,37 +29,43 @@ public class SqlQueryFactory {
         ResultSet rs = ps.executeQuery();
         ResultSetMetaData m = rs.getMetaData();
         for(int i = 1; i <= m.getColumnCount(); i++) {
-            String catalogName = m.getCatalogName(i);
-            String columnClassName = m.getColumnClassName(i);
-            int columnDisplaySize = m.getColumnDisplaySize(i);
-            String columnLabel = m.getColumnLabel(i);
-            String columnName = m.getColumnName(i);
-            
-            int columnType = m.getColumnType(i);
-            String columnTypeName = m.getColumnTypeName(i);
-            int precision = m.getPrecision(i);
-            int scale = m.getScale(i);
-            
-            String schemaName = m.getSchemaName(i);
-            String tableName = m.getTableName(i);
-            
-            QueryColumnMetadata qcm = new QueryColumnMetadata();
-            qcm.catalogName = catalogName;
-            qcm.columnClassName = columnClassName ;
-            qcm.columnDisplaySize = columnDisplaySize;
-            qcm.columnLabel = columnLabel;
-            qcm.columnName = columnName;
-            qcm.columnType=  columnType;
-            qcm.columnTypeName = columnTypeName;
-            qcm.precision  = precision;
-            qcm.scale = scale;
-            qcm.schemaName = schemaName;
-            qcm.tableName = tableName;
-            
+            QueryColumnMetadata qcm = newColumnMetadata(m, i);
+            Column c = new Column(DbTableFactory.getInstance().getTable(qcm.getTableName()),qcm.getColumnType(),qcm.getColumnTypeName(),qcm.getColumnName(),qcm.getColumnDisplaySize(),qcm.scale,false,false,false,false,null,null);
             System.out.println(BeanUtils.describe(qcm));
-            
+            System.out.println(BeanUtils.describe(c));
         } 
         return null;
+    }
+
+    private QueryColumnMetadata newColumnMetadata(ResultSetMetaData m, int i)
+                                                                             throws SQLException {
+        String catalogName = m.getCatalogName(i);
+        String columnClassName = m.getColumnClassName(i);
+        int columnDisplaySize = m.getColumnDisplaySize(i);
+        String columnLabel = m.getColumnLabel(i);
+        String columnName = m.getColumnName(i);
+        
+        int columnType = m.getColumnType(i);
+        String columnTypeName = m.getColumnTypeName(i);
+        int precision = m.getPrecision(i);
+        int scale = m.getScale(i);
+        
+        String schemaName = m.getSchemaName(i);
+        String tableName = m.getTableName(i);
+        
+        QueryColumnMetadata qcm = new QueryColumnMetadata();
+        qcm.catalogName = catalogName;
+        qcm.columnClassName = columnClassName ;
+        qcm.columnDisplaySize = columnDisplaySize;
+        qcm.columnLabel = columnLabel;
+        qcm.columnName = columnName;
+        qcm.columnType=  columnType;
+        qcm.columnTypeName = columnTypeName;
+        qcm.precision  = precision;
+        qcm.scale = scale;
+        qcm.schemaName = schemaName;
+        qcm.tableName = tableName;
+        return qcm;
     }
     public static class QueryColumnMetadata {
         String catalogName ;
@@ -142,14 +148,14 @@ public class SqlQueryFactory {
             this.tableName = tableName;
         }
         
-        
     }
     
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
         Table t1 = new SqlQueryFactory().getByQuery("select * from user_info");
         Table t2 = new SqlQueryFactory().getByQuery("select username,password from user_info where username=? and password =?");
         Table t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
         Table t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+        Table t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
     }
     
 }

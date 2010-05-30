@@ -90,6 +90,9 @@ public class DbTableFactory {
 	}
 
 	private Table _getTable(String sqlTableName) throws SQLException {
+	    if(sqlTableName== null || sqlTableName.trim().isEmpty()) 
+	            throw new IllegalArgumentException("sqlTableName must be not empty");
+	       
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), sqlTableName, null);
@@ -391,7 +394,7 @@ public class DbTableFactory {
 				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
 				return new XMLHelper().parseXML(file);
 			}catch(Exception e) {//ignore
-				GLogger.info("not found table config xml, exception:"+e);
+				GLogger.debug("not found config xml for table:"+tableSqlName+", exception:"+e);
 				return null;
 			}
 		}
