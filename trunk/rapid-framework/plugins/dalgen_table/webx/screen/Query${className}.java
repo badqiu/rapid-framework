@@ -56,13 +56,14 @@ public class Query${className} extends McenterScreenBase {
     
 	private Query${className}Request newQuery${className}Request(RunData rundata,Form form) {
 		Group group = form.getGroup("query${className}");
-
+		
+		HttpServletRequest request = rundata.getRequest();
         <#list table.notPkColumns as column>
         <#if column.isDateTimeColumn>
-        ${column.simpleJavaType} ${column.columnNameFirstLower}Begin = group.getField("${column.columnNameFirstLower}Begin").get${column.simpleJavaType}Value();
-        ${column.simpleJavaType} ${column.columnNameFirstLower}End = group.getField("${column.columnNameFirstLower}End").get${column.simpleJavaType}Value();
+        ${column.simpleJavaType} ${column.columnNameFirstLower}Begin = request.getParameter("${column.columnNameFirstLower}Begin");
+        ${column.simpleJavaType} ${column.columnNameFirstLower}End = request.getParameter("${column.columnNameFirstLower}End");
         <#else>
-        ${column.simpleJavaType} ${column.columnNameFirstLower} = group.getField("${column.columnNameFirstLower}").get${column.simpleJavaType}Value();
+        ${column.simpleJavaType} ${column.columnNameFirstLower} = request.getParameter("${column.columnNameFirstLower}");
         </#if>
         </#list>
 		
