@@ -41,7 +41,7 @@ public class TestDataGenerator {
 		return "";
 	}
 
-	private boolean isNumberType(String javaType) {
+	private static boolean isNumberType(String javaType) {
 		javaType = javaType.toLowerCase();
 		if(javaType.indexOf("byte") >= 0 
 				|| javaType.indexOf("short") >= 0 
