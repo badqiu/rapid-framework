@@ -10,6 +10,7 @@ import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.JdbcType;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
     
@@ -30,9 +31,15 @@ public class SqlQueryFactory {
         ResultSetMetaData m = rs.getMetaData();
         for(int i = 1; i <= m.getColumnCount(); i++) {
             QueryColumnMetadata qcm = newColumnMetadata(m, i);
-            Column c = new Column(DbTableFactory.getInstance().getTable(qcm.getTableName()),qcm.getColumnType(),qcm.getColumnTypeName(),qcm.getColumnName(),qcm.getColumnDisplaySize(),qcm.scale,false,false,false,false,null,null);
             System.out.println(BeanUtils.describe(qcm));
-            System.out.println(BeanUtils.describe(c));
+            if(StringHelper.isNotBlank(qcm.getTableName())) {
+                Table table = DbTableFactory.getInstance().getTable(qcm.getTableName());
+                Column column = table.getRequiredColumnBySqlName(qcm.getColumnName());
+                System.out.println("found on table:"+BeanUtils.describe(column));
+            }else {
+                Column column = new Column(null,qcm.getColumnType(),qcm.getColumnTypeName(),qcm.getColumnName(),qcm.getColumnDisplaySize(),qcm.scale,false,false,false,false,null,null);
+                System.out.println("not found on table:"+BeanUtils.describe(column));
+            }
         } 
         return null;
     }
@@ -152,7 +159,7 @@ public class SqlQueryFactory {
     
     public static void main(String[] args) throws Exception {
         Table t1 = new SqlQueryFactory().getByQuery("select * from user_info");
-        Table t2 = new SqlQueryFactory().getByQuery("select username,password from user_info where username=? and password =?");
+        Table t2 = new SqlQueryFactory().getByQuery("select username,password pwd from user_info where username=? and password =?");
         Table t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
         Table t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
         Table t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");

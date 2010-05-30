@@ -8,7 +8,15 @@ import java.util.Random;
  * @email badqiu(a)gmail.com
  */
 public class StringHelper {
-	
+
+    public static boolean isBlank(String str) {
+        return str == null || str.trim().isEmpty();
+    }
+
+    public static boolean isNotBlank(String str) {
+        return !isBlank(str);
+    }
+    
 	public static boolean contains(String str,String... keywords) {
 		if(str == null) return false;
 		if(keywords == null) throw new IllegalArgumentException("'keywords' must be not null");
