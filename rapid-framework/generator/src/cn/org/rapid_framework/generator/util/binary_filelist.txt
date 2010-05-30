@@ -24,6 +24,7 @@ scr
 com
 so
 dll
+bin
 
 tiff
 bmp
