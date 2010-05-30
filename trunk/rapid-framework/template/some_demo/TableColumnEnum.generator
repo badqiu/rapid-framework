@@ -21,7 +21,7 @@ import cn.org.rapid_framework.util.KeyValue;
 import cn.org.rapid_framework.util.KeyValueUtils;
 
 public static enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType},String>{
-	<#list column.columnEnumList as item>
+	<#list column.enumList as item>
 	${item.enumAlias}(new ${column.simpleJavaType}("${item.enumKey}"),"${item.enumDesc}")<#if item_has_next>,</#if>
 	</#list>
 	;
