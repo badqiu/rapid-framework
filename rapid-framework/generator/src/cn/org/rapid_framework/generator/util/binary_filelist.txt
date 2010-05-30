@@ -25,6 +25,8 @@ com
 so
 dll
 bin
+swf
+fla
 
 tiff
 bmp
@@ -42,6 +44,8 @@ xls
 xlsx
 pdf
 wps
+dot
+fon
 
 wav
 mp3
@@ -57,7 +61,12 @@ ape
 module
 midi
 vqf
+mid
+mpg
 
+iso
+img
+chm
 hlp
 pyc
 obj
