@@ -31,7 +31,8 @@ public class StringConvertHelper {
 	/**
 	 * 将string转换为List<ColumnEnum>,每个枚举使用逗号分隔: 格式为: "enumAlias(enumKey,enumDesc)"
 	 */
-	static Pattern rex = Pattern.compile("(.*)\\((.*),(.*)\\)");
+	static Pattern three = Pattern.compile("(.*)\\((.*),(.*)\\)");
+	static Pattern two = Pattern.compile("(.*)\\((.*)\\)");
 	public static List<EnumMetadada> string2EnumMetadata(String data) {
 		if(data == null || data.trim().isEmpty()) return new ArrayList();
 		//enumAlias(enumKey,enumDesc),enumAlias(enumDesc)
@@ -39,12 +40,17 @@ public class StringConvertHelper {
 		List<EnumMetadada> list = new ArrayList();
 		String[] data_arr = data.split(";");
 		for (int i = 0; i < data_arr.length; i++) {
-			Matcher m = rex.matcher(data_arr[i]);
-			if(m.find()) {
-				list.add(new EnumMetadada(m.group(1),m.group(2),m.group(3)));
-			}else {
-				throw new IllegalArgumentException("error enumString format:"+data+" expected format:F(1,Female);M(0,Male)");
+			Matcher three_m = three.matcher(data_arr[i]);
+			if(three_m.find()) {
+				list.add(new EnumMetadada(three_m.group(1),three_m.group(2),three_m.group(3)));
+				continue;
 			}
+			Matcher two_m = two.matcher(data_arr[i]);
+			if(two_m.find()) {
+				list.add(new EnumMetadada(two_m.group(1),two_m.group(1),two_m.group(2)));
+				continue;
+			}			
+			throw new IllegalArgumentException("error enumString format:"+data_arr[i]+" expected format:F(1,Female);M(0,Male) or F(Female);M(Male)");
 		}
 		return list;
 	}
