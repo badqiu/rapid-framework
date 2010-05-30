@@ -34,7 +34,11 @@ public class SqlQueryFactory {
             System.out.println(BeanUtils.describe(qcm));
             if(StringHelper.isNotBlank(qcm.getTableName())) {
                 Table table = DbTableFactory.getInstance().getTable(qcm.getTableName());
-                Column column = table.getRequiredColumnBySqlName(qcm.getColumnName());
+                Column column = table.getColumnBySqlName(qcm.getColumnName());
+                if(column == null) {
+                    //可以再尝试解析sql得到 column以解决 password as pwd找不开column问题
+                    column = new Column(table,qcm.getColumnType(),qcm.getColumnTypeName(),qcm.getColumnName(),qcm.getColumnDisplaySize(),qcm.scale,false,false,false,false,null,null);
+                }
                 System.out.println("found on table:"+BeanUtils.describe(column));
             }else {
                 Column column = new Column(null,qcm.getColumnType(),qcm.getColumnTypeName(),qcm.getColumnName(),qcm.getColumnDisplaySize(),qcm.scale,false,false,false,false,null,null);
