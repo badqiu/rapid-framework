@@ -5,24 +5,29 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
-import cn.org.rapid_framework.generator.util.JdbcType;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
     
-    public Table getByQuery(String sql) throws Exception {
+    public QueryResultMetaData getByQuery(String sql) throws Exception {
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
         if(sql.contains("?")) {
             int size = sql.split("\\?").length;
-            for(int i = 0; i < size; i++) {
+            for(int i = 1; i <= size; i++) {
             	try {
-                ps.setObject(i+1, null);
+            		ps.setInt(i,1);
             	}catch(Exception e) {
+            		try {
+            		ps.setString(i,"1");
+            		}catch(Exception ee) {
+            		}
             		System.err.println("error on set parametet index:"+i+" cause:"+e);
             	}
             }
@@ -32,6 +37,7 @@ public class SqlQueryFactory {
         System.out.println(" sql:"+sql);
         System.out.println("*******************************");
         ResultSet rs = ps.executeQuery();
+        QueryResultMetaData result = new QueryResultMetaData();
         ResultSetMetaData metadata = rs.getMetaData();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
@@ -45,25 +51,50 @@ public class SqlQueryFactory {
                     column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
                 }
                 System.out.println("found on table:"+BeanUtils.describe(column));
+                result.addColumn(column);
             }else {
                 Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
+                result.addColumn(column);
                 System.out.println("not found on table:"+BeanUtils.describe(column));
             }
         } 
-        return null;
+        System.out.println("QueryResultMetaData.isAllColumnInSameTable():"+result.isAllColumnInSameTable()+"");
+        return result;
     }
     
     public static void main(String[] args) throws Exception {
-        Table t1 = new SqlQueryFactory().getByQuery("select * from user_info");
-        Table t2 = new SqlQueryFactory().getByQuery("select username,password pwd from user_info where username=? and password =?");
-        Table t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-        Table t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-        Table t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-        Table t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit 1,2");
+    	QueryResultMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
+    	QueryResultMetaData t2 = new SqlQueryFactory().getByQuery("select username,password pwd from user_info where username=? and password =?");
+    	QueryResultMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	QueryResultMetaData t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	QueryResultMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	QueryResultMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
+    	QueryResultMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
     }
     
-    public static class QueryResultMetadata {
-    	
+    public static class QueryResultMetaData {
+    	boolean isInSingleTable = false;
+    	String operation = null;
+    	String multiPloicy = "many";
+    	Set<Column> columns = new LinkedHashSet<Column>();
+    	public boolean isAllColumnInSameTable() {
+    		if(columns.isEmpty()) return false;
+    		String preTableName = columns.iterator().next().getSqlName();
+    		for(Column c :columns) {
+    			Table table = c.getTable();
+				if(table == null) {
+					return false;
+				}
+				if(preTableName.equals(table.getSqlName())) {
+					continue;
+				}
+				return false;
+    		}
+    		return true;
+    	}
+    	public void addColumn(Column c) {
+    		columns.add(c);
+    	}
     }
 
     public static class ResultSetMetaDataHolder {
