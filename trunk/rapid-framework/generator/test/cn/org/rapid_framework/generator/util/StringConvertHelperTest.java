@@ -23,32 +23,40 @@ public class StringConvertHelperTest extends  TestCase{
 	
 	public void test_string2ColumnEnumList_with_three_argument() {
 		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata("F(1,女);M(0,男)");
-		assertEquals(2,list.size());
-		EnumMetadada f= list.get(0);
-		assertEquals(f.getEnumAlias(),"F");
-		assertEquals(f.getEnumDesc(),"女");
-		assertEquals(f.getEnumKey(),"1");
+		verify3Argument(list);
+	}
+
+    private void verify3Argument(List<EnumMetadada> list) {
+        assertEquals(2,list.size());
+        EnumMetadada f= list.get(0);
+		verifyMetadata(f, "F", "女", "1");
 		
 		EnumMetadada m= list.get(1);
-		assertEquals(m.getEnumAlias(),"M");
-		assertEquals(m.getEnumDesc(),"男");
-		assertEquals(m.getEnumKey(),"0");
-	}
+		verifyMetadata(m, "M", "男", "0");
+    }
 	
 	
 	public void test_string2ColumnEnumList_with_two_argument() {
 		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata("F(女);M(男)");
-		assertEquals(2,list.size());
+		verify2Argument(list);
+		list= StringConvertHelper.string2EnumMetadata("F(女),M(男)");
+		verify2Argument(list);
+	}
+
+    private void verify2Argument(List<EnumMetadada> list) {
+        assertEquals(2,list.size());
 		EnumMetadada f= list.get(0);
-		assertEquals(f.getEnumAlias(),"F");
-		assertEquals(f.getEnumDesc(),"女");
-		assertEquals(f.getEnumKey(),"F");
+		verifyMetadata(f, "F", "女", "F");
 		
 		EnumMetadada m= list.get(1);
-		assertEquals(m.getEnumAlias(),"M");
-		assertEquals(m.getEnumDesc(),"男");
-		assertEquals(m.getEnumKey(),"M");
-	}
+		verifyMetadata(m, "M", "男", "M");
+    }
+
+    private void verifyMetadata(EnumMetadada m, String enumAlias, String enumDesc, String enumKey) {
+        assertEquals(m.getEnumAlias(),enumAlias);
+		assertEquals(m.getEnumDesc(),enumDesc);
+		assertEquals(m.getEnumKey(),enumKey);
+    }
 	
 	public void test_string2ColumnEnumList_with_exception() {
 		try {
