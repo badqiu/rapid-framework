@@ -43,7 +43,7 @@
 			        ${column.sqlName} = ? <#if column_has_next>,</#if>
 			        </#list>
 		    ]]>
-		</sql>
+		</sql>			
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
@@ -163,12 +163,12 @@
 				</#if>
 		       </#list>
 		    </dynamic>
-		    LIMIT #startRow#,#pageSize#
-		    <dynamic prepend="ORDER BY">
+		    <dynamic>
 		    	<isNotEmpty property="orderby">
 		    	ORDER BY #orderby#
 		    	</isNotEmpty>
-		    </dynamic>		    		    
+		    </dynamic> 		    
+		    LIMIT #startRow#,#pageSize#
 		    ]]>
 		</sqlmap>		
 	</operation>

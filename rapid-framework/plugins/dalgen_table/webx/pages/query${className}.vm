@@ -2,10 +2,10 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
 
-#set(<@jspEl 'title'/> = 'query${className}')
+#set(<@jspEl 'title'/> = 'query ${table.tableAlias}')
 #set(<@jspEl 'group'/> = <@jspEl 'form'/>.query${className}.defaultInstance)
 
-<h2>'query${className}'</h2>
+<h2>query ${table.tableAlias}</h2>
 
 <form method="post" action="query${className}.htm">
 	<input type="hidden" name="doAction" value="true"/>
@@ -14,16 +14,25 @@
 <#list table.notPkColumns?chunk(3) as rows>
 	<tr>
 	<#list rows as column>
-		<td width="15%" align="right">${column.columnName}</td>
-		<td><input type="text" name="$!group.${column.columnNameFirstLower}.key" value="$!group.${column.columnNameFirstLower}.value"/></td>
-
+		<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+		<td width="15%" align="right">${column.columnAlias} Range</td>
+		<td>
+			<input type="text" name="${column.columnNameFirstLower}Begin" value="$!rundata.parameters.${column.columnNameFirstLower}Begin"/>
+			~
+			<input type="text" name="${column.columnNameFirstLower}End" value="$!rundata.parameters.${column.columnNameFirstLower}End"/>
+		</td>
+		<#else>
+		<td width="15%" align="right">${column.columnAlias}</td>
+		<td><input type="text" name="${column.columnNameFirstLower}" value="$!rundata.parameters.${column.columnNameFirstLower}"/></td>
+		</#if>  
+		
 	</#list>
 	</tr>
 </#list>
 	
 	<tr>
 		<td colspan="4">
-			<div align="center"><input type="submit" value="query ${className}"></div>
+			<div align="center"><input type="submit" value="query"></div>
 		</td>
 	</tr>
 	</table>
@@ -33,13 +42,15 @@
 <table class="gridTabalBody" border="1">
 	<tr>
 	<#list table.notPkColumns as column>
-		<th>$!item.${column.columnName}</th>
+		<th>${column.columnAlias}</th>
 	</#list>	
 	</tr>
 
+	<#noparse>#foreach( $item in  $pageList.itemList)</#noparse>
 	<tr>
 	<#list table.notPkColumns as column>
 		<td>$!item.${column.columnNameFirstLower}</td>
 	</#list>	
-	</tr>	
+	</tr>
+	#end	
 </table>
