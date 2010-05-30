@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetadada;
+import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
 
 public class StringConvertHelper {
 
@@ -33,22 +33,22 @@ public class StringConvertHelper {
 	 */
 	static Pattern three = Pattern.compile("(.*)\\((.*),(.*)\\)");
 	static Pattern two = Pattern.compile("(.*)\\((.*)\\)");
-	public static List<EnumMetadada> string2EnumMetadata(String data) {
+	public static List<EnumMetaDada> string2EnumMetaData(String data) {
 		if(data == null || data.trim().isEmpty()) return new ArrayList();
 		//enumAlias(enumKey,enumDesc),enumAlias(enumDesc)
 		
-		List<EnumMetadada> list = new ArrayList();
+		List<EnumMetaDada> list = new ArrayList();
 		String[] data_arr = data.split(";");
 		for (int i = 0; i < data_arr.length; i++) {
 			String str = data_arr[i];
             Matcher three_m = three.matcher(str);
 			if(three_m.find()) {
-				list.add(new EnumMetadada(three_m.group(1),three_m.group(2),three_m.group(3)));
+				list.add(new EnumMetaDada(three_m.group(1),three_m.group(2),three_m.group(3)));
 				continue;
 			}
 			Matcher two_m = two.matcher(str);
 			if(two_m.find()) {
-				list.add(new EnumMetadada(two_m.group(1),two_m.group(1),two_m.group(2)));
+				list.add(new EnumMetaDada(two_m.group(1),two_m.group(1),two_m.group(2)));
 				continue;
 			}			
 			throw new IllegalArgumentException("error enumString format:"+data+" expected format:F(1,Female);M(0,Male) or F(Female);M(Male)");

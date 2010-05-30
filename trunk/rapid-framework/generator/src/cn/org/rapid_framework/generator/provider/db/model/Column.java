@@ -440,8 +440,8 @@ public class Column {
 	public String getEnumString() {
 		return enumString;
 	}
-	public List<EnumMetadada> getEnumList() {
-		return StringConvertHelper.string2EnumMetadata(getEnumString());
+	public List<EnumMetaDada> getEnumList() {
+		return StringConvertHelper.string2EnumMetaData(getEnumString());
 	}
 	public boolean isEnumColumn() {
 		return getEnumList() != null && !getEnumList().isEmpty();
@@ -515,11 +515,11 @@ public class Column {
 	 * }
 	 * @author badqiu
 	 */
-	public static class EnumMetadada {
+	public static class EnumMetaDada {
 		private String enumAlias;
 		private String enumKey;
 		private String enumDesc;
-		public EnumMetadada(String enumAlias, String enumKey, String enumDesc) {
+		public EnumMetaDada(String enumAlias, String enumKey, String enumDesc) {
 			super();
 			this.enumAlias = enumAlias;
 			this.enumKey = enumKey;
