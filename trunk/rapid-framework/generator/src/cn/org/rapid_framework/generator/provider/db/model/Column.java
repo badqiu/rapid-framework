@@ -480,8 +480,8 @@ public class Column {
 	public String getEnumString() {
 		return enumString;
 	}
-	public List<EnumMedatada> getEnumList() {
-		return StringConvertHelper.string2ColumnEnumList(getEnumString());
+	public List<EnumMetadada> getEnumList() {
+		return StringConvertHelper.string2EnumMetadata(getEnumString());
 	}
 	public boolean isEnumColumn() {
 		return getEnumList() != null && !getEnumList().isEmpty();
@@ -555,11 +555,11 @@ public class Column {
 	 * }
 	 * @author badqiu
 	 */
-	public static class EnumMedatada {
+	public static class EnumMetadada {
 		private String enumAlias;
 		private String enumKey;
 		private String enumDesc;
-		public EnumMedatada(String enumAlias, String enumKey, String enumDesc) {
+		public EnumMetadada(String enumAlias, String enumKey, String enumDesc) {
 			super();
 			this.enumAlias = enumAlias;
 			this.enumKey = enumKey;
