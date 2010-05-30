@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,6 +38,7 @@ public class Generator {
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
 	private String removeExtensions = ".gen";
+	private boolean isCopyBinaryFile;
 	
 	String encoding = "UTF-8";
 	public Generator() {
@@ -57,11 +59,19 @@ public class Generator {
 	public boolean isIgnoreTemplateGenerateException() {
         return ignoreTemplateGenerateException;
     }
-
-    public void setIgnoreTemplateGenerateException(boolean ignoreTemplateGenerateException) {
+	
+	public void setIgnoreTemplateGenerateException(boolean ignoreTemplateGenerateException) {
         this.ignoreTemplateGenerateException = ignoreTemplateGenerateException;
     }
 
+    public boolean isCopyBinaryFile() {
+		return isCopyBinaryFile;
+	}
+
+	public void setCopyBinaryFile(boolean isCopyBinaryFile) {
+		this.isCopyBinaryFile = isCopyBinaryFile;
+	}
+	
     public String getEncoding() {
 		return encoding;
 	}
@@ -137,6 +147,12 @@ public class Generator {
 		private void execute(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			
+			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
+				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
+				System.out.println("[copy binary file by extention] from:"+srcFile+" => "+outputFilepath);
+				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
+				return;
+			}
 			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
 				return;
 			}
