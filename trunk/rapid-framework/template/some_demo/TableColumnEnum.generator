@@ -20,7 +20,7 @@ package cn.org.rapid_framework.util.fortest_enum;
 import cn.org.rapid_framework.util.KeyValue;
 import cn.org.rapid_framework.util.KeyValueUtils;
 
-public static enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType},String>{
+public enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType},String>{
 	<#list column.enumList as item>
 	${item.enumAlias}(new ${column.simpleJavaType}("${item.enumKey}"),"${item.enumDesc}")<#if item_has_next>,</#if>
 	</#list>
@@ -28,7 +28,7 @@ public static enum ${column.enumClassName} implements KeyValue<${column.simpleJa
 	
 	private final ${column.simpleJavaType} key;
 	private final String value;
-	${column.enumClassName}(String key,String value) {
+	${column.enumClassName}(${column.simpleJavaType} key,String value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -45,7 +45,7 @@ public static enum ${column.enumClassName} implements KeyValue<${column.simpleJa
 		return KeyValueUtils.getRequiredByKey(key, values());
 	}
 	
-	public String getKey() {
+	public ${column.simpleJavaType} getKey() {
 		return key;
 	}
 
