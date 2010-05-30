@@ -74,28 +74,28 @@ public class DbTableFactory {
 		return getAllTables(conn);
 	}
 	
-	public Table getTable(String sqlTableName) throws Exception {
-		Table t = _getTable(sqlTableName);
-		if(t == null && !sqlTableName.equals(sqlTableName.toUpperCase())) {
-			t = _getTable(sqlTableName.toUpperCase());
+	public Table getTable(String tableName) throws Exception {
+		Table t = _getTable(tableName);
+		if(t == null && !tableName.equals(tableName.toUpperCase())) {
+			t = _getTable(tableName.toUpperCase());
 		}
-		if(t == null && !sqlTableName.equals(sqlTableName.toLowerCase())) {
-			t = _getTable(sqlTableName.toLowerCase());
+		if(t == null && !tableName.equals(tableName.toLowerCase())) {
+			t = _getTable(tableName.toLowerCase());
 		}
 		
 		if(t == null) {
-			throw new RuntimeException("not found table with give name:"+sqlTableName);
+			throw new RuntimeException("not found table with give name:"+tableName);
 		}
 		return t;
 	}
 
-	private Table _getTable(String sqlTableName) throws SQLException {
-	    if(sqlTableName== null || sqlTableName.trim().isEmpty()) 
-	            throw new IllegalArgumentException("sqlTableName must be not empty");
+	private Table _getTable(String tableName) throws SQLException {
+	    if(tableName== null || tableName.trim().isEmpty()) 
+	            throw new IllegalArgumentException("tableName must be not empty");
 	       
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
-		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), sqlTableName, null);
+		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), tableName, null);
 		while(rs.next()) {
 			Table table = createTable(conn, rs);
 			return table;
