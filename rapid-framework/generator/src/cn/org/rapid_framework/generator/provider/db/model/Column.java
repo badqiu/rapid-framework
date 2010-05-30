@@ -2,8 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.model;
 
 
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
@@ -475,17 +474,17 @@ public class Column {
 		return enumClassName;
 	}
 	
-	public void setEnumMapString(String str) {
-		this.enumMapString = str == null ? "" : str;
+	public void setEnumString(String str) {
+		this.enumString = str;
 	}
-	public String getEnumMapString() {
-		return enumMapString;
+	public String getEnumString() {
+		return enumString;
 	}
-	public Map getEnumMap() {
-		return StringConvertHelper.string2Map(getEnumMapString());
+	public List<ColumnEnum> getColumnEnumList() {
+		return StringConvertHelper.string2ColumnEnumList(getEnumString());
 	}
 	public boolean isEnumColumn() {
-		return getEnumMap() != null && !getEnumMap().isEmpty();
+		return getColumnEnumList() != null && !getColumnEnumList().isEmpty();
 	}
 	
 	public void setJavaType(String javaType) {
@@ -538,7 +537,7 @@ public class Column {
 		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
 	}
 	
-	private String enumMapString = "";
+	private String enumString = "";
 	private String javaType;
 	private String columnAlias;
 	private String columnName;
@@ -547,4 +546,34 @@ public class Column {
 	private String enumClassName;
 	private boolean updatable = true;	
 	private boolean insertable = true;	
+	
+	/**
+	 * public enum ${enumClassName} {
+	 * 		${enumName}(${enumCode},${enumDesc});
+	 * 		private String key;
+	 * 		private String value;
+	 * }
+	 * @author badqiu
+	 */
+	public static class ColumnEnum {
+		private String enumAlias;
+		private String enumKey;
+		private String enumDesc;
+		public ColumnEnum(String enumAlias, String enumKey, String enumDesc) {
+			super();
+			this.enumAlias = enumAlias;
+			this.enumKey = enumKey;
+			this.enumDesc = enumDesc;
+		}
+		
+		public String getEnumAlias() {
+			return enumAlias;
+		}
+		public String getEnumKey() {
+			return enumKey;
+		}
+		public String getEnumDesc() {
+			return enumDesc;
+		}
+	}
 }
