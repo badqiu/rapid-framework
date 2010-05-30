@@ -38,7 +38,7 @@ public class Generator {
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
 	private String removeExtensions = ".gen";
-	private boolean isCopyBinaryFile;
+	private boolean isCopyBinaryFile = true;
 	
 	String encoding = "UTF-8";
 	public Generator() {
