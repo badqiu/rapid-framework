@@ -17,6 +17,13 @@ war
 ear
 dat
 
+exe
+msi
+scr
+com
+so
+dll
+
 tiff
 bmp
 gif
@@ -33,13 +40,6 @@ xls
 xlsx
 pdf
 wps
-
-exe
-msi
-scr
-com
-so
-dll
 
 wav
 mp3
