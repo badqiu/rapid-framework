@@ -21,12 +21,26 @@ public class StringConvertHelperTest extends  TestCase{
 		assertTrue(StringConvertHelper.string2Map(null).isEmpty());
 	}
 	
-	public void test_() {
+	public void test_string2ColumnEnumList() {
 		List<EnumMedatada> list= StringConvertHelper.string2ColumnEnumList("F(1,女);M(0,男)");
-		assertFalse(list.isEmpty());
+		assertEquals(2,list.size());
 		EnumMedatada f= list.get(0);
 		assertEquals(f.getEnumAlias(),"F");
 		assertEquals(f.getEnumDesc(),"女");
 		assertEquals(f.getEnumKey(),"1");
+		
+		EnumMedatada m= list.get(1);
+		assertEquals(m.getEnumAlias(),"M");
+		assertEquals(m.getEnumDesc(),"男");
+		assertEquals(m.getEnumKey(),"0");
+	}
+	
+	public void test_string2ColumnEnumList_with_exception() {
+		try {
+		List<EnumMedatada> list= StringConvertHelper.string2ColumnEnumList(",,");
+		fail();
+		}catch(Exception e) {
+			System.out.println(e);
+		}
 	}
 }
