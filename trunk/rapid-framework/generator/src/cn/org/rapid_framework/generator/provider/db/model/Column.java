@@ -82,61 +82,20 @@ public class Column {
 	 * The comments of column
 	 */
 	private String _remarks;
-		
+			
 	/**
-	 * Get static reference to Log4J Logger
-	 */
-
-//	String description;
-//
-//	String humanName;
-//
-//	int order;
-//
-//	boolean isHtmlHidden;
-//
-//	String validateString;
-
-	
-	
-	/**
-	 * Describe what the DbColumn constructor does
-	 * 
 	 * @param table
-	 *            Describe what the parameter does
 	 * @param sqlType
-	 *            Describe what the parameter does
 	 * @param sqlTypeName
-	 *            Describe what the parameter does
 	 * @param sqlName
-	 *            Describe what the parameter does
 	 * @param size
-	 *            Describe what the parameter does
 	 * @param decimalDigits
-	 *            Describe what the parameter does
 	 * @param isPk
-	 *            Describe what the parameter does
 	 * @param isNullable
-	 *            Describe what the parameter does
 	 * @param isIndexed
-	 *            Describe what the parameter does
-	 * @param defaultValue
-	 *            Describe what the parameter does
 	 * @param isUnique
-	 *            Describe what the parameter does
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for constructor
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
-	 * @todo-javadoc Write javadocs for method parameter
+	 * @param defaultValue
+	 * @param remarks
 	 */
 	public Column(Table table, int sqlType, String sqlTypeName,
 			String sqlName, int size, int decimalDigits, boolean isPk,
