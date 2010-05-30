@@ -214,7 +214,7 @@ public class DbTableFactory {
 	}
 	
 	private void retriveTableColumns(Table table) throws SQLException {
-	      GLogger.debug("-------setColumns(" + table.getSqlName() + ")");
+	      GLogger.trace("-------setColumns(" + table.getSqlName() + ")");
 
 	      List primaryKeys = getTablePrimaryKeys(table);
 	      table.setPrimaryKeyColumns(primaryKeys);
@@ -238,7 +238,7 @@ public class DbTableFactory {
 	         while (indexRs.next()) {
 	            String columnName = indexRs.getString("COLUMN_NAME");
 	            if (columnName != null) {
-	               GLogger.debug("index:" + columnName);
+	               GLogger.trace("index:" + columnName);
 	               indices.add(columnName);
 	            }
 
@@ -254,7 +254,7 @@ public class DbTableFactory {
 	               }
 	               l.add(columnName);
 	               uniqueIndices.put(columnName, indexName);
-	               GLogger.debug("unique:" + columnName + " (" + indexName + ")");
+	               GLogger.trace("unique:" + columnName + " (" + indexName + ")");
 	            }
 	         }
 	      } catch (Throwable t) {
@@ -308,7 +308,7 @@ public class DbTableFactory {
 
 	         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
 	         if (isUnique) {
-	            GLogger.debug("unique column:" + columnName);
+	            GLogger.trace("unique column:" + columnName);
 	         }
 	         Column column = new Column(
 	               table,
@@ -352,7 +352,7 @@ public class DbTableFactory {
 	      }
 	      while (primaryKeyRs.next()) {
 	         String columnName = primaryKeyRs.getString("COLUMN_NAME");
-	         GLogger.debug("primary key:" + columnName);
+	         GLogger.trace("primary key:" + columnName);
 	         primaryKeys.add(columnName);
 	      }
 	      primaryKeyRs.close();
