@@ -16,6 +16,7 @@ z
 war
 ear
 dat
+taz
 
 exe
 msi
