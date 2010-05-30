@@ -3,10 +3,13 @@ package cn.org.rapid_framework.generator.util;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -21,11 +24,18 @@ public class IOHelper {
 	public static Writer NULL_WRITER = new NullWriter();
 	
 	public static void copy(Reader in,Writer out) throws IOException {
-		int c = -1;
-		while((c = in.read()) != -1) {
-			out.write(c);
+		char[] buf = new char[8192];
+		while(in.read(buf) != -1) {
+			out.write(buf);
 		}
 	}
+	
+    public static void copy(InputStream in,OutputStream out) throws IOException {
+        byte[] buf = new byte[8192];
+        while(in.read(buf) != -1) {
+            out.write(buf);
+        }
+    }
 	
     public static List readLines(Reader input) throws IOException {
         BufferedReader reader = new BufferedReader(input);
@@ -70,4 +80,17 @@ public class IOHelper {
 		public void write(char[] cbuf, int off, int len) throws IOException {
 		}
 	}
+
+    public static void copyAndClose(InputStream in,OutputStream out) throws IOException {
+        try {
+            copy(in,out);
+        }finally {
+            close(in,out);
+        }
+    }
+
+    private static void close(InputStream in, OutputStream out) {
+        try { if(in != null) in.close();}catch(Exception e){};
+        try { if(out != null) out.close();}catch(Exception e){};
+    }
 }

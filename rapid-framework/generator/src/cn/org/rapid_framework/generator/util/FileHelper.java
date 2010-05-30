@@ -94,9 +94,12 @@ public class FileHelper {
     }
 	
 	/** 检查文件是否是二进制文件 */
-    public static boolean isBinary(File file) throws IOException {
-//        if(file == null) return false;
-        return binaryExtentionsList.contains(getExtension(file.getName()));
+    public static boolean isBinary(File file) {
+        return isBinaryFile(file.getName());
+    }
+
+    public static boolean isBinaryFile(String filename) {
+        return binaryExtentionsList.contains(getExtension(filename));
     }
 	
     public static String getExtension(String filename) {

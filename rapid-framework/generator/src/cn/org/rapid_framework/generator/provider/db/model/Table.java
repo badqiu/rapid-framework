@@ -193,6 +193,22 @@ public class Table {
 		return getPkColumn();
 	}
 	
+	public Column getColumnBySqlName(String sqlName) {
+	    for(Column c : getColumns()) {
+	        if(c.getSqlName().equalsIgnoreCase(sqlName)) {
+	            return c;
+	        }
+	    }
+	    return null;
+	}
+	
+   public Column getRequiredColumnBySqlName(String sqlName) {
+       if(getColumnBySqlName(sqlName) == null) {
+           throw new IllegalArgumentException("not found column with sqlName:"+sqlName+" on table:"+getSqlName());
+       }
+       return getColumnBySqlName(sqlName);
+    }
+	
 	/**
 	 * 忽略过滤掉某些关键字的列,关键字不区分大小写,以逗号分隔
 	 * @param ignoreKeywords
