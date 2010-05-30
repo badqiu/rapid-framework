@@ -243,7 +243,11 @@ public class Column {
 	 * @todo-javadoc Write javadocs for return value
 	 */
 	public int hashCode() {
-		return (getTable().getSqlName() + "#" + getSqlName()).hashCode();
+		if(getTable() != null) {
+			return (getTable().getSqlName() + "#" + getSqlName()).hashCode();
+		}else {
+			return (getSqlName()).hashCode();
+		}
 	}
 
 	/**
