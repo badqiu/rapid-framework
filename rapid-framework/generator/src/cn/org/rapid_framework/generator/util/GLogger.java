@@ -37,7 +37,7 @@ public class GLogger {
 
 	public static void error(String s) {
 		if (logLevel <= ERROR)
-			System.err.println("[Generator ERROR] " + s + " cause:");
+			System.err.println("[Generator ERROR] " + s );
 	}
 
 	public static void error(String s, Throwable e) {
