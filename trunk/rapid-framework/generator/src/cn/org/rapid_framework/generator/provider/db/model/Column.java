@@ -418,7 +418,8 @@ public class Column {
 	}
 	
 	public boolean getIsNumberColumn() {
-		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) || DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
+		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) 
+			|| DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
 	}
 	
 	/** 检查是否包含某些关键字,关键字以逗号分隔 */
