@@ -29,7 +29,7 @@ public class StringConvertHelper {
 	}
 	
 	/**
-	 * 将string转换为List<ColumnEnum>,每个枚举使用逗号分隔: 格式为: "enumAlias(enumKey,enumDesc)"
+	 * 将string转换为List<ColumnEnum> 格式为: "enumAlias(enumKey,enumDesc)"
 	 */
 	static Pattern three = Pattern.compile("(.*)\\((.*),(.*)\\)");
 	static Pattern two = Pattern.compile("(.*)\\((.*)\\)");
@@ -50,7 +50,7 @@ public class StringConvertHelper {
 				list.add(new EnumMetadada(two_m.group(1),two_m.group(1),two_m.group(2)));
 				continue;
 			}			
-			throw new IllegalArgumentException("error enumString format:"+data_arr[i]+" expected format:F(1,Female);M(0,Male) or F(Female);M(Male)");
+			throw new IllegalArgumentException("error enumString format:"+data+" expected format:F(1,Female);M(0,Male) or F(Female);M(Male)");
 		}
 		return list;
 	}
