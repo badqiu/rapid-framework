@@ -58,10 +58,10 @@ public class GeneratorControl {
 	
 	public void generateFile(String outputFile,String content) {
 		try {
-			System.out.println("[gg.generateFile] by gg.generateFile() outputFile:"+outputFile);
 			File file = new File(outputFile);
 			FileHelper.parnetMkdir(file);
 			IOHelper.saveFile(file, content);
+			System.out.println("[gg.generateFile()] outputFile:"+outputFile);
 		} catch (Exception e) {
 			GLogger.warn("gg.generateFile() occer error,caused by:"+e,e);
 			throw new RuntimeException("gg.generateFile() occer error,caused by:"+e,e);
