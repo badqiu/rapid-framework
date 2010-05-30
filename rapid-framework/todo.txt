@@ -8,7 +8,7 @@ rapid-framework路线图
 	project-service
 	project-web
 
-add groupdId=basepackage:com.company.project
+add groupId=basepackage:com.company.project
 	artifact=projectName,一般为一个单词
 	version:1.0
 
