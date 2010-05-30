@@ -99,6 +99,7 @@ public class FileHelper {
     }
 
     public static boolean isBinaryFile(String filename) {
+    	if(StringHelper.isBlank(getExtension(filename))) return false;
         return binaryExtentionsList.contains(getExtension(filename));
     }
 	
