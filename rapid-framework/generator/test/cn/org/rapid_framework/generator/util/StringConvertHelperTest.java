@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMedatada;
+import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetadada;
 
 
 public class StringConvertHelperTest extends  TestCase{
@@ -21,23 +21,38 @@ public class StringConvertHelperTest extends  TestCase{
 		assertTrue(StringConvertHelper.string2Map(null).isEmpty());
 	}
 	
-	public void test_string2ColumnEnumList() {
-		List<EnumMedatada> list= StringConvertHelper.string2ColumnEnumList("F(1,女);M(0,男)");
+	public void test_string2ColumnEnumList_with_three_argument() {
+		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata("F(1,女);M(0,男)");
 		assertEquals(2,list.size());
-		EnumMedatada f= list.get(0);
+		EnumMetadada f= list.get(0);
 		assertEquals(f.getEnumAlias(),"F");
 		assertEquals(f.getEnumDesc(),"女");
 		assertEquals(f.getEnumKey(),"1");
 		
-		EnumMedatada m= list.get(1);
+		EnumMetadada m= list.get(1);
 		assertEquals(m.getEnumAlias(),"M");
 		assertEquals(m.getEnumDesc(),"男");
 		assertEquals(m.getEnumKey(),"0");
 	}
 	
+	
+	public void test_string2ColumnEnumList_with_two_argument() {
+		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata("F(女);M(男)");
+		assertEquals(2,list.size());
+		EnumMetadada f= list.get(0);
+		assertEquals(f.getEnumAlias(),"F");
+		assertEquals(f.getEnumDesc(),"女");
+		assertEquals(f.getEnumKey(),"F");
+		
+		EnumMetadada m= list.get(1);
+		assertEquals(m.getEnumAlias(),"M");
+		assertEquals(m.getEnumDesc(),"男");
+		assertEquals(m.getEnumKey(),"M");
+	}
+	
 	public void test_string2ColumnEnumList_with_exception() {
 		try {
-		List<EnumMedatada> list= StringConvertHelper.string2ColumnEnumList(",,");
+		List<EnumMetadada> list= StringConvertHelper.string2EnumMetadata(",,");
 		fail();
 		}catch(Exception e) {
 			System.out.println(e);
