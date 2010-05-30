@@ -40,12 +40,13 @@ public class StringConvertHelper {
 		List<EnumMetadada> list = new ArrayList();
 		String[] data_arr = data.split(";");
 		for (int i = 0; i < data_arr.length; i++) {
-			Matcher three_m = three.matcher(data_arr[i]);
+			String str = data_arr[i];
+            Matcher three_m = three.matcher(str);
 			if(three_m.find()) {
 				list.add(new EnumMetadada(three_m.group(1),three_m.group(2),three_m.group(3)));
 				continue;
 			}
-			Matcher two_m = two.matcher(data_arr[i]);
+			Matcher two_m = two.matcher(str);
 			if(two_m.find()) {
 				list.add(new EnumMetadada(two_m.group(1),two_m.group(1),two_m.group(2)));
 				continue;
