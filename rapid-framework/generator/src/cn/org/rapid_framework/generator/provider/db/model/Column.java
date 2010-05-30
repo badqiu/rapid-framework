@@ -480,11 +480,11 @@ public class Column {
 	public String getEnumString() {
 		return enumString;
 	}
-	public List<ColumnEnum> getColumnEnumList() {
+	public List<EnumMedatada> getEnumList() {
 		return StringConvertHelper.string2ColumnEnumList(getEnumString());
 	}
 	public boolean isEnumColumn() {
-		return getColumnEnumList() != null && !getColumnEnumList().isEmpty();
+		return getEnumList() != null && !getEnumList().isEmpty();
 	}
 	
 	public void setJavaType(String javaType) {
@@ -549,17 +549,17 @@ public class Column {
 	
 	/**
 	 * public enum ${enumClassName} {
-	 * 		${enumName}(${enumCode},${enumDesc});
+	 * 		${enumAlias}(${enumKey},${enumDesc});
 	 * 		private String key;
 	 * 		private String value;
 	 * }
 	 * @author badqiu
 	 */
-	public static class ColumnEnum {
+	public static class EnumMedatada {
 		private String enumAlias;
 		private String enumKey;
 		private String enumDesc;
-		public ColumnEnum(String enumAlias, String enumKey, String enumDesc) {
+		public EnumMedatada(String enumAlias, String enumKey, String enumDesc) {
 			super();
 			this.enumAlias = enumAlias;
 			this.enumKey = enumKey;
