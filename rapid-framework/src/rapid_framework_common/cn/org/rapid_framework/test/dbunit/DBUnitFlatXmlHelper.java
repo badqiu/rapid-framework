@@ -54,7 +54,7 @@ public class DBUnitFlatXmlHelper {
 	public void setJdbcSchema(String jdbcSchema) {
 		this.jdbcSchema = jdbcSchema;
 	}
-
+	
 	public void insertTestDatas(String... flatXmlDataFiles) throws DatabaseUnitException, SQLException, IOException {
 		if(flatXmlDataFiles == null) return;
 		
