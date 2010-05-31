@@ -31,7 +31,7 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
  * @email badqiu(a)gmail.com
  */
 public class DbTableFactory {
-
+	
 	private DbHelper dbHelper = new DbHelper();
 	private Connection connection;
 	private static DbTableFactory instance = null;
@@ -91,7 +91,7 @@ public class DbTableFactory {
 
 	private Table _getTable(String tableName) throws SQLException {
 	    if(tableName== null || tableName.trim().isEmpty()) 
-	            throw new IllegalArgumentException("tableName must be not empty");
+	         throw new IllegalArgumentException("tableName must be not empty");
 	       
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
@@ -139,8 +139,7 @@ public class DbTableFactory {
 		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
 		List tables = new ArrayList();
 		while(rs.next()) {
-			Table table = createTable(conn, rs);
-			tables.add(table);
+			tables.add(createTable(conn, rs));
 		}
 		return tables;
 	}
