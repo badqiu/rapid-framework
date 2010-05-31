@@ -1,25 +1,23 @@
 package cn.org.rapid_framework.generator;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.FreemarkerHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import freemarker.cache.FileTemplateLoader;
@@ -153,7 +151,7 @@ public class Generator {
 				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
 				return;
 			}
-			if(FreemarkerUtils.isIgnoreTemplateProcess(srcFile, templateFile)) {
+			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
 				return;
 			}
 			
@@ -180,11 +178,13 @@ public class Generator {
 			gg.setSourceFile(srcFile.getAbsolutePath());
 			gg.setSourceFileName(srcFile.getName());
 			gg.setSourceDir(srcFile.getParent());
-			gg.setDatabaseType(DbTableFactory.getInstance().getConnection().getMetaData().getDatabaseProductName()); //FIXME 提供枚举:oracle mysql,sqlserver
 			gg.setOutRoot(getOutRootDir());
 			gg.setOutputEncoding(encoding);
 			gg.setSourceEncoding(encoding);
 			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
+			
+			String dbName = DbTableFactory.getInstance().getConnection().getMetaData().getDatabaseProductName();
+			gg.setDatabaseType(dbName == null ? null : dbName.toLowerCase()); //FIXME 提供枚举:oracle mysql,sqlserver
 		}
 	
 		private void processTemplateForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
@@ -213,11 +213,11 @@ public class Generator {
 			if(outputFilePath.endsWith(removeExtensions)) {
 				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
 			}
-			return FreemarkerUtils.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
+			return FreemarkerHelper.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
 		}
 	
 		private Configuration getFreeMarkerConfiguration() throws IOException {
-			return FreemarkerUtils.newFreeMarkerConfiguration(templateRootDirs, encoding);
+			return GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding);
 		}
 	
 		private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
@@ -227,7 +227,7 @@ public class Generator {
 			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
 			if(absoluteOutputFilePath.exists()) {
 				StringWriter newFileContentCollector = new StringWriter();
-				if(FreemarkerUtils.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
+				if(GeneratorHelper.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
 					System.out.println("[insert]\t generate content into:"+outputFilepath);
 					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
 					return;
@@ -240,11 +240,11 @@ public class Generator {
 			}
 			
 			System.out.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
-			FreemarkerUtils.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
+			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
 		}
 	}
 
-	static class FreemarkerUtils {
+	static class GeneratorHelper {
 		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile) {
 			if(srcFile.isDirectory() || srcFile.isHidden())
 				return true;
@@ -256,6 +256,7 @@ public class Generator {
 			}
 			return false;
 		}		
+		
 		private static boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
 			LineNumberReader reader = new LineNumberReader(new FileReader(outputFile));
 			String line = null;
@@ -276,36 +277,30 @@ public class Generator {
 			reader.close();
 			return isFoundInsertLocation;
 		}	
-		
-		public static void processTemplate(Template template, Map model, File outputFile,String encoding) throws IOException, TemplateException {
-			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile),encoding));
-			template.process(model,out);
-			out.close();
-		}
-		public static String processTemplateString(Map model, String templateString,Configuration conf) {
-			StringWriter out = new StringWriter();
-			try {
-				Template template = new Template("templateString...",new StringReader(templateString),conf);
-				template.process(model, out);
-				return out.toString();
-			}catch(Exception e) {
-				throw new IllegalStateException("cannot process templateString:"+templateString+" cause:"+e,e);
-			}
-		}
 		public static Configuration newFreeMarkerConfiguration(List<File> templateRootDirs,String defaultEncoding) throws IOException {
-			Configuration config = new Configuration();
-			
-			FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
-			for(int i = 0; i < templateRootDirs.size(); i++) {
-				templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
+			String key = templateRootDirs.hashCode()+"#"+defaultEncoding;
+			Configuration conf = freemarkerConfigurationCache.get(key);
+			if(conf == null) {
+				conf = new Configuration();
+				freemarkerConfigurationCache.put(key, conf);
+				
+				FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
+				for(int i = 0; i < templateRootDirs.size(); i++) {
+					templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
+				}
+				MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
+				
+				conf.setTemplateLoader(multiTemplateLoader);
+				conf.setNumberFormat("###############");
+				conf.setBooleanFormat("true,false");
+				conf.setDefaultEncoding(defaultEncoding);
+				
+				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include","macro_custom.include");
+				conf.setAutoIncludes(availableAutoInclude);
+				System.out.println("Freemarker.autoIncludes:"+availableAutoInclude);
 			}
-			MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
-			
-			config.setTemplateLoader(multiTemplateLoader);
-			config.setNumberFormat("###############");
-			config.setBooleanFormat("true,false");
-			config.setDefaultEncoding(defaultEncoding);
-			return config;
+			return conf;
 		}
 	}
+	public static Map<String,Configuration> freemarkerConfigurationCache = new HashMap();
 }
