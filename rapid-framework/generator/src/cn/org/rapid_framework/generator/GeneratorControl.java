@@ -1,14 +1,13 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.Date;
+import java.util.Properties;
 
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
-
 import freemarker.ext.dom.NodeModel;
 
 /**
@@ -55,6 +54,24 @@ public class GeneratorControl {
 			}
 		}
 	}
+
+	/** load Properties data */
+	public Properties loadProperties(String file,boolean ignoreError) {
+		try {
+			Properties p = new Properties();
+			FileInputStream in = new FileInputStream(new File(file));
+			p.load(in);
+			in.close();
+			return p;
+		} catch (Exception e) {
+			GLogger.error("loadXml error,file:"+file);
+			if(ignoreError) {
+				return null;
+			}else {
+				throw new IllegalArgumentException("loadProperties error,file:"+file+" cause:"+e,e);
+			}
+		}
+	}
 	
 	public void generateFile(String outputFile,String content) {
 		try {
@@ -63,8 +80,8 @@ public class GeneratorControl {
 			IOHelper.saveFile(file, content);
 			System.out.println("[gg.generateFile()] outputFile:"+outputFile);
 		} catch (Exception e) {
-			GLogger.warn("gg.generateFile() occer error,caused by:"+e,e);
-			throw new RuntimeException("gg.generateFile() occer error,caused by:"+e,e);
+			GLogger.warn("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
+			throw new RuntimeException("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
 		}
 	}
 
