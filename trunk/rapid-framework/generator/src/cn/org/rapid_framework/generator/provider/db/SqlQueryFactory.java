@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.generator.provider.db;
 
-import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
@@ -12,12 +11,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-//import Zql.ZQuery;
-//import Zql.ZStatement;
-//import Zql.ZqlParser;
-import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
@@ -57,7 +53,7 @@ public class SqlQueryFactory {
 		SelectSqlMetaData result = new SelectSqlMetaData();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
-            System.out.println(BeanUtils.describe(m));
+            System.out.println(BeanHelper.describe(m));
             if(StringHelper.isNotBlank(m.getTableName())) {
                 Table table = DbTableFactory.getInstance().getTable(m.getTableName());
                 Column column = table.getColumnBySqlName(m.getColumnName());
@@ -65,16 +61,16 @@ public class SqlQueryFactory {
                     //可以再尝试解析sql得到 column以解决 password as pwd找不开column问题
                 	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
                     column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
-                    System.out.println("not found on table:"+table.getSqlName()+" "+BeanUtils.describe(column));
+                    System.out.println("not found on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                     //isInSameTable以此种判断为错误
                 }else {
-                	System.out.println("found on table:"+table.getSqlName()+" "+BeanUtils.describe(column));
+                	System.out.println("found on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                 }
                 result.addColumn(column);
             }else {
                 Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
                 result.addColumn(column);
-                System.out.println("not found on table by table emtpty:"+BeanUtils.describe(column));
+                System.out.println("not found on table by table emtpty:"+BeanHelper.describe(column));
             }
         } 
         //
@@ -105,7 +101,7 @@ public class SqlQueryFactory {
 		for(int i = 0; i < count; i++) {
 			try {
 				SelectParameter qp = new SelectParameter(m,i);
-				System.out.println("parameters:"+BeanUtils.describe(qp));
+				System.out.println("parameters:"+BeanHelper.describe(qp));
 			}catch(Exception e) {
 //				e.printStackTrace();
 				return;
