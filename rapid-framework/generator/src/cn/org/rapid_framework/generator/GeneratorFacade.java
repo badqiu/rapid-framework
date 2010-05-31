@@ -118,6 +118,8 @@ public class GeneratorFacade {
 			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("table", table);
+			templateModel.put("env", System.getenv());
+			templateModel.put("system", System.getProperties());
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(GeneratorProperties.getProperties());
@@ -129,6 +131,8 @@ public class GeneratorFacade {
 			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("clazz", new JavaClass(clazz));
+			templateModel.put("env", System.getenv());
+			templateModel.put("system", System.getProperties());
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(GeneratorProperties.getProperties());
