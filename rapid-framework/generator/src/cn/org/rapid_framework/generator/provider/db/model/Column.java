@@ -9,7 +9,6 @@ import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.JdbcType;
-import cn.org.rapid_framework.generator.util.StringConvertHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
 /**
@@ -445,7 +444,7 @@ public class Column {
 		return enumString;
 	}
 	public List<EnumMetaDada> getEnumList() {
-		return StringConvertHelper.string2EnumMetaData(getEnumString());
+		return StringHelper.string2EnumMetaData(getEnumString());
 	}
 	public boolean isEnumColumn() {
 		return getEnumList() != null && !getEnumList().isEmpty();
