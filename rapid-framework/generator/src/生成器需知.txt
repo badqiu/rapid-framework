@@ -2,20 +2,20 @@
 
 一.模板引擎为freemarker,语法参考: http://freemarker.sourceforge.net/docs/index.html
 
-
-
-三.代码生成器模板可以引用的相关变量
+二.代码生成器模板可以引用的相关变量
 	1. g.generateByTable("table_name") 方法可以引用的变量
 		table : cn.org.rapid_framework.generator.provider.db.model.Table
 		env : 系统环境变量
 		system : java System.getProperties();
-		generator.properties 文件中的相关属性
+		generator.properties 文件中的所有属性,直接引用,没有前缀
 	
 	2. g.generateByClass("class") 方法可以引用的变量
 		clazz : cn.org.rapid_framework.generator.provider.java.model.JavaClass
 		env : 系统环境变量
 		system : java System.getProperties();
-		generator.properties 文件中的相关属性
+		generator.properties 文件中的所有属性,直接引用,没有前缀
+
+三.代码生成器默认将搜索template目录下的所有模板文件并生成相关代码
 
 四. 在线文档: http://code.google.com/p/rapid-framework/wiki/rapid_generator
 
