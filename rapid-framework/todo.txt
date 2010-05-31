@@ -12,6 +12,7 @@ add groupId=basepackage:com.company.project
 	artifact=projectName,一般为一个单词
 	version:1.0
 
+主从表需要指定那一张是主表，才可以进行页面操作
 修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)	
 # ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
 #增加manual-${className}SqlMap.xml
