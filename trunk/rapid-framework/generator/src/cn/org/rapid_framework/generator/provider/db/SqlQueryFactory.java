@@ -12,9 +12,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import Zql.ZQuery;
-import Zql.ZStatement;
-import Zql.ZqlParser;
+//import Zql.ZQuery;
+//import Zql.ZStatement;
+//import Zql.ZqlParser;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
@@ -88,17 +88,17 @@ public class SqlQueryFactory {
     }
 
 	private void handleParameterMetaData(PreparedStatement ps,String sql) throws Exception {
-		try {
-			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
-			ZStatement st = parser.readStatement();
-			if(st instanceof ZQuery) {
-				ZQuery q = (ZQuery)st;
-				System.out.println("\n ZQuery.where:"+q.getWhere());
-			}
-			System.out.println("ZStatement:"+st); 
-		}catch(Exception e) {
-			throw new RuntimeException("sql:"+sql,e);
-		}
+//		try {
+//			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
+//			ZStatement st = parser.readStatement();
+//			if(st instanceof ZQuery) {
+//				ZQuery q = (ZQuery)st;
+//				System.out.println("\n ZQuery.where:"+q.getWhere());
+//			}
+//			System.out.println("ZStatement:"+st); 
+//		}catch(Exception e) {
+//			throw new RuntimeException("sql:"+sql,e);
+//		}
 		
 		ParameterMetaData m = ps.getParameterMetaData();
 		int count = m.getParameterCount();
