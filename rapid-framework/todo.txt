@@ -8,6 +8,14 @@ rapid-framework路线图
 	project-service
 	project-web
 
+SafeSqlProcessor
+        //转义%
+        escapedQuery = StringUtil.replace(escapedQuery, "%", "\\%");
+        //转义\_
+        escapedQuery = StringUtil.replace(escapedQuery, "_", "\\_");
+        //转义单引号
+        escapedQuery = StringUtil.replace(escapedQuery, "'", "\\'");
+        
 add groupId=basepackage:com.company.project
 	artifact=projectName,一般为一个单词
 	version:1.0
