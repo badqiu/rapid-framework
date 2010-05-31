@@ -5,20 +5,20 @@
 gg变量可以让每一个模板自己控制一些事情,如输出目录,输出encoding,或者还可以通过gg变量生成其它文件.
 
 == 相关控制方法 ==
-  # ignoreOutput : 不生成输出文件
-  # outputFile :
-  # outputFiles : 同时生成几份拷贝在在几个地方
-  # sourceEncoding: 指定模板文件的编码
-  # outputEncoding : 控制模板生成的文件编码
-  # isOverride: 是否覆盖目标文件,如果存在,默认true
-  # outRoot: 设置输出文件的根目录
+  * ignoreOutput : 不生成输出文件
+  * outputFile :
+  * outputFiles : 同时生成几份拷贝在在几个地方
+  * sourceEncoding: 指定模板文件的编码
+  * outputEncoding : 控制模板生成的文件编码
+  * isOverride: 是否覆盖目标文件,如果存在,默认true
+  * outRoot: 设置输出文件的根目录
 
 == 相关只读属性 ==
-  # sourceFile; 模板源文件file
-  # sourceDir; 模板源文件所在的目录
-  # sourceFileName; 模板源文件名
-  # sourceEncoding; 模板源文件的编码
-  # databaseType: 当前的数据库
+  * sourceFile; 模板源文件file
+  * sourceDir; 模板源文件所在的目录
+  * sourceFileName; 模板源文件名
+  * sourceEncoding; 模板源文件的编码
+  * databaseType: 当前的数据库
 
 == 生成其它文件 ==
 ${gg.generateFile(outputFile,content,encoding)}
