@@ -27,18 +27,8 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 	//数据库单元测试前会开始事务，结束时会回滚事务，所以测试方法可以不用关心测试数据的删除
 	@Test
 	public void crud() {
-		${className} obj = new ${className}();
-		
-		<#list table.columns as column>
-	  		<#if column.isNotIdOrVersionField>
-	  			<#if column.isDateTimeColumn>
-	  	obj.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
-	  			<#else>
-	  	obj.set${column.columnName}(new ${column.javaType}("1"));
-	  			</#if>
-			</#if>
-		</#list>
-		
+
+		${className} obj = new${className}();
 		manager.save(obj);
 		manager.getEntityDao().flush();
 		
@@ -57,5 +47,20 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		manager.getEntityDao().flush();
 	</#if>
 	
+	}
+	
+	public static ${className} new${className}() {
+		${className} obj = new ${className}();
+		
+		<#list table.columns as column>
+	  		<#if column.isNotIdOrVersionField>
+	  			<#if column.isDateTimeColumn>
+	  	obj.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
+	  			<#else>
+	  	obj.set${column.columnName}(new ${column.javaType}("1"));
+	  			</#if>
+			</#if>
+		</#list>
+		return obj;
 	}
 }
