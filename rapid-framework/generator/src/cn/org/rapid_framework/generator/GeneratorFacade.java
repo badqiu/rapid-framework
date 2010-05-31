@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +14,7 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.ExceptionSummaryUtils;
 import cn.org.rapid_framework.generator.util.IOHelper;
 /**
  * 
@@ -50,7 +50,7 @@ public class GeneratorFacade {
 		Generator g = createGeneratorForDbTable();
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
-		generateByTable(g, table);
+		printExceptionsSumary(generateByTable(g, table));
 	}
 
 	private List<Exception> generateByTable(Generator g, Table table) throws Exception {
@@ -81,19 +81,9 @@ public class GeneratorFacade {
 		return exceptions;
 	}
 
-	private void printExceptionsSumary(List<Exception> exceptions) {
-		if(exceptions != null && exceptions.size() > 0) {
-			System.err.println("[Generate Error Summary]");
-			ByteArrayOutputStream errorLog = new ByteArrayOutputStream();
-			for(Exception e : exceptions) {
-				System.err.println("[GENERATE ERROR]:"+e);
-				e.printStackTrace(new PrintStream(errorLog));
-			}
-			IOHelper.saveFile(new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log"), errorLog.toString());
-			System.err.println("***************************************************************");
-			System.err.println("* 输出目录已经生成generator_error.log用于查看错误 ");
-			System.err.println("***************************************************************");
-		}
+	public static void printExceptionsSumary(List<Exception> exceptions) {
+		File errorFile = new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log");
+		ExceptionSummaryUtils.printExceptionsSumary(errorFile,"* 输出目录已经生成generator_error.log用于查看错误 ", exceptions);
 	}
 
 	public void clean() throws IOException {
