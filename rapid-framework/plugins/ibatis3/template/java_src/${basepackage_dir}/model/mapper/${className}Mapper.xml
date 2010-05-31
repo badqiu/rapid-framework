@@ -7,14 +7,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 
 <#macro mapperEl value>${r"#{"}${value}}</#macro>
+<#macro namespace>${className}.</#macro>
 
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="${className}">
 
-	<resultMap id="${classNameFirstLower}Result" type="${basepackage}.model.${className}">
+	<resultMap id="<@namespace/>${classNameFirstLower}Result" type="${basepackage}.model.${className}">
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
-	<sql id="${classNameFirstLower}Columns">
+	<sql id="<@namespace/>columns">
 	    <![CDATA[
 		<#list table.columns as column>
         	${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>
@@ -23,7 +25,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
-	<insert id="insert" parameterType="${basepackage}.model.${className}" 
+	<insert id="<@namespace/>insert" parameterType="${basepackage}.model.${className}" 
 		useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}" 
 	>
     <![CDATA[
@@ -46,7 +48,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		-->
 	</insert>
     
-	<update id="update" parameterType="${basepackage}.model.${className}">
+	<update id="<@namespace/>update" parameterType="${basepackage}.model.${className}">
     <![CDATA[
         UPDATE ${table.sqlName} SET
 	        <#list table.notPkColumns as column>
@@ -59,7 +61,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
 	</update>
 
-    <delete id="delete" parameterType="${table.idColumn.javaType}">
+    <delete id="<@namespace/>delete" parameterType="${table.idColumn.javaType}">
     <![CDATA[
         DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
@@ -68,8 +70,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="getById" parameterType="${table.idColumn.javaType}" resultMap="${classNameFirstLower}Result">
-		SELECT <include refid="${classNameFirstLower}Columns" />
+    <select id="<@namespace/>getById" parameterType="${table.idColumn.javaType}" resultMap="<@namespace/>${classNameFirstLower}Result">
+		SELECT <include refid="<@namespace/>columns" />
 	    <![CDATA[
 		    FROM ${table.sqlName} 
 	        WHERE 
@@ -79,7 +81,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
-	<sql id="findPage-where">
+	<sql id="<@namespace/>findPage-where">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
 		<where>	      				
 	       <#list table.columns as column>
@@ -99,7 +101,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
 		
-    <select id="findPage-count" resultType="long">
+    <select id="<@namespace/>findPage-count" resultType="long">
         SELECT count(*) FROM ${table.sqlName} 
 		<include refid="findPage-where"/>    
     </select>
@@ -108,10 +110,10 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
     	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
-    <select id="findPage" resultMap="${classNameFirstLower}Result">
-    	SELECT <include refid="${classNameFirstLower}Columns" />
+    <select id="<@namespace/>findPage" resultMap="<@namespace/>${classNameFirstLower}Result">
+    	SELECT <include refid="<@namespace/>columns" />
 	    FROM ${table.sqlName} 
-		<include refid="findPage-where"/>
+		<include refid="<@namespace/>findPage-where"/>
 		
 		<!-- 指定可以排序的列,如@Ognl@checkOrderby(sortColumns,'pwd,user'),则只能按pwd,user两列排序 -->
 		<if test="@Ognl@checkOrderby(sortColumns,'')">
@@ -121,8 +123,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <#list table.columns as column>
     <#if column.unique && !column.pk>
-    <select id="getBy${column.columnName}" resultMap="${classNameFirstLower}Result" parameterType="${column.javaType}">
-	    SELECT <include refid="${classNameFirstLower}Columns"/>
+    <select id="<@namespace/>getBy${column.columnName}" resultMap="<@namespace/>${classNameFirstLower}Result" parameterType="${column.javaType}">
+	    SELECT <include refid="<@namespace/>columns"/>
 	    <![CDATA[
 	        FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
 	    ]]>
@@ -132,3 +134,4 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</#list>
 	
 </mapper>
+

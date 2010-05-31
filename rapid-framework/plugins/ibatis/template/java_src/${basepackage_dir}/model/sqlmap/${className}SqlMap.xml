@@ -5,6 +5,8 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
+<#macro namespace>${className}.</#macro>
+
 <!-- 不使用namespace是由于sql搜索定位会比较方便 -->
 <sqlMap>
 
@@ -132,4 +134,3 @@
 	
 </sqlMap>
 
-<#macro namespace>${className}.</#macro>
