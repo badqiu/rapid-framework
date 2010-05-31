@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.provider.db;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
@@ -11,6 +12,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
+import Zql.ZQuery;
+import Zql.ZStatement;
+import Zql.ZqlParser;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
@@ -18,10 +22,10 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
     
-    public QueryResultMetaData getByQuery(String sql) throws Exception {
+    public SelectSqlMetaData getByQuery(String sql) throws Exception {
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
-        handleParameterMetaData(ps);
+        handleParameterMetaData(ps,sql);
         ps.setMaxRows(3);
         ps.setFetchSize(3);
         if(sql.contains("?")) {
@@ -50,7 +54,7 @@ public class SqlQueryFactory {
 			metadata = ps.getMetaData();
 		}
        
-        QueryResultMetaData result = new QueryResultMetaData();
+		SelectSqlMetaData result = new SelectSqlMetaData();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
             System.out.println(BeanUtils.describe(m));
@@ -83,51 +87,47 @@ public class SqlQueryFactory {
         return result;
     }
 
-	private void handleParameterMetaData(PreparedStatement ps)
-			throws SQLException {
+	private void handleParameterMetaData(PreparedStatement ps,String sql) throws Exception {
+		try {
+			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
+			ZStatement st = parser.readStatement();
+			if(st instanceof ZQuery) {
+				ZQuery q = (ZQuery)st;
+				System.out.println("\n ZQuery.where:"+q.getWhere());
+			}
+			System.out.println("ZStatement:"+st); 
+		}catch(Exception e) {
+			throw new RuntimeException("sql:"+sql,e);
+		}
+		
 		ParameterMetaData m = ps.getParameterMetaData();
 		int count = m.getParameterCount();
 		for(int i = 0; i < count; i++) {
 			try {
-			QueryParameterMetaData qp = new QueryParameterMetaData(m,i);
-			 System.out.println("parameters:"+BeanUtils.describe(qp));
+				SelectParameter qp = new SelectParameter(m,i);
+				System.out.println("parameters:"+BeanUtils.describe(qp));
 			}catch(Exception e) {
 //				e.printStackTrace();
 				return;
 			}
 		}
+
 	}
     
     public static void main(String[] args) throws Exception {
-    	QueryResultMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
-    	QueryResultMetaData t2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=? and password =?");
-    	QueryResultMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	QueryResultMetaData t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	QueryResultMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	QueryResultMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
-    	QueryResultMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+    	SelectSqlMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
+    	SelectSqlMetaData t2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=? and password =?");
+    	SelectSqlMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	SelectSqlMetaData t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	SelectSqlMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+    	SelectSqlMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
+    	SelectSqlMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
     }
     
-    public static class QueryParameterMetaData {
-    	String parameterClassName;
-    	int parameterMode;
-    	int parameterType;
-    	String parameterTypeName;
-    	int precision;
-    	int scale;
-    	public QueryParameterMetaData(ParameterMetaData m,int i) throws SQLException {
-    		this.parameterClassName = m.getParameterClassName(i);
-    		this.parameterMode = m.getParameterMode(i);
-    		this.parameterType = m.getParameterType(i);
-    		this.parameterTypeName = m.getParameterTypeName(i);
-    		this.precision = m.getPrecision(i);
-    		this.scale = m.getScale(i);
-    	}
-    }
-    
-    public static class QueryResultMetaData {
+    public static class SelectSqlMetaData {
+    	public SelectParameter parameters;
     	String operation = null;
-    	String multiPloicy = "many";
+    	String multiPloicy = "many"; // many and one
     	Set<Column> columns = new LinkedHashSet<Column>();
     	String queryResultClassName = null;
     	Map params = new LinkedHashMap();
@@ -157,9 +157,6 @@ public class SqlQueryFactory {
     			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
     		}
 		}
-    	public boolean isResult() {
-    		return getQueryResultClassName().endsWith("Result");
-    	}
 		public void setQueryResultClassName(String queryResultClassName) {
 			this.queryResultClassName = queryResultClassName;
 		}
@@ -187,7 +184,24 @@ public class SqlQueryFactory {
 		}
 		public void setColumns(Set<Column> columns) {
 			this.columns = columns;
-		}
+		}    	
+    }
+    
+    public static class SelectParameter {
+    	String parameterClassName;
+    	int parameterMode;
+    	int parameterType;
+    	String parameterTypeName;
+    	int precision;
+    	int scale;
+    	public SelectParameter(ParameterMetaData m,int i) throws SQLException {
+    		this.parameterClassName = m.getParameterClassName(i);
+    		this.parameterMode = m.getParameterMode(i);
+    		this.parameterType = m.getParameterType(i);
+    		this.parameterTypeName = m.getParameterTypeName(i);
+    		this.precision = m.getPrecision(i);
+    		this.scale = m.getScale(i);
+    	}
     }
 
     public static class ResultSetMetaDataHolder {
