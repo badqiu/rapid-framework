@@ -5,7 +5,8 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
-<sqlMap namespace="${className}">
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
 
     <resultMap id="<@namespace/>${classNameLower}Result" class="${basepackage}.model.${className}">
         <#list table.columns as column>
@@ -131,4 +132,4 @@
 	
 </sqlMap>
 
-<#macro namespace></#macro>
+<#macro namespace>${className}.</#macro>

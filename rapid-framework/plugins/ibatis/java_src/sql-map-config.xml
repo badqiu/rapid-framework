@@ -2,6 +2,7 @@
 <!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
     "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
 
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
 <sqlMapConfig>
   	<settings
 	    cacheModelsEnabled="true"
@@ -10,7 +11,7 @@
 	    maxSessions="1500"
 	    maxTransactions="1500"
 	    maxRequests="1500"
-	    useStatementNamespaces="true"/>
+	    useStatementNamespaces="false"/>
     
     <!-- 这里无需配置sqlMap,可以通过spring的配置加载某个目录的多个SqlMap.xml-->
     <sqlMap resource="emptyForIbatisParse_sqlmap.xml"/>
