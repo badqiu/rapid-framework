@@ -5,10 +5,10 @@ import static junit.framework.Assert.assertNotNull;
 
 import javax.sql.DataSource;
 
+import org.junit.After;
+import org.junit.Before;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
-import org.springframework.test.context.transaction.AfterTransaction;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
@@ -23,7 +23,8 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
  */
 @ContextConfiguration(locations={"classpath:/spring/*-resource.xml",
                                  "classpath:/spring/*-datasource.xml",
-                                 "classpath:/spring/*-dao.xml"})
+                                 "classpath:/spring/*-dao.xml",
+})
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
 
@@ -33,18 +34,13 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 		return ds;
 	}
 	
-	@BeforeTransaction
+	@Before
 	public void onSetUpBeforeTransaction() throws Exception {
 		String jdbcSchema = null;  // set schema for oracle,出现AmbiguousTableNameException时，使用命令:purge recyclebin清空一下oracle回收站
 		dbUnitHelper.setDataSource(getDataSource(),jdbcSchema);
 		dbUnitHelper.insertTestDatas(getDbUnitDataFiles());
 	}
 	
-	@AfterTransaction
-	public void onTearDownAfterTransaction() throws Exception {
-		dbUnitHelper.deleteTestDatas();
-	}
-
 	/** 得到要加载的dbunit文件 */
 	protected String[] getDbUnitDataFiles() {
 		return new String[]{};
