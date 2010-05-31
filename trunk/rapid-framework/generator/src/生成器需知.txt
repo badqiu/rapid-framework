@@ -20,11 +20,11 @@
 
 三.模板目录的二进制文件如 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
 
-
 四.模板引擎为freemarker,语法参考: http://freemarker.sourceforge.net/docs/index.html
 
+五. Freemarker模板可以自动include: macro.include macro_custom.include两个文件,如果这两个文件存在的话
 
-五. 在线文档: http://code.google.com/p/rapid-framework/wiki/rapid_generator
+六. 在线文档: http://code.google.com/p/rapid-framework/wiki/rapid_generator
 
 
 
