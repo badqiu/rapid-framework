@@ -46,7 +46,7 @@ public class GeneratorControl {
 		try {
 			return NodeModel.parse(new File(file));
 		} catch (Exception e) {
-			GLogger.error("loadXml error,file:"+file);
+			GLogger.error("loadXml error,file:"+file+" cause:"+e);
 			if(ignoreError) {
 				return null;
 			}else {
@@ -64,7 +64,7 @@ public class GeneratorControl {
 			in.close();
 			return p;
 		} catch (Exception e) {
-			GLogger.error("loadXml error,file:"+file);
+			GLogger.error("loadProperties error,file:"+file+" cause:"+e);
 			if(ignoreError) {
 				return null;
 			}else {
