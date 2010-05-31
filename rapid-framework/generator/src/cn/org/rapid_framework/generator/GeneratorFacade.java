@@ -14,7 +14,6 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
-import cn.org.rapid_framework.generator.util.ExceptionSummaryUtils;
 import cn.org.rapid_framework.generator.util.IOHelper;
 /**
  * 
@@ -23,18 +22,9 @@ import cn.org.rapid_framework.generator.util.IOHelper;
  */
 public class GeneratorFacade {
 	
-	
-	public GeneratorFacade() {
-	}
-	
-	public void printAllTableNames() throws Exception {
+	public static void printAllTableNames() throws Exception {
 		List tables = DbTableFactory.getInstance().getAllTables();
-		System.out.println("\n----All TableNames BEGIN----");
-		for(int i = 0; i < tables.size(); i++ ) {
-			String sqlName = ((Table)tables.get(i)).getSqlName();
-			System.out.println("g.generateTable(\""+sqlName+"\");");
-		}
-		System.out.println("----All TableNames END----");
+		PrintUtils.printAllTableNames(tables);
 	}
 	
 	public void generateByAllTable() throws Exception {
@@ -43,20 +33,20 @@ public class GeneratorFacade {
 		for(int i = 0; i < tables.size(); i++ ) {
 			exceptions.addAll(generateByTable(createGeneratorForDbTable(),tables.get(i)));
 		}
-		printExceptionsSumary(exceptions);
+		PrintUtils.printExceptionsSumary(exceptions);
 	}
 	
 	public void generateByTable(String tableName) throws Exception {
 		Generator g = createGeneratorForDbTable();
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
-		printExceptionsSumary(generateByTable(g, table));
+		PrintUtils.printExceptionsSumary(generateByTable(g, table));
 	}
 
 	private List<Exception> generateByTable(Generator g, Table table) throws Exception {
 		GeneratorModel m = GeneratorModel.newFromTable(table);
-		String displayText = table.getSqlName()+" => "+table.getClassName();
-		return generateBy(g, m, displayText);
+		PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
+		return g.generateBy(m.templateModel,m.filePathModel);
 	}
 	
 	public void generateByTable(String tableName,String className) throws Exception {
@@ -69,29 +59,16 @@ public class GeneratorFacade {
 	public void generateByClass(Class clazz) throws Exception {
 		Generator g = createGeneratorForJavaClass();
 		GeneratorModel m = GeneratorModel.newFromClass(clazz);
-		String displayText = "JavaClass:"+clazz.getSimpleName();
-		printExceptionsSumary(generateBy(g, m, displayText));
-	}
-
-	private List<Exception> generateBy(Generator g, GeneratorModel m, String displayText) throws Exception {
-		System.out.println("***************************************************************");
-		System.out.println("* BEGIN generate " + displayText);
-		System.out.println("***************************************************************");
-		List<Exception> exceptions = g.generateBy(m.templateModel,m.filePathModel);
-		return exceptions;
-	}
-
-	public static void printExceptionsSumary(List<Exception> exceptions) {
-		File errorFile = new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log");
-		ExceptionSummaryUtils.printExceptionsSumary(errorFile,"* 输出目录已经生成generator_error.log用于查看错误 ", exceptions);
+		PrintUtils.printBeginGenerate("JavaClass:"+clazz.getSimpleName());
+		PrintUtils.printExceptionsSumary(g.generateBy(m.templateModel, m.filePathModel));
 	}
 
 	public void clean() throws IOException {
 		Generator g = createGeneratorForDbTable();
 		g.clean();
 	}
-	
-	public Generator createGeneratorForDbTable() {
+
+	private Generator createGeneratorForDbTable() {
 		Generator g = new Generator();
 		g.setTemplateRootDir(new File("template").getAbsoluteFile());
 		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
@@ -138,6 +115,40 @@ public class GeneratorFacade {
 			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(clazz));
 			return new GeneratorModel(templateModel,filePathModel);
+		}
+	}
+	
+	private static class PrintUtils {
+		
+		private static void printExceptionsSumary(List<Exception> exceptions) {
+			File errorFile = new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log");
+			if(exceptions != null && exceptions.size() > 0) {
+				System.err.println("[Generate Error Summary]");
+				ByteArrayOutputStream errorLog = new ByteArrayOutputStream();
+				for(Exception e : exceptions) {
+					System.err.println("[GENERATE ERROR]:"+e);
+					e.printStackTrace(new PrintStream(errorLog));
+				}
+				IOHelper.saveFile(errorFile, errorLog.toString());
+				System.err.println("***************************************************************");
+				System.err.println("* "+"* 输出目录已经生成generator_error.log用于查看错误 ");
+				System.err.println("***************************************************************");
+			}
+		}
+		
+		private static void printBeginGenerate(String displayText) {
+			System.out.println("***************************************************************");
+			System.out.println("* BEGIN generate " + displayText);
+			System.out.println("***************************************************************");
+		}
+		
+		public static void printAllTableNames(List<Table> tables) throws Exception {
+			System.out.println("\n----All TableNames BEGIN----");
+			for(int i = 0; i < tables.size(); i++ ) {
+				String sqlName = ((Table)tables.get(i)).getSqlName();
+				System.out.println("g.generateTable(\""+sqlName+"\");");
+			}
+			System.out.println("----All TableNames END----");
 		}
 	}
 }
