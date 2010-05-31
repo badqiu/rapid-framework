@@ -6,7 +6,7 @@
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
     
 <!-- 存放手写的sql -->
-<sqlMap namespace="${className}">
+<sqlMap>
 
 
 </sqlMap>
