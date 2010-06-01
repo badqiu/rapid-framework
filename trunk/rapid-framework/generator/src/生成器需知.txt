@@ -9,7 +9,7 @@
 	
 	3.公共变量
 		env : 系统环境变量
-		system : java System.getProperties() 
+		system : System.getProperties() 
 		generator.properties 文件中的所有属性,直接引用,没有前缀
 		gg : 模板控制变量
 
@@ -32,7 +32,7 @@
 	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 macro.include
 
 
-六. 自动替换generator.properties中的句号(.)为反,设置key为key+"_dir"后缀
+六. 自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
 	示例: pkg=com.company => pkg_dir=com/company
 	
 
