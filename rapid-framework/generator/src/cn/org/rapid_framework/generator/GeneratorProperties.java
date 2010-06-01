@@ -27,14 +27,13 @@ public class GeneratorProperties {
 			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 			
 			
-	         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
+	        for(Iterator it = props.entrySet().iterator();it.hasNext();) {
                  Map.Entry entry = (Map.Entry)it.next();
                  GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
-	         }
-	         GLogger.println("");
+	        }
+	        GLogger.println("");
 	         
-	         // 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀
-	        GLogger.println("auto replace generator.properties, ");
+	        GLogger.println("[Auto Replace] [.] => [/] on generator.properties, key=source_key+'_dir', For example: pkg=com.company ==> pkg_dir=com/company  \n");
 	        Properties dirProperties = autoReplacePropertiesValue2DirValue(props.getProperties());
 	        
             props.getProperties().putAll(dirProperties);
@@ -43,7 +42,7 @@ public class GeneratorProperties {
 		}
 	}
 	
-	// 自动替换所有value的.号为/,并设置key=key+"_dir"后缀
+	// 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀
 	private static Properties autoReplacePropertiesValue2DirValue(Properties props) {
         Properties autoReplaceProperties = new Properties();
         for(Object key : getProperties().keySet()) {
