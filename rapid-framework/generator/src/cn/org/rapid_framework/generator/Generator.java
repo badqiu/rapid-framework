@@ -147,7 +147,7 @@ public class Generator {
 			
 			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
 				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
-				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+outputFilepath);
+				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+new File(getOutRootDir(),outputFilepath));
 				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
 				return;
 			}
