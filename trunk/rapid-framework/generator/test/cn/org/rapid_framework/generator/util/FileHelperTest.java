@@ -1,14 +1,13 @@
 package cn.org.rapid_framework.generator.util;
 
+
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 
-public class FileHelperTest {
-    @Test
+public class FileHelperTest extends TestCase {
     public void test_isBinary() throws IOException {
         assertFalse(FileHelper.isBinaryFile(new File("abc.xml")));
         assertTrue(FileHelper.isBinaryFile(new File(".zip")));
