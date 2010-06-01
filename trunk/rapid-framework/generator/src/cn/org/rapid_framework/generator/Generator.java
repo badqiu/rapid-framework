@@ -35,7 +35,7 @@ public class Generator {
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
-	private String removeExtensions = ".gen";
+	private String removeExtensions = ".ftl";
 	private boolean isCopyBinaryFile = true;
 	
 	String encoding = "UTF-8";
