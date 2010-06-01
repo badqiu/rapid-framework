@@ -22,7 +22,7 @@
 
 四.模板引擎为freemarker,语法参考: http://freemarker.sourceforge.net/docs/index.html
 
-五. Freemarker模板可以自动include同级目录的: macro.include macro_custom.include两个文件,如果这两个文件存在的话
+五. Freemarker模板可以自动include同级目录的: macro.include文件,如果这个文件存在的话
 
 六. 自动替换generator.properties中的值.=>/,设置key为key+"_dir"后缀,示例: pkg=com.company => pkg_dir=com/company
 
