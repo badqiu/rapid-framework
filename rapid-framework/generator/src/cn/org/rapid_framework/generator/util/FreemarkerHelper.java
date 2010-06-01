@@ -40,7 +40,7 @@ public class FreemarkerHelper {
 		out.close();
 	}
 	
-	public static String processTemplateString(Map model, String templateString,Configuration conf) {
+	public static String processTemplateString(String templateString,Map model,Configuration conf) {
 		StringWriter out = new StringWriter();
 		try {
 			Template template = new Template("templateString...",new StringReader(templateString),conf);
