@@ -52,7 +52,7 @@ public class GeneratorTestCase extends TestCase{
 		Statement stat = conn.createStatement();
 		String sqlTables = IOHelper.readFile(new File("generator/test/generator_test_table.sql"));
 		System.out.println(sqlTables);
-		stat.execute(sqlTables);
+		stat.execute(sqlTables.trim());
 		stat.close();
 		
 	}
