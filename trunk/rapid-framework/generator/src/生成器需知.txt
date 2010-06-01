@@ -29,7 +29,7 @@
                
                
 五. 模板自动include同级目录:macro.include文件
-	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 macro.include
+	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 根目录的macro.include
 
 
 六. 自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
