@@ -61,10 +61,14 @@ public class IOHelper {
 		copy(in,out);
 		return out.toString();
 	}
-	
-	public static void saveFile(File file,String content)  {
+
+    public static void saveFile(File file,String content)  {
+        saveFile(file,content,false);
+    }
+	   
+	public static void saveFile(File file,String content,boolean append)  {
 		try {
-		Writer writer = new FileWriter(file);
+		Writer writer = new FileWriter(file,append);
 		writer.write(content);
 		writer.close();
 		}catch(IOException e){

@@ -72,12 +72,16 @@ public class GeneratorControl {
 			}
 		}
 	}
-	
-	public void generateFile(String outputFile,String content) {
+
+    public void generateFile(String outputFile,String content) {
+       generateFile(outputFile,content,false);
+    }
+	   
+	public void generateFile(String outputFile,String content,boolean append) {
 		try {
 			File file = new File(outputFile);
 			FileHelper.parnetMkdir(file);
-			IOHelper.saveFile(file, content);
+			IOHelper.saveFile(file, content,append);
 			GLogger.println("[gg.generateFile()] outputFile:"+outputFile);
 		} catch (Exception e) {
 			GLogger.warn("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
