@@ -14,7 +14,7 @@
 		gg : 模板控制变量, cn.org.rapid_framework.generator.GeneratorControl
 
 
-二.每个模板有gg变量可以控制自身的自定义配置
+二.每个模板有gg变量可以控制自身的自定义配置 (每一个模板都会创建新的gg实例)
 	如是否生成,是否覆盖目标文件,甚至是生成其它文件
 	示例: ${gg.setIgnoreOutput(true)}, 参考: http://code.google.com/p/rapid-framework/wiki/rapid_generator_gg
 
