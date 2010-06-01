@@ -38,7 +38,8 @@ public class Generator {
 	private String removeExtensions = ".ftl";
 	private boolean isCopyBinaryFile = true;
 	
-	String encoding = "UTF-8";
+	String sourceEncoding = "UTF-8";
+	String outputEncoding = "UTF-8";
 	public Generator() {
 	}
 	
@@ -69,14 +70,23 @@ public class Generator {
 	public void setCopyBinaryFile(boolean isCopyBinaryFile) {
 		this.isCopyBinaryFile = isCopyBinaryFile;
 	}
-	
-    public String getEncoding() {
-		return encoding;
+
+	public String getSourceEncoding() {
+		return sourceEncoding;
 	}
 
-	public void setEncoding(String v) {
-		if(v == null) throw new IllegalArgumentException("encoding must be not null");
-		this.encoding = v;
+	public void setSourceEncoding(String sourceEncoding) {
+		if(sourceEncoding == null) throw new IllegalArgumentException("sourceEncoding must be not null");
+		this.sourceEncoding = sourceEncoding;
+	}
+
+	public String getOutputEncoding() {
+		return outputEncoding;
+	}
+
+	public void setOutputEncoding(String outputEncoding) {
+		if(outputEncoding == null) throw new IllegalArgumentException("outputEncoding must be not null");
+		this.outputEncoding = outputEncoding;
 	}
 	
 	public void setOutRootDir(String v) {
@@ -180,8 +190,8 @@ public class Generator {
 			gg.setSourceFileName(srcFile.getName());
 			gg.setSourceDir(srcFile.getParent());
 			gg.setOutRoot(getOutRootDir());
-			gg.setOutputEncoding(encoding);
-			gg.setSourceEncoding(encoding);
+			gg.setOutputEncoding(outputEncoding);
+			gg.setSourceEncoding(sourceEncoding);
 			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
 			
 			String dbName = DbTableFactory.getInstance().getConnection().getMetaData().getDatabaseProductName();
@@ -214,24 +224,24 @@ public class Generator {
 			if(outputFilePath.endsWith(removeExtensions)) {
 				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
 			}
-			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding,"/filepath/processor/");
+			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, sourceEncoding,"/filepath/processor/");
 			return FreemarkerHelper.processTemplateString(outputFilePath,filePathModel,conf);
 		}
 	
 		private Template getFreeMarkerTemplate(String templateName) throws IOException {
-			return GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding,templateName).getTemplate(templateName);
+			return GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, sourceEncoding,templateName).getTemplate(templateName);
 		}
 	
 		private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
 			Template template = getFreeMarkerTemplate(templateFile);
-			template.setOutputEncoding(encoding);
+			template.setOutputEncoding(outputEncoding);
 			
 			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
 			if(absoluteOutputFilePath.exists()) {
 				StringWriter newFileContentCollector = new StringWriter();
 				if(GeneratorHelper.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
 					GLogger.println("[insert]\t generate content into:"+outputFilepath);
-					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
+					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString(),outputEncoding);
 					return;
 				}
 			}
@@ -242,7 +252,7 @@ public class Generator {
 			}
 			
 			GLogger.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
-			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
+			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,outputEncoding);
 		}
 	}
 
@@ -300,4 +310,5 @@ public class Generator {
 			return conf;
 		}
 	}
+
 }
