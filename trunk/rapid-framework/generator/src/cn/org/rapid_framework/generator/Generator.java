@@ -280,30 +280,24 @@ public class Generator {
 			return isFoundInsertLocation;
 		}	
 		public static Configuration newFreeMarkerConfiguration(List<File> templateRootDirs,String defaultEncoding,String templateName) throws IOException {
-			String key = templateRootDirs.hashCode()+"#"+defaultEncoding+"#"+templateName;
-			Configuration conf = freemarkerConfigurationCache.get(key);
-			if(conf == null) {
-				conf = new Configuration();
-				freemarkerConfigurationCache.put(key, conf);
-				
-				FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
-				for(int i = 0; i < templateRootDirs.size(); i++) {
-					templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
-				}
-				MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
-				
-				conf.setTemplateLoader(multiTemplateLoader);
-				conf.setNumberFormat("###############");
-				conf.setBooleanFormat("true,false");
-				conf.setDefaultEncoding(defaultEncoding);
-				
-				String autoIncludes = new File(new File(templateName).getParent(),"macro.include").getPath();
-				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include",autoIncludes);
-				conf.setAutoIncludes(availableAutoInclude);
-				GLogger.debug("set Freemarker.autoIncludes:"+availableAutoInclude+" for templateName:"+templateName);
+		    Configuration conf = new Configuration();
+			
+			FileTemplateLoader[] templateLoaders = new FileTemplateLoader[templateRootDirs.size()];
+			for(int i = 0; i < templateRootDirs.size(); i++) {
+				templateLoaders[i] = new FileTemplateLoader((File)templateRootDirs.get(i));
 			}
+			MultiTemplateLoader multiTemplateLoader = new MultiTemplateLoader(templateLoaders);
+			
+			conf.setTemplateLoader(multiTemplateLoader);
+			conf.setNumberFormat("###############");
+			conf.setBooleanFormat("true,false");
+			conf.setDefaultEncoding(defaultEncoding);
+			
+			String autoIncludes = new File(new File(templateName).getParent(),"macro.include").getPath();
+			List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include",autoIncludes);
+			conf.setAutoIncludes(availableAutoInclude);
+			GLogger.debug("[set Freemarker.autoIncludes]"+availableAutoInclude+" for templateName:"+templateName);
 			return conf;
 		}
 	}
-	public static Map<String,Configuration> freemarkerConfigurationCache = new HashMap();
 }
