@@ -120,12 +120,12 @@ public class Generator {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		GLogger.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
 		
-		List templateFiles = new ArrayList();
-		FileHelper.listFiles(templateRootDir, templateFiles);
+		List srcFiles = new ArrayList();
+		FileHelper.listFiles(templateRootDir, srcFiles);
 		
 		List<Exception> exceptions = new ArrayList();
-		for(int i = 0; i < templateFiles.size(); i++) {
-			File srcFile = (File)templateFiles.get(i);
+		for(int i = 0; i < srcFiles.size(); i++) {
+			File srcFile = (File)srcFiles.get(i);
 			try {
 				new GeneratorProcessor().execute(templateRootDir, templateModel,filePathModel, srcFile);
 			}catch(Exception e) {
