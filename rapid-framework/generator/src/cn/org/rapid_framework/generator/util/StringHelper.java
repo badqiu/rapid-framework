@@ -229,6 +229,15 @@ public class StringHelper {
 		return result.toString();
 	}
 	
+	public static String removeEndWiths(String inputString,String... endWiths) {
+	    for(String endWith : endWiths) {
+    	    if(inputString.endsWith(endWith)) {
+                return inputString.substring(0,inputString.length() - endWith.length());
+            }
+	    }
+	    return inputString;
+	}
+	
 	/**
 	 * 将string转换为List<ColumnEnum> 格式为: "enumAlias(enumKey,enumDesc)"
 	 */
