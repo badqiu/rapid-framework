@@ -14,6 +14,7 @@ import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 /**
  * 
@@ -137,18 +138,18 @@ public class GeneratorFacade {
 		}
 		
 		private static void printBeginGenerate(String displayText) {
-			System.out.println("***************************************************************");
-			System.out.println("* BEGIN generate " + displayText);
-			System.out.println("***************************************************************");
+			GLogger.println("***************************************************************");
+			GLogger.println("* BEGIN generate " + displayText);
+			GLogger.println("***************************************************************");
 		}
 		
 		public static void printAllTableNames(List<Table> tables) throws Exception {
-			System.out.println("\n----All TableNames BEGIN----");
+			GLogger.println("\n----All TableNames BEGIN----");
 			for(int i = 0; i < tables.size(); i++ ) {
 				String sqlName = ((Table)tables.get(i)).getSqlName();
-				System.out.println("g.generateTable(\""+sqlName+"\");");
+				GLogger.println("g.generateTable(\""+sqlName+"\");");
 			}
-			System.out.println("----All TableNames END----");
+			GLogger.println("----All TableNames END----");
 		}
 	}
 }

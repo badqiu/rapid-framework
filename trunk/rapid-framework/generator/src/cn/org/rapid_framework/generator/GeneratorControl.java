@@ -78,7 +78,7 @@ public class GeneratorControl {
 			File file = new File(outputFile);
 			FileHelper.parnetMkdir(file);
 			IOHelper.saveFile(file, content);
-			System.out.println("[gg.generateFile()] outputFile:"+outputFile);
+			GLogger.println("[gg.generateFile()] outputFile:"+outputFile);
 		} catch (Exception e) {
 			GLogger.warn("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
 			throw new RuntimeException("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);

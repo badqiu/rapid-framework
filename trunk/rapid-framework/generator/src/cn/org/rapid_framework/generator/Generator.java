@@ -93,6 +93,12 @@ public class Generator {
 		this.removeExtensions = removeExtensions;
 	}
 
+    public void clean() throws IOException {
+        String outRoot = getOutRootDir();
+        GLogger.println("[Delete Dir]    "+outRoot);
+        FileHelper.deleteDirectory(new File(outRoot));
+    }
+	   
     /**
      * 生成器的生成入口
      * @param templateModel 生成器模板可以引用的变量
@@ -104,15 +110,15 @@ public class Generator {
 		List<Exception> allExceptions = new ArrayList<Exception>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			List<Exception> exceptions = generateBy(templateRootDir,templateModel,filePathModel);
+			List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel);
 			allExceptions.addAll(exceptions); 
 		}
 		return allExceptions;
 	}
 	
-	private List<Exception> generateBy(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
+	private List<Exception> generateByTemplateRootDir(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
-		System.out.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
+		GLogger.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"'");
 		
 		List templateFiles = new ArrayList();
 		FileHelper.listFiles(templateRootDir, templateFiles);
@@ -134,12 +140,6 @@ public class Generator {
 		return exceptions;
 	}
 	
-	public void clean() throws IOException {
-		String outRoot = getOutRootDir();
-		System.out.println("[Delete Dir]	"+outRoot);
-		FileHelper.deleteDirectory(new File(outRoot));
-	}
-	
 	public class GeneratorProcessor {
 		private GeneratorControl gg = new GeneratorControl();
 		private void execute(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
@@ -147,7 +147,7 @@ public class Generator {
 			
 			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
 				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
-				System.out.println("[copy binary file by extention] from:"+srcFile+" => "+outputFilepath);
+				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+outputFilepath);
 				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
 				return;
 			}
@@ -163,7 +163,7 @@ public class Generator {
                 processTemplateForGeneratorControl(templateModel, templateFile);
                 
                 if(gg.isIgnoreOutput()) {
-                    System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
+                    GLogger.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
                     return;
                 }
                 
@@ -207,7 +207,7 @@ public class Generator {
 						return null;
 				}
 				if(!"true".equals(String.valueOf(expressionValue))) {
-					System.out.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateFile);
+					GLogger.println("[not-generate]\t test expression '@"+testExpressionKey+"' is false,template:"+templateFile);
 						return null;
 				}
 			}
@@ -229,18 +229,18 @@ public class Generator {
 			if(absoluteOutputFilePath.exists()) {
 				StringWriter newFileContentCollector = new StringWriter();
 				if(GeneratorHelper.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
-					System.out.println("[insert]\t generate content into:"+outputFilepath);
+					GLogger.println("[insert]\t generate content into:"+outputFilepath);
 					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString());
 					return;
 				}
 			}
 			
 			if(absoluteOutputFilePath.exists() && !gg.isOverride()) {
-				System.out.println("[not generate]\t by gg.isOverride()=false and outputFile exist:"+outputFilepath);
+				GLogger.println("[not generate]\t by gg.isOverride()=false and outputFile exist:"+outputFilepath);
 				return;
 			}
 			
-			System.out.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
+			GLogger.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
 			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,encoding);
 		}
 	}
@@ -252,7 +252,7 @@ public class Generator {
 			if(templateFile.trim().equals(""))
 				return true;
 			if(srcFile.getName().toLowerCase().endsWith(".include")){
-				System.out.println("[skip]\t\t endsWith '.include' template:"+templateFile);
+				GLogger.println("[skip]\t\t endsWith '.include' template:"+templateFile);
 				return true;
 			}
 			return false;
@@ -298,7 +298,7 @@ public class Generator {
 				
 				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include","macro_custom.include");
 				conf.setAutoIncludes(availableAutoInclude);
-				System.out.println("Freemarker.autoIncludes:"+availableAutoInclude);
+				GLogger.println("Freemarker.autoIncludes:"+availableAutoInclude);
 			}
 			return conf;
 		}
