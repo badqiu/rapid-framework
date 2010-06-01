@@ -33,18 +33,20 @@ public class GeneratorProperties {
 	         }
 	         GLogger.println("");
 	         
-	         // 填充替换后的值, com.company 替换为 com/company,并设置key = key+"_dir"后缀
-	         props.getProperties().putAll(autoReplacePropertiesValue2DirValue());
+	         // 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀
+	        GLogger.println("auto replace generator.properties, ");
+	        Properties dirProperties = autoReplacePropertiesValue2DirValue(props.getProperties());
+	        
+            props.getProperties().putAll(dirProperties);
 		}catch(IOException e) {
 			throw new RuntimeException("Load Properties error",e);
 		}
 	}
 	
 	// 自动替换所有value的.号为/,并设置key=key+"_dir"后缀
-	private static Properties autoReplacePropertiesValue2DirValue() {
-        GLogger.println("auto replace generator.properties, ");
+	private static Properties autoReplacePropertiesValue2DirValue(Properties props) {
         Properties autoReplaceProperties = new Properties();
-        for(Object key : props.getProperties().keySet()) {
+        for(Object key : getProperties().keySet()) {
             String dir_key = key.toString()+"_dir";
             if(props.entrySet().contains(dir_key)) {
                 continue;
