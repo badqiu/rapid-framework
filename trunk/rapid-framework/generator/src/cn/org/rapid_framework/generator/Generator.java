@@ -190,7 +190,7 @@ public class Generator {
 	
 		private void processTemplateForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
 			templateModel.put("gg", gg);
-			Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
+			Template template = getFreeMarkerTemplate(templateFile);
 			template.process(templateModel, IOHelper.NULL_WRITER);
 		}
 		
@@ -214,15 +214,16 @@ public class Generator {
 			if(outputFilePath.endsWith(removeExtensions)) {
 				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
 			}
-			return FreemarkerHelper.processTemplateString(filePathModel, outputFilePath,getFreeMarkerConfiguration());
+			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding,"/filepath/processor/");
+			return FreemarkerHelper.processTemplateString(outputFilePath,filePathModel,conf);
 		}
 	
-		private Configuration getFreeMarkerConfiguration() throws IOException {
-			return GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding);
+		private Template getFreeMarkerTemplate(String templateName) throws IOException {
+			return GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, encoding,templateName).getTemplate(templateName);
 		}
 	
 		private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
-			Template template = getFreeMarkerConfiguration().getTemplate(templateFile);
+			Template template = getFreeMarkerTemplate(templateFile);
 			template.setOutputEncoding(encoding);
 			
 			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
@@ -278,8 +279,8 @@ public class Generator {
 			reader.close();
 			return isFoundInsertLocation;
 		}	
-		public static Configuration newFreeMarkerConfiguration(List<File> templateRootDirs,String defaultEncoding) throws IOException {
-			String key = templateRootDirs.hashCode()+"#"+defaultEncoding;
+		public static Configuration newFreeMarkerConfiguration(List<File> templateRootDirs,String defaultEncoding,String templateName) throws IOException {
+			String key = templateRootDirs.hashCode()+"#"+defaultEncoding+"#"+templateName;
 			Configuration conf = freemarkerConfigurationCache.get(key);
 			if(conf == null) {
 				conf = new Configuration();
@@ -296,9 +297,10 @@ public class Generator {
 				conf.setBooleanFormat("true,false");
 				conf.setDefaultEncoding(defaultEncoding);
 				
-				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include","macro_custom.include");
+				String autoIncludes = new File(new File(templateName).getParent(),"macro.include").getPath();
+				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include",autoIncludes);
 				conf.setAutoIncludes(availableAutoInclude);
-				GLogger.println("set Freemarker.autoIncludes:"+availableAutoInclude);
+				GLogger.debug("set Freemarker.autoIncludes:"+availableAutoInclude+" for templateName:"+templateName);
 			}
 			return conf;
 		}
