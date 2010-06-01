@@ -8,6 +8,7 @@ rapid-framework路线图
 	project-service
 	project-web
 
+add groupId=basepackage:com.company.project=com-company-project
 SafeSqlProcessor
         //转义%
         escapedQuery = StringUtil.replace(escapedQuery, "%", "\\%");
@@ -36,6 +37,7 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 			  validation配置
 			  order配置
 			  Enum配置
+			  input type: select option,label
 generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
