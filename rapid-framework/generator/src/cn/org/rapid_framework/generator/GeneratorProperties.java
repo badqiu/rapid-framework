@@ -1,14 +1,11 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.PropertiesHelper;
 
 
@@ -26,7 +23,7 @@ public class GeneratorProperties {
 	
 	public static void loadProperties() {
 		try {
-			System.out.println("Load [generator.properties] from classpath");
+			GLogger.println("Load [generator.properties] from classpath");
 			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 			
 			String basepackage = getRequiredProperty("basepackage");
@@ -35,10 +32,10 @@ public class GeneratorProperties {
 			
 			for(Iterator it = props.entrySet().iterator();it.hasNext();) {
 				Map.Entry entry = (Map.Entry)it.next();
-				System.out.println("[Property] "+entry.getKey()+"="+entry.getValue());
+				GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
 			}
 			
-			System.out.println();
+			GLogger.println("");
 			
 		}catch(IOException e) {
 			throw new RuntimeException("Load Properties error",e);
