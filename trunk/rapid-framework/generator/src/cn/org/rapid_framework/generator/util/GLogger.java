@@ -51,4 +51,9 @@ public class GLogger {
 			e.printStackTrace(err);
 		}
 	}
+	
+	public static void println(String s) {
+	    out.println(s);
+	}
+	
 }
