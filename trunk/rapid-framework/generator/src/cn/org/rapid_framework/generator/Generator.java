@@ -155,20 +155,21 @@ public class Generator {
 				return;
 			}
 			
-			initGeneratorControlProperties(srcFile);
-			processTemplateForGeneratorControl(templateModel, templateFile);
-			
-			if(gg.isIgnoreOutput()) {
-				System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
-				return;
-			}
-			
-			String outputFilepath = null;
-			try {
-				outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
-				if(outputFilepath != null ) {
-					generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
-				}
+            String outputFilepath = null;
+            try {
+                outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
+                
+                initGeneratorControlProperties(srcFile);
+                processTemplateForGeneratorControl(templateModel, templateFile);
+                
+                if(gg.isIgnoreOutput()) {
+                    System.out.println("[not generate] by gg.isIgnoreOutput()=true on template:"+templateFile);
+                    return;
+                }
+                
+                if(outputFilepath != null ) {
+                    generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
+                }
 			}catch(Exception e) {
 			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
 			}
