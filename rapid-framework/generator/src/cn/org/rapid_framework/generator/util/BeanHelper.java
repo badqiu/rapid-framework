@@ -4,11 +4,15 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 
 public class BeanHelper {
 	/**
@@ -17,7 +21,6 @@ public class BeanHelper {
 	public static Map describe(Object obj) {
 		if (obj instanceof Map)
 			return (Map) obj;
-
 		Map map = new HashMap();
 		PropertyDescriptor[] descriptors = getPropertyDescriptors(obj.getClass());
 		for(int i = 0; i < descriptors.length; i++ ) {
@@ -49,11 +52,111 @@ public class BeanHelper {
 	}
 	
 
-	public static void copyProperties(Object dest, Object orig) {
-		try {
-			BeanUtils.copyProperties(dest, orig);
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
+    public static PropertyDescriptor getPropertyDescriptors(Class beanClass,String name) {
+        for(PropertyDescriptor pd : getPropertyDescriptors(beanClass)) {
+            if(pd.getName().equals(name)) {
+                return pd;
+            }
+        }
+        return null;
+    }
+    
+    public static void copyProperties(Object target, Object source)  {
+        copyProperties(target,source,null);
+    }
+
+    public static void copyProperties(Object target, Object source,String[] ignoreProperties)  {
+        if(target instanceof Map) {
+            throw new UnsupportedOperationException("target is Map unsuported");
+        }
+        
+        PropertyDescriptor[] targetPds = getPropertyDescriptors(target.getClass());
+        List ignoreList = (ignoreProperties != null) ? Arrays.asList(ignoreProperties) : null;
+
+        for (int i = 0; i < targetPds.length; i++) {
+            PropertyDescriptor targetPd = targetPds[i];
+            if (targetPd.getWriteMethod() != null && (ignoreProperties == null || (!ignoreList.contains(targetPd.getName())))) {
+                try {
+                    if(source instanceof Map) {
+                        Map map = (Map)source;
+                        if(map.containsKey(targetPd.getName())) {
+                            Object value = map.get(targetPd.getName());
+                            setProperty(target, targetPd, value);
+                        }
+                    }else {
+                        PropertyDescriptor sourcePd = getPropertyDescriptors(source.getClass(), targetPd.getName());
+                        if (sourcePd != null && sourcePd.getReadMethod() != null) {
+                            Object value = getProperty(source, sourcePd);
+                             setProperty(target, targetPd, value);
+                        }
+                    }
+                } catch (Throwable ex) {
+                    throw new IllegalArgumentException("Could not copy properties on:"+targetPd.getDisplayName(),ex);
+                }
+            }
+        }
+    }
+
+    private static Object getProperty(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
+        Method readMethod = sourcePd.getReadMethod();
+        if (!Modifier.isPublic(readMethod.getDeclaringClass()
+            .getModifiers())) {
+            readMethod.setAccessible(true);
+        }
+        Object value = readMethod.invoke(source, new Object[0]);
+        return value;
+    }
+
+    private static void setProperty(Object target, PropertyDescriptor targetPd, Object value) throws IllegalAccessException,InvocationTargetException {
+        Method writeMethod = targetPd.getWriteMethod();
+        if (!Modifier.isPublic(writeMethod.getDeclaringClass()
+            .getModifiers())) {
+            writeMethod.setAccessible(true);
+        }
+        writeMethod.invoke(target, new Object[] { convert(value,writeMethod.getParameterTypes()[0]) });
+    }
+
+    private static Object convert(Object value, Class<?> targetType) {
+        if(value == null) return null;
+        if(targetType == String.class) {
+            return value.toString();
+        }else {
+            return convert(value.toString(),targetType);
+        }
+    }
+
+    private static Object convert(String value,Class<?> targetType) {
+        if(targetType == Byte.class || targetType == byte.class) {
+            return new Byte(value);
+        }
+        if(targetType == Short.class || targetType == short.class) {
+            return new Short(value);
+        }
+        if(targetType == Integer.class || targetType == int.class) {
+            return new Integer(value);
+        }
+        if(targetType == Long.class || targetType == long.class) {
+            return new Long(value);
+        }
+        if(targetType == Float.class || targetType == float.class) {
+            return new Float(value);
+        }
+        if(targetType == Double.class || targetType == double.class) {
+            return new Double(value);
+        }
+        if(targetType == BigDecimal.class) {
+            return new BigDecimal(value);
+        }
+        if(targetType == Boolean.class || targetType == boolean.class) {
+            return new Boolean(value);
+        }
+        if(targetType == boolean.class) {
+            return new Boolean(value);
+        }
+        if(DateHelper.isDateType(targetType)) {
+            return DateHelper.parseDate(value,targetType,"yyyyMMdd","yyyy-MM-dd","yyyyMMddHHmmSS","yyyy-MM-dd HH:mm:ss","HH:mm:ss");
+        }
+
+        throw new IllegalArgumentException("cannot convert value:"+value +" to targetType:"+targetType);
+    }
 }
