@@ -26,21 +26,35 @@ public class GeneratorProperties {
 			GLogger.println("Load [generator.properties] from classpath");
 			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 			
-			String basepackage = getRequiredProperty("basepackage");
-			String basepackage_dir = basepackage.replace('.', '/');
-			props.setProperty("basepackage_dir", basepackage_dir);
 			
-			for(Iterator it = props.entrySet().iterator();it.hasNext();) {
-				Map.Entry entry = (Map.Entry)it.next();
-				GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
-			}
-			
-			GLogger.println("");
-			
+	         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
+                 Map.Entry entry = (Map.Entry)it.next();
+                 GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
+	         }
+	         GLogger.println("");
+	         
+	         // 填充替换后的值, com.company 替换为 com/company,并设置key = key+"_dir"后缀
+	         props.getProperties().putAll(autoReplacePropertiesValue2DirValue());
 		}catch(IOException e) {
 			throw new RuntimeException("Load Properties error",e);
 		}
 	}
+	
+	// 自动替换所有value的.号为/,并设置key=key+"_dir"后缀
+	private static Properties autoReplacePropertiesValue2DirValue() {
+        GLogger.println("auto replace generator.properties, ");
+        Properties autoReplaceProperties = new Properties();
+        for(Object key : props.getProperties().keySet()) {
+            String dir_key = key.toString()+"_dir";
+            if(props.entrySet().contains(dir_key)) {
+                continue;
+            }
+            String value = props.getProperty(key.toString());
+            String dir_value = value.toString().replace('.', '/');
+            autoReplaceProperties.put(dir_key, dir_value);           
+        }
+        return autoReplaceProperties;
+    }
 	
 	public static Properties getProperties() {
 		return getHelper().getProperties();
