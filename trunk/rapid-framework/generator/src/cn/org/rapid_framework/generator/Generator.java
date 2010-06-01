@@ -298,7 +298,7 @@ public class Generator {
 				
 				List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include","macro_custom.include");
 				conf.setAutoIncludes(availableAutoInclude);
-				GLogger.println("Freemarker.autoIncludes:"+availableAutoInclude);
+				GLogger.println("set Freemarker.autoIncludes:"+availableAutoInclude);
 			}
 			return conf;
 		}
