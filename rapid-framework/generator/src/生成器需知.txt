@@ -11,7 +11,7 @@
 		env : 系统环境变量
 		system : System.getProperties() 
 		generator.properties 文件中的所有属性,直接引用,没有前缀
-		gg : 模板控制变量
+		gg : 模板控制变量, cn.org.rapid_framework.generator.GeneratorControl
 
 
 二.每个模板有gg变量可以控制自身的自定义配置
