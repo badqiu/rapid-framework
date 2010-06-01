@@ -45,12 +45,12 @@ public class StringHelperTest extends TestCase {
 		assertTrue(StringHelper.contains("badqiu", "adq"));
 		assertTrue(StringHelper.contains("badqiu", "ADQ"));
 		assertTrue(StringHelper.contains("badqiu", "abc","dqi"));
-		
 		assertFalse(StringHelper.contains(null,"blog"));
 		assertFalse(StringHelper.contains("badqiu", "ddd","ggg"));
 		
 		try {
-		assertFalse(StringHelper.contains("bad",null));
+		String NULL = null;
+		assertFalse(StringHelper.contains("bad",NULL));
 		fail();
 		}catch(Exception e) {}
 	}
