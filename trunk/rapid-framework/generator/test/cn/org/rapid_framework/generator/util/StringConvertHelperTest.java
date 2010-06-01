@@ -9,26 +9,26 @@ import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
 
 public class StringConvertHelperTest extends  TestCase{
 	
-	public void test_string2Map() {
-		Map map = StringConvertHelper.string2Map("abc=123,diy='123',sex='blog'");
-		System.out.println(map.keySet()+" "+map.values());
-		assertEquals("123",map.get("abc"));
-		assertEquals("'123'",map.get("diy"));
-		assertEquals("'blog'",map.get("sex"));
-		
-		assertEquals(map.size(),3);
-		
-		assertTrue(StringConvertHelper.string2Map(null).isEmpty());
-	}
+//	public void test_string2Map() {
+//		Map map = StringHelper.string2Map("abc=123,diy='123',sex='blog'");
+//		System.out.println(map.keySet()+" "+map.values());
+//		assertEquals("123",map.get("abc"));
+//		assertEquals("'123'",map.get("diy"));
+//		assertEquals("'blog'",map.get("sex"));
+//		
+//		assertEquals(map.size(),3);
+//		
+//		assertTrue(StringHelper.string2Map(null).isEmpty());
+//	}
 	
 	public void test_string2ColumnEnumList_with_three_argument() {
-		List<EnumMetaDada> list= StringConvertHelper.string2EnumMetaData("F(1,女);M(0,男)");
+		List<EnumMetaDada> list= StringHelper.string2EnumMetaData("F(1,女);M(0,男)");
 		verify3Argument(list);
 		
-		list= StringConvertHelper.string2EnumMetaData("F(1,女),M(0,男)");
+		list= StringHelper.string2EnumMetaData("F(1,女),M(0,男)");
         verify3Argument(list);
         
-        list= StringConvertHelper.string2EnumMetaData("F(1,女),M(2,男),G(3,未知)");
+        list= StringHelper.string2EnumMetaData("F(1,女),M(2,男),G(3,未知)");
         assertEquals(3,list.size());
         verifyMetadata(list.get(0), "F", "女", "1");
         verifyMetadata(list.get(1), "M", "男", "2");
@@ -46,12 +46,12 @@ public class StringConvertHelperTest extends  TestCase{
 	
 	
 	public void test_string2ColumnEnumList_with_two_argument() {
-		List<EnumMetaDada> list= StringConvertHelper.string2EnumMetaData("F(女);M(男)");
+		List<EnumMetaDada> list= StringHelper.string2EnumMetaData("F(女);M(男)");
 		verify2Argument(list);
-		list= StringConvertHelper.string2EnumMetaData("F(女),M(男)");
+		list= StringHelper.string2EnumMetaData("F(女),M(男)");
 		verify2Argument(list);
 		
-	    list= StringConvertHelper.string2EnumMetaData("F(女),M(男);G(未知)");
+	    list= StringHelper.string2EnumMetaData("F(女),M(男);G(未知)");
 	    assertEquals(3,list.size());
 	    verifyMetadata(list.get(0), "F", "女", "F");
 	    verifyMetadata(list.get(1), "M", "男", "M");
@@ -59,9 +59,9 @@ public class StringConvertHelperTest extends  TestCase{
 	}
 
 	public void testEmptyString() {
-        assertTrue(StringConvertHelper.string2EnumMetaData("").isEmpty());
-		assertTrue(StringConvertHelper.string2EnumMetaData("  ").isEmpty());
-		assertTrue(StringConvertHelper.string2EnumMetaData(null).isEmpty());
+        assertTrue(StringHelper.string2EnumMetaData("").isEmpty());
+		assertTrue(StringHelper.string2EnumMetaData("  ").isEmpty());
+		assertTrue(StringHelper.string2EnumMetaData(null).isEmpty());
     }
 
     private void verify2Argument(List<EnumMetaDada> list) {
@@ -81,7 +81,7 @@ public class StringConvertHelperTest extends  TestCase{
 	
 	public void test_string2ColumnEnumList_with_exception() {
 		try {
-		List<EnumMetaDada> list= StringConvertHelper.string2EnumMetaData(",,");
+		List<EnumMetaDada> list= StringHelper.string2EnumMetaData(",,");
 		fail();
 		}catch(Exception e) {
 			System.out.println(e);
