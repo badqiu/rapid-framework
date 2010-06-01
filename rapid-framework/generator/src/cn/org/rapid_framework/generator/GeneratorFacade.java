@@ -114,7 +114,7 @@ public class GeneratorFacade {
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(GeneratorProperties.getProperties());
-			filePathModel.putAll(BeanHelper.describe(clazz));
+			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 	}
