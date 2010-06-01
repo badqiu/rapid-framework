@@ -96,26 +96,29 @@ public class GeneratorFacade {
 			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("table", table);
-			templateModel.put("env", System.getenv());
-			templateModel.put("system", System.getProperties());
+			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(table));
 			return new GeneratorModel(templateModel,filePathModel);
 		}
-		
+
 		public static GeneratorModel newFromClass(Class clazz) {
 			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("clazz", new JavaClass(clazz));
-			templateModel.put("env", System.getenv());
-			templateModel.put("system", System.getProperties());
+			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
 			return new GeneratorModel(templateModel,filePathModel);
+		}
+		
+		private static void setShareVars(Map templateModel) {
+			templateModel.put("env", System.getenv());
+			templateModel.put("system", System.getProperties());
 		}
 	}
 	
