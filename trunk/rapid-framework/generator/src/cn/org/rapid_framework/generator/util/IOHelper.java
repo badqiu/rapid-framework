@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -63,12 +63,21 @@ public class IOHelper {
 	}
 
     public static void saveFile(File file,String content)  {
-        saveFile(file,content,false);
+        saveFile(file,content,null,false);
     }
-	   
-	public static void saveFile(File file,String content,boolean append)  {
+
+    public static void saveFile(File file,String content,boolean append)  {
+        saveFile(file,content,null,append);
+    }
+    
+    public static void saveFile(File file,String content,String encoding)  {
+        saveFile(file,content,encoding,false);
+    }
+    
+	public static void saveFile(File file,String content,String encoding,boolean append)  {
 		try {
-		Writer writer = new FileWriter(file,append);
+		FileOutputStream output = new FileOutputStream(file,append);
+		Writer writer = StringHelper.isBlank(encoding) ? new OutputStreamWriter(output) : new OutputStreamWriter(output,encoding);
 		writer.write(content);
 		writer.close();
 		}catch(IOException e){
