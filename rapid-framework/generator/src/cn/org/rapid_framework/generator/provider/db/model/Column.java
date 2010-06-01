@@ -335,7 +335,7 @@ public class Column {
 	}
 	
 	public String getConstantName() {
-		return constantName;
+		return StringHelper.toUnderscoreName(getColumnName()).toUpperCase();
 	}
 	
 	public boolean getIsNotIdOrVersionField() {
@@ -495,7 +495,6 @@ public class Column {
 		javaType = GeneratorProperties.getProperty("java_typemapping."+normalJdbcJavaType,normalJdbcJavaType).trim();
 		columnName = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 		enumClassName = getColumnName()+"Enum";		
-		constantName = StringHelper.toUnderscoreName(getColumnName()).toUpperCase();
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
 		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
 	}
@@ -504,7 +503,6 @@ public class Column {
 	private String javaType;
 	private String columnAlias;
 	private String columnName;
-	private String constantName;
 	private String asType;	
 	private String enumClassName;
 	private boolean updatable = true;	
