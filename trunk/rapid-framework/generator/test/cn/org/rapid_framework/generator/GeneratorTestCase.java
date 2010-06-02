@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModel;
@@ -59,7 +60,10 @@ public class GeneratorTestCase extends TestCase{
 	
 	public void generateByTable(Table table) throws Exception {
 		GeneratorModel m = GeneratorModel.newFromTable(table);
-		g.generateBy(m.templateModel, m.filePathModel);
+		List<Exception> exceptions = g.generateBy(m.templateModel, m.filePathModel);
+		for(Exception e : exceptions) {
+		    e.printStackTrace();
+		}
 	}
 	
 	public void generateByTable(Generator g,Table table) throws Exception {
