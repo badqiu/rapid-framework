@@ -18,27 +18,14 @@ public class GeneratorProperties {
 
 	static final String PROPERTIES_FILE_NAME = "generator.properties";
 	
-	static PropertiesHelper props;
+	static PropertiesHelper props = new PropertiesHelper(new Properties());
 	private GeneratorProperties(){}
-	
-	public static void loadProperties() {
+	static {
 		try {
 			GLogger.println("Load [generator.properties] from classpath");
-			props = new PropertiesHelper(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
-			
-			
-	        for(Iterator it = props.entrySet().iterator();it.hasNext();) {
-                 Map.Entry entry = (Map.Entry)it.next();
-                 GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
-	        }
-	        GLogger.println("");
-	         
-	        GLogger.println("[Auto Replace] [.] => [/] on generator.properties, key=source_key+'_dir', For example: pkg=com.company ==> pkg_dir=com/company  \n");
-	        Properties dirProperties = autoReplacePropertiesValue2DirValue(props.getProperties());
-	        
-            props.getProperties().putAll(dirProperties);
+			setProperties(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 		}catch(IOException e) {
-			throw new RuntimeException("Load Properties error",e);
+			throw new RuntimeException("Load "+PROPERTIES_FILE_NAME+" error",e);
 		}
 	}
 	
@@ -47,9 +34,9 @@ public class GeneratorProperties {
         Properties autoReplaceProperties = new Properties();
         for(Object key : getProperties().keySet()) {
             String dir_key = key.toString()+"_dir";
-            if(props.entrySet().contains(dir_key)) {
-                continue;
-            }
+//            if(props.entrySet().contains(dir_key)) {
+//                continue;
+//            }
             String value = props.getProperty(key.toString());
             String dir_value = value.toString().replace('.', '/');
             autoReplaceProperties.put(dir_key, dir_value);           
@@ -62,8 +49,6 @@ public class GeneratorProperties {
 	}
 	
 	private static PropertiesHelper getHelper() {
-		if(props == null)
-			loadProperties();
 		return props;
 	}
 	
@@ -92,11 +77,25 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
+	    GLogger.println("[Property] "+key+"="+value);
 		getHelper().setProperty(key, value);
+//		if(!getHelper().getProperties().contains(key+"_dir")) {
+		String dir_value = value.toString().replace('.', '/');
+		getHelper().getProperties().put(key+"_dir", dir_value);
+//		}
 	}
 	
 	public static void setProperties(Properties v) {
 		props = new PropertiesHelper(v);
+        for(Iterator it = props.entrySet().iterator();it.hasNext();) {
+            Map.Entry entry = (Map.Entry)it.next();
+            GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
+        }
+        GLogger.println("");
+        
+        GLogger.println("[Auto Replace] [.] => [/] on generator.properties, key=source_key+'_dir', For example: pkg=com.company ==> pkg_dir=com/company  \n");
+        Properties dirProperties = autoReplacePropertiesValue2DirValue(props.getProperties());
+        props.getProperties().putAll(dirProperties);
 	}
 
 }
