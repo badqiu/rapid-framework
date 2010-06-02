@@ -2,72 +2,73 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
-package ${basepackage}.dataobject;
+package ${basepackage}.dal.query;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
-<#include "/java_imports.include">
+import java.io.Serializable;
 
-public class ${className}Query implements java.io.Serializable {
-	
-	//columns START
-	<#list table.columns as column>
-	private ${column.javaType} ${column.columnNameLower};
-	</#list>
-	//columns END
 
-<@generateConstructor className/>
-<@generateJavaColumns/>
+public class ${className}Query implements Serializable {
+    private static final long serialVersionUID = 3148176768559230877L;
+    
+    <@generateFields/>
+    <@generateProperties/>
 
-	public String toString() {
-		return new ToStringBuilder(this)
-		<#list table.columns as column>
-			.append("${column.columnName}",get${column.columnName}())
-		</#list>
-			.toString();
-	}
-	
-	public int hashCode() {
-		return new HashCodeBuilder()
-		<#list table.columns as column>
-			.append(get${column.columnName}())
-		</#list>
-			.toHashCode();
-	}
-	
-	public boolean equals(Object obj) {
-		if(obj instanceof ${className} == false) return false;
-		if(this == obj) return true;
-		${className} other = (${className})obj;
-		return new EqualsBuilder()
-			<#list table.columns as column>
-			.append(get${column.columnName}(),other.get${column.columnName}())
-			</#list>
-			.isEquals();
-	}
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+    }
+    
 }
 
-<#macro generateJavaColumns>
-	<#list table.columns as column>
-		<#if column.isDateTimeColumn>
-	public String get${column.columnName}String() {
-		return date2String(get${column.columnName}(), FORMAT_${column.constantName});
-	}
-	public void set${column.columnName}String(String value) {
-		set${column.columnName}(string2Date(value, FORMAT_${column.constantName},${column.javaType}.class));
-	}
-	
-		</#if>	
-	public void set${column.columnName}(${column.javaType} value) {
-		this.${column.columnNameLower} = value;
-	}
-	
-	public ${column.javaType} get${column.columnName}() {
-		return this.${column.columnNameLower};
-	}
-	</#list>
+<#macro generateFields>
+
+    <#list table.columns as column>
+    /** ${column.columnAlias} */
+    <#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+    private ${column.javaType} ${column.columnNameLower}Begin;
+    private ${column.javaType} ${column.columnNameLower}End;
+    <#else>
+    private ${column.javaType} ${column.columnNameLower};
+    </#if>
+    </#list>
+
 </#macro>
+
+<#macro generateProperties>
+    <#list table.columns as column>
+    <#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+    public ${column.javaType} get${column.columnName}Begin() {
+        return this.${column.columnNameLower}Begin;
+    }
+    
+    public void set${column.columnName}Begin(${column.javaType} value) {
+        this.${column.columnNameLower}Begin = value;
+    }   
+    
+    public ${column.javaType} get${column.columnName}End() {
+        return this.${column.columnNameLower}End;
+    }
+    
+    public void set${column.columnName}End(${column.javaType} value) {
+        this.${column.columnNameLower}End = value;
+    }
+    
+    <#else>
+    public ${column.javaType} get${column.columnName}() {
+        return this.${column.columnNameLower};
+    }
+    
+    public void set${column.columnName}(${column.javaType} value) {
+        this.${column.columnNameLower} = value;
+    }
+    
+    </#if>  
+    </#list>
+</#macro>
+
 
 
