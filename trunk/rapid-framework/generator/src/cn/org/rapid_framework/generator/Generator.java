@@ -251,7 +251,7 @@ public class Generator {
 				return;
 			}
 			
-			GLogger.println("[generate]\t template:"+templateFile+" to "+outputFilepath);
+			GLogger.println("[generate]\t template:"+templateFile+" ==> "+outputFilepath);
 			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,outputEncoding);
 		}
 	}
