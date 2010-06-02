@@ -1,26 +1,34 @@
-<#include "/java_copyright.include">
-<#assign className = table.className>   
-<#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
 
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.Test;
-import static junit.framework.Assert.*;
+package com.company.project.facade.impl;
 
-<#include "/java_imports.include">
+import cn.org.rapid_framework.util.PageList;
 
-public class ${className}RepositoryImpl extends BaseRepository {
-	
-	public void update();
-	
-	public void create();
-	
-	public void removeById();
-	
-	public void queryById();
-	
-	public void findPage();
-	
+import com.company.project.facade.UserInfoFacade;
+import com.company.project.service.UserInfoService;
+import com.company.project.service.dto.UserInfoDTO;
+import com.company.project.service.dto.query.UserInfoQueryDTO;
+
+public class UserInfoFacadeImpl implements UserInfoFacade {
+    UserInfoService userInfoService;
+    public UserInfoDTO createUserInfo(UserInfoDTO userInfo){
+        return userInfoService.createUserInfo(userInfo);
+    }
+    
+    public void updateUserInfo(UserInfoDTO userInfo){
+        userInfoService.updateUserInfo(userInfo);
+    }
+    
+    public void removeUserInfo(Long id) {
+        userInfoService.deleteUserInfoById(id);
+    }
+    
+    public UserInfoDTO queryUserInfoById(Long id) {
+        return userInfoService.getUserInfoById(id);
+    }
+    
+    public PageList<UserInfoDTO> findPage(UserInfoQueryDTO query) {
+        return userInfoService.findPage(query);
+    }
+    
 }
