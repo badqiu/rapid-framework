@@ -1,0 +1,6 @@
+
+public void convert(Object source) {
+<#list clazz.properties as item>
+	target.set${item.name?cap_first}(target.get${item.name?cap_first}());
+</#list>
+}
