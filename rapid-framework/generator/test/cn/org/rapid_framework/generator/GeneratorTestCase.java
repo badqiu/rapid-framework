@@ -60,6 +60,7 @@ public class GeneratorTestCase extends TestCase{
 	
 	public void generateByTable(Table table) throws Exception {
 		GeneratorModel m = GeneratorModel.newFromTable(table);
+		g.setIgnoreTemplateGenerateException(false);
 		List<Exception> exceptions = g.generateBy(m.templateModel, m.filePathModel);
 		for(Exception e : exceptions) {
 		    e.printStackTrace();

@@ -12,12 +12,11 @@ public class DalgenGeneratorTest extends GeneratorTestCase{
 		Table table = DbTableFactory.getInstance().getTable("USER_INFO");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		g.addTemplateRootDir(new File("plugins/java_src"));
-		g.addTemplateRootDir(new File("plugins/java_test"));
+		g.addTemplateRootDir(new File("plugins/dalgen_table//dalgen_table/"));
 		
 		generateByTable(table);
 		
-//		Runtime.getRuntime().exec("cmd.exe /c start "+new File(g.outRootDir).getAbsolutePath());
+//		Runtime.getRuntime().exec("cmd.exe /c start "+new File(GeneratorProperties.getProperty("outRoot")).getAbsolutePath());
 	}
 	
 }
