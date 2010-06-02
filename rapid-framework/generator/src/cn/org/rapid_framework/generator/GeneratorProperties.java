@@ -77,7 +77,7 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
-	    GLogger.println("[Property] "+key+"="+value);
+	    GLogger.println("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
 //		if(!getHelper().getProperties().contains(key+"_dir")) {
 		String dir_value = value.toString().replace('.', '/');
