@@ -1,4 +1,4 @@
-package com.company.project.service.dto.result;
+package com.company.project.service.dto.result.base;
 
 
 public class WSResult implements java.io.Serializable{
