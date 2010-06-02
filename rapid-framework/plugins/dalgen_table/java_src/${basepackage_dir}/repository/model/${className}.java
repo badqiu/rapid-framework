@@ -4,6 +4,7 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.repository.model;
 
+import ${basepackage}.model.enums;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -12,11 +13,13 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class ${className} implements java.io.Serializable {
 	
-	//columns START
 	<#list table.columns as column>
+	<#if column.enumColumn>
+	private ${column.enumClassName} ${column.columnNameLower};
+	<#else>
 	private ${column.javaType} ${column.columnNameLower};
+	</#if>
 	</#list>
-	//columns END
 
 <@generateConstructor className/>
 <@generateJavaColumns/>
@@ -25,6 +28,15 @@ public class ${className} implements java.io.Serializable {
 
 <#macro generateJavaColumns>
 	<#list table.columns as column>	
+	<#if column.enumColumn>
+    public void set${column.columnName}(${column.enumClassName} value) {
+        this.${column.columnNameLower} = value;
+    }
+    
+    public ${column.enumClassName} get${column.columnName}() {
+        return this.${column.columnNameLower};
+    }	
+	<#else>
 	public void set${column.columnName}(${column.javaType} value) {
 		this.${column.columnNameLower} = value;
 	}
@@ -32,6 +44,7 @@ public class ${className} implements java.io.Serializable {
 	public ${column.javaType} get${column.columnName}() {
 		return this.${column.columnNameLower};
 	}
+	</#if>
 	</#list>
 </#macro>
 
