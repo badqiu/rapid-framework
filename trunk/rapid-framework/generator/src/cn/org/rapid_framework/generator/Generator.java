@@ -120,13 +120,24 @@ public class Generator {
 		List<Exception> allExceptions = new ArrayList<Exception>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel);
+			List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel,false);
 			allExceptions.addAll(exceptions); 
 		}
 		return allExceptions;
 	}
 	
-	private List<Exception> generateByTemplateRootDir(File templateRootDir, Map templateModel,Map filePathModel) throws Exception {
+    public List<Exception> removeBy(Map templateModel,Map filePathModel) throws Exception {
+        if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
+        List<Exception> allExceptions = new ArrayList<Exception>();
+        for(int i = 0; i < this.templateRootDirs.size(); i++) {
+            File templateRootDir = (File)templateRootDirs.get(i);
+            List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel,true);
+            allExceptions.addAll(exceptions); 
+        }
+        return allExceptions;
+    }	
+	
+	private List<Exception> generateByTemplateRootDir(File templateRootDir, Map templateModel,Map filePathModel,boolean isRemove) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		GLogger.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"' outRootDir:"+new File(outRootDir).getAbsolutePath());
 		
@@ -137,7 +148,11 @@ public class Generator {
 		for(int i = 0; i < srcFiles.size(); i++) {
 			File srcFile = (File)srcFiles.get(i);
 			try {
-				new GeneratorProcessor().execute(templateRootDir, templateModel,filePathModel, srcFile);
+			    if(isRemove){
+			        new GeneratorProcessor().executeRemove(templateRootDir, templateModel,filePathModel, srcFile);
+			    }else {
+			        new GeneratorProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
+			    }
 			}catch(Exception e) {
 				if (ignoreTemplateGenerateException) {
 			        GLogger.warn("iggnore generate error,template is:" + srcFile+" cause:"+e);
@@ -152,7 +167,7 @@ public class Generator {
 	
 	public class GeneratorProcessor {
 		private GeneratorControl gg = new GeneratorControl();
-		private void execute(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
+		private void executeGenerate(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			
 			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
@@ -185,6 +200,18 @@ public class Generator {
 			}
 		}
 
+	    private void executeRemove(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
+	        String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
+            if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
+                return;
+            }
+	        initGeneratorControlProperties(srcFile);
+	        processTemplateForGeneratorControl(templateModel, templateFile);
+	        String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
+	        GLogger.println("[remove file] file:"+new File(gg.getOutRoot(),outputFilepath).getAbsolutePath());
+	        new File(gg.getOutRoot(),outputFilepath).delete();
+	    }
+	    
 		private void initGeneratorControlProperties(File srcFile) throws SQLException {
 			gg.setSourceFile(srcFile.getAbsolutePath());
 			gg.setSourceFileName(srcFile.getName());
