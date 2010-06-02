@@ -1,37 +1,28 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
-
-<#include "/java_imports.include">
-
-import org.springframework.stereotype.Component;
+package ${basepackage}.dal.daointerface;
 
 
-@Component
-public class ${className}DAO extends BaseIbatisDAO<${className},${table.idColumn.javaType}>{
+import cn.org.rapid_framework.util.PageList;
+import ${basepackage}.dal.dataobject.UserInfoDO;
+import ${basepackage}.dal.query.UserInfoQuery;
 
-	public Class getEntityClass() {
-		return ${className}.class;
-	}
-	
-	public void saveOrUpdate(${className} entity) {
-		if(entity.get${table.idColumn.columnName}() == null) 
-			save(entity);
-		else 
-			update(entity);
-	}
-	
-	public Page findPage(PageRequest pageRequest) {
-		return pageQuery("${className}.pageSelect",pageRequest);
-	}
-	
-	<#list table.columns as column>
-	<#if column.unique && !column.pk>
-	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getByUsername",v);
-	}	
-	</#if>
-	</#list>
+public interface Base${className}DAO {
+
+    public ${table.pkColumn.javaType} insert(${className}DO obj);
+    
+    public void update(${className}DO obj);
+    
+    public ${className}DO getById(Long id);
+    
+    public PageList<${className}DO> findPage(${className}Query query);
+    
+    <#list table.columns as column>
+    <#if column.unique && !column.pk>
+    public ${className}DO getBy${column.columnName}(${column.javaType} v);
+    
+    </#if>
+    </#list>
 
 }
