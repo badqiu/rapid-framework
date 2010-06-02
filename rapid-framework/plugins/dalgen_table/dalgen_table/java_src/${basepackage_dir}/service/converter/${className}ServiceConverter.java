@@ -37,7 +37,7 @@ public class ${className}ServiceConverter {
     }
     
     <#if !isQuery>
-    public static List<${targetClassName}> convert2${targetClassName}List(List<${sourceClassName}> list) {
+    public static List<${targetClassName}> convert2${targetClassName}List(Iterable<${sourceClassName}> list) {
         List<${targetClassName}> results = new ArrayList();
         for(${sourceClassName} source : list) {
             results.add(convert2${targetClassName}(source));
