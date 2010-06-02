@@ -24,7 +24,7 @@ import ${basepackage}.repository.model.UserInfo;
 
 public class ${className}RepositoryImpl implements ${className}Repository {
     
-    private ${className}DAO ${className}DAO;
+    private ${className}DAO ${classNameLower}DAO;
         
     public void update${className}(${className} ${classNameLower}) {
         ${className}DO target = ${className}RepositoryConverter.convert2${className}DO(${classNameLower});
