@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.company.project.repository.UserInfoRepository;
+import com.company.project.repository.model.UserInfo;
+import com.company.project.service.converter.UserInfoServiceConverter;
+import com.company.project.service.dto.UserInfoDTO;
+import com.company.project.service.dto.query.UserInfoQueryDTO;
+import com.company.project.service.impl.UserInfoServiceImpl.UserInfoChecker;
+
 import cn.org.rapid_framework.util.PageList;
 
 import ${basepackage}.dal.query.${className}Query;
@@ -24,47 +31,49 @@ public class ${className}ServiceImpl implements ${className}Service {
         this.${classNameLower}Repository = dao;
     }
 
-    /** */
-    public ${className} create${className}(${className} ${classNameLower}) {
-        Assert.notNull(${classNameLower},"'${classNameLower}' must be not null");
+    public ${className}DTO create${className}(${className}DTO ${classNameLower}DTO) {
+        Assert.notNull(${classNameLower}DTO,"'${classNameLower}' must be not null");
+        ${className} ${classNameLower} = ${className}ServiceConverter.convert2${className}(${classNameLower}DTO);
         initDefaultValuesForCreate(${classNameLower});
         new ${className}Checker().checkCreate${className}(${classNameLower});
-        this.${classNameLower}Repository.create${className}(${classNameLower});
-        return ${classNameLower};
+        return ${className}ServiceConverter.convert2${className}DTO(this.${classNameLower}Repository.create${className}(${classNameLower}));
     }
     
-    public ${className} update${className}(${className} ${classNameLower}) {
-        Assert.notNull(${classNameLower},"'${classNameLower}' must be not null");
+    public void update${className}(${className}DTO ${classNameLower}DTO) {
+        Assert.notNull(${classNameLower}DTO,"'${classNameLower}' must be not null");
+        ${className} ${classNameLower} = ${className}ServiceConverter.convert2${className}(${classNameLower}DTO);
         new ${className}Checker().checkUpdate${className}(${classNameLower});
-        this.${classNameLower}Repository.update${className}(${classNameLower});
-        return ${classNameLower};
+        ${classNameLower}Repository.update${className}(${classNameLower});
     }   
 
-    public void delete${className}ById(${table.idColumn.javaType} id) {
+    public void delete${className}ById(java.lang.Long id) {
         Assert.notNull(id,"'id' must be not null");
         this.${classNameLower}Repository.remove${className}ById(id);
     }
     
-    public ${className} get${className}ById(${table.idColumn.javaType} id) {
+    public ${className}DTO get${className}ById(java.lang.Long id) {
         Assert.notNull(id,"'id' must be not null");
-        return this.${classNameLower}Repository.query${className}ById(id);
+        return ${className}ServiceConverter.convert2${className}DTO(${classNameLower}Repository.query${className}ById(id));
     }
     
     @Transactional(readOnly=true)
-    public PageList<UserInfo> findPage(${className}Query query) {
+    public PageList<${className}DTO> findPage(${className}QueryDTO query) {
         Assert.notNull(query,"'query' must be not null");
-        return ${classNameLower}Repository.findPage(query);
+        PageList<${className}> resultList = ${classNameLower}Repository.findPage(${className}ServiceConverter.convert2${className}Query(query));
+        return new PageList<${className}DTO>(${className}ServiceConverter.convert2${className}DTOList(resultList),resultList);
     }
+    
 /*    
-<#list table.columns as column>
-    <#if column.unique && !column.pk>
     @Transactional(readOnly=true)
-    public ${className} getBy${column.columnName}(${column.javaType} v) {
-        return ${classNameLower}Repository.getBy${column.columnName}(v);
+    public ${className}DTO getByUsername(java.lang.String v) {
+        return ${className}ServiceConverter.convert2${className}DTO(${classNameLower}Repository.getByUsername(v));
     }   
     
-    </#if>
-</#list>
+    @Transactional(readOnly=true)
+    public ${className}DTO getByAge(java.lang.Integer v) {
+        return ${className}ServiceConverter.convert2${className}DTO(${classNameLower}Repository.getByAge(v));
+    }   
+    
 */
     
     private void initDefaultValuesForCreate(${className} v) {
