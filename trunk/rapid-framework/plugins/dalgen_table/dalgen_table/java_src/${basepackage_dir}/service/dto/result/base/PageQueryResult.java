@@ -1,4 +1,4 @@
-package com.company.project.service.dto.result;
+package com.company.project.service.dto.result.base;
 
 
 public class PageQueryResult<T extends java.io.Serializable> extends QueryResult<T> {
