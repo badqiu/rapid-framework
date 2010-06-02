@@ -1,22 +1,40 @@
-<#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
-package ${basepackage}.service;
 
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+package ${basepackage}.service.converter;
 
-<#include "/java_imports.include">
-public interface ${className}Service{
+import ${basepackage}.dal.dataobject.${className}DTO;
+import ${basepackage}.repository.model.${className};
 
-    public void create${className}(${className} v);
-    
-    public void update${className}(${className} v);
-    
-    public void delete${className}(int id);
-    
-    public void get${className}(int id);
-    
-    public void pageQuery${className}(${className}Query q);
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class ${className}ServiceConverter {
+
+    <@generateConvertMethod "${className}DTO","${className}"/>
+    <@generateConvertMethod "${className}","${className}DTO"/>
     
 }
+        
+<#macro generateConvertMethod sourceClassName targetClassName>
+    public static ${targetClassName} convert2${targetClassName}(${sourceClassName} source) {
+        ${targetClassName} target = new ${targetClassName}();
+    
+        <#list table.notPkColumns as column>
+        target.set${column.columnName}(source.get${column.columnName}());
+        </#list>
+        
+        return target;
+    }
+
+    public static List<${targetClassName}> convert2${targetClassName}List(List<${sourceClassName}> list) {
+        List<${targetClassName}> results = new ArrayList();
+        for(${sourceClassName} source : list) {
+            results.add(convert2${targetClassName}(source));
+        }
+        return results;
+    }
+
+    
+</#macro>
