@@ -22,8 +22,12 @@ public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
         getSqlMapClientTemplate().update("${className}.update",obj);
     }
     
-    public ${className}DO getById(Long id) {
-        return (${className}DO)getSqlMapClientTemplate().insert("${className}.getById",id);
+    public ${className}DO queryById(Long id) {
+        return (${className}DO)getSqlMapClientTemplate().insert("${className}.queryById",id);
+    }
+    
+    public void deleteById(Long id) {
+        getSqlMapClientTemplate().delete("${className}.deleteById",id);
     }
 	
 	public PageList<${className}DO> findPage(${className}Query query) {
