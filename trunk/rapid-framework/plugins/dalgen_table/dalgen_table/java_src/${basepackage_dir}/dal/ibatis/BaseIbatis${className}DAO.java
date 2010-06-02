@@ -11,10 +11,7 @@ import javacommon.base.BaseIbatisDao;
 import ${basepackage}.dal.dataobject.UserInfoDO;
 import ${basepackage}.dal.query.UserInfoQuery;
 
-import org.springframework.stereotype.Component;
 
-
-@Component
 public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 
     public ${table.pkColumn.javaType} insert(${className}DO obj) {
@@ -38,6 +35,7 @@ public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 	public ${className}DO getBy${column.columnName}(${column.javaType} v) {
 		return (${className}DO)getSqlMapClientTemplate().queryForObject("${className}.getByUsername",v);
 	}	
+	
 	</#if>
 	</#list>
 
