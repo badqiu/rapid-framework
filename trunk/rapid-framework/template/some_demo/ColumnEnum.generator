@@ -6,7 +6,7 @@ ${gg.setIgnoreOutput(true)}
 
 <#list table.columns as column>
 	<#if column.enumColumn>
-		<#assign enumOutputJavaFile = gg.outRoot+"/java_src/"+basepackage_dir+"/enum/"+column.enumClassName+".java"/>
+		<#assign enumOutputJavaFile = gg.outRoot+"/java_src/"+basepackage_dir+"/enums/"+column.enumClassName+".java"/>
 		<@genEnumClassBody column/>
 		${gg.generateFile(enumOutputJavaFile,enumClassBody)}
 	</#if>
@@ -15,7 +15,7 @@ ${gg.setIgnoreOutput(true)}
 <#macro genEnumClassBody column>
 <#assign enumClassBody>
 
-package cn.org.rapid_framework.util.fortest_enum;
+package ${basepackage}.enums;
 
 import cn.org.rapid_framework.util.KeyValue;
 import cn.org.rapid_framework.util.KeyValueUtils;
