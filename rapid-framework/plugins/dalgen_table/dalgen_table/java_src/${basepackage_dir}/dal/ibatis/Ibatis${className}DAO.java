@@ -1,13 +1,11 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
-
-<#include "/java_imports.include">
+package ${basepackage}.dal.ibatis;
 
 import org.springframework.stereotype.Component;
 
 
-public class ${className}DAO extends Base${className}DAO{
+public class Ibatis${className}DAO extends BaseIbatis${className}DAO{
 
 }
