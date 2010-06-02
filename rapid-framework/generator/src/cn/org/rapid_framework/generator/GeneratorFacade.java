@@ -28,60 +28,46 @@ public class GeneratorFacade {
 		PrintUtils.printAllTableNames(tables);
 	}
 	
-	public void generateByAllTable() throws Exception {
+	public void generateByAllTable(String templateRootDir) throws Exception {
 		List<Table> tables = DbTableFactory.getInstance().getAllTables();
 		List exceptions = new ArrayList();
 		for(int i = 0; i < tables.size(); i++ ) {
-			exceptions.addAll(generateByTable(createGeneratorForDbTable(),tables.get(i)));
+			exceptions.addAll(generateByTable(createGenerator(templateRootDir),tables.get(i)));
 		}
 		PrintUtils.printExceptionsSumary(exceptions);
 	}
 	
-	public void generateByTable(String tableName) throws Exception {
-		Generator g = createGeneratorForDbTable();
+    public void generateByTable(String tableName,String templateRootDir) throws Exception {
+		Generator g = createGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
 		PrintUtils.printExceptionsSumary(generateByTable(g, table));
 	}
 
-	private List<Exception> generateByTable(Generator g, Table table) throws Exception {
-		GeneratorModel m = GeneratorModel.newFromTable(table);
-		PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
-		return g.generateBy(m.templateModel,m.filePathModel);
-	}
-	
-	public void generateByTable(String tableName,String className) throws Exception {
-		Generator g = createGeneratorForDbTable();
-		Table table = DbTableFactory.getInstance().getTable(tableName);
-		table.setClassName(className);
-		generateByTable(g,table);
-	}
-	
-	public void generateByClass(Class clazz) throws Exception {
-		Generator g = createGeneratorForJavaClass();
+	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
+		Generator g = createGenerator(templateRootDir);
 		GeneratorModel m = GeneratorModel.newFromClass(clazz);
 		PrintUtils.printBeginGenerate("JavaClass:"+clazz.getSimpleName());
 		PrintUtils.printExceptionsSumary(g.generateBy(m.templateModel, m.filePathModel));
 	}
 
-	public void clean() throws IOException {
-		Generator g = createGeneratorForDbTable();
+	public void clean(String templateRootDir) throws IOException {
+		Generator g = createGenerator(templateRootDir);
 		g.clean();
 	}
 
-	private Generator createGeneratorForDbTable() {
-		Generator g = new Generator();
-		g.setTemplateRootDir(new File("template").getAbsoluteFile());
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
-		return g;
-	}
-	
-	private Generator createGeneratorForJavaClass() {
-		Generator g = new Generator();
-		g.setTemplateRootDir(new File("template/javaclass").getAbsoluteFile());
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
-		return g;
-	}
+    private List<Exception> generateByTable(Generator g, Table table) throws Exception {
+        GeneratorModel m = GeneratorModel.newFromTable(table);
+        PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
+        return g.generateBy(m.templateModel,m.filePathModel);
+    }
+    
+    private Generator createGenerator(String templateRootDir) {
+        Generator g = new Generator();
+        g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
+        g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
+        return g;
+    }
 	
 	public static class GeneratorModel {
 		public Map filePathModel;
