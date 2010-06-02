@@ -18,8 +18,11 @@ public class ${className}  implements java.io.Serializable{
     private static final long serialVersionUID = 3148176768559230877L;
     
     <#list table.columns as column>
-    // ${column.columnAlias}
+    <#if column.enumColumn>
+    private ${column.enumClassName} ${column.columnNameLower};
+    <#else>
     private ${column.javaType} ${column.columnNameLower};
+    </#if>
     </#list>
 
 <@generateConstructor className/>
@@ -52,7 +55,16 @@ public class ${className}  implements java.io.Serializable{
 }
 
 <#macro generateJavaColumns>
-    <#list table.columns as column>
+    <#list table.columns as column> 
+    <#if column.enumColumn>
+    public void set${column.columnName}(${column.enumClassName} value) {
+        this.${column.columnNameLower} = value;
+    }
+    
+    public ${column.enumClassName} get${column.columnName}() {
+        return this.${column.columnNameLower};
+    }   
+    <#else>
     public void set${column.columnName}(${column.javaType} value) {
         this.${column.columnNameLower} = value;
     }
@@ -60,6 +72,7 @@ public class ${className}  implements java.io.Serializable{
     public ${column.javaType} get${column.columnName}() {
         return this.${column.columnNameLower};
     }
+    </#if>
     </#list>
 </#macro>
 
