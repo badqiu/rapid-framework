@@ -1,34 +1,27 @@
+<#include "/macro.include"/>
+<#include "/java_copyright.include">
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
 
-
-package com.company.project.facade.impl;
+package ${basepackage}.facade;
 
 import cn.org.rapid_framework.util.PageList;
 
-import com.company.project.facade.UserInfoFacade;
-import com.company.project.service.UserInfoService;
-import com.company.project.service.dto.UserInfoDTO;
-import com.company.project.service.dto.query.UserInfoQueryDTO;
+import ${basepackage}.facade.${className}Facade;
+import ${basepackage}.service.${className}Service;
+import ${basepackage}.service.dto.${className}DTO;
+import ${basepackage}.service.dto.query.${className}QueryDTO;
 
-public class UserInfoFacadeImpl implements UserInfoFacade {
-    UserInfoService userInfoService;
-    public UserInfoDTO createUserInfo(UserInfoDTO userInfo){
-        return userInfoService.createUserInfo(userInfo);
-    }
+public interface ${className}Facade {
     
-    public void updateUserInfo(UserInfoDTO userInfo){
-        userInfoService.updateUserInfo(userInfo);
-    }
+    public ${className}DTO create${className}(${className}DTO userInfo);
     
-    public void removeUserInfo(Long id) {
-        userInfoService.deleteUserInfoById(id);
-    }
+    public void update${className}(${className}DTO userInfo);
     
-    public UserInfoDTO queryUserInfoById(Long id) {
-        return userInfoService.getUserInfoById(id);
-    }
+    public void remove${className}(Long id);
     
-    public PageList<UserInfoDTO> findPage(UserInfoQueryDTO query) {
-        return userInfoService.findPage(query);
-    }
+    public ${className}DTO query${className}ById(Long id);
+    
+    public PageList<${className}DTO> findPage(${className}QueryDTO query);
     
 }
