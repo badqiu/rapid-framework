@@ -17,7 +17,7 @@ public interface ${className}Service {
 
     public ${className}DTO create${className}(${className}DTO ${classNameLower});
     
-    public ${className}DTO update${className}(${className}DTO ${classNameLower});
+    public void update${className}(${className}DTO ${classNameLower});
 
     public void delete${className}ById(${table.idColumn.javaType} id);
     
