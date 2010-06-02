@@ -9,6 +9,11 @@ rapid-framework路线图
 	project-web
 
 add groupId=basepackage:com.company.project=com-company-project
+	Define value for groupId: : com.badqiu.sfmvc
+	Define value for artifactId: : sfmvc
+	Define value for version:  1.0-SNAPSHOT: : 1.0
+	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
+
 SafeSqlProcessor
         //转义%
         escapedQuery = StringUtil.replace(escapedQuery, "%", "\\%");
