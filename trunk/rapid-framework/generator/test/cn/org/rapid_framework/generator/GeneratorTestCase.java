@@ -63,7 +63,9 @@ public class GeneratorTestCase extends TestCase{
 		List<Exception> exceptions = g.generateBy(m.templateModel, m.filePathModel);
 		for(Exception e : exceptions) {
 		    e.printStackTrace();
+		    throw e;
 		}
+		
 	}
 	
 	public void generateByTable(Generator g,Table table) throws Exception {
