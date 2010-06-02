@@ -46,7 +46,7 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }catch(ErrorCodeException e){
             return new UserInfoResult(e.getErrorCode(),e.getMessage());
         }catch(Exception e) {
-            return new UserInfoResult("SYSTEM_ERROR","系统内部发生错误");
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
         }
     }
     
@@ -63,7 +63,7 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }catch(ErrorCodeException e){
             return new WSResult(e.getErrorCode(),e.getMessage());
         }catch(Exception e) {
-            return new WSResult("SYSTEM_ERROR","系统内部发生错误");
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
         }
     }   
 
@@ -78,7 +78,7 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }catch(ErrorCodeException e){
             return new WSResult(e.getErrorCode(),e.getMessage());
         }catch(Exception e) {
-            return new WSResult("SYSTEM_ERROR","系统内部发生错误");
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
         }
     }
     
@@ -93,7 +93,7 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }catch(ErrorCodeException e){
             return new UserInfoResult(e.getErrorCode(),e.getMessage());
         }catch(Exception e) {
-            return new UserInfoResult("SYSTEM_ERROR","系统内部发生错误");
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
         }
     }
     
@@ -108,7 +108,7 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }catch(ErrorCodeException e){
             return new UserInfoPageQueryResult(e.getErrorCode(),e.getMessage());
         }catch(Exception e) {
-            return new UserInfoPageQueryResult("SYSTEM_ERROR","系统内部发生错误");
+            return new UserInfoPageQueryResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
         }
     }
     

@@ -3,6 +3,7 @@ package com.company.project.service.dto.result.base;
 
 public class WSResult implements java.io.Serializable{
 	private static final long serialVersionUID = -5186856885619322687L;
+	public final static String SYSTEM_UNKNOW_ERROR = "SYSTEM_UNKNOW_ERROR";
 	
     private boolean isSuccess = true;
 	private String errorCode;
