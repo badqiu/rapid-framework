@@ -1,26 +1,24 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
 
-import java.util.List;
+package ${basepackage}.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.Test;
-import static junit.framework.Assert.*;
+import cn.org.rapid_framework.util.PageList;
 
-<#include "/java_imports.include">
+import ${basepackage}.dal.query.${className}Query;
+import ${basepackage}.repository.model.${className};
 
-public class ${className}RepositoryImpl extends BaseRepository {
-	
-	public void update();
-	
-	public void create();
-	
-	public void removeById();
-	
-	public void queryById();
-	
-	public void findPage();
-	
+public interface ${className}Repository  {
+    
+    public void update${className}(${className} ${classNameLower});
+    
+    public void create${className}(${className} ${classNameLower});
+    
+    public void remove${className}ById(Long id);
+    
+    public void query${className}ById(Long id);
+    
+    public PageList<${className}> findPage(${className}Query query);
+    
 }
