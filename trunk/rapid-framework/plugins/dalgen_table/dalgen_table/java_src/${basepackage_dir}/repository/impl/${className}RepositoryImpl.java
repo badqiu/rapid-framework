@@ -1,21 +1,19 @@
-/*
- * Powered By [rapid-framework]
- * Web Site: http://www.rapid-framework.org.cn
- * Google Code: http://code.google.com/p/rapid-framework/
- */
+<#include "/java_copyright.include">
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first>  
 
-package com.company.project.repository.impl;
+package ${basepackage}.repository.impl;
 
 import java.util.List;
 
 import cn.org.rapid_framework.util.PageList;
 
-import com.company.project.dal.daointerface.UserInfoDAO;
-import com.company.project.dal.dataobject.UserInfoDO;
-import com.company.project.dal.query.UserInfoQuery;
-import com.company.project.repository.UserInfoRepository;
-import com.company.project.repository.converter.UserInfoRepositoryConverter;
-import com.company.project.repository.model.UserInfo;
+import ${basepackage}.dal.daointerface.UserInfoDAO;
+import ${basepackage}.dal.dataobject.UserInfoDO;
+import ${basepackage}.dal.query.UserInfoQuery;
+import ${basepackage}.repository.UserInfoRepository;
+import ${basepackage}.repository.converter.UserInfoRepositoryConverter;
+import ${basepackage}.repository.model.UserInfo;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
@@ -24,32 +22,32 @@ import com.company.project.repository.model.UserInfo;
  */
 
 
-public class UserInfoRepositoryImpl implements UserInfoRepository {
+public class ${className}RepositoryImpl implements ${className}Repository {
     
-    private UserInfoDAO userInfoDAO;
+    private ${className}DAO ${className}DAO;
         
-    public void updateUserInfo(UserInfo userInfo) {
-        UserInfoDO target = UserInfoRepositoryConverter.convert2UserInfoDO(userInfo);
-        userInfoDAO.update(target);        
+    public void update${className}(${className} ${classNameLower}) {
+        ${className}DO target = ${className}RepositoryConverter.convert2${className}DO(${classNameLower});
+        ${classNameLower}DAO.update(target);        
     }
     
-    public UserInfo createUserInfo(UserInfo userInfo){
-        UserInfoDO target = UserInfoRepositoryConverter.convert2UserInfoDO(userInfo);
-        userInfo.setUserId(userInfoDAO.insert(target));
-        return userInfo;
+    public ${className} create${className}(${className} ${classNameLower}){
+        ${className}DO target = ${className}RepositoryConverter.convert2${className}DO(${classNameLower});
+        ${classNameLower}.set${table.pkColumn.columnName}(${classNameLower}DAO.insert(target));
+        return ${classNameLower};
     }
     
-    public void removeUserInfoById(Long id) {
-        userInfoDAO.deleteById(id);
+    public void remove${className}ById(Long id) {
+        ${classNameLower}DAO.deleteById(id);
     }
     
-    public UserInfo queryUserInfoById(Long id) {
-        return UserInfoRepositoryConverter.convert2UserInfo(userInfoDAO.queryById(id));
+    public ${className} query${className}ById(Long id) {
+        return ${className}RepositoryConverter.convert2${className}(${classNameLower}DAO.queryById(id));
     }
     
-    public PageList<UserInfo> findPage(UserInfoQuery query) {
-        PageList<UserInfoDO> sourceList = userInfoDAO.findPage(query);    
-        List<UserInfo> targetList = UserInfoRepositoryConverter.convert2UserInfoList(sourceList);
+    public PageList<${className}> findPage(${className}Query query) {
+        PageList<${className}DO> sourceList = ${classNameLower}DAO.findPage(query);    
+        List<${className}> targetList = ${className}RepositoryConverter.convert2${className}List(sourceList);
         return new PageList(targetList,sourceList.getPageSize(),sourceList.getPageNo(),sourceList.getTotalCount());
     }
     
