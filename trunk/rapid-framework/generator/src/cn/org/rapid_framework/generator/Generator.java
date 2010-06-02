@@ -104,9 +104,8 @@ public class Generator {
 	}
 
     public void clean() throws IOException {
-        String outRoot = getOutRootDir();
-        GLogger.println("[Delete Dir]    "+outRoot);
-        FileHelper.deleteDirectory(new File(outRoot));
+        GLogger.println("[Delete Dir]    "+getOutRootDir());
+        FileHelper.deleteDirectory(new File(getOutRootDir()));
     }
 	   
     /**
