@@ -1,37 +1,47 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
+package ${basepackage}.dal.ibatis;
 
-<#include "/java_imports.include">
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
+import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import cn.org.rapid_framework.util.PageList;
+import javacommon.base.BaseIbatisDao;
+
+import ${basepackage}.dal.dataobject.UserInfoDO;
+import ${basepackage}.dal.query.UserInfoQuery;
 
 import org.springframework.stereotype.Component;
 
 
 @Component
-public class ${className}DAO extends BaseIbatisDAO<${className},${table.idColumn.javaType}>{
+public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 
-	public Class getEntityClass() {
-		return ${className}.class;
-	}
+    public ${table.pkColumn.javaType} insert(${className}DO obj) {
+        return (${table.pkColumn.javaType})getSqlMapClientTemplate().insert("${className}.insert",obj);
+    }
+    
+    public void update(${className}DO obj) {
+        getSqlMapClientTemplate().update("${className}.update",obj);
+    }
+    
+    public ${className}DO getById(Long id) {
+        return (${className}DO)getSqlMapClientTemplate().insert("${className}.getById",id);
+    }
 	
-	public void saveOrUpdate(${className} entity) {
-		if(entity.get${table.idColumn.columnName}() == null) 
-			save(entity);
-		else 
-			update(entity);
-	}
-	
-	public Page findPage(PageRequest pageRequest) {
-		return pageQuery("${className}.pageSelect",pageRequest);
+	public PageList<${className}DO> findPage(${className}Query query) {
+		return pageQuery(getSqlMapClientTemplate(),"${className}.findPage",query);
 	}
 	
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
-	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getByUsername",v);
+	public ${className}DO getBy${column.columnName}(${column.javaType} v) {
+		return (${className}DO)getSqlMapClientTemplate().queryForObject("${className}.getByUsername",v);
 	}	
 	</#if>
 	</#list>
 
+    public static PageList pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String string, UserInfoQuery query) {
+        return null;
+    }
 }
