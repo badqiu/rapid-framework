@@ -9,27 +9,26 @@ import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.util.PageList;
 
-import ${basepackage}.dal.query.${className}Query;
-import ${basepackage}.repository.model.${className};
-import ${basepackage}.repository.${className}Repository;
+import ${basepackage}.service.dto.query.${className}QueryDTO;
+import ${basepackage}.service.dto.${className}DTO;
 
 public interface ${className}Service {
 
 
-    public ${className} create${className}(${className} ${classNameLower});
+    public ${className}DTO create${className}(${className}DTO ${classNameLower});
     
-    public ${className} update${className}(${className} ${classNameLower});
+    public ${className}DTO update${className}(${className}DTO ${classNameLower});
 
     public void delete${className}ById(${table.idColumn.javaType} id);
     
-    public ${className} get${className}ById(${table.idColumn.javaType} id);
+    public ${className}DTO get${className}ById(${table.idColumn.javaType} id);
     
-    public PageList<UserInfo> findPage(${className}Query query);
+    public PageList<${className}DTO> findPage(${className}QueryDTO query);
 /*    
 <#list table.columns as column>
     <#if column.unique && !column.pk>
     @Transactional(readOnly=true)
-    public ${className} getBy${column.columnName}(${column.javaType} v);
+    public ${className}DTO getBy${column.columnName}(${column.javaType} v);
     
     </#if>
 </#list>
