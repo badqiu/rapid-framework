@@ -15,10 +15,10 @@ public class GeneratorMain {
 		GeneratorFacade g = new GeneratorFacade();
 //		g.printAllTableNames();				//打印数据库中的表名称
 		
-		g.clean("template");							//删除生成器的输出目录
-		g.generateByTable("user_info","template");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
+		g.clean();							//删除生成器的输出目录
+		g.generateByTable("user_info","template");	//通过数据库表生成文件,参数:表名,需要装载的目录
 //		g.generateByAllTable("template");				//自动搜索数据库中的所有表并生成文件
-//		g.generateByClass(Blog.class,"template/clazz");
+//		g.generateByClass(Blog.class,"template_clazz");
 		
 		//打开文件夹
 		Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));

@@ -51,8 +51,9 @@ public class GeneratorFacade {
 		PrintUtils.printExceptionsSumary(g.generateBy(m.templateModel, m.filePathModel));
 	}
 
-	public void clean(String templateRootDir) throws IOException {
-		Generator g = createGenerator(templateRootDir);
+	public void clean() throws IOException {
+		Generator g = new Generator();
+		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		g.clean();
 	}
 
