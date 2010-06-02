@@ -16,9 +16,8 @@ public class QueryResult<T extends java.io.Serializable> extends WSResult {
         this.itemList = itemList;
     }
     
-    public QueryResult(List<T> itemList,boolean isSuccess, String errorCode, String errorDetails) {
-        super(isSuccess, errorCode, errorDetails);
-        this.itemList = itemList;
+    public QueryResult(String errorCode, String errorDetails) {
+        super(errorCode, errorDetails);
     }
 
     public List<T> getItemList() {

@@ -7,7 +7,6 @@ public class UserInfoResult extends WSResult{
     UserInfoDTO userInfo;
 
     public UserInfoResult(UserInfoDTO userInfo) {
-        super(true);
         this.userInfo = userInfo;
     }
 
@@ -15,9 +14,8 @@ public class UserInfoResult extends WSResult{
         super();
     }
 
-    public UserInfoResult(boolean isSuccess, String errorCode,
-                          String errorDetails) {
-        super(isSuccess, errorCode, errorDetails);
+    public UserInfoResult(String errorCode,String errorDetails) {
+        super(errorCode, errorDetails);
     }
     
 }

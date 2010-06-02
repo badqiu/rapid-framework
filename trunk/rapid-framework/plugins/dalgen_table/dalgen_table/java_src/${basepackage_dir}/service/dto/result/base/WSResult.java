@@ -4,16 +4,17 @@ package com.company.project.service.dto.result.base;
 public class WSResult implements java.io.Serializable{
 	private static final long serialVersionUID = -5186856885619322687L;
 	
-    private boolean isSuccess;
+    private boolean isSuccess = true;
 	private String errorCode;
 	private String errorDetails;
 	
 	public WSResult(){
 	}
 	
-    public WSResult(boolean isSuccess, String errorCode, String errorDetails) {
+	   
+    public WSResult(String errorCode, String errorDetails) {
         super();
-        this.isSuccess = isSuccess;
+        this.isSuccess = false;
         this.errorCode = errorCode;
         this.errorDetails = errorDetails;
     }
