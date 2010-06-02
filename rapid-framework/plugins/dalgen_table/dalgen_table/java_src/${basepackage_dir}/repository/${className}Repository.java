@@ -13,11 +13,11 @@ public interface ${className}Repository  {
     
     public void update${className}(${className} ${classNameLower});
     
-    public void create${className}(${className} ${classNameLower});
+    public ${className} create${className}(${className} ${classNameLower});
     
     public void remove${className}ById(Long id);
     
-    public void query${className}ById(Long id);
+    public ${className} query${className}ById(Long id);
     
     public PageList<${className}> findPage(${className}Query query);
     

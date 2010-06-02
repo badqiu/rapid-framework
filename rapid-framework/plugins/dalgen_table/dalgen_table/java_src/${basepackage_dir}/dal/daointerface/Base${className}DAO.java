@@ -14,7 +14,9 @@ public interface Base${className}DAO {
     
     public void update(${className}DO obj);
     
-    public ${className}DO getById(Long id);
+    public ${className}DO queryById(Long id);
+    
+    public void deleteById(Long id);
     
     public PageList<${className}DO> findPage(${className}Query query);
     
