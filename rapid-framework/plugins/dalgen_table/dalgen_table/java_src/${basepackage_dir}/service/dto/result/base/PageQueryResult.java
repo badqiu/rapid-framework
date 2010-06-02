@@ -1,16 +1,22 @@
 package com.company.project.service.dto.result.base;
 
 
-public class PageQueryResult<T extends java.io.Serializable> extends QueryResult<T> {
 
-	int pageNo;
+public class PageQueryResult<T extends java.io.Serializable> extends QueryResult<T> {
+	private static final long serialVersionUID = 5058725391401295309L;
+	
+    int pageNo;
 	int pageSize;
-	int totalCount;
+	long totalCount;
 	
 	public PageQueryResult() {
 	}
 	
-	public PageQueryResult(int pageNo, int pageSize, int totalCount) {
+	public PageQueryResult(String errorCode,String errorDetails) {
+        super(errorCode, errorDetails);
+    }
+
+    public PageQueryResult(int pageNo, int pageSize, long totalCount) {
 		super();
 		this.pageNo = pageNo;
 		this.pageSize = pageSize;
@@ -33,11 +39,11 @@ public class PageQueryResult<T extends java.io.Serializable> extends QueryResult
 		this.pageSize = pageSize;
 	}
 
-	public int getTotalCount() {
+	public long getTotalCount() {
 		return totalCount;
 	}
 
-	public void setTotalCount(int totalCount) {
+	public void setTotalCount(long totalCount) {
 		this.totalCount = totalCount;
 	}
 

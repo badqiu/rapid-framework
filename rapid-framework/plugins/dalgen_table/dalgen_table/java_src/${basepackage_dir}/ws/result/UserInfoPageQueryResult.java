@@ -13,19 +13,13 @@ public class UserInfoPageQueryResult extends PageQueryResult<UserInfoDTO>{
         super();
     }
 
-    public UserInfoPageQueryResult(int pageNo, int pageSize, long totalCount) {
-        super(pageNo, pageSize, totalCount);
-    }
-    
     public UserInfoPageQueryResult(List<UserInfoDTO> itemList,int pageNo, int pageSize, long totalCount) {
         super(pageNo, pageSize, totalCount);
         setItemList(itemList);
     }
 
-    public UserInfoPageQueryResult(boolean isSuccess, String errorCode,
-                                   String errorDetails) {
-        super(isSuccess, errorCode, errorDetails);
+    public UserInfoPageQueryResult(String errorCode,String errorDetails) {
+        super(errorCode, errorDetails);
     }
-    
     
 }
