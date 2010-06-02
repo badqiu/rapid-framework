@@ -15,7 +15,7 @@ import org.springframework.util.ReflectionUtils;
  */
 public class KeyValueUtils {
     
-    public static  <T extends KeyValue<String,String>> LinkedHashMap<String,String> toMap(T[] values) {
+    public static  <T extends KeyValue> LinkedHashMap<String,String> toMap(T[] values) {
         LinkedHashMap map = new LinkedHashMap();
         for(KeyValue item : values) {
             map.put(item.getKey(), item.getValue());
@@ -29,13 +29,14 @@ public class KeyValueUtils {
     * @param values
     * @return
     */
-   public static <T extends KeyValue> T getByKey(String key,T[] values) {
-        for(T item : values) {
-            if(item.getKey().equals(key)) {
+   public static <T extends KeyValue> T getByKey(Object key,T[] values) {
+       if(key == null) return null;
+       for (T item : values) {
+            if (item.getKey().equals(key)) {
                 return item;
             }
-        }
-        return null;
+       }
+       return null;
    }
    
    /**
@@ -44,9 +45,10 @@ public class KeyValueUtils {
     * @param values
     * @return
     */
-   public static <T extends KeyValue> T getByValue(String value,T[] values) {
-        for(T item : values) {
-            if(item.getValue().equals(value)) {
+   public static <T extends KeyValue> T getByValue(Object value,T[] values) {
+        if(value == null) return null;
+        for (T item : values) {
+            if (item.getValue().equals(value)) {
                 return item;
             }
         }
@@ -69,7 +71,7 @@ public class KeyValueUtils {
     * @param values
     * @return
     */
-   public static <T extends KeyValue> T getRequiredByKey(String key,T[] values) {
+   public static <T extends KeyValue> T getRequiredByKey(Object key,T[] values) {
        KeyValue v = getByKey(key,values);
        if(v == null) {
            if(values.length > 0) {
