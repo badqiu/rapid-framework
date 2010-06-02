@@ -3,8 +3,10 @@
 
 package ${basepackage}.service.converter;
 
-import ${basepackage}.dal.dataobject.${className}DTO;
+import ${basepackage}.dal.query.${className}Query;
 import ${basepackage}.repository.model.${className};
+import ${basepackage}.service.dto.${className}DTO;
+import ${basepackage}.service.dto.query.${className}QueryDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,22 +14,29 @@ import java.util.List;
 
 public class ${className}ServiceConverter {
 
-    <@generateConvertMethod "${className}DTO","${className}"/>
-    <@generateConvertMethod "${className}","${className}DTO"/>
+    <@generateConvertMethod "${className}DTO","${className}",false/>
+    <@generateConvertMethod "${className}","${className}DTO",false/>
     
+    <@generateConvertMethod "${className}QueryDTO","${className}Query",true/>
 }
         
-<#macro generateConvertMethod sourceClassName targetClassName>
+<#macro generateConvertMethod sourceClassName targetClassName,isQuery>
     public static ${targetClassName} convert2${targetClassName}(${sourceClassName} source) {
         ${targetClassName} target = new ${targetClassName}();
     
         <#list table.notPkColumns as column>
+        <#if isQuery && column.isDateTimeColumn>
+        target.set${column.columnName}Begin(source.get${column.columnName}Begin());
+        target.set${column.columnName}End(source.get${column.columnName}End());
+        <#else>
         target.set${column.columnName}(source.get${column.columnName}());
+        </#if>
         </#list>
         
         return target;
     }
-
+    
+    <#if !isQuery>
     public static List<${targetClassName}> convert2${targetClassName}List(List<${sourceClassName}> list) {
         List<${targetClassName}> results = new ArrayList();
         for(${sourceClassName} source : list) {
@@ -35,6 +44,6 @@ public class ${className}ServiceConverter {
         }
         return results;
     }
-
+    </#if>
     
 </#macro>
