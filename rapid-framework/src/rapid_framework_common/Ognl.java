@@ -107,53 +107,5 @@ public class Ognl {
 		}
 		return true;
 	}
-	/**
-	 * 用于验证那些列可以排序
-	 * 
-	 * ibatis示列使用
-	 * &lt;if test="@Ognl@checkOrderby(orderby,'username,password')">
-	 *		ORDER BY ${orderby}
-	 * &lt;/if>
-	 * 
-	 * <pre>
-	 * 返回示例: 
-	 * 返回false相关验证:
-	 * checkOrderby(null,"user,pwd") 
-	 * checkOrderby(" ","user,pwd") 
-	 * checkOrderby("user asc,pwd desc","user") pwd不能排序
-	 * 
-	 * 返回true相关验证:
-	 * checkOrderby("user asc,pwd desc",null) 
-	 * checkOrderby("user asc,pwd desc","") 
-	 * checkOrderby("user asc,pwd desc","user,pwd") 
-	 * </pre>
-	 * @param orderby 需要验证的order by字符串
-	 * @param validSortColumns 可以排序的列
-	 * @throws DataAccessException
-	 */
-	public static boolean checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
-		if(StringUtils.isBlank(orderby)) return false;
-		if(StringUtils.isBlank(validSortColumns)) return true;
-		
-		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
-		String[] conditionsArray = validSortColumns.split(",");
-		for(SortInfo info : infos) {
-			String columnName = info.getColumnName();
-			if(!isPass(conditionsArray, info, columnName)) {
-//				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
-				return false;
-			}
-		}
-		return true;
-	}
 
-	private static boolean isPass(String[] conditionsArray, SortInfo info, String columnName) {
-		for(String condition : conditionsArray) {
-			if(condition.equalsIgnoreCase(info.getColumnName())) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 }
