@@ -27,9 +27,6 @@
 	<classpathentry kind="lib" path="for_release_lib/junit.jar"/>
 	<classpathentry kind="lib" path="for_release_lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="for_release_lib/velocity-1.6.2.jar"/>
-	<classpathentry kind="lib" path="generator/lib/commons-beanutils.jar"/>
-	<classpathentry kind="lib" path="generator/lib/commons-io.jar"/>
-	<classpathentry kind="lib" path="generator/lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="generator/lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="generator/lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="generator/lib/ojdbc14.jar"/>
@@ -69,7 +66,6 @@
 	<classpathentry kind="lib" path="plugins/springmvc_rest/web/WEB-INF/lib/jackson-core-lgpl-1.2.1.jar"/>
 	<classpathentry kind="lib" path="plugins/springmvc_rest/web/WEB-INF/lib/jackson-mapper-lgpl-1.2.1.jar"/>
 	<classpathentry kind="lib" path="plugins/springmvc_rest/web/WEB-INF/lib/urlrewrite-2.6.0.jar"/>
-	<classpathentry kind="lib" path="plugins/springmvc/web/WEB-INF/lib/spring-webmvc.jar" sourcepath="F:/download/java-lib/spring/spring-framework-3.0.0.RELEASE/src/org.springframework.web.servlet-sources-3.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="plugins/struts/web/WEB-INF/lib/commons-digester.jar"/>
 	<classpathentry kind="lib" path="plugins/struts/web/WEB-INF/lib/commons-net-1.4.0.jar"/>
 	<classpathentry kind="lib" path="plugins/struts/web/WEB-INF/lib/commons-validator.jar"/>
@@ -102,14 +98,9 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-3.1.12-bin.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/poi-2.5.1.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-aspects.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-test.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/standard.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xsqlbuilder.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="for_release_lib/bcprov-jdk15-142.jar"/>
-	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/ibatis-3-core-3.0.0.220.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/junit-4.8.1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/slf4j-api-1.5.10.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/slf4j-log4j12-1.5.10.jar"/>
@@ -117,5 +108,29 @@
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/javassist-3.9.0.GA.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/slf4j-api-1.5.10.jar"/>
 	<classpathentry kind="lib" path="plugins/http_session_store/web/WEB-INF/lib/memcached-2.4.2.jar"/>
-	<classpathentry kind="output" path="dist/test"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.aop-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.asm-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.aspects-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.beans-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.context-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.context.support-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.core-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.expression-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument.tomcat-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jdbc-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jms-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.orm-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.oxm-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.spring-library-3.0.1.RELEASE.libd"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.test-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.transaction-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.portlet-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.struts-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/readme.txt"/>
+	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/mybatis-3.0.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
