@@ -60,8 +60,8 @@ public class FileHelper {
 		throw new FileNotFoundException(resourceName);
 	}
 	
-	private static boolean isIgnoreFile(File file) {
-		List ignoreList = new ArrayList();
+	public static List ignoreList = new ArrayList();
+	static{
 		ignoreList.add(".svn");
 		ignoreList.add("CVS");
 		ignoreList.add(".cvsignore");
@@ -71,6 +71,9 @@ public class FileHelper {
 		ignoreList.add(".DS_Store");
 		ignoreList.add(".git");
 		ignoreList.add(".gitignore");
+	}
+	private static boolean isIgnoreFile(File file) {
+
 		for(int i = 0; i < ignoreList.size(); i++) {
 			if(file.getName().equals(ignoreList.get(i))) {
 				return true;
