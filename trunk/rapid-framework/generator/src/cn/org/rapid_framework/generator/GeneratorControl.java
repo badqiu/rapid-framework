@@ -39,7 +39,8 @@ public class GeneratorControl {
 	private String sourceDir; 
 	private String sourceFileName; 
 	private String sourceEncoding; //no pass //? 难道process两次确定sourceEncoding
-	private String databaseType; //no pass //mysql,oracle,用于生成不同的sql 
+	
+	
 	
 	/** load xml data */
 	public NodeModel loadXml(String file,boolean ignoreError) {
@@ -79,10 +80,15 @@ public class GeneratorControl {
 	   
 	public void generateFile(String outputFile,String content,boolean append) {
 		try {
-			File file = new File(outputFile);
-			FileHelper.parnetMkdir(file);
-			IOHelper.saveFile(file, content,getOutputEncoding(),append);
-			GLogger.println("[gg.generateFile()] outputFile:"+outputFile+" append:"+append);
+			if(deleteGeneratedFile) {
+				GLogger.println("[delete gg.generateFile()] file:"+outputFile);
+				new File(outputFile).delete();
+			}else {
+				File file = new File(outputFile);
+				FileHelper.parnetMkdir(file);
+				IOHelper.saveFile(file, content,getOutputEncoding(),append);
+				GLogger.println("[gg.generateFile()] outputFile:"+outputFile+" append:"+append);
+			}
 		} catch (Exception e) {
 			GLogger.warn("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
 			throw new RuntimeException("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
@@ -177,13 +183,5 @@ public class GeneratorControl {
 		this.sourceEncoding = sourceEncoding;
 	}
 
-	public String getDatabaseType() {
-		return databaseType;
-	}
-
-	public void setDatabaseType(String databaseType) {
-		this.databaseType = databaseType;
-	}
-	
-	
+	boolean deleteGeneratedFile = false;
 }
