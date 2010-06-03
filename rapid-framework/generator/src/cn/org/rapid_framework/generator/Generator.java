@@ -11,14 +11,14 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.FreemarkerHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
+import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
@@ -26,6 +26,13 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 /**
+ * 代码生成器核心引擎
+ * 
+ * 主要提供以下两个方法供外部使用
+ * <pre>
+ * generateBy() 用于生成文件
+ * deleteBy() 用于删除生成的文件
+ * </pre>
  * 
  * @author badqiu
  * @email badqiu(a)gmail.com
@@ -104,39 +111,45 @@ public class Generator {
 	}
 
     public void clean() throws IOException {
-        GLogger.println("[Delete Dir]    "+getOutRootDir());
+        GLogger.println("[delete dir]    "+getOutRootDir());
         FileHelper.deleteDirectory(new File(getOutRootDir()));
     }
 	   
     /**
-     * 生成器的生成入口
+     * 生成文件
      * @param templateModel 生成器模板可以引用的变量
      * @param filePathModel 文件路径可以引用的变量
      * @throws Exception
      */
-	public List<Exception> generateBy(Map templateModel,Map filePathModel) throws Exception {
-		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
-		List<Exception> allExceptions = new ArrayList<Exception>();
-		for(int i = 0; i < this.templateRootDirs.size(); i++) {
-			File templateRootDir = (File)templateRootDirs.get(i);
-			List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel,false);
-			allExceptions.addAll(exceptions); 
-		}
-		return allExceptions;
+	public Generator generateBy(Map templateModel,Map filePathModel) throws Exception {
+		processTemplateRootDirs(templateModel, filePathModel,false);
+		return this;
 	}
-	
-    public List<Exception> removeBy(Map templateModel,Map filePathModel) throws Exception {
-        if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
-        List<Exception> allExceptions = new ArrayList<Exception>();
-        for(int i = 0; i < this.templateRootDirs.size(); i++) {
-            File templateRootDir = (File)templateRootDirs.get(i);
-            List<Exception> exceptions = generateByTemplateRootDir(templateRootDir,templateModel,filePathModel,true);
-            allExceptions.addAll(exceptions); 
-        }
-        return allExceptions;
+
+	/**
+	 * 删除生成的文件
+	 * @param templateModel 生成器模板可以引用的变量
+	 * @param filePathModel 文件路径可以引用的变量
+	 * @return
+	 * @throws Exception
+	 */
+    public Generator deleteBy(Map templateModel,Map filePathModel) throws Exception {
+    	processTemplateRootDirs(templateModel, filePathModel,true);
+    	return this;
     }	
 	
-	private List<Exception> generateByTemplateRootDir(File templateRootDir, Map templateModel,Map filePathModel,boolean isRemove) throws Exception {
+	private void processTemplateRootDirs(Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
+		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
+		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
+		for(int i = 0; i < this.templateRootDirs.size(); i++) {
+			File templateRootDir = (File)templateRootDirs.get(i);
+			List<Exception> exceptions = scanTemplatesAndProcess(templateRootDir,templateModel,filePathModel,isDelete);
+			ge.addAll(exceptions); 
+		}
+		if(!ge.exceptions.isEmpty()) throw ge;
+	}
+	
+	private List<Exception> scanTemplatesAndProcess(File templateRootDir, Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		GLogger.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"' outRootDir:"+new File(outRootDir).getAbsolutePath());
 		
@@ -147,8 +160,8 @@ public class Generator {
 		for(int i = 0; i < srcFiles.size(); i++) {
 			File srcFile = (File)srcFiles.get(i);
 			try {
-			    if(isRemove){
-			        new GeneratorProcessor().executeRemove(templateRootDir, templateModel,filePathModel, srcFile);
+			    if(isDelete){
+			        new GeneratorProcessor().executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
 			    }else {
 			        new GeneratorProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
 			    }
@@ -168,14 +181,14 @@ public class Generator {
 		private GeneratorControl gg = new GeneratorControl();
 		private void executeGenerate(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
+			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
+				return;
+			}
 			
 			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
 				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
 				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+new File(getOutRootDir(),outputFilepath));
 				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
-				return;
-			}
-			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
 				return;
 			}
 			
@@ -199,15 +212,16 @@ public class Generator {
 			}
 		}
 
-	    private void executeRemove(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
+	    private void executeDelete(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 	        String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
             if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
                 return;
             }
 	        initGeneratorControlProperties(srcFile);
+	        gg.deleteGeneratedFile = true;
 	        processTemplateForGeneratorControl(templateModel, templateFile);
 	        String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
-	        GLogger.println("[remove file] file:"+new File(gg.getOutRoot(),outputFilepath).getAbsolutePath());
+	        GLogger.println("[delete file] file:"+new File(gg.getOutRoot(),outputFilepath).getAbsolutePath());
 	        new File(gg.getOutRoot(),outputFilepath).delete();
 	    }
 	    
@@ -220,8 +234,6 @@ public class Generator {
 			gg.setSourceEncoding(sourceEncoding);
 			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
 			
-			String dbName = DbTableFactory.getInstance().getConnection().getMetaData().getDatabaseProductName();
-			gg.setDatabaseType(dbName == null ? null : dbName.toLowerCase()); //FIXME 提供枚举:oracle mysql,sqlserver
 		}
 	
 		private void processTemplateForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
