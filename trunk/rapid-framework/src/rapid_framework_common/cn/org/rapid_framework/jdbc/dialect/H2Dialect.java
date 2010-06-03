@@ -9,16 +9,8 @@ package cn.org.rapid_framework.jdbc.dialect;
  */
 public class H2Dialect extends Dialect {
 
-
     public boolean supportsLimit() {
         return true;
-    }
-
-    public String getLimitString(String sql, boolean hasOffset) {
-        return new StringBuffer(sql.length() + 40).
-            append(sql).
-            append(hasOffset ? " limit ? offset ?" : " limit ?").
-            toString();
     }
 
 	public String getLimitString(String sql, int offset,String offsetPlaceholder, int limit, String limitPlaceholder) {
@@ -30,7 +22,7 @@ public class H2Dialect extends Dialect {
 
 	@Override
 	public boolean supportsLimitOffset() {
-		return super.supportsLimitOffset();
+		return true;
 	}
     
 //    public boolean bindLimitParametersInReverseOrder() {
