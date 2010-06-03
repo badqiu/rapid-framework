@@ -16,7 +16,7 @@ import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
 public class StringHelper {
 
     public static boolean isBlank(String str) {
-        return str == null || str.trim().isEmpty();
+        return str == null || str.trim().length() == 0;
     }
 
     public static boolean isNotBlank(String str) {
@@ -244,7 +244,7 @@ public class StringHelper {
 	static Pattern three = Pattern.compile("(.*)\\((.*),(.*)\\)");
 	static Pattern two = Pattern.compile("(.*)\\((.*)\\)");
 	public static List<EnumMetaDada> string2EnumMetaData(String data) {
-		if(data == null || data.trim().isEmpty()) return new ArrayList();
+		if(data == null || data.trim().length() == 0) return new ArrayList();
 		//enumAlias(enumKey,enumDesc),enumAlias(enumDesc)
 		
 		List<EnumMetaDada> list = new ArrayList();

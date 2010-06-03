@@ -90,7 +90,7 @@ public class DbTableFactory {
 	}
 
 	private Table _getTable(String tableName) throws SQLException {
-	    if(tableName== null || tableName.trim().isEmpty()) 
+	    if(tableName== null || tableName.trim().length() == 0) 
 	         throw new IllegalArgumentException("tableName must be not empty");
 	       
 		Connection conn = getConnection();
