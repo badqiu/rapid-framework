@@ -4,9 +4,12 @@
 
 gg变量可以让每一个模板自己控制一些事情,如输出目录,输出encoding,或者还可以通过gg变量生成其它文件.
 
+==示例使用==
+${gg.setIgnoreOutput(true)}
+
 == 相关控制方法 ==
   * ignoreOutput : 不生成输出文件
-  * outputFile :
+  * outputFile : 
   * outputFiles : 同时生成几份拷贝在在几个地方
   * sourceEncoding: 指定模板文件的编码
   * outputEncoding : 控制模板生成的文件编码
