@@ -92,6 +92,7 @@ public class StringUtils {
 		}
 		return true;
 	}
+	
 	/**
 	 * 用于验证那些列可以排序
 	 * 
