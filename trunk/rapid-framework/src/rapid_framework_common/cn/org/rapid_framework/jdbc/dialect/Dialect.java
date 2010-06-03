@@ -3,11 +3,15 @@ package cn.org.rapid_framework.jdbc.dialect;
  * 类似hibernate的Dialect,但只精简出分页部分
  * @author badqiu
  */
-public abstract class Dialect {
+public class Dialect {
 	
-    public abstract boolean supportsLimit();
+    public boolean supportsLimit(){
+    	return false;
+    }
 
-    public abstract boolean supportsLimitOffset();
+    public boolean supportsLimitOffset() {
+    	return supportsLimitOffset();
+    }
     
     /**
      * 将sql变成分页sql语句,直接使用offset,limit的值作为占位符.</br>
@@ -16,6 +20,7 @@ public abstract class Dialect {
     public String getLimitString(String sql, int offset, int limit) {
     	return getLimitString(sql,offset,Integer.toString(offset),limit,Integer.toString(limit));
     }
+    
     /**
      * 将sql变成分页sql语句,提供将offset及limit使用占位符(placeholder)替换.
      * <pre>
@@ -25,6 +30,8 @@ public abstract class Dialect {
      * </pre>
      * @return 包含占位符的分页sql
      */
-    public abstract String getLimitString(String sql, int offset,String offsetPlaceholder, int limit,String limitPlaceholder);
+    public String getLimitString(String sql, int offset,String offsetPlaceholder, int limit,String limitPlaceholder) {
+    	throw new UnsupportedOperationException("paged queries not supported");
+    }
     
 }
