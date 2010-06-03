@@ -8,12 +8,15 @@
 <!-- build file -->
 <!-- ======================================================================= -->
 <project name="rapid-generator" basedir="." default="zip">
-	<tstamp></tstamp>
+ 	<tstamp>
+    	<format property="today" pattern="yyyyMMdd"/>
+  	</tstamp>
+	
 	<property file="build-generator.properties" />
 	<property environment="env"/>
 	
 	<!--版本控制信息-->
-	<property name="version" value="v1.0.3"></property>
+	<property name="version" value="${label}.${today}"></property>
 	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 	<property name="version.file" value="version.txt"></property>
 	<target name="generate_version">
