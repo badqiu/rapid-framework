@@ -39,7 +39,8 @@ ico
 ps
 ai
 eps
-
+xpm
+svg
 
 dot
 doc
@@ -68,10 +69,16 @@ midi
 vqf
 mid
 mpg
+mpeg
 mov
 movie
 dv
 raw
+qtm
+pcs
+pic
+flc
+avd
 
 iso
 img
