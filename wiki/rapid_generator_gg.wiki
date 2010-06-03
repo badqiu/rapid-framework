@@ -18,7 +18,6 @@ gg变量可以让每一个模板自己控制一些事情,如输出目录,输出e
   * sourceDir; 模板源文件所在的目录
   * sourceFileName; 模板源文件名
   * sourceEncoding; 模板源文件的编码
-  * databaseType: 当前的数据库
 
 == 生成其它文件 ==
 ${gg.generateFile(outputFile,content,encoding)}
