@@ -13,6 +13,12 @@ import org.springframework.util.Assert;
 /**
  * 用于分页查询的ResultSetExtractor,会移动游标(cursor)至offset,并根据limit参数抽取数据
  * 
+ * <br/>
+ * <b>使用</b>
+ * <pre>
+ * (List)getJdbcTemplate().query(sql, paramMap, new OffsetLimitResultSetExtractor(startRow,pageSize,rowMapper))
+ * </pre>
+ * 
  * @author badqiu
  *
  */
