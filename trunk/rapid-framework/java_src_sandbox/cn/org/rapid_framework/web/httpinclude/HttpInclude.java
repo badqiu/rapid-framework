@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
  * 
  * 用于include其它页面以用于布局,可以用于在freemarker,velocity的servlet环境应用中直接include其它http请求
  * 
- * 示例使用:
+ * Freemarker及Velocity示例使用:
  * <pre>
  * ${httpInclude.include("http://www.google.com")};
  * ${httpInclude.include("/servlet/head?p1=v1&p2=v2")};
