@@ -9,13 +9,13 @@ Table对象为对应的数据库表
 || *classNameFirstLower* || 类名称第一个字母小写 ||userInfo||
 || *classNameLowerCase* || className并全部小写 ||userinfo||
 || *underscoreName* || 下划线类名称 ||user_info||
-|| *columns* || ||USER_ID||
+|| *columns* ||数据库全部column ||请查阅Column.java||
 || *remarks* || 数据库的注释 ||null||
 || *notPkColumns* || 非主键的column对象 ||||
 || *pkCount* || 主键数 ||1||
 || *singleId* || pkCount = 1时为true ||true||
 || *compositeId* || pkCount >= 2时为true ||false||
-|| *idColumn* || 表的单一主键 ||USER_ID||
+|| *idColumn* || 表的主键 ||USER_ID(已经废弃)||
 || *pkColumns* || 所有的主键列,column对象 || ||
 || *compositeIdColumns* || 等价于pkColumns,该属性已经过时|| ||
 || *tableAlias* || 表的别名,值为 remarks == null ? className : remarks ||UserInfo||
