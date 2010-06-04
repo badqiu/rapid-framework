@@ -18,6 +18,7 @@ ear
 dat
 taz
 rpm
+tgz
 
 exe
 msi
