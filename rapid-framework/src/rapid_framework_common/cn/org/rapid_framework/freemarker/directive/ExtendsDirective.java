@@ -14,10 +14,8 @@ import freemarker.template.TemplateModel;
  * @author badqiu
  */
 public class ExtendsDirective implements TemplateDirectiveModel {
-	
-	public String getName() {
-		return "extends";
-	}
+
+	public final static String DIRECTIVE_NAME = "extends";
 	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,

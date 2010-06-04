@@ -16,10 +16,8 @@ import freemarker.template.TemplateScalarModel;
  * @author badqiu
  */
 public class OverrideDirective implements TemplateDirectiveModel {
-	
-	public String getName() {
-		return "override";
-	}
+
+	public final static String DIRECTIVE_NAME = "override";
 	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,

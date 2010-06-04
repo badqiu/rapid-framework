@@ -16,10 +16,7 @@ import freemarker.template.TemplateScalarModel;
  * @author badqiu
  */
 public class BlockDirective implements TemplateDirectiveModel{
-	
-	public String getName() {
-		return "block";
-	}
+	public final static String DIRECTIVE_NAME = "block";
 	
 	public void execute(Environment env,
             Map params, TemplateModel[] loopVars,

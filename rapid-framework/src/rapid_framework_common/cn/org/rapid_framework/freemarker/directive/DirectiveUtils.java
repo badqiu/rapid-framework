@@ -20,9 +20,9 @@ public class DirectiveUtils {
 	}
 	
 	public static void exposeRapidMacros(Configuration conf) {
-		conf.setSharedVariable(new BlockDirective().getName(), new BlockDirective());
-		conf.setSharedVariable(new ExtendsDirective().getName(), new ExtendsDirective());
-		conf.setSharedVariable(new OverrideDirective().getName(), new OverrideDirective());
+		conf.setSharedVariable(BlockDirective.DIRECTIVE_NAME, new BlockDirective());
+		conf.setSharedVariable(ExtendsDirective.DIRECTIVE_NAME, new ExtendsDirective());
+		conf.setSharedVariable(OverrideDirective.DIRECTIVE_NAME, new OverrideDirective());
 	}
 	
 	static String getRequiredParam(Map params,String key) throws TemplateException {
