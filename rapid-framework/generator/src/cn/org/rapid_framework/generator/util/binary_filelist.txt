@@ -19,6 +19,7 @@ dat
 taz
 rpm
 tgz
+sar
 
 exe
 msi
