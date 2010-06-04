@@ -49,7 +49,7 @@ public class CollectionHelper {
 		return result;
 	}
 
-	public static List selectProperty(Collection from,String propertyName) {
+	public static List selectProperty(Iterable from,String propertyName) {
 		if(propertyName == null) throw new IllegalArgumentException("'propertyName' must be not null");
 		if(from == null) return null;
 		
@@ -81,7 +81,7 @@ public class CollectionHelper {
 		return c.iterator().next();
 	}
 
-	public static double avg(Collection objects,String propertyName) {
+	public static double avg(Iterable objects,String propertyName) {
 		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return avg(propertyValues);
 	}
