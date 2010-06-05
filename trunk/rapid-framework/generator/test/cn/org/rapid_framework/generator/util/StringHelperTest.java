@@ -112,4 +112,10 @@ public class StringHelperTest extends TestCase {
 		}
 		return result.toString();
 	}
+	
+	public void test() {
+		for(Object s : System.getProperties().keySet()) {
+			System.out.println(s+"="+System.getProperty(s.toString()));
+		}
+	}
 }
