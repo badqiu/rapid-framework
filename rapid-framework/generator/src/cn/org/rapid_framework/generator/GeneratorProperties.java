@@ -7,6 +7,8 @@ import java.util.Properties;
 
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.PropertiesHelper;
+import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper;
+import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyPlaceholderConfigurerResolver;
 
 
 /**
@@ -15,7 +17,8 @@ import cn.org.rapid_framework.generator.util.PropertiesHelper;
  * @email badqiu(a)gmail.com
  */
 public class GeneratorProperties {
-
+	static PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", false);
+	
 	static final String PROPERTIES_FILE_NAME = "generator.properties";
 	
 	static PropertiesHelper props = new PropertiesHelper(new Properties());
@@ -77,6 +80,8 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
+		value = resolveProperty(value,getProperties());
+		key = resolveProperty(key,getProperties());
 	    GLogger.println("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
 //		if(!getHelper().getProperties().contains(key+"_dir")) {
@@ -84,8 +89,22 @@ public class GeneratorProperties {
 		getHelper().getProperties().put(key+"_dir", dir_value);
 //		}
 	}
+
+	private static void resolveProperties(Properties props) {
+		for(Object s : props.keySet()) {
+			String key  = resolveProperty(s.toString(),props);
+			String value = resolveProperty(props.getProperty(key),props);
+			props.setProperty(key, value);
+		}
+	}
+	
+	private static String resolveProperty(String v,Properties props) {
+		PropertyPlaceholderConfigurerResolver propertyPlaceholderConfigurerResolver = new PropertyPlaceholderConfigurerResolver(props);
+		return helper.replacePlaceholders(v, propertyPlaceholderConfigurerResolver);
+	}
 	
 	public static void setProperties(Properties v) {
+		resolveProperties(v);
 		props = new PropertiesHelper(v);
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
