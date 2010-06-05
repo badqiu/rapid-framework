@@ -117,8 +117,8 @@ public class GeneratorFacade {
 		}
 		
 		private static void setShareVars(Map templateModel) {
+			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
-			templateModel.put("system", System.getProperties());
 		}
 	}
 	
