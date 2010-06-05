@@ -12,7 +12,7 @@ import java.io.StringReader;
  * 
  */
 public class AppendDataReader extends Reader {
-	Reader appendData = null;
+	Reader appendDataReader = null;
 	Reader delegate;
 
 	public AppendDataReader(Reader delegate, String appendData) {
@@ -24,7 +24,7 @@ public class AppendDataReader extends Reader {
 		if(appendData == null) throw new IllegalArgumentException("'appendData' must be not null");
 		
 		this.delegate = delegate;
-		this.appendData = appendData;
+		this.appendDataReader = appendData;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class AppendDataReader extends Reader {
 		try {
 			delegate.close();
 		} finally {
-			appendData.close();
+			appendDataReader.close();
 		}
 	}
 
@@ -42,12 +42,16 @@ public class AppendDataReader extends Reader {
 	public int read(char[] cbuf, int off, int len) throws IOException {
 		synchronized (lock) {
 			if (isExceed) {
-				return appendData.read(cbuf, off, len);
+				try {
+					return appendDataReader.read(cbuf, off, len);
+				}catch(IOException e) {
+					throw new IOException("read data from appendDataReader occer error",e);
+				}
 			}
 			int result = delegate.read(cbuf, off, len);
 			if (result == -1) {
 				isExceed = true;
-				return appendData.read(cbuf, off, len);
+				return read(cbuf, off, len);
 			} else {
 				return result;
 			}
