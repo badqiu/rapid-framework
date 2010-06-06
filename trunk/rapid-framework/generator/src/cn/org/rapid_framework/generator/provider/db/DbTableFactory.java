@@ -27,6 +27,12 @@ import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 /**
  * 
+ * 根据数据库表的元数据(metadata)创建Table对象
+ * 
+ * <pre>
+ * getTable(sqlName) : 根据数据库表名,得到table对象
+ * getAllTable() : 搜索数据库的所有表,并得到table对象列表
+ * </pre>
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
