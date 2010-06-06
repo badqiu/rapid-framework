@@ -120,7 +120,7 @@ public class SqlQueryFactory {
 			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
 			param.setPrecision(10);
 			param.setScale(10);
-			param.setParameterTypeName("String");
+			param.setParameterTypeName("VARCHAR");
 			param.setParamName("param"+i);
 			result.add(param);
 		}
