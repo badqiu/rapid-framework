@@ -6,14 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.JdbcType;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
@@ -25,7 +26,7 @@ public class SqlQueryFactory {
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
-        handleParameterMetaData(ps,sql);
+        
         setPreparedStatementParameters(sql, ps);
         ResultSetMetaData metadata = executeQueryForMetaData(ps);
 		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
@@ -35,6 +36,7 @@ public class SqlQueryFactory {
         }else {
         	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
         }
+        result.setParams(parseSqlParameters(ps, sql));
         return result;
     }
 
@@ -98,7 +100,7 @@ public class SqlQueryFactory {
         }
 	}
 
-	private void handleParameterMetaData(PreparedStatement ps,String sql) throws Exception {
+	private List<SelectParameter> parseSqlParameters(PreparedStatement ps,String sql) throws Exception {
 //		try {
 //			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
 //			ZStatement st = parser.readStatement();
@@ -110,18 +112,30 @@ public class SqlQueryFactory {
 //		}catch(Exception e) {
 //			throw new RuntimeException("sql:"+sql,e);
 //		}
-		
-		ParameterMetaData m = ps.getParameterMetaData();
-		int count = m.getParameterCount();
-		for(int i = 0; i < count; i++) {
-			try {
-				SelectParameter qp = new SelectParameter(m,i);
-				System.out.println("parameters:"+BeanHelper.describe(qp));
-			}catch(Exception e) {
-//				e.printStackTrace();
-				return;
-			}
+		List result = new ArrayList();
+		int size = sql.split("\\?").length;
+		for(int i = 0; i < size; i++) {
+			SelectParameter param = new SelectParameter();
+			param.setParameterClassName("String");
+			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
+			param.setPrecision(10);
+			param.setScale(10);
+			param.setParameterTypeName("String");
+			param.setParamName("param"+i);
+			result.add(param);
 		}
+		return result;
+//		ParameterMetaData m = ps.getParameterMetaData();
+//		int count = m.getParameterCount();
+//		for(int i = 0; i < count; i++) {
+//			try {
+//				SelectParameter qp = new SelectParameter(m,i);
+//				System.out.println("parameters:"+BeanHelper.describe(qp));
+//			}catch(Exception e) {
+////				e.printStackTrace();
+//				return;
+//			}
+//		}
 
 	}
     
@@ -136,12 +150,12 @@ public class SqlQueryFactory {
     }
     
     public static class SelectSqlMetaData {
-    	public SelectParameter parameters;
+//    	public SelectParameter parameters;
     	String operation = null;
     	String multiPolicy = "many"; // many or one
     	Set<Column> columns = new LinkedHashSet<Column>();
     	String queryResultClassName = null;
-    	Map params = new LinkedHashMap();
+    	List<SelectParameter> params = new ArrayList();
     	public boolean isInSameTable() {
     		if(columns.isEmpty()) return false;
     		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
@@ -195,7 +209,14 @@ public class SqlQueryFactory {
 		}
 		public void setColumns(Set<Column> columns) {
 			this.columns = columns;
-		}    	
+		}
+		public List<SelectParameter> getParams() {
+			return params;
+		}
+		public void setParams(List<SelectParameter> params) {
+			this.params = params;
+		} 
+		
     }
     
     public static class SelectParameter {
@@ -205,6 +226,8 @@ public class SqlQueryFactory {
     	String parameterTypeName;
     	int precision;
     	int scale;
+    	String paramName;
+    	public SelectParameter() {}
     	public SelectParameter(ParameterMetaData m,int i) throws SQLException {
     		this.parameterClassName = m.getParameterClassName(i);
     		this.parameterMode = m.getParameterMode(i);
@@ -213,6 +236,49 @@ public class SqlQueryFactory {
     		this.precision = m.getPrecision(i);
     		this.scale = m.getScale(i);
     	}
+		public String getParameterClassName() {
+			return parameterClassName;
+		}
+		public void setParameterClassName(String parameterClassName) {
+			this.parameterClassName = parameterClassName;
+		}
+		public int getParameterMode() {
+			return parameterMode;
+		}
+		public void setParameterMode(int parameterMode) {
+			this.parameterMode = parameterMode;
+		}
+		public int getParameterType() {
+			return parameterType;
+		}
+		public void setParameterType(int parameterType) {
+			this.parameterType = parameterType;
+		}
+		public String getParameterTypeName() {
+			return parameterTypeName;
+		}
+		public void setParameterTypeName(String parameterTypeName) {
+			this.parameterTypeName = parameterTypeName;
+		}
+		public int getPrecision() {
+			return precision;
+		}
+		public void setPrecision(int precision) {
+			this.precision = precision;
+		}
+		public int getScale() {
+			return scale;
+		}
+		public void setScale(int scale) {
+			this.scale = scale;
+		}
+		public String getParamName() {
+			return paramName;
+		}
+		public void setParamName(String paramName) {
+			this.paramName = paramName;
+		}
+		
     }
 
     public static class ResultSetMetaDataHolder {
