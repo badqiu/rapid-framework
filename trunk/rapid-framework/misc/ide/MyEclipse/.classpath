@@ -131,6 +131,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.struts-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/readme.txt"/>
 	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/mybatis-3.0.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
