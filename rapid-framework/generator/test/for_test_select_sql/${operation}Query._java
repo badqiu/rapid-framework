@@ -1,4 +1,5 @@
 
+${gg.setIgnoreOutput(query.params?size > 4)}
 
 public ${query.operation}Query extends BaseQuery {
 	<#list query.params as param>
