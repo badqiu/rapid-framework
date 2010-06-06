@@ -33,8 +33,8 @@ public class SqlQueryFactory {
             		try {
             			ps.setString(i,"1");
             		}catch(Exception ee) {
+            			System.err.println("error on set parametet index:"+i+" cause:"+ee);
             		}
-            		System.err.println("error on set parametet index:"+i+" cause:"+e);
             	}
             }
         }
