@@ -1,8 +1,9 @@
 package cn.org.rapid_framework.generator;
 
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -124,16 +125,16 @@ public class GeneratorFacade {
 	
 	private static class PrintUtils {
 		
-		private static void printExceptionsSumary(String msg,List<Exception> exceptions) {
+		private static void printExceptionsSumary(String msg,List<Exception> exceptions) throws FileNotFoundException {
 			File errorFile = new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log");
 			if(exceptions != null && exceptions.size() > 0) {
 				System.err.println("[Generate Error Summary] : "+msg);
-				ByteArrayOutputStream errorLog = new ByteArrayOutputStream();
+				PrintStream output = new PrintStream(new FileOutputStream(errorFile));
 				for(Exception e : exceptions) {
 					System.err.println("[GENERATE ERROR]:"+e);
-					e.printStackTrace(new PrintStream(errorLog));
+					e.printStackTrace(output);
 				}
-				IOHelper.saveFile(errorFile, errorLog.toString());
+				output.close();
 				System.err.println("***************************************************************");
 				System.err.println("* "+"* 输出目录已经生成generator_error.log用于查看错误 ");
 				System.err.println("***************************************************************");
