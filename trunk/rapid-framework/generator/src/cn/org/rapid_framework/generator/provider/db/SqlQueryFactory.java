@@ -29,8 +29,7 @@ public class SqlQueryFactory {
         setPreparedStatementParameters(sql, ps);
         ResultSetMetaData metadata = executeQueryForMetaData(ps);
 		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
-        //
-        result.setOperation("findByPage");
+        result.setOperation("findByPage"); //FIXME 
         if(result.getColumnsSize() > 1) {
         	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable()+" getQueryResultClassName:"+result.getQueryResultClassName());
         }else {
@@ -139,7 +138,7 @@ public class SqlQueryFactory {
     public static class SelectSqlMetaData {
     	public SelectParameter parameters;
     	String operation = null;
-    	String multiPloicy = "many"; // many and one
+    	String multiPolicy = "many"; // many or one
     	Set<Column> columns = new LinkedHashSet<Column>();
     	String queryResultClassName = null;
     	Map params = new LinkedHashMap();
@@ -185,11 +184,11 @@ public class SqlQueryFactory {
 		public void setOperation(String operation) {
 			this.operation = operation;
 		}
-		public String getMultiPloicy() {
-			return multiPloicy;
+		public String getMultiPolicy() {
+			return multiPolicy;
 		}
-		public void setMultiPloicy(String multiPloicy) {
-			this.multiPloicy = multiPloicy;
+		public void setMultiPolicy(String multiPolicy) {
+			this.multiPolicy = multiPolicy;
 		}
 		public Set<Column> getColumns() {
 			return columns;
