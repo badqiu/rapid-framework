@@ -113,8 +113,8 @@ public class SqlQueryFactory {
 //			throw new RuntimeException("sql:"+sql,e);
 //		}
 		List result = new ArrayList();
-		int size = sql.split("\\?").length;
-		for(int i = 0; i < size; i++) {
+		int length = (sql+" ").split("\\?").length;
+		for(int i = 1; i < length; i++) {
 			SelectParameter param = new SelectParameter();
 			param.setParameterClassName("String");
 			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
