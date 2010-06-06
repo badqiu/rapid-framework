@@ -28,6 +28,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
+
+	public void test_with_many_parameers() throws Exception {
+		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select * from user_info where username = ? and password =? and age = ? and sex = ? and birth_date > ? and birth_date < ?");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
 	
 	public static GeneratorModel newFromQuery(SelectSqlMetaData query) {
 		Map templateModel = new HashMap();
