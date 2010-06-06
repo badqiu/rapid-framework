@@ -84,18 +84,19 @@ public class GeneratorProperties {
 		key = resolveProperty(key,getProperties());
 	    GLogger.println("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
-//		if(!getHelper().getProperties().contains(key+"_dir")) {
 		String dir_value = value.toString().replace('.', '/');
 		getHelper().getProperties().put(key+"_dir", dir_value);
-//		}
 	}
 
-	private static void resolveProperties(Properties props) {
+	private static Properties resolveProperties(Properties props) {
+		Properties result = new Properties();
 		for(Object s : props.keySet()) {
-			String key  = resolveProperty(s.toString(),props);
-			String value = resolveProperty(props.getProperty(key),props);
-			props.setProperty(key, value);
+			String sourceKey = s.toString();
+			String key  = resolveProperty(sourceKey,props);
+			String value = resolveProperty(props.getProperty(sourceKey),props);
+			result.setProperty(key, value);
 		}
+		return result;
 	}
 	
 	private static String resolveProperty(String v,Properties props) {
@@ -103,9 +104,8 @@ public class GeneratorProperties {
 		return helper.replacePlaceholders(v, propertyPlaceholderConfigurerResolver);
 	}
 	
-	public static void setProperties(Properties v) {
-		resolveProperties(v);
-		props = new PropertiesHelper(v);
+	public static void setProperties(Properties inputProps) {
+		props = new PropertiesHelper(resolveProperties(inputProps));
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
             GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
