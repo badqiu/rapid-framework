@@ -19,37 +19,28 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 public class SqlQueryFactory {
     
     public SelectSqlMetaData getByQuery(String sql) throws Exception {
+        System.out.println("\n*******************************");
+        System.out.println(" sql:"+sql);
+        System.out.println("*********************************");
+        
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
         handleParameterMetaData(ps,sql);
-        ps.setMaxRows(3);
-        ps.setFetchSize(3);
-        if(sql.contains("?")) {
-            int size = sql.split("\\?").length;
-            for(int i = 1; i <= size; i++) {
-            	try {
-            		ps.setInt(i,1);
-            	}catch(Exception e) {
-            		try {
-            			ps.setString(i,"1");
-            		}catch(Exception ee) {
-            			System.err.println("error on set parametet index:"+i+" cause:"+ee);
-            		}
-            	}
-            }
+        setPreparedStatementParameters(sql, ps);
+        ResultSetMetaData metadata = executeQueryForMetaData(ps);
+		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
+        //
+        result.setOperation("findByPage");
+        if(result.getColumnsSize() > 1) {
+        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable()+" getQueryResultClassName:"+result.getQueryResultClassName());
+        }else {
+        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
         }
-        
-        System.out.println("\n*******************************");
-        System.out.println(" sql:"+sql);
-        System.out.println("*******************************");
-        ResultSetMetaData metadata =  null;
-        try {
-			ResultSet rs = ps.executeQuery();
-			metadata = rs.getMetaData(); //还没有养老result set
-		} catch (Exception e) {
-			metadata = ps.getMetaData();
-		}
-       
+        return result;
+    }
+
+	private SelectSqlMetaData convert2SelectSqlMetaData(
+			ResultSetMetaData metadata) throws SQLException, Exception {
 		SelectSqlMetaData result = new SelectSqlMetaData();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
@@ -72,16 +63,41 @@ public class SqlQueryFactory {
                 result.addColumn(column);
                 System.out.println("not found on table by table emtpty:"+BeanHelper.describe(column));
             }
-        } 
-        //
-        result.setOperation("findByPage");
-        if(result.getColumnsSize() > 1) {
-        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable()+" getQueryResultClassName:"+result.getQueryResultClassName());
-        }else {
-        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
         }
-        return result;
-    }
+		return result;
+	}
+
+	private ResultSetMetaData executeQueryForMetaData(PreparedStatement ps)
+			throws SQLException {
+		ResultSetMetaData metadata =  null;
+        try {
+			ResultSet rs = ps.executeQuery();
+			metadata = rs.getMetaData(); //还没有养老result set
+		} catch (Exception e) {
+			metadata = ps.getMetaData();
+		}
+		return metadata;
+	}
+
+	private void setPreparedStatementParameters(String sql, PreparedStatement ps)
+			throws SQLException {
+		ps.setMaxRows(3);
+        ps.setFetchSize(3);
+        if(sql.contains("?")) {
+            int size = sql.split("\\?").length;
+            for(int i = 1; i <= size; i++) {
+            	try {
+            		ps.setInt(i,1);
+            	}catch(Exception e) {
+            		try {
+            			ps.setString(i,"1");
+            		}catch(Exception ee) {
+            			System.err.println("error on set parametet index:"+i+" cause:"+ee);
+            		}
+            	}
+            }
+        }
+	}
 
 	private void handleParameterMetaData(PreparedStatement ps,String sql) throws Exception {
 //		try {
