@@ -1,1 +1,5 @@
-for(
+
+
+public ${query.queryResultClassName} ${query.operation}(${query.operation}Query) {
+
+}
