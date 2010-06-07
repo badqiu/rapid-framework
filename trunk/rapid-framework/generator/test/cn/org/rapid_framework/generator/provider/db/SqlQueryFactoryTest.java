@@ -24,13 +24,13 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 
 	public void test_with_2_parameers() throws Exception {
-		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select * from user_info where username = ? and password =? ");
+		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select * from user_info where username = :username and password =:password ");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
 	public void test_with_many_parameers() throws Exception {
-		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select * from user_info where username = ? and password =? and age = ? and sex = ? and birth_date > ? and birth_date < ?");
+		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select * from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
