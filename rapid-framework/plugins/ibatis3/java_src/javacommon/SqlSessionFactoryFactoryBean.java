@@ -22,7 +22,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy;
 import org.springframework.util.Assert;
-
+/**
+ * @author badqiu
+ */
 public class SqlSessionFactoryFactoryBean implements FactoryBean,InitializingBean{
 	Log logger = LogFactory.getLog(SqlSessionFactoryFactoryBean.class);
 	private Resource configLocation;
