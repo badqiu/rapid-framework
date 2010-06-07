@@ -26,8 +26,13 @@ import cn.org.rapid_framework.generator.util.IOHelper;
 public class GeneratorFacade {
 	
 	public static void printAllTableNames() throws Exception {
-		List tables = DbTableFactory.getInstance().getAllTables();
-		PrintUtils.printAllTableNames(tables);
+		PrintUtils.printAllTableNames(DbTableFactory.getInstance().getAllTables());
+	}
+	
+	public void clean() throws IOException {
+		Generator g = new Generator();
+		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
+		g.clean();
 	}
 	
 	public void generateByAllTable(String templateRootDir) throws Exception {
@@ -54,6 +59,20 @@ public class GeneratorFacade {
 		}
 	}
 
+    private void generateByTable(Generator g, Table table) throws Exception {
+        GeneratorModel m = GeneratorModel.newFromTable(table);
+        PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
+        g.generateBy(m.templateModel,m.filePathModel);
+    }
+
+    public void deleteByTable(String tableName,String templateRootDir) throws Exception {
+		Generator g = createGenerator(templateRootDir);
+		
+		Table table = DbTableFactory.getInstance().getTable(tableName);
+		GeneratorModel m = GeneratorModel.newFromTable(table);
+		g.deleteBy(m.templateModel, m.filePathModel);
+	}
+    
 	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
 		Generator g = createGenerator(templateRootDir);
 		GeneratorModel m = GeneratorModel.newFromClass(clazz);
@@ -64,18 +83,6 @@ public class GeneratorFacade {
 			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
 		}
 	}
-
-	public void clean() throws IOException {
-		Generator g = new Generator();
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
-		g.clean();
-	}
-
-    private void generateByTable(Generator g, Table table) throws Exception {
-        GeneratorModel m = GeneratorModel.newFromTable(table);
-        PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
-        g.generateBy(m.templateModel,m.filePathModel);
-    }
     
     private Generator createGenerator(String templateRootDir) {
         Generator g = new Generator();
