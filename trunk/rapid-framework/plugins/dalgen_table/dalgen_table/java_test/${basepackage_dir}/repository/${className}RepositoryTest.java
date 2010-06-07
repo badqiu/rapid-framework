@@ -7,11 +7,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
+import junit.framework.TestCase;
 import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
 
-public class ${className}RepositoryTest extends BaseLocalRepositoryTestCase{
+public class ${className}RepositoryTest extends TestCase{
 	
 	private ${className}Repository dao;
 	
