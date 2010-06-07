@@ -15,8 +15,10 @@ import com.company.project.dal.dataobject.UserInfoDO;
 import com.company.project.repository.converter.UserInfoRepositoryConverter;
 import com.company.project.repository.model.UserInfo;
 
+import junit.framework.TestCase;
+
 <#include "/java_imports.include">
-public class ${className}ServiceConverterTest {
+public class ${className}ServiceConverterTest extends TestCase {
 
     public void test_convert2UserInfoDO() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         UserInfo source = new UserInfo();

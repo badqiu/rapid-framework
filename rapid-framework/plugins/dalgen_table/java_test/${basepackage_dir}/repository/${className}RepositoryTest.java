@@ -37,11 +37,11 @@ public class ${className}RepositoryTest extends BaseLocalRepositoryTestCase{
             </#if>
         </#list>
         
-        dao.create(target);
+        dao.create${className}(target);
         
-        dao.update(target);
+        dao.update${className}(target);
         
-        assertNotNull(dao.queryById(target.get${table.idColumn.columnNameLower}()));
+        assertNotNull(dao.queryById(target.get${table.idColumn.columnName}()));
         dao.removeById(target.getId());
         
     }
