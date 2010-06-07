@@ -125,6 +125,7 @@ public class BeanDefaultValueUtils {
 			return enums != null && enums.length > 0 ? enums[0] : null;
         }
         
+        //FIXME List,Set,Map,Collection还未处理
         if(targetType.isInterface()) {
             return null;
         }
