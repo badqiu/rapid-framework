@@ -13,7 +13,7 @@ public  class Bean1 {
     private java.util.Date utildate1;
     private java.sql.Timestamp timestamp1;
     private java.sql.Time time1;
-    private SexEnum sex;
+    private SexEnumBean sex;
     private long[] longArray;
     private List<Long> listLong;
     private Map map;
@@ -72,10 +72,10 @@ public  class Bean1 {
     public void setTime1(java.sql.Time time1) {
         this.time1 = time1;
     }
-    public SexEnum getSex() {
+    public SexEnumBean getSex() {
         return sex;
     }
-    public void setSex(SexEnum sex) {
+    public void setSex(SexEnumBean sex) {
         this.sex = sex;
     }
     public long[] getLongArray() {
