@@ -16,11 +16,6 @@ public class ${className}RepositoryTest extends TestCase{
 	
 	private ${className}Repository dao;
 	
-	@Override
-	protected String[] getDbUnitDataFiles() {
-		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
-	}
-	
 	public void test_findPage() {
 	    
 	}
@@ -38,11 +33,11 @@ public class ${className}RepositoryTest extends TestCase{
             </#if>
         </#list>
         
-        dao.create(target);
+        dao.create${className}(target);
         
-        dao.update(target);
+        dao.update${className}(target);
         
-        assertNotNull(dao.queryById(target.get${table.idColumn.columnNameLower}()));
+        assertNotNull(dao.queryById(target.get${table.idColumn.columnName}()));
         dao.removeById(target.getId());
         
     }
