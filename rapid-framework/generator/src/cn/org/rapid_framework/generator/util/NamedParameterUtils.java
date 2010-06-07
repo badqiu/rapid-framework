@@ -16,11 +16,13 @@
 
 package cn.org.rapid_framework.generator.util;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -220,8 +222,15 @@ public abstract class NamedParameterUtils {
 		return false;
 	}
 
-
-
+	static Pattern PATTERN = Pattern.compile(":([\\w_]*):([\\w_]*)");
+	public static Map getNamedParameters(String sql) {
+		Map map = new LinkedHashMap();
+		Matcher m =  PATTERN.matcher(sql);
+		if(m.find()) {
+			map.put(m.group(1), m.group(2));
+		}
+		return map;
+	}
 
 
 }
