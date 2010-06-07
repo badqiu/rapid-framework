@@ -1,10 +1,10 @@
 
-<#if query.params?size &gt; 4 >
+<#if (query.params?size > 4) >
 	public ${query.queryResultClassName} ${query.operation}(${query.operation}Query query) {
 		
 	}
 <#else>
-	public ${query.queryResultClassName} ${query.operation}(<#list query.params as param>${param.parameterClassName} ${param.paramName},</#list>) {
+	public ${query.queryResultClassName} ${query.operation}(<#list query.params as param>${param.parameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
 		
 	}
 </#if>
