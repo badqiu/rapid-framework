@@ -15,6 +15,7 @@ import cn.org.rapid_framework.test.util.BeanDefaultValueSetterTest;
 import com.company.project.dal.dataobject.UserInfoDO;
 import com.company.project.repository.converter.UserInfoRepositoryConverter;
 import com.company.project.repository.model.UserInfo;
+import junit.framework.TestCase;
 
 import static junit.framework.Assert.*;
 
