@@ -1,7 +1,7 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first>   
-package ${basepackage}.dao;
+package ${basepackage}.repository.converter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
