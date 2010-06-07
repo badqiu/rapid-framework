@@ -13,7 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.util.ClassUtils;
 
 import cn.org.rapid_framework.test.util.testbean.Bean1;
-import cn.org.rapid_framework.test.util.testbean.SexEnum;
+import cn.org.rapid_framework.test.util.testbean.SexEnumBean;
 
 public class BeanDefaultValueSetterTest extends TestCase {
     
@@ -25,7 +25,7 @@ public class BeanDefaultValueSetterTest extends TestCase {
         assertEquals(bean.getLong1(),new Long(1));
         assertEquals(bean.getSqldate1(),new java.sql.Date(System.currentTimeMillis()));
         assertEquals(bean.getInt1(),1);
-        assertEquals(bean.getSex(),SexEnum.F);
+        assertEquals(bean.getSex(),SexEnumBean.F);
         assertEquals(bean.getChar1(),'1');
     }
     
