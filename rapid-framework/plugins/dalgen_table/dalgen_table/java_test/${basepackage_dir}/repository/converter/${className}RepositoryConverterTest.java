@@ -29,5 +29,12 @@ public class ${className}RepositoryConverterTest extends TestCase {
         UserInfoDO target = UserInfoRepositoryConverter.convert2UserInfoDO(source);
         System.out.println(BeanUtils.describe(target));
     }
+    
+    public void test_convert2UserInfo() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        UserInfoDO source = new UserInfoDO();
+        BeanDefaultValueSetterTest.setBeanProperties(source);
+        UserInfo target = UserInfoRepositoryConverter.convert2UserInfo(source);
+        System.out.println(BeanUtils.describe(target));
+    }
 	
 }
