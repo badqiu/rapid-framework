@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -147,11 +148,17 @@ public class BeanHelper {
         if(targetType == BigDecimal.class) {
             return new BigDecimal(value);
         }
+        if(targetType == BigInteger.class) {
+            return BigInteger.valueOf(Long.parseLong(value));
+        }
         if(targetType == Boolean.class || targetType == boolean.class) {
             return new Boolean(value);
         }
         if(targetType == boolean.class) {
             return new Boolean(value);
+        }
+        if(targetType == char.class) {
+            return value.charAt(0);
         }
         if(DateHelper.isDateType(targetType)) {
             return DateHelper.parseDate(value,targetType,"yyyyMMdd","yyyy-MM-dd","yyyyMMddHHmmSS","yyyy-MM-dd HH:mm:ss","HH:mm:ss");
