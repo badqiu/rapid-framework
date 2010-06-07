@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 <#include "/java_imports.include">
-public interface ${className}Service{
+public interface ${className}ServiceTest{
 
     public void create${className}(${className} v);
     
@@ -17,6 +17,6 @@ public interface ${className}Service{
     
     public void get${className}(int id);
     
-    public void pageQuery${className}(${className}Query q);
+    public void findPage(${className}Query q);
     
 }
