@@ -14,6 +14,9 @@ import cn.org.rapid_framework.test.util.BeanDefaultValueSetterTest;
 import com.company.project.dal.dataobject.UserInfoDO;
 import com.company.project.repository.converter.UserInfoRepositoryConverter;
 import com.company.project.repository.model.UserInfo;
+import com.company.project.service.converter.UserInfoServiceConverter;
+import com.company.project.service.dto.UserInfoDTO;
+
 import junit.framework.TestCase;
 
 <#include "/java_imports.include">
@@ -22,7 +25,14 @@ public class ${className}ServiceConverterTest extends TestCase {
     public void test_convert2UserInfoDO() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         UserInfo source = new UserInfo();
         BeanDefaultValueSetterTest.setBeanProperties(source);
-        UserInfoDO target = UserInfoRepositoryConverter.convert2UserInfoDO(source);
+        UserInfoDTO target = UserInfoServiceConverter.convert2UserInfoDTO(source);
+        System.out.println(BeanUtils.describe(target));
+    }
+    
+    public void test_convert2UserInfo() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        UserInfoDTO source = new UserInfoDTO();
+        BeanDefaultValueSetterTest.setBeanProperties(source);
+        UserInfo target = UserInfoServiceConverter.convert2UserInfo(source);
         System.out.println(BeanUtils.describe(target));
     }
     
