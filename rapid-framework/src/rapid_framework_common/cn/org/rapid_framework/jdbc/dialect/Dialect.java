@@ -10,7 +10,7 @@ public class Dialect {
     }
 
     public boolean supportsLimitOffset() {
-    	return supportsLimitOffset();
+    	return supportsLimit();
     }
     
     /**
