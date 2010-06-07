@@ -7,16 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 <#include "/java_imports.include">
-public interface ${className}ServiceTest{
+public class ${className}ServiceTest extends TestCase{
 
-    public void create${className}(${className} v);
-    
-    public void update${className}(${className} v);
-    
-    public void delete${className}(int id);
-    
-    public void get${className}(int id);
-    
-    public void findPage(${className}Query q);
+    public void test_create${className}() {
+        
+    }
     
 }
