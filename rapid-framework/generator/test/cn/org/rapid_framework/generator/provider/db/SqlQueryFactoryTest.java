@@ -44,6 +44,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		Map filePathModel = new HashMap();
 		filePathModel.putAll(GeneratorProperties.getProperties());
 		filePathModel.putAll(BeanHelper.describe(query));
+		setShareVars(filePathModel);
 		return new GeneratorModel(templateModel,filePathModel);
 	}
 	
