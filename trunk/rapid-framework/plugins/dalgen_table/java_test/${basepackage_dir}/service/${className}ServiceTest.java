@@ -5,6 +5,7 @@ package ${basepackage}.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import junit.framework.TestCase;
 
 <#include "/java_imports.include">
 public class ${className}ServiceTest extends TestCase{
