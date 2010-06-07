@@ -14,7 +14,8 @@ import java.util.Set;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
-import cn.org.rapid_framework.generator.util.JdbcType;
+import cn.org.rapid_framework.generator.util.NamedParameterUtils;
+import cn.org.rapid_framework.generator.util.ParsedSql;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactory {
@@ -23,10 +24,12 @@ public class SqlQueryFactory {
         System.out.println("\n*******************************");
         System.out.println(" sql:"+sql);
         System.out.println("*********************************");
+        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sql);
+        sql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
-        
+
         setPreparedStatementParameters(sql, ps);
         ResultSetMetaData metadata = executeQueryForMetaData(ps);
 		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
@@ -36,7 +39,7 @@ public class SqlQueryFactory {
         }else {
         	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
         }
-        result.setParams(parseSqlParameters(ps, sql));
+        result.setParams(parseSqlParameters(ps, parsedSql,result));
         return result;
     }
 
@@ -70,6 +73,8 @@ public class SqlQueryFactory {
 
 	private ResultSetMetaData executeQueryForMetaData(PreparedStatement ps)
 			throws SQLException {
+		ps.setMaxRows(3);
+        ps.setFetchSize(3);
 		ResultSetMetaData metadata =  null;
         try {
 			ResultSet rs = ps.executeQuery();
@@ -82,8 +87,6 @@ public class SqlQueryFactory {
 
 	private void setPreparedStatementParameters(String sql, PreparedStatement ps)
 			throws SQLException {
-		ps.setMaxRows(3);
-        ps.setFetchSize(3);
         if(sql.contains("?")) {
             int size = sql.split("\\?").length;
             for(int i = 1; i <= size; i++) {
@@ -100,7 +103,7 @@ public class SqlQueryFactory {
         }
 	}
 
-	private List<SelectParameter> parseSqlParameters(PreparedStatement ps,String sql) throws Exception {
+	private List<SelectParameter> parseSqlParameters(PreparedStatement ps,ParsedSql sql,SelectSqlMetaData sqlMetaData) throws Exception {
 //		try {
 //			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
 //			ZStatement st = parser.readStatement();
@@ -112,19 +115,39 @@ public class SqlQueryFactory {
 //		}catch(Exception e) {
 //			throw new RuntimeException("sql:"+sql,e);
 //		}
+//		List result = new ArrayList();
+//		int length = (sql+" ").split("\\?").length;
+//		for(int i = 1; i < length; i++) {
+//			SelectParameter param = new SelectParameter();
+//			param.setParameterClassName("String");
+//			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
+//			param.setPrecision(10);
+//			param.setScale(10);
+//			param.setParameterTypeName("VARCHAR");
+//			param.setParamName("param"+i);
+//			result.add(param);
+//		}
+//		return result;
 		List result = new ArrayList();
-		int length = (sql+" ").split("\\?").length;
-		for(int i = 1; i < length; i++) {
+		for(int i = 0; i < sql.getParameterNames().size(); i++) {
 			SelectParameter param = new SelectParameter();
-			param.setParameterClassName("String");
-			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
-			param.setPrecision(10);
-			param.setScale(10);
-			param.setParameterTypeName("VARCHAR");
-			param.setParamName("param"+i);
-			result.add(param);
+			String paramName = sql.getParameterNames().get(i);
+			Column column = sqlMetaData.getColumnBySqlName(paramName);
+			if(column == null) {
+				
+			}else {
+				param.setParameterClassName(column.getJavaType());
+				param.setParameterType(column.getSqlType());
+				param.setPrecision(column.getDecimalDigits());
+				param.setScale(column.getSize());
+				param.setParameterTypeName(column.getJdbcSqlTypeName());
+				param.setParamName(paramName);
+				result.add(param);			
+			}
 		}
+		System.out.println("params:"+result);
 		return result;
+        
 //		ParameterMetaData m = ps.getParameterMetaData();
 //		int count = m.getParameterCount();
 //		for(int i = 0; i < count; i++) {
@@ -140,6 +163,7 @@ public class SqlQueryFactory {
 	}
     
     public static void main(String[] args) throws Exception {
+    	// ? parameters
     	SelectSqlMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
     	SelectSqlMetaData t2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=? and password =?");
     	SelectSqlMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
@@ -147,6 +171,13 @@ public class SqlQueryFactory {
     	SelectSqlMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
     	SelectSqlMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
     	SelectSqlMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+    
+    	SelectSqlMetaData n2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=:username and password =:password");
+    	SelectSqlMetaData n3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password and birth_date between :birthDateBegin and :birthDateEnd limit :offset,:limit");
+    	SelectSqlMetaData n7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
     }
     
     public static class SelectSqlMetaData {
@@ -215,7 +246,15 @@ public class SqlQueryFactory {
 		}
 		public void setParams(List<SelectParameter> params) {
 			this.params = params;
-		} 
+		}
+		public Column getColumnBySqlName(String sqlName) {
+			for(Column c : getColumns()) {
+				if(c.getSqlName().equalsIgnoreCase(sqlName)) {
+					return c;
+				}
+			}
+			return null;
+		}
 		
     }
     
@@ -278,7 +317,9 @@ public class SqlQueryFactory {
 		public void setParamName(String paramName) {
 			this.paramName = paramName;
 		}
-		
+		public String toString() {
+			return "paramName:"+paramName+" parameterClassName:"+parameterClassName;
+		}
     }
 
     public static class ResultSetMetaDataHolder {
