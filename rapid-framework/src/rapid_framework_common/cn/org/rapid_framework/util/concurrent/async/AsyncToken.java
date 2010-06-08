@@ -2,7 +2,6 @@ package cn.org.rapid_framework.util.concurrent.async;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -220,6 +219,7 @@ public class AsyncToken<T>  {
 	 * 等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future.get()可以使用
 	 * @see Future
 	 */
+	@Deprecated
 	public Object waitForResult() throws InterruptedException,Exception {
 		return waitForResult(-1, null);
 	}
@@ -227,6 +227,7 @@ public class AsyncToken<T>  {
 	 *  等待得到token结果,测试一般使用此方法,因为jdk有相同功能的Future.get()可以使用
 	 *  @see Future
 	 */
+	@Deprecated
 	public Object waitForResult(long timeout,TimeUnit timeUnit) throws InterruptedException,Exception {
 		synchronized(this) {
 			if(_isFiredResult) {
