@@ -16,8 +16,15 @@ import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.ParsedSql;
+import cn.org.rapid_framework.generator.util.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
-
+/**
+ * 
+ * 数据SQL查询语句生成SelectSqlMetaData对象,用于代码生成器的生成
+ * 
+ * @author badqiu
+ *
+ */
 public class SqlQueryFactory {
     
     public SelectSqlMetaData getByQuery(String sql) throws Exception {
@@ -132,16 +139,17 @@ public class SqlQueryFactory {
 		for(int i = 0; i < sql.getParameterNames().size(); i++) {
 			SelectParameter param = new SelectParameter();
 			String paramName = sql.getParameterNames().get(i);
-			Column column = sqlMetaData.getColumnBySqlName(paramName);
+			param.setParamName(paramName);
+			Column column = searchColumnByParamName(sql, sqlMetaData, paramName);
 			if(column == null) {
-				
+				param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
 			}else {
 				param.setParameterClassName(column.getJavaType());
 				param.setParameterType(column.getSqlType());
 				param.setPrecision(column.getDecimalDigits());
 				param.setScale(column.getSize());
 				param.setParameterTypeName(column.getJdbcSqlTypeName());
-				param.setParamName(paramName);
+//				param.setParamName(paramName);
 				result.add(param);			
 			}
 		}
@@ -161,23 +169,42 @@ public class SqlQueryFactory {
 //		}
 
 	}
+
+	private Column searchColumnByParamName(ParsedSql sql,
+			SelectSqlMetaData sqlMetaData, String paramName) throws Exception {
+		Column column = sqlMetaData.getColumnByName(paramName);
+		if(column == null) {
+			List<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+			for(String tableName : tableNames) {
+				Table t = DbTableFactory.getInstance().getTable(tableName);
+				if(t != null) {
+					column = t.getColumnByName(paramName);
+					if(column != null) {
+						break;
+					}
+				}
+			}
+		}
+		return column;
+	}
     
     public static void main(String[] args) throws Exception {
     	// ? parameters
-    	SelectSqlMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
-    	SelectSqlMetaData t2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=? and password =?");
-    	SelectSqlMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	SelectSqlMetaData t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	SelectSqlMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
-    	SelectSqlMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
-    	SelectSqlMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
-    
-    	SelectSqlMetaData n2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=:username and password =:password");
-    	SelectSqlMetaData n3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-    	SelectSqlMetaData n4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-    	SelectSqlMetaData n5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-    	SelectSqlMetaData n6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password and birth_date between :birthDateBegin and :birthDateEnd limit :offset,:limit");
-    	SelectSqlMetaData n7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+//    	SelectSqlMetaData t1 = new SqlQueryFactory().getByQuery("select * from user_info");
+//    	SelectSqlMetaData t2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=? and password =?");
+//    	SelectSqlMetaData t3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+//    	SelectSqlMetaData t4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+//    	SelectSqlMetaData t5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=? and password =?");
+//    	SelectSqlMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
+//    	SelectSqlMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+//    
+//    	SelectSqlMetaData n2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=:username and password =:password");
+//    	SelectSqlMetaData n3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+//    	SelectSqlMetaData n4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+//    	SelectSqlMetaData n5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+//    	SelectSqlMetaData n6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password and birth_date between :birthDateBegin and :birthDateEnd limit :offset,:limit");
+//    	SelectSqlMetaData n7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+    	SelectSqlMetaData n8 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = :userId group by username");
     }
     
     public static class SelectSqlMetaData {
@@ -255,7 +282,13 @@ public class SqlQueryFactory {
 			}
 			return null;
 		}
-		
+		public Column getColumnByName(String name) {
+		    Column c = getColumnBySqlName(name);
+		    if(c == null) {
+		    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
+		    }
+		    return c;
+		}		
     }
     
     public static class SelectParameter {
