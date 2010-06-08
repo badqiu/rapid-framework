@@ -193,6 +193,14 @@ public class Table {
 		return getPkColumn();
 	}
 	
+	public Column getColumnByName(String name) {
+	    Column c = getColumnBySqlName(name);
+	    if(c == null) {
+	    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
+	    }
+	    return c;
+	}
+	
 	public Column getColumnBySqlName(String sqlName) {
 	    for(Column c : getColumns()) {
 	        if(c.getSqlName().equalsIgnoreCase(sqlName)) {
