@@ -15,25 +15,25 @@ public class SqlRemoveUtils {
 
 	/**
 	 * 去除select 子句，未考虑union的情况
-	 * @param hql
+	 * @param sql
 	 * @return
 	 */
-    public static String removeSelect(String hql) {
-        Assert.hasText(hql);
-        int beginPos = hql.toLowerCase().indexOf("from");
-        Assert.isTrue(beginPos != -1, " hql : " + hql + " must has a keyword 'from'");
-        return hql.substring(beginPos);
+    public static String removeSelect(String sql) {
+        Assert.hasText(sql);
+        int beginPos = sql.toLowerCase().indexOf("from");
+        Assert.isTrue(beginPos != -1, " sql : " + sql + " must has a keyword 'from'");
+        return sql.substring(beginPos);
     }
 
     /**
      * 去除orderby 子句
-     * @param hql
+     * @param sql
      * @return
      */
-    public static String removeOrders(String hql) {
-        Assert.hasText(hql);
+    public static String removeOrders(String sql) {
+        Assert.hasText(sql);
         Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(hql);
+        Matcher m = p.matcher(sql);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             m.appendReplacement(sb, "");
@@ -42,8 +42,8 @@ public class SqlRemoveUtils {
         return sb.toString();
     }
     
-    public static String removeFetchKeyword(String hql) {
-    	return hql.replaceAll("(?i)fetch", "");
+    public static String removeFetchKeyword(String sql) {
+    	return sql.replaceAll("(?i)fetch", "");
     }
 
 	public static String removeXsqlBuilderOrders(String string) {
