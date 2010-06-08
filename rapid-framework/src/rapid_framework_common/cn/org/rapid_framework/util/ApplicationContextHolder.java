@@ -44,5 +44,9 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 	public static Object getBean(String beanName) {
 		return getApplicationContext().getBean(beanName);
 	}
+	
+	public static void clear() {
+		applicationContext = null;
+	}
 
 }
