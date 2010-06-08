@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -174,7 +175,7 @@ public class SqlQueryFactory {
 			SelectSqlMetaData sqlMetaData, String paramName) throws Exception {
 		Column column = sqlMetaData.getColumnByName(paramName);
 		if(column == null) {
-			List<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+			Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
 			for(String tableName : tableNames) {
 				Table t = DbTableFactory.getInstance().getTable(tableName);
 				if(t != null) {
