@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -92,15 +91,14 @@ public class CollectionHelper {
 		return sum(values) / values.size();
 	}
 	
-	public static double sum(Collection objects,String propertyName) {
-		if(objects.isEmpty()) return 0;
+	public static double sum(Iterable objects,String propertyName) {
+		if(objects == null) return 0;
 		List<Number> propertyValues = CollectionHelper.selectProperty(objects, propertyName);
 		return sum(propertyValues);
 	}
 
-	public static double sum(Collection<Number> values) {
+	public static double sum(Iterable<Number> values) {
 		if(values == null) return 0;
-		if(values.isEmpty()) return 0;
 		
 		double sum = 0;
 		for(Number num : values) {
