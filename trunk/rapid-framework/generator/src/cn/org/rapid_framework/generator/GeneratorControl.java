@@ -79,6 +79,7 @@ public class GeneratorControl {
     }
 	   
 	public void generateFile(String outputFile,String content,boolean append) {
+		//TODO /root/hello.txt使用绝对路径, root/hello.txt使用相对路径
 		try {
 			if(deleteGeneratedFile) {
 				GLogger.println("[delete gg.generateFile()] file:"+outputFile);
