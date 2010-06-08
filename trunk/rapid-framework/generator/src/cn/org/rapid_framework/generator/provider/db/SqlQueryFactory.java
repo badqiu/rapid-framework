@@ -141,7 +141,7 @@ public class SqlQueryFactory {
 			SelectParameter param = new SelectParameter();
 			String paramName = sql.getParameterNames().get(i);
 			param.setParamName(paramName);
-			Column column = searchColumnByParamName(sql, sqlMetaData, paramName);
+			Column column = findColumnByParamName(sql, sqlMetaData, paramName);
 			if(column == null) {
 				param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
 			}else {
@@ -171,22 +171,27 @@ public class SqlQueryFactory {
 
 	}
 
-	private Column searchColumnByParamName(ParsedSql sql,
+	private Column findColumnByParamName(ParsedSql sql,
 			SelectSqlMetaData sqlMetaData, String paramName) throws Exception {
 		Column column = sqlMetaData.getColumnByName(paramName);
 		if(column == null) {
-			Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
-			for(String tableName : tableNames) {
-				Table t = DbTableFactory.getInstance().getTable(tableName);
-				if(t != null) {
-					column = t.getColumnByName(paramName);
-					if(column != null) {
-						break;
-					}
+			column = findColumnByParseSql(sql, paramName);
+		}
+		return column;
+	}
+
+	private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
+		Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+		for(String tableName : tableNames) {
+			Table t = DbTableFactory.getInstance().getTable(tableName);
+			if(t != null) {
+				Column column = t.getColumnByName(paramName);
+				if(column != null) {
+					return column;
 				}
 			}
 		}
-		return column;
+		return null;
 	}
     
     public static void main(String[] args) throws Exception {
