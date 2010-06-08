@@ -384,16 +384,28 @@ public class DbTableFactory {
 	
 		private static Map getColumnOverrideValues(Table table, Column column) {
 			NodeData root = getTableConfigXmlNodeData(table.getSqlName());
-			 if(root != null){
+			if(root != null){
 				 for(NodeData item : root.childs) {
-					 if(item.nodeName.equals(column.getSqlName())) {
+					 if(item.nodeName.equalsIgnoreCase(column.getSqlName())) {
 						 return item.getElementMap("sqlName");
 					 }
 			     }
-			 }
-			 return new HashMap();
+			}
+			return new HashMap();
 		}
+		
 		private static NodeData getTableConfigXmlNodeData(String tableSqlName){
+			NodeData nd = getTableConfigXmlNodeData0(tableSqlName);
+			if(nd == null) {
+				nd = getTableConfigXmlNodeData0(tableSqlName.toLowerCase());
+				if(nd == null) {
+					nd = getTableConfigXmlNodeData0(tableSqlName.toUpperCase());
+				}
+			}
+			return nd;
+		}
+
+		private static NodeData getTableConfigXmlNodeData0(String tableSqlName) {
 			try {
 				File file = FileHelper.getRsourcesByClassLoader("generator_config/table/"+tableSqlName+".xml");
 				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
