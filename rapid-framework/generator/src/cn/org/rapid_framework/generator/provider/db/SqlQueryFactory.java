@@ -28,12 +28,12 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  */
 public class SqlQueryFactory {
     
-    public SelectSqlMetaData getByQuery(String sql) throws Exception {
+    public SelectSqlMetaData getByQuery(String sourceSql) throws Exception {
         System.out.println("\n*******************************");
-        System.out.println(" sql:"+sql);
+        System.out.println(" sql:"+sourceSql);
         System.out.println("*********************************");
-        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sql);
-        sql = NamedParameterUtils.substituteNamedParameters(parsedSql);
+        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
+        String sql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -47,6 +47,7 @@ public class SqlQueryFactory {
         }else {
         	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
         }
+        result.setSourceSql(sourceSql);
         result.setParams(parseSqlParameters(ps, parsedSql,result));
         return result;
     }
@@ -220,6 +221,11 @@ public class SqlQueryFactory {
     	Set<Column> columns = new LinkedHashSet<Column>();
     	String queryResultClassName = null;
     	List<SelectParameter> params = new ArrayList();
+    	
+    	String sourceSql; // source sql
+    	String jdbcSql; // jdbc sql
+    	String ibatisSql; //ibatis sql
+    	String hql; //hibernate sql
     	public boolean isInSameTable() {
     		if(columns.isEmpty()) return false;
     		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
@@ -279,6 +285,34 @@ public class SqlQueryFactory {
 		}
 		public void setParams(List<SelectParameter> params) {
 			this.params = params;
+		}
+		
+		public String getSourceSql() {
+			return sourceSql;
+		}
+		public void setSourceSql(String sourceSql) {
+			this.sourceSql = sourceSql;
+			setJdbcSql(sourceSql);
+			setHql(sourceSql);
+			setIbatisSql(sourceSql);
+		}
+		public String getJdbcSql() {
+			return jdbcSql;
+		}
+		public void setJdbcSql(String jdbcSql) {
+			this.jdbcSql = jdbcSql;
+		}
+		public String getIbatisSql() {
+			return ibatisSql;
+		}
+		public void setIbatisSql(String ibatisSql) {
+			this.ibatisSql = ibatisSql;
+		}
+		public String getHql() {
+			return hql;
+		}
+		public void setHql(String hql) {
+			this.hql = hql;
 		}
 		public Column getColumnBySqlName(String sqlName) {
 			for(Column c : getColumns()) {
