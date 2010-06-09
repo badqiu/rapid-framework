@@ -26,14 +26,14 @@ public class BeanAssert {
 						propValue = readMethod.invoke(bean);
 						if(propValue == null) {
 							String beanClass = bean.getClass().getSimpleName();
-		            		throw new Error("AssertionFailedError, ["+beanClass+"."+name+"] must be not null ");
+		            		throw new AssertionError("["+beanClass+"."+name+"] must be not null ");
 		            	}
 					} catch (IllegalArgumentException e) {
-						throw new Error("AssertionFailedError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
+						throw new Error("AssertionError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
 					} catch (IllegalAccessException e) {
-						throw new Error("AssertionFailedError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
+						throw new Error("AssertionError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
 					} catch (InvocationTargetException e) {
-						throw new Error("AssertionFailedError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
+						throw new Error("AssertionError, get property value:["+bean.getClass().getSimpleName()+"."+name+"] occer error.",e);
 					}
             }
         }
