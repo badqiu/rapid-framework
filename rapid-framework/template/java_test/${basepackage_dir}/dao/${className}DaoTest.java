@@ -23,13 +23,13 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 		this.dao = dao;
 	}
 
-	@Override
+	@Override 
 	protected String[] getDbUnitDataFiles() {
+	    //通过 TestMethodContext.getMethodName() 可以得到当前正在运行的测试方法名称
 		return new String[]{"classpath:testdata/common.xml","classpath:testdata/${className}.xml",
 		                    "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
 	}
 	
-	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	//数据库单元测试前会开始事务，结束时会回滚事务，所以测试方法可以不用关心测试数据的删除
 	@Test
 	public void findPage() {
