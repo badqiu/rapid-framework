@@ -26,7 +26,7 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
                                  "classpath:/spring/*-datasource.xml",
                                  "classpath:/spring/*-dao.xml",
 })
-@TestExecutionListeners(listeners = TestMethodContextExecutionListener.class)
+@TestExecutionListeners(listeners = TestMethodContextExecutionListener.class) // TestMethodContextExecutionListener用于在@Before时可以得到测试方法名称
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
 
