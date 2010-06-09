@@ -20,6 +20,8 @@ public class BeanDefaultValueUtilsTest extends TestCase {
 	 
     public void test() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
         Bean1 bean = new Bean1();
+        BeanAssert.assertPropertiesNull(bean,"char1","int1");
+        
         BeanDefaultValueUtils.setBeanProperties(bean);
         assertEquals(bean.getInt1(),1);
         assertEquals(bean.getInteger1(),new Integer(1));
@@ -40,7 +42,14 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         
         BeanAssert.assertPropertiesNotNull(bean);
     }
+    public void test_not_empty() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+        Bean1 bean = new Bean1();
+        BeanAssert.assertPropertiesEmpty(bean,"char1","int1");
+        BeanDefaultValueUtils.setBeanProperties(bean);
+        BeanAssert.assertPropertiesNotEmpty(bean,"arrayList","set","collection","hashMap","hashSet","map","listLong","stack");
 
+        
+    }
 
     
 
