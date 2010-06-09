@@ -7,6 +7,8 @@ package cn.org.rapid_framework.freemarker;
  */
 public class FreemarkerTemplateException extends RuntimeException {
 
+	private static final long serialVersionUID = -3001339513837419069L;
+
 	public FreemarkerTemplateException() {
 		super();
 	}
