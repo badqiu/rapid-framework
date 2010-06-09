@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class Ognl {
 				return true;
 			}
 		} else if(o.getClass().isArray()) {
-			if(((Object[])o).length == 0){
+			if(Array.getLength(o) == 0){
 				return true;
 			}
 		} else if(o instanceof Map) {
