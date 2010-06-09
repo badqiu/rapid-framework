@@ -14,6 +14,7 @@ import org.springframework.util.ClassUtils;
 
 import cn.org.rapid_framework.test.util.testbean.Bean1;
 import cn.org.rapid_framework.test.util.testbean.SexEnumBean;
+import cn.org.rapid_framework.util.DateConvertUtils;
 
 public class BeanDefaultValueUtilsTest extends TestCase {
 	 
@@ -23,10 +24,21 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         assertEquals(bean.getInt1(),1);
         assertEquals(bean.getInteger1(),new Integer(1));
         assertEquals(bean.getLong1(),new Long(1));
-        assertEquals(bean.getSqldate1(),new java.sql.Date(System.currentTimeMillis()));
+        assertEquals(DateConvertUtils.format(bean.getSqldate1(),"yyyyMMddHHmmss"),DateConvertUtils.format(new java.sql.Date(System.currentTimeMillis()),"yyyyMMddHHmmss"));
         assertEquals(bean.getInt1(),1);
         assertEquals(bean.getSex(),SexEnumBean.F);
         assertEquals(bean.getChar1(),'1');
+        assertNotNull(bean.getArrayList());
+        assertNotNull(bean.getListLong());
+        assertNotNull(bean.getMap());
+        assertNotNull(bean.getHashMap());
+        assertNotNull(bean.getTestBean());
+        assertNotNull(bean.getSet());
+        assertNotNull(bean.getHashSet());
+        assertNotNull(bean.getCollection());
+        assertNotNull(bean.getStack());
+        
+        BeanAssert.assertPropertiesNotNull(bean);
     }
 
 
