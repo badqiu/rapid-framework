@@ -5,6 +5,8 @@ package ${basepackage}.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
+
+import cn.org.rapid_framework.test.context.TestMethodContext;
 import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
@@ -18,10 +20,11 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 		this.manager = manager;
 	}
 
-	@Override
-	protected String[] getDbUnitDataFiles() {
-		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
-	}
+    @Override
+    protected String[] getDbUnitDataFiles() {
+        return new String[]{"classpath:testdata/common.xml","classpath:testdata/${className}.xml",
+                            "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
+    }
 
 	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	//数据库单元测试前会开始事务，结束时会回滚事务，所以测试方法可以不用关心测试数据的删除

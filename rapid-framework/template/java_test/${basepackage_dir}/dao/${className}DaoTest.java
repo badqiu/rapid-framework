@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
 
+import cn.org.rapid_framework.test.context.TestMethodContext;
+
 import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
@@ -23,7 +25,8 @@ public class ${className}DaoTest extends BaseDaoTestCase{
 
 	@Override
 	protected String[] getDbUnitDataFiles() {
-		return new String[]{"classpath:common_testdata.xml","classpath:${className}_testdata.xml"};
+		return new String[]{"classpath:testdata/common.xml","classpath:testdata/${className}.xml",
+		                    "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
 	}
 	
 	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
