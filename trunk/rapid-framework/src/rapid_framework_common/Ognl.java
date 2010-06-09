@@ -26,7 +26,7 @@ import cn.org.rapid_framework.page.SortInfo;
 public class Ognl {
 	
 	/**
-	 * 可以用于判断 Map,Collection,String,Array是否为空
+	 * 可以用于判断String,Map,Collection,Array是否为空
 	 * @param o
 	 * @return
 	 */
