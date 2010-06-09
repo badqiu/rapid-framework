@@ -22,6 +22,7 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 
     @Override
     protected String[] getDbUnitDataFiles() {
+        //通过 TestMethodContext.getMethodName() 可以得到当前正在运行的测试方法名称
         return new String[]{"classpath:testdata/common.xml","classpath:testdata/${className}.xml",
                             "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
     }
