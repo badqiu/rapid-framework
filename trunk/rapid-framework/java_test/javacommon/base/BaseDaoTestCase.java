@@ -5,12 +5,13 @@ import static junit.framework.Assert.assertNotNull;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
 import org.junit.Before;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.util.ResourceUtils;
 
+import cn.org.rapid_framework.test.context.TestMethodContextExecutionListener;
 import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
 
 /**
@@ -25,6 +26,7 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
                                  "classpath:/spring/*-datasource.xml",
                                  "classpath:/spring/*-dao.xml",
 })
+@TestExecutionListeners(listeners = TestMethodContextExecutionListener.class)
 public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTests  {
 	protected DBUnitFlatXmlHelper dbUnitHelper = new DBUnitFlatXmlHelper();
 
@@ -43,7 +45,7 @@ public class BaseDaoTestCase extends AbstractTransactionalJUnit4SpringContextTes
 	
 	/** 得到要加载的dbunit文件 */
 	protected String[] getDbUnitDataFiles() {
-		return new String[]{};
+		return null;
 	}
 	
     protected void insertTestData(String classpathFileName) {
