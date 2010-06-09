@@ -1,7 +1,16 @@
 package cn.org.rapid_framework.test.util.testbean;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.TestBean;
 
 public  class Bean1 {
     private char char1;
@@ -17,7 +26,14 @@ public  class Bean1 {
     private long[] longArray;
     private List<Long> listLong;
     private Map map;
-    
+    private ArrayList arrayList;
+    private HashMap hashMap;
+    private TestBean testBean;
+    private Set set;
+    private HashSet hashSet;
+    private Collection collection;
+    private Stack stack;
+    private Calendar calendar;
     public char getChar1() {
         return char1;
     }
@@ -96,4 +112,52 @@ public  class Bean1 {
     public void setMap(Map map) {
         this.map = map;
     }
+	public ArrayList getArrayList() {
+		return arrayList;
+	}
+	public void setArrayList(ArrayList arrayList) {
+		this.arrayList = arrayList;
+	}
+	public HashMap getHashMap() {
+		return hashMap;
+	}
+	public void setHashMap(HashMap hashMap) {
+		this.hashMap = hashMap;
+	}
+	public TestBean getTestBean() {
+		return testBean;
+	}
+	public void setTestBean(TestBean testBean) {
+		this.testBean = testBean;
+	}
+	public Set getSet() {
+		return set;
+	}
+	public void setSet(Set set) {
+		this.set = set;
+	}
+	public HashSet getHashSet() {
+		return hashSet;
+	}
+	public void setHashSet(HashSet hashSet) {
+		this.hashSet = hashSet;
+	}
+	public Collection getCollection() {
+		return collection;
+	}
+	public void setCollection(Collection collection) {
+		this.collection = collection;
+	}
+	public Stack getStack() {
+		return stack;
+	}
+	public void setStack(Stack stack) {
+		this.stack = stack;
+	}
+	public Calendar getCalendar() {
+		return calendar;
+	}
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
 }
