@@ -18,8 +18,8 @@ public class TestMethodContextTest {
     }
 
     @Test
-    public void blog() {
-        Assert.assertEquals("blog", TestMethodContext.getMethodName());
+    public void test_foo() {
+        Assert.assertEquals("test_foo", TestMethodContext.getMethodName());
     }
     
 }
