@@ -19,8 +19,6 @@ public class TestMethodContextTest {
 
     @Test
     public void blog() {
-        System.out.println(getClass());
-        System.out.println("current test method:"+ TestMethodContext.getMethodName());
         Assert.assertEquals("blog", TestMethodContext.getMethodName());
     }
     
