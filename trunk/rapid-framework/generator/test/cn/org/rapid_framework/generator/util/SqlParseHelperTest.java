@@ -17,7 +17,35 @@ public class SqlParseHelperTest extends TestCase{
 	    Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user,role");
 		System.out.println(tableNames);
 		verifyTableNames(tableNames,"user","role");
+		
+	    tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user,role,blog");
+	    System.out.println(tableNames);
+	    verifyTableNames(tableNames,"user","role","blog");
 	}
+
+    public void test_getTableNamesByQuery_with_multi_table2() {
+        Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u,role r");
+        System.out.println(tableNames);
+        verifyTableNames(tableNames,"user","role");
+        
+        tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u,role r,blog b");
+        System.out.println(tableNames);
+        verifyTableNames(tableNames,"user","role","blog");
+    }
+	   
+    public void test_getTableNamesByQuery_with_join() {
+        Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u left join role r");
+        System.out.println(tableNames);
+        verifyTableNames(tableNames,"user","role");
+        
+        tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u inner join role r");
+        System.out.println(tableNames);
+        verifyTableNames(tableNames,"user","role");
+        
+        tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u left join role r");
+        System.out.println(tableNames);
+        verifyTableNames(tableNames,"user","role");
+    }
 
 	private void verifyTableNames(Set<String> tableNames,String... expectedTableNames) {
 		
