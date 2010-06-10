@@ -113,11 +113,13 @@ author:badqiu
 	<target name="_run_plugin_install" description="执行插件安装">
 		<echo>拷贝"${plugin_name}"目录下的内容至项目根目录</echo>
 		<copy todir="../" verbose="true" overwrite="true" >
-			<fileset dir="${plugin_name}" excludes="plugin_doc/**,web_merge.xml,build.xml,readme.txt" />
+			<fileset dir="${plugin_name}" excludes="plugin_doc/**,web_merge.xml,pom_merge.xml,build.xml,readme.txt" />
 		</copy>
 		
 		<available property="web_merge_xml?exists" file="${plugin_name}/web_merge.xml" ></available>
+		<available property="pom_merge_xml?exists" file="${plugin_name}/pom_merge.xml" ></available>
 		<antcall target="_merge_web_xml"></antcall>
+		<antcall target="_merge_pom_xml"></antcall>
 		
 	</target>
 	
@@ -129,5 +131,14 @@ author:badqiu
 			<replacetoken><![CDATA[</web-app>]]></replacetoken>
 		</replace>
 	</target>
-	
+
+	<!-- 合并plugin/pom_merge.xml 至 pom.xml -->
+	<target name="_merge_pom_xml" if="pom_merge_xml?exists">
+		<echo>合并 ${plugin_name}/pom_merge.xml 至 pom.xml</echo>
+		<loadfile property="pom_merge_xml_content" srcfile="${plugin_name}/pom_merge.xml" encoding="UTF-8"></loadfile>
+		<replace file="../pom.xml" value="${pom_merge_xml_content}&#13;&#10;&lt;/dependencies>" encoding="UTF-8" >
+			<replacetoken><![CDATA[</dependencies>]]></replacetoken>
+		</replace>
+	</target>
+
 </project>
