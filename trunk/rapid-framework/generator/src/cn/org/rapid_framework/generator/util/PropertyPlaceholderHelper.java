@@ -20,8 +20,6 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.springframework.util.PropertyPlaceholderHelper.PlaceholderResolver;
-
 
 
 /**
