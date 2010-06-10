@@ -17,13 +17,11 @@
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<hibernate.version>3.3.2.GA</hibernate.version>
 		<struts2.version>2.1.8.1</struts2.version>
-		<cxf.version>2.2.8</cxf.version>
 		<jetty.version>6.1.24</jetty.version>
 		<h2.version>1.2.135</h2.version>
-		<quartz.version>1.8.0</quartz.version>
 		<jackson.version>1.5.2</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
-
+		
 		<!-- Plugin的属性定义  -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -35,32 +33,26 @@
 			<dependency>
 				<groupId>com.badqiu.sfmvc</groupId>
 				<artifactId>sfmvc-common</artifactId>
-				<version>1.0</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badqiu.sfmvc</groupId>
 				<artifactId>sfmvc-dao</artifactId>
-				<version>1.0</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badqiu.sfmvc</groupId>
 				<artifactId>sfmvc-service</artifactId>
-				<version>1.0</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.badqiu.sfmvc</groupId>
 				<artifactId>sfmvc-web</artifactId>
-				<version>1.0</version>
+				<version>${project.version}</version>
 			</dependency>			
 			<!--  sub projects END -->
 
 			<!-- spring begin -->
-			<dependency>
-			    <groupId>org.springframework</groupId>
-			    <artifactId>org.springframework.spring-library</artifactId>
-			    <type>libd</type>
-			    <version>${spring.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
@@ -129,11 +121,6 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-oxm</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -333,7 +320,7 @@
 			<dependency>
 				<groupId>dom4j</groupId>
 				<artifactId>dom4j</artifactId>
-				<version>1.6.1</version>
+				<version>1.6.5</version>
 			</dependency>
 			<dependency>
 				<groupId>jaxen</groupId>
@@ -346,7 +333,19 @@
 				<version>2.9.1</version>
 			</dependency>
 			<!-- xml  end -->
-															
+
+			<!-- template engine -->
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.16</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity</artifactId>
+				<version>1.6.3</version>
+			</dependency>
+																		
 			<!-- hibernate BEGIN-->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -386,6 +385,14 @@
 			</dependency>						
 			<!-- hibernate END-->
 
+			<!-- excel begin -->
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.6</version>
+			</dependency>
+			<!-- excel end -->
+			
 			<!-- web begin -->
 			<!-- struts2 -->
 			<dependency>
@@ -421,20 +428,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-
 						
-			<!-- template engine -->
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>2.3.16</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>1.6.3</version>
-			</dependency>
-									
 			<!-- json -->
 			<dependency>
 				<groupId>org.codehaus.jackson</groupId>
@@ -452,6 +446,17 @@
 				<version>${jackson.version}</version>
 			</dependency>
 
+			<dependency>
+			    <groupId>org.mybatis</groupId>
+			    <artifactId>mybatis</artifactId>
+			    <version>3.0.1</version>
+			</dependency>	
+			<dependency>
+			    <groupId>org.apache.ibatis</groupId>
+			    <artifactId>ibatis-sqlmap</artifactId>
+			    <version>2.3.4.726</version>
+			</dependency>
+			
 			<!-- url rewrite -->
 			<dependency>
 				<groupId>org.tuckey</groupId>
@@ -459,14 +464,6 @@
 				<version>3.1.0</version>
 			</dependency>
 			<!-- web end -->
-
-			<!-- excel begin -->
-			<dependency>
-				<groupId>org.apache.poi</groupId>
-				<artifactId>poi</artifactId>
-				<version>3.6</version>
-			</dependency>
-			<!-- excel end -->
 
 			<!-- jetty -->
 			<dependency>
@@ -481,28 +478,14 @@
 				<version>${jetty.version}</version>
 				<scope>test</scope>
 			</dependency>
+			
+			<!--  rapid begin -->
 			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
 				<version>${h2.version}</version>
 				<scope>test</scope>
-			</dependency>
-
-			<!-- javascript/css compress tools -->
-			<dependency>
-				<groupId>com.yahoo.platform.yui</groupId>
-				<artifactId>yuicompressor</artifactId>
-				<version>2.4.2</version>
-				<scope>provided</scope>
-			</dependency>
-
-			<dependency>
-				<groupId>ant</groupId>
-				<artifactId>ant</artifactId>
-				<version>1.7.0</version>
-			</dependency>
-			
-			<!--  rapid begin -->
+			</dependency>			
 			<dependency>
 			    <groupId>hsqldb</groupId>
 			    <artifactId>hsqldb</artifactId>
@@ -530,6 +513,7 @@
 			    <artifactId>ojdbc14</artifactId>
 			    <version>10.2.0.4.0</version>
 			</dependency>
+			
 			<dependency>
 			    <groupId>dwr</groupId>
 			    <artifactId>dwr</artifactId>
@@ -550,11 +534,6 @@
 			    <artifactId>backport-util-concurrent</artifactId>
 			    <version>3.1</version>
 			</dependency>
-			<dependency>
-			    <groupId>org.mybatis</groupId>
-			    <artifactId>mybatis</artifactId>
-			    <version>3.0.1</version>
-			</dependency>																															
 		</dependencies>
 	</dependencyManagement>
 
@@ -696,75 +675,61 @@
 		</pluginManagement>
 	</build>
 
-	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
-	<repositories>
-		<repository>
-			<id>nexus</id>
-			<name>Team Nexus Repository</name>
-			<url>http://localhost:8081/nexus/content/groups/public</url>
-		</repository>
-
-		<repository>
-			<id>offical</id>
-			<name>Maven Official Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>springside</id>
-			<name>SpringSide Additional Repository</name>
-			<url>http://springside.googlecode.com/svn/repository</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>jboss</id>
-			<name>Jboss Repository</name>
-			<url>http://repository.jboss.com/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>java.net</id>
-			<name>Java.net Repository</name>
-			<url>http://download.java.net/maven/2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<!-- 设定团队持续集成发布包服务器  -->
-	<distributionManagement>
-		<repository>
-			<id>nexus</id>
-			<name>Team Nexus Release Repository</name>
-			<url>http://localhost:8081/nexus/content/repositories/releases</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus</id>
-			<name>Team Nexus Snapshot Repository</name>
-			<url>http://localhost:8081/nexus/content/repositories/snapshots</url>
-			<uniqueVersion>false</uniqueVersion>
-		</snapshotRepository>
-	</distributionManagement>
+	<profiles>
+		<!-- mvn -Denv=test 来激活不同的profile -->
+		<!-- 开发环境的相关配置,默认激活 -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<repositories>
+				<repository>
+					<id>offical</id>
+					<name>Maven Official Repository</name>
+					<url>http://repo1.maven.org/maven2</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>jboss</id>
+					<name>Jboss Repository</name>
+					<url>http://repository.jboss.com/maven2</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
+					<id>java.net</id>
+					<name>Java.net Repository</name>
+					<url>http://download.java.net/maven/2/</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+		</profile>
+		<!-- 测试环境的相关配置 -->
+		<profile>
+			<id>test</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>test</value>
+				</property>
+			</activation>
+		</profile>
+		<!-- 生产环境的相关配置 -->
+		<profile>
+			<id>prod</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
 	
-	<pluginRepositories>
-		<pluginRepository>
-			<id>nexus</id>
-			<name>Team Nexus Repository</name>
-			<url>http://localhost:8081/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
-
 </project>
