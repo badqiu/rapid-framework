@@ -499,21 +499,16 @@
 			
 			<!-- rapid-generator -->
 			<dependency>
-			    <groupId>freemarker</groupId>
-			    <artifactId>freemarker</artifactId>
-			    <version>2.3.9</version>
-			</dependency>
-			<dependency>
 			    <groupId>mysql</groupId>
 			    <artifactId>mysql-connector-java</artifactId>
 			    <version>5.1.12</version>
 			</dependency>
+			
 			<dependency>
 			    <groupId>com.oracle</groupId>
 			    <artifactId>ojdbc14</artifactId>
 			    <version>10.2.0.4.0</version>
 			</dependency>
-			
 			<dependency>
 			    <groupId>dwr</groupId>
 			    <artifactId>dwr</artifactId>
@@ -604,13 +599,13 @@
 					<version>2.3</version>
 					<configuration>
 						<archive>
+							<!-- 
+							 <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+							 -->
 							<manifest>
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 							</manifest>
-							<archive>
-								<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
-							</archive>							
 						</archive>
 					</configuration>
 				</plugin>
