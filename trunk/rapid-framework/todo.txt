@@ -58,19 +58,20 @@ Bean.copyProps()测试主流程思想
 
 spring服务发布增加: spring/internal, spring/publish两个目录,internal的bean,外部不能引用,publish反之
 
-Enum
-	生成器增加 column的 enum数据生成,如生成 BizTypeEnum
-	status and type关键字将自动生成Enum
+#Enum
+	#生成器增加 column的 enum数据生成,如生成 BizTypeEnum
+	#status and type关键字将自动生成Enum
+增加解析remark表达式用于column的metadata,如{enumListString=M(男);F(女),} ,增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
 将数据库的数据load出来,作为dbUnit的测试数据源
-为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
-使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
+#为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
+#使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
+#支持一条sql语句生成操作，可以使用ZQL来解析sql
+#完成Flash Scope
+#add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
+#继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
 Page,PageRequest重构,PageRequest用于继承以替代filter
 生成MockDao,MockManager以供调用
-Dao.save() rename to Dao.insert()
-支持一条sql语句生成操作，可以使用ZQL来解析sql
-DAO层中orderby语句需要验证
 
-考虑增加<rapid:override/> tag以统一语义
 为自动化配置及单元测试的配置文件区分提供更多支持
 增加生成一个${Project}Exception用于区别不同的系统异常
 考虑是否将 springmvc的package.controller => package.web.controller
@@ -79,13 +80,7 @@ DAO层中orderby语句需要验证
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package
 增加generate dto by javaClass
-增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
-考虑是否增加 
- EnumColumn {
- 	getCode();
- 	getDesc();
- 	getEnumValues();
- } 
+
 WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
 所以确保WebService的返回结果是WSResult
 实现order通过table config xml
@@ -95,10 +90,9 @@ WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根
 
 spring xmlns to spring3.0.xsd
 pipeline中如果不能找到模板的异常处理
-继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
+
 为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
-add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
-完成Flash Scope
+
 考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
 
 为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
