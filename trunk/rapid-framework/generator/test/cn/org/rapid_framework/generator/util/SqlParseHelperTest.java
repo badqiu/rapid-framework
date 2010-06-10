@@ -48,12 +48,17 @@ public class SqlParseHelperTest extends TestCase{
     }
 
 	private void verifyTableNames(Set<String> tableNames,String... expectedTableNames) {
-		
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			assertTrue(tableNames.contains(expectedTableNames[i]));
 		}
-//		assertEquals("user",tableNames.get(0));
-//		assertEquals("role",tableNames.get(1));
+	}
+	
+	public void test_get_sql() {
+	    String t = SqlParseHelper.getParameterClassName("select * from user where username = :username|Integer and pwd = :pwd|SexEnum", "username");
+	    assertEquals(t,"Integer");
+	    
+	    t = SqlParseHelper.getParameterClassName("select * from user where username = :username|Integer and pwd = :pwd|SexEnum", "pwd");
+	    assertEquals(t,"SexEnum");
 	}
 	
 }

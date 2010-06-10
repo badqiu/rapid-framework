@@ -16,5 +16,14 @@ public class SqlParseHelper {
 		}
 		return result;
 	}
+	static Pattern p = Pattern.compile("(:)(\\w+)(\\|?)([\\w.]+)"); 
+	public static String getParameterClassName(String sql,String paramName) {
+	    Pattern p = Pattern.compile("(:)("+paramName+")(\\|?)([\\w.]+)"); 
+	    Matcher m = p.matcher(sql);
+	    if(m.find()) {
+	        return m.group(4);
+	    }
+	    return null;
+	}
 	
 }
