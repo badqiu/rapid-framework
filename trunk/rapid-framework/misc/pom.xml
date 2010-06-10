@@ -13,7 +13,6 @@
 	</organization>
 
 	<properties>
-		<!-- 主要依赖库的版本定义 -->
 		<spring.version>3.0.2.RELEASE</spring.version>
 		<hibernate.version>3.3.2.GA</hibernate.version>
 		<struts2.version>2.1.8.1</struts2.version>
@@ -22,8 +21,7 @@
 		<jackson.version>1.5.2</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
 		
-		<!-- Plugin的属性定义  -->
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.sourceEncoding>UTF-8</project.sourceEncoding>
 	</properties>
 
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
@@ -195,7 +193,7 @@
 			</dependency>
 			<dependency>
 				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging-api</artifactId>
+				<artifactId>commons-logging</artifactId>
 				<version>1.1.1</version>
 			</dependency>
 			<dependency>
@@ -541,7 +539,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- compiler插件, 设定JDK版本 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -549,11 +546,11 @@
 					<configuration>
 						<source>1.5</source>
 						<target>1.5</target>
-						<encoding>${project.build.sourceEncoding}</encoding>
+						<encoding>${project.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 
-				<!-- test插件 -->
+				<!-- test plugin -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
@@ -565,17 +562,15 @@
 					</configuration>
 				</plugin>
 
-				<!-- resource插件, 设定编码 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.4.2</version>
 					<configuration>
-						<encoding>${project.build.sourceEncoding}</encoding>
+						<encoding>${project.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 
-				<!-- eclipse插件 -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-eclipse-plugin</artifactId>
@@ -611,9 +606,13 @@
 								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 							</manifest>
+							<archive>
+								<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+							</archive>							
 						</archive>
 					</configuration>
 				</plugin>
+				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-source-plugin</artifactId>
