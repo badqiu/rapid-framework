@@ -33,22 +33,13 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath*:spring/*.xml</param-value>
 	</context-param>
-	<!-- 默认i18n资源文件 -->
+	<!-- JSTL i18n定义-->
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>i18n/messages</param-value>
 	</context-param>
-	<!-- ExtremeTable 表格标签的Properties文件 -->
-	<context-param>
-		<param-name>extremecomponentsPreferencesLocation</param-name>
-		<param-value>/extremetable.properties</param-value>
-	</context-param>
-	<context-param>
-		<param-name>extremecomponentsMessagesLocation</param-name>
-		<param-value>i18n/messages</param-value>
-	</context-param>
 	
-	<!-- 著名 Character Encoding filter -->
+	<!-- Character Encoding filter -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -62,12 +53,6 @@
 		</init-param>
 	</filter>
 
-	<!-- ExtremeTable 导出Excel和Pdf的Filter -->
-	<filter>
-		<filter-name>eXtremeExport</filter-name>
-		<filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
-	</filter>
-
 	<!-- FlashScope filter,在Flash中存储的数据,在下一次http请求中也可以继续引用,使用方法为Flash.current().error("存在错误"); -->
 	<filter>
 		<filter-name>FlashFilter</filter-name>
@@ -79,11 +64,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<filter-mapping>
-		<filter-name>eXtremeExport</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
 	<filter-mapping>
 		<filter-name>FlashFilter</filter-name>
 		<url-pattern>/*</url-pattern>
