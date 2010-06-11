@@ -33,8 +33,6 @@ public class SimpleTablePageRequestFactory {
 		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
 		pageRequest.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
 		
-		//BeanUtils.copyProperties(pageRequest, WebUtils.getParametersStartingWith(request, ""));
-		
 		if(pageRequest.getPageSize() > MAX_PAGE_SIZE) {
 			pageRequest.setPageSize(MAX_PAGE_SIZE);
 		}
