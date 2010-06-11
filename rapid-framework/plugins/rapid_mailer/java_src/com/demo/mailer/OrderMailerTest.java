@@ -29,6 +29,7 @@ public class OrderMailerTest {
 	public void testSendFromOrderMailer() throws TemplateException, IOException, Exception {
 		AsyncToken token = orderMailer.sendConfirmOrder("badqiu");
 		
+		//waitForResult主要用于测试，请使用相同功能的Future.get()
 		token.waitForResult();
 	}
 	
