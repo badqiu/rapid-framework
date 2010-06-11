@@ -16,14 +16,9 @@ import cn.org.rapid_framework.page.PageRequest;
 public class SimpleTablePageRequestFactory {
 	
 	private static final int MAX_PAGE_SIZE = 500;
-	private static final int DEFAULT_PAGE_SIZE = 10;
-	static {
-		System.out.println("SimpleTablePageRequestFactory.DEFAULT_PAGE_SIZE="+DEFAULT_PAGE_SIZE);
-		System.out.println("SimpleTablePageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
-	}
 	
-	public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns) {
-		return bindPageRequest(pageRequest,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
+	static {
+		System.out.println("SimpleTablePageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
 	}
 	
 	public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns,int defaultPageSize) {
