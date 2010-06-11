@@ -56,14 +56,14 @@
 </form>
 </div>
 
-	<div class="gridTable">
+	<div>
 	
 		<#noparse><@pageToolBar page=page></#noparse>
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		<#noparse></@pageToolBar></#noparse>
 	
 		<table width="100%"  border="0" cellspacing="0" class="gridBody">
-		  <thead class="tableHeader">
+		  <thead>
 			  
 			  <tr>
 				<th style="width:1px;"> </th>
@@ -80,7 +80,7 @@
 			  </tr>
 			  
 		  </thead>
-		  <tbody class="tableBody">
+		  <tbody>
 		  	  <#noparse>
 		  	  <#list page.result as item>
 			  <tr class="<#if item_index % 2 == 0>odd<#else>even</#if>">
