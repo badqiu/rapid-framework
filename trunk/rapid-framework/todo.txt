@@ -23,6 +23,7 @@ SafeSqlProcessor
         //转义单引号
         escapedQuery = StringUtil.replace(escapedQuery, "'", "\\'");
 struts2类型转换
+springmvc的share变量需要使用request,不能使用ModelAndView
         
 add groupId=basepackage:com.company.project
 	artifact=projectName,一般为一个单词
