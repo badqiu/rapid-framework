@@ -71,16 +71,8 @@ public class BaseMailer implements InitializingBean{
 		return mailSubjectPrefix;
 	}
 	
-	/** 为模板增加前缀,现格式为: lowercase_classname/templateName */
-	protected String addTemplateNamePrefix(String templateName) {
-		String className = getClass().getSimpleName();
-		String realTemplateName = className.toLowerCase()+"/"+templateName;
-		return realTemplateName;
-	}
-	
 	public String processTemplate(String templateName,Object model) {
-		String realTemplateName = addTemplateNamePrefix(templateName);
-		return getFreemarkerTemplateProcessor().processTemplate(realTemplateName, model);
+		return getFreemarkerTemplateProcessor().processTemplate(templateName, model);
 	}
 	
 	protected SimpleMailMessage newSimpleMsgFromTemplate(String subject) {
