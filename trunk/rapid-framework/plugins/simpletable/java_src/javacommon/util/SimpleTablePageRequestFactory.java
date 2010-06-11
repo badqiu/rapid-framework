@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.util.WebUtils;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.PageRequest;
 
 /**
@@ -21,20 +22,20 @@ public class SimpleTablePageRequestFactory {
 		System.out.println("SimpleTablePageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
 	}
 	
-	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumns) {
-		return newPageRequest(request,defaultSortColumns,DEFAULT_PAGE_SIZE);
+	public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns) {
+		return bindPageRequest(pageRequest,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
 	}
 	
-	public static PageRequest<Map> newPageRequest(HttpServletRequest request,String defaultSortColumns,int defaultPageSize) {
-		PageRequest<Map> pageRequest = new PageRequest();
+	public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns,int defaultPageSize) {
 		return bindPageRequestParameters(pageRequest, request,defaultSortColumns, defaultPageSize);
 	}
 
-	public static PageRequest<Map> bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
+	public static PageRequest bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
 		pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
 		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
 		pageRequest.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
-		pageRequest.setFilters(WebUtils.getParametersStartingWith(request,"s_"));
+		
+		//BeanUtils.copyProperties(pageRequest, WebUtils.getParametersStartingWith(request, ""));
 		
 		if(pageRequest.getPageSize() > MAX_PAGE_SIZE) {
 			pageRequest.setPageSize(MAX_PAGE_SIZE);
