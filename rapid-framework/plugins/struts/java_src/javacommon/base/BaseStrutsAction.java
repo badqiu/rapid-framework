@@ -87,7 +87,7 @@ public class BaseStrutsAction extends AutowireMappingDispatchAction{
 	}
 	
 	public <T extends PageRequest>T newPageRequest(HttpServletRequest request,Class<T> queryClazz,String defaultSortColumns){
-		return (T)PageRequestFactory.newPageRequest(request,queryClazz,defaultSortColumns);
+		return (T)PageRequestFactory.bindPageRequest(org.springframework.beans.BeanUtils.instantiateClass(queryClazz),request,defaultSortColumns);
     }
 	
 	/**
