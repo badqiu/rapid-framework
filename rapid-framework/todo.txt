@@ -22,6 +22,7 @@ SafeSqlProcessor
         escapedQuery = StringUtil.replace(escapedQuery, "_", "\\_");
         //转义单引号
         escapedQuery = StringUtil.replace(escapedQuery, "'", "\\'");
+struts2类型转换
         
 add groupId=basepackage:com.company.project
 	artifact=projectName,一般为一个单词
