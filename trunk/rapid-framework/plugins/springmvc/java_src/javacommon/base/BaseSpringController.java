@@ -2,12 +2,15 @@ package javacommon.base;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javacommon.util.ConvertRegisterHelper;
 import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
@@ -18,6 +21,8 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
+
+import com.sun.jmx.snmp.Timestamp;
 
 public class BaseSpringController extends MultiActionController{
 	protected final static String CREATED_SUCCESS = "创建成功";
@@ -50,6 +55,9 @@ public class BaseSpringController extends MultiActionController{
         binder.registerCustomEditor(Double.class, new CustomNumberEditor(Double.class, true));
         binder.registerCustomEditor(BigDecimal.class, new CustomNumberEditor(BigDecimal.class, true));
         binder.registerCustomEditor(BigInteger.class, new CustomNumberEditor(BigInteger.class, true));
+        
+        binder.registerCustomEditor(java.util.Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+        
     }
 	
 	public static ModelMap toModelMap(Page page,PageRequest pageRequest) {
