@@ -24,11 +24,11 @@ public class PageRequestFactory {
     }
     
     public static <T> PageRequest<T> bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns){
-        return SimpleTablePageRequestFactory.bindPageRequest(pr,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
+        return bindPageRequest(pr,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
     }
     
     public static PageRequest bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
-        return SimpleTablePageRequestFactory.bindPageRequest(pr,request,defaultSortColumns,defaultPageSize);
+        return bindPageRequest(pr,request,defaultSortColumns,defaultPageSize);
     }
 
     public static PageRequest bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
