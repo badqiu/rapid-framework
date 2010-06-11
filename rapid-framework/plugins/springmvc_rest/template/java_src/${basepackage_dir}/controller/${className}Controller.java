@@ -69,7 +69,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		Page page = this.${classNameFirstLower}Manager.findPage(query);
 		
 		model.addAllAttributes(toModelMap(page, query));
-		return "/${className?lower_case}/index";
+		return "/${classNameLowerCase}/index";
 	}
 	
 	/** 进入新增 */
