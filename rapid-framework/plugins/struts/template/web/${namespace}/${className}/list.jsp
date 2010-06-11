@@ -12,7 +12,6 @@
 <head>
 	<%@ include file="/commons/meta.jsp" %>
 	<html:base/>
-	<link href="<@jspEl 'ctx'/>/widgets/extremecomponents/extremecomponents.css" type="text/css" rel=stylesheet>
 	<title><%=${className}.TABLE_ALIAS%> 维护</title>
 	
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
