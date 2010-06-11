@@ -101,6 +101,7 @@ public class FileHelper {
 	
 	/** 检查文件是否是二进制文件 */
     public static boolean isBinaryFile(File file) {
+    	if(file.isDirectory()) return false;
         return isBinaryFile(file.getName());
     }
 
