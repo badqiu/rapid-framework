@@ -97,7 +97,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	  
 		  <tr class="<@jspEl "status.count % 2 == 0 ? 'odd' : 'even'"/>">
 			<td><@jspEl 'page.thisPageFirstElementNumber + status.index'/></td>
-			<td><input type="checkbox" name="items" value="<@generateIdQueryString/>"></td>
+			<td><input type="checkbox" name="items" value="<@jspEl 'item.' + table.pkColumn.columnNameLower/>"></td>
 			
 			<#list table.columns as column>
 			<#if !column.htmlHidden>
@@ -131,16 +131,3 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </body>
 </html>
-
-<#macro generateIdQueryString>
-	<#if table.compositeId>
-		<#assign itemPrefix = 'item.id.'>
-	<#else>
-		<#assign itemPrefix = 'item.'>
-	</#if>
-<#compress>
-		<#list table.compositeIdColumns as column>
-			<#t>${column.columnNameLower}=<@jspEl itemPrefix + column.columnNameLower/>&
-		</#list>				
-</#compress>
-</#macro>
