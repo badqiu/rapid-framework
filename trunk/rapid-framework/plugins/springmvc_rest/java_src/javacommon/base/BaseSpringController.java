@@ -79,8 +79,8 @@ public class BaseSpringController extends MultiActionController{
 		model.addAttribute(tableId+"query", pageRequest);
 	}
 	
-	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
-		return PageRequestFactory.newPageRequest(request, defaultSortColumns);
+	public static PageRequest bindPageRequest(HttpServletRequest request,PageRequest pageRequest,String defaultSortColumns){
+		return PageRequestFactory.bindPageRequest(pageRequest,request, defaultSortColumns);
     }
 	
 	public static <T> T getOrCreateRequestAttribute(HttpServletRequest request, String key,Class<T> clazz) {

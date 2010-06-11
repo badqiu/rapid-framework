@@ -61,7 +61,7 @@ public abstract class BaseStruts2Action extends ActionSupport implements Request
 	}
 	
 	public <T extends PageRequest> T newQuery(Class<T> queryClazz,String defaultSortColumns){
-		PageRequest query = PageRequestFactory.newPageRequest(ServletActionContext.getRequest(),queryClazz,defaultSortColumns);
+		PageRequest query = PageRequestFactory.bindPageRequest(org.springframework.beans.BeanUtils.instantiateClass(queryClazz),ServletActionContext.getRequest(),defaultSortColumns);
 		return (T)query;
     }
 	
