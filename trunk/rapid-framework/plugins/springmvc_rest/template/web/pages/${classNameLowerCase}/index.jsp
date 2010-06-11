@@ -2,7 +2,8 @@
 <#include "/macro.include"/> 
 <#include "/custom.include"/> 
 <#assign className = table.className>   
-<#assign classNameLower = className?uncap_first> 
+<#assign classNameLowerCase = className?lower_case>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib tagdir="/WEB-INF/tags/simpletable" prefix="simpletable"%>
