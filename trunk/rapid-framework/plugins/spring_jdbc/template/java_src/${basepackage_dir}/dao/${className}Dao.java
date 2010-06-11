@@ -32,16 +32,16 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	
 	public Page findPage(${className}Query query) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
-		// [column]为字符串拼接, {column}为使用占位符. 以下为图方便采用sql拼接,适用性能要求不高的应用,使用占位符方式可以优化性能. 
-		// [column] 为PageRequest.getFilters()中的key
+		// [column]为字符串拼接, {column}为使用占位符. [column]为使用字符串拼接,如username='[username]',偷懒时可以使用字符串拼接 
+		// [column] 为PageRequest的属性
 		String sql = "select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 "
 			<#list table.columns as column>
 			  	<#if column.isNotIdOrVersionField>
 			  	<#if column.isDateTimeColumn>
-				+ "/~ and t.${column.sqlName} >= '[${column.columnNameLower}Begin]' ~/"
-				+ "/~ and t.${column.sqlName} <= '[${column.columnNameLower}End]' ~/"
+				+ "/~ and t.${column.sqlName} >= {${column.columnNameLower}Begin} ~/"
+				+ "/~ and t.${column.sqlName} <= {${column.columnNameLower}End} ~/"
 				<#else>
-			  	+ "/~ and t.${column.sqlName} = '[${column.columnNameLower}]' ~/"
+			  	+ "/~ and t.${column.sqlName} = {${column.columnNameLower}} ~/"
 			  	</#if>
 				</#if>
 			</#list>
