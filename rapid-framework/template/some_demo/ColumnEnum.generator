@@ -6,7 +6,7 @@ ${gg.setIgnoreOutput(true)}
 
 <#list table.columns as column>
 	<#if column.enumColumn>
-		<#assign enumOutputJavaFile = gg.outRoot+"/java_src/"+basepackage_dir+"/enums/"+column.enumClassName+".java"/>
+		<#assign enumOutputJavaFile = gg.outRoot+"/java_src/"+basepackage_dir+"/model/enums/"+column.enumClassName+".java"/>
 		<@genEnumClassBody column/>
 		${gg.generateFile(enumOutputJavaFile,enumClassBody)}
 	</#if>
@@ -33,7 +33,7 @@ public enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType}
 		this.value = value;
 	}
 	
-	public static ${column.enumClassName} getByKey(String key) {
+	public static ${column.enumClassName} getByKey(${column.simpleJavaType} key) {
 		return KeyValueUtils.getByKey(key, values());
 	}
 	
@@ -41,7 +41,7 @@ public enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType}
 		return KeyValueUtils.getByValue(value, values());
 	}
 	
-	public static ${column.enumClassName} getRequiredByKey(String key) {
+	public static ${column.enumClassName} getRequiredByKey(${column.simpleJavaType} key) {
 		return KeyValueUtils.getRequiredByKey(key, values());
 	}
 	
