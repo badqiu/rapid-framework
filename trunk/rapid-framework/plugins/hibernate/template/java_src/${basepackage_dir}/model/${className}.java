@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
 @Table(name = "${table.sqlName}")
-public class ${className} extends BaseEntity {
+public class ${className} extends BaseEntity implements java.io.Serializable{
 	
 	//alias
 	public static final String TABLE_ALIAS = "${table.tableAlias}";
