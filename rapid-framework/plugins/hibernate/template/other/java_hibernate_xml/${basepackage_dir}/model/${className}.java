@@ -10,7 +10,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 <#include "/java_imports.include">
 
-public class ${className} extends BaseEntity {
+public class ${className} extends BaseEntity implements java.io.Serializable{
 	
 	//alias
 	public static final String TABLE_ALIAS = "${className}";
