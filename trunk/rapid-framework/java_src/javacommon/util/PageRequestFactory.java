@@ -1,11 +1,14 @@
 package javacommon.util;
 
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.web.util.WebUtils;
+import org.extremecomponents.table.limit.Filter;
+import org.extremecomponents.table.limit.Limit;
+import org.extremecomponents.table.limit.Sort;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.extremecomponents.ExtremeTablePage;
@@ -25,25 +28,17 @@ public class PageRequestFactory {
 		System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
 	}
 	
-	public static <T> PageRequest<T> newPageRequest(HttpServletRequest request,String defaultSortColumns,T filters){
-		PageRequest pr = newPageRequest(request,defaultSortColumns,DEFAULT_PAGE_SIZE);
-		pr.setFilters(filters);
-		return pr;
+	public static <T> PageRequest<T> bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns){
+		return  bindPageRequest(pr,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
     }
 	
-	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
-		return newPageRequest(request,defaultSortColumns,DEFAULT_PAGE_SIZE);
-    }
-	
-	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
-		PageRequest<Map> result = ExtremeTablePageRequestFactory.createFromLimit(ExtremeTablePage.getLimit(request,defaultPageSize),defaultSortColumns);
-    	
-		Map autoIncludeFilters = WebUtils.getParametersStartingWith(request, "s_");
-		result.getFilters().putAll(autoIncludeFilters);
-		
-    	if(result.getPageSize() > MAX_PAGE_SIZE) {
-    		result.setPageSize(MAX_PAGE_SIZE);
+	public static PageRequest bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
+		Limit limit = ExtremeTablePage.getLimit(request,defaultPageSize);
+		ExtremeTablePageRequestFactory.bindPageRequest(pr,limit,defaultSortColumns);
+    	if(pr.getPageSize() > MAX_PAGE_SIZE) {
+    		pr.setPageSize(MAX_PAGE_SIZE);
     	}
-    	return result;
+    	return pr;
     }
+	
 }
