@@ -42,7 +42,7 @@ public class XmlUtils {
         	}
         });
         
-        List list = doc.selectNodes(path);
+        List list = doc.selectNodes("xxx");
 		System.out.println(list);
 		
         System.out.println(table);
