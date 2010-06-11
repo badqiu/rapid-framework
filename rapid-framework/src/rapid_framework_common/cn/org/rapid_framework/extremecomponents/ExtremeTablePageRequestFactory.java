@@ -22,20 +22,22 @@ public class ExtremeTablePageRequestFactory {
 	 */
 	public static PageRequest<Map> createFromLimit(Limit limit,String defaultSortColumns) {
 		PageRequest result = new PageRequest();
-		
-		result.setPageNumber(limit.getPage());
-		result.setPageSize(limit.getCurrentRowsDisplayed());
-		result.setSortColumns(getSortingColumns(limit, defaultSortColumns));
-		result.setFilters(getFilters(limit));
-		
-		return result;
+		return bindPageRequest(result,limit, defaultSortColumns);
 	}
+
+    public static PageRequest<Map> bindPageRequest(PageRequest pageRequest,Limit limit,String defaultSortColumns) {
+        pageRequest.setPageNumber(limit.getPage());
+		pageRequest.setPageSize(limit.getCurrentRowsDisplayed());
+		pageRequest.setSortColumns(getSortingColumns(limit, defaultSortColumns));
+		pageRequest.setFilters(getFilters(limit));
+		return pageRequest;
+    }
 
 	public static PageRequest createFromLimit(Limit limit) {
 		return createFromLimit(limit,null);
 	}
 	
-	private static Map getFilters(Limit limit) {
+	public static Map getFilters(Limit limit) {
 		Filter[] filters = limit.getFilterSet().getFilters();
 		Map result = new HashMap();
 		for(int i = 0; i < filters.length; i++) {
