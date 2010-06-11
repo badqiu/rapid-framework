@@ -1,85 +1,145 @@
-<#include "/macro.include"/>
-<#include "/custom.include"/>  
-<#assign className = table.className>   
-<#assign classNameFirstLower = className?uncap_first> 
-<#assign classNameLowerCase = className?lower_case> 
 <%@page import="${basepackage}.model.*" %>
+<#include "/macro.include"/> 
+<#include "/custom.include"/> 
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib tagdir="/WEB-INF/tags/simpletable" prefix="simpletable"%>
 <%@ include file="/commons/taglibs.jsp" %>
 <%
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-<html>
 
+<html>
+	
 <head>
 	<%@ include file="/commons/meta.jsp" %>
 	<base href="<%=basePath%>">
-	<link href="<@jspEl 'ctx'/>/widgets/extremecomponents/extremecomponents.css" type="text/css" rel=stylesheet>
 	<script src="<@jspEl 'ctx'/>/scripts/rest.js" ></script>
 	<title><%=${className}.TABLE_ALIAS%> 维护</title>
-</head>
+	
+	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
+	
+	<script type="text/javascript" >
+		$(document).ready(function() {
+			// 分页需要依赖的初始化动作
+			window.simpleTable = new SimpleTable('queryForm',<@jspEl 'page.thisPageNumber'/>,<@jspEl 'page.pageSize'/>,'<@jspEl 'pageRequest.sortColumns'/>');
+		});
+	</script>
 
+</head>
 <body>
+
 <%@ include file="/commons/messages.jsp" %>
 
 <div class="queryPanel">
 <form id="queryForm" name="queryForm" method="get" style="display: inline;">
-<input type="hidden" value="<@jspEl 'query.pageNumber'/>" name="pageNumber"/>
-<input type="hidden" value="<@jspEl 'query.pageSize'/>" name="pageSize"/>
-<input type="hidden" value="<@jspEl 'query.sortColumns'/>" name="sortColumns"/>
-<fieldset>
-	<legend>搜索</legend>
-	<table>
-		<#list table.columns?chunk(5) as row>
-		<tr>	
-			<#list row as column>
-			<#if !column.htmlHidden>	
-			<td class="tdLabel">
-					<%=${className}.ALIAS_${column.constantName}%>
-			</td>		
-			<td>
-				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}"   />
-				<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="${column.columnNameLower}"   />
-				<#else>
-				<input value="<@jspEl "query."+column.columnNameLower/>"  name="${column.columnNameLower}"  />
+	<fieldset>
+		<legend>搜索</legend>
+		<table>
+			<#list table.notPkColumns?chunk(4) as row>
+			<tr>	
+				<#list row as column>
+				<#if !column.htmlHidden>	
+				<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
+				<td>
+					<#if column.isDateTimeColumn>
+					<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}Begin" name="${column.columnNameLower}Begin"   />
+					<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}End" name="${column.columnNameLower}End"   />
+					<#else>
+					<input value="<@jspEl "query."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
+					</#if>
+				</td>
 				</#if>
-			</td>
-			</#if>
-			</#list>
-		</tr>	
-		</#list>			
-	</table>
-</fieldset>
-<div class="handleControl">
-	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
-	<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '<@jspEl 'ctx'/>/${classNameLowerCase}/new'"/>
-	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('<@jspEl 'ctx'/>/${classNameLowerCase}','items',document.forms.ec)"/>
-<div>
+				</#list>
+			</tr>	
+			</#list>			
+		</table>
+	</fieldset>
+	<div class="handleControl">
+		<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
+		<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '<@jspEl 'ctx'/>/${classNameLowerCase}/new'"/>
+		<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('<@jspEl 'ctx'/>/${classNameLowerCase}','items',document.forms.queryForm)"/>
+	<div>
 </form>
 </div>
 
-<ec:table items='page.result' var="item" method="get" form="queryForm"
-	retrieveRowsCallback="limit" sortRowsCallback="limit" filterRowsCallback="limit"
-	action="<@jspEl 'ctx'/>/${classNameLowerCase}" autoIncludeParameters="false">
-	<ec:row>
-		<ec:column property="选择" title="<input type='checkbox' onclick=\"setAllCheckboxState('items',this.checked)\" >" sortable="false" width="3%" viewsAllowed="html">
-			<input type="checkbox" name="items" value="<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>"/>
-		</ec:column>
-		<#list table.columns as column>
-		<#if !column.htmlHidden>
-		<ec:column property="${column.columnNameLower}" <#if column.isDateTimeColumn>value="<@jspEl 'item.'+column.columnNameLower+"String"/>"</#if> title="<%=${className}.ALIAS_${column.constantName}%>"/>
-		</#if>
-		</#list>
-		<ec:column property="操作" title="操作" sortable="false" viewsAllowed="html">
-			<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>">查看</a>&nbsp;&nbsp;
-			<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>/edit">修改</a>&nbsp;&nbsp;
-			<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
-		</ec:column>
-	</ec:row>
-</ec:table>
+<div class="gridTable">
+
+	<simpletable:pageToolbar page="<@jspEl 'page'/>">
+	显示在这里是为了提示你如何自定义表头,可修改模板删除此行
+	</simpletable:pageToolbar>
+
+	<table width="100%"  border="0" cellspacing="0" class="gridBody">
+	  <thead>
+		  
+		  <tr>
+			<th style="width:1px;"> </th>
+			<th style="width:1px;"><input type="checkbox" onclick="setAllCheckboxState('items',this.checked)"></th>
+			
+			<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
+			<#list table.columns as column>
+			<#if !column.htmlHidden>
+			<th sortColumn="${column.sqlName}" ><%=${className}.ALIAS_${column.constantName}%></th>
+			</#if>
+			</#list>
+
+			<th>操作</th>
+		  </tr>
+		  
+	  </thead>
+	  <tbody>
+	  	  <c:forEach items="<@jspEl 'page.result'/>" var="item" varStatus="status">
+	  	  
+		  <tr class="<@jspEl "status.count % 2 == 0 ? 'odd' : 'even'"/>">
+			<td><@jspEl 'page.thisPageFirstElementNumber + status.index'/></td>
+			<td><input type="checkbox" name="items" value="<@generateIdQueryString/>"></td>
+			
+			<#list table.columns as column>
+			<#if !column.htmlHidden>
+			<td><#rt>
+				<#compress>
+				<#if column.isDateTimeColumn>
+				<c:out value='<@jspEl "item."+column.columnNameLower+"String"/>'/>&nbsp;
+				<#else>
+				<c:out value='<@jspEl "item."+column.columnNameLower/>'/>&nbsp;
+				</#if>
+				</#compress>
+			<#lt></td>
+			</#if>
+			</#list>
+			<td>
+				<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>">查看</a>&nbsp;&nbsp;
+				<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>/edit">修改</a>&nbsp;&nbsp;
+				<a href="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl 'item.'+table.idColumn.columnNameFirstLower/>" onclick="doRestDelete(this,'你确认删除?');return false;">删除</a>
+			</td>
+		  </tr>
+		  
+	  	  </c:forEach>
+	  </tbody>
+	</table>
+
+	<simpletable:pageToolbar page="<@jspEl 'page'/>">
+	显示在这里是为了提示你如何自定义表头,可修改模板删除此行
+	</simpletable:pageToolbar>
+	
+</div>
 
 </body>
-
 </html>
 
+<#macro generateIdQueryString>
+	<#if table.compositeId>
+		<#assign itemPrefix = 'item.id.'>
+	<#else>
+		<#assign itemPrefix = 'item.'>
+	</#if>
+<#compress>
+		<#list table.compositeIdColumns as column>
+			<#t>${column.columnNameLower}=<@jspEl itemPrefix + column.columnNameLower/>&
+		</#list>				
+</#compress>
+</#macro>
