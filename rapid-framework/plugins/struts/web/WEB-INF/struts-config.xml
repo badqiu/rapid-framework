@@ -10,10 +10,10 @@
 		com.creawor.demo.system.web.action.UserAction
 	-->
 	<action-mappings>
-		<action path="/*/*/*"
-			type="com.company.{1}.web.action.{2}Action"
-			name="com.company.{1}.web.form.{2}Form" scope="request"
-			validate="false" parameter="{3}" attribute="{2}Form">
+		<action path="/pages/*/*"
+			type="com.company.project.web.action.{1}Action"
+			name="com.company.project.web.form.{1}Form" scope="request"
+			validate="false" parameter="{2}" attribute="{1}Form">
 		</action>
 	</action-mappings>
 
