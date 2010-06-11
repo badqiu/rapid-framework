@@ -9,21 +9,27 @@ package ${basepackage}.controller;
 
 import java.util.Map;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javacommon.base.BaseRestSpringController;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import org.springframework.web.servlet.ModelAndView;
-import cn.org.rapid_framework.web.scope.Flash;
 import cn.org.rapid_framework.page.Page;
-import cn.org.rapid_framework.page.PageRequest;
+import cn.org.rapid_framework.web.scope.Flash;
 
 <#include "/java_imports.include">
 @Controller
@@ -42,7 +48,13 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	public void set${className}Manager(${className}Manager manager) {
 		this.${classNameFirstLower}Manager = manager;
 	}
-
+	
+	/** 自定义设置bean属性时的binder */
+	@InitBinder  
+	public void initBinder(WebDataBinder binder) {  
+	        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));  
+	}
+	   
 	/**
 	 * 增加了@ModelAttribute的方法可以在本controller的方法调用前执行,可以存放一些共享变量,如枚举值
 	 */
