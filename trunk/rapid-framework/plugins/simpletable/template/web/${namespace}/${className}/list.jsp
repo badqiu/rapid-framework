@@ -36,37 +36,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div class="queryPanel">
 <form id="queryForm" name="queryForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
-<fieldset>
-	<legend>搜索</legend>
-	<table>
-		<#list table.notPkColumns?chunk(4) as row>
-		<tr>	
-			<#list row as column>
-			<#if !column.htmlHidden>	
-			<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
-			<td>
-				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}Begin" name="${column.columnNameLower}Begin"   />
-				<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}End" name="${column.columnNameLower}End"   />
-				<#else>
-				<input value="<@jspEl "query."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
+	<fieldset>
+		<legend>搜索</legend>
+		<table>
+			<#list table.notPkColumns?chunk(4) as row>
+			<tr>	
+				<#list row as column>
+				<#if !column.htmlHidden>	
+				<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
+				<td>
+					<#if column.isDateTimeColumn>
+					<input value="<@jspEl "query."+column.columnNameLower+'Begin'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}Begin" name="${column.columnNameLower}Begin"   />
+					<input value="<@jspEl "query."+column.columnNameLower+'End'/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})" id="${column.columnNameLower}End" name="${column.columnNameLower}End"   />
+					<#else>
+					<input value="<@jspEl "query."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
+					</#if>
+				</td>
 				</#if>
-			</td>
-			</#if>
-			</#list>
-		</tr>	
-		</#list>			
-	</table>
-</fieldset>
-<div class="handleControl">
-	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
-	<input type="submit" class="stdButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
-	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.queryForm)"/>
-<div>
+				</#list>
+			</tr>	
+			</#list>			
+		</table>
+	</fieldset>
+	<div class="handleControl">
+		<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/list.do'"/>
+		<input type="submit" class="stdButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
+		<input type="button" class="stdButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.queryForm)"/>
+	<div>
 </form>
 </div>
 
-<div>
+<div class="gridTable">
+
 	<simpletable:pageToolbar page="<@jspEl 'page'/>">
 	显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 	</simpletable:pageToolbar>
