@@ -31,6 +31,9 @@ public class SimpleTablePageRequestFactory {
 	}
 
 	public static PageRequest bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
+		Map params = WebUtils.getParametersStartingWith(request, "");
+		BeanUtils.copyProperties(pageRequest, params);
+		
 		pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
 		pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
 		pageRequest.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
