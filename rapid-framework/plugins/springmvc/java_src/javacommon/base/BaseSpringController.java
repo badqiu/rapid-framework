@@ -2,21 +2,17 @@ package javacommon.base;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 import javacommon.util.ConvertRegisterHelper;
 import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
@@ -79,8 +75,8 @@ public class BaseSpringController extends MultiActionController{
 		model.addAttribute(tableId+"query", pageRequest);
 	}
 	
-	public static PageRequest newPageRequest(HttpServletRequest request,String defaultSortColumns){
-		return PageRequestFactory.newPageRequest(request, defaultSortColumns);
+	public static PageRequest bindPageRequest(HttpServletRequest request,PageRequest pageRequest,String defaultSortColumns){
+		return PageRequestFactory.bindPageRequest(pageRequest,request, defaultSortColumns);
     }
 	
 	public static <T> T getOrCreateRequestAttribute(HttpServletRequest request, String key,Class<T> clazz) {
