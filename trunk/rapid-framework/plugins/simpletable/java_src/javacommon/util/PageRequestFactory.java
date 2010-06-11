@@ -9,9 +9,13 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  */
 public class PageRequestFactory {
-	
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    static {
+        System.out.println("PageRequestFactory.DEFAULT_PAGE_SIZE="+DEFAULT_PAGE_SIZE);
+    }
+    
     public static <T> PageRequest<T> bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns){
-        return SimpleTablePageRequestFactory.bindPageRequest(pr,request,defaultSortColumns);
+        return SimpleTablePageRequestFactory.bindPageRequest(pr,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
     }
     
     public static PageRequest bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
