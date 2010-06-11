@@ -48,67 +48,65 @@ public class ${className}Controller extends BaseSpringController{
 	/** 
 	 * 执行搜索 
 	 **/
-	public String list(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView list(HttpServletRequest request,HttpServletResponse response,${className}Query query) {
 		Page page = this.${classNameLower}Manager.findPage(query);
 		
-		model.addAllAttributes(toModelMap(page, query));
-		return "/${className?lower_case}/list";
+		ModelAndView result = new ModelAndView("/${className}/list");
+		result.addAllObjects(toModelMap(page, query));
+		return result;
 	}
 	
 	/** 
 	 * 查看对象
 	 **/
-	public String show(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView show(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
-		model.addAttribute("${classNameLower}",${classNameLower});
-		return "${jspFileBasePath}/show";
+		return new ModelAndView("/${className}/show","${classNameLower}",${classNameLower});
 	}
 	
 	/** 
 	 * 进入新增页面
 	 **/
-	public String create(ModelMap model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
-		model.addAttribute("${classNameLower}",${classNameLower});
-		return "${jspFileBasePath}/create";
+	public ModelAndView create(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
+		return new ModelAndView("/${className}/create","${classNameLower}",${classNameLower});
 	}
 	
 	/** 
 	 * 保存新增对象
 	 **/
-	public String save(ModelMap model,${className} ${classNameLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView save(HttpServletRequest request,HttpServletResponse response,${className} ${classNameLower}) throws Exception {
 		${classNameLower}Manager.save(${classNameLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
-		return LIST_ACTION;
+		return new ModelAndView(LIST_ACTION);
 	}
 	
 	/**
 	 * 进入更新页面
 	 **/
-	public String edit(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView edit(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
-		model.addAttribute("${classNameLower}",${classNameLower});
-		return "${jspFileBasePath}/edit";
+		return new ModelAndView("/${className}/edit","${classNameLower}",${classNameLower});
 	}
 	
 	/**
 	 * 保存更新对象
 	 **/
-	public String update(ModelMap model,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public ModelAndView update(HttpServletRequest request,HttpServletResponse response) throws Exception {
 		<@generateIdParameter/>
 		
 		${className} ${classNameLower} = (${className})${classNameLower}Manager.getById(id);
 		bind(request,${classNameLower});
 		${classNameLower}Manager.update(${classNameLower});
 		Flash.current().success(UPDATE_SUCCESS);
-		return LIST_ACTION;
+		return new ModelAndView(LIST_ACTION);
 	}
 	
 	/**
 	 *删除对象
 	 **/
-	public String delete(ModelMap model,HttpServletRequest request,HttpServletResponse response) {
+	public ModelAndView delete(HttpServletRequest request,HttpServletResponse response) {
 		String[] items = request.getParameterValues("items");
 		for(int i = 0; i < items.length; i++) {
 			Hashtable params = HttpUtils.parseQueryString(items[i]);
@@ -124,7 +122,7 @@ public class ${className}Controller extends BaseSpringController{
 			${classNameLower}Manager.removeById(id);
 		}
 		Flash.current().success(DELETE_SUCCESS);
-		return LIST_ACTION;
+		return new ModelAndView(LIST_ACTION);
 	}
 	
 }
