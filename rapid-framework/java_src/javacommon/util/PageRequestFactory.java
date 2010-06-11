@@ -17,7 +17,7 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  */
 public class PageRequestFactory {
-    public static final int MAX_PAGE_SIZE = 500;
+    public static final int MAX_PAGE_SIZE = 1000;
     
     static {
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
