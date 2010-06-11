@@ -137,8 +137,10 @@ public class GeneratorFacade {
 			if(exceptions != null && exceptions.size() > 0) {
 				System.err.println("[Generate Error Summary] : "+msg);
 				PrintStream output = new PrintStream(new FileOutputStream(errorFile));
-				for(Exception e : exceptions) {
-					System.err.println("[GENERATE ERROR]:"+e);
+				for(int i = 0; i < exceptions.size(); i++) {
+					Exception e = exceptions.get(i);
+                    System.err.println("[GENERATE ERROR]:"+e);
+					if(i == 0) e.printStackTrace();
 					e.printStackTrace(output);
 				}
 				output.close();
