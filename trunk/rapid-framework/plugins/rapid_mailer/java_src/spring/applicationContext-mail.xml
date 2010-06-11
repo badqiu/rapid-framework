@@ -17,7 +17,7 @@
 		<property name="from" value="rapidframework@sohu.com"></property>
 	</bean>
 	
-	<!-- 普通邮件发送器 -->
+	<!-- 普通的JavaMailSender -->
 	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.sohu.com" />
 		<property name="username" value="rapidframework@sohu.com" />
@@ -31,7 +31,7 @@
 		</property>
 	</bean>
 
-	<!-- 异步的邮件发送器 -->
+	<!-- 异步的JavaMailSender -->
 	<bean id="asyncJavaMailSender" class="cn.org.rapid_framework.mail.AsyncJavaMailSender">
 		<!-- 邮件发送的线程池大小 -->
 		<property name="sendMailThreadPoolSize" value="3" />
