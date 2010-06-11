@@ -23,15 +23,11 @@ public class PageRequestFactory {
         System.out.println("PageRequestFactory.DEFAULT_PAGE_SIZE="+DEFAULT_PAGE_SIZE);
     }
     
-    public static <T> PageRequest<T> bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns){
-        return bindPageRequest(pr,request,defaultSortColumns,DEFAULT_PAGE_SIZE);
+    public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns){
+        return bindPageRequest(pageRequest, request, defaultSortColumns, DEFAULT_PAGE_SIZE);
     }
     
-    public static PageRequest bindPageRequest(PageRequest pr,HttpServletRequest request,String defaultSortColumns,int defaultPageSize){
-        return bindPageRequest(pr,request,defaultSortColumns,defaultPageSize);
-    }
-
-    public static PageRequest bindPageRequestParameters(PageRequest<Map> pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
+    public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
         Map params = WebUtils.getParametersStartingWith(request, "");
         BeanUtils.copyProperties(pageRequest, params);
         
