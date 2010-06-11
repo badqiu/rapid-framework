@@ -3,6 +3,8 @@ package javacommon.util;
 
 import java.util.Map;
 
+import javacommon.base.BaseQuery;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -15,16 +17,14 @@ import cn.org.rapid_framework.page.PageRequest;
  * @author badqiu
  */
 public class PageRequestFactory {
-    public static final int DEFAULT_PAGE_SIZE = 10;
     public static final int MAX_PAGE_SIZE = 500;
     
     static {
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
-        System.out.println("PageRequestFactory.DEFAULT_PAGE_SIZE="+DEFAULT_PAGE_SIZE);
     }
     
     public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns){
-        return bindPageRequest(pageRequest, request, defaultSortColumns, DEFAULT_PAGE_SIZE);
+        return bindPageRequest(pageRequest, request, defaultSortColumns, BaseQuery.DEFAULT_PAGE_SIZE);
     }
     
     public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
