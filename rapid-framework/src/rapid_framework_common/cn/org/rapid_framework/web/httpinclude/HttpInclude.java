@@ -53,7 +53,14 @@ public class HttpInclude {
         this.response = response;
     }
 
-    public String include(String includePath) {
+    public static String getSessionIdKey() {
+		return sessionIdKey;
+	}
+	public static void setSessionIdKey(String sessionIdKey) {
+		HttpInclude.sessionIdKey = sessionIdKey;
+	}
+
+	public String include(String includePath) {
         try {
             if(isRemoteHttpRequest(includePath)) {
                 return getHttpRemoteContent(includePath);
@@ -102,8 +109,8 @@ public class HttpInclude {
         });
         printWriter.flush();
     }
-    //TODO handle cookies and http query parameters encoding, cookie并且需要处理不可见的 session id cookie问题
     
+    //TODO handle cookies and http query parameters encoding
     private String getHttpRemoteContent(String url) throws MalformedURLException, IOException {
         URLConnection conn = new URL(url).openConnection();
         conn.setReadTimeout(6000);
