@@ -13,6 +13,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import cn.org.rapid_framework.web.httpinclude.HttpInclude;
 import cn.org.rapid_framework.web.scope.Flash;
 
 /**
@@ -24,7 +25,7 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 	static Log log = LogFactory.getLog(SharedRenderVariableInterceptor.class);
 	
 	//系统启动并初始化一次的变量
-	private Map globalRenderVariables = new HashMap();
+	private Map<String,Object> globalRenderVariables = new HashMap<String,Object>();
 	
 	@Override
 	public void postHandle(HttpServletRequest request,
@@ -37,13 +38,16 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 		modelAndView.addAllObjects(perRequest(request,response));
 	}
 	
-	protected Map perRequest(HttpServletRequest request,HttpServletResponse response) {
-		HashMap model = new HashMap();
+	protected Map<String,Object> perRequest(HttpServletRequest request,HttpServletResponse response) {
+		HashMap<String,Object> model = new HashMap<String,Object>();
 		
 		model.put("share_current_request_time", new Date());
 		model.put("share_current_login_username", "badqiu");
 		model.put("ctx", request.getContextPath());
 		model.put("flash", Flash.current().getData());
+		
+		//为freemarker,velocity提供<jsp:include page="/some/page.jsp"/>功能,使用${httpInclude.include("/servlet/header.do")};
+		model.put("httpInclude", new HttpInclude(request,response)); 
 		
 		return model;
 	}
