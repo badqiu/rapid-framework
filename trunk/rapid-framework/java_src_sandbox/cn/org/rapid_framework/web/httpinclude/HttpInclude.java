@@ -18,6 +18,11 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.web.util.WebUtils;
 /**
  * 
  * 用于include其它页面以用于布局,可以用于在freemarker,velocity的servlet环境应用中直接include其它http请求
@@ -36,8 +41,11 @@ import javax.servlet.http.HttpServletResponseWrapper;
  *
  */
 public class HttpInclude {
+	protected static Log log = LogFactory.getLog(HttpInclude.class);
+	
     private HttpServletRequest request;
     private HttpServletResponse response;
+    public static String sessionIdKey = "jsessionid";
     
     public HttpInclude(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
@@ -46,24 +54,17 @@ public class HttpInclude {
 
     public String include(String includePath) {
         try {
-            ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
-            include(output,includePath);
-            // TODO handle output encoding 
-            String result = output.toString("UTF-8");
-//          System.out.println("smart include content:"+result);
-            return result;
+            if(isRemoteHttpRequest(includePath)) {
+                return getHttpRemoteContent(includePath);
+            }else {
+            	ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
+                getLocalContent(output, includePath);
+                return output.toString(response.getCharacterEncoding());
+            }
         } catch (ServletException e) {
             throw new RuntimeException("include error,path:"+includePath+" cause:"+e,e);
         } catch (IOException e) {
             throw new RuntimeException("include error,path:"+includePath+" cause:"+e,e);
-        }
-    }
-    
-    private void include(final OutputStream outputStream,String includePath) throws ServletException, IOException {
-        if(isRemoteHttpRequest(includePath)) {
-            getHttpRemoteContent(outputStream, includePath);
-        }else {
-            getLocalContent(outputStream, includePath);
         }
     }
 
@@ -76,8 +77,7 @@ public class HttpInclude {
 
     private void getLocalContent(final OutputStream outputStream,String includePath) throws ServletException, IOException {
         // TODO handle getLocalContent() encoding 
-    	// TODO printWriter must be auto flush on write()
-        final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+        final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream,response.getCharacterEncoding()));
         request.getRequestDispatcher(includePath).include(request, new HttpServletResponseWrapper(response) {
             public PrintWriter getWriter() throws IOException {
                 return printWriter;
@@ -102,18 +102,45 @@ public class HttpInclude {
         printWriter.flush();
     }
     //TODO handle cookies and http query parameters encoding, cookie并且需要处理不可见的 session id cookie问题
-    private void getHttpRemoteContent(final OutputStream outputStream,String url) throws MalformedURLException, IOException {
+    
+    private String getHttpRemoteContent(String url) throws MalformedURLException, IOException {
         URLConnection conn = new URL(url).openConnection();
-        conn.setReadTimeout(3000);
-        conn.setConnectTimeout(3000);
-//        conn.setRequestProperty("Cookie", toCookieString());
+        conn.setReadTimeout(6000);
+        conn.setConnectTimeout(6000);
+        String cookie = getCookieString();
+		conn.setRequestProperty("Cookie", cookie);
+		if(log.isDebugEnabled()) {
+			log.info("set request cookie:"+cookie+" for url:"+url);
+		}
+		
         InputStream input = conn.getInputStream();
+        ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
         try {
-        	IOUtils.copy(input,outputStream);
+        	IOUtils.copy(input,output);
         }finally {
         	if(input != null) input.close();
         }
+        
+        if(conn.getContentEncoding() == null) {
+        	return output.toString(response.getCharacterEncoding());
+        } else {
+        	return output.toString(conn.getContentEncoding());
+        }
     }
+
+    private static final String SET_COOKIE_SEPARATOR="; ";
+	private String getCookieString() {
+		StringBuffer sb = new StringBuffer(64);
+		for(Cookie c : request.getCookies()) {
+			sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
+		}
+		
+		String sessionId = WebUtils.getSessionId(request);
+		if(sessionId != null) {
+			sb.append(sessionIdKey).append("=").append(sessionId).append(SET_COOKIE_SEPARATOR);
+		}
+		return sb.toString();
+	}
     
     static class IOUtils { 
         private static void copy(InputStream in, OutputStream out) throws IOException {
