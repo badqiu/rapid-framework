@@ -41,11 +41,12 @@ import org.apache.commons.logging.LogFactory;
  *
  */
 public class HttpInclude {
-	protected static Log log = LogFactory.getLog(HttpInclude.class);
+	private final static Log log = LogFactory.getLog(HttpInclude.class);
+	
+	public static String sessionIdKey = "JSESSIONID";
 	
     private HttpServletRequest request;
     private HttpServletResponse response;
-    public static String sessionIdKey = "jsessionid";
     
     public HttpInclude(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
