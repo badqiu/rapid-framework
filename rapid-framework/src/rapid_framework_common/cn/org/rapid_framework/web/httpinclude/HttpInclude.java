@@ -67,9 +67,7 @@ public class HttpInclude {
             if(isRemoteHttpRequest(includePath)) {
                 return getHttpRemoteContent(includePath);
             }else {
-            	ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
-                getLocalContent(output, includePath);
-                return output.toString(response.getCharacterEncoding());
+                return getLocalContent(includePath);
             }
         } catch (ServletException e) {
             throw new RuntimeException("include error,path:"+includePath+" cause:"+e,e);
@@ -85,8 +83,9 @@ public class HttpInclude {
         		);
     }
 
-    private void getLocalContent(final OutputStream outputStream,String includePath) throws ServletException, IOException {
+    private String getLocalContent(String includePath) throws ServletException, IOException {
         // TODO handle getLocalContent() encoding 
+    	final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8192);
         final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream,response.getCharacterEncoding()));
         request.getRequestDispatcher(includePath).include(request, new HttpServletResponseWrapper(response) {
             public PrintWriter getWriter() throws IOException {
@@ -110,6 +109,8 @@ public class HttpInclude {
             }
         });
         printWriter.flush();
+        
+        return outputStream.toString(response.getCharacterEncoding());
     }
     
     //TODO handle cookies and http query parameters encoding
