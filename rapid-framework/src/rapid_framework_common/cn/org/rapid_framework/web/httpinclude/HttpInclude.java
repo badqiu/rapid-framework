@@ -132,6 +132,7 @@ public class HttpInclude {
         conn.setConnectTimeout(6000);
         String cookie = getCookieString();
 		conn.setRequestProperty("Cookie", cookie);
+		//TODO: 用于支持 httpinclude_header.properties
 //		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3");
 //		conn.setRequestProperty("Host", url.getHost());
 		if(log.isDebugEnabled()) {
