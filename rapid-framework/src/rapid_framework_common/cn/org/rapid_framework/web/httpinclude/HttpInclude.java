@@ -144,11 +144,15 @@ public class HttpInclude {
 	}
 
 	private String getWithSessionIdUrl(String url) {
-    	if(url.indexOf('?') >= 0){
-    		return url+"&"+sessionIdKey+Utils.getSessionId(request);
-        }else {
-        	return url+"?"+sessionIdKey+Utils.getSessionId(request);
-        }
+		return url;
+//		if(Utils.getSessionId(request) != null) {
+//	    	if(url.indexOf('?') >= 0){
+//	    		return url+"&"+sessionIdKey+"="+Utils.getSessionId(request);
+//	        }else {
+//	        	return url+"?"+sessionIdKey+"="+Utils.getSessionId(request);
+//	        }
+//		}
+//		return url;
 	}
 
     private static final String SET_COOKIE_SEPARATOR="; ";
@@ -186,7 +190,7 @@ public class HttpInclude {
         	if(contentType == null) return null;
         	Matcher m = p.matcher(contentType);
         	if(m.find()) {
-        		return m.group(2);
+        		return m.group(2).trim();
         	}
 			return null;
 		}
