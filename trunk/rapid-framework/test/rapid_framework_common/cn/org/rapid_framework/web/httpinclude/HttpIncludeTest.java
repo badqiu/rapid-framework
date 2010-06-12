@@ -45,11 +45,12 @@ public class HttpIncludeTest extends TestCase {
 		};
 		HttpInclude http = new HttpInclude(request, response);
 		
-		System.out.println(http.include("/userinfo/blog.htm"));
+		String includeContent = http.include("/userinfo/blog.htm");
+		System.out.println(includeContent);
 		System.out.println(response.getIncludedUrl());
-//		System.out.println(response.getContentAsString());
+		
 		assertTrue(includeExecuted);
-//		assertEquals(response.getContentAsString(),"test_local_write_date_with_output_stream");
+		assertEquals(includeContent,"test_local_write_date_with_output_stream");
 		assertEquals(response.getIncludedUrl(),"/userinfo/blog.htm");
 	}
 	
@@ -72,11 +73,12 @@ public class HttpIncludeTest extends TestCase {
 		};
 		HttpInclude http = new HttpInclude(request, response);
 		
-		System.out.println(http.include("/userinfo/blog.htm"));
+		String includeContent = http.include("/userinfo/blog.htm");
+		System.out.println(includeContent);
 		System.out.println(response.getIncludedUrl());
-//		System.out.println(response.getContentAsString());
+		
 		assertTrue(includeExecuted);
-//		assertEquals(response.getContentAsString(),"test_local_write_date_with_output_stream");
+		assertEquals(includeContent,"test_local_write_date_with_write");
 		assertEquals(response.getIncludedUrl(),"/userinfo/blog.htm");
 	}
 }
