@@ -112,7 +112,7 @@ public class HttpInclude {
     
     //TODO handle cookies and http query parameters encoding
     private String getHttpRemoteContent(String url) throws MalformedURLException, IOException {
-        URLConnection conn = new URL(url).openConnection();
+        URLConnection conn = new URL(getWithSessionIdUrl(url)).openConnection();
         conn.setReadTimeout(6000);
         conn.setConnectTimeout(6000);
         String cookie = getCookieString();
@@ -135,6 +135,14 @@ public class HttpInclude {
         	return output.toString(conn.getContentEncoding());
         }
     }
+
+	private String getWithSessionIdUrl(String url) {
+    	if(url.indexOf('?') >= 0){
+    		return url+"&"+sessionIdKey+Utils.getSessionId(request);
+        }else {
+        	return url+"?"+sessionIdKey+Utils.getSessionId(request);
+        }
+	}
 
     private static final String SET_COOKIE_SEPARATOR="; ";
 	private String getCookieString() {
