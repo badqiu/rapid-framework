@@ -8,18 +8,18 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 public class TestMethodContextTest {
-    @Rule public TestName name = new TestName();
+    @Rule public TestName testName = new TestName();
     
     @Test
     public void test_alibaba() {
         System.out.println(getClass());
-        System.out.println("current test method:"+ name.getMethodName());
-        Assert.assertEquals("test_alibaba", name.getMethodName());
+        System.out.println("current test method:"+ testName.getMethodName());
+        Assert.assertEquals("test_alibaba", testName.getMethodName());
     }
 
     @Test
     public void test_foo() {
-        Assert.assertEquals("test_foo", name.getMethodName());
+        Assert.assertEquals("test_foo", testName.getMethodName());
     }
     
 }
