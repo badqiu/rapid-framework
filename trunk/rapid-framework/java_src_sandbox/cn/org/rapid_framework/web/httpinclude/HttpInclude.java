@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 /**
  * 
  * 用于include其它页面以用于布局,可以用于在freemarker,velocity的servlet环境应用中直接include其它http请求
@@ -115,7 +116,7 @@ public class HttpInclude {
         InputStream input = conn.getInputStream();
         ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
         try {
-        	IOUtils.copy(input,output);
+        	Utils.copy(input,output);
         }finally {
         	if(input != null) input.close();
         }
@@ -134,22 +135,14 @@ public class HttpInclude {
 			sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
 		}
 		
-		String sessionId = getSessionId(request);
+		String sessionId = Utils.getSessionId(request);
 		if(sessionId != null) {
 			sb.append(sessionIdKey).append("=").append(sessionId).append(SET_COOKIE_SEPARATOR);
 		}
 		return sb.toString();
 	}
 
-	public static String getSessionId(HttpServletRequest request) {
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			return null;
-		}
-		return session.getId();
-	}
-    
-    static class IOUtils { 
+    private static class Utils { 
         private static void copy(InputStream in, OutputStream out) throws IOException {
             byte[] buff = new byte[8192];
             while(in.read(buff) >= 0) {
@@ -163,5 +156,13 @@ public class HttpInclude {
                 out.write(buff);
             }
         }
+        
+    	private static String getSessionId(HttpServletRequest request) {
+    		HttpSession session = request.getSession(false);
+    		if(session == null) {
+    			return null;
+    		}
+    		return session.getId();
+    	}
     }
 }
