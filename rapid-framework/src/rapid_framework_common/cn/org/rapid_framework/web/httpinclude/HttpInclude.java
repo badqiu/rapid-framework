@@ -142,17 +142,10 @@ public class HttpInclude {
 			log.debug("request properties:"+conn.getRequestProperties());
 		}
 	}
-
+	
+	//TODO add session id with url
 	private String getWithSessionIdUrl(String url) {
 		return url;
-//		if(Utils.getSessionId(request) != null) {
-//	    	if(url.indexOf('?') >= 0){
-//	    		return url+"&"+sessionIdKey+"="+Utils.getSessionId(request);
-//	        }else {
-//	        	return url+"?"+sessionIdKey+"="+Utils.getSessionId(request);
-//	        }
-//		}
-//		return url;
 	}
 
     private static final String SET_COOKIE_SEPARATOR="; ";
