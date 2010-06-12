@@ -13,7 +13,11 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 
 import edu.emory.mathcs.backport.java.util.Collections;
-
+/**
+ * 
+ * 用于批量assert Bean的属性
+ * 
+ */
 public class BeanAssert {
 
 	public static void assertPropertiesNotNull(Object bean,String... ignoreProperties) {
