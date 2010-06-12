@@ -11,6 +11,8 @@ import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -111,16 +113,10 @@ public class HttpInclude {
     }
     
     //TODO handle cookies and http query parameters encoding
-    private String getHttpRemoteContent(String url) throws MalformedURLException, IOException {
-        URLConnection conn = new URL(getWithSessionIdUrl(url)).openConnection();
-        conn.setReadTimeout(6000);
-        conn.setConnectTimeout(6000);
-        String cookie = getCookieString();
-		conn.setRequestProperty("Cookie", cookie);
-		if(log.isDebugEnabled()) {
-			log.info("set request cookie:"+cookie+" for url:"+url);
-		}
-		
+    private String getHttpRemoteContent(String urlString) throws MalformedURLException, IOException {
+        URL url = new URL(getWithSessionIdUrl(urlString));
+		URLConnection conn = url.openConnection();
+        setConnectionHeaders(urlString, conn);
         InputStream input = conn.getInputStream();
         ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
         try {
@@ -128,13 +124,23 @@ public class HttpInclude {
         }finally {
         	if(input != null) input.close();
         }
-        
-        if(conn.getContentEncoding() == null) {
-        	return output.toString(response.getCharacterEncoding());
-        } else {
-        	return output.toString(conn.getContentEncoding());
-        }
+        return output.toString(Utils.getContentEncoding(conn,response));
     }
+
+	private void setConnectionHeaders(String urlString, URLConnection conn) {
+		conn.setReadTimeout(6000);
+        conn.setConnectTimeout(6000);
+        String cookie = getCookieString();
+		conn.setRequestProperty("Cookie", cookie);
+//		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3");
+//		conn.setRequestProperty("Host", url.getHost());
+		if(log.isDebugEnabled()) {
+			log.debug("set request cookie:"+cookie+" for url:"+urlString);
+		}
+		if(log.isDebugEnabled()) {
+			log.debug("request properties:"+conn.getRequestProperties());
+		}
+	}
 
 	private String getWithSessionIdUrl(String url) {
     	if(url.indexOf('?') >= 0){
@@ -147,8 +153,11 @@ public class HttpInclude {
     private static final String SET_COOKIE_SEPARATOR="; ";
 	private String getCookieString() {
 		StringBuffer sb = new StringBuffer(64);
-		for(Cookie c : request.getCookies()) {
-			sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null ) {
+			for(Cookie c : cookies) {
+				sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
+			}
 		}
 		
 		String sessionId = Utils.getSessionId(request);
@@ -158,8 +167,30 @@ public class HttpInclude {
 		return sb.toString();
 	}
 
-    private static class Utils { 
-        private static void copy(InputStream in, OutputStream out) throws IOException {
+    static class Utils { 
+    	static String getContentEncoding(URLConnection conn,HttpServletResponse response) {
+    		String contentEncoding = conn.getContentEncoding();
+            if(conn.getContentEncoding() == null) {
+            	contentEncoding = parseContentTypeForCharset(conn.getContentType());
+            	if(contentEncoding == null) {
+            		contentEncoding =  response.getCharacterEncoding();
+            	}
+            } else {
+            	contentEncoding = conn.getContentEncoding();
+            }
+    		return contentEncoding;
+    	}
+    	static Pattern p = Pattern.compile("(charset=)(.*)",Pattern.CASE_INSENSITIVE);
+        private static String parseContentTypeForCharset(String contentType) {
+        	if(contentType == null) return null;
+        	Matcher m = p.matcher(contentType);
+        	if(m.find()) {
+        		return m.group(2);
+        	}
+			return null;
+		}
+
+		private static void copy(InputStream in, OutputStream out) throws IOException {
             byte[] buff = new byte[8192];
             while(in.read(buff) >= 0) {
                 out.write(buff);
