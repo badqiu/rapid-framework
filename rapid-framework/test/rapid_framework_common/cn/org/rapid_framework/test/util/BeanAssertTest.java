@@ -45,12 +45,14 @@ public class BeanAssertTest extends TestCase {
 	}
 
    public void test2_assertNumberPropertiesNotNull() {
+       if(true) throw new RuntimeException("not yet implements");
         TestBean b = new TestBean();
         BeanDefaultValueUtils.setBeanProperties(b);
         BeanAssert.assertNumberPropertiesEquals(b,"1",new String[]{});
    }
    
    public void test2_assertPrimitivePropertiesEquals() {
+       if(true) throw new RuntimeException("not yet implements");
        TestBean b = new TestBean();
        BeanDefaultValueUtils.setBeanProperties(b);
        BeanAssert.assertPrimitivePropertiesEquals(b,"1",new String[]{});
