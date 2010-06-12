@@ -43,5 +43,16 @@ public class BeanAssertTest extends TestCase {
 			assertTrue(e.getMessage().contains("[TestBean.password] must be not null"));
 		}
 	}
-	
+
+   public void test2_assertNumberPropertiesNotNull() {
+        TestBean b = new TestBean();
+        BeanDefaultValueUtils.setBeanProperties(b);
+        BeanAssert.assertNumberPropertiesEquals(b,"1",new String[]{});
+   }
+   
+   public void test2_assertPrimitivePropertiesEquals() {
+       TestBean b = new TestBean();
+       BeanDefaultValueUtils.setBeanProperties(b);
+       BeanAssert.assertPrimitivePropertiesEquals(b,"1",new String[]{});
+   }
 }
