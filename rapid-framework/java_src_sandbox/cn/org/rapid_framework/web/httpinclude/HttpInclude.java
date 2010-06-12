@@ -22,7 +22,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.web.util.WebUtils;
 /**
  * 
  * 用于include其它页面以用于布局,可以用于在freemarker,velocity的servlet环境应用中直接include其它http请求
@@ -135,11 +134,19 @@ public class HttpInclude {
 			sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
 		}
 		
-		String sessionId = WebUtils.getSessionId(request);
+		String sessionId = getSessionId(request);
 		if(sessionId != null) {
 			sb.append(sessionIdKey).append("=").append(sessionId).append(SET_COOKIE_SEPARATOR);
 		}
 		return sb.toString();
+	}
+
+	public static String getSessionId(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if(session == null) {
+			return null;
+		}
+		return session.getId();
 	}
     
     static class IOUtils { 
