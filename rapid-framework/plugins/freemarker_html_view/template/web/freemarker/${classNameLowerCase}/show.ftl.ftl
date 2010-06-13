@@ -42,4 +42,5 @@
 	</form>
 <#noparse></@override></#noparse>
 
+<#-- freemarker模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_freemarker_extends -->
 <#noparse><@extends name="*/base.ftl"/></#noparse>
