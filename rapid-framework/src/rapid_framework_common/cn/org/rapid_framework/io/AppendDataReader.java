@@ -45,7 +45,7 @@ public class AppendDataReader extends Reader {
 				try {
 					return appendDataReader.read(cbuf, off, len);
 				}catch(IOException e) {
-					throw new IOException("read data from appendDataReader occer error",e);
+					throw new IOException("read data from appendDataReader occer error,cause:"+e);
 				}
 			}
 			int result = delegate.read(cbuf, off, len);
