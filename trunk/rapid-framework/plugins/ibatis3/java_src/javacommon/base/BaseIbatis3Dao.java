@@ -14,6 +14,7 @@ import org.springframework.dao.support.DaoSupport;
 import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
+import cn.org.rapid_framework.beanutils.PropertyUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
@@ -109,7 +110,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		filters.put("lastRows", page.getFirstResult() + page.getPageSize());
 		filters.put("sortColumns", pageRequest.getSortColumns());
 		
-		Map parameterObject = BeanUtils.describe(pageRequest);
+		Map parameterObject = PropertyUtils.describe(pageRequest);
 		filters.putAll(parameterObject);
 		
 		List list = getSqlSessionTemplate().selectList(statementName, filters,page.getFirstResult(),page.getPageSize());
