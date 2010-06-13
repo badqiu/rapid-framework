@@ -25,9 +25,8 @@
 </rapid:override>
 
 <rapid:override name="content">
-
-	<div class="queryPanel">
 	<form id="queryForm" name="queryForm" method="get" style="display: inline;">
+	<div class="queryPanel">
 		<fieldset>
 			<legend>搜索</legend>
 			<table>
@@ -55,7 +54,7 @@
 			<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '<@jspEl 'ctx'/>/${classNameLowerCase}/new'"/>
 			<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('<@jspEl 'ctx'/>/${classNameLowerCase}','items',document.forms.queryForm)"/>
 		<div>
-	</form>
+	
 	</div>
 	
 	<div class="gridTable">
@@ -118,6 +117,7 @@
 		</simpletable:pageToolbar>
 		
 	</div>
+	</form>
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>
