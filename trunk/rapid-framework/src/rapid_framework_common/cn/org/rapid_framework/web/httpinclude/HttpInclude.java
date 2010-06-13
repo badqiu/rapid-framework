@@ -59,7 +59,7 @@ public class HttpInclude {
 	public String include(String includePath) {
         try {
             if(isRemoteHttpRequest(includePath)) {
-                return getHttpRemoteContent(includePath);
+                return getRemoteContent(includePath);
             }else {
                 return getLocalContent(includePath);
             }
@@ -96,7 +96,7 @@ public class HttpInclude {
     
     //TODO handle cookies and http query parameters encoding
     //TODO set inheritParams from request
-    private String getHttpRemoteContent(String urlString) throws MalformedURLException, IOException {
+    private String getRemoteContent(String urlString) throws MalformedURLException, IOException {
         URL url = new URL(getWithSessionIdUrl(urlString));
 		URLConnection conn = url.openConnection();
         setConnectionHeaders(urlString, conn);
