@@ -42,4 +42,4 @@
 	</form>
 <#noparse></@override></#noparse>
 
-<#noparse><@extends name="/base.ftl"/></#noparse>
+<#noparse><@extends name="/*/base.ftl"/></#noparse>
