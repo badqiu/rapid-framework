@@ -28,7 +28,10 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * 
+ * <pre>
+ * 完成于&lt;jsp:include page''/>相同的功能
  * 用于include其它页面以用于布局,可以用于在freemarker,velocity的servlet环境应用中直接include其它http请求
+ * </pre>
  * 
  * <br />
  * <b>Freemarker及Velocity示例使用:</b>
