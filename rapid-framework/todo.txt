@@ -14,6 +14,14 @@ add groupId=basepackage:com.company.project=com-company-project
 	Define value for version:  1.0-SNAPSHOT: : 1.0
 	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
 
+ModelMap.key = org.springframework.validation.BindingResult.userInfoQuery for BindingResult
+public String create(ModelMap model,UserInfo userInfo,BindingResult result) {
+	validator.validate(userInfo,result);
+	if(result.hasError()) {
+		
+	}
+}
+
 完成SqlQueryFactory
 SafeSqlProcessor
         //转义%
