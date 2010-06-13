@@ -48,7 +48,7 @@ var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,
 SimpleTable.prototype = {
 	doJump : function(pageNumber,pageSize,sortColumns) {
 		//alert("pageNumber:"+pageNumber+" pageSize:"+pageSize+" sortColumns:"+sortColumns+" this.form:"+this.form);
-		var pair = function(k,v) {return ' <input type="hidden" name="'+k+'" value="'+v+'" '};
+		var pair = function(k,v) {return ' <input type="hidden" name="'+k+'" value="'+v+'" />'};
 		var params = pair(this.pageNumberKey,this.pageNumber)+pair(this.pageSizeKey,this.pageSize)+pair(this.sortColumnsKey,this.sortColumns)
 		$('#'+this.form).append(params);
 		SimpleTableUtils.fireSubmit(this.form);
@@ -100,14 +100,14 @@ var SimpleTableUtils = {
 	fireSubmit : function(form) {
 		var form = document.getElementById(form);
 	    if (form.fireEvent) { //for ie
-	    	if(form.fireEvent('onsubmit'))
+	    	if(form.fireEvent('onsubmit')){
 	    		form.submit();
+	    	}
 	    } else if (document.createEvent) { // for dom level 2
 			var evt = document.createEvent("HTMLEvents");
 	      	//true for can bubble, true for cancelable
 	      	evt.initEvent('submit', false, true); 
 	      	form.dispatchEvent(evt);
-	      	
 	      	if(navigator.userAgent.indexOf('Chrome') >= 0) {
 	      		form.submit();
 	      	}
