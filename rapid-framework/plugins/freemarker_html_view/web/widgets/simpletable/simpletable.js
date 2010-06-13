@@ -1,18 +1,18 @@
 /**
  * author: badqiu
+ * depend on JQuery
  */
-var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
+var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,pageSizeKey,sortColumnsKey) {
+	this.form = formId;
 	this.pageNumber = pageNumber;
 	this.pageSize = pageSize;
 	this.sortColumns = sortColumns;
-	this.form = form;
-	
-	$('#pageNumber').val(pageNumber);	
-	$('#pageSize').val(pageSize);	
-	$('#sortColumns').val(sortColumns);
+	this.pageNumberKey = pageNumberKey || 'pageNumber';
+	this.pageSizeKey = pageSizeKey || 'pageSize';
+	this.sortColumnsKey = sortColumnsKey || 'sortColumns';
 	
 	_this = this;
-	$("#"+form+" .gridTable .gridBody .tableHeader th[sortColumn]").click(function() {
+	$("#"+formId+" .gridBody th[sortColumn]").click(function() {
 		//handle click sort header
 		var column = $(this).attr('sortColumn');
 		if(SimpleTableUtils.getSortDirection(sortColumns,column) == 'asc') {
@@ -32,13 +32,13 @@ var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
 	var sortInfos = SimpleTableUtils.getSortInfos(sortColumns);
 	for(var i = 0; i < sortInfos.length; i++) {
 		var info = sortInfos[i];
-		var selector = "#"+form+' .gridTable .tableHeader th[sortColumn="'+info.column+'"]';
+		var selector = "#"+formId+' .gridBody th[sortColumn="'+info.column+'"]';
 		var order = info.order ? info.order : 'asc';
 		$(selector).addClass("sort " + order.toLowerCase());
 	}
 	
 	//handle highlight
-	$("#"+form+" .gridTable .gridBody .tableBody tr").mouseover(function() {
+	$("#"+formId+" .gridBody tbody tr").mouseover(function() {
 		$(this).toggleClass('highlight',true);
 	}).mouseout(function() {
 		$(this).toggleClass('highlight',false);
@@ -47,27 +47,22 @@ var SimpleTable = function(form,pageNumber,pageSize,sortColumns) {
 };
 SimpleTable.prototype = {
 	doJump : function(pageNumber,pageSize,sortColumns) {
-		//pageNumber = pageNumber || this.pageNumber;		
-		//pageSize = pageSize || this.pageSize;		
-		//sortColumns = sortColumns || this.sortColumns ;	
-		
-		//$('#pageNumber').val(pageNumber);	
-		//$('#pageSize').val(pageSize);	
-		//$('#sortColumns').val(sortColumns);
 		//alert("pageNumber:"+pageNumber+" pageSize:"+pageSize+" sortColumns:"+sortColumns+" this.form:"+this.form);
+		var pair = function(k,v) {return ' <input type="hidden" name="'+k+'" value="'+v+'" '};
+		var params = pair(this.pageNumberKey,this.pageNumber)+pair(this.pageSizeKey,this.pageSize)+pair(this.sortColumnsKey,this.sortColumns)
+		$('#'+this.form).append(params);
 		SimpleTableUtils.fireSubmit(this.form);
-		//document.getElementById(this.form).submit();	
 	},
 	togglePage : function(pageNumber) {
-		$('#pageNumber').val(pageNumber);
+		this.pageNumber = pageNumber;
 		this.doJump(pageNumber,null,null);
 	},
 	togglePageSize : function(pageSize) {
-		$('#pageSize').val(pageSize);
+		this.pageSize = pageSize;
 		this.doJump(null,pageSize,null);
 	},
 	toggleSort : function(sortColumns) {
-		$('#sortColumns').val(sortColumns);
+		this.sortColumns = sortColumns;
 		this.doJump(null,null,sortColumns);
 	}
 };
@@ -103,7 +98,7 @@ var SimpleTableUtils = {
 		return null;
 	},
 	fireSubmit : function(form) {
-	    var form = document.getElementById(form);
+		var form = document.getElementById(form);
 	    if (form.fireEvent) { //for ie
 	    	if(form.fireEvent('onsubmit'))
 	    		form.submit();
