@@ -187,7 +187,6 @@ public class HttpInclude {
         
         @Override
         public void flushBuffer() throws IOException {
-            super.flushBuffer();
             if(useWriter) printWriter.flush();
             if(useOutputStream) servletOutputStream.flush();
         }
