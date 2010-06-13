@@ -82,13 +82,13 @@ public class GeneratorControl {
 		//TODO /root/hello.txt使用绝对路径, root/hello.txt使用相对路径
 		try {
 			if(deleteGeneratedFile) {
-				GLogger.println("[delete gg.generateFile()] file:"+outputFile);
+				GLogger.println("[delete gg.generateFile()] file:"+outputFile+" by template:"+getSourceFile());
 				new File(outputFile).delete();
 			}else {
 				File file = new File(outputFile);
 				FileHelper.parnetMkdir(file);
+				GLogger.println("[gg.generateFile()] outputFile:"+outputFile+" append:"+append+" by template:"+getSourceFile());
 				IOHelper.saveFile(file, content,getOutputEncoding(),append);
-				GLogger.println("[gg.generateFile()] outputFile:"+outputFile+" append:"+append);
 			}
 		} catch (Exception e) {
 			GLogger.warn("gg.generateFile() occer error,outputFile:"+outputFile+" caused by:"+e,e);
