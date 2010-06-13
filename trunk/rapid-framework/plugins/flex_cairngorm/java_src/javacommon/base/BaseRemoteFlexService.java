@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.ClassUtils;
+
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.flex.messaging.io.CglibBeanProxy;
 import cn.org.rapid_framework.page.Page;
@@ -39,20 +41,12 @@ public class BaseRemoteFlexService <E>{
 	}
 	
 	public static <T extends PageRequest> T newQuery(Class<T> queryClazz,PageRequest pr) {
-		PageRequest query = newInstance(queryClazz);
+		PageRequest query = org.springframework.beans.BeanUtils.instantiateClass(queryClazz);
 		BeanUtils.copyProperties(query, pr.getFilters());
 		query.setPageNumber(pr.getPageNumber());
 		query.setPageSize(pr.getPageSize());
 		query.setSortColumns(pr.getSortColumns());
 		return(T)query;
-	}
-
-	private static <T> T newInstance(Class<T> queryClazz) {
-		try {
-			return queryClazz.newInstance();
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
-		} 
 	}
 	
 }
