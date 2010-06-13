@@ -119,10 +119,7 @@ public class HttpInclude {
 //		conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN; rv:1.9.2.3) Gecko/20100401 Firefox/3.6.3");
 //		conn.setRequestProperty("Host", url.getHost());
 		if(log.isDebugEnabled()) {
-			log.debug("set request cookie:"+cookie+" for url:"+urlString);
-		}
-		if(log.isDebugEnabled()) {
-			log.debug("request properties:"+conn.getRequestProperties());
+			log.debug("request properties:"+conn.getRequestProperties()+" for url:"+urlString);
 		}
 	}
 	
