@@ -102,6 +102,7 @@ public class HttpInclude {
     }
     
     //TODO handle cookies and http query parameters encoding
+    //TODO set inheritParams from request
     private String getHttpRemoteContent(String urlString) throws MalformedURLException, IOException {
         URL url = new URL(getWithSessionIdUrl(urlString));
 		URLConnection conn = url.openConnection();
