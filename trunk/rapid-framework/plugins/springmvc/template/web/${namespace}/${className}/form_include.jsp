@@ -23,6 +23,7 @@
 	<#else>
 		<form:input path="${classNameLower}.${column.columnNameLower}" id="${column.columnNameLower}" cssClass="${column.validateString}" maxlength="${column.size}" />
 	</#if>
+		<font color='red'><form:errors path="${column.columnNameLower}"/></font>
 		</td>
 	</tr>	
 	
