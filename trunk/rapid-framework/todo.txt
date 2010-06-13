@@ -22,6 +22,8 @@ public String create(ModelMap model,UserInfo userInfo,BindingResult result) {
 	}
 }
 
+使用 httpInclude.include(value_from_http_request.ftl,'*/default_value.ftl')'
+
 完成SqlQueryFactory
 SafeSqlProcessor
         //转义%
