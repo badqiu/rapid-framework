@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,7 +43,13 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	private ${className}Manager ${classNameFirstLower}Manager;
 	
 	private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
-		
+	
+	private Validator validator;
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
+	
 	/** 
 	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,注意大小写
 	 **/
@@ -97,7 +105,13 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	
 	/** 保存新增 */
 	@RequestMapping(method=RequestMethod.POST)
-	public String create(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String create(ModelMap model,${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		
+		validator.validate(${classNameFirstLower}, errors);
+		if(errors.hasErrors()) {
+			return _new(model, ${classNameFirstLower}, request, response);
+		}
+		
 		${classNameFirstLower}Manager.save(${classNameFirstLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;
@@ -105,9 +119,15 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	
 	/** 保存更新 */
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public String update(ModelMap model,@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String update(ModelMap model,@PathVariable ${pkJavaType} id,BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
 		bind(request,${classNameFirstLower});
+		
+		validator.validate(${classNameFirstLower}, errors);
+		if(errors.hasErrors()) {
+			return edit(model,id);
+		}
+		
 		${classNameFirstLower}Manager.update(${classNameFirstLower});
 		Flash.current().success(UPDATE_SUCCESS);
 		return LIST_ACTION;
