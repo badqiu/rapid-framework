@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class BeanHelper {
 	/**
-	 * @see #org.apache.commons.beanutils.BeanUtils.BeanUtils.describe(obj)
+	 * @see #org.apache.commons.beanutils.PropertyUtils.describe(obj)
 	 */ 
 	public static Map describe(Object obj) {
 		if (obj instanceof Map)
