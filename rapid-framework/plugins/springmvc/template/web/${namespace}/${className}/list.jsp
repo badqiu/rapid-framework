@@ -23,8 +23,8 @@
 </rapid:override>
 
 <rapid:override name="content">
-	<div class="queryPanel">
 	<form id="queryForm" name="queryForm" action="<c:url value="${actionBasePath}/list.do"/>" method="get" style="display: inline;">
+	<div class="queryPanel">
 		<fieldset>
 			<legend>搜索</legend>
 			<table>
@@ -52,7 +52,6 @@
 			<input type="submit" class="stdButton" style="width:80px" value="新增" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>${actionBasePath}/create.do'"/>
 			<input type="button" class="stdButton" style="width:80px" value="删除" onclick="batchDelete('<@jspEl 'ctx'/>${actionBasePath}/delete.do','items',document.forms.queryForm)"/>
 		<div>
-	</form>
 	</div>
 	
 	<div class="gridTable">
@@ -112,8 +111,8 @@
 		<simpletable:pageToolbar page="<@jspEl 'page'/>">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
+	</form>
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>
