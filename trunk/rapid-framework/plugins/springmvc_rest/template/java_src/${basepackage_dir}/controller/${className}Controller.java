@@ -56,7 +56,7 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	}
 	   
 	/**
-	 * 增加了@ModelAttribute的方法可以在本controller的方法调用前执行,可以存放一些共享变量,如枚举值
+	 * 增加了@ModelAttribute的方法可以在本controller方法调用前执行,可以存放一些共享变量,如枚举值,或是一些初始化操作
 	 */
 	@ModelAttribute
 	public void init(ModelMap model) {
