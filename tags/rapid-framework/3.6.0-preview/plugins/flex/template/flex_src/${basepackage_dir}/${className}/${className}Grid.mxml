@@ -1,0 +1,65 @@
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first>  
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Metadata>
+		[Event(name="selectEvent")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import ${basepackage}.${className}.${className}ModelLocator;
+			import javacommon.flex.util.CollectionUtils;
+			import mx.collections.ArrayCollection;
+			import mx.collections.IViewCursor;
+			import ${basepackage}.vo.${className};
+			
+			[Bindable]
+			private var _list: ArrayCollection;
+			//public var selectedItem : ${className};
+			public var model : ${className}ModelLocator = ${className}ModelLocator.getInstance();
+			
+			public function set list( list: ArrayCollection):void{
+				this._list =  list;
+			}
+			
+			public function getSelectedList():ArrayCollection{
+  		    	return CollectionUtils.selectIfTrue(_list,"selected");
+  		    }
+  		    
+  		    public function updateSelectedItem( event : Object ) : void 
+			{
+				//selectedItem = event.target.selectedItem;
+				model.selectedItem = event.target.selectedItem;
+				dispatchEvent( new Event( "selectEvent" ) );
+			}
+		]]>
+	</mx:Script>
+	
+	<!--
+	<mx:Binding destination="grid.selectedItem" source="${className}ModelLocator.getInstance().selectedItem" />
+	-->
+	
+	<mx:DataGrid id="grid" change="updateSelectedItem(event)" dataProvider="{_list}" left="0" top="0" width="100%" height="100%">
+		<mx:columns>
+			<mx:DataGridColumn headerText="S" dataField="selected" sortable="false" width="30" textAlign="center">  
+	            <mx:itemRenderer>  
+		            <mx:Component>  
+		            	<mx:CheckBox selected="{data.selected}" click="data.selected = !data.selected"/>  
+		            </mx:Component>
+	            </mx:itemRenderer>  
+            </mx:DataGridColumn> 
+			<#list table.columns as column>
+			<#if !column.pk>
+				<#if column.isDateTimeColumn>
+			<mx:DataGridColumn dataField="${column.columnNameLower}String" headerText="{${className}.ALIAS_${column.constantName}}"/>
+				<#else>
+			<mx:DataGridColumn dataField="${column.columnNameLower}" headerText="{${className}.ALIAS_${column.constantName}}"/>
+				</#if>
+			</#if>
+			</#list>
+		</mx:columns>
+	</mx:DataGrid>
+	
+</mx:Canvas>

@@ -1,0 +1,58 @@
+${gg.setIgnoreOutput(true)}
+#本文件用于生成列的Enum类
+
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+
+<#list table.columns as column>
+	<#if column.enumColumn>
+		<#assign enumOutputJavaFile = gg.outRoot+"/java_src/"+basepackage_dir+"/model/enums/"+column.enumClassName+".java"/>
+		<@genEnumClassBody column/>
+		${gg.generateFile(enumOutputJavaFile,enumClassBody)}
+	</#if>
+</#list>
+
+<#macro genEnumClassBody column>
+<#assign enumClassBody>
+
+package ${basepackage}.enums;
+
+import cn.org.rapid_framework.util.KeyValue;
+import cn.org.rapid_framework.util.KeyValueUtils;
+
+public enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType},String>{
+	<#list column.enumList as item>
+	${item.enumAlias}(new ${column.simpleJavaType}("${item.enumKey}"),"${item.enumDesc}")<#if item_has_next>,</#if>
+	</#list>
+	;
+	
+	private final ${column.simpleJavaType} key;
+	private final String value;
+	${column.enumClassName}(${column.simpleJavaType} key,String value) {
+		this.key = key;
+		this.value = value;
+	}
+	
+	public static ${column.enumClassName} getByKey(${column.simpleJavaType} key) {
+		return KeyValueUtils.getByKey(key, values());
+	}
+	
+	public static ${column.enumClassName} getByValue(String value) {
+		return KeyValueUtils.getByValue(value, values());
+	}
+	
+	public static ${column.enumClassName} getRequiredByKey(${column.simpleJavaType} key) {
+		return KeyValueUtils.getRequiredByKey(key, values());
+	}
+	
+	public ${column.simpleJavaType} getKey() {
+		return key;
+	}
+
+	public String getValue() {
+		return value;
+	}
+	
+}
+</#assign>
+</#macro>

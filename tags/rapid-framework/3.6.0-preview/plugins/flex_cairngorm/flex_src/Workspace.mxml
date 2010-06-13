@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 请在viewStack中增加视图 -->
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+	>
+	
+	<!-- effects -->
+    <mx:Zoom id="workspaceEffect" 
+            zoomHeightFrom="0.0" 
+            zoomWidthFrom="0.0" 
+            zoomHeightTo="1.0" 
+            zoomWidthTo="1.0"    	
+			duration="150"/>
+    			
+	<mx:ViewStack width="100%" height="100%" id="viewStack">
+			<mx:Panel id="HelloWorldView" showEffect="{workspaceEffect}">
+				<mx:Button label="HelloWorld"/>			
+			</mx:Panel>
+	</mx:ViewStack>
+</mx:Canvas>
