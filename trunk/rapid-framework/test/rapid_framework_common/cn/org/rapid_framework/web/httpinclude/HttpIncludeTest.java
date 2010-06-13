@@ -81,4 +81,66 @@ public class HttpIncludeTest extends TestCase {
 		assertEquals(includeContent,"test_local_write_date_with_write");
 		assertEquals(response.getIncludedUrl(),"/userinfo/blog.htm");
 	}
+	
+	public void test_local_write_date_with_call_writer_and_outputstream()
+                                                                         throws UnsupportedEncodingException {
+        final MockHttpServletResponse response = new MockHttpServletResponse();
+        response.setCharacterEncoding("UTF-8");
+        MockHttpServletRequest request = new MockHttpServletRequest() {
+            @Override
+            public RequestDispatcher getRequestDispatcher(final String path) {
+                return new MockRequestDispatcher(path) {
+                    @Override
+                    public void include(ServletRequest servletRequest,
+                                        ServletResponse servletResponse)
+                                                                        throws ServletException,
+                                                                        IOException {
+                        response.setIncludedUrl(path);
+                        servletResponse.getWriter().append(
+                            "test_local_write_date_with_write");
+                        servletResponse.getOutputStream().write('c');
+                    }
+                };
+            }
+        };
+        HttpInclude http = new HttpInclude(request, response);
+        try {
+            String includeContent = http.include("/userinfo/blog.htm");
+            fail();
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().contains(
+                "getWriter() has already been called for this response"));
+        }
+    }
+	
+	   public void test_local_write_date_with_call_outputstream_and_writer()
+                                                                         throws UnsupportedEncodingException {
+        final MockHttpServletResponse response = new MockHttpServletResponse();
+        response.setCharacterEncoding("UTF-8");
+        MockHttpServletRequest request = new MockHttpServletRequest() {
+            @Override
+            public RequestDispatcher getRequestDispatcher(final String path) {
+                return new MockRequestDispatcher(path) {
+                    @Override
+                    public void include(ServletRequest servletRequest,
+                                        ServletResponse servletResponse)
+                                                                        throws ServletException,
+                                                                        IOException {
+                        response.setIncludedUrl(path);
+                        servletResponse.getOutputStream().write('c');
+                        servletResponse.getWriter().append(
+                            "test_local_write_date_with_write");
+                    }
+                };
+            }
+        };
+        HttpInclude http = new HttpInclude(request, response);
+        try {
+            String includeContent = http.include("/userinfo/blog.htm");
+            fail();
+        } catch (IllegalStateException e) {
+            assertTrue(e.getMessage().contains(
+                "getOutputStream() has already been called for this response"));
+        }
+    }
 }

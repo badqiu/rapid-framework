@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -84,33 +85,20 @@ public class HttpInclude {
     }
 
     private String getLocalContent(String includePath) throws ServletException, IOException {
-        // TODO handle getLocalContent() encoding 
-    	final ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8192);
-        final PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream,response.getCharacterEncoding()));
-        request.getRequestDispatcher(includePath).include(request, new HttpServletResponseWrapper(response) {
-            public PrintWriter getWriter() throws IOException {
-                return printWriter;
-            }
-            public ServletOutputStream getOutputStream() throws IOException {
-                return new ServletOutputStream() {
-                    @Override
-                    public void write(int b) throws IOException {
-                        outputStream.write(b);
-                    }
-                    @Override
-                    public void write(byte[] b) throws IOException {
-                        outputStream.write(b);
-                    }
-                    @Override
-                    public void write(byte[] b, int off, int len)throws IOException {
-                        outputStream.write(b, off, len);
-                    }
-                };
-            }
-        });
-        printWriter.flush();
+    	ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8192);
+        StringWriter writer = new StringWriter();
         
-        return outputStream.toString(response.getCharacterEncoding());
+        CustomOutputHttpServletResponseWrapper customResponse = new CustomOutputHttpServletResponseWrapper(response,writer,outputStream);
+        request.getRequestDispatcher(includePath).include(request, customResponse);
+        
+        customResponse.flushBuffer();
+        if(customResponse.useWriter) {
+            return writer.toString();
+        }else if(customResponse.useOutputStream) {
+            return outputStream.toString(response.getCharacterEncoding());
+        }else {
+            return "";
+        }
     }
     
     //TODO handle cookies and http query parameters encoding
@@ -165,6 +153,55 @@ public class HttpInclude {
 		}
 		return sb.toString();
 	}
+	
+	public static class CustomOutputHttpServletResponseWrapper extends HttpServletResponseWrapper {
+        public boolean useWriter = false;
+        public boolean useOutputStream = false;
+//        
+        private PrintWriter printWriter;
+        private ServletOutputStream servletOutputStream;
+        
+        public CustomOutputHttpServletResponseWrapper(HttpServletResponse response,final Writer customWriter,final OutputStream customOutputStream) {
+            super(response);
+//            setCustomWriter(customWriter);
+//            setCustomOutputStream(customOutputStream);
+            this.printWriter = new PrintWriter(customWriter);
+            this.servletOutputStream = new ServletOutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                    customOutputStream.write(b);
+                }
+                @Override
+                public void write(byte[] b) throws IOException {
+                    customOutputStream.write(b);
+                }
+                @Override
+                public void write(byte[] b, int off, int len)throws IOException {
+                    customOutputStream.write(b, off, len);
+                }
+            };
+        }
+        @Override
+        public PrintWriter getWriter() throws IOException {
+            if(useOutputStream) throw new IllegalStateException("getOutputStream() has already been called for this response");
+            useWriter = true;
+            return printWriter;
+        }
+        @Override
+        public ServletOutputStream getOutputStream() throws IOException {
+            if(useWriter) throw new IllegalStateException("getWriter() has already been called for this response");
+            useOutputStream = true;
+            return servletOutputStream;
+        }
+        
+        @Override
+        public void flushBuffer() throws IOException {
+            super.flushBuffer();
+            if(useWriter) printWriter.flush();
+            if(useOutputStream) servletOutputStream.flush();
+        }
+        
+	}
 
     static class Utils { 
     	static String getContentEncoding(URLConnection conn,HttpServletResponse response) {
@@ -191,13 +228,6 @@ public class HttpInclude {
 
 		private static void copy(InputStream in, OutputStream out) throws IOException {
             byte[] buff = new byte[8192];
-            while(in.read(buff) >= 0) {
-                out.write(buff);
-            }
-        }
-        
-        private static void copy(Reader in, Writer out) throws IOException {
-            char[] buff = new char[8192];
             while(in.read(buff) >= 0) {
                 out.write(buff);
             }
