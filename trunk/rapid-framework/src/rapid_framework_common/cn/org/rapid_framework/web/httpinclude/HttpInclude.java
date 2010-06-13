@@ -144,7 +144,9 @@ public class HttpInclude {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null ) {
 			for(Cookie c : cookies) {
-				sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
+				if(!sessionIdKey.equals(c.getName())) {
+					sb.append(c.getName()).append("=").append(c.getValue()).append(SET_COOKIE_SEPARATOR);
+				}
 			}
 		}
 		
