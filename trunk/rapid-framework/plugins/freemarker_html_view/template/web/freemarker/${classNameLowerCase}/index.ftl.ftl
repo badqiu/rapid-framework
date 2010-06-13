@@ -37,8 +37,8 @@
 				</td>		
 				<td>
 					<#if column.isDateTimeColumn>
-					<input value="<@jspEl "query."+column.columnNameLower+"Begin"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}Begin"   />
-					<input value="<@jspEl "query."+column.columnNameLower+"End"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}End"   />
+					<input value="<@jspEl "query."+column.columnNameLower+"Begin!"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}Begin"   />
+					<input value="<@jspEl "query."+column.columnNameLower+"End!"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}End"   />
 					<#else>
 					<input value="<@jspEl "query."+column.columnNameLower+"!"/>"  name="${column.columnNameLower}"  />
 					</#if>
