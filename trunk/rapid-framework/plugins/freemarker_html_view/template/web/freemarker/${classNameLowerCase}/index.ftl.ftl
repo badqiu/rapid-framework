@@ -23,42 +23,40 @@
 
 <#noparse><@override name="content"></#noparse>
 
-<div class="queryPanel">
 <form id="queryForm" method="get" style="display: inline;">
-<fieldset>
-	<legend>搜索</legend>
-	<table>
-		<#list table.columns?chunk(5) as row>
-		<tr>	
-			<#list row as column>
-			<#if !column.htmlHidden>	
-			<td class="tdLabel">
-					${className}.ALIAS_${column.constantName}
-			</td>		
-			<td>
-				<#if column.isDateTimeColumn>
-				<input value="<#if query.birthDateBegin??><@jspEl "query."+column.columnNameLower+"Begin?string(yyyy-MM-dd)!"/></#if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}Begin"   />
-				~
-				<input value="<#if query.birthDateBegin??><@jspEl "query."+column.columnNameLower+"End?string(yyyy-MM-dd)!"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})</#if>"  name="${column.columnNameLower}End"   />
-				<#else>
-				<input value="<@jspEl "query."+column.columnNameLower+"!"/>"  name="${column.columnNameLower}"  />
+<div class="queryPanel">
+	<fieldset>
+		<legend>搜索</legend>
+		<table>
+			<#list table.columns?chunk(3) as row>
+			<tr>	
+				<#list row as column>
+				<#if !column.htmlHidden>	
+				<td class="tdLabel">
+						${className}.ALIAS_${column.constantName}
+				</td>		
+				<td>
+					<#if column.isDateTimeColumn>
+					<input value="<@jspEl "query."+column.columnNameLower+"Begin"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}Begin"   />
+					<input value="<@jspEl "query."+column.columnNameLower+"End"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}End"   />
+					<#else>
+					<input value="<@jspEl "query."+column.columnNameLower+"!"/>"  name="${column.columnNameLower}"  />
+					</#if>
+				</td>
 				</#if>
-			</td>
-			</#if>
-			</#list>
-		</tr>	
-		</#list>		
-	</table>
-</fieldset>
-<div class="handleControl">
-	<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
-	<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '<@jspEl 'ctx'/>/${classNameLowerCase}/new'"/>
-	<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('<@jspEl 'ctx'/>/${classNameLowerCase}','items',document.forms.simpleTableForm)"/>
-<div>
-</form>
+				</#list>
+			</tr>	
+			</#list>		
+		</table>
+	</fieldset>
+	<div class="handleControl">
+		<input type="submit" class="stdButton" style="width:80px" value="查询" onclick="getReferenceForm(this).action='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
+		<input type="button" class="stdButton" style="width:80px" value="新增" onclick="window.location = '<@jspEl 'ctx'/>/${classNameLowerCase}/new'"/>
+		<input type="button" class="stdButton" style="width:80px" value="删除" onclick="doRestBatchDelete('<@jspEl 'ctx'/>/${classNameLowerCase}','items',document.forms.simpleTableForm)"/>
+	<div>
 </div>
 
-	<div>
+<div>
 	
 		<#noparse><@pageToolBar page=page></#noparse>
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
@@ -118,7 +116,7 @@
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		<#noparse></@pageToolBar></#noparse>
 		
-	</div>
+</div>
 </form>
 <#noparse></@override></#noparse>
 
