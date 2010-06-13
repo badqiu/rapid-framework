@@ -19,8 +19,13 @@
 	<!-- 自动搜索@Controller标注的类 -->
 	<context:component-scan base-package="com.**.controller"/>
 	
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<!-- 拦截器注册 -->
+		<property name="interceptors">
+			<bean class="javacommon.springmvc.interceptor.SharedRenderVariableInterceptor"/>
+		</property>
+	</bean>
+	
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
 	
 	<!-- directives for FreeMarker -->
@@ -88,8 +93,12 @@
 		</property>
     </bean>
     
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basename="i18n/messages"/>
-
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basenames" value="i18n/messages"/>
+    	<property name="defaultEncoding" value="UTF-8"/>
+    	<property name="cacheSeconds" value="60"/>
+    </bean>
+    
     <!-- Mapping exception to the handler view -->
     <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
