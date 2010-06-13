@@ -37,9 +37,11 @@
 			</td>		
 			<td>
 				<#if column.isDateTimeColumn>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower+"!"/>" onclick="WdatePicker({dateFmt:'<%=${className}.FORMAT_${column.constantName}%>'})"  name="s_${column.columnNameLower}"   />
+				<input value="<#if query.birthDateBegin??><@jspEl "query."+column.columnNameLower+"Begin?string(yyyy-MM-dd)!"/></#if>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})"  name="${column.columnNameLower}Begin"   />
+				~
+				<input value="<#if query.birthDateBegin??><@jspEl "query."+column.columnNameLower+"End?string(yyyy-MM-dd)!"/>" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})</#if>"  name="${column.columnNameLower}End"   />
 				<#else>
-				<input value="<@jspEl "pageRequest.filters."+column.columnNameLower+"!"/>"  name="s_${column.columnNameLower}"  />
+				<input value="<@jspEl "query."+column.columnNameLower+"!"/>"  name="${column.columnNameLower}"  />
 				</#if>
 			</td>
 			</#if>
