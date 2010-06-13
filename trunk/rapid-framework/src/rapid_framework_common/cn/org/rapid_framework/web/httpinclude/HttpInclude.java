@@ -56,13 +56,6 @@ public class HttpInclude {
         this.response = response;
     }
 
-    public static String getSessionIdKey() {
-		return sessionIdKey;
-	}
-	public static void setSessionIdKey(String sessionIdKey) {
-		HttpInclude.sessionIdKey = sessionIdKey;
-	}
-
 	public String include(String includePath) {
         try {
             if(isRemoteHttpRequest(includePath)) {
