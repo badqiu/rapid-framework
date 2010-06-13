@@ -6,28 +6,28 @@
 		<meta http-equiv="Expires" content="0"/>
 		
 		<!-- optional javascript: effects.js,jquery.js -->
-		<link href="../styles/global.css" type="text/css" rel="stylesheet">
+		<link href="${ctx}/styles/global.css" type="text/css" rel="stylesheet">
 		
 		<!-- rapid-validation BEGIN-->
-		<link href="../scripts/rapid-validation/validation.css" type="text/css" rel="stylesheet">
-		<script src="../scripts/rapid-validation/prototype_for_validation.js" type="text/javascript"></script>
+		<link href="${ctx}/scripts/rapid-validation/validation.css" type="text/css" rel="stylesheet">
+		<script src="${ctx}/scripts/rapid-validation/prototype_for_validation.js" type="text/javascript"></script>
 		
 		<!-- 
-		<script src="../scripts/rapid-validation/effects.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/rapid-validation/effects.js" type="text/javascript"></script>
 		-->
 		
 		<!-- show validation error as tooptips -->
-		<script src="../scripts/rapid-validation/tooltips.js" type="text/javascript"></script>
-		<link href="../scripts/rapid-validation/tooltips.css" type="text/css" rel="stylesheet">
+		<script src="${ctx}/scripts/rapid-validation/tooltips.js" type="text/javascript"></script>
+		<link href="${ctx}/scripts/rapid-validation/tooltips.css" type="text/css" rel="stylesheet">
 		
-		<script src="../scripts/rapid-validation/validation_cn.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/rapid-validation/validation_cn.js" type="text/javascript"></script>
 		<!-- rapid-validation END-->
 		
-		<script src="../scripts/application.js" type="text/javascript"></script>
-		<script src="../scripts/jquery.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/application.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/jquery.js" type="text/javascript"></script>
 		
-		<script src="../scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
-		<script src="../scripts/rest.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+		<script src="${ctx}/scripts/rest.js" type="text/javascript"></script>
 		   
    	    <@block name='head'></@block>   
    </head>
