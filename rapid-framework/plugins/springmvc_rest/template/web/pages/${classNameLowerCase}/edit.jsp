@@ -5,42 +5,33 @@
 <#assign classNameLowerCase = className?lower_case> 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-<html>
 
-<head>
-	<%@ include file="/commons/meta.jsp" %>
-	<base href="<%=basePath%>">
+<rapid:override name="head">
 	<title><%=${className}.TABLE_ALIAS%>编辑</title>
-</head>
+</rapid:override>
 
-<body>
-<%@ include file="/commons/messages.jsp" %>
-
-<form:form method="put" action="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl classNameFirstLower+'.'+table.idColumn.columnNameFirstLower/>" modelAttribute="${classNameFirstLower}">
-	<input id="submitButton" name="submitButton" type="submit" value="提交" />
-	<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
-	<input type="button" value="后退" onclick="history.back();"/>
-	
-	<table class="formTable">
-	<%@ include file="form_include.jsp" %>
-	</table>
-</form:form>
-
-<script>
-	
-	new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
-		var finalResult = result;
+<rapid:override name="content">
+	<form:form method="put" action="<@jspEl 'ctx'/>/${classNameLowerCase}/<@jspEl classNameFirstLower+'.'+table.idColumn.columnNameFirstLower/>" modelAttribute="${classNameFirstLower}">
+		<input id="submitButton" name="submitButton" type="submit" value="提交" />
+		<input type="button" value="返回列表" onclick="window.location='<@jspEl 'ctx'/>/${classNameLowerCase}'"/>
+		<input type="button" value="后退" onclick="history.back();"/>
 		
-		//在这里添加自定义验证
+		<table class="formTable">
+		<%@ include file="form_include.jsp" %>
+		</table>
+	</form:form>
+	
+	<script>
 		
-		return disableSubmit(finalResult,'submitButton');
-	}});
-</script>
+		new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
+			var finalResult = result;
+			
+			//在这里添加自定义验证
+			
+			return disableSubmit(finalResult,'submitButton');
+		}});
+	</script>
+</rapid:override>
 
-</body>
-
-</html>
+<%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>
+<jsp:include page="base.jsp"/>
