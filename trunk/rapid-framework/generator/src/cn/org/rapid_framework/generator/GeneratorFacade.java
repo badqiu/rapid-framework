@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
-import cn.org.rapid_framework.generator.util.IOHelper;
 /**
  * 
  * @author badqiu
@@ -107,6 +107,7 @@ public class GeneratorFacade {
 			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
+			setShareVars(filePathModel);
 			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(table));
 			return new GeneratorModel(templateModel,filePathModel);
@@ -119,6 +120,7 @@ public class GeneratorFacade {
 			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
+			setShareVars(filePathModel);
 			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
 			return new GeneratorModel(templateModel,filePathModel);
@@ -127,6 +129,7 @@ public class GeneratorFacade {
 		private static void setShareVars(Map templateModel) {
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
+			templateModel.put("now", new Date());
 		}
 	}
 	
