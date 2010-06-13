@@ -3,7 +3,12 @@ package cn.org.rapid_framework.web.util;
 import javax.servlet.FilterConfig;
 
 import org.apache.commons.lang.StringUtils;
-
+/**
+ * FilterConfig用于得到参数的工具类
+ * 
+ * @author badqiu
+ *
+ */
 public class FilterConfigUtils {
 
 	public static String getParameter(FilterConfig config,String key,String defaultValue) {
