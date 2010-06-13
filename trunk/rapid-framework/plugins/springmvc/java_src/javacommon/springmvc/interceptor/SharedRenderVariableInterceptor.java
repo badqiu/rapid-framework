@@ -33,9 +33,11 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 			ModelAndView modelAndView) throws Exception {
 		log.info("请注意,在这里可以存放渲染视图时需要的的共享变量");
 		
-		modelAndView.addAllObjects(globalRenderVariables);
-		
-		modelAndView.addAllObjects(perRequest(request,response));
+        String viewName = modelAndView.getViewName();
+        if(viewName != null && !viewName.startsWith("redirect:")) {
+            modelAndView.addAllObjects(globalRenderVariables);
+            modelAndView.addAllObjects(perRequest(request,response));
+        }
 	}
 	
 	protected Map<String,Object> perRequest(HttpServletRequest request,HttpServletResponse response) {
