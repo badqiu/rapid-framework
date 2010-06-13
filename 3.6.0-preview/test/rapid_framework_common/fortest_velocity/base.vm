@@ -1,0 +1,12 @@
+<html>
+<head>
+	#block("head") 
+		base_head_content 
+	#end 
+</head>
+<body> 
+	#block("body") 
+		base_body_content 
+	#end
+</body>
+</html>

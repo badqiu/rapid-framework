@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<table_name className="cn1" tableAlias="ta1">
+	<username columnName="c1" columnAlias="a1" />
+	<password columnName="c2" columnAlias="a2" />
+	<sex columnName="c3" columnAlias="a3" />
+</table_name>
+	
+

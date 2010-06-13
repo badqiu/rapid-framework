@@ -1,0 +1,27 @@
+#override("body")
+	<div class='content'>
+		Powered By rapid-framework
+	</div> 
+	${content}
+	
+	<div>
+	<h1>${name}</h1>
+	<table border="${border}">
+	 <tr>
+	  <th>&#160;</th>
+	#foreach($cell in $data)
+	  <th>${cell}</th>
+	#end
+	 </tr>
+	#foreach($row in $data)
+	 <tr>
+	  <th>${row}</th>
+	#foreach($cell in $data )
+	  <td>&#x${row}${cell};</td>
+	#end
+	 </tr>
+	#end
+	</table>
+	</div>	
+#end
+#extends("base.vm")
