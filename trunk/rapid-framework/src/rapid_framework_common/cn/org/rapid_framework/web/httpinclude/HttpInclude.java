@@ -163,8 +163,6 @@ public class HttpInclude {
         
         public CustomOutputHttpServletResponseWrapper(HttpServletResponse response,final Writer customWriter,final OutputStream customOutputStream) {
             super(response);
-//            setCustomWriter(customWriter);
-//            setCustomOutputStream(customOutputStream);
             this.printWriter = new PrintWriter(customWriter);
             this.servletOutputStream = new ServletOutputStream() {
                 @Override
