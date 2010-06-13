@@ -95,7 +95,7 @@ public class HttpInclude {
         if(customResponse.useWriter) {
             return writer.toString();
         }else if(customResponse.useOutputStream) {
-            return outputStream.toString(response.getCharacterEncoding());
+            return outputStream.toString(response.getCharacterEncoding()); //TODO: response.getCharacterEncoding()有可能为null
         }else {
             return "";
         }
