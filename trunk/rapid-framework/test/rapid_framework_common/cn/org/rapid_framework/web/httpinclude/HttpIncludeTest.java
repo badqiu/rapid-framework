@@ -1,8 +1,10 @@
 package cn.org.rapid_framework.web.httpinclude;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,13 +17,16 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.tuckey.web.MockRequestDispatcher;
 
+import cn.org.rapid_framework.test.util.MultiThreadTestUtils;
+
 public class HttpIncludeTest extends TestCase {
 	String cookie = "_javaeye3_session_=BAh7BzoMdXNlcl9pZGkCxEw6D3Nlc3Npb25faWQiJTg2NTRkNDgxNjhiYzhiY2RhODg1N2M3OTBjMGNkYTI5--a2a5c1d58579038336b581bab0ad2b53b4526ca5";
+	MockHttpServletResponse response = new MockHttpServletResponse();
+	MockHttpServletRequest request = new MockHttpServletRequest();
+	HttpInclude http = new HttpInclude(request, response);
+	
 	public void test_remote_with_cookie() {
-		MockHttpServletResponse response = new MockHttpServletResponse();
 		response.setCharacterEncoding("UTF-8");
-		MockHttpServletRequest request = new MockHttpServletRequest();
-		HttpInclude http = new HttpInclude(request, response);
 		System.out.println(http.include("http://www.163.com"));
 	}
 	
@@ -143,4 +148,29 @@ public class HttpIncludeTest extends TestCase {
                 "getOutputStream() has already been called for this response"));
         }
     }
+	   
+	public void testPerformance() throws InterruptedException {
+		int threads = 10;
+		MultiThreadTestUtils.executeAndWait(threads, new Runnable() {
+			@Override
+			public void run() {
+				http.include("http://www.163.com", new OutputStreamWriter(System.out));
+			}
+		});
+		
+		for(int i = 0; i < 10; i++) {
+			http.include("http://www.163.com", new Writer() {
+				@Override
+				public void close() throws IOException {
+				}
+				@Override
+				public void flush() throws IOException {
+				}
+				@Override
+				public void write(char[] cbuf, int off, int len)
+						throws IOException {
+				}
+			});
+		}
+	}
 }
