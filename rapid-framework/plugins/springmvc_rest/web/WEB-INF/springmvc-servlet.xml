@@ -74,8 +74,9 @@
 		</property>
     </bean>
     
+    <!-- 可以使用classpath: 或者WEB-INF/ 前缀 -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    	<property name="basenames" value="i18n/messages"/>
+    	<property name="basenames" value="classpath:i18n/messages"/>
     	<property name="defaultEncoding" value="UTF-8"/>
     	<property name="cacheSeconds" value="60"/>
     </bean>
