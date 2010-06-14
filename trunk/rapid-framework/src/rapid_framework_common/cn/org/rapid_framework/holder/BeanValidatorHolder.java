@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  *
  */
 public class BeanValidatorHolder implements InitializingBean{
-	public static Validator validator;
+	private static Validator validator;
 
 	public void afterPropertiesSet() throws Exception {
 		if(validator == null) throw new IllegalStateException("not found JSR303 'validator' for BeanValidatorHolder ");

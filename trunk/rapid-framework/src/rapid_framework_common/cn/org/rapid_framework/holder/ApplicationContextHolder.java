@@ -22,7 +22,7 @@ import org.springframework.context.ApplicationContextAware;
 public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
-	public static ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext;
 	
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		if(this.applicationContext != null) {
