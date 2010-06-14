@@ -353,7 +353,7 @@ public class Column {
 		return ColumnHelper.getRapidValidation(this);
 	}
 	
-	/** 得到JSR303 bean validation的验证表达式: @NotNull @Min(100) @Max(800) */
+	/** 得到JSR303 bean validation(Hibernate Validator)的验证表达式: @NotNull @Min(100) @Max(800) */
 	public String getJSR303Validation() {
 		return JSR303Validation;
 	}
