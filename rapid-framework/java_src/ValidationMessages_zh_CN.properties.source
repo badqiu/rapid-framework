@@ -1,4 +1,4 @@
-# $Id: ValidationMessages_zh_CN.properties 17927 2010-5-26 09:51:52Z badqiu(a)gmail.com $
+# UTF-8 encoding,author:badqiu(a)gmail.com $
 javax.validation.constraints.AssertFalse.message=必须为假
 javax.validation.constraints.AssertTrue.message=必须为真
 javax.validation.constraints.DecimalMax.message=必须小于或等于 {value}
