@@ -7,7 +7,7 @@ public class ColumnHelper {
 
 	/** 得到JSR303 bean validation的验证表达式 */
 	public static String getJSR303Validation(Column c) {
-		if(!c.isNullable()) {
+		if(!c.isPk() && !c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
 				return  "@NotBlank " + getNotRequiredValidation(c);
 			}else {
