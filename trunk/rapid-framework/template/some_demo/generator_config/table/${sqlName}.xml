@@ -13,6 +13,7 @@
 	updatable="是否可以更新" insertable="是否插入"	
 	enumString="枚举值,以分号分隔,示例值:M(1,男);F(0,女) 或者是:M(男);F(女)" 
 	enumClassName="如果枚举有值,生成的类名称将是这个,没有枚举值，该配置无用.示例值:Sex"
+	JSR303Validation="bean validatioan表达式: @NotNull @Min(10) @Pattern(regex=, flag=)"
 	/>
 </数据库表名>
  -->
@@ -23,6 +24,7 @@
 		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
 		updatable="${c.updatable?string}" insertable="${c.insertable?string}"
 		enumString="${c.enumString!}" enumClassName="${c.enumClassName!}"
+		JSR303Validation="${c.JSR303Validation!}"
 	/>
 </#list>
 </${table.sqlName}>
