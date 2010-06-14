@@ -15,7 +15,7 @@ add groupId=basepackage:com.company.project=com-company-project
 	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
 
 SecurityHolder.checkPermission()
-
+ConfigHolder
 
 为spring mvc增加: 
 hibernate-validator-4.0.2.GA.jar
