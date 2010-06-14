@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import org.hibernate.validator.constraints.*;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -83,8 +84,10 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 		</#if>
 	</#list>
 <#else>
+	//可以直接使用: @Length(max=50,message="用户名长度不能大于50")显示错误消息
 	//columns START
 	<#list table.columns as column>
+	${column.JSR303Validation!}
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
 	//columns END
