@@ -23,7 +23,7 @@ import org.springframework.validation.Validator;
  *
  */
 public class SpringValidatorHolder implements InitializingBean{
-	public static Validator validator;
+	private static Validator validator;
 
 	public void afterPropertiesSet() throws Exception {
 		if(validator == null) throw new BeanCreationException("not found spring 'validator' for SpringValidatorHolder ");

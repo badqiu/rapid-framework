@@ -22,7 +22,7 @@ public abstract class CacheHolder implements InitializingBean{
     /**
      * The underlying cache implementation
      */
-    public static Cache cache;
+	private static Cache cache;
     
 	public void afterPropertiesSet() throws Exception {
 		if(cache == null) throw new BeanCreationException("not found 'cache' for CacheHolder ");
