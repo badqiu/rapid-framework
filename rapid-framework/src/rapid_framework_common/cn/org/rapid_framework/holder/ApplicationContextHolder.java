@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.holder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
