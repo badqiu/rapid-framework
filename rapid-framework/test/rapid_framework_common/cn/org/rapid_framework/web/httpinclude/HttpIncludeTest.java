@@ -149,6 +149,7 @@ public class HttpIncludeTest extends TestCase {
         }
     }
 	   
+	private int count = 0;
 	public void testPerformance() throws InterruptedException {
 		final Writer NULL_WRITER = new Writer() {
 			@Override
@@ -163,17 +164,23 @@ public class HttpIncludeTest extends TestCase {
 			}
 		};
 		
-		int threads = 10;
+		System.setProperty("http.maxConnections", "1");
+		int threads = 5;
 		MultiThreadTestUtils.executeAndWait(threads, new Runnable() {
 			@Override
 			public void run() {
-				http.include("http://www.163.com", NULL_WRITER);
+				String msg = count+++" thread:"+Thread.currentThread().toString();
+				System.out.println(msg);
+				for(int i = 0; i < 5; i++) {
+					System.out.println(msg+" "+i);
+					http.include("http://www.taobao.com", NULL_WRITER);
+				}
 			}
 		});
 		
-		for(int i = 0; i < 10; i++) {
-
-			http.include("http://www.163.com", NULL_WRITER);
-		}
+//		for(int i = 0; i < 10; i++) {
+//			System.out.println(count++);
+//			http.include("http://www.taobao.com", NULL_WRITER);
+//		}
 	}
 }
