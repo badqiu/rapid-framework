@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.util.ClassUtils;
+import javacommon.util.ConvertRegisterHelper;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
+import cn.org.rapid_framework.beanutils.PropertyUtils;
 import cn.org.rapid_framework.flex.messaging.io.CglibBeanProxy;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -16,6 +17,7 @@ import flex.messaging.io.PropertyProxyRegistry;
 public class BaseRemoteFlexService <E>{
 	
 	static {
+		ConvertRegisterHelper.registerConverters();
 		//注册所有Serializable.class的对象都includeReadOnly bean properties
 		BeanProxy beanProxy = new CglibBeanProxy();
 		beanProxy.setIncludeReadOnly(true);
@@ -42,7 +44,7 @@ public class BaseRemoteFlexService <E>{
 	
 	public static <T extends PageRequest> T newQuery(Class<T> queryClazz,PageRequest pr) {
 		PageRequest query = org.springframework.beans.BeanUtils.instantiateClass(queryClazz);
-		BeanUtils.copyProperties(query, pr.getFilters());
+		PropertyUtils.copyProperties(query, pr.getFilters());
 		query.setPageNumber(pr.getPageNumber());
 		query.setPageSize(pr.getPageSize());
 		query.setSortColumns(pr.getSortColumns());
