@@ -3,7 +3,6 @@ package cn.org.rapid_framework.holder;
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,8 +12,6 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 
 import cn.org.rapid_framework.cache.Cache;
-import cn.org.rapid_framework.cache.EhCacheImpl;
-import cn.org.rapid_framework.cache.MemcachedImpl;
 
 
 /**
@@ -32,6 +29,9 @@ public abstract class CacheHolder implements InitializingBean{
 	}
 	
     public void setCache(Cache c) {
+    	if(this.cache != null) {
+			throw new IllegalStateException("CacheHolder already holded 'cache'");
+		}
     	cache = c;
     }
     
