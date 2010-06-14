@@ -58,4 +58,18 @@ public class ColumnTest  extends TestCase{
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "java.math.BigDecimal");
 		assertEquals("java.math.BigDecimal",newBigDecimal().getSimpleJavaType());
 	}
+	
+	public void test_getJSR303Validation() {
+		Column nullColumn = new Column(new Table(),Types.TINYINT,"int","email",1,2,false,true,false,false,"","remarks");
+		System.out.println(nullColumn.getJSR303Validation());
+		assertEquals("@Email  @Max(127)",nullColumn.getJSR303Validation());
+		
+		Column num = new Column(new Table(),Types.TINYINT,"int","email",1,2,false,false,false,false,"","remarks");
+		System.out.println(num.getJSR303Validation());
+		assertEquals("@NotNull @Email  @Max(127)",num.getJSR303Validation());
+		
+		Column str = new Column(new Table(),Types.VARCHAR,"int","email",1,2,false,false,false,false,"","remarks");
+		System.out.println(str.getJSR303Validation());
+		assertEquals("@NotBlank @Email @Max(1)",str.getJSR303Validation());
+	}
 }

@@ -7,15 +7,15 @@ public class ColumnHelper {
 
 	/** 得到JSR303 bean validation的验证表达式 */
 	public static String getJSR303Validation(Column c) {
-		String result = "";
 		if(!c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
-				result = "@NotBlank " + result;
+				return  "@NotBlank " + getNotRequiredValidation(c);
 			}else {
-				result = "@NotNull " + result;
+				return  "@NotNull " + getNotRequiredValidation(c);
 			}
+		}else {
+			return getNotRequiredValidation(c);
 		}
-		return result + getNotRequiredValidation(c);
 	}
 
 	public static String getNotRequiredValidation(Column c) {
@@ -24,7 +24,7 @@ public class ColumnHelper {
 			result += "@Email ";
 		}
 		if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
-			result += String.format("@Length(min=%s, max=%s) ",0,c.getSize());
+			result += String.format("@Max(%s)",c.getSize());
 		}
 		if(DatabaseDataTypesUtils.isIntegerNumber(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
 			String javaType = DatabaseDataTypesUtils.getPreferredJavaType(c.getSqlType(), c.getSize(), c.getDecimalDigits());
