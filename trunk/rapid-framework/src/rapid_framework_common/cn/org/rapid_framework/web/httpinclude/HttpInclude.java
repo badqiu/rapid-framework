@@ -106,11 +106,12 @@ public class HttpInclude {
         URL url = new URL(getWithSessionIdUrl(urlString));
 		URLConnection conn = url.openConnection();
         setConnectionHeaders(urlString, conn);
-        Reader reader = new InputStreamReader(conn.getInputStream(),Utils.getContentEncoding(conn,response));
+        InputStream input = conn.getInputStream();
+        Reader reader = new InputStreamReader(input,Utils.getContentEncoding(conn,response));
         try {
         	Utils.copy(reader,writer);
         }finally {
-        	if(reader != null) reader.close();
+        	if(input != null) input.close();
         }
         writer.flush();
     }
