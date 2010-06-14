@@ -14,6 +14,12 @@ add groupId=basepackage:com.company.project=com-company-project
 	Define value for version:  1.0-SNAPSHOT: : 1.0
 	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
 
+SecurityHolder.checkPermission()
+
+
+为spring mvc增加: 
+hibernate-validator-4.0.2.GA.jar
+validation-api-1.0.0.GA.jar
 ModelMap.key = org.springframework.validation.BindingResult.userInfoQuery for BindingResult
 public String create(ModelMap model,UserInfo userInfo,BindingResult result) {
 	validator.validate(userInfo,result);
