@@ -3,8 +3,6 @@ package cn.org.rapid_framework.holder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 /**
@@ -28,7 +26,7 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		if(this.applicationContext != null) {
-			throw new BeanCreationException("ApplicationContextHolder already holded 'applicationContext'.");
+			throw new IllegalStateException("ApplicationContextHolder already holded 'applicationContext'.");
 		}
 		this.applicationContext = context;
 		log.info("holded applicationContext,displayName:"+applicationContext.getDisplayName());

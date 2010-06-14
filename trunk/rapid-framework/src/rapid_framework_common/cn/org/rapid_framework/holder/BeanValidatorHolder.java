@@ -6,7 +6,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 /**
  * 用于持有JSR303 Validator(Hibernate Validator),使调用Validator可以当静态方法使用.
@@ -28,7 +27,7 @@ public class BeanValidatorHolder implements InitializingBean{
 	public static Validator validator;
 
 	public void afterPropertiesSet() throws Exception {
-		if(validator == null) throw new BeanCreationException("not found JSR303 'validator' for BeanValidatorHolder ");
+		if(validator == null) throw new IllegalStateException("not found JSR303 'validator' for BeanValidatorHolder ");
 	}
 	
 	public void setValidator(Validator validator) {
