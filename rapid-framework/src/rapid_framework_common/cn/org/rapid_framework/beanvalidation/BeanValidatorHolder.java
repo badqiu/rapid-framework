@@ -13,30 +13,30 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * <pre>
  * static 方法调用:
- * ValidatorHolder.validate(object);
+ * BeanValidatorHolder.validate(object);
  * </pre>
  * <pre>
  * spring配置:
- * &lt;bean class="cn.org.rapid_framework.beanvalidation.ValidatorHolder">
+ * &lt;bean class="cn.org.rapid_framework.beanvalidation.BeanValidatorHolder">
  * 	 &lt;preperty name="validator" ref="validator"/>
  * &lt;/bean>
  * </pre> 
  * @author badqiu
  *
  */
-public class ValidatorHolder implements InitializingBean{
+public class BeanValidatorHolder implements InitializingBean{
 	private static Validator validator;
 
 	public void setValidator(Validator validator) {
 		if(this.validator != null) {
-			throw new IllegalStateException("ValidatorHolder already holded 'validator'");
+			throw new IllegalStateException("BeanValidatorHolder already holded 'validator'");
 		}
 		this.validator = validator;
 	}
 
 	public static Validator getRequiredValidator() {
 		if(validator == null)
-			throw new IllegalStateException("'validator' property is null,ValidatorHolder not yet init.");
+			throw new IllegalStateException("'validator' property is null,BeanValidatorHolder not yet init.");
 		return validator;
 	}
 	
@@ -69,7 +69,7 @@ public class ValidatorHolder implements InitializingBean{
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		if(validator == null) throw new BeanCreationException("not found JSR303 'validator' for ValidatorHolder ");
+		if(validator == null) throw new BeanCreationException("not found JSR303 'validator' for BeanValidatorHolder ");
 	}
 	
 }
