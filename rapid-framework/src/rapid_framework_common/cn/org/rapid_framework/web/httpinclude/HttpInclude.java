@@ -3,6 +3,7 @@ package cn.org.rapid_framework.web.httpinclude;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -105,14 +106,12 @@ public class HttpInclude {
         URL url = new URL(getWithSessionIdUrl(urlString));
 		URLConnection conn = url.openConnection();
         setConnectionHeaders(urlString, conn);
-        InputStream input = conn.getInputStream();
-        ByteArrayOutputStream output = new ByteArrayOutputStream(8192);
+        Reader reader = new InputStreamReader(conn.getInputStream(),Utils.getContentEncoding(conn,response));
         try {
-        	Utils.copy(input,output);
+        	Utils.copy(reader,writer);
         }finally {
-        	if(input != null) input.close();
+        	if(reader != null) reader.close();
         }
-        writer.write(output.toString(Utils.getContentEncoding(conn,response)));
         writer.flush();
     }
 
@@ -222,8 +221,8 @@ public class HttpInclude {
 			return null;
 		}
 
-		private static void copy(InputStream in, OutputStream out) throws IOException {
-            byte[] buff = new byte[8192];
+		private static void copy(Reader in, Writer out) throws IOException {
+            char[] buff = new char[8192];
             while(in.read(buff) >= 0) {
                 out.write(buff);
             }
