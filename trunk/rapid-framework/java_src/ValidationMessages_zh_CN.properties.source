@@ -14,6 +14,9 @@ javax.validation.constraints.Pattern.message=不匹配合法值
 javax.validation.constraints.Size.message=大小必须在 {min} 至 {max} 之间
 org.hibernate.validator.constraints.Email.message=不是合法的邮件地址
 org.hibernate.validator.constraints.Length.message=长度必须在 {min} 至 {max} 之间
+org.hibernate.validator.constraints.NotBlank.message=请输入值
 org.hibernate.validator.constraints.NotEmpty.message=请输入值
 org.hibernate.validator.constraints.Range.message=必须在 {min} 至 {max} 之间
-
+org.hibernate.validator.constraints.URL.message=请输入有效的URL
+org.hibernate.validator.constraints.CreditCardNumber.message=请输入有效的信用卡
+org.hibernate.validator.constraints.ScriptAssert.message=表达式 "{script}" 不是为真
