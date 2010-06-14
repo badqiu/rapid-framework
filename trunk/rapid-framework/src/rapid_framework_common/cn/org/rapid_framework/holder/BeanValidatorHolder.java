@@ -9,7 +9,7 @@ import javax.validation.metadata.BeanDescriptor;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 /**
- * 用于持有JSR303 Validator,使调用Validator可以当静态方法使用.
+ * 用于持有JSR303 Validator(Hibernate Validator),使调用Validator可以当静态方法使用.
  * 
  * <pre>
  * static 方法调用:
