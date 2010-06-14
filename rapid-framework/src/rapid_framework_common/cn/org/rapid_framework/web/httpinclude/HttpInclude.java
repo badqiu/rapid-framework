@@ -107,8 +107,8 @@ public class HttpInclude {
 		URLConnection conn = url.openConnection();
         setConnectionHeaders(urlString, conn);
         InputStream input = conn.getInputStream();
-        Reader reader = new InputStreamReader(input,Utils.getContentEncoding(conn,response));
         try {
+        	Reader reader = new InputStreamReader(input,Utils.getContentEncoding(conn,response));
         	Utils.copy(reader,writer);
         }finally {
         	if(input != null) input.close();
