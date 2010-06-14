@@ -93,9 +93,7 @@ public class HttpInclude {
         request.getRequestDispatcher(includePath).include(request, customResponse);
         
         customResponse.flushBuffer();
-        if(customResponse.useWriter) {
-            //do not thing
-        }else if(customResponse.useOutputStream) {
+        if(customResponse.useOutputStream) {
         	writer.write(outputStream.toString(response.getCharacterEncoding())); //TODO: response.getCharacterEncoding()有可能为null
         }
         writer.flush();
