@@ -60,11 +60,17 @@ public class HttpInclude {
     }
 
 	public String include(String includePath) {
+		StringWriter sw = new StringWriter(8192);
+		include(includePath,sw);
+		return sw.toString();
+    }
+
+	public void include(String includePath,Writer writer) {
         try {
             if(isRemoteHttpRequest(includePath)) {
-                return getRemoteContent(includePath);
+                getRemoteContent(includePath,writer);
             }else {
-                return getLocalContent(includePath);
+                getLocalContent(includePath,writer);
             }
         } catch (ServletException e) {
             throw new RuntimeException("include error,path:"+includePath+" cause:"+e,e);
@@ -72,7 +78,7 @@ public class HttpInclude {
             throw new RuntimeException("include error,path:"+includePath+" cause:"+e,e);
         }
     }
-
+	
     private static boolean isRemoteHttpRequest(String includePath) {
         return  includePath != null && (
         			includePath.toLowerCase().startsWith("http://") ||
@@ -80,26 +86,24 @@ public class HttpInclude {
         		);
     }
 
-    private String getLocalContent(String includePath) throws ServletException, IOException {
+    private void getLocalContent(String includePath,Writer writer) throws ServletException, IOException {
     	ByteArrayOutputStream outputStream = new ByteArrayOutputStream(8192);
-        StringWriter writer = new StringWriter();
         
         CustomOutputHttpServletResponseWrapper customResponse = new CustomOutputHttpServletResponseWrapper(response,writer,outputStream);
         request.getRequestDispatcher(includePath).include(request, customResponse);
         
         customResponse.flushBuffer();
         if(customResponse.useWriter) {
-            return writer.toString();
+            //do not thing
         }else if(customResponse.useOutputStream) {
-            return outputStream.toString(response.getCharacterEncoding()); //TODO: response.getCharacterEncoding()有可能为null
-        }else {
-            return "";
+        	writer.write(outputStream.toString(response.getCharacterEncoding())); //TODO: response.getCharacterEncoding()有可能为null
         }
+        writer.flush();
     }
     
     //TODO handle cookies and http query parameters encoding
     //TODO set inheritParams from request
-    private String getRemoteContent(String urlString) throws MalformedURLException, IOException {
+    private void getRemoteContent(String urlString,Writer writer) throws MalformedURLException, IOException {
         URL url = new URL(getWithSessionIdUrl(urlString));
 		URLConnection conn = url.openConnection();
         setConnectionHeaders(urlString, conn);
@@ -110,7 +114,8 @@ public class HttpInclude {
         }finally {
         	if(input != null) input.close();
         }
-        return output.toString(Utils.getContentEncoding(conn,response));
+        writer.write(output.toString(Utils.getContentEncoding(conn,response)));
+        writer.flush();
     }
 
 	private void setConnectionHeaders(String urlString, URLConnection conn) {
