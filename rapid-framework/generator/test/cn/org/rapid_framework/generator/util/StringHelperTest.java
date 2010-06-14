@@ -118,4 +118,9 @@ public class StringHelperTest extends TestCase {
 			System.out.println(s+"="+System.getProperty(s.toString()));
 		}
 	}
+	
+	public void testRemovePrefix() {
+		assertEquals(null,StringHelper.removePrefix(null, "java.lang."));
+		assertEquals("Integer",StringHelper.removePrefix("java.lang.Integer", "java.lang."));
+	}
 }
