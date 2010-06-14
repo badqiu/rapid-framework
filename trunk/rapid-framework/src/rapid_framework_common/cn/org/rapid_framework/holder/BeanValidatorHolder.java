@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.beanvalidation;
+package cn.org.rapid_framework.holder;
 
 import java.util.Set;
 
