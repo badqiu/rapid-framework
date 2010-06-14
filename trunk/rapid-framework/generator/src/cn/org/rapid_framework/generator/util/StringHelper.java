@@ -14,7 +14,15 @@ import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
  * @email badqiu(a)gmail.com
  */
 public class StringHelper {
-
+	
+	public static String removePrefix(String str,String prefix) {
+		if(str == null) return null;
+		if(str.startsWith(prefix)) {
+			return str.substring(prefix.length());
+		}
+		return str;
+	}
+	
     public static boolean isBlank(String str) {
         return str == null || str.trim().length() == 0;
     }
