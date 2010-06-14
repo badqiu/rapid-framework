@@ -25,9 +25,8 @@ public class BaseRemoteFlexService <E>{
 	}
 	
 	public static Page convertPageList2TargetClass(Page page,Class targetClass){
-		List list = page.getResult();
 		List convertedList = new ArrayList();
-		for(Object o : list) {
+		for(Object o : page) {
 			convertedList.add(copyProperties(targetClass,o));
 		}
 		page.setResult(convertedList);
