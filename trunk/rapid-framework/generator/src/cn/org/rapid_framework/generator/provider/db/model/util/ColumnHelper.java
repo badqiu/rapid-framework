@@ -34,7 +34,7 @@ public class ColumnHelper {
 				result += " @Max("+Byte.MAX_VALUE+")";
 			}
 		}
-		return result;
+		return result.trim();
 	}
 	
 	/** 得到rapid validation的验证表达式 */
