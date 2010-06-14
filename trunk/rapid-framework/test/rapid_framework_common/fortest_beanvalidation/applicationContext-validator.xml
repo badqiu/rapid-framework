@@ -20,7 +20,7 @@
  	<bean id="resourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
  		<property name="messageSource">
 			<bean id="validationMessagesMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		    	<property name="basename" value="ValidationMessages"/>
+		    	<property name="basename" value="classpath:ValidationMessages"/>
 		    	<property name="defaultEncoding" value="UTF-8"/>
 		    	<property name="cacheSeconds" value="600"/>
 		    </bean>	 			
