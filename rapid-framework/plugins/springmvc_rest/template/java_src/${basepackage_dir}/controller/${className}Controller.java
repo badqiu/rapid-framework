@@ -16,6 +16,7 @@ import javacommon.base.BaseRestSpringController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -43,12 +44,6 @@ public class ${className}Controller extends BaseRestSpringController<${className
 	private ${className}Manager ${classNameFirstLower}Manager;
 	
 	private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
-	
-	private Validator validator;
-
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
 	
 	/** 
 	 * 增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,注意大小写
@@ -80,6 +75,14 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		return "/${classNameLowerCase}/index";
 	}
 	
+	/** 显示 */
+	@RequestMapping(value="/{id}")
+	public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
+		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
+		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+		return "/${classNameLowerCase}/show";
+	}
+
 	/** 进入新增 */
 	@RequestMapping(value="/new")
 	public String _new(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -87,12 +90,16 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		return "/${classNameLowerCase}/new";
 	}
 	
-	/** 显示 */
-	@RequestMapping(value="/{id}")
-	public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
-		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
-		return "/${classNameLowerCase}/show";
+	/** 保存新增,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
+	@RequestMapping(method=RequestMethod.POST)
+	public String create(ModelMap model,@Valid ${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		if(errors.hasErrors()) {
+			return  "/${classNameLowerCase}/new";
+		}
+		
+		${classNameFirstLower}Manager.save(${classNameFirstLower});
+		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
+		return LIST_ACTION;
 	}
 	
 	/** 编辑 */
@@ -103,29 +110,11 @@ public class ${className}Controller extends BaseRestSpringController<${className
 		return "/${classNameLowerCase}/edit";
 	}
 	
-	/** 保存新增 */
-	@RequestMapping(method=RequestMethod.POST)
-	public String create(ModelMap model,${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		
-		validator.validate(${classNameFirstLower}, errors);
-		if(errors.hasErrors()) {
-			return _new(model, ${classNameFirstLower}, request, response);
-		}
-		
-		${classNameFirstLower}Manager.save(${classNameFirstLower});
-		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
-		return LIST_ACTION;
-	}
-	
-	/** 保存更新 */
+	/** 保存更新,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public String update(ModelMap model,@PathVariable ${pkJavaType} id,BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		bind(request,${classNameFirstLower});
-		
-		validator.validate(${classNameFirstLower}, errors);
+	public String update(ModelMap model,@PathVariable ${pkJavaType} id,@Valid ${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		if(errors.hasErrors()) {
-			return edit(model,id);
+			return "/${classNameLowerCase}/edit";
 		}
 		
 		${classNameFirstLower}Manager.update(${classNameFirstLower});
