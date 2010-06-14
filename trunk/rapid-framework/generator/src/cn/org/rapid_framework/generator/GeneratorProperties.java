@@ -24,6 +24,10 @@ public class GeneratorProperties {
 	static PropertiesHelper props = new PropertiesHelper(new Properties());
 	private GeneratorProperties(){}
 	static {
+		reload();
+	}
+	
+	public static void reload() {
 		try {
 			GLogger.println("Load [generator.properties] from classpath");
 			setProperties(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
