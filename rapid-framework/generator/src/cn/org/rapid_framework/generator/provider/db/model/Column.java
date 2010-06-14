@@ -5,6 +5,7 @@ package cn.org.rapid_framework.generator.provider.db.model;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.model.util.ColumnHelper;
 import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -342,33 +343,23 @@ public class Column {
 		return !isPk();
 	}
 	
+	/**得到 rapid-validation的验证表达式  */
 	public String getValidateString() {
-		String result = getNoRequiredValidateString();
-		if(!isNullable()) {
-			result = "required " + result;
-		}
-		return result;
+		return isNullable() ? getNoRequiredValidateString() :  "required " + getNoRequiredValidateString();
 	}
 	
+	/**得到 rapid-validation的验证表达式: required min-value-800  */
 	public String getNoRequiredValidateString() {
-		String result = "";
-		if(getSqlName().indexOf("mail") >= 0) {
-			result += "validate-email ";
-		}
-		if(DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits())) {
-			result += "validate-number ";
-		}
-		if(DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits())) {
-			result += "validate-integer ";
-			if(getJavaType().indexOf("Short") >= 0) {
-				result += "max-value-"+Short.MAX_VALUE;
-			}else if(getJavaType().indexOf("Integer") >= 0) {
-				result += "max-value-"+Integer.MAX_VALUE;
-			}else if(getJavaType().indexOf("Byte") >= 0) {
-				result += "max-value-"+Byte.MAX_VALUE;
-			}
-		}
-		return result;
+		return ColumnHelper.getRapidValidation(this);
+	}
+	
+	/** 得到JSR303 bean validation的验证表达式: @NotNull @Min(100) @Max(800) */
+	public String getJSR303Validation() {
+		return JSR303Validation;
+	}
+
+	public void setJSR303Validation(String jSR303Validation) {
+		JSR303Validation = jSR303Validation;
 	}
 	
 	public boolean getIsStringColumn() {
@@ -407,14 +398,7 @@ public class Column {
 	 * @return
 	 */
 	public String getSimpleJavaType() {
-		String javaType = getJavaType();
-		if(javaType == null) return null;
-		if(javaType.startsWith("java.lang.")) {
-			int lastIndexOf = javaType.lastIndexOf(".");
-			return lastIndexOf == -1 ? javaType : javaType.substring(lastIndexOf+1);
-		}else {
-			return javaType;
-		}
+		return StringHelper.removePrefix(getJavaType(), "java.lang.");
 	}
 	
 	public String getAsType() {
@@ -497,6 +481,7 @@ public class Column {
 		enumClassName = getColumnName()+"Enum";		
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
 		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
+		setJSR303Validation(ColumnHelper.getJSR303Validation(this));
 	}
 	
 	private String enumString = "";
@@ -506,8 +491,9 @@ public class Column {
 	private String asType;	
 	private String enumClassName;
 	private boolean updatable = true;	
-	private boolean insertable = true;	
-	
+	private boolean insertable = true;
+	private String JSR303Validation;
+//	private String rapidValidation;
 	/**
 	 * public enum ${enumClassName} {
 	 * 		${enumAlias}(${enumKey},${enumDesc});
