@@ -108,7 +108,7 @@
 	<target name="test" depends="compile-all">
 		<delete dir="${dir.test.report}" failonerror="no"/>
 		<mkdir dir="${dir.test.report}"/>
-		<junit printsummary="yes" fork="false" haltonfailure="yes" dir="${basedir}"  maxmemory="256M">
+		<junit printsummary="yes" fork="true" haltonfailure="yes" dir="${basedir}"  maxmemory="256M">
 			
 			<classpath>
 				<path refid="lib.classpath"/>
