@@ -16,7 +16,8 @@
 	<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" >
 		<constructor-arg ref="resourceBundleLocator"></constructor-arg>
 	</bean>
-	 	
+	
+	<!-- 可以使用classpath: 或者WEB-INF/ 前缀 --> 	
  	<bean id="resourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
  		<property name="messageSource">
 			<bean id="validationMessagesMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
