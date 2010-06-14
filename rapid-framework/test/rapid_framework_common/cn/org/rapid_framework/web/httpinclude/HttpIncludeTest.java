@@ -150,27 +150,30 @@ public class HttpIncludeTest extends TestCase {
     }
 	   
 	public void testPerformance() throws InterruptedException {
+		final Writer NULL_WRITER = new Writer() {
+			@Override
+			public void close() throws IOException {
+			}
+			@Override
+			public void flush() throws IOException {
+			}
+			@Override
+			public void write(char[] cbuf, int off, int len)
+					throws IOException {
+			}
+		};
+		
 		int threads = 10;
 		MultiThreadTestUtils.executeAndWait(threads, new Runnable() {
 			@Override
 			public void run() {
-				http.include("http://www.163.com", new OutputStreamWriter(System.out));
+				http.include("http://www.163.com", NULL_WRITER);
 			}
 		});
 		
 		for(int i = 0; i < 10; i++) {
-			http.include("http://www.163.com", new Writer() {
-				@Override
-				public void close() throws IOException {
-				}
-				@Override
-				public void flush() throws IOException {
-				}
-				@Override
-				public void write(char[] cbuf, int off, int len)
-						throws IOException {
-				}
-			});
+
+			http.include("http://www.163.com", NULL_WRITER);
 		}
 	}
 }
