@@ -9,16 +9,16 @@ public class ColumnHelper {
 	public static String getJSR303Validation(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
-				return  "@NotBlank " + getNotRequiredValidation(c);
+				return  "@NotBlank " + getNotRequiredJSR303Validation(c);
 			}else {
-				return  "@NotNull " + getNotRequiredValidation(c);
+				return  "@NotNull " + getNotRequiredJSR303Validation(c);
 			}
 		}else {
-			return getNotRequiredValidation(c);
+			return getNotRequiredJSR303Validation(c);
 		}
 	}
 
-	public static String getNotRequiredValidation(Column c) {
+	public static String getNotRequiredJSR303Validation(Column c) {
 		String result = "";
 		if(c.getSqlName().indexOf("mail") >= 0) {
 			result += "@Email ";
