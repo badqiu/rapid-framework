@@ -25,8 +25,12 @@ import org.springframework.beans.factory.InitializingBean;
  *
  */
 public class BeanValidatorHolder implements InitializingBean{
-	private static Validator validator;
+	public static Validator validator;
 
+	public void afterPropertiesSet() throws Exception {
+		if(validator == null) throw new BeanCreationException("not found JSR303 'validator' for BeanValidatorHolder ");
+	}
+	
 	public void setValidator(Validator validator) {
 		if(this.validator != null) {
 			throw new IllegalStateException("BeanValidatorHolder already holded 'validator'");
@@ -64,12 +68,4 @@ public class BeanValidatorHolder implements InitializingBean{
 		return getRequiredValidator().unwrap(type);
 	}
 
-	public static void clean() {
-		validator = null;
-	}
-
-	public void afterPropertiesSet() throws Exception {
-		if(validator == null) throw new BeanCreationException("not found JSR303 'validator' for BeanValidatorHolder ");
-	}
-	
 }

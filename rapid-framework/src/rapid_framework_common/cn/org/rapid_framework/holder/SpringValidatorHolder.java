@@ -24,8 +24,12 @@ import org.springframework.validation.Validator;
  *
  */
 public class SpringValidatorHolder implements InitializingBean{
-	private static Validator validator;
+	public static Validator validator;
 
+	public void afterPropertiesSet() throws Exception {
+		if(validator == null) throw new BeanCreationException("not found spring 'validator' for SpringValidatorHolder ");
+	}
+	
 	public void setValidator(Validator validator) {
 		if(this.validator != null) {
 			throw new IllegalStateException("SpringValidatorHolder already holded 'validator'");
@@ -57,14 +61,6 @@ public class SpringValidatorHolder implements InitializingBean{
 		if(errors.hasErrors()) {
 			throw new BindException(errors);
 		}
-	}
-	
-	public static void clean() {
-		validator = null;
-	}
-
-	public void afterPropertiesSet() throws Exception {
-		if(validator == null) throw new BeanCreationException("not found spring 'validator' for SpringValidatorHolder ");
 	}
 	
 }

@@ -24,10 +24,9 @@ import org.springframework.context.ApplicationContextAware;
 public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
-	private static ApplicationContext applicationContext;
+	public static ApplicationContext applicationContext;
 	
-	public void setApplicationContext(ApplicationContext context)
-			throws BeansException {
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		if(this.applicationContext != null) {
 			throw new BeanCreationException("ApplicationContextHolder already holded 'applicationContext'.");
 		}
@@ -45,8 +44,4 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 		return getApplicationContext().getBean(beanName);
 	}
 	
-	public static void clean() {
-		applicationContext = null;
-	}
-
 }
