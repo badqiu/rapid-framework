@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationContextAware;
  * <br />
  * <pre>
  * 使用方法:
- * &lt;bean class="cn.org.rapid_framework.util.ApplicationContextHolder"/>
+ * &lt;bean class="cn.org.rapid_framework.holder.ApplicationContextHolder"/>
  * 
  * 在java代码中则可以如此使用: 
  * BlogDao dao = (BlogDao)ApplicationContextHolder.getBean("blogDao");
