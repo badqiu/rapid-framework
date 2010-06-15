@@ -3,8 +3,8 @@ package cn.org.rapid_framework.cache;
 import java.util.Map;
 
 /**
- * A cache implementation
- * @see CacheHolder.cache.Cache
+ * A cache interface
+ * @see CacheHolder.cache
  */
 public interface Cache {
 
