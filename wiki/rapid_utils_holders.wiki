@@ -21,12 +21,14 @@ Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便
 {{{
 <bean class="cn.org.rapid_framework.holder.ApplicationContextHolder"/>
 }}}
+
 *1.2使用*
 ApplicationContextHolder使用
 {{{
 UserService service = ApplicationContextHolder.getBean("userService")
 //service do something
 }}}
+
 *1.3实现*
 {{{
 public class ApplicationContextHolder implements ApplicationContextAware{
@@ -34,6 +36,7 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
 	private static ApplicationContext applicationContext;
 	
+        //只能holder一个对象
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		if(this.applicationContext != null) {
 			throw new IllegalStateException("ApplicationContextHolder already holded 'applicationContext'.");
@@ -52,6 +55,7 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 		return getApplicationContext().getBean(beanName);
 	}
 	
+        //用于清空holder
 	public static void cleanHolder() {
 		applicationContext = null;
 	}
@@ -69,3 +73,4 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 || *MailerHolder* || 用于邮件发送的Mailer ||
 || *ConfigHolder* || 用于持有配置,需要动态刷新的参数使用,请查看文章[http://badqiu.javaeye.com/blog/674321 保持类的无状态] ||
 || *SecurityManagerHolder* || 用于权限控制的SecurityManager ||
+
