@@ -1,0 +1,55 @@
+#summary One-sentence summary of this page.
+
+= Holder模式 =
+
+Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便使用.
+适用于一些系统只存在单例(singleton)并且常用的对象.
+如BeanValidatorHolder.validate(bean),CacheHolder.get(String key),ApplicationContextHolder.getBean();
+
+*与singleton相比特点*
+  * 一个Holder只能持有一个对象
+  * Holder一般是持有接口,所以你可以改变实现
+  * 配合spring完成初始化
+  * 方便使用
+
+==示例1.ApplicationContextHolder,用于持有ApplicationContext对象:==
+*1.1配置*
+{{{
+<bean class="cn.org.rapid_framework.holder.ApplicationContextHolder"/>
+}}}
+*1.2使用*
+ApplicationContextHolder使用
+{{{
+UserService service = ApplicationContextHolder.getBean("userService")
+//service do something
+}}}
+*1.3实现*
+{{{
+public class ApplicationContextHolder implements ApplicationContextAware{
+	
+	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
+	private static ApplicationContext applicationContext;
+	
+	public void setApplicationContext(ApplicationContext context) throws BeansException {
+		if(this.applicationContext != null) {
+			throw new IllegalStateException("ApplicationContextHolder already holded 'applicationContext'.");
+		}
+		this.applicationContext = context;
+		log.info("holded applicationContext,displayName:"+applicationContext.getDisplayName());
+	}
+	
+	public static ApplicationContext getApplicationContext() {
+		if(applicationContext == null)
+			throw new IllegalStateException("'applicationContext' property is null,ApplicationContextHolder not yet init.");
+		return applicationContext;
+	}
+	
+	public static Object getBean(String beanName) {
+		return getApplicationContext().getBean(beanName);
+	}
+	
+	public static void cleanHolder() {
+		applicationContext = null;
+	}
+}
+}}}
