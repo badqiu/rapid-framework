@@ -23,6 +23,7 @@ import cn.org.rapid_framework.test.dbunit.DBUnitFlatXmlHelper;
  * 所以你要装载的资源文件应改为"classpath:/spring/*-test-resource.xml"
  */
 @ContextConfiguration(locations={"classpath:/spring/*-resource.xml",
+								 "classpath:/spring/*-validator.xml",
                                  "classpath:/spring/*-datasource.xml",
                                  "classpath:/spring/*-dao.xml",
 })
