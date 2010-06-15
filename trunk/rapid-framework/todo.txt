@@ -18,6 +18,7 @@ SecurityHolder.checkPermission()
 ConfigHolder
 MailerHolder
 MessageSourceHolder
+MessagePublisherHodler
 
 Validator查找错误消息的规则,示例:@Length(min=0,max=100) UserInfo.password
 	min
