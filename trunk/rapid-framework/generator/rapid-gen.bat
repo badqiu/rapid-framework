@@ -1,6 +1,6 @@
 if not defined JAVA_HOME goto noJavaHome
 set JAVA_PATH="%JAVA_HOME%\bin\java"
-%JAVA_PATH% -cp .\lib\*.jar;. cn.org.rapid_framework.generator.ext.CommandLine
+%JAVA_PATH% -cp .\lib\*;. cn.org.rapid_framework.generator.ext.CommandLine
 goto end
 
 :noJavaHome
