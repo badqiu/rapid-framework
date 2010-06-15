@@ -20,7 +20,7 @@
     default-autowire="byName"   >
 
 	<!-- 开启支持@NumberFormat @DateTimeFormat @Valid标注 ,@DateTimeFormat用于bean 日期属性的格式化,请查看: http://static.springsource.org/spring/docs/3.0.2.RELEASE/spring-framework-reference/htmlsingle/spring-framework-reference.html#mvc-config-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven validator="validator"/>
 
 	<!-- 自动搜索@Controller标注的类 -->
 	<context:component-scan base-package="com.**.controller"/>
@@ -72,13 +72,6 @@
 				 -->
 			</list>
 		</property>
-    </bean>
-    
-    <!-- 可以使用classpath: 或者WEB-INF/ 前缀 -->
-    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    	<property name="basenames" value="classpath:i18n/messages"/>
-    	<property name="defaultEncoding" value="UTF-8"/>
-    	<property name="cacheSeconds" value="60"/>
     </bean>
     
     <!-- Mapping exception to the handler view -->
