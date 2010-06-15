@@ -20,5 +20,12 @@
  	<bean id="messageSourceResourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
  		<property name="messageSource" ref="messageSource"/>
  	</bean>
+ 	
+ 	<!-- 用于持有Spring Validator,可以使用SpringValidatorHolder.validate(object)的静态方法调用 来验证Bean -->
+ 	<!-- 
+ 	<bean class="cn.org.rapid_framework.holder.SpringValidatorHolder" >
+ 		<property name="validator" ref="validator"/>
+ 	</bean>
+ 	 -->
     
 </beans>
