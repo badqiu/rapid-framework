@@ -8,24 +8,17 @@
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	   default-autowire="byName" default-lazy-init="false">
 	
-	<!-- 用于启用Hibernate Validator,并且使用spring MessageSource替换java ResourceBundle -->
+	<!-- 用于启用Hibernate Validator -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
-		<property name="messageInterpolator" >
-			<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" >
-				<constructor-arg ref="messageSourceResourceBundleLocator"></constructor-arg>
-			</bean>
-		</property>
+		<property name="messageInterpolator" ref="messageInterpolator"/>
+	</bean>
+
+	<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" >
+		<constructor-arg ref="resourceBundleLocator"></constructor-arg>
 	</bean>
 	
- 	<bean id="messageSourceResourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
- 		<property name="messageSource" ref="messageSource"/>
+ 	<bean id="resourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
+ 		<property name="messageSource" ref="messageSource"/>		
  	</bean>
- 	
- 	<!-- 用于持有Spring Validator,可以使用SpringValidatorHolder.validate(object)的静态方法调用 来验证Bean -->
- 	<!-- 
- 	<bean class="cn.org.rapid_framework.util.holder.SpringValidatorHolder" >
- 		<property name="validator" ref="validator"/>
- 	</bean>
- 	 -->
     
 </beans>
