@@ -20,6 +20,12 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
+
+add application.properties
+app.name=projectName
+app.version=1.0
+app.mode=dev,prod,test,perf
+
 Validator查找错误消息的规则,示例:@Length(min=0,max=100) UserInfo.password
 	min
 	max
