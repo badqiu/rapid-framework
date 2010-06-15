@@ -2,6 +2,7 @@ package cn.org.rapid_framework.beanvalidation;
 
 import java.util.HashMap;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
@@ -14,12 +15,23 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.Validator;
 
+import cn.org.rapid_framework.holder.BeanValidatorHolder;
+
 public class ValidatorTest extends TestCase{
 
+	Validator validator = null;
+	public void setUp() {
+		ApplicationContext ac = new ClassPathXmlApplicationContext("fortest_beanvalidation/applicationContext-validator.xml");
+		validator = ac.getBean("validator",Validator.class);
+		new BeanValidatorHolder().setValidator((javax.validation.Validator)validator);
+	}
+	
+	public void tearDown() {
+		BeanValidatorHolder.cleanHolder();
+	}
+	
 	public void test() {
 
-		ApplicationContext ac = new ClassPathXmlApplicationContext("fortest_beanvalidation/applicationContext-validator.xml");
-		Validator validator = ac.getBean("validator",Validator.class);
 		MapBindingResult errors = new MapBindingResult(new HashMap(), "vb");
 		
 		validator.validate(new BeanValidationTestBean(), errors );
@@ -32,6 +44,33 @@ public class ValidatorTest extends TestCase{
 //		MessageInterpolatorContext context = new MessageInterpolatorContext(constraintDescriptor,"blog");
 //		assertEquals("大小必须在 {min} 至 {max} 之间",mi.interpolate("javax.validation.constraints.Size.message", context));
 	} 
+	
+	public void testBeanValidatorHoldervalidate() {
+		try {
+			BeanValidatorHolder.validate(new BeanValidationTestBean());
+		fail();
+		}catch(ConstraintViolationException e) {
+			assertEquals("validate failure on object:BeanValidationTestBean",e.getMessage());
+		}
+	}
+
+	public void testBeanValidatorHoldervalidateProperty() {
+		try {
+			BeanValidatorHolder.validateProperty(new BeanValidationTestBean(),"username");
+		fail();
+		}catch(ConstraintViolationException e) {
+			assertEquals("validate property failure on object:BeanValidationTestBean.username",e.getMessage());
+		}
+	}
+
+	public void testBeanValidatorHoldervalidateValue() {
+		try {
+			BeanValidatorHolder.validateValue(BeanValidationTestBean.class,"username","   ");
+		fail();
+		}catch(ConstraintViolationException e) {
+			assertEquals("validate value failure on object:BeanValidationTestBean.username value:   ",e.getMessage());
+		}
+	}
 	
 	public static class BeanValidationTestBean {
 		@NotBlank
