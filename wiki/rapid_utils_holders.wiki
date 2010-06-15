@@ -57,13 +57,13 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 }}}
 
 ==其它可以存在的Holder==
-|| *holder* ||*功能*||
-|| * BeanValidatorHolder * || 用于持有Hibernate Validator ||
-||* SpringValidatorHolder *|| 用于持有Spring Validator ||
-||* ApplicationContextHolder *|| 用于持有Spring ApplicationContext ||
-||* CacheHolder *|| 用于持有Cache ||
-||* MessagePublisherHodler *|| 用于持有类似JMS消息中心的消息发送||
-||* MessageSourceHolder *|| 持用MessageSource,用于国际化 ||
-||* MailerHolder *|| 用于邮件发送的Mailer ||
-||* ConfigHolder *|| 用于持有配置 || 类的无状态:http://badqiu.javaeye.com/blog/674321 ||
-||* SecurityManagerHolder *|| 用于权限控制的SecurityManager ||
+|| *holder* || *功能* ||
+|| *BeanValidatorHolder* || 用于持有Hibernate Validator ||
+|| *SpringValidatorHolder* || 用于持有Spring Validator ||
+|| *ApplicationContextHolder* || 用于持有Spring ApplicationContext ||
+|| *CacheHolder* || 用于持有Cache ||
+|| *MessagePublisherHodler* || 用于持有类似JMS消息中心的消息发送||
+|| *MessageSourceHolder* || 持用MessageSource,用于国际化 ||
+|| *MailerHolder* || 用于邮件发送的Mailer ||
+|| *ConfigHolder* || 用于持有配置 || 类的无状态:http://badqiu.javaeye.com/blog/674321 ||
+|| *SecurityManagerHolder* || 用于权限控制的SecurityManager ||
