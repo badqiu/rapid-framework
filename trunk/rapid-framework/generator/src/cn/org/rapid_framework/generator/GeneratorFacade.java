@@ -35,6 +35,21 @@ public class GeneratorFacade {
 		g.clean();
 	}
 	
+	public void deleteByAllTable(String templateRootDir) throws Exception {
+		List<Table> tables = DbTableFactory.getInstance().getAllTables();
+		List exceptions = new ArrayList();
+		for(int i = 0; i < tables.size(); i++ ) {
+			try {
+				deleteByTable(tables.get(i).getSqlName(),templateRootDir);
+			}catch(GeneratorException ge) {
+				exceptions.addAll(ge.getExceptions());
+			}catch(Exception e) {
+				exceptions.add(e);
+			}
+		}
+		PrintUtils.printExceptionsSumary("",exceptions);		
+	}
+	
 	public void generateByAllTable(String templateRootDir) throws Exception {
 		List<Table> tables = DbTableFactory.getInstance().getAllTables();
 		List exceptions = new ArrayList();
@@ -168,4 +183,5 @@ public class GeneratorFacade {
 			GLogger.println("----All TableNames END----");
 		}
 	}
+
 }
