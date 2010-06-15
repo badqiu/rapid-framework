@@ -12,5 +12,11 @@ public class ColumnHelperTest extends TestCase {
 		assertEquals("Min",results[0]);
 		assertEquals("Max",results[1]);
 		assertEquals("Length",results[2]);
+		
+		results = ColumnHelper.removeHibernateValidatorSpecialTags(null);
+		assertTrue(results.length == 0);
+		
+		results = ColumnHelper.removeHibernateValidatorSpecialTags("    ");
+		assertTrue(results.length == 0);
 	}
 }

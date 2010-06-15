@@ -6,12 +6,12 @@ import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 public class ColumnHelper {
 	
 	public static String[] removeHibernateValidatorSpecialTags(String str) {
-		if(str == null) return new String[]{};
-		return str.replaceAll("@", "").replaceAll("\\(.*?\\)", "").trim().split("\\s+");
+		if(str == null || str.trim().length() == 0) return new String[]{};
+		return str.trim().replaceAll("@", "").replaceAll("\\(.*?\\)", "").trim().split("\\s+");
 	}
 	
 	/** 得到JSR303 bean validation的验证表达式 */
-	public static String getHibernateValidatorsExpression(Column c) {
+	public static String getHibernateValidatorExpression(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
 				return  "@NotBlank " + getNotRequiredJSR303Validation(c);

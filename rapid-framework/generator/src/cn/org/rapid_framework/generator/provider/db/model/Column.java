@@ -352,14 +352,19 @@ public class Column {
 	public String getNoRequiredValidateString() {
 		return ColumnHelper.getRapidValidation(this);
 	}
+
+	/** 得到JSR303 bean validation(Hibernate Validator)的验证表达式: @NotNull @Min(100) @Max(800) */
+	public String[] getHibernateValidatorConstraints() {
+		return ColumnHelper.removeHibernateValidatorSpecialTags(getHibernateValidatorExprssion());
+	}
 	
 	/** 得到JSR303 bean validation(Hibernate Validator)的验证表达式: @NotNull @Min(100) @Max(800) */
-	public String getHibernateValidatorsExprssion() {
-		return hibernateValidatorsExprssion;
+	public String getHibernateValidatorExprssion() {
+		return hibernateValidatorExprssion;
 	}
 
-	public void setHibernateValidatorsExprssion(String v) {
-		hibernateValidatorsExprssion = v;
+	public void setHibernateValidatorExprssion(String v) {
+		hibernateValidatorExprssion = v;
 	}
 	
 	public boolean getIsStringColumn() {
@@ -481,7 +486,7 @@ public class Column {
 		enumClassName = getColumnName()+"Enum";		
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
 		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
-		setHibernateValidatorsExprssion(ColumnHelper.getHibernateValidatorsExpression(this));
+		setHibernateValidatorExprssion(ColumnHelper.getHibernateValidatorExpression(this));
 	}
 	
 	private String enumString = "";
@@ -492,7 +497,7 @@ public class Column {
 	private String enumClassName;
 	private boolean updatable = true;	
 	private boolean insertable = true;
-	private String hibernateValidatorsExprssion;
+	private String hibernateValidatorExprssion;
 //	private String rapidValidation;
 	/**
 	 * public enum ${enumClassName} {
