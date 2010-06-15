@@ -12,9 +12,6 @@
     	<format property="today" pattern="yyyyMMdd"/>
   	</tstamp>
 	
-	<property file="build-generator.properties" />
-	<property environment="env"/>
-	
 	<!--版本控制信息-->
 	<property name="version" value="3.9.0.${today}"></property>
 	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
@@ -22,7 +19,10 @@
 	<target name="generate_version">
 		<echo file="${dir.src.web}/${version.file}" append="no" message="${version.message}"/>
 	</target>
-	
+
+	<property file="build-generator.properties" />
+	<property environment="env"/>
+		
 	<!-- 主要路径修改START -->
 	<path id="lib.classpath">
 		<fileset dir="generator/lib">
@@ -94,7 +94,7 @@
 		<antcall target="compile-test"/>
 	</target>
 		
-	<target name="jar" depends="test">
+	<target name="jar" depends="compile-all">
 		<jar jarfile="${dir.dist}/${jar.name}">
 			<fileset dir="${dir.dist.java}">
 				<include name="META-INF/**"/>
@@ -156,12 +156,34 @@
 			<bottom>API</bottom>
 		</javadoc>
 	</target>
-
-	<target name="zip" depends="prepare">
+	
+	<target name="zip" depends="prepare" description="简单的zip压缩打包">
 		<zip zipfile="${dir.dist}/${ant.project.name}-${version}.zip">
 			<zipfileset dir="." prefix="rapid-generator-${version}">
 				<include name="template/**"/>
 				<include name="generator/**"/>
+			</zipfileset>
+		</zip>		
+	</target>
+
+	<target name="standalone-zip" depends="jar" description="独立的命令行简单的zip压缩打包">
+		<zip zipfile="${dir.dist}/standalone-${ant.project.name}-${version}.zip">
+			<zipfileset dir="${dir.dist}" prefix="rapid-generator-${version}/lib">
+					<include name="*.jar"/>
+			</zipfileset>
+			<zipfileset dir="./generator" prefix="rapid-generator-${version}">
+				<include name="*.bat"/>
+				<include name="lib/**"/>
+			</zipfileset>
+
+			<zipfileset dir="./generator/src" prefix="rapid-generator-${version}">
+				<include name="*.properties"/>
+				<include name="*.txt"/>
+			</zipfileset>
+					
+			<!-- templates -->
+			<zipfileset dir="." prefix="rapid-generator-${version}">
+				<include name="template/**"/>
 			</zipfileset>
 		</zip>		
 	</target>
