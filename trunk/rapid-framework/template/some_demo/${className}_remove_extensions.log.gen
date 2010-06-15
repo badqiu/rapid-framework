@@ -1,2 +1,0 @@
-${gg.generateFile('d:/g_temp.log','info_from_generator')}
-${gg.setIgnoreOutput(true)}
