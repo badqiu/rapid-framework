@@ -10,8 +10,8 @@ Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便
 
 *示例如下:*
 {{{
-BeanValidatorHolder.validate(bean)
-CacheHolder.get("key")
+BeanValidatorHolder.validate(bean) // HibernateValidator一般系统只有一个
+CacheHolder.get("key") //如Memcached,应用系统也只有一个对象
 ApplicationContextHolder.getBean("userInfoService");
 }}}
 
