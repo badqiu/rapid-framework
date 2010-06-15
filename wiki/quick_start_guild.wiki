@@ -52,7 +52,7 @@
 {{{
 CREATE TABLE user_info (
   user_id bigint  PRIMARY KEY AUTO_INCREMENT,
-  username varchar(50),
+  username varchar(50) not null,
   password varchar(50),
   birth_date date,
   sex int,
