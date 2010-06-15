@@ -1,22 +1,16 @@
 package cn.org.rapid_framework.pipeline;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
 
 import cn.org.rapid_framework.util.StringTokenizerUtils;
 import freemarker.core.Environment;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateModelException;
 /**
  * @see Pipeline
  * @author badqiu
@@ -53,18 +47,23 @@ public class FreemarkerPipeline implements Pipeline{
 			Map globalContext = new HashMap();
 			for(int i = 0; i < pipeTemplates.length; i++) {
 				String templateName = pipeTemplates[i];
-				Template template = conf.getTemplate(templateName);
-				if(i == pipeTemplates.length - 1) {
-					Environment env = template.createProcessingEnvironment(rootMap, writer);
-					env.getCurrentNamespace().putAll(globalContext);
-					env.process();
-				}else {
-					Writer tempOutput = new StringWriter(bufferSize);
-					Environment env = template.createProcessingEnvironment(rootMap, tempOutput);
-					env.getCurrentNamespace().putAll(globalContext);
-					env.process();
-					globalContext.putAll(env.getCurrentNamespace().toMap());
-					globalContext.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+				boolean isLastTemplate = i == pipeTemplates.length - 1;
+				try {
+					Template template = conf.getTemplate(templateName);
+					if(isLastTemplate) {
+						Environment env = template.createProcessingEnvironment(rootMap, writer);
+						env.getCurrentNamespace().putAll(globalContext);
+						env.process();
+					}else {
+						Writer tempOutput = new StringWriter(bufferSize);
+						Environment env = template.createProcessingEnvironment(rootMap, tempOutput);
+						env.getCurrentNamespace().putAll(globalContext);
+						env.process();
+						globalContext.putAll(env.getCurrentNamespace().toMap());
+						globalContext.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+					}
+				}catch(Exception e){
+					handleException(e,templateName,isLastTemplate);
 				}
 			}
 			return writer;
@@ -73,6 +72,10 @@ public class FreemarkerPipeline implements Pipeline{
 		}
 	}
 	
+	public void handleException(Exception e, String templateName,boolean isLastTemplate) throws Exception {
+		throw e;
+	}
+
 	public Writer pipeline(String[] pipeTemplates, Map model, Writer writer) throws PipeException {
 		return pipeline(pipeTemplates, (Object)model, writer);
 	}
