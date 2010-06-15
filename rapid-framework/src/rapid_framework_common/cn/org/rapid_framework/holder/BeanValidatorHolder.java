@@ -3,6 +3,7 @@ package cn.org.rapid_framework.holder;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import javax.validation.metadata.BeanDescriptor;
 
@@ -27,7 +28,7 @@ public class BeanValidatorHolder implements InitializingBean{
 	private static Validator validator;
 
 	public void afterPropertiesSet() throws Exception {
-		if(validator == null) throw new IllegalStateException("not found JSR303 'validator' for BeanValidatorHolder ");
+		if(validator == null) throw new IllegalStateException("not found JSR303(HibernateValidator) 'validator' for BeanValidatorHolder ");
 	}
 	
 	public void setValidator(Validator validator) {
@@ -37,34 +38,46 @@ public class BeanValidatorHolder implements InitializingBean{
 		this.validator = validator;
 	}
 
-	public static Validator getRequiredValidator() {
+	public static Validator getValidator() {
 		if(validator == null)
 			throw new IllegalStateException("'validator' property is null,BeanValidatorHolder not yet init.");
 		return validator;
 	}
-	
-	public static Validator getValidator() {
-		return validator;
-	}
 
 	public static final <T> Set<ConstraintViolation<T>> validate(T object, Class<?>... groups) {
-		return getRequiredValidator().validate(object, groups);
+		return getValidator().validate(object, groups);
 	}
 
+	public static final <T> void validate(T object) throws ConstraintViolationException {
+		Set constraintViolations = getValidator().validate(object);
+		//String msg = "validate failure on object:"+object.getClass().getName();
+		throw new ConstraintViolationException(constraintViolations);
+	}
+	
 	public static final <T> Set<ConstraintViolation<T>> validateProperty(T object, String propertyName, Class<?>... groups) {
-		return getRequiredValidator().validateProperty(object, propertyName,groups);
+		return getValidator().validateProperty(object, propertyName,groups);
 	}
 
+	public static final <T> void validateProperty(T object, String propertyName) throws ConstraintViolationException {
+		Set constraintViolations = getValidator().validateProperty(object, propertyName);
+		throw new ConstraintViolationException(constraintViolations);
+	}
+	
 	public static final <T> Set<ConstraintViolation<T>> validateValue(Class<T> beanType, String propertyName, Object value, Class<?>... groups) {
-		return getRequiredValidator().validateValue(beanType, propertyName,groups);
+		return getValidator().validateValue(beanType, propertyName,value,groups);
 	}
 
+	public static final <T> void validateValue(Class<T> beanType, String propertyName, Object value) throws ConstraintViolationException {
+		Set constraintViolations = getValidator().validateValue(beanType, propertyName,value);
+		throw new ConstraintViolationException(constraintViolations);
+	}
+	
 	public static final BeanDescriptor getConstraintsForClass(Class<?> clazz) {
-		return getRequiredValidator().getConstraintsForClass(clazz);
+		return getValidator().getConstraintsForClass(clazz);
 	}
 	
 	public static final <T> T unwrap(Class<T> type) {
-		return getRequiredValidator().unwrap(type);
+		return getValidator().unwrap(type);
 	}
 
 }
