@@ -2,8 +2,9 @@ package cn.org.rapid_framework.generator.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -59,6 +60,7 @@ public class FileHelper {
 		}
 		throw new FileNotFoundException(resourceName);
 	}
+
 	
 	public static List ignoreList = new ArrayList();
 	static{
@@ -90,10 +92,9 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName,boolean ignoreException) {
 	    try {
-	        File file = FileHelper.getFileByClassLoader(resourceName);
-		    FileReader reader = new FileReader(file);
-			binaryExtentionsList.addAll(IOHelper.readLines(reader));
-			reader.close();
+	        InputStream input  = GeneratorProperties.class.getClassLoader().getResourceAsStream(resourceName);
+			binaryExtentionsList.addAll(IOHelper.readLines(new InputStreamReader(input)));
+			input.close();
 	    }catch(Exception e) {
 	        if(!ignoreException)throw new RuntimeException(e);
 	    }
