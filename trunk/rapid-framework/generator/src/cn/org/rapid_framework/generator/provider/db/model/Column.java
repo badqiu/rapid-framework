@@ -354,7 +354,7 @@ public class Column {
 	}
 
 	/** 得到JSR303 bean validation(Hibernate Validator)的验证表达式: @NotNull @Min(100) @Max(800) */
-	public String[] getHibernateValidatorConstraints() {
+	public String[] getHibernateValidatorConstraintNames() {
 		return ColumnHelper.removeHibernateValidatorSpecialTags(getHibernateValidatorExprssion());
 	}
 	
