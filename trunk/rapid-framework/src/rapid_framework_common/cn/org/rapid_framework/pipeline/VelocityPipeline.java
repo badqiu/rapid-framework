@@ -2,7 +2,6 @@ package cn.org.rapid_framework.pipeline;
 
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,19 +52,28 @@ public class VelocityPipeline implements Pipeline{
 		try {
 			for(int i = 0; i < pipeTemplates.length; i++) {
 				String templateName = pipeTemplates[i];
-				org.apache.velocity.Template template = engine.getTemplate(templateName);
-				if(i == pipeTemplates.length - 1) {
-					template.merge(context, writer);
-				}else {
-					Writer tempOutput = new StringWriter(bufferSize);
-					template.merge(context, tempOutput);
-					context.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+				boolean isLastTemplate = i == pipeTemplates.length - 1;
+				try {
+					org.apache.velocity.Template template = engine.getTemplate(templateName);
+					if(isLastTemplate) {
+						template.merge(context, writer);
+					}else {
+						Writer tempOutput = new StringWriter(bufferSize);
+						template.merge(context, tempOutput);
+						context.put(Pipeline.PIPELINE_CONTENT_VAR_NAME, tempOutput.toString());
+					}
+				}catch(Exception e) {
+					handleException(e,templateName,isLastTemplate);
 				}
 			}
 			return writer;
 		}catch(Exception e) {
 			throw new PipeException("process Velocity template occer exception,pipeTemplates:"+StringUtils.join(pipeTemplates," | "));
 		}
+	}
+	
+	public void handleException(Exception e, String templateName,boolean isLastTemplate) throws Exception {
+		throw e;
 	}
 	
 	public Writer pipeline(String[] pipeTemplates, Object model, Writer writer) throws PipeException {
