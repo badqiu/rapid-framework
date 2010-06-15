@@ -21,13 +21,15 @@ public class ExtendsDirective implements TemplateDirectiveModel {
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		
-		String tempTemplatePath = env.getTemplate().getName();
-        String templatePath = tempTemplatePath.lastIndexOf('/') == -1 ? "" : tempTemplatePath.substring(0, tempTemplatePath.lastIndexOf('/') + 1);
-        
 		String name = DirectiveUtils.getRequiredParam(params, "name");
 		String encoding = DirectiveUtils.getParam(params, "encoding",null);
-		String includeTemplateName = TemplateCache.getFullTemplatePath(env, templatePath, name);
+		String includeTemplateName = TemplateCache.getFullTemplatePath(env, getTemplatePath(env), name);
 		env.include(includeTemplateName, encoding, true);
+	}
+
+	private String getTemplatePath(Environment env) {
+		String templateName = env.getTemplate().getName();
+        return templateName.lastIndexOf('/') == -1 ? "" : templateName.substring(0, templateName.lastIndexOf('/') + 1);
 	}
 
 }
