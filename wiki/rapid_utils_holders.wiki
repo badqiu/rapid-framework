@@ -7,13 +7,12 @@ Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便
 适用于一些系统只存在单例(singleton)并且常用的对象.示例如下
   * BeanValidatorHolder.validate(bean)
   * CacheHolder.get(String key)
-  * ApplicationContextHolder.getBean();
+  * ApplicationContextHolder.getBean("userInfoService");
 
 *与singleton相比特点*
   * 一个Holder只能持有一个对象
-  * Holder一般是持有接口,所以你可以改变实现
-  * 配合spring完成初始化
-  * 方便使用
+  * Holder一般是持有接口,所以你可以方便的改变实现
+  * 配合spring完成Holder初始化
 
 ==示例1.ApplicationContextHolder==
 用于持有Spring ApplicationContext对象
