@@ -8,7 +8,7 @@
     * [generator_template_and_output 生成器模板及输出demo]
     * [demo_video demo视频]
     * [online_demo 在线sprngmvc_rest+ibatis3示例]
-  * 用户文档
+  * 用户文档(new)
     * [rapid_summarize 概述]
     * [rapid_dir_desc 目录结构]
     * [rapid_plugin_install_desc 插件安装器介绍]
@@ -32,11 +32,11 @@
     * 测试/项目构建
       * [rapid_junit 单元测试]
       * [cruisecontrol 持续集成]
-    * rapid工具类介绍
+    * rapid工具类介绍(new)
       * [rapid_async_io 异步的IO]
       * [rapid_async_token AsyncToken替换Listener设计模式]
       * [rapid_utils 其它工具类介绍]
-      * [rapid_utils_holders holder模式]
+      * [rapid_utils_holders holder模式(new)]
     * flex
       * [flex_cairngorm_overview Flex概述]
       * [rapid_flex_blazeds Flex BlazeDs与spring集成]
