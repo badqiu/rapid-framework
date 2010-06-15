@@ -8,7 +8,7 @@
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	   default-autowire="byName" default-lazy-init="false">
 	
-	<!-- 用于启用Hibernate Validator -->
+	<!-- 用于启用Hibernate Validator,并且使用spring MessageSource替换java ResourceBundle -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
 		<property name="messageInterpolator" ref="messageInterpolator"/>
 	</bean>
