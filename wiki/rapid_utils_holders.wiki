@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#holder pattern
 
 = Holder模式 =
 
@@ -6,7 +6,9 @@
 
 Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便使用.
 
-适用于一些系统只存在单例(singleton)并且常用的对象.示例如下
+适用于一些系统只存在单例(singleton)并且 *十分常用* 的基础服务对象.这些基础服务如果每次使用spring注入,只会增加系统的不确定性.
+
+*示例如下:*
   * BeanValidatorHolder.validate(bean)
   * CacheHolder.get(String key)
   * ApplicationContextHolder.getBean("userInfoService");
@@ -36,7 +38,7 @@ UserService service = ApplicationContextHolder.getBean("userService")
 public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
-	private static ApplicationContext applicationContext;
+	private static ApplicationContext applicationContext; //接口,你也可以改变实现
 	
         //只能holder一个对象
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
