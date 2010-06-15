@@ -62,4 +62,7 @@ public class SpringValidatorHolder implements InitializingBean{
 		}
 	}
 	
+	public static void cleanHolder() {
+		validator = null;
+	}
 }

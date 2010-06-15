@@ -31,11 +31,11 @@ public class BeanValidatorHolder implements InitializingBean{
 		if(validator == null) throw new IllegalStateException("not found JSR303(HibernateValidator) 'validator' for BeanValidatorHolder ");
 	}
 	
-	public void setValidator(Validator validator) {
+	public void setValidator(Validator v) {
 		if(this.validator != null) {
 			throw new IllegalStateException("BeanValidatorHolder already holded 'validator'");
 		}
-		this.validator = validator;
+		this.validator = v;
 	}
 
 	public static Validator getValidator() {
@@ -50,8 +50,8 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validate(T object) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validate(object);
-		//String msg = "validate failure on object:"+object.getClass().getName();
-		throw new ConstraintViolationException(constraintViolations);
+		String msg = "validate failure on object:"+object.getClass().getName();
+		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
 	public static final <T> Set<ConstraintViolation<T>> validateProperty(T object, String propertyName, Class<?>... groups) {
@@ -60,7 +60,8 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validateProperty(T object, String propertyName) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validateProperty(object, propertyName);
-		throw new ConstraintViolationException(constraintViolations);
+		String msg = "validate property:"+propertyName+" failure on object:"+object.getClass().getName();
+		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
 	public static final <T> Set<ConstraintViolation<T>> validateValue(Class<T> beanType, String propertyName, Object value, Class<?>... groups) {
@@ -69,7 +70,8 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validateValue(Class<T> beanType, String propertyName, Object value) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validateValue(beanType, propertyName,value);
-		throw new ConstraintViolationException(constraintViolations);
+		String msg = "validate value :"+value+" failure, beanType:"+beanType.getName()+" property:"+propertyName;
+		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
 	public static final BeanDescriptor getConstraintsForClass(Class<?> clazz) {
@@ -79,5 +81,8 @@ public class BeanValidatorHolder implements InitializingBean{
 	public static final <T> T unwrap(Class<T> type) {
 		return getValidator().unwrap(type);
 	}
-
+	
+	public static void cleanHolder() {
+		validator = null;
+	}
 }
