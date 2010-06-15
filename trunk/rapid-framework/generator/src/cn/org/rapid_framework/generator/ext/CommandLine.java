@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.ext;
 import java.util.Scanner;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class CommandLine {
@@ -29,11 +30,13 @@ public class CommandLine {
 		if("gen".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			g.generateByTable(args[0],templateRootDir);
+			Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			g.deleteByTable(args[0], templateRootDir);
 		}else if("genall".equals(cmd)) {
 			g.generateByAllTable(templateRootDir);
+			Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
 		}else if("delall".equals(cmd)) {
 			g.deleteByAllTable(templateRootDir);				
 		}else {
