@@ -59,7 +59,8 @@ add groupId=basepackage:com.company.project
 	version:1.0
 
 主从表需要指定那一张是主表，才可以进行页面操作
-修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)	
+修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
+#集成HibernateValidator	
 # ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
 #增加manual-${className}SqlMap.xml
 __#日期类型的dao sql生成 dateBegin,dateEnd输入
