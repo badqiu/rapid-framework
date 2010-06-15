@@ -20,6 +20,10 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
+测试spirngmvc_rest是否存在这个问题
+    User user = User.findById(id);
+    user.edit(params);
+    user.save(); // ok
 
 add application.properties
 app.name=projectName
