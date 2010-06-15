@@ -354,12 +354,12 @@ public class Column {
 	}
 	
 	/** 得到JSR303 bean validation(Hibernate Validator)的验证表达式: @NotNull @Min(100) @Max(800) */
-	public String getJSR303Validation() {
-		return JSR303Validation;
+	public String getHibernateValidatorsExprssion() {
+		return hibernateValidatorsExprssion;
 	}
 
-	public void setJSR303Validation(String jSR303Validation) {
-		JSR303Validation = jSR303Validation;
+	public void setHibernateValidatorsExprssion(String v) {
+		hibernateValidatorsExprssion = v;
 	}
 	
 	public boolean getIsStringColumn() {
@@ -481,7 +481,7 @@ public class Column {
 		enumClassName = getColumnName()+"Enum";		
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
 		columnAlias = StringHelper.emptyIf(getRemarks(), getColumnNameFirstLower());
-		setJSR303Validation(ColumnHelper.getJSR303Validation(this));
+		setHibernateValidatorsExprssion(ColumnHelper.getHibernateValidatorsExpression(this));
 	}
 	
 	private String enumString = "";
@@ -492,7 +492,7 @@ public class Column {
 	private String enumClassName;
 	private boolean updatable = true;	
 	private boolean insertable = true;
-	private String JSR303Validation;
+	private String hibernateValidatorsExprssion;
 //	private String rapidValidation;
 	/**
 	 * public enum ${enumClassName} {
