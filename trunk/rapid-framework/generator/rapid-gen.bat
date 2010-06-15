@@ -1,0 +1,1 @@
+java -c lib/*.jar;. cn.org.rapid_framework.generator.ext.CommandLine
