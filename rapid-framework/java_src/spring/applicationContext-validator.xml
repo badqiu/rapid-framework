@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	   default-autowire="byName" default-lazy-init="false">
+	
+	<!-- 用于启用Hibernate Validator,并且使用spring MessageSource替换java ResourceBundle -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
+		<property name="messageInterpolator" >
+			<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" >
+				<constructor-arg ref="messageSourceResourceBundleLocator"></constructor-arg>
+			</bean>
+		</property>
+	</bean>
+	
+ 	<bean id="messageSourceResourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
+ 		<property name="messageSource" ref="messageSource"/>
+ 	</bean>
+    
+</beans>
