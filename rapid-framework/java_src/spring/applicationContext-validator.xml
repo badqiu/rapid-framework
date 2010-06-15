@@ -23,7 +23,7 @@
  	
  	<!-- 用于持有Spring Validator,可以使用SpringValidatorHolder.validate(object)的静态方法调用 来验证Bean -->
  	<!-- 
- 	<bean class="cn.org.rapid_framework.holder.SpringValidatorHolder" >
+ 	<bean class="cn.org.rapid_framework.util.holder.SpringValidatorHolder" >
  		<property name="validator" ref="validator"/>
  	</bean>
  	 -->
