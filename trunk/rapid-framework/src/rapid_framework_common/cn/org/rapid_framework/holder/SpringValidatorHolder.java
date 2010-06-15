@@ -29,34 +29,34 @@ public class SpringValidatorHolder implements InitializingBean{
 		if(validator == null) throw new BeanCreationException("not found spring 'validator' for SpringValidatorHolder ");
 	}
 	
-	public void setValidator(Validator validator) {
+	public void setValidator(Validator v) {
 		if(this.validator != null) {
 			throw new IllegalStateException("SpringValidatorHolder already holded 'validator'");
 		}
-		this.validator = validator;
+		this.validator = v;
 	}
 
-	public static Validator getRequiredValidator() {
+	private static Validator getRequiredValidator() {
 		if(validator == null)
 			throw new IllegalStateException("'validator' property is null,SpringValidatorHolder not yet init.");
 		return validator;
 	}
 	
 	public static Validator getValidator() {
-		return validator;
+		return getRequiredValidator();
 	}
 
 	public static boolean supports(Class<?> type) {
-		return validator.supports(type);
+		return getRequiredValidator().supports(type);
 	}
 
 	public static void validate(Object object, Errors errors) {
-		validator.validate(object, errors);
+		getRequiredValidator().validate(object, errors);
 	}
 
 	public static void validate(Object object) throws BindException {
 		BeanPropertyBindingResult errors = new BeanPropertyBindingResult(object, object.getClass().getSimpleName(), true);
-		validator.validate(object, errors);
+		getRequiredValidator().validate(object, errors);
 		if(errors.hasErrors()) {
 			throw new BindException(errors);
 		}
