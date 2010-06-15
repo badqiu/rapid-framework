@@ -40,7 +40,7 @@ UserService service = ApplicationContextHolder.getBean("userService")
 public class ApplicationContextHolder implements ApplicationContextAware{
 	
 	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
-	private static ApplicationContext applicationContext; //接口,你也可以改变实现
+	private static ApplicationContext applicationContext; //接口,你有机会注入不同实现
 	
         //只能holder一个对象
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
