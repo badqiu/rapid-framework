@@ -9,23 +9,22 @@ public class CommandLine {
 	
 	public static void main(String[] args) throws Exception {
 		printUsages();
-		startProcess();
+		startProcess(args.length > 0 ? args[0] : "template");
 	}
 
-	private static void startProcess() throws Exception {
+	private static void startProcess(String templateRootDir) throws Exception {
 		Scanner sc = new Scanner(System.in);
 		GeneratorFacade g = new GeneratorFacade();
 		while(sc.hasNextLine()) {
 			try {
-				processLine(sc, g);
+				processLine(templateRootDir,sc, g);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	static String templateRootDir = "template";
-	private static void processLine(Scanner sc, GeneratorFacade g) throws Exception {
+	private static void processLine(String templateRootDir,Scanner sc, GeneratorFacade g) throws Exception {
 		String cmd = sc.next();
 		if("gen".equals(cmd)) {
 			String[] args = nextArguments(sc);
