@@ -30,6 +30,7 @@ import freemarker.ext.dom.NodeModel;
 public class GeneratorControl {
 	private Date now = new Date();
 	private boolean isOverride = true; 
+	private boolean isAppend = false;
 	private boolean ignoreOutput = false; // or isGenerate
 	private boolean isMergeIfExists = true;
 	private String mergeLocation; //no pass
