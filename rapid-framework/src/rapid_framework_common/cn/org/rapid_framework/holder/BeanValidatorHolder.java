@@ -50,7 +50,7 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validate(T object) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validate(object);
-		String msg = "validate failure on object:"+object.getClass().getName();
+		String msg = "validate failure on object:"+object.getClass().getSimpleName();
 		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
@@ -60,7 +60,7 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validateProperty(T object, String propertyName) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validateProperty(object, propertyName);
-		String msg = "validate property:"+propertyName+" failure on object:"+object.getClass().getName();
+		String msg = "validate property failure on object:"+object.getClass().getSimpleName()+"."+propertyName+"";
 		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
@@ -70,7 +70,7 @@ public class BeanValidatorHolder implements InitializingBean{
 
 	public static final <T> void validateValue(Class<T> beanType, String propertyName, Object value) throws ConstraintViolationException {
 		Set constraintViolations = getValidator().validateValue(beanType, propertyName,value);
-		String msg = "validate value :"+value+" failure, beanType:"+beanType.getName()+" property:"+propertyName;
+		String msg = "validate value failure on object:"+beanType.getSimpleName()+"."+propertyName+" value:"+value;
 		throw new ConstraintViolationException(msg,constraintViolations);
 	}
 	
