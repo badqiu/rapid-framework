@@ -65,5 +65,5 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 || *MessagePublisherHodler* || 用于持有类似JMS消息中心的消息发送||
 || *MessageSourceHolder* || 持用MessageSource,用于国际化 ||
 || *MailerHolder* || 用于邮件发送的Mailer ||
-|| *ConfigHolder* || 用于持有配置 || 类的无状态:http://badqiu.javaeye.com/blog/674321 ||
+|| *ConfigHolder* || 用于持有配置,需要动态刷新的参数使用,请查看文章[http://badqiu.javaeye.com/blog/674321 保持类的无状态] ||
 || *SecurityManagerHolder* || 用于权限控制的SecurityManager ||
