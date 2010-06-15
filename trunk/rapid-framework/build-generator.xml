@@ -16,7 +16,7 @@
 	<property environment="env"/>
 	
 	<!--版本控制信息-->
-	<property name="version" value="3.6.0.${today}"></property>
+	<property name="version" value="3.9.0.${today}"></property>
 	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 	<property name="version.file" value="version.txt"></property>
 	<target name="generate_version">
