@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.util;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -289,5 +290,16 @@ public class StringHelper {
 			}
 		}
 		return true;
+	}
+	
+	public static String[] tokenizeToStringArray(String str,String seperators) {
+		StringTokenizer tokenlizer = new StringTokenizer(str,seperators);
+		List result = new ArrayList();
+		
+		while(tokenlizer.hasMoreElements()) {
+			Object s = tokenlizer.nextElement();
+			result.add(s);
+		}
+		return (String[])result.toArray(new String[result.size()]);
 	}
 }
