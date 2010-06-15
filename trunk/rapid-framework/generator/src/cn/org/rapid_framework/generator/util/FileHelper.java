@@ -52,7 +52,7 @@ public class FileHelper {
 		}
 	}
 	
-	public static File getRsourcesByClassLoader(String resourceName) throws IOException {
+	public static File getFileByClassLoader(String resourceName) throws IOException {
 		Enumeration<URL> urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
@@ -90,7 +90,7 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName,boolean ignoreException) {
 	    try {
-	        File file = FileHelper.getRsourcesByClassLoader(resourceName);
+	        File file = FileHelper.getFileByClassLoader(resourceName);
 		    FileReader reader = new FileReader(file);
 			binaryExtentionsList.addAll(IOHelper.readLines(reader));
 			reader.close();

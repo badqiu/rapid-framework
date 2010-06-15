@@ -407,7 +407,7 @@ public class DbTableFactory {
 
 		private static NodeData getTableConfigXmlNodeData0(String tableSqlName) {
 			try {
-				File file = FileHelper.getRsourcesByClassLoader("generator_config/table/"+tableSqlName+".xml");
+				File file = FileHelper.getFileByClassLoader("generator_config/table/"+tableSqlName+".xml");
 				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
 				return new XMLHelper().parseXML(file);
 			}catch(Exception e) {//ignore
