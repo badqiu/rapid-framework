@@ -235,6 +235,11 @@ public abstract class CacheHolder implements InitializingBean{
         cache.stop();
     }
     
+    
+	public static void cleanHolder() {
+		cache = null;
+	}
+	
     /**
      * Utility that check that an object is serializable.
      */
