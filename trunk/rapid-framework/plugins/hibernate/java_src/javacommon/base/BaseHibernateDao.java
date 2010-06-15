@@ -31,6 +31,7 @@ import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.dialect.Dialect;
 import org.hibernate.impl.SessionFactoryImpl;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -60,9 +61,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 	}
 	
 	public long queryForLong(final String queryString,Object[] values) {
-		List list = getHibernateTemplate().find(queryString, values);
-		Number n = (Number)CollectionHelper.findSingleObject(list);
-		return n.longValue();
+		return DataAccessUtils.longResult(getHibernateTemplate().find(queryString, values));
 	}
 	
 	/**
