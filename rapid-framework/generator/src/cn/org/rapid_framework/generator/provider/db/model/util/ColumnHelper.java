@@ -6,7 +6,7 @@ import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 public class ColumnHelper {
 
 	/** 得到JSR303 bean validation的验证表达式 */
-	public static String getJSR303Validation(Column c) {
+	public static String getHibernateValidatorsExpression(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
 				return  "@NotBlank " + getNotRequiredJSR303Validation(c);
@@ -24,7 +24,7 @@ public class ColumnHelper {
 			result += "@Email ";
 		}
 		if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
-			result += String.format("@Max(%s)",c.getSize());
+			result += String.format("@Length(max=%s)",c.getSize());
 		}
 		if(DatabaseDataTypesUtils.isIntegerNumber(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
 			String javaType = DatabaseDataTypesUtils.getPreferredJavaType(c.getSqlType(), c.getSize(), c.getDecimalDigits());
