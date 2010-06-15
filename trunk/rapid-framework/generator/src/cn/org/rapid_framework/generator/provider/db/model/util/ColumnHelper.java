@@ -4,7 +4,12 @@ import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 
 public class ColumnHelper {
-
+	
+	public static String[] removeHibernateValidatorSpecialTags(String str) {
+		if(str == null) return new String[]{};
+		return str.replaceAll("@", "").replaceAll("\\(.*?\\)", "").trim().split("\\s+");
+	}
+	
 	/** 得到JSR303 bean validation的验证表达式 */
 	public static String getHibernateValidatorsExpression(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
