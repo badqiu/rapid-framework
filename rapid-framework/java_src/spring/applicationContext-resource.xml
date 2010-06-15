@@ -10,7 +10,7 @@
 
     <!-- 国际化,并且可以批定文件编码,可以使用classpath: 或者WEB-INF/ 前缀 -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-    	<property name="basenames" value="classpath:i18n/messages">
+    	<property name="basenames">
     		<list>
     			<value>classpath:i18n/messages</value>
     			<value>classpath:ValidationMessages</value>
