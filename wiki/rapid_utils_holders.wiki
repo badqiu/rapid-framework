@@ -57,8 +57,8 @@ public class ApplicationContextHolder implements ApplicationContextAware{
 }}}
 
 ==其它可以存在的Holder==
-||*holder*||*功能*||
-||* BeanValidatorHolder *|| 用于持有Hibernate Validator ||
+|| *holder* ||*功能*||
+|| * BeanValidatorHolder * || 用于持有Hibernate Validator ||
 ||* SpringValidatorHolder *|| 用于持有Spring Validator ||
 ||* ApplicationContextHolder *|| 用于持有Spring ApplicationContext ||
 ||* CacheHolder *|| 用于持有Cache ||
