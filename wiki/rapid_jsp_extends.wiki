@@ -85,3 +85,14 @@
    <jsp:param name=”secondParamer” value=”secondValue”>
 </jsp:include>
 }}}
+
+=五.动态继承(extends)=
+可以通过参数动态的include,示例:
+{{{
+<jsp:include page="${param.include == null ? 'base.jsp' : param.include}"/>
+}}}
+通过URL传递参数:
+{{{
+http://localhost:8080/springmvc/userinfo?include=base_custom.jsp
+}}}
+这样就可动态的继承某页面,改变布局
