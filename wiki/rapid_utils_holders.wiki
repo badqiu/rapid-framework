@@ -11,7 +11,7 @@ Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便
 *示例如下:*
 {{{
 BeanValidatorHolder.validate(bean)
-CacheHolder.get(String key)
+CacheHolder.get("key")
 ApplicationContextHolder.getBean("userInfoService");
 }}}
 
