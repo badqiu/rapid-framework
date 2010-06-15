@@ -20,6 +20,8 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
+增加spring/resource/dev,spring/resource/prod,spring/resource/test目录以区分不同的开发环境
+
 测试spirngmvc_rest是否存在这个问题
     User user = User.findById(id);
     user.edit(params);
