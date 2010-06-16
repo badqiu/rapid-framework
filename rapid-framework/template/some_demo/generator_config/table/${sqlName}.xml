@@ -19,11 +19,11 @@
  -->
 <${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
 <#list table.notPkColumns as c>
-	<${c.sqlName!} columnAlias="${c.columnAlias!}"
+	<${c.sqlName} columnAlias="${c.columnAlias}"
 		javaType="${c.simpleJavaType}" 
 		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
 		updatable="${c.updatable?string}" insertable="${c.insertable?string}"
-		enumString="${c.enumString!}" enumClassName="${c.enumClassName!}"
+		enumString="${c.enumString}" enumClassName="${c.enumClassName}"
 		hibernateValidatorExprssion="${c.hibernateValidatorExprssion}"
 	/>
 </#list>
