@@ -46,8 +46,8 @@ public class CommandLine {
 
 	private static void printUsages() {
 		System.out.println("Usage: cmd [args1] [args2] [args...]");
-		System.out.println("\tgen [table_name] : generate files by table_name");
-		System.out.println("\tdel [table_name] : delete files by table_name");
+		System.out.println("\tgen table_name : generate files by table_name");
+		System.out.println("\tdel table_name : delete files by table_name");
 		System.out.println("\tgen * : search database all tables and generate files");
 		System.out.println("\tdel * : search database all tables and delete files");
 		System.out.print("please input command:");
