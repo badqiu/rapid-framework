@@ -172,17 +172,22 @@
 					<include name="*.jar"/>
 			</zipfileset>
 			<zipfileset dir="./generator" prefix="rapid-generator-${version}">
-				<include name="*.bat"/>
 				<include name="lib/**"/>
-			</zipfileset>
-
+			</zipfileset>			
+			<zipfileset dir="./generator/for_standalone" prefix="rapid-generator-${version}">
+				<include name="**"/>
+			</zipfileset>			
+				
 			<zipfileset dir="./generator/src" prefix="rapid-generator-${version}">
-				<include name="*.properties"/>
+				<!-- <include name="*.properties"/> -->
 				<include name="*.txt"/>
 			</zipfileset>
 					
 			<!-- templates -->
 			<zipfileset dir="." prefix="rapid-generator-${version}">
+				<include name="template/**"/>
+			</zipfileset>
+			<zipfileset dir="plugins/struts2" prefix="rapid-generator-${version}">
 				<include name="template/**"/>
 			</zipfileset>
 		</zip>		
