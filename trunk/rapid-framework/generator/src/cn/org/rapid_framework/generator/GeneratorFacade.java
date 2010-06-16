@@ -64,6 +64,10 @@ public class GeneratorFacade {
 	}
 	
     public void generateByTable(String tableName,String templateRootDir) throws Exception {
+    	if("*".equals(tableName)) {
+    		generateByAllTable(templateRootDir);
+    		return;
+    	}
 		Generator g = createGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
@@ -81,6 +85,10 @@ public class GeneratorFacade {
     }
 
     public void deleteByTable(String tableName,String templateRootDir) throws Exception {
+    	if("*".equals(tableName)) {
+    		deleteByAllTable(templateRootDir);
+    		return;
+    	}
 		Generator g = createGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
