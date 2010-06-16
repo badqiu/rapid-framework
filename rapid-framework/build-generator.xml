@@ -185,11 +185,25 @@
 					
 			<!-- templates -->
 			<zipfileset dir="." prefix="rapid-generator-${version}">
-				<include name="template/**"/>
+				<include name="template/*.include"/>
 			</zipfileset>
-			<zipfileset dir="plugins/struts2" prefix="rapid-generator-${version}">
-				<include name="template/**"/>
+			
+			<!-- pligins templates -->
+			<zipfileset dir="plugins/struts2/template" prefix="rapid-generator-${version}/template/struts2">
+				<include name="**"/>
 			</zipfileset>
+			<zipfileset dir="plugins/springmvc_rest/template" prefix="rapid-generator-${version}/template/springmvc_rest">
+				<include name="**"/>
+			</zipfileset>			
+			<zipfileset dir="plugins/ibatis/template" prefix="rapid-generator-${version}/template/ibatis">
+				<include name="**"/>
+			</zipfileset>	
+			<zipfileset dir="plugins/ibatis3/template" prefix="rapid-generator-${version}/template/ibatis3">
+				<include name="**"/>
+			</zipfileset>
+			<zipfileset dir="plugins/hibernate/template" prefix="rapid-generator-${version}/template/hibernate">
+				<include name="**"/>
+			</zipfileset>		
 		</zip>		
 	</target>
 
