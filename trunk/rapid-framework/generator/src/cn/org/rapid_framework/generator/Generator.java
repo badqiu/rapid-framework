@@ -208,7 +208,7 @@ public class Generator {
                     generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
                 }
 			}catch(Exception e) {
-			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath, e);
+			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath+" cause:"+e, e);
 			}
 		}
 
