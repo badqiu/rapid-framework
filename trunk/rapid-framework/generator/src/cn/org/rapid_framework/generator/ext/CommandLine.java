@@ -9,6 +9,9 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 public class CommandLine {
 	
 	public static void main(String[] args) throws Exception {
+		//disable freemarker logging
+		freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
+		
 		printUsages();
 		startProcess(args.length > 0 ? args[0] : "template");
 	}
