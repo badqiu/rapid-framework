@@ -21,6 +21,8 @@ public class CommandLine {
 				processLine(templateRootDir,sc, g);
 			}catch(Exception e) {
 				e.printStackTrace();
+			}finally {
+				printUsages();
 			}
 		}
 	}
@@ -34,11 +36,6 @@ public class CommandLine {
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			g.deleteByTable(args[0], templateRootDir);
-		}else if("genall".equals(cmd)) {
-			g.generateByAllTable(templateRootDir);
-			Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
-		}else if("delall".equals(cmd)) {
-			g.deleteByAllTable(templateRootDir);				
 		}else {
 			System.out.println("unknow command:"+cmd);
 		}
@@ -46,10 +43,11 @@ public class CommandLine {
 
 	private static void printUsages() {
 		System.out.println("Usage: cmd [args1] [args2] [args...]");
-		System.out.println("\tgen table_name : generate files by table_name");
-		System.out.println("\tdel table_name : delete files by table_name");
-		System.out.println("\tgenall : search database all tables and generate");
-		System.out.println("\tdelall : search database all tables and delete");
+		System.out.println("\tgen [table_name] : generate files by table_name");
+		System.out.println("\tdel [table_name] : delete files by table_name");
+		System.out.println("\tgen * : search database all tables and generate files");
+		System.out.println("\tdel * : search database all tables and delete files");
+		System.out.print("please input command:");
 	}
 	
 	private static String[] nextArguments(Scanner sc) {
