@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><desc>
 
-一.代码生成器模板可以引用的相关变量
+一. 生成器模板路径可以引用相关变量
+	如 ${basepackage}/${className}.java,根据该变量生成输出文件
+
+二. 自动搜索某个目录所有模板文件,无需配置
+
+三.代码生成器模板可以引用的相关变量
 	1. g.generateByTable("table_name") 方法可以引用的变量
 		table : cn.org.rapid_framework.generator.provider.db.model.Table
 	
@@ -14,12 +19,12 @@
 		gg : 模板控制变量, cn.org.rapid_framework.generator.GeneratorControl
 
 
-二.每个模板有gg变量可以控制自身的自定义配置 (每一个模板都会创建新的gg实例)
+四.每个模板有gg变量可以控制自身的自定义配置 (每一个模板都会创建新的gg实例)
 	如是否生成,是否覆盖目标文件,甚至是生成其它文件
 	示例: ${gg.setIgnoreOutput(true)}, 参考: http://code.google.com/p/rapid-framework/wiki/rapid_generator_gg
 
 
-三.自动拷贝二进制文件至输出目录
+五.自动拷贝二进制文件至输出目录
 	如模板目录下的 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
 
 
@@ -28,21 +33,19 @@
              所以你要生成ftl扩展名的文件,应该将文件名从 list.ftl => list.ftl.ftl 
                
                
-五. 模板自动include同级目录:macro.include文件
+七. 模板自动include同级目录:macro.include文件
 	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 根目录的macro.include
 
 
-六. generator.properties配置文件
+八. generator.properties配置文件
 	1.类似ant可以变量引用,引用环境变量使用${env.JAVA_HOME}, 引用System.getProperties()直接引用
 	2.自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
 		示例: pkg=com.company => pkg_dir=com/company
 	
 
-七.参考:
+参考:
 	模板引擎为freemarker,语法参考: http://freemarker.sourceforge.net/docs/index.html
  	生成器在线文档: http://code.google.com/p/rapid-framework/wiki/rapid_generator
-
-
 
 
 
