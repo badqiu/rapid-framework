@@ -37,7 +37,7 @@
 	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 根目录的macro.include
 
 
-八. generator.properties配置文件
+八. generator.xml (或者generator.properties)配置文件
 	1.类似ant可以变量引用,引用环境变量使用${env.JAVA_HOME}, 引用System.getProperties()直接引用
 	2.自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
 		示例: pkg=com.company => pkg_dir=com/company
