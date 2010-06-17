@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.ext;
 
+import java.io.File;
 import java.util.Scanner;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
@@ -12,13 +13,14 @@ public class CommandLine {
 		//disable freemarker logging
 		freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 		
-		printUsages();
 		startProcess(args.length > 0 ? args[0] : "template");
 	}
 
 	private static void startProcess(String templateRootDir) throws Exception {
+	    System.out.println("templateRootDir:"+new File(templateRootDir).getAbsolutePath());
 		Scanner sc = new Scanner(System.in);
 		GeneratorFacade g = new GeneratorFacade();
+		printUsages();
 		while(sc.hasNextLine()) {
 			try {
 				processLine(templateRootDir,sc, g);
