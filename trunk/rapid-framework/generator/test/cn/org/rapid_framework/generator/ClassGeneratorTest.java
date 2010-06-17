@@ -9,7 +9,7 @@ public class ClassGeneratorTest extends TestCase{
     
     public void test() throws Exception  {
         Generator g = new Generator();
-        g.setTemplateRootDir(FileHelper.getRsourcesByClassLoader("for_test/template/clazz"));
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test/template/clazz"));
         g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
         GeneratorModel gm = GeneratorModel.newFromClass(Generator.class);
         g.generateBy(gm.templateModel,gm.filePathModel);
