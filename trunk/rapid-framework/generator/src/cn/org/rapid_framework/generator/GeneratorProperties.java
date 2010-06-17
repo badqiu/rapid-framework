@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -19,7 +20,7 @@ import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyP
 public class GeneratorProperties {
 	static PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", false);
 	
-	static final String PROPERTIES_FILE_NAME = "generator.properties";
+	static final String PROPERTIES_FILE_NAME[] = new String[]{"generator.properties","generator.xml"};
 	
 	static PropertiesHelper props = new PropertiesHelper(new Properties());
 	private GeneratorProperties(){}
@@ -29,7 +30,7 @@ public class GeneratorProperties {
 	
 	public static void reload() {
 		try {
-			GLogger.println("Load [generator.properties] from classpath");
+			GLogger.println("Start Load GeneratorPropeties from classpath:"+Arrays.toString(PROPERTIES_FILE_NAME));
 			setProperties(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
 		}catch(IOException e) {
 			throw new RuntimeException("Load "+PROPERTIES_FILE_NAME+" error",e);
