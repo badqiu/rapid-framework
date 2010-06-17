@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
