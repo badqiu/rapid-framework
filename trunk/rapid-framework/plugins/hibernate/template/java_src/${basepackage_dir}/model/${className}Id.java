@@ -1,3 +1,5 @@
+${gg.setIgnoreOutput(table.pkCount <= 1)}
+
 <#include "/macro.include"/>
 <#include "/java_copyright.include">
 <#assign className = table.className>   
