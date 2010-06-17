@@ -100,21 +100,27 @@ public class PropertiesHelper {
 	}
 	
 	
-	public static Properties loadAllPropertiesFromClassLoader(String resourceName) throws IOException {
+	public static Properties loadAllPropertiesFromClassLoader(String... resourceNames) throws IOException {
 		Properties properties = new Properties();
+		for(String resourceName : resourceNames) {
 		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
-		while (urls.hasMoreElements()) {
-			URL url = (URL) urls.nextElement();
-			InputStream input = null;
-			try {
-				URLConnection con = url.openConnection();
-				con.setUseCaches(false);
-				input = con.getInputStream();
-				properties.load(input);
-			}
-			finally {
-				if (input != null) {
-					input.close();
+			while (urls.hasMoreElements()) {
+				URL url = (URL) urls.nextElement();
+				InputStream input = null;
+				try {
+					URLConnection con = url.openConnection();
+					con.setUseCaches(false);
+					input = con.getInputStream();
+					if(resourceName.endsWith(".xml")){
+						properties.loadFromXML(input);
+					}else {
+						properties.load(input);
+					}
+				}
+				finally {
+					if (input != null) {
+						input.close();
+					}
 				}
 			}
 		}
