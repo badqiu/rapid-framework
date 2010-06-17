@@ -4,6 +4,7 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.model;
 
+import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
