@@ -167,7 +167,6 @@ public class HttpIncludeTest extends TestCase {
 		System.setProperty("http.maxConnections", "1");
 		int threads = 5;
 		MultiThreadTestUtils.executeAndWait(threads, new Runnable() {
-			@Override
 			public void run() {
 				String msg = count+++" thread:"+Thread.currentThread().toString();
 				System.out.println(msg);
