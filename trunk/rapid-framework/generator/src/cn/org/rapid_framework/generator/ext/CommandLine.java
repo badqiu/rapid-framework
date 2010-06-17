@@ -41,8 +41,10 @@ public class CommandLine {
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			g.deleteByTable(args[0], templateRootDir);
+		}else if("quit".equals(cmd)) {
+		    System.exit(0);
 		}else {
-			System.out.println("unknow command:"+cmd);
+			System.out.println(" [ERROR] unknow command:"+cmd);
 		}
 	}
 
