@@ -13,7 +13,8 @@ import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyP
 
 
 /**
- * 用于装载generator.properties文件
+ * 生成器配置类
+ * 用于装载generator.properties,generator.xml文件
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
