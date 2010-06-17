@@ -25,7 +25,7 @@
         <#list table.columns as column>
         <#if column.pk>
         <id name="${column.columnNameLower}" column="${column.sqlName}" type="${column.javaType}">
-            <generator class="${hibernate_id_generator}"/>
+            <generator class="increment"/>
         </id>
         </#if>
 		</#list>

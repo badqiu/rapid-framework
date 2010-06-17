@@ -129,7 +129,7 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	}
 	
 	@Id @GeneratedValue(generator="custom-id")
-	@GenericGenerator(name="custom-id", strategy = "${hibernate_id_generator}")
+	@GenericGenerator(name="custom-id", strategy = "increment")
 	@Column(name = "${column.sqlName}", unique = ${column.unique?string}, nullable = ${column.nullable?string}, insertable = true, updatable = true, length = ${column.size})
 	public ${column.javaType} get${column.columnName}() {
 		return this.${column.columnNameLower};
