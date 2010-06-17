@@ -2,12 +2,10 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 
 //import org.apache.commons.io.FileUtils;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
