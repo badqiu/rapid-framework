@@ -30,7 +30,7 @@
 	<entry key="java_typemapping.java.math.BigDecimal">Long</entry>
 
 	<!-- H2 -->
-	<entry key="jdbc.url">jdbc:h2:test</entry>
+	<entry key="jdbc.url">jdbc:h2:tcp://localhost/~/test</entry>
 	<entry key="jdbc.driver">org.h2.Driver</entry>
 		
 	<!-- Mysql 
