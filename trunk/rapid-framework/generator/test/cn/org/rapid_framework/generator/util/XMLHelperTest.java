@@ -18,7 +18,7 @@ public class XMLHelperTest extends TestCase {
     
     public void test_blog() throws FileNotFoundException, SAXException, IOException {
         
-        File file = FileHelper.getRsourcesByClassLoader("XMLHelper_test.xml");
+        File file = FileHelper.getFileByClassLoader("XMLHelper_test.xml");
         NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
         
         Map table = nd.attributes;

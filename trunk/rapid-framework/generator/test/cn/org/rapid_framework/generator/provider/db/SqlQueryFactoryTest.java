@@ -14,7 +14,7 @@ import cn.org.rapid_framework.generator.util.FileHelper;
 public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public void setUp() throws Exception {
 		super.setUp();
-		g.setTemplateRootDir(FileHelper.getRsourcesByClassLoader("for_test_select_sql"));
+		g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_select_sql"));
 	}
 	
 	public void test_with_no_parameers() throws Exception {
