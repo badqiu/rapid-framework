@@ -79,7 +79,7 @@
 	-->
 
 	<!-- H2 
-	<entry key="jdbc.url">jdbc:h2:~/test</entry>
+	<entry key="jdbc.url">jdbc:h2:test</entry>
 	<entry key="jdbc.driver">org.h2.Driver</entry>
 	-->
 
