@@ -18,7 +18,7 @@ public class DalgenGeneratorTest extends GeneratorTestCase{
 		generateByTable(table);
 		
 		GeneratorModel m = GeneratorModel.newFromTable(table);
-		g.deleteBy(m.templateModel, m.filePathModel);
+//		g.deleteBy(m.templateModel, m.filePathModel);
 		
 //		Runtime.getRuntime().exec("cmd.exe /c start "+new File(GeneratorProperties.getProperty("outRoot")).getAbsolutePath());
 	}
