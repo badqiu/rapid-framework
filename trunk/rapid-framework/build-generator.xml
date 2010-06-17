@@ -210,6 +210,7 @@
 	<target name="cc_main" description="用于持续集成工具CruiseControl的接入">
 		<antcall target="test"></antcall>
 		<antcall target="zip"></antcall>
+		<antcall target="standalone-zip"></antcall>
 	</target>
 	
 </project>
