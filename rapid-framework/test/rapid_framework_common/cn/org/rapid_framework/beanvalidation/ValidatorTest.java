@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.validation.MapBindingResult;
 import org.springframework.validation.Validator;
-
+ 
 import cn.org.rapid_framework.util.holder.BeanValidatorHolder;
 
 public class ValidatorTest extends TestCase{
