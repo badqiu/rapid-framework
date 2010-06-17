@@ -52,6 +52,7 @@ public class CommandLine {
 		System.out.println("\tdel table_name : delete files by table_name");
 		System.out.println("\tgen * : search database all tables and generate files");
 		System.out.println("\tdel * : search database all tables and delete files");
+		System.out.println("\tquit : quit");
 		System.out.print("please input command:");
 	}
 	
