@@ -41,7 +41,7 @@
 
 现运行 install_flex4_cairngorm及 install_dao_hibernate 任务
 
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/7.PNG]
 
 ===1.7 在mysql数据库中创建表user_info===
 在test数据库创建表,运行如下sql 
@@ -85,33 +85,33 @@ public class GeneratorMain {
 }
 }}}
 
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/9.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/9.PNG]
 
 ===1.10 拷贝生成的代码至项目根目录,并刷新项目===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/10.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/10.PNG]
 
 最好删除不需要的文件夹
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/11.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/11.PNG]
 
 
 ----
 ==二.flex相关操作==
 ===2.1 增加Flex Project Nature(1)===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/12.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/12.PNG]
 
 ===2.2 增加Flex Project Nature(2)===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/13.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/13.PNG]
 
 ===2.3 增加Flex Project Nature(3)===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/14.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/14.PNG]
 
 ===2.4 设置Flex Build Path ===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/15.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/15.PNG]
 改变flex4的主题为Halo,以便兼容flex3的组件特性
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/16.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/16.PNG]
 
 ===2.5 设置Flex Applications===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/17.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/17.PNG]
 
 ===2.6 flex源代码的相关配置修改 ===
 根据生成器生成的flex_src/readme.txt执行如下相关操作.
@@ -132,7 +132,7 @@ public class GeneratorMain {
 					 showBusyCursor="true"/>
 }}}
 
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/18.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/18.PNG]
 
 ----
 ==三.部署==
@@ -145,22 +145,22 @@ jdbc.username=root
 jdbc.password=0000
 }}}
 ===3.2 部署应用flex4demo至tomcat===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/20.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/20.PNG]
 
 ===3.3 启动tomcat,访问URL: http://localhost:8899/flex4demo/flex/UserInfoIndex.html===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/21.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/21.PNG]
 
 ===3.49（附加）改动main.mxml的源码，再部署,访问URL:http://localhost:8899/flex4demo/flex/main.html===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/22.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/22.PNG]
 
 ----
 ==四.flex4强大的功能介绍，IDE内置代码生成器==
 ===选择数据服务===
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/23.PNG]
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/24.PNG]
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/25.PNG]
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/26.PNG]
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/27.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/23.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/24.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/25.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/26.PNG]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/27.PNG]
 
 ===最佳实践Tips:===
 1.由于官方的Blazeds4.0会出现Nan=>0的错误，rapid修改了blazeds的flex-core.jar包,修正为Nan=>null.
