@@ -184,6 +184,18 @@ public class GeneratorControl {
 	public void setSourceEncoding(String sourceEncoding) {
 		this.sourceEncoding = sourceEncoding;
 	}
+	
+	public String getProperty(String key){
+		return GeneratorProperties.getProperty(key);
+	}
 
+	public String getProperty(String key,String defaultValue){
+		return GeneratorProperties.getProperty(key, defaultValue);
+	}
+
+	public String getRequiredProperty(String key){
+		return GeneratorProperties.getRequiredProperty(key);
+	}
+	
 	boolean deleteGeneratedFile = false;
 }
