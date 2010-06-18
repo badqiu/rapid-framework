@@ -7,11 +7,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
@@ -32,12 +37,18 @@ public class FileHelper {
 	}
 	
 	public static List searchAllNotIgnoreFile(File dir) throws IOException {
-		TreeSet files = new TreeSet();
-		searchAllNotIgnoreFile(dir,files);
-		return new ArrayList(files);
+		ArrayList arrayList = new ArrayList();
+		searchAllNotIgnoreFile(dir,arrayList);
+		Collections.sort(arrayList,new Comparator<File>() {
+			@Override
+			public int compare(File o1, File o2) {
+				return o1.getAbsolutePath().compareTo(o2.getAbsolutePath());
+			}
+		});
+		return arrayList;
 	}
 
-	public static void searchAllNotIgnoreFile(File dir,TreeSet collector) throws IOException {
+	public static void searchAllNotIgnoreFile(File dir,List collector) throws IOException {
 		collector.add(dir);
 		if((!dir.isHidden() && dir.isDirectory()) && !isIgnoreFile(dir)) {
 			File[] subFiles = dir.listFiles();
