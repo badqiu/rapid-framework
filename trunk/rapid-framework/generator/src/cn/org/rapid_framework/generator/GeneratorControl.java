@@ -185,10 +185,6 @@ public class GeneratorControl {
 		this.sourceEncoding = sourceEncoding;
 	}
 	
-	public String getProperty(String key){
-		return GeneratorProperties.getProperty(key);
-	}
-
 	public String getProperty(String key,String defaultValue){
 		return GeneratorProperties.getProperty(key, defaultValue);
 	}
