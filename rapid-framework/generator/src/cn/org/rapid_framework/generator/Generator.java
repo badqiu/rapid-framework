@@ -14,12 +14,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.AntPathMatcher;
+
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.FreemarkerHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.IOHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.template.Configuration;
@@ -45,6 +48,8 @@ public class Generator {
 	private String removeExtensions = ".ftl";
 	private boolean isCopyBinaryFile = true;
 	
+	private String includes;
+	private String excludes;
 	String sourceEncoding = "UTF-8";
 	String outputEncoding = "UTF-8";
 	public Generator() {
@@ -96,6 +101,14 @@ public class Generator {
 		this.outputEncoding = outputEncoding;
 	}
 	
+	public void setIncludes(String includes) {
+		this.includes = includes;
+	}
+	/** 设置不处理的模板路径,可以使用ant类似的值，示例值：  **\*.ignore */
+	public void setExcludes(String excludes) {
+		this.excludes = excludes;
+	}
+
 	public void setOutRootDir(String v) {
 		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
 		this.outRootDir = v;
@@ -180,7 +193,7 @@ public class Generator {
 		private GeneratorControl gg = new GeneratorControl();
 		private void executeGenerate(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
-			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
+			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile,includes,excludes)) {
 				return;
 			}
 			
@@ -213,7 +226,7 @@ public class Generator {
 
 	    private void executeDelete(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 	        String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
-            if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile)) {
+            if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile,includes,excludes)) {
                 return;
             }
 	        initGeneratorControlProperties(srcFile);
@@ -294,7 +307,7 @@ public class Generator {
 	}
 
 	static class GeneratorHelper {
-		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile) {
+		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile,String includes,String excludes) {
 			if(srcFile.isDirectory() || srcFile.isHidden())
 				return true;
 			if(templateFile.trim().equals(""))
@@ -302,6 +315,12 @@ public class Generator {
 			if(srcFile.getName().toLowerCase().endsWith(".include")){
 				GLogger.println("[skip]\t\t endsWith '.include' template:"+templateFile);
 				return true;
+			}
+			for(String exclude : StringHelper.tokenizeToStringArray(excludes,",")) {
+				if(new AntPathMatcher().match(exclude, templateFile)) return true;
+			}
+			for(String include : StringHelper.tokenizeToStringArray(includes,",")) {
+				if(new AntPathMatcher().match(include, templateFile)) return false;
 			}
 			return false;
 		}		
