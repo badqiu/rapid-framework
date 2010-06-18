@@ -33,16 +33,16 @@ public class FileHelper {
 	
 	public static List searchAllNotIgnoreFile(File dir) throws IOException {
 		TreeSet files = new TreeSet();
-		listFiles(dir,files);
+		searchAllNotIgnoreFile(dir,files);
 		return new ArrayList(files);
 	}
 
-	public static void listFiles(File dir,TreeSet collector) throws IOException {
+	public static void searchAllNotIgnoreFile(File dir,TreeSet collector) throws IOException {
 		collector.add(dir);
 		if((!dir.isHidden() && dir.isDirectory()) && !isIgnoreFile(dir)) {
 			File[] subFiles = dir.listFiles();
 			for(int i = 0; i < subFiles.length; i++) {
-				listFiles(subFiles[i],collector);
+				searchAllNotIgnoreFile(subFiles[i],collector);
 			}
 		}
 	}
