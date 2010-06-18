@@ -173,9 +173,9 @@ public class Generator {
 			File srcFile = (File)srcFiles.get(i);
 			try {
 			    if(isDelete){
-			        new GeneratorProcessor().executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
+			        new TemplateProcessor().executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
 			    }else {
-			        new GeneratorProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
+			        new TemplateProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
 			    }
 			}catch(Exception e) {
 				if (ignoreTemplateGenerateException) {
@@ -189,7 +189,7 @@ public class Generator {
 		return exceptions;
 	}
 	
-	public class GeneratorProcessor {
+	private class TemplateProcessor {
 		private GeneratorControl gg = new GeneratorControl();
 		private void executeGenerate(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
