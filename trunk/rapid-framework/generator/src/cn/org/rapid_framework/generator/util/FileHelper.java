@@ -31,7 +31,7 @@ public class FileHelper {
 		return file.getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
 	}
 	
-	public static List listFiles(File dir) throws IOException {
+	public static List searchAllNotIgnoreFile(File dir) throws IOException {
 		TreeSet files = new TreeSet();
 		listFiles(dir,files);
 		return new ArrayList(files);
