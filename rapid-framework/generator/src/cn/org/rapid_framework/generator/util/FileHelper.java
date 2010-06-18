@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
@@ -30,10 +31,16 @@ public class FileHelper {
 		return file.getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
 	}
 	
-	public static void listFiles(File file,List collector) throws IOException {
-		collector.add(file);
-		if((!file.isHidden() && file.isDirectory()) && !isIgnoreFile(file)) {
-			File[] subFiles = file.listFiles();
+	public static List listFiles(File dir) throws IOException {
+		TreeSet files = new TreeSet();
+		listFiles(dir,files);
+		return new ArrayList(files);
+	}
+
+	public static void listFiles(File dir,TreeSet collector) throws IOException {
+		collector.add(dir);
+		if((!dir.isHidden() && dir.isDirectory()) && !isIgnoreFile(dir)) {
+			File[] subFiles = dir.listFiles();
 			for(int i = 0; i < subFiles.length; i++) {
 				listFiles(subFiles[i],collector);
 			}
