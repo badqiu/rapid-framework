@@ -104,7 +104,7 @@ public class Generator {
 	public void setIncludes(String includes) {
 		this.includes = includes;
 	}
-	/** 设置不处理的模板路径,可以使用ant类似的值，示例值：  **\*.ignore */
+	/** 设置不处理的模板路径,可以使用ant类似的值,使用逗号分隔，示例值：  **\*.ignore */
 	public void setExcludes(String excludes) {
 		this.excludes = excludes;
 	}
