@@ -20,7 +20,7 @@ plugins        所有插件存放目录
 	如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
 
 =插件安装完的处理=	
-插件安装完,如果其它插件你也不需要,可以将所有插件删除,直接删除plugins目录即可
+ 插件安装完,如果其它插件你也不需要,可以将所有插件删除,直接删除plugins目录即可
 
 =手工安装插件=
 如果ant运行有问题,你可以手工安装插件.
