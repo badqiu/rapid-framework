@@ -19,10 +19,12 @@
 
 ===1.2 拷贝rapid-framework至项目根目录===
 将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝文件如下. 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/2.PNG]
 
 ===1.3 设置项目的编码为utf-8===
 右键点击项目,修改项目属性 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/3.PNG]
 
 ===1.4 设置源码路径===
@@ -30,8 +32,11 @@
 
 ===1.5 将generator/lib的jars加入classpath===
 点击"Add jars"按钮将生成器依赖的jar包需要加入classpath 
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/5.PNG]
+
 项目文件结构
+
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/6.PNG]
 
 ===1.6 安装插件flex4_cairngorm及dao_hibernate===
