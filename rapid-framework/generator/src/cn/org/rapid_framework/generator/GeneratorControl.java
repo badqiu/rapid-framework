@@ -1,7 +1,10 @@
 package cn.org.rapid_framework.generator;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Properties;
 
@@ -191,6 +194,16 @@ public class GeneratorControl {
 
 	public String getRequiredProperty(String key){
 		return GeneratorProperties.getRequiredProperty(key);
+	}
+	
+	public String getConsoleProperty(String key) throws IOException {
+		String v = GeneratorProperties.getProperty(key);
+		if(v == null) {
+			System.out.print("### Please input "+key+":");
+			v = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			GeneratorProperties.setProperty(key, v);
+		}
+		return v;
 	}
 	
 	boolean deleteGeneratedFile = false;
