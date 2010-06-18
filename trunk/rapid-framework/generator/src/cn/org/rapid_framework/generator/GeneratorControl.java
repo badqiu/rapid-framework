@@ -8,6 +8,10 @@ import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang.SystemUtils;
+
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -196,11 +200,17 @@ public class GeneratorControl {
 		return GeneratorProperties.getRequiredProperty(key);
 	}
 	
-	public String getConsoleProperty(String key) throws IOException {
+	public String getInputProperty(String key) throws IOException {
 		String v = GeneratorProperties.getProperty(key);
 		if(v == null) {
-			System.out.print("### Please input "+key+":");
-			v = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			String message = "Please input "+key+":";
+			boolean isWindowsOS = System.getProperty("os.name").toLowerCase().indexOf("windows")>= 0;
+			if(isWindowsOS) {
+				v = JOptionPane.showInputDialog(null,message,"template:"+getSourceFileName(),JOptionPane.OK_OPTION);
+			}else {
+				System.out.print("template:"+getSourceFileName()+","+message);
+				v = new BufferedReader(new InputStreamReader(System.in)).readLine();
+			}
 			GeneratorProperties.setProperty(key, v);
 		}
 		return v;
