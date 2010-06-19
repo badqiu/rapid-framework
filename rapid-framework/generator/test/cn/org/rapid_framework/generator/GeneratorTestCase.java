@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModel;
+import cn.org.rapid_framework.generator.Generator.GeneratorModel;
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -59,13 +59,13 @@ public class GeneratorTestCase extends TestCase{
 	}
 	
 	public void generateByTable(Table table) throws Exception {
-		GeneratorModel m = GeneratorModel.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 //		g.setIgnoreTemplateGenerateException(false);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
 	public void generateByTable(Generator g,Table table) throws Exception {
-		GeneratorModel m = GeneratorModel.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
