@@ -47,10 +47,11 @@ public class Generator {
 	private String removeExtensions = System.getProperty("generator.removeExtensions",".ftl");
 	private boolean isCopyBinaryFile = true;
 	
-	private String includes; // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	private String excludes; // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	String sourceEncoding =  System.getProperty("generator.sourceEncoding","UTF-8");
-	String outputEncoding =  System.getProperty("generator.outputEncoding","UTF-8");
+	private String includes = System.getProperty("generator.includes"); // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
+	private String excludes = System.getProperty("generator.excludes"); // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
+	private String sourceEncoding =  System.getProperty("generator.sourceEncoding","UTF-8");
+	private String outputEncoding =  System.getProperty("generator.outputEncoding","UTF-8");
+	
 	public Generator() {
 	}
 	
