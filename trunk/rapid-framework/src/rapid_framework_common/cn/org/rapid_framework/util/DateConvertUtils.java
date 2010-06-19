@@ -36,7 +36,6 @@ public class DateConvertUtils {
 	public static String format(java.util.Date date,String dateFormat) {
 		 if(date == null)
 			 return null;
-		 DateFormat df = new SimpleDateFormat(dateFormat);
-		 return df.format(date);
+		 return new SimpleDateFormat(dateFormat).format(date);
 	}
 }
