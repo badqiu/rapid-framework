@@ -14,8 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.AntPathMatcher;
-
+import cn.org.rapid_framework.generator.util.AntPathMatcher;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.FreemarkerHelper;
@@ -48,7 +47,7 @@ public class Generator {
 	private String removeExtensions = ".ftl";
 	private boolean isCopyBinaryFile = true;
 	
-	private String includes;
+	private String includes = "**";
 	private String excludes;
 	String sourceEncoding = "UTF-8";
 	String outputEncoding = "UTF-8";
@@ -316,13 +315,14 @@ public class Generator {
 				GLogger.println("[skip]\t\t endsWith '.include' template:"+templateFile);
 				return true;
 			}
+			templateFile = templateFile.replace('\\', '/');
 			for(String exclude : StringHelper.tokenizeToStringArray(excludes,",")) {
 				if(new AntPathMatcher().match(exclude, templateFile)) return true;
 			}
 			for(String include : StringHelper.tokenizeToStringArray(includes,",")) {
 				if(new AntPathMatcher().match(include, templateFile)) return false;
 			}
-			return false;
+			return true;
 		}		
 		
 		private static boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
