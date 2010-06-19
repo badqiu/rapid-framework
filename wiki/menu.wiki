@@ -3,8 +3,7 @@
   * [flex_quick_start_guild flex快速开始(v3.5)]
   * demo
     * [snapshot html界面预览图]
-    * [flex_snapshot flex界面预览图]
-    * [flex_online_demo flex在线demo]
+    * [flex_snapshot flex在线demo]
     * [generator_template_and_output 生成器模板及输出demo]
     * [demo_video demo视频]
     * [online_demo 在线sprngmvc_rest+ibatis3示例]
