@@ -129,11 +129,6 @@ public class GeneratorMain {
 在temppate目录创建一个文件,如${className}SpringControler.java
 则代码生成器会自动将该模板文件加载并生成该文件
 
-=参考=
- 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
- 生成器在线文档: [http://code.google.com/p/rapid-framework/wiki/rapid_generator]
-
-
 ==生成的代码插入文档的某个部位==
 如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用
 
@@ -141,4 +136,11 @@ public class GeneratorMain {
 如在.xml中我们可以使用 <!-- generator-insert-location -->
 在.properties文件中我们可以使用 #generator-insert-location
 具体请查看template/insert_demo目录的内容
+
+=参考=
+ 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
+ 生成器在线文档: [http://code.google.com/p/rapid-framework/wiki/rapid_generator]
+
+
+
  
