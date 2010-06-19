@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * The Cache. Mainly an interface to memcached.
  */
-public abstract class Cache {
+public abstract class CacheUtils {
 	static Log logger = LogFactory.getLog(Cache.class);
     /**
      * The underlying cache implementation
