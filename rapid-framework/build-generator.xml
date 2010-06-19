@@ -213,6 +213,7 @@
 		<antcall target="test"></antcall>
 		<antcall target="zip"></antcall>
 		<antcall target="standalone-zip"></antcall>
+		<antcall target="javadoc"></antcall>
 	</target>
 	
 </project>
