@@ -1,7 +1,11 @@
-
 = Introduction =
 
 以下界面为flex代码生成器生成的效果图.
+
+= flex 在线 demo =
+
+  # [http://rapid-flex.appspot.com/  在线flex demo]
+  # [http://rapid-demo.googlecode.com/files/flexdemo-1.0.zip demo 源代码下载]
 
 = Flex列表页 =
    [http://rapid-framework.googlecode.com/svn/trunk/images/snapshot/flex_cairngorm_list_object.jpg]
