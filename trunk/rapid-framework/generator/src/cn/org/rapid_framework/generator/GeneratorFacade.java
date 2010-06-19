@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
@@ -79,7 +80,7 @@ public class GeneratorFacade {
 	}
 
     private void generateByTable(Generator g, Table table) throws Exception {
-        GeneratorModel m = GeneratorModel.newFromTable(table);
+        GeneratorModel m = GeneratorModelUtils.newFromTable(table);
         PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
         g.generateBy(m.templateModel,m.filePathModel);
     }
@@ -92,13 +93,13 @@ public class GeneratorFacade {
 		Generator g = createGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
-		GeneratorModel m = GeneratorModel.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 		g.deleteBy(m.templateModel, m.filePathModel);
 	}
     
 	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
 		Generator g = createGenerator(templateRootDir);
-		GeneratorModel m = GeneratorModel.newFromClass(clazz);
+		GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
 		PrintUtils.printBeginGenerate("JavaClass:"+clazz.getSimpleName());
 		try {
 			g.generateBy(m.templateModel, m.filePathModel);
@@ -114,14 +115,7 @@ public class GeneratorFacade {
         return g;
     }
 	
-	public static class GeneratorModel {
-		public Map filePathModel;
-		public Map templateModel;
-		public GeneratorModel(Map templateModel, Map filePathModel) {
-			super();
-			this.templateModel = templateModel;
-			this.filePathModel = filePathModel;
-		}
+	public static class GeneratorModelUtils {
 		
 		public static GeneratorModel newFromTable(Table table) {
 			Map templateModel = new HashMap();
