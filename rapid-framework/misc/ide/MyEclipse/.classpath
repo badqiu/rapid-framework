@@ -27,7 +27,7 @@
 	<classpathentry kind="lib" path="for_release_lib/junit.jar"/>
 	<classpathentry kind="lib" path="for_release_lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="for_release_lib/velocity-1.6.2.jar"/>
-	<classpathentry kind="lib" path="generator/lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="generator/lib/freemarker.jar" sourcepath="F:/download/java-lib/freemarker/freemarker-2.3.13/src"/>
 	<classpathentry kind="lib" path="generator/lib/mysql-connector-java-5.0.5-bin.jar"/>
 	<classpathentry kind="lib" path="generator/lib/ojdbc14.jar"/>
 	<classpathentry kind="lib" path="generator/lib/sqljdbc.jar"/>
@@ -44,11 +44,6 @@
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/cfgatewayadapter.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/commons-httpclient-3.0.1.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/concurrent.jar"/>
-	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-common.jar"/>
-	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-core.jar"/>
-	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-opt.jar"/>
-	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-proxy.jar"/>
-	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/flex-messaging-remoting.jar"/>
 	<classpathentry kind="lib" path="plugins/flex/web/WEB-INF/lib/xalan.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/ehcache-1.2.1.jar"/>
@@ -108,14 +103,14 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.aop-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.asm-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.aspects-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.beans-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.context-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.beans-3.0.1.RELEASE.jar" sourcepath="F:/download/java-lib/spring/spring-framework-3.0.0.RC1/src/org.springframework.beans-sources-3.0.0.RC1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.context-3.0.1.RELEASE.jar" sourcepath="F:/download/java-lib/spring/spring-framework-3.0.0.M4/src/org.springframework.context-sources-3.0.0.M4.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.context.support-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.core-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.expression-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument.tomcat-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jdbc-3.0.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jdbc-3.0.1.RELEASE.jar" sourcepath="F:/download/java-lib/spring/spring-framework-3.0.0.RC1/src/org.springframework.jdbc-sources-3.0.0.RC1.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jms-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.orm-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.oxm-3.0.1.RELEASE.jar"/>
@@ -126,10 +121,15 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.portlet-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.servlet-3.0.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.struts-3.0.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/readme.txt"/>
 	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/mybatis-3.0.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_20"/>
-	<classpathentry kind="lib" path="plugins/extremetable/web/WEB-INF/lib/extremecomponents-1.0.1.jar"/>
-	<classpathentry kind="lib" path="plugins/extremetable/web/WEB-INF/lib/extremecomponentsEXT.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/hibernate-validator-4.1.0.Beta2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-common.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-core.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-opt.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-proxy.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-remoting.jar"/>
+	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-rds-server.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
