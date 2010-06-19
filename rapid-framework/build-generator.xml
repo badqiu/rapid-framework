@@ -65,9 +65,8 @@
 			classpathref="lib.classpath">
 			  <src refid="dirs.java.src"/>
 		</javac>
-		
 		<copy todir="${dir.dist.java}">
-			<fileset dir="generator/src" excludes="**/*.java"/>
+			<fileset dir="generator/src" excludes="**/*.java,*"/>
 		</copy>
 		
 	</target>
@@ -166,7 +165,7 @@
 		</zip>		
 	</target>
 
-	<target name="standalone-zip" depends="jar" description="独立的命令行简单的zip压缩打包">
+	<target name="standalone-zip" depends="clean,jar" description="独立的命令行简单的zip压缩打包">
 		<zip zipfile="${dir.dist}/standalone-${ant.project.name}-${version}.zip" encoding="GBK">
 			<zipfileset dir="${dir.dist}" prefix="rapid-generator-${version}/lib">
 					<include name="*.jar"/>
