@@ -12,7 +12,7 @@
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
 
-	<entry key="outRoot">./generator_output</entry>
+	<entry key="outRoot">./generator-output</entry>
 
 	<entry key="jdbc.username">sa</entry>
 	<entry key="jdbc.password">sa</entry>
