@@ -10,8 +10,6 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-import org.apache.commons.lang.SystemUtils;
-
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
