@@ -14,8 +14,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 <#include "/java_imports.include">
 
 @Embeddable
-public class ${className}Id extends BaseEntity {
-
+public class ${className}Id extends BaseEntity implements java.io.Serializable{
+	private static final long serialVersionUID = 5454155825314635342L;
+	
 <#list table.columns as column>
 	<#if column.pk>
 	private ${column.javaType} ${column.columnNameLower};
