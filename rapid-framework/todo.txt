@@ -48,19 +48,6 @@ Validator查找错误消息的规则,示例:@Length(min=0,max=100) UserInfo.pass
 	Length.java.lang.String
 	Length
 
-为spring mvc增加: 
-hibernate-validator-4.0.2.GA.jar
-validation-api-1.0.0.GA.jar
-ModelMap.key = org.springframework.validation.BindingResult.userInfoQuery for BindingResult
-public String create(ModelMap model,UserInfo userInfo,BindingResult result) {
-	validator.validate(userInfo,result);
-	if(result.hasError()) {
-		
-	}
-}
-
-使用 httpInclude.include(value_from_http_request.ftl,'*/default_value.ftl')'
-
 完成SqlQueryFactory
 SafeSqlProcessor
         //转义%
@@ -78,6 +65,7 @@ add groupId=basepackage:com.company.project
 
 主从表需要指定那一张是主表，才可以进行页面操作
 修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
+#集成hibernate validator 
 #集成HibernateValidator	
 # ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
 #增加manual-${className}SqlMap.xml
@@ -94,6 +82,7 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 			  order配置
 			  Enum配置
 			  input type: select option,label
+#使用 httpInclude.include(value_from_http_request.ftl,'*/default_value.ftl')			  
 generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
@@ -126,8 +115,8 @@ Page,PageRequest重构,PageRequest用于继承以替代filter
 为自动化配置及单元测试的配置文件区分提供更多支持
 增加生成一个${Project}Exception用于区别不同的系统异常
 考虑是否将 springmvc的package.controller => package.web.controller
-考虑在service中增加表单验证功能
-为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
+#考虑在service中增加表单验证功能
+#为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package
 增加generate dto by javaClass
@@ -146,9 +135,9 @@ pipeline中如果不能找到模板的异常处理
 
 考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
 
-为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
-	示便: local: includer.include("/head.htm") 
-	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
+#为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
+#	示便: local: includer.include("/head.htm") 
+#	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
 
 使用
 	--dto
