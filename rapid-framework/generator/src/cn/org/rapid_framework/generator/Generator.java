@@ -317,10 +317,10 @@ public class Generator {
 			}
 			templateFile = templateFile.replace('\\', '/');
 			for(String exclude : StringHelper.tokenizeToStringArray(excludes,",")) {
-				if(new AntPathMatcher().match(exclude, templateFile)) return true;
+				if(new AntPathMatcher().match(exclude.replace('\\', '/'), templateFile)) return true;
 			}
 			for(String include : StringHelper.tokenizeToStringArray(includes,",")) {
-				if(new AntPathMatcher().match(include, templateFile)) return false;
+				if(new AntPathMatcher().match(include.replace('\\', '/'), templateFile)) return false;
 			}
 			return true;
 		}		
