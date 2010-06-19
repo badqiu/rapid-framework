@@ -47,8 +47,8 @@ public class Generator {
 	private String removeExtensions = ".ftl";
 	private boolean isCopyBinaryFile = true;
 	
-	private String includes = "**";
-	private String excludes;
+	private String includes; // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
+	private String excludes; // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
 	String sourceEncoding = "UTF-8";
 	String outputEncoding = "UTF-8";
 	public Generator() {
