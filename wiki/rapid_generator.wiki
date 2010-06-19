@@ -46,15 +46,6 @@ public class GeneratorMain {
 
 ----
 =生成器讲解=
-==代码template目录结构==
-[http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
-
-如上所示，目录及文件名称可以引用相关变量。
-
-==创建一个生成器模板文件==
-在temppate目录创建一个文件,如${className}SpringControler.java
-则代码生成器会自动将该模板文件加载并生成该文件
-
 
 ==一. 生成器模板路径可以引用相关变量==
 	如 ${basepackage}/${className}.java,根据该变量生成输出文件
@@ -128,9 +119,19 @@ public class GeneratorMain {
 	</user_info>
 }}}
 
-参考:
-	模板引擎为freemarker,语法参考: http://freemarker.sourceforge.net/docs/index.html
- 	生成器在线文档: http://code.google.com/p/rapid-framework/wiki/rapid_generator
+=创建一个模板=
+==代码template目录结构==
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
+
+如上所示，目录及文件名称可以引用相关变量。
+
+==创建一个生成器模板文件==
+在temppate目录创建一个文件,如${className}SpringControler.java
+则代码生成器会自动将该模板文件加载并生成该文件
+
+=参考=
+ 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
+ 生成器在线文档: [http://code.google.com/p/rapid-framework/wiki/rapid_generator]
 
 
 ==生成的代码插入文档的某个部位==
