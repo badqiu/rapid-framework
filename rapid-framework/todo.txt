@@ -57,6 +57,7 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 #使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
 #支持文件名称扩展名为.gen,并自动移除该扩展名,再生成文件
 #生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
+#支持删除生成的内容:
 		内容: javaType配置
 			  alias 配置
 			  validation配置
@@ -68,7 +69,6 @@ generator_insert_location增加判断生成的数据已经存在该文件,将不
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 继续完成jdbc_all_crud_sql的基类
-支持删除生成的内容:
 
 Bean.copyProps()测试主流程思想
 	1.生成target代理
