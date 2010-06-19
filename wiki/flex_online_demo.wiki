@@ -1,4 +1,0 @@
-= flex demo =
-
-  # [http://rapid-flex.appspot.com/  在线flex demo]
-  # [http://rapid-demo.googlecode.com/files/flexdemo-1.0.zip demo 源代码下载]
