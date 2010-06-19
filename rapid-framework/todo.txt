@@ -89,6 +89,7 @@ spring服务发布增加: spring/internal, spring/publish两个目录,internal�
 #完成Flash Scope
 #add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 #继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
+#为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
 Page,PageRequest重构,PageRequest用于继承以替代filter
 生成MockDao,MockManager以供调用
 
@@ -285,8 +286,6 @@ rapid-validation
 	#查询页跟列表也整合到一起
 
 	Generator.generateAllTable()方法在Oracle不可用
-
-	为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
 
 	struts2重复提交，提示信息
 
