@@ -14,8 +14,8 @@
 
 	<entry key="outRoot">.</entry>
 
-	<entry key="jdbc.username">root</entry>
-	<entry key="jdbc.password">123456</entry>
+	<entry key="jdbc.username">sa</entry>
+	<entry key="jdbc.password">sa</entry>
 		
 	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置  -->
 	<entry key="jdbc.schema"></entry>
@@ -30,7 +30,7 @@
 	<entry key="java_typemapping.java.math.BigDecimal">Long</entry>
 
 	<!-- H2 -->
-	<entry key="jdbc.url">jdbc:h2:tcp://localhost/~/test</entry>
+	<entry key="jdbc.url">jdbc:h2:tcp://localhost/test</entry>
 	<entry key="jdbc.driver">org.h2.Driver</entry>
 		
 	<!-- Mysql 
