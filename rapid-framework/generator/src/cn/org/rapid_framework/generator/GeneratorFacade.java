@@ -55,7 +55,7 @@ public class GeneratorFacade {
 		List exceptions = new ArrayList();
 		for(int i = 0; i < tables.size(); i++ ) {
 			try {
-				generateByTable(createGenerator(templateRootDir),tables.get(i));
+				generateByTable(getGenerator(templateRootDir),tables.get(i));
 			}catch(GeneratorException ge) {
 				exceptions.addAll(ge.getExceptions());
 			}
@@ -68,7 +68,7 @@ public class GeneratorFacade {
     		generateByAllTable(templateRootDir);
     		return;
     	}
-		Generator g = createGenerator(templateRootDir);
+		Generator g = getGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
 		try {
@@ -89,7 +89,7 @@ public class GeneratorFacade {
     		deleteByAllTable(templateRootDir);
     		return;
     	}
-		Generator g = createGenerator(templateRootDir);
+		Generator g = getGenerator(templateRootDir);
 		
 		Table table = DbTableFactory.getInstance().getTable(tableName);
 		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
@@ -97,7 +97,7 @@ public class GeneratorFacade {
 	}
     
 	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
-		Generator g = createGenerator(templateRootDir);
+		Generator g = getGenerator(templateRootDir);
 		GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
 		PrintUtils.printBeginGenerate("JavaClass:"+clazz.getSimpleName());
 		try {
@@ -107,7 +107,7 @@ public class GeneratorFacade {
 		}
 	}
     
-    private Generator createGenerator(String templateRootDir) {
+    private Generator getGenerator(String templateRootDir) {
         g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
         g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
         return g;
