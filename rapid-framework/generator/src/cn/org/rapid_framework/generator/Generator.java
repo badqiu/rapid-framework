@@ -367,4 +367,12 @@ public class Generator {
 		}
 	}
 
+	public static class GeneratorModel implements java.io.Serializable{
+		public Map filePathModel;
+		public Map templateModel;
+		public GeneratorModel(Map templateModel, Map filePathModel) {
+			this.templateModel = templateModel;
+			this.filePathModel = filePathModel;
+		}
+	}
 }
