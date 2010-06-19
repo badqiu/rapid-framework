@@ -55,7 +55,8 @@ public class CommandLine {
 
 	private static String getIncludes(String[] args, int i) {
 		String includes = ArrayHelper.getValue(args, i);
-		return includes == null ? null : includes+"/**";
+		if(includes == null) return null;
+		return includes.indexOf("*") >= 0 || includes.indexOf(",") >= 0 ? includes : includes+"/**";
 	}
 	
 	private static String getTemplateRootDir() {
@@ -64,11 +65,12 @@ public class CommandLine {
 
 	private static void printUsages() {
 		System.out.println("Usage:");
-		System.out.println("\tgen table_name [template_dir]: generate files by table_name");
-		System.out.println("\tdel table_name [template_dir]: delete files by table_name");
-		System.out.println("\tgen * [template_dir]: search database all tables and generate files");
-		System.out.println("\tdel * [template_dir]: search database all tables and delete files");
+		System.out.println("\tgen table_name [include_path]: generate files by table_name");
+		System.out.println("\tdel table_name [include_path]: delete files by table_name");
+		System.out.println("\tgen * [include_path]: search database all tables and generate files");
+		System.out.println("\tdel * [include_path]: search database all tables and delete files");
 		System.out.println("\tquit : quit");
+		System.out.println("\t[include_path] example: 1. dao  2. dao/**,service/**");
 		System.out.print("please input command:");
 	}
 	
