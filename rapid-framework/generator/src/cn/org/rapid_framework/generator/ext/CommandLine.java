@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.ext;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
@@ -59,6 +60,6 @@ public class CommandLine {
 	}
 	
 	private static String[] nextArguments(Scanner sc) {
-		return StringHelper.tokenizeToStringArray(sc.next()," ");
+		return StringHelper.tokenizeToStringArray(sc.nextLine()," ");
 	}
 }
