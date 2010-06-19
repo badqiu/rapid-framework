@@ -116,6 +116,9 @@ public static void main(String[] args) throws Exception {
 	</user_info>
 }}}
 
+==十一.生成的代码插入文档的某个部位==
+如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用
+
 =创建一个模板=
 ==代码template目录结构==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/generator_template_dir.jpg]
@@ -125,9 +128,6 @@ public static void main(String[] args) throws Exception {
 ==创建一个生成器模板文件==
 在temppate目录创建一个文件,如${className}SpringControler.java
 则代码生成器会自动将该模板文件加载并生成该文件
-
-==生成的代码插入文档的某个部位==
-如模板输出生成的地方已经有该 同名的文件 存在,并且该文件中有包含"generator-insert-location"标记,则模板生成的内容会插入在该标记之后.该特性对如生成的spring配置内容插入spring配置文件十分有用
 
 *充分利用各种文件的注释*
 如在.xml中我们可以使用 <!-- generator-insert-location -->
