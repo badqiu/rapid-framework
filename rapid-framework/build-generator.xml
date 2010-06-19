@@ -187,6 +187,9 @@
 			<zipfileset dir="." prefix="rapid-generator-${version}">
 				<include name="template/*.include"/>
 			</zipfileset>
+			<zipfileset dir="./template/generator/src" prefix="rapid-generator-${version}/template">
+				<include name="**"/>
+			</zipfileset>
 			
 			<!-- pligins templates -->
 			<zipfileset dir="plugins/struts2/template" prefix="rapid-generator-${version}/template/struts2">
