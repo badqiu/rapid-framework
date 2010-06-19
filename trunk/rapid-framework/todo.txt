@@ -44,10 +44,6 @@ SafeSqlProcessor
 struts2类型转换
 springmvc的share变量需要使用request,不能使用ModelAndView
         
-add groupId=basepackage:com.company.project
-	artifact=projectName,一般为一个单词
-	version:1.0
-
 主从表需要指定那一张是主表，才可以进行页面操作
 修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 #集成hibernate validator 
@@ -71,7 +67,6 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
-增加特殊后缀来实现如 .no_generate
 继续完成jdbc_all_crud_sql的基类
 支持删除生成的内容:
 
