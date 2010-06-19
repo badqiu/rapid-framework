@@ -82,10 +82,10 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 		<#if column.isDateTimeColumn>
 	@Transient
 	public String get${column.columnName}String() {
-		return date2String(get${column.columnName}(), FORMAT_${column.constantName});
+		return DateConvertUtils.format(get${column.columnName}(), FORMAT_${column.constantName});
 	}
 	public void set${column.columnName}String(String value) {
-		set${column.columnName}(string2Date(value, FORMAT_${column.constantName},${column.javaType}.class));
+		set${column.columnName}(DateConvertUtils.parse(value, FORMAT_${column.constantName},${column.javaType}.class));
 	}
 	
 		</#if>	
