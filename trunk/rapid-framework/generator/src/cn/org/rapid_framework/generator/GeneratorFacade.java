@@ -25,13 +25,12 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
  *
  */
 public class GeneratorFacade {
-	
+	public Generator g = new Generator();
 	public static void printAllTableNames() throws Exception {
 		PrintUtils.printAllTableNames(DbTableFactory.getInstance().getAllTables());
 	}
 	
 	public void deleteOutRootDir() throws IOException {
-		Generator g = new Generator();
 		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		g.deleteOutRootDir();
 	}
@@ -109,7 +108,6 @@ public class GeneratorFacade {
 	}
     
     private Generator createGenerator(String templateRootDir) {
-        Generator g = new Generator();
         g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
         g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
         return g;
