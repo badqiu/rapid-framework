@@ -199,11 +199,14 @@ public class GeneratorControl {
 	public String getRequiredProperty(String key){
 		return GeneratorProperties.getRequiredProperty(key);
 	}
-	
+
 	public String getInputProperty(String key) throws IOException {
+		return getInputProperty(key, "Please input value for "+key+":");
+	}
+	
+	public String getInputProperty(String key,String message) throws IOException {
 		String v = GeneratorProperties.getProperty(key);
 		if(v == null) {
-			String message = "Please input "+key+":";
 			boolean isWindowsOS = System.getProperty("os.name").toLowerCase().indexOf("windows")>= 0;
 			if(isWindowsOS) {
 				v = JOptionPane.showInputDialog(null,message,"template:"+getSourceFileName(),JOptionPane.OK_OPTION);
