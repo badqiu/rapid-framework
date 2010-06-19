@@ -44,13 +44,13 @@ public class Generator {
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
-	private String removeExtensions = ".ftl";
+	private String removeExtensions = System.getProperty("generator.removeExtensions",".ftl");
 	private boolean isCopyBinaryFile = true;
 	
 	private String includes; // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
 	private String excludes; // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	String sourceEncoding = "UTF-8";
-	String outputEncoding = "UTF-8";
+	String sourceEncoding =  System.getProperty("generator.sourceEncoding","UTF-8");
+	String outputEncoding =  System.getProperty("generator.outputEncoding","UTF-8");
 	public Generator() {
 	}
 	
