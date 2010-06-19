@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.flex.messaging.io;
 
 import cn.org.rapid_framework.flex.messaging.io.amf.translator.decoder.NumberDecoder;
-import flex.messaging.io.Java15TypeMarshaller;
+import flex.messaging.io.amf.translator.ASTranslator;
 import flex.messaging.io.amf.translator.decoder.DecoderFactory;
 
 /**
@@ -23,7 +23,7 @@ import flex.messaging.io.amf.translator.decoder.DecoderFactory;
  * @author badqiu
  *
  */
-public class CustomTypeMarshaller extends Java15TypeMarshaller {
+public class CustomTypeMarshaller extends ASTranslator {
 
 	private static final NumberDecoder numberDecoder = new NumberDecoder();
 	
