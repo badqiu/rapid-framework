@@ -2,7 +2,8 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 
-import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModel;
+import cn.org.rapid_framework.generator.Generator.GeneratorModel;
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 
@@ -17,7 +18,7 @@ public class DalgenGeneratorTest extends GeneratorTestCase{
 		
 		generateByTable(table);
 		
-		GeneratorModel m = GeneratorModel.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 //		g.deleteBy(m.templateModel, m.filePathModel);
 		
 //		Runtime.getRuntime().exec("cmd.exe /c start "+new File(GeneratorProperties.getProperty("outRoot")).getAbsolutePath());
