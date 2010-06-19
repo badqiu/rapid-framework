@@ -13,8 +13,8 @@
     * [rapid_plugin_install_desc 插件安装器介绍]
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
     * [rapid_ant ant脚本]
-    * 代码生成器
-      * [rapid_generator 代码生成器rapid-generator]
+    * 代码生成器(new)
+      * [rapid_generator 代码生成器rapid-generator(new)]
       * [rapid_generator_table_model_ref 模板引用变量参考]
     * view层
       * [rapid_validation 表单验证rapid-validation]
