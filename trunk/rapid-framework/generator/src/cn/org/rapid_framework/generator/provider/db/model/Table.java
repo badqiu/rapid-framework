@@ -184,7 +184,8 @@ public class Table {
 			if(c.isPk())
 				return c;
 		}
-		return null;
+//		return null;
+		throw new IllegalStateException("not found primary key on table:"+getSqlName());
 	}
 	
 	/**使用 getPkColumn()替换 */
