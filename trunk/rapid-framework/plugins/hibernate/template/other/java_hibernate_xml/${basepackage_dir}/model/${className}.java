@@ -13,6 +13,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 <#include "/java_imports.include">
 
 public class ${className} extends BaseEntity implements java.io.Serializable{
+	private static final long serialVersionUID = 5454155825314635342L;
 	
 	//alias
 	public static final String TABLE_ALIAS = "${className}";
