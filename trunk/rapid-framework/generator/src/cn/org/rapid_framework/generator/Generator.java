@@ -123,7 +123,7 @@ public class Generator {
 		this.removeExtensions = removeExtensions;
 	}
 
-    public void clean() throws IOException {
+    public void deleteOutRootDir() throws IOException {
         GLogger.println("[delete dir]    "+getOutRootDir());
         FileHelper.deleteDirectory(new File(getOutRootDir()));
     }

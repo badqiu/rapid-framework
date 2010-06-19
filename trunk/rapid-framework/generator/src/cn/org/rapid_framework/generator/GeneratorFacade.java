@@ -30,10 +30,10 @@ public class GeneratorFacade {
 		PrintUtils.printAllTableNames(DbTableFactory.getInstance().getAllTables());
 	}
 	
-	public void clean() throws IOException {
+	public void deleteOutRootDir() throws IOException {
 		Generator g = new Generator();
 		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
-		g.clean();
+		g.deleteOutRootDir();
 	}
 	
 	public void deleteByAllTable(String templateRootDir) throws Exception {
