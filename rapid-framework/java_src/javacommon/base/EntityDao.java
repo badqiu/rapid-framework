@@ -24,6 +24,7 @@ public interface EntityDao <E,PK extends Serializable>{
 
 	public boolean isUnique(E entity, String uniquePropertyNames) throws DataAccessException;
 	
+	/** 用于hibernate.flush() 有些dao实现不需要实现此类  */
 	public void flush() throws DataAccessException;
 	
 	public List<E> findAll() throws DataAccessException;
