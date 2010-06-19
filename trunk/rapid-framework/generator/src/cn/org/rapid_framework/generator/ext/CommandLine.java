@@ -24,6 +24,7 @@ public class CommandLine {
 		while(sc.hasNextLine()) {
 			try {
 				processLine(sc, g);
+				Thread.sleep(700);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}finally {
