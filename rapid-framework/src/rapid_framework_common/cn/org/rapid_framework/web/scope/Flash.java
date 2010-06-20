@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 /**
  * 实现Flash Scope,存储在Flash中的数据可以在下一次http请求时获得.
  * 
+ * @author Play Framework
  * @author badqiu
  *
  */
