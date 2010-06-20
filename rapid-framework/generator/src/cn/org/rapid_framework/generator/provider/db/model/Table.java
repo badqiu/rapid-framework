@@ -43,12 +43,12 @@ public class Table {
 	public List<Column> getPrimaryKeyColumns() {
 		return primaryKeyColumns;
 	}
-	/** 使用 getPkColumns() 替换*/
+	/** 使用 setPkColumns() 替换*/
 	@Deprecated
 	public void setPrimaryKeyColumns(List<Column> primaryKeyColumns) {
 		this.primaryKeyColumns = primaryKeyColumns;
 	}
-	
+	/** 数据库中表的表名称,其它属性很多都是根据此属性派生 */
 	public String getSqlName() {
 		return sqlName;
 	}
@@ -56,12 +56,12 @@ public class Table {
 		this.sqlName = sqlName;
 		className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 	}
+	/** 数据库中表的表备注 */
 	public String getRemarks() {
 		return remarks;
 	}
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-		tableAlias = StringHelper.emptyIf(getRemarks(), getClassName());
 	}
 	public void addColumn(Column column) {
 		columns.add(column);
@@ -69,16 +69,18 @@ public class Table {
 	
 	public void setClassName(String customClassName) {
 		this.className = customClassName;
-		tableAlias = StringHelper.emptyIf(getRemarks(), getClassName());
 	}
-	
+	/**
+	 * 根据sqlName得到的类名称，示例值: UserInfo
+	 * @return
+	 */
 	public String getClassName() {
 		return className;
 	}
-	
-	String tableAlias;
+	/** 数据库中表的别名，等价于:  getRemarks().isEmpty() ? getClassName() : getRemarks() */
 	public String getTableAlias() {
-		return  tableAlias;
+		if(StringHelper.isNotBlank(tableAlias)) return tableAlias;
+		return StringHelper.defaultIfEmpty(getRemarks(), getClassName());
 	}
 	public void setTableAlias(String v) {
 		this.tableAlias = v;
@@ -302,6 +304,7 @@ public class Table {
 	String catalog = DbTableFactory.getInstance().getCatalog();
 	String schema = DbTableFactory.getInstance().getSchema();
 	
+	private String tableAlias;
 	private ForeignKeys exportedKeys;
 	private ForeignKeys importedKeys;
 	
