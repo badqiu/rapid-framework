@@ -80,7 +80,7 @@ public class Table {
 	/** 数据库中表的别名，等价于:  getRemarks().isEmpty() ? getClassName() : getRemarks() */
 	public String getTableAlias() {
 		if(StringHelper.isNotBlank(tableAlias)) return tableAlias;
-		return StringHelper.defaultIfEmpty(getRemarks(), getClassName());
+		return StringHelper.removeCrlf(StringHelper.defaultIfEmpty(getRemarks(), getClassName()));
 	}
 	public void setTableAlias(String v) {
 		this.tableAlias = v;

@@ -532,7 +532,7 @@ public class Column {
 		enumClassName = getColumnName()+"Enum";		
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
 		columnAlias = StringHelper.defaultIfEmpty(getRemarks(), getColumnNameFirstLower());
-		columnAlias = StringHelper.join(StringHelper.tokenizeToStringArray(columnAlias,"\t\n\r\f"),""); //remove crlf
+		columnAlias = StringHelper.removeCrlf(columnAlias);
 		setHibernateValidatorExprssion(ColumnHelper.getHibernateValidatorExpression(this));
 	}
 	
