@@ -201,15 +201,16 @@
 	</target>
 	
 	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
-		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip">
+		<ant antfile="build-generator.xml" target="jar" inheritall="false" inheritrefs="false" />
+		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip" encoding="GBK">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="java_src/**"/>
 				<include name="java_test/**"/>
-				<include name="generator/**"/>
+				<include name="generator/lib/**"/>
+				<include name="generator/src/**"/>
 				<include name="template/**"/>
 				<include name="web/**"/>
 				<include name="doc/**"/>
-				<include name="generator_lib/**"/>
 				<include name="plugins/**"/>
 				
 				<include name="build.properties"/>
@@ -226,6 +227,10 @@
 				<exclude name="plugins/flex/**"/>
 				<exclude name="plugins/plugin_template/**"/>
 				<exclude name="plugins/menu*/**"/>
+				<exclude name="plugins/simpletable/**"/>
+				<exclude name="plugins/flex_cairngorm/**"/>
+				<exclude name="plugins/extremetable/**"/>
+				<exclude name="plugins/dalgen_table/**"/>
 				
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
@@ -256,7 +261,7 @@
 			downloadfolder="${basedir}/dist/reference_doc"
 		/>
 	</target>
-				
+	
 	<target name="cc_main">
 		<antcall target="clean" />
 		<antcall target="test" />
