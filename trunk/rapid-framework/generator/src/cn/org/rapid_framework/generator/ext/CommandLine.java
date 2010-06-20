@@ -25,10 +25,9 @@ public class CommandLine {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("templateRootDir:"+new File(getTemplateRootDir()).getAbsolutePath());
 		printUsages();
-		GeneratorFacade g = new GeneratorFacade();
 		while(sc.hasNextLine()) {
 			try {
-				processLine(sc, g);
+				processLine(sc);
 				Thread.sleep(700);
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -38,8 +37,8 @@ public class CommandLine {
 		}
 	}
 
-	private static void processLine(Scanner sc, GeneratorFacade facade) throws Exception {
-		
+	private static void processLine(Scanner sc) throws Exception {
+		GeneratorFacade facade = new GeneratorFacade();
 		String cmd = sc.next();
 		if("gen".equals(cmd)) {
 			String[] args = nextArguments(sc);
@@ -74,7 +73,7 @@ public class CommandLine {
 		System.out.println("\tgen * [include_path]: search database all tables and generate files");
 		System.out.println("\tdel * [include_path]: search database all tables and delete files");
 		System.out.println("\tquit : quit");
-		System.out.println("\t[include_path] example: 1. dao  2. dao/**,service/**");
+		System.out.println("\t[include_path] sub dir of templateRootDir,example: 1. dao  2. dao/**,service/**");
 		System.out.print("please input command:");
 	}
 	
