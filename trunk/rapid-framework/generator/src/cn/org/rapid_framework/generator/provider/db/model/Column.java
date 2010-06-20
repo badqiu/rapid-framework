@@ -231,6 +231,10 @@ public class Column {
 		return _defaultValue;
 	}
 	
+	/**
+	 * 列的数据库备注
+	 * @return
+	 */
 	public  String getRemarks() {
 		return _remarks;
 	}
@@ -307,48 +311,78 @@ public class Column {
 		return getSqlName().toLowerCase();
 	}
 	
+	/** 
+	 * 根据列名，根据sqlName计算得出，示例值： BirthDate
+	 **/
 	public String getColumnName() {
 		return columnName;
 	}
-	
+
+	/** 
+	 * 第一个字母小写的columName,等价于: StringHelper.uncapitalize(getColumnName()),示例值: birthDate
+	 **/
 	public String getColumnNameFirstLower() {
 		return StringHelper.uncapitalize(getColumnName());
 	}
-	
+
+	/** 
+	 * 全部小写的columName,等价于: getColumnName().toLowerCase(),示例值: birthdate
+	 **/
 	public String getColumnNameLowerCase() {
 		return getColumnName().toLowerCase();
 	}
+	
 	/**
+	 * 使用 getColumnNameFirstLower()替换
 	 * @deprecated use getColumnNameFirstLower() instead
 	 */
 	public String getColumnNameLower() {
 		return getColumnNameFirstLower();
 	}
-	
+
+	/**
+	 * 使用 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
+	 */
 	public String getJdbcSqlTypeName() {
 		String result = JdbcType.getJdbcSqlTypeName(getSqlType());
 		//if(result == null) throw new RuntimeException("jdbcSqlTypeName is null column:"+getSqlName()+" sqlType:"+getSqlType());
 		return result;
 	}
-	
+
+	/**
+	 * 列的别名，等价于：getRemarks().isEmpty() ? getColumnNameFirstLower() : getRemarks()
+	 * 
+	 * <br />
+	 * 示例值: birthDate
+	 */
 	public String getColumnAlias() {
 		return columnAlias;
 	}
-	
+
+	/**
+	 * 列的常量名称
+	 * 
+	 * <br />
+	 * 示例值: BIRTH_DATE
+	 */
 	public String getConstantName() {
 		return StringHelper.toUnderscoreName(getColumnName()).toUpperCase();
 	}
 	
+	/**
+	 * 
+	 * @deprecated
+	 */
 	public boolean getIsNotIdOrVersionField() {
 		return !isPk();
 	}
 	
-	/**得到 rapid-validation的验证表达式  */
+	/**得到 rapid-validation的验证表达式: required min-value-800  */
 	public String getValidateString() {
 		return isNullable() ? getNoRequiredValidateString() :  "required " + getNoRequiredValidateString();
 	}
 	
-	/**得到 rapid-validation的验证表达式: required min-value-800  */
+	/**得到 rapid-validation的验证表达式: min-value-800  */
 	public String getNoRequiredValidateString() {
 		return ColumnHelper.getRapidValidation(this);
 	}
@@ -367,14 +401,17 @@ public class Column {
 		hibernateValidatorExprssion = v;
 	}
 	
+	/** 列是否是String类型 */
 	public boolean getIsStringColumn() {
 		return DatabaseDataTypesUtils.isString(getSqlType(), getSize(), getDecimalDigits());
 	}
 	
+	/** 列是否是日期类型 */
 	public boolean getIsDateTimeColumn() {
 		return DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits());
 	}
 	
+	/** 列是否是Number类型 */
 	public boolean getIsNumberColumn() {
 		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) 
 			|| DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
@@ -406,35 +443,44 @@ public class Column {
 		return StringHelper.removePrefix(getJavaType(), "java.lang.");
 	}
 	
+	/** 得到ActionScript的映射类型,用于Flex代码的生成  */
 	public String getAsType() {
 		return asType;
 	}
 	
+	/** 得到列的测试数据  */
 	public String getTestData() {
 		return new TestDataGenerator().getDBUnitTestData(getColumnName(),getJavaType(),getSize());
 	}
 	
+	/** 列是否可以更新  */
 	public boolean isUpdatable() {
 		return updatable;
 	}
 
+	/** 列是否可以插入  */
 	public boolean isInsertable() {
 		return insertable;
 	}
 	
+	/** 得到枚举(enum)的类名称，示例值：SexEnum  */
 	public String getEnumClassName() {
 		return enumClassName;
 	}
 	
+	/** 枚举值,以分号分隔,示例值:M(1,男);F(0,女) 或者是:M(男);F(女)  */
 	public void setEnumString(String str) {
 		this.enumString = str;
 	}
+	/** 枚举值,以分号分隔,示例值:M(1,男);F(0,女) 或者是:M(男);F(女)  */
 	public String getEnumString() {
 		return enumString;
 	}
+	/** 解析getEnumString()字符串转换为List<EnumMetaDada>对象  */
 	public List<EnumMetaDada> getEnumList() {
 		return StringHelper.string2EnumMetaData(getEnumString());
 	}
+	/** 是否是枚举列，等价于:return getEnumList() != null && !getEnumList().isEmpty()  */
 	public boolean isEnumColumn() {
 		return getEnumList() != null && !getEnumList().isEmpty();
 	}
