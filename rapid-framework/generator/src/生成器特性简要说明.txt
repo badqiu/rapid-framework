@@ -28,7 +28,7 @@
 	如模板目录下的 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
 
 
-六. 自动删除模板扩展名:ftl 
+六. 自动删除模板扩展名: .ftl,.vm
       举例:  如你有一个模板 SqlMap.xml.ftl  将变为 SqlMap.xml 
              所以你要生成ftl扩展名的文件,应该将文件名从 list.ftl => list.ftl.ftl 
                
