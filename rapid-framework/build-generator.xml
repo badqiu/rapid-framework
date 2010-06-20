@@ -64,6 +64,7 @@
 			destdir="${dir.dist.java}" debug="true"
 			classpathref="lib.classpath">
 			  <src refid="dirs.java.src"/>
+			  <exclude name="**/GeneratorMain.java"/>
 		</javac>
 		<copy todir="${dir.dist.java}">
 			<fileset dir="generator/src" excludes="**/*.java,*"/>
