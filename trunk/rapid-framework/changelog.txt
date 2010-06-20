@@ -1,3 +1,5 @@
+
+
 --------------------------------------------------------
 rapid-framework v3.1
 jsp 可以实现如类的继承体系: <rapid:block /> <rapid:override />
