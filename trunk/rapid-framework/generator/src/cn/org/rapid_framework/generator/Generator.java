@@ -44,7 +44,7 @@ public class Generator {
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
-	private String removeExtensions = System.getProperty("generator.removeExtensions",".ftl");
+	private String removeExtensions = System.getProperty("generator.removeExtensions",".ftl,.vm");
 	private boolean isCopyBinaryFile = true;
 	
 	private String includes = System.getProperty("generator.includes"); // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
@@ -271,8 +271,10 @@ public class Generator {
 						return null;
 				}
 			}
-			if(outputFilePath.endsWith(removeExtensions)) {
-				outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtensions.length());
+			for(String removeExtension : removeExtensions.split(",")) {
+				if(outputFilePath.endsWith(removeExtension)) {
+					outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtension.length());
+				}
 			}
 			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, sourceEncoding,"/filepath/processor/");
 			return FreemarkerHelper.processTemplateString(outputFilePath,filePathModel,conf);
