@@ -94,14 +94,14 @@ public class Table {
 		return getClassName().toLowerCase();
 	}
 	/**
-	 * 等价于getClassName().toLowerCase()
+	 * 得到用下划线分隔的类名称，如className=UserInfo,则underscoreName=user_info
 	 * @return
 	 */
 	public String getUnderscoreName() {
 		return StringHelper.toUnderscoreName(getClassName()).toLowerCase();
 	}
 	/**
-	 * 返回值为getClassName()的第一个字母小写
+	 * 返回值为getClassName()的第一个字母小写,如className=UserInfo,则ClassNameFirstLower=userInfo
 	 * @return
 	 */
 	public String getClassNameFirstLower() {
@@ -109,7 +109,7 @@ public class Table {
 	}
 	
 	/**
-	 * 根据getClassName()计算而来,用于得到常量名,如 userInfo转换为USER_INFO
+	 * 根据getClassName()计算而来,用于得到常量名,如className=UserInfo,则constantName=USER_INFO
 	 * @return
 	 */
 	public String getConstantName() {
@@ -159,7 +159,7 @@ public class Table {
 	 * 得到是主键的全部column
 	 * @return
 	 */	
-	public List getPkColumns() {
+	public List<Column> getPkColumns() {
 		List results = new ArrayList();
 		for(Column c : getColumns()) {
 			if(c.isPk())
@@ -172,7 +172,7 @@ public class Table {
 	 * 得到不是主键的全部column
 	 * @return
 	 */
-	public List getNotPkColumns() {
+	public List<Column> getNotPkColumns() {
 		List results = new ArrayList();
 		for(Column c : getColumns()) {
 			if(!c.isPk())
@@ -180,14 +180,12 @@ public class Table {
 		}
 		return results;
 	}
-
+	/** 得到单主键，等价于getPkColumns().get(0)  */
 	public Column getPkColumn() {
-		for(Column c : getColumns()) {
-			if(c.isPk())
-				return c;
+		if(getPkColumns().isEmpty()) {
+			throw new IllegalStateException("not found primary key on table:"+getSqlName());
 		}
-//		return null;
-		throw new IllegalStateException("not found primary key on table:"+getSqlName());
+		return getPkColumns().get(0);
 	}
 	
 	/**使用 getPkColumn()替换 */
