@@ -33,7 +33,7 @@
              所以你要生成ftl扩展名的文件,应该将文件名从 list.ftl => list.ftl.ftl 
                
                
-七. 模板自动include同级目录:macro.include文件
+七. 模板自动include同级目录:macro.include文件,可以存放公共的macro
 	示例: 如你的模板为 java_src/com/project/UserDao.java, 将自动include: java_src/com/project/macro.include 及 根目录的macro.include
 
 
