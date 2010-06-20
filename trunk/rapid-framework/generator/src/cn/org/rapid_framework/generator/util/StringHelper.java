@@ -18,7 +18,7 @@ public class StringHelper {
 	
 	public static String removeCrlf(String str) {
 		if(str == null) return null;
-		return StringHelper.join(StringHelper.tokenizeToStringArray(str,"\t\n\r\f"),"");
+		return StringHelper.join(StringHelper.tokenizeToStringArray(str,"\t\n\r\f")," ");
 	}
 	public static String removePrefix(String str,String prefix) {
 		if(str == null) return null;
