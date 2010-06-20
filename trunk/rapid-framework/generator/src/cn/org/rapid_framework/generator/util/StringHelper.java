@@ -16,6 +16,10 @@ import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
  */
 public class StringHelper {
 	
+	public static String removeCrlf(String str) {
+		if(str == null) return null;
+		return StringHelper.join(StringHelper.tokenizeToStringArray(str,"\t\n\r\f"),"");
+	}
 	public static String removePrefix(String str,String prefix) {
 		if(str == null) return null;
 		if(str.startsWith(prefix)) {
@@ -321,5 +325,17 @@ public class StringHelper {
 			result.add(s);
 		}
 		return (String[])result.toArray(new String[result.size()]);
+	}
+
+	public static String join(String[] array, String seperator) {
+		if(array == null) return null;
+		StringBuffer result = new StringBuffer();
+		for(int i = 0; i < array.length; i++) {
+			result.append(array[i]);
+			if(i != array.length - 1)  {
+				result.append(seperator);
+			}
+		}
+		return result.toString();
 	}
 }
