@@ -28,10 +28,10 @@ public class CommandLine {
 		while(sc.hasNextLine()) {
 			try {
 				processLine(sc);
-				Thread.sleep(700);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}finally {
+				Thread.sleep(700);
 				printUsages();
 			}
 		}
@@ -52,7 +52,7 @@ public class CommandLine {
 		}else if("quit".equals(cmd)) {
 		    System.exit(0);
 		}else {
-			System.out.println(" [ERROR] unknow command:"+cmd);
+			System.err.println(" [ERROR] unknow command:"+cmd);
 		}
 	}
 
