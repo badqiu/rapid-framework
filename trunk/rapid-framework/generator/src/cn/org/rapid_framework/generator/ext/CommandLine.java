@@ -8,7 +8,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ArrayHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
- * 命令行工具类
+ * 命令行工具类,可以直接运行
  * 
  * @author badqiu
  */
