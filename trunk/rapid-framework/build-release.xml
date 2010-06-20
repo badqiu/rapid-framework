@@ -201,13 +201,19 @@
 	</target>
 	
 	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
+		<property name="dir.for.framework" value="${dir.dist}/for_framework_zip"/>
+		<mkdir dir="${dir.dist}/for_framework_zip/generator"/>
 		<ant antfile="build-generator.xml" target="jar" inheritall="false" inheritrefs="false" />
+		
+		<copy  todir="${dir.for.framework}/generator/lib">
+			<fileset dir="${dir.dist}/generator" includes="*.jar"></fileset>
+		</copy>
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip" encoding="GBK">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
 				<include name="java_src/**"/>
 				<include name="java_test/**"/>
 				<include name="generator/lib/**"/>
-				<include name="generator/src/**"/>
+				<include name="generator/src/**/GeneratorMain.java"/>
 				<include name="template/**"/>
 				<include name="web/**"/>
 				<include name="doc/**"/>
@@ -232,6 +238,9 @@
 				<exclude name="plugins/extremetable/**"/>
 				<exclude name="plugins/dalgen_table/**"/>
 				
+			</zipfileset>
+			<zipfileset dir="./${dir.for.framework}" prefix="rapid-framework-${version}">
+				<include name="**"/>
 			</zipfileset>
 			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
 				<include name="rapid-framework-${version}.jar"/>
