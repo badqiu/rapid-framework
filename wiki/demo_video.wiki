@@ -1,7 +1,5 @@
 = 项目搭建视频 =
 
-*[http://www.muzic8.com/upload/rapidframework.html v2.0.x快速演示视频]* 感谢米米饭的贡献
-
 *[http://rapid-framework.googlecode.com/files/rapid-framework_quickstart_movie_for_v1.0.x.zip v1.0.x快速演示视频下载]* 需要使用flashplayer9播放
 
-v2.5视频*暂无*,可以查看以上视频*大概了解*一下项目搭建过程,或是查看[quick_start_guild]
+v2.5以上视频*暂无*,可以查看以上视频*大概了解*一下项目搭建过程,或是查看[quick_start_guild]
