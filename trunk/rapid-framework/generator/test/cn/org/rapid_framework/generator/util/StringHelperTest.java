@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.util.StringTokenizer;
+
 import cn.org.rapid_framework.generator.util.StringHelper;
 //import cn.org.rapid_framework.util.ProfileUtils;
 import junit.framework.TestCase;
@@ -122,5 +124,12 @@ public class StringHelperTest extends TestCase {
 	public void testRemovePrefix() {
 		assertEquals(null,StringHelper.removePrefix(null, "java.lang."));
 		assertEquals("Integer",StringHelper.removePrefix("java.lang.Integer", "java.lang."));
+	}
+	
+	public void test_remove_crlf() {
+//		new StringTokenizer("\t\n\r\f")
+		String[] array = StringHelper.tokenizeToStringArray("abc \r\f\n\t123\nbb", "\t\n\r\f");
+		assertEquals("abc  123 bb",StringHelper.join(array," "));
+//		assertEquals("abc 123","abc \n\t123".replace('\n', ' '));
 	}
 }
