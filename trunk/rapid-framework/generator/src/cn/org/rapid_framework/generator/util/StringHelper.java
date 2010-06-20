@@ -63,7 +63,7 @@ public class StringHelper {
 		return false;
 	}
 	
-	public static String emptyIf(Object value,String defaultValue) {
+	public static String defaultIfEmpty(Object value,String defaultValue) {
 		if(value == null || "".equals(value)) {
 			return defaultValue;
 		}
