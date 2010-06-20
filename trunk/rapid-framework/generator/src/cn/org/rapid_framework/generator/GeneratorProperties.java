@@ -21,7 +21,7 @@ import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyP
 public class GeneratorProperties {
 	static PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", false);
 	
-	static final String PROPERTIES_FILE_NAME[] = new String[]{"generator.properties","generator.xml"};
+	static final String PROPERTIES_FILE_NAME[] = new String[]{"generator.properties","generator.xml","custom-generator.properties","custom-generator.xml"};
 	
 	static PropertiesHelper props = new PropertiesHelper(new Properties());
 	private GeneratorProperties(){}
