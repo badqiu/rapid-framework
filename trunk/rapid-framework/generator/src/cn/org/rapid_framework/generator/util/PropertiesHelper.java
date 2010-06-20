@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -100,12 +102,13 @@ public class PropertiesHelper {
 	}
 	
 	
-	public static Properties loadAllPropertiesFromClassLoader(String... resourceNames) throws IOException {
-		Properties properties = new Properties();
+	public static String[] loadAllPropertiesFromClassLoader(Properties properties,String... resourceNames) throws IOException {
+		List successLoadProperties = new ArrayList();
 		for(String resourceName : resourceNames) {
-		Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
+			Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
 			while (urls.hasMoreElements()) {
 				URL url = (URL) urls.nextElement();
+				successLoadProperties.add(url.getFile());
 				InputStream input = null;
 				try {
 					URLConnection con = url.openConnection();
@@ -124,6 +127,6 @@ public class PropertiesHelper {
 				}
 			}
 		}
-		return properties;
+		return (String[])successLoadProperties.toArray(new String[0]);
 	}
 }

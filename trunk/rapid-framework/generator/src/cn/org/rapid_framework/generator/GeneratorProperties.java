@@ -21,7 +21,7 @@ import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyP
 public class GeneratorProperties {
 	static PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", false);
 	
-	static final String PROPERTIES_FILE_NAME[] = new String[]{"generator.properties","generator.xml","custom-generator.properties","custom-generator.xml"};
+	static final String PROPERTIES_FILE_NAMES[] = new String[]{"generator.properties","generator.xml","custom-generator.properties","custom-generator.xml"};
 	
 	static PropertiesHelper props = new PropertiesHelper(new Properties());
 	private GeneratorProperties(){}
@@ -31,10 +31,13 @@ public class GeneratorProperties {
 	
 	public static void reload() {
 		try {
-			GLogger.println("Start Load GeneratorPropeties from classpath:"+Arrays.toString(PROPERTIES_FILE_NAME));
-			setProperties(PropertiesHelper.loadAllPropertiesFromClassLoader(PROPERTIES_FILE_NAME));
+			GLogger.println("Start Load GeneratorPropeties from classpath:"+Arrays.toString(PROPERTIES_FILE_NAMES));
+			Properties p = new Properties();
+			String[] loadedFiles = PropertiesHelper.loadAllPropertiesFromClassLoader(p,PROPERTIES_FILE_NAMES);
+			GLogger.println("GeneratorPropeties Load Success,files:"+Arrays.toString(loadedFiles));
+			setProperties(p);
 		}catch(IOException e) {
-			throw new RuntimeException("Load "+PROPERTIES_FILE_NAME+" error",e);
+			throw new RuntimeException("Load "+PROPERTIES_FILE_NAMES+" error",e);
 		}
 	}
 	
