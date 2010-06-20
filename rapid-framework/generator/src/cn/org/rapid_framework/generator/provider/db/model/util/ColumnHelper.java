@@ -14,16 +14,16 @@ public class ColumnHelper {
 	public static String getHibernateValidatorExpression(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
 			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
-				return  "@NotBlank " + getNotRequiredJSR303Validation(c);
+				return  "@NotBlank " + getNotRequiredHibernateValidatorExpression(c);
 			}else {
-				return  "@NotNull " + getNotRequiredJSR303Validation(c);
+				return  "@NotNull " + getNotRequiredHibernateValidatorExpression(c);
 			}
 		}else {
-			return getNotRequiredJSR303Validation(c);
+			return getNotRequiredHibernateValidatorExpression(c);
 		}
 	}
 
-	public static String getNotRequiredJSR303Validation(Column c) {
+	public static String getNotRequiredHibernateValidatorExpression(Column c) {
 		String result = "";
 		if(c.getSqlName().indexOf("mail") >= 0) {
 			result += "@Email ";
