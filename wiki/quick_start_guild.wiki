@@ -92,3 +92,5 @@ jdbc.password=abc123
 
 ==13.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/view_jsp_list.jpg]
+
+===[rapid_plugin_switch_desc dao及web插件切换指南]===
