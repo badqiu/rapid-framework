@@ -47,7 +47,9 @@ public static void main(String[] args) throws Exception {
 
 ==一. 生成器模板路径可以引用相关变量==
  示例:dao/${basepackage_dir}/${className}.java,根据该变量生成输出文件
+
  如果basepackage_dir = com/company/rapid, className=UserInfo
+
  那么完整路径则为:dao/com/company/rapid/UserInfo.java
 
 ==二. 自动搜索某个目录所有模板文件,无需配置==
