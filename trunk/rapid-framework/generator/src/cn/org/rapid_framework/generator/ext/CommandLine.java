@@ -43,6 +43,7 @@ public class CommandLine {
 		String cmd = sc.next();
 		if("gen".equals(cmd)) {
 			String[] args = nextArguments(sc);
+			if(args.length == 0) return;
 			facade.g.setIncludes(getIncludes(args,1));
 			facade.generateByTable(args[0],getTemplateRootDir());
 			if(SystemHelper.isWindowsOS) {
@@ -50,6 +51,7 @@ public class CommandLine {
 			}
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
+			if(args.length == 0) return;
 			facade.g.setIncludes(getIncludes(args,1));
 			facade.deleteByTable(args[0], getTemplateRootDir());
 		}else if("quit".equals(cmd)) {
