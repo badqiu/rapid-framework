@@ -15,7 +15,6 @@
     * [rapid_ant ant脚本]
     * 代码生成器(new)
       * [rapid_generator 代码生成器rapid-generator(new)]
-      * [rapid_generator_table_model_ref 模板引用变量参考]
     * view层
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
