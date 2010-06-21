@@ -7,6 +7,7 @@ import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ArrayHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.SystemHelper;
 /**
  * 命令行工具类,可以直接运行
  * 
@@ -44,7 +45,9 @@ public class CommandLine {
 			String[] args = nextArguments(sc);
 			facade.g.setIncludes(getIncludes(args,1));
 			facade.generateByTable(args[0],getTemplateRootDir());
-			Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
+			if(SystemHelper.isWindowsOS) {
+			    Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot").replace('/', '\\'));
+			}
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			facade.g.setIncludes(getIncludes(args,1));
