@@ -12,13 +12,13 @@ dao层的修改主要*包含两点*:
 
 {{{
 hibernate dao
-	1.方言(Dialect)修改: src/resource/spring/applicationContext-dao.xml
+	1.方言(Dialect)修改: src/resource/spring/applicationContext-hibernate-dao.xml
 		默认为:MysqlDialect
 	2.主键生成策略修改:简单主键修改generator.properties的hibernate_id_generator即可,复杂主键如sequence请直接修改${className}.java,默认为increment
 
 
 ibatis dao
-	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-dao.xml
+	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-ibatis-dao.xml
 		 默认值为:MySQLDialect,(注:用于支持不同的数据库分页查询,该项为rapid的扩展)
 	3.主键生成策略修改:修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
 
@@ -30,7 +30,7 @@ ibatis3 dao
 
 	
 spring jdbc dao
-	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-dao.xml
+	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-jdbc-dao.xml
 		默认值为:MySQLDialect,(注:用于支持不同的数据库分页查询,该项为rapid的扩展)
 	2.主键生成策略修改
 		2.1修改模板${className}Dao.java中的save()方法; 默认适用mysql auto_increment及sqlserver identity
