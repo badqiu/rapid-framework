@@ -61,5 +61,3 @@ Column为数据库表(table)对应的列
 || *javaType* || 与列相对应的java类型 ||java.lang.Long||
 || *asType* || 与列相对应的ActionScript类型||Number||
 || *table* || 列相对应的table对象 || ||
-
-[rapid_generator_gg]
