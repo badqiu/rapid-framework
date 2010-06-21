@@ -36,7 +36,6 @@ public class FileHelper {
 		ArrayList arrayList = new ArrayList();
 		searchAllNotIgnoreFile(dir,arrayList);
 		Collections.sort(arrayList,new Comparator<File>() {
-			@Override
 			public int compare(File o1, File o2) {
 				return o1.getAbsolutePath().compareTo(o2.getAbsolutePath());
 			}
