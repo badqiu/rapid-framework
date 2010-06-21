@@ -206,7 +206,7 @@
 		<ant antfile="build-generator.xml" target="jar" inheritall="false" inheritrefs="false" />
 		
 		<copy  todir="${dir.for.framework}/generator/lib">
-			<fileset dir="${dir.dist}/generator" includes="*.jar"></fileset>
+			<fileset dir="${dir.dist}/generator" includes="rapid-generator.jar"></fileset>
 		</copy>
 		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip" encoding="GBK">
 			<zipfileset dir="." prefix="rapid-framework-${version}">
