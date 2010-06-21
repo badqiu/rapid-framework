@@ -145,7 +145,7 @@ public static void main(String[] args) throws Exception {
   * 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
   * 生成器在线文档: [http://code.google.com/p/rapid-framework/wiki/rapid_generator]
   * [rapid_generator_gg GG变量参考]
-
+  * [rapid_generator_table_model_ref 模板变量参考]
 
 
  
