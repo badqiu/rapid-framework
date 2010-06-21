@@ -25,8 +25,9 @@
   * *根据条件判断某些文件是否生成*
 
 =生成器的运行=
+==在eclipse中运行==
   # 配置classpath,将generator/lib中的jar加入classpath,lib自带了几种常用jdbc驱动 
-  # 修改generator.properties的数据库连接属性及其它属性 
+  # 修改generator.xml的数据库连接属性及其它属性 
   # 以application的方式运行GeneratorMain类,要生成不同的table,直接修改代码即可 
 {{{
 public static void main(String[] args) throws Exception {
@@ -40,7 +41,9 @@ public static void main(String[] args) throws Exception {
 //		g.deleteByTable("table_name", "template"); //删除生成的文件
 }
 }}}
-
+  # 以application方式运行cn.org.rapid_framework.generator.ext.CommandLine
+==独立版运行==
+  下载standandalone-rapid-generator.zip,解压并运行rapid-gen.bat
 
 ----
 =生成器讲解=
