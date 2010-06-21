@@ -175,7 +175,7 @@
 	<target name="standalone-zip" depends="clean,jar" description="独立的命令行简单的zip压缩打包">
 		<zip zipfile="${dir.dist}/standalone-${ant.project.name}-${version}.zip" encoding="GBK">
 			<zipfileset dir="${dir.dist}" prefix="rapid-generator-${version}/lib">
-					<include name="*.jar"/>
+					<include name="rapid-generator.jar"/>
 			</zipfileset>
 			<zipfileset dir="./generator" prefix="rapid-generator-${version}">
 				<include name="lib/**"/>
