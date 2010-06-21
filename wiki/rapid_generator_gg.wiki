@@ -28,7 +28,7 @@ ${gg.generateFile(outputFile,content,encoding)}
 ${gg.loadXml(xmlFile,ignoreError)}
 
 == 得到相关配置 ==
- ${gg.getProperty(key,defaultValue)}: 得到proproty,如果没有找到，则返回默认值
- ${gg.getInputProperty(key,message)}: 会弹出一个输入框，提示用户输入值，提示消息为message. 
- ${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为please input value for key.
+  * ${gg.getProperty(key,defaultValue)}: 得到proproty,如果没有找到，则返回默认值
+  * ${gg.getInputProperty(key,message)}: 会弹出一个输入框，提示用户输入值，提示消息为message. 
+  * ${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为please input value for key.
 == GG ==
