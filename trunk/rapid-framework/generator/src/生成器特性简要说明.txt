@@ -21,7 +21,11 @@
 
 四.每个模板有gg变量可以控制自身的自定义配置 (每一个模板都会创建新的gg实例)
 	如是否生成,是否覆盖目标文件,甚至是生成其它文件
-	示例: ${gg.setIgnoreOutput(true)}, 参考: http://code.google.com/p/rapid-framework/wiki/rapid_generator_gg
+	${gg.setIgnoreOutput(true)}: 如果为true则不生成输出文件
+	${gg.generateFile(outputFile,content)} 在模板中生成其它文件
+	${gg.getProperty(key,defaultValue)}: 得到proproty,如果没有找到，则返回默认值
+	${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为message.
+	具体参考: http://code.google.com/p/rapid-framework/wiki/rapid_generator_gg
 
 
 五.自动拷贝二进制文件至输出目录
