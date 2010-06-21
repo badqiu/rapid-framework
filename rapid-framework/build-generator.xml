@@ -101,6 +101,12 @@
 				<include name="**"/>
 			</fileset>
 		</jar>
+		<jar jarfile="${dir.dist}/rapid-generator.jar">
+			<fileset dir="${dir.dist.java}">
+				<include name="META-INF/**"/>
+				<include name="**"/>
+			</fileset>
+		</jar>		
 	</target>
 	
 	<!-- 运行前请将junit.jar加入ant runtime classpath
