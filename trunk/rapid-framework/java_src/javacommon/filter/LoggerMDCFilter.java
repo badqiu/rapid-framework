@@ -27,7 +27,7 @@ public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response, FilterChain chain)throws ServletException,IOException {
         try {
             //示例为一个固定的登陆用户,请直接修改代码
-            MDC.put("loginUserId", "rapid-user");
+            MDC.put("loginUserId", "demo-loginUsername");
             
             MDC.put("req.requestURI", StringUtils.defaultString(request.getRequestURI()));
             MDC.put("req.queryString", StringUtils.defaultString(request.getQueryString()));
