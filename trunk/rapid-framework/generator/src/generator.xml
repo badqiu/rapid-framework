@@ -28,6 +28,7 @@
 	<entry key="java_typemapping.java.lang.Byte">Integer</entry>
 	<entry key="java_typemapping.java.lang.Short">Integer</entry>
 	<entry key="java_typemapping.java.math.BigDecimal">Long</entry>
+	<entry key="java_typemapping.java.sql.Clob">String</entry>
 	
 	<!-- Mysql -->
 	<entry key="jdbc.url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
