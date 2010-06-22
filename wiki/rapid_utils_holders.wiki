@@ -20,51 +20,51 @@ ApplicationContextHolder.getBean("userInfoService");
   * Holder一般是持有接口,所以你可以方便的改变实现
   * 配合spring完成Holder初始化
 
-==示例1.ApplicationContextHolder==
-用于持有Spring ApplicationContext对象
+==示例1.CacheHolder==
+用于持有Cache对象
 
 *1.1在spring中初始化*
 {{{
-<bean class="cn.org.rapid_framework.holder.ApplicationContextHolder"/>
+<bean class="cn.org.rapid_framework.util.holder.CacheHolder">
+    <property name="cache" ref="memcacheCacheImpl"/>
+</bean>
 }}}
 
 *1.2使用*
-ApplicationContextHolder使用
+CacheHolder使用
 {{{
-UserService service = ApplicationContextHolder.getBean("userService")
-//service do something
+CacheHolder.add("key","cache_value","1h");
+//do something
 }}}
 
 *1.3实现*
 {{{
-public class ApplicationContextHolder implements ApplicationContextAware{
+public class CacheHolder implements InitializingBean{
+    private static Cache cache;
+    
+    public void afterPropertiesSet() throws Exception {
+        if(cache == null) throw new BeanCreationException("not found 'cache' for CacheHolder ");
+    }
 	
-	private static Log log = LogFactory.getLog(ApplicationContextHolder.class);
-	private static ApplicationContext applicationContext; //接口,你有机会注入不同实现
-	
-        //只能holder一个对象
-	public void setApplicationContext(ApplicationContext context) throws BeansException {
-		if(this.applicationContext != null) {
-			throw new IllegalStateException("ApplicationContextHolder already holded 'applicationContext'.");
+    public void setCache(Cache c) {
+    	if(this.cache != null) {
+			throw new IllegalStateException("CacheHolder already holded 'cache'");
 		}
-		this.applicationContext = context;
-		log.info("holded applicationContext,displayName:"+applicationContext.getDisplayName());
-	}
+    	cache = c;
+    }
+    
+    public static Cache getCache(){
+    	return cache;
+    }
+    
+    public static void add(String key, Object value, String expiration) {
+        cache.add(key, value, parseDuration(expiration));
+    }
+
+    public static void cleanHolder() {
+        cache = null;
+    }
 	
-	public static ApplicationContext getApplicationContext() {
-		if(applicationContext == null)
-			throw new IllegalStateException("'applicationContext' property is null,ApplicationContextHolder not yet init.");
-		return applicationContext;
-	}
-	
-	public static Object getBean(String beanName) {
-		return getApplicationContext().getBean(beanName);
-	}
-	
-        //用于清空holder
-	public static void cleanHolder() {
-		applicationContext = null;
-	}
 }
 }}}
 
