@@ -5,6 +5,7 @@
 
 二. 自动搜索某个目录所有模板文件,无需配置
 
+
 三.代码生成器模板可以引用的相关变量
 	1. g.generateByTable("table_name") 方法可以引用的变量
 		table : cn.org.rapid_framework.generator.provider.db.model.Table
@@ -45,6 +46,8 @@
 	1.类似ant可以变量引用,引用环境变量使用${env.JAVA_HOME}, 引用System.getProperties()直接引用
 	2.自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
 		示例: pkg=com.company => pkg_dir=com/company
+
+九. 支持生成(gen)及删除操作(del),即生成的代码也可以很方便的删除
 	
 十. 数据库表配置,用于自定义生成器模板引用的table变量,配置文件必须存放在classpath: generator_config/table/table_name.xml (该文件生成器可以生成，自己再自定义修改)
 	<!--
