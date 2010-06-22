@@ -41,7 +41,7 @@
 	
 	<!-- Character Encoding filter -->
 	<filter>
-		<filter-name>encodingFilter</filter-name>
+		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
@@ -66,7 +66,7 @@
 	</filter>
 			
 	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
+		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
