@@ -32,7 +32,7 @@ public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
             MDC.put("req.queryString", request.getQueryString());
             MDC.put("req.remoteAddr", request.getRemoteAddr());
             
-            //为每一个请求创建一个ID，方便查找日志时可以根据ID查找出所有相关日志
+            //为每一个请求创建一个ID，方便查找日志时可以根据ID查找出一个http请求所有相关日志
             MDC.put("req.id", UUID.randomUUID().toString().replaceAll("-", "")); 
             chain.doFilter(request, response);
         }finally {
