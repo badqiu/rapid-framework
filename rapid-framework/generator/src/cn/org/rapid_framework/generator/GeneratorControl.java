@@ -35,18 +35,16 @@ import freemarker.ext.dom.NodeModel;
  */
 public class GeneratorControl {
 	private boolean isOverride = true; 
-	private boolean isAppend = false;
-	private boolean ignoreOutput = false; // or isGenerate
+	private boolean isAppend = false; //no pass
+	private boolean ignoreOutput = false; 
 	private boolean isMergeIfExists = true;
-	private String mergeLocation; //no pass
+	private String mergeLocation; 
 	private String outRoot; 
-	private String outputEncoding; //no pass
+	private String outputEncoding; 
 	private String sourceFile; 
 	private String sourceDir; 
 	private String sourceFileName; 
 	private String sourceEncoding; //no pass //? 难道process两次确定sourceEncoding
-	
-	
 	
 	/** load xml data */
 	public NodeModel loadXml(String file,boolean ignoreError) {

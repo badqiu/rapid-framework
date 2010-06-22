@@ -289,14 +289,14 @@ public class Generator {
 	
 		private void generateNewFileOrInsertIntoFile( String templateFile,String outputFilepath, Map templateModel) throws Exception {
 			Template template = getFreeMarkerTemplate(templateFile);
-			template.setOutputEncoding(outputEncoding);
+			template.setOutputEncoding(gg.getOutputEncoding());
 			
 			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
 			if(absoluteOutputFilePath.exists()) {
 				StringWriter newFileContentCollector = new StringWriter();
-				if(GeneratorHelper.isFoundInsertLocation(template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
+				if(GeneratorHelper.isFoundInsertLocation(gg,template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {
 					GLogger.println("[insert]\t generate content into:"+outputFilepath);
-					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString(),outputEncoding);
+					IOHelper.saveFile(absoluteOutputFilePath, newFileContentCollector.toString(),gg.getOutputEncoding());
 					return;
 				}
 			}
@@ -307,7 +307,7 @@ public class Generator {
 			}
 			
 			GLogger.println("[generate]\t template:"+templateFile+" ==> "+outputFilepath);
-			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,outputEncoding);
+			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,gg.getOutputEncoding());
 		}
 	}
 
@@ -332,7 +332,7 @@ public class Generator {
 			return true;
 		}		
 		
-		private static boolean isFoundInsertLocation(Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
+		private static boolean isFoundInsertLocation(GeneratorControl gg,Template template, Map model, File outputFile, StringWriter newFileContent) throws IOException, TemplateException {
 			LineNumberReader reader = new LineNumberReader(new FileReader(outputFile));
 			String line = null;
 			boolean isFoundInsertLocation = false;
@@ -342,7 +342,7 @@ public class Generator {
 			while((line = reader.readLine()) != null) {
 				writer.println(line);
 				// only insert once
-				if(!isFoundInsertLocation && line.indexOf(GENERATOR_INSERT_LOCATION) >= 0) {
+				if(!isFoundInsertLocation && line.indexOf(gg.getMergeLocation()) >= 0) {
 					template.process(model,writer);
 					writer.println();
 					isFoundInsertLocation = true;
