@@ -257,6 +257,8 @@ public class Generator {
 		/** 处理文件路径的变量变成输出路径 */
 		private String proceeForOutputFilepath(Map filePathModel,String templateFile) throws IOException {
 			String outputFilePath = templateFile;
+			
+			//TODO 删除兼容性的@testExpression
 			int testExpressionIndex = -1;
 			if((testExpressionIndex = templateFile.indexOf('@')) != -1) {
 				outputFilePath = templateFile.substring(0, testExpressionIndex);
@@ -271,6 +273,7 @@ public class Generator {
 						return null;
 				}
 			}
+			
 			for(String removeExtension : removeExtensions.split(",")) {
 				if(outputFilePath.endsWith(removeExtension)) {
 					outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtension.length());
@@ -334,6 +337,7 @@ public class Generator {
 			String line = null;
 			boolean isFoundInsertLocation = false;
 			
+			//FIXME 持续性的重复生成会导致out of memory
 			PrintWriter writer = new PrintWriter(newFileContent);
 			while((line = reader.readLine()) != null) {
 				writer.println(line);
