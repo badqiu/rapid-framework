@@ -21,7 +21,7 @@
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
 	
-	<!-- 数据库类型映射  -->
+	<!-- 数据库类型至java类型映射  -->
 	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
