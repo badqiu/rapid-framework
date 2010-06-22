@@ -32,3 +32,5 @@ ${gg.loadXml(xmlFile,ignoreError)}
   * ${gg.getInputProperty(key,message)}: 会弹出一个输入框，提示用户输入值，提示消息为message. 
   * ${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为please input value for key.
 == GG ==
+
+[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/GeneratorControl.html GeneratorControl.java javadoc参考，请使用IE查看]
