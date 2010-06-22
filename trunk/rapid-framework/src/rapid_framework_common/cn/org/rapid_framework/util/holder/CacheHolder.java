@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
 
 import cn.org.rapid_framework.cache.Cache;
@@ -17,7 +16,7 @@ import cn.org.rapid_framework.cache.Cache;
 /**
  * The Cache. Mainly an interface to memcached.
  */
-public abstract class CacheHolder implements InitializingBean{
+public class CacheHolder implements InitializingBean{
 	static Log logger = LogFactory.getLog(CacheHolder.class);
     /**
      * The underlying cache implementation
@@ -25,7 +24,7 @@ public abstract class CacheHolder implements InitializingBean{
 	private static Cache cache;
     
 	public void afterPropertiesSet() throws Exception {
-		if(cache == null) throw new BeanCreationException("not found 'cache' for CacheHolder ");
+		if(cache == null) throw new IllegalStateException("not found 'cache' for CacheHolder ");
 	}
 	
     public void setCache(Cache c) {
