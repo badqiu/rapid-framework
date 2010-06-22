@@ -1,6 +1,6 @@
-*v3.9 文档更新,老文档请查看以下链接*
+*v3.9 文档更新,v3.5老文档请查看以下链接*
   * [quick_start_guild 快速开始(ssh项目搭建)]
-  * [flex_quick_start_guild flex快速开始(v3.5)]
+  * [flex_quick_start_guild flex4快速开始(v3.9)]
   * demo
     * [snapshot html界面预览图]
     * [flex_snapshot flex在线demo]
