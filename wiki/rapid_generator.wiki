@@ -142,12 +142,12 @@ public static void main(String[] args) throws Exception {
 具体请查看template/insert_demo目录的内容
 
 =参考=
-==GG变量参考==
-[rapid_generator_gg]
+==GG控制变量参考==
+[rapid_generator_gg gg控制变量]
 ==table变量参考,请使用IE查看==
-[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Table.html]
+[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Table.html Table.java]
 ==column变量参考,请使用IE查看]==
-[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html
+[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html Column.java]
 
   * 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
   * [rapid_generator_table_model_ref 模板变量参考]
