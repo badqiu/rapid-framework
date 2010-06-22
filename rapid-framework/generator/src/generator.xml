@@ -17,7 +17,7 @@
 	<entry key="jdbc.username">root</entry>
 	<entry key="jdbc.password">123456</entry>
 		
-	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置  -->
+	<!-- oracle需要指定jdbc.schema,并且可能要大写，其它数据库忽略此项配置  -->
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
 	
