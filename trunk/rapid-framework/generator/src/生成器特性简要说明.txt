@@ -28,9 +28,7 @@
 	${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为message.
 	具体参考: http://code.google.com/p/rapid-framework/wiki/rapid_generator_gg
 
-
-五.自动拷贝二进制文件至输出目录
-	如模板目录下的 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
+五.支持生成(gen)及删除操作(del),即生成的代码也可以很方便的删除
 
 
 六. 自动删除模板扩展名: .ftl,.vm
@@ -47,7 +45,9 @@
 	2.自动替换generator.properties中的句号(.)为反斜杠,设置key为key+"_dir"后缀
 		示例: pkg=com.company => pkg_dir=com/company
 
-九. 支持生成(gen)及删除操作(del),即生成的代码也可以很方便的删除
+九.自动拷贝二进制文件至输出目录
+	如模板目录下的 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
+
 	
 十. 数据库表配置,用于自定义生成器模板引用的table变量,配置文件必须存放在classpath: generator_config/table/table_name.xml (该文件生成器可以生成，自己再自定义修改)
 	<!--
