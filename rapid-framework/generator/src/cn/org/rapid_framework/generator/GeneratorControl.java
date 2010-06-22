@@ -37,7 +37,7 @@ public class GeneratorControl {
 	private boolean isOverride = true; 
 	private boolean isAppend = false; //no pass
 	private boolean ignoreOutput = false; 
-	private boolean isMergeIfExists = true;
+	private boolean isMergeIfExists = true; //no pass
 	private String mergeLocation; 
 	private String outRoot; 
 	private String outputEncoding; 
