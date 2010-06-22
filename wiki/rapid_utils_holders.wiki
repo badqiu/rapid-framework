@@ -43,13 +43,12 @@ public class CacheHolder implements InitializingBean{
     private static Cache cache;
     
     public void afterPropertiesSet() throws Exception {
-        if(cache == null) throw new BeanCreationException("not found 'cache' for CacheHolder ");
+        if(cache == null) throw new IllegalStateException("not found 'cache' for CacheHolder ");
     }
 	
     public void setCache(Cache c) {
-    	if(this.cache != null) {
-			throw new IllegalStateException("CacheHolder already holded 'cache'");
-		}
+    	if(this.cache != null) 
+	   throw new IllegalStateException("CacheHolder already holded 'cache'");
     	cache = c;
     }
     
