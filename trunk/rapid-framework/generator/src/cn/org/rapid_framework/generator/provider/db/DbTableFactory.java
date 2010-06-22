@@ -90,7 +90,7 @@ public class DbTableFactory {
 		}
 		
 		if(t == null) {
-			throw new RuntimeException("not found table with give name:"+tableName+" databaseStructureInfo:"+getDatabaseStructureInfo());
+			throw new RuntimeException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : ""));
 		}
 		return t;
 	}
