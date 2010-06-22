@@ -18,13 +18,13 @@ public class SqlParseHelperTest extends TestCase{
 		System.out.println(tableNames);
 		verifyTableNames(tableNames,"user","role");
 		
-	    tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user,role,blog");
+	    tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user,user_role,blog");
 	    System.out.println(tableNames);
-	    verifyTableNames(tableNames,"user","role","blog");
+	    verifyTableNames(tableNames,"user","user_role","blog");
 	}
 
     public void test_getTableNamesByQuery_with_multi_table2() {
-        Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u,role r");
+        Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u,role r where abc=123");
         System.out.println(tableNames);
         verifyTableNames(tableNames,"user","role");
         
@@ -49,7 +49,7 @@ public class SqlParseHelperTest extends TestCase{
 
 	private void verifyTableNames(Set<String> tableNames,String... expectedTableNames) {
 		for(int i = 0; i < expectedTableNames.length; i++) {
-			assertTrue(tableNames.contains(expectedTableNames[i]));
+			assertTrue("actual tableNames:"+tableNames.toString(),tableNames.contains(expectedTableNames[i]));
 		}
 	}
 	
