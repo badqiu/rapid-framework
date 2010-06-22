@@ -164,7 +164,7 @@
 	</target>
 	
 	<target name="zip" depends="prepare" description="简单的zip压缩打包">
-		<zip zipfile="${dir.dist}/${ant.project.name}-${version}.zip">
+		<zip zipfile="${dir.dist}/${ant.project.name}-${version}-source.zip">
 			<zipfileset dir="." prefix="rapid-generator-${version}">
 				<include name="template/**"/>
 				<include name="generator/**"/>
