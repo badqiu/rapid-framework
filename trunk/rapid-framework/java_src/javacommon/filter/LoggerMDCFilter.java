@@ -18,7 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * 
  * <pre>
  * 示例使用:
- * log4j.appender.stdout.layout.conversionPattern=%d [%X{loginUserId}/%X{req.remoteAddr}/%X{req.id} - %X{req.requestURI}?%X{req.queryString}] %-5p %c{2} - %m%n
+ * log4j.appender.stdout.layout.conversionPattern=%d [%X{loginUserId}/%X{req.remoteAddr}/%X{req.id} - %X{req.requestURIWithQueryString}] %-5p %c{2} - %m%n
  * </pre>
  * @author badqiu
  */
