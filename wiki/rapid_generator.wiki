@@ -146,6 +146,8 @@ public static void main(String[] args) throws Exception {
   * 生成器在线文档: [http://code.google.com/p/rapid-framework/wiki/rapid_generator]
   * [rapid_generator_gg GG变量参考]
   * [rapid_generator_table_model_ref 模板变量参考]
+  * [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Table.html table变量参考]
+  * [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html column变量参考]
 
 
  
