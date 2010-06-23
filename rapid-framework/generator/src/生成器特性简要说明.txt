@@ -61,14 +61,14 @@
 		/>
 	</数据库表名>
 	 -->
-	<user_info className="UserInfo" tableAlias="UserInfo" >
+	<user_info className="UserInfo" tableAlias="用户信息" >
 		<username columnAlias="用户名"
 			javaType="String"
 			unique="false" nullable="true" pk="false"
 			updatable="true" insertable="true"
 			enumString="F(1,Female);M(0,Male)" enumClassName="用户枚举"
 		/>
-		<password columnAlias="password"
+		<password columnAlias="密码"
 			javaType="String"
 			unique="false" nullable="true" pk="false"
 			updatable="true" insertable="true"
