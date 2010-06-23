@@ -1,11 +1,11 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class SqlParseHelper {
 	static Pattern from = Pattern.compile("(from\\s+)([,\\w]+)",Pattern.CASE_INSENSITIVE);
