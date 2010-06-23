@@ -52,7 +52,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	protected SimpleJdbcTemplate simpleJdbcTemplate;
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
-	//根据table对象可以创建生成增删改查的sql的工具
+	//根据table对象可以创建生成增删改查的sql的工具,在线参考: http://code.google.com/p/rapid-framework/wiki/rapid_sqlgenerator
 	Table table = MetadataCreateUtils.createTable(getEntityClass());
 	SqlGenerator sqlGenerator = new CacheSqlGenerator(new SpringNamedSqlGenerator(table));
 	
