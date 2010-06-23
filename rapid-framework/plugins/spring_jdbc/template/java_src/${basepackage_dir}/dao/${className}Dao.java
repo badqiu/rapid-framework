@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idColumn.javaType}>{
 	
 	//注意: getSqlGenerator()可以生成基本的：增删改查sql语句, 通过这个父类已经封装了增删改查操作
+    // sqlgenerator参考: http://code.google.com/p/rapid-framework/wiki/rapid_sqlgenerator
+    
 	public Class getEntityClass() {
 		return ${className}.class;
 	}
