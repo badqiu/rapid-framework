@@ -37,7 +37,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_with_many_parameers_with() throws Exception {
-		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select sum(age) sum_age,count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birthDateEnd");
+		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select sum(age) sum_age,count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
