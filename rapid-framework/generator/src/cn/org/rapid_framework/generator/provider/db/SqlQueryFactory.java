@@ -15,6 +15,7 @@ import java.util.Set;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.ParsedSql;
 import cn.org.rapid_framework.generator.util.SqlParseHelper;
@@ -52,12 +53,10 @@ public class SqlQueryFactory {
         return result;
     }
 
-	private SelectSqlMetaData convert2SelectSqlMetaData(
-			ResultSetMetaData metadata) throws SQLException, Exception {
+	private SelectSqlMetaData convert2SelectSqlMetaData(ResultSetMetaData metadata) throws SQLException, Exception {
 		SelectSqlMetaData result = new SelectSqlMetaData();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
-            System.out.println(BeanHelper.describe(m));
             if(StringHelper.isNotBlank(m.getTableName())) {
                 Table table = DbTableFactory.getInstance().getTable(m.getTableName());
                 Column column = table.getColumnBySqlName(m.getColumnName());
@@ -65,16 +64,16 @@ public class SqlQueryFactory {
                     //可以再尝试解析sql得到 column以解决 password as pwd找不开column问题
                 	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
                     column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
-                    System.out.println("not found on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+                    GLogger.debug("not found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                     //isInSameTable以此种判断为错误
                 }else {
-                	System.out.println("found on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+                	GLogger.debug("found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                 }
                 result.addColumn(column);
             }else {
                 Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
                 result.addColumn(column);
-                System.out.println("not found on table by table emtpty:"+BeanHelper.describe(column));
+                GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
             }
         }
 		return result;
@@ -87,7 +86,7 @@ public class SqlQueryFactory {
 		ResultSetMetaData metadata =  null;
         try {
 			ResultSet rs = ps.executeQuery();
-			metadata = rs.getMetaData(); //还没有养老result set
+			metadata = rs.getMetaData(); 
 		} catch (Exception e) {
 			metadata = ps.getMetaData();
 		}
@@ -113,30 +112,7 @@ public class SqlQueryFactory {
 	}
 
 	private List<SelectParameter> parseSqlParameters(PreparedStatement ps,ParsedSql sql,SelectSqlMetaData sqlMetaData) throws Exception {
-//		try {
-//			ZqlParser parser = new ZqlParser(new ByteArrayInputStream((sql+";").getBytes()));
-//			ZStatement st = parser.readStatement();
-//			if(st instanceof ZQuery) {
-//				ZQuery q = (ZQuery)st;
-//				System.out.println("\n ZQuery.where:"+q.getWhere());
-//			}
-//			System.out.println("ZStatement:"+st); 
-//		}catch(Exception e) {
-//			throw new RuntimeException("sql:"+sql,e);
-//		}
-//		List result = new ArrayList();
-//		int length = (sql+" ").split("\\?").length;
-//		for(int i = 1; i < length; i++) {
-//			SelectParameter param = new SelectParameter();
-//			param.setParameterClassName("String");
-//			param.setParameterType(JdbcType.VARCHAR.TYPE_CODE);
-//			param.setPrecision(10);
-//			param.setScale(10);
-//			param.setParameterTypeName("VARCHAR");
-//			param.setParamName("param"+i);
-//			result.add(param);
-//		}
-//		return result;
+
 		List result = new ArrayList();
 		for(int i = 0; i < sql.getParameterNames().size(); i++) {
 			SelectParameter param = new SelectParameter();
@@ -151,29 +127,14 @@ public class SqlQueryFactory {
 				param.setPrecision(column.getDecimalDigits());
 				param.setScale(column.getSize());
 				param.setParameterTypeName(column.getJdbcSqlTypeName());
-//				param.setParamName(paramName);
 				result.add(param);			
 			}
 		}
-		System.out.println("params:"+result);
 		return result;
-        
-//		ParameterMetaData m = ps.getParameterMetaData();
-//		int count = m.getParameterCount();
-//		for(int i = 0; i < count; i++) {
-//			try {
-//				SelectParameter qp = new SelectParameter(m,i);
-//				System.out.println("parameters:"+BeanHelper.describe(qp));
-//			}catch(Exception e) {
-////				e.printStackTrace();
-//				return;
-//			}
-//		}
-
+    
 	}
 
-	private Column findColumnByParamName(ParsedSql sql,
-			SelectSqlMetaData sqlMetaData, String paramName) throws Exception {
+	private Column findColumnByParamName(ParsedSql sql,SelectSqlMetaData sqlMetaData, String paramName) throws Exception {
 		Column column = sqlMetaData.getColumnByName(paramName);
 		if(column == null) {
 			column = findColumnByParseSql(sql, paramName);
