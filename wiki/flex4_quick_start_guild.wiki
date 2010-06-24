@@ -2,7 +2,7 @@
 
 = 介绍 =
 
-以下将详细描述flex4+hibernate的项目搭建方法(本插件由 [http://code.google.com/u/hhlai1990/ *随便混混*] 贡献)
+以下将详细描述flex4+hibernate的项目搭建方法(本插件由 [http://code.google.com/u/hhlai1990/ *随变混混*] 贡献)
 
 =环境介绍=
   * IDE: MyEclipse 8.5(flex4插件版安装需至少Myeclipse7.0以上)
