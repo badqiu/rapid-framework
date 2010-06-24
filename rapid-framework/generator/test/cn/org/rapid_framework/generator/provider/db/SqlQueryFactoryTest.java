@@ -6,7 +6,8 @@ import java.util.Map;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
-import cn.org.rapid_framework.generator.provider.db.SqlQueryFactory.SelectSqlMetaData;
+import cn.org.rapid_framework.generator.provider.sql.SqlQueryFactory;
+import cn.org.rapid_framework.generator.provider.sql.SqlQueryFactory.SelectSqlMetaData;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
