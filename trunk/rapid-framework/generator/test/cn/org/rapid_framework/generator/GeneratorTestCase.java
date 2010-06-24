@@ -19,7 +19,8 @@ public class GeneratorTestCase extends TestCase{
 		try {
 			runSqlScripts();
 		}catch(Exception e) {
-			e.printStackTrace();
+			//ignore 
+//			e.printStackTrace();
 		}
 		
 		g = new Generator();
