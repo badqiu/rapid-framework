@@ -7,7 +7,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.sql.SqlQueryFactory;
-import cn.org.rapid_framework.generator.provider.sql.SqlQueryFactory.SelectSqlMetaData;
+import cn.org.rapid_framework.generator.provider.sql.model.SelectSqlMetaData;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
@@ -15,6 +15,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public void setUp() throws Exception {
 		super.setUp();
 		g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_select_sql"));
+		g.setOutRootDir("./temp/sql");
 	}
 	
 	public void test_with_no_parameers() throws Exception {
@@ -35,7 +36,16 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
+	public void test_with_many_parameers_with() throws Exception {
+		SelectSqlMetaData selectSql  = new SqlQueryFactory().getByQuery("select sum(age) sum_age,count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birthDateEnd");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
+	public static int count;
 	public static GeneratorModel newFromQuery(SelectSqlMetaData query) {
+		if(query.getOperation() == null)
+			query.setOperation("findByPage"+count++);
 		Map templateModel = new HashMap();
 		templateModel.putAll(GeneratorProperties.getProperties());
 		templateModel.put("query", query);
