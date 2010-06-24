@@ -43,12 +43,6 @@ public class SqlQueryFactory {
         setPreparedStatementParameters(sql, ps);
         ResultSetMetaData metadata = executeQueryForMetaData(ps);
 		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
-        result.setOperation("findByPage"); //FIXME 
-        if(result.getColumnsSize() > 1) {
-        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable()+" getQueryResultClassName:"+result.getQueryResultClassName());
-        }else {
-        	System.out.println("QueryResultMetaData.isInSameTable():"+result.isInSameTable());
-        }
         result.setSourceSql(sourceSql);
         result.setParams(parseSqlParameters(ps, parsedSql,result));
         return result;
@@ -62,7 +56,7 @@ public class SqlQueryFactory {
                 Table table = DbTableFactory.getInstance().getTable(m.getTableName());
                 Column column = table.getColumnBySqlName(m.getColumnName());
                 if(column == null) {
-                    //可以再尝试解析sql得到 column以解决 password as pwd找不开column问题
+                    //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
                 	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
                     column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
                     GLogger.debug("not found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
@@ -167,12 +161,12 @@ public class SqlQueryFactory {
 //    	SelectSqlMetaData t6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=? and password =? limit ?,?");
 //    	SelectSqlMetaData t7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
 //    
-//    	SelectSqlMetaData n2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=:username and password =:password");
-//    	SelectSqlMetaData n3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-//    	SelectSqlMetaData n4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-//    	SelectSqlMetaData n5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
-//    	SelectSqlMetaData n6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password and birth_date between :birthDateBegin and :birthDateEnd limit :offset,:limit");
-//    	SelectSqlMetaData n7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
+    	SelectSqlMetaData n2 = new SqlQueryFactory().getByQuery("select user_info.username,password pwd from user_info where username=:username and password =:password");
+    	SelectSqlMetaData n3 = new SqlQueryFactory().getByQuery("select username,password,role.role_name,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n4 = new SqlQueryFactory().getByQuery("select count(*) cnt from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n5 = new SqlQueryFactory().getByQuery("select sum(age) from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password");
+    	SelectSqlMetaData n6 = new SqlQueryFactory().getByQuery("select username,password,role_desc from user_info,role where user_info.user_id = role.user_id and username=:username and password =:password and birth_date between :birthDateBegin and :birthDateEnd limit :offset,:limit");
+    	SelectSqlMetaData n7 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = role.user_id group by username");
     	SelectSqlMetaData n8 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = :userId group by username");
     }
     
