@@ -3,8 +3,14 @@
 <#assign classNameLower = className?uncap_first>   
 package ${basepackage}.dal.ibatis;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+
+import com.company.project.dal.query.UserInfoQuery;
+
 import cn.org.rapid_framework.util.PageList;
 import javacommon.base.BaseIbatisDao;
 
@@ -43,7 +49,14 @@ public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 	</#if>
 	</#list>
 
-    public static PageList pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String string, UserInfoQuery query) {
-        return null;
+    public static PageList pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String statementName, ${className}Query query) {
+        int pageSize = 200;
+        int pageNo = 10;
+        Number totalCount = (Number)sqlMapClientTemplate.queryForObject(statementName+"-count",query);
+        if(totalCount.intValue() > 0) {
+            List list = sqlMapClientTemplate.queryForList(statementName,query);
+            return new PageList(list,pageSize,pageNo,totalCount.intValue());
+        }
+        return new PageList(new ArrayList(0),pageSize,pageNo,0);
     }
 }
