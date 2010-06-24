@@ -1,0 +1,28 @@
+
+<#if (query.params?size > 4) >
+	public <@generateResultClassName/> ${query.operation}(${query.operation}Query query) {
+		<@generateOperationMethodBody />
+	}
+<#else>
+	public <@generateResultClassName/> ${query.operation}(<#list query.params as param>${param.parameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+		<@generateOperationMethodBody />
+	}
+</#if>
+
+<#macro generateResultClassName>
+<#compress>
+	<#if query.multiPolicy = 'one'>
+		${query.queryResultClassName}
+	<#else>
+		List<${query.queryResultClassName}>
+	</#if>
+</#compress>
+</#macro>
+
+<#macro generateOperationMethodBody>
+		<#if query.multiPolicy = 'one'>
+			return (<@generateResultClassName/>)queryForObject("${query.sourceSql}");
+		<#else>
+			return (<@generateResultClassName/>)queryForList("${query.sourceSql}");
+		</#if>
+</#macro>
