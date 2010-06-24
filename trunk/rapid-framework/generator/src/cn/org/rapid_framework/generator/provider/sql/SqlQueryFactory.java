@@ -120,8 +120,8 @@ public class SqlQueryFactory {
 				param.setPrecision(column.getDecimalDigits());
 				param.setScale(column.getSize());
 				param.setParameterTypeName(column.getJdbcSqlTypeName());
-				result.add(param);			
 			}
+			result.add(param);			
 		}
 		return result;
     
