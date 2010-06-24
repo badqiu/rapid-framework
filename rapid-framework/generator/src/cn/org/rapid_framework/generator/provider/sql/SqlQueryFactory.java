@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
@@ -97,7 +99,11 @@ public class SqlQueryFactory {
             		try {
             			ps.setString(i,"1");
             		}catch(Exception ee) {
-            			System.err.println("error on set parametet index:"+i+" cause:"+ee);
+            			try {
+            				ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            			}catch(Exception eee) {
+            				System.err.println("error on set parametet index:"+i+" cause:"+eee);
+            			}
             		}
             	}
             }

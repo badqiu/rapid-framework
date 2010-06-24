@@ -19,10 +19,10 @@ public  class SelectSqlMetaData {
     	List<SelectParameter> params = new ArrayList();
     	
     	String sourceSql; // source sql
-    	String jdbcSql; // jdbc sql
-    	String ibatisSql; //ibatis sql
-    	String hql; //hibernate sql
-    	String ibatis3Sql; //ibatis3 sql
+//    	String jdbcSql; // jdbc sql
+//    	String ibatisSql; //ibatis sql
+//    	String hql; //hibernate sql
+//    	String ibatis3Sql; //ibatis3 sql
     	public boolean isInSameTable() {
     		if(columns.isEmpty()) return false;
     		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
@@ -100,12 +100,7 @@ public  class SelectSqlMetaData {
 			List<SelectParameter> sortedParams = new ArrayList(params);
 			Collections.sort(sortedParams,new Comparator<SelectParameter>() {
 				public int compare(SelectParameter o1, SelectParameter o2) {
-					if(o1.paramName.length() == o2.paramName.length()) return 0;
-					if(o1.paramName.length() > o1.getParamName().length()) {
-						return 1;
-					}else {
-						return -1;
-					}
+					return o2.paramName.length() - o1.paramName.length();
 				}
 			});
 			for(SelectParameter s : sortedParams){
@@ -114,13 +109,13 @@ public  class SelectSqlMetaData {
 			return sql;
 		}
 		public String getJdbcSql() {
-			return jdbcSql;
+			return sourceSql;
 		}
 		public String getIbatisSql() {
 			return replaceParamsWith("#","#");
 		}
 		public String getHql() {
-			return hql;
+			return sourceSql;
 		}
 		public String getIbatis3Sql() {
 			return replaceParamsWith("#{","}");
