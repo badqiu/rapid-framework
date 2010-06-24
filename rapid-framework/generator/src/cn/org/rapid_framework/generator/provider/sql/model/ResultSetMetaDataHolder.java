@@ -3,6 +3,8 @@ package cn.org.rapid_framework.generator.provider.sql.model;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import cn.org.rapid_framework.generator.util.StringHelper;
+
 public class ResultSetMetaDataHolder {
 	public ResultSetMetaDataHolder() {
 	}
@@ -69,6 +71,9 @@ public class ResultSetMetaDataHolder {
     }
     public void setColumnLabel(String columnLabel) {
         this.columnLabel = columnLabel;
+    }
+    public String getColumnNameOrLabel() {
+    	return StringHelper.isBlank(columnName) ? columnLabel : columnName;
     }
     public String getColumnName() {
         return columnName;

@@ -39,10 +39,8 @@ public class SqlQueryFactory {
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         PreparedStatement ps = conn.prepareStatement(sql);
-
         setPreparedStatementParameters(sql, ps);
-        ResultSetMetaData metadata = executeQueryForMetaData(ps);
-		SelectSqlMetaData result = convert2SelectSqlMetaData(metadata); 
+        SelectSqlMetaData result = convert2SelectSqlMetaData(executeQueryForMetaData(ps)); 
         result.setSourceSql(sourceSql);
         result.setParams(parseSqlParameters(ps, parsedSql,result));
         return result;
@@ -54,19 +52,19 @@ public class SqlQueryFactory {
             ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
             if(StringHelper.isNotBlank(m.getTableName())) {
                 Table table = DbTableFactory.getInstance().getTable(m.getTableName());
-                Column column = table.getColumnBySqlName(m.getColumnName());
+                Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
                 if(column == null) {
                     //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
                 	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
-                    column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-                    GLogger.debug("not found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+                    column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+                    GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                     //isInSameTable以此种判断为错误
                 }else {
-                	GLogger.debug("found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+                	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                 }
                 result.addColumn(column);
             }else {
-                Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+                Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
                 result.addColumn(column);
                 GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
             }
