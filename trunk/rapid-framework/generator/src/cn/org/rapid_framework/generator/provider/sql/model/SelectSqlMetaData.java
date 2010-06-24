@@ -62,7 +62,7 @@ public  class SelectSqlMetaData {
 		public void setOperation(String operation) {
 			this.operation = operation;
 		}
-		public String getOperationCapitalize() {
+		public String getOperationFirstUpper() {
 			return StringHelper.capitalize(getOperation());
 		}
 		public String getMultiPolicy() {
