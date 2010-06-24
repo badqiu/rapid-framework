@@ -1,20 +1,20 @@
 package cn.org.rapid_framework.generator.provider.sql;
 
 import java.sql.Connection;
-import java.sql.ParameterMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.provider.sql.model.ResultSetMetaDataHolder;
+import cn.org.rapid_framework.generator.provider.sql.model.SelectParameter;
+import cn.org.rapid_framework.generator.provider.sql.model.SelectSqlMetaData;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.NamedParameterUtils;
@@ -64,7 +64,7 @@ public class SqlQueryFactory {
                 if(column == null) {
                     //可以再尝试解析sql得到 column以解决 password as pwd找不开column问题
                 	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
-                    column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
+                    column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
                     GLogger.debug("not found column:"+m.getColumnName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
                     //isInSameTable以此种判断为错误
                 }else {
@@ -72,7 +72,7 @@ public class SqlQueryFactory {
                 }
                 result.addColumn(column);
             }else {
-                Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.scale,false,false,false,false,null,null);
+                Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
                 result.addColumn(column);
                 GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
             }
@@ -176,296 +176,4 @@ public class SqlQueryFactory {
     	SelectSqlMetaData n8 = new SqlQueryFactory().getByQuery("select username,password,count(role_desc) role_desc_cnt from user_info,role where user_info.user_id = :userId group by username");
     }
     
-    public static class SelectSqlMetaData {
-//    	public SelectParameter parameters;
-    	String operation = null;
-    	String multiPolicy = "many"; // many or one
-    	Set<Column> columns = new LinkedHashSet<Column>();
-    	String queryResultClassName = null;
-    	List<SelectParameter> params = new ArrayList();
-    	
-    	String sourceSql; // source sql
-    	String jdbcSql; // jdbc sql
-    	String ibatisSql; //ibatis sql
-    	String hql; //hibernate sql
-    	public boolean isInSameTable() {
-    		if(columns.isEmpty()) return false;
-    		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
-    		String preTableName = columns.iterator().next().getSqlName();
-    		for(Column c :columns) {
-    			Table table = c.getTable();
-				if(table == null) {
-					return false;
-				}
-				if(preTableName.equals(table.getSqlName())) {
-					continue;
-				}
-    		}
-    		return true;
-    	}
-    	public String getQueryResultClassName() {
-    		if(columns.size() == 1) 
-    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
-    		if(queryResultClassName != null) return queryResultClassName;
-    		if(isInSameTable()) {
-    			return columns.iterator().next().getTable().getClassName();
-    		}else {
-    			if(operation == null) return null;
-    			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
-    		}
-		}
-		public void setQueryResultClassName(String queryResultClassName) {
-			this.queryResultClassName = queryResultClassName;
-		}
-		//TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
-		public int getColumnsSize() {
-    		return columns.size();
-    	}
-    	public void addColumn(Column c) {
-    		columns.add(c);
-    	}
-		public String getOperation() {
-			return operation;
-		}
-		public void setOperation(String operation) {
-			this.operation = operation;
-		}
-		public String getMultiPolicy() {
-			return multiPolicy;
-		}
-		public void setMultiPolicy(String multiPolicy) {
-			this.multiPolicy = multiPolicy;
-		}
-		public Set<Column> getColumns() {
-			return columns;
-		}
-		public void setColumns(Set<Column> columns) {
-			this.columns = columns;
-		}
-		public List<SelectParameter> getParams() {
-			return params;
-		}
-		public void setParams(List<SelectParameter> params) {
-			this.params = params;
-		}
-		
-		public String getSourceSql() {
-			return sourceSql;
-		}
-		public void setSourceSql(String sourceSql) {
-			this.sourceSql = sourceSql;
-			setJdbcSql(sourceSql);
-			setHql(sourceSql);
-			setIbatisSql(sourceSql);
-		}
-		public String getJdbcSql() {
-			return jdbcSql;
-		}
-		public void setJdbcSql(String jdbcSql) {
-			this.jdbcSql = jdbcSql;
-		}
-		public String getIbatisSql() {
-			return ibatisSql;
-		}
-		public void setIbatisSql(String ibatisSql) {
-			this.ibatisSql = ibatisSql;
-		}
-		public String getHql() {
-			return hql;
-		}
-		public void setHql(String hql) {
-			this.hql = hql;
-		}
-		public Column getColumnBySqlName(String sqlName) {
-			for(Column c : getColumns()) {
-				if(c.getSqlName().equalsIgnoreCase(sqlName)) {
-					return c;
-				}
-			}
-			return null;
-		}
-		public Column getColumnByName(String name) {
-		    Column c = getColumnBySqlName(name);
-		    if(c == null) {
-		    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
-		    }
-		    return c;
-		}		
-    }
-    
-    public static class SelectParameter {
-    	String parameterClassName;
-    	int parameterMode;
-    	int parameterType;
-    	String parameterTypeName;
-    	int precision;
-    	int scale;
-    	String paramName;
-    	public SelectParameter() {}
-    	public SelectParameter(ParameterMetaData m,int i) throws SQLException {
-    		this.parameterClassName = m.getParameterClassName(i);
-    		this.parameterMode = m.getParameterMode(i);
-    		this.parameterType = m.getParameterType(i);
-    		this.parameterTypeName = m.getParameterTypeName(i);
-    		this.precision = m.getPrecision(i);
-    		this.scale = m.getScale(i);
-    	}
-		public String getParameterClassName() {
-			return parameterClassName;
-		}
-		public void setParameterClassName(String parameterClassName) {
-			this.parameterClassName = parameterClassName;
-		}
-		public int getParameterMode() {
-			return parameterMode;
-		}
-		public void setParameterMode(int parameterMode) {
-			this.parameterMode = parameterMode;
-		}
-		public int getParameterType() {
-			return parameterType;
-		}
-		public void setParameterType(int parameterType) {
-			this.parameterType = parameterType;
-		}
-		public String getParameterTypeName() {
-			return parameterTypeName;
-		}
-		public void setParameterTypeName(String parameterTypeName) {
-			this.parameterTypeName = parameterTypeName;
-		}
-		public int getPrecision() {
-			return precision;
-		}
-		public void setPrecision(int precision) {
-			this.precision = precision;
-		}
-		public int getScale() {
-			return scale;
-		}
-		public void setScale(int scale) {
-			this.scale = scale;
-		}
-		public String getParamName() {
-			return paramName;
-		}
-		public void setParamName(String paramName) {
-			this.paramName = paramName;
-		}
-		public String toString() {
-			return "paramName:"+paramName+" parameterClassName:"+parameterClassName;
-		}
-    }
-
-    public static class ResultSetMetaDataHolder {
-    	public ResultSetMetaDataHolder() {
-    	}
-    	public ResultSetMetaDataHolder(ResultSetMetaData m, int i) throws SQLException {
-            String catalogName = m.getCatalogName(i);
-            String columnClassName = m.getColumnClassName(i);
-            int columnDisplaySize = m.getColumnDisplaySize(i);
-            String columnLabel = m.getColumnLabel(i);
-            String columnName = m.getColumnName(i);
-            
-            int columnType = m.getColumnType(i);
-            String columnTypeName = m.getColumnTypeName(i);
-            int precision = m.getPrecision(i);
-            int scale = m.getScale(i);
-            
-            String schemaName = m.getSchemaName(i);
-            String tableName = m.getTableName(i);
-            
-            this.catalogName = catalogName;
-            this.columnClassName = columnClassName ;
-            this.columnDisplaySize = columnDisplaySize;
-            this.columnLabel = columnLabel;
-            this.columnName = columnName;
-            this.columnType=  columnType;
-            this.columnTypeName = columnTypeName;
-            this.precision  = precision;
-            this.scale = scale;
-            this.schemaName = schemaName;
-            this.tableName = tableName;    		
-    	}
-        String catalogName ;
-        String columnClassName ;
-        int columnDisplaySize ;
-        String columnLabel ;
-        String columnName;
-        
-        int columnType ;
-        String columnTypeName ;
-        int precision  ;
-        int scale ;
-        
-        String schemaName ;
-        String tableName ;
-        public String getCatalogName() {
-            return catalogName;
-        }
-        public void setCatalogName(String catalogName) {
-            this.catalogName = catalogName;
-        }
-        public String getColumnClassName() {
-            return columnClassName;
-        }
-        public void setColumnClassName(String columnClassName) {
-            this.columnClassName = columnClassName;
-        }
-        public int getColumnDisplaySize() {
-            return columnDisplaySize;
-        }
-        public void setColumnDisplaySize(int columnDisplaySize) {
-            this.columnDisplaySize = columnDisplaySize;
-        }
-        public String getColumnLabel() {
-            return columnLabel;
-        }
-        public void setColumnLabel(String columnLabel) {
-            this.columnLabel = columnLabel;
-        }
-        public String getColumnName() {
-            return columnName;
-        }
-        public void setColumnName(String columnName) {
-            this.columnName = columnName;
-        }
-        public int getColumnType() {
-            return columnType;
-        }
-        public void setColumnType(int columnType) {
-            this.columnType = columnType;
-        }
-        public String getColumnTypeName() {
-            return columnTypeName;
-        }
-        public void setColumnTypeName(String columnTypeName) {
-            this.columnTypeName = columnTypeName;
-        }
-        public int getPrecision() {
-            return precision;
-        }
-        public void setPrecision(int precision) {
-            this.precision = precision;
-        }
-        public int getScale() {
-            return scale;
-        }
-        public void setScale(int scale) {
-            this.scale = scale;
-        }
-        public String getSchemaName() {
-            return schemaName;
-        }
-        public void setSchemaName(String schemaName) {
-            this.schemaName = schemaName;
-        }
-        public String getTableName() {
-            return tableName;
-        }
-        public void setTableName(String tableName) {
-            this.tableName = tableName;
-        }
-        
-    }
 }
