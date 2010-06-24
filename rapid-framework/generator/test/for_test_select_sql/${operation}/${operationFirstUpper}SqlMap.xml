@@ -2,6 +2,5 @@
 <#macro namespace>UserInfo.</#macro>
 
 <select id="<@namespace/>${query.operation}" resultMap="RM-${query.queryResultClassName}" >
- SELECT <include refid="<@namespace/>commonColumns"/>
  ${query.ibatisSql}
 </select>
