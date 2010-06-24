@@ -10,7 +10,6 @@ import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public  class SelectSqlMetaData {
-//    	public SelectParameter parameters;
     	String operation = null;
     	String multiPolicy = "many"; // many or one
     	Set<Column> columns = new LinkedHashSet<Column>();
