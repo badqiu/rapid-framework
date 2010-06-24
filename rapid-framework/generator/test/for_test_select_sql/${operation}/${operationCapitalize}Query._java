@@ -3,15 +3,15 @@ ${gg.setIgnoreOutput(query.params?size <= 4)}
 
 public class ${query.operation}Query extends BaseQuery {
 	<#list query.params as param>
-		private ${param.parameterClassName} ${param.paramName};
+		private ${param.parameterClassName} ${param.paramName?capitalize};
 	</#list>
 	
 	<#list query.params as param>
-		public ${param.parameterClassName} get${param.paramName}() {
+		public ${param.parameterClassName} get${param.paramName?capitalize}() {
 			return ${param.paramName};
 		}
-		public void set${param.paramName}(${param.parameterClassName} v) {
-			this.${param.paramName} = v;
+		public void set${param.paramName?capitalize}(${param.parameterClassName} v) {
+			this.${param.paramName?capitalize} = v;
 		}
 	</#list>
 }
