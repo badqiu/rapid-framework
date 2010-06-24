@@ -1,6 +1,8 @@
 package cn.org.rapid_framework.generator.provider.sql.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +22,7 @@ public  class SelectSqlMetaData {
     	String jdbcSql; // jdbc sql
     	String ibatisSql; //ibatis sql
     	String hql; //hibernate sql
+    	String ibatis3Sql; //ibatis3 sql
     	public boolean isInSameTable() {
     		if(columns.isEmpty()) return false;
     		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
@@ -89,27 +92,38 @@ public  class SelectSqlMetaData {
 		}
 		public void setSourceSql(String sourceSql) {
 			this.sourceSql = sourceSql;
-			setJdbcSql(sourceSql);
-			setHql(sourceSql);
-			setIbatisSql(sourceSql);
+//			setJdbcSql(sourceSql);
+//			setHql(sourceSql);
+		}
+		public String replaceParamsWith(String prefix,String suffix) {
+			String sql = sourceSql;
+			List<SelectParameter> sortedParams = new ArrayList(params);
+			Collections.sort(sortedParams,new Comparator<SelectParameter>() {
+				public int compare(SelectParameter o1, SelectParameter o2) {
+					if(o1.paramName.length() == o2.paramName.length()) return 0;
+					if(o1.paramName.length() > o1.getParamName().length()) {
+						return 1;
+					}else {
+						return -1;
+					}
+				}
+			});
+			for(SelectParameter s : sortedParams){
+				sql = StringHelper.replace(sql,":"+s.getParamName(),prefix+s.getParamName()+suffix);
+			}
+			return sql;
 		}
 		public String getJdbcSql() {
 			return jdbcSql;
 		}
-		public void setJdbcSql(String jdbcSql) {
-			this.jdbcSql = jdbcSql;
-		}
 		public String getIbatisSql() {
-			return ibatisSql;
-		}
-		public void setIbatisSql(String ibatisSql) {
-			this.ibatisSql = ibatisSql;
+			return replaceParamsWith("#","#");
 		}
 		public String getHql() {
 			return hql;
 		}
-		public void setHql(String hql) {
-			this.hql = hql;
+		public String getIbatis3Sql() {
+			return replaceParamsWith("#{","}");
 		}
 		public Column getColumnBySqlName(String sqlName) {
 			for(Column c : getColumns()) {
