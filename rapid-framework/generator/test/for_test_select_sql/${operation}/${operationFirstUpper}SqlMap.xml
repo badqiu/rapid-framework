@@ -1,6 +1,12 @@
 
 <#macro namespace>UserInfo.</#macro>
 
-<select id="<@namespace/>${query.operation}" resultMap="RM-${query.queryResultClassName}" >
- ${query.ibatisSql}
-</select>
+	<resultMap id="RM-${query.queryResultClassName}" class="${query.queryResultClassName}">
+    <#list query.columns as column>
+	        <result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
+    </#list>
+	</resultMap>    
+    
+	<select id="<@namespace/>${query.operation}" resultMap="RM-${query.queryResultClassName}" >
+	 ${query.ibatisSql}
+	</select>
