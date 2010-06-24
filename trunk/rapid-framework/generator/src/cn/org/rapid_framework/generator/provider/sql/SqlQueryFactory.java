@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.provider.db;
+package cn.org.rapid_framework.generator.provider.sql;
 
 import java.sql.Connection;
 import java.sql.ParameterMetaData;
@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
