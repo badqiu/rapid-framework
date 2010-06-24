@@ -167,7 +167,7 @@ jdbc.password=0000
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/26.PNG]
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/27.PNG]
 
-===最佳实践Tips:===
+===Tips:===
 1.由于官方的Blazeds4.0会出现Nan=>0的错误，rapid修改了blazeds的flex-core.jar包,修正为Nan=>null.
 
-2：若要flex4与spring的结合会,建议不要使用IDE自动生成代码功能,此功能有BUG，官方正在修复中.
+2.若要flex4与spring的结合会,建议不要使用IDE自动生成代码功能,此功能有BUG，官方正在修复中.
