@@ -46,7 +46,17 @@ public class SqlParseHelperTest extends TestCase{
         System.out.println(tableNames);
         verifyTableNames(tableNames,"user","role");
     }
+    
+    public void test_verify_delete() {
+    	Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("delete from user_Info where username=:abc");
+    	 verifyTableNames(tableNames,"user_Info");
+    }
 
+    public void test_verify_update() {
+    	Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("update user_info set username = :username where password = :password and age=:age and sex=:sex");
+    	verifyTableNames(tableNames,"user_Info");
+    }
+    
 	private void verifyTableNames(Set<String> tableNames,String... expectedTableNames) {
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			assertTrue("actual tableNames:"+tableNames.toString(),tableNames.contains(expectedTableNames[i]));
