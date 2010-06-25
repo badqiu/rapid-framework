@@ -19,10 +19,11 @@ public class Flash {
 	private Map<String, String> data = new HashMap<String, String>();
     private Map<String, String> out = new HashMap<String, String>();
 
-    public static Flash restore(HttpServletRequest request) {
+    @SuppressWarnings("unchecked")
+	public static Flash restore(HttpServletRequest request) {
         Flash flash = new Flash();
         HttpSession session = request.getSession();
-		Map flashData = (Map)session.getAttribute(FLASH_IN_SESSION_KEY);
+        Map<String, String> flashData = (Map<String, String>)session.getAttribute(FLASH_IN_SESSION_KEY);
         if(flashData != null) {
         	flash.data = flashData;
         }
