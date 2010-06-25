@@ -11,18 +11,20 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.math.RandomUtils;
+
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
-import cn.org.rapid_framework.generator.provider.sql.model.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.provider.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
-import cn.org.rapid_framework.generator.util.NamedParameterUtils;
-import cn.org.rapid_framework.generator.util.ParsedSql;
-import cn.org.rapid_framework.generator.util.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
+import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
+import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 /**
  * 
  * 根据SQL语句生成Sql对象,用于代码生成器的生成
@@ -87,6 +89,7 @@ public class SqlFactory {
 			throws SQLException {
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
+        ps.setQueryTimeout(20);
 		ResultSetMetaData metadata =  null;
         try {
 			ResultSet rs = ps.executeQuery();
@@ -103,13 +106,13 @@ public class SqlFactory {
             int size = sql.split("\\?").length;
             for(int i = 1; i <= size; i++) {
             	try {
-            		ps.setInt(i,1);
+            		ps.setLong(i, RandomUtils.nextInt()+System.currentTimeMillis()+RandomUtils.nextInt());
             	}catch(Exception e) {
             		try {
-            			ps.setString(i,"1");
+            			ps.setString(i,""+System.currentTimeMillis()+RandomUtils.nextInt()+RandomUtils.nextInt());
             		}catch(Exception ee) {
             			try {
-            				ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            				ps.setTimestamp(1, new Timestamp(RandomUtils.nextInt()+System.currentTimeMillis()+RandomUtils.nextInt()));
             			}catch(Exception eee) {
             				System.err.println("error on set parametet index:"+i+" cause:"+eee);
             			}
