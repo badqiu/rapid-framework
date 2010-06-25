@@ -54,9 +54,9 @@ public class EnumBaseUtils {
        if(v == null) {
            if(values.length > 0) {
                String className = values[0].getClass().getName();
-               throw new IllegalArgumentException("not found "+className+" by key:"+code);
+               throw new IllegalArgumentException("not found "+className+" by code:"+code);
            }else {
-               throw new IllegalArgumentException("not found Enum by key:"+code);
+               throw new IllegalArgumentException("not found Enum by code:"+code);
            }
        }
        return (T)v;
