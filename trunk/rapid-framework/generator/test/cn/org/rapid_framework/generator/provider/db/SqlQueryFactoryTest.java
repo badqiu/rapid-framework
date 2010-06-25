@@ -19,38 +19,52 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.setOutRootDir("./temp/sql");
 	}
 	
-	public void test_with_no_parameers() throws Exception {
+	public void test_select_with_no_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
-	public void test_with_2_parameers() throws Exception {
+	public void test_select_with_2_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password ");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
-	public void test_with_in_parameers() throws Exception {
+	public void test_select_with_in_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age in (:age)");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
-	public void test_with_many_parameers() throws Exception {
+	public void test_select_with_many_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
-	public void test_with_many_parameers_with() throws Exception {
-		Sql selectSql  = new SqlFactory().parseSql("select sum(age) sum_age,count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
+	public void test_select_with_cannot_guess_column_type() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
-	public void test_count_sql() throws Exception {
+	public void test_select_with_two_columns() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select sum(age) sum_age,count(username) cnt from user_info ");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
+	public void test_select_count_single_column() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
+		selectSql.setMultiPolicy(Sql.MULTI_POLICY_ONE);
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
+	public void test_select_string_single_column() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select username from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
+		selectSql.setMultiPolicy(Sql.MULTI_POLICY_ONE);
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
@@ -60,7 +74,6 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
-
 	
 	public void test_delete_myisam_user_sql() throws Exception {
 		DbTableFactory.getInstance().getConnection().close();
