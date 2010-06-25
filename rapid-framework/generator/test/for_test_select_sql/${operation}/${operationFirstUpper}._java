@@ -1,28 +1,28 @@
 
-<#if (query.params?size > 4) >
-	public <@generateResultClassName/> ${query.operation}(${query.operation}Query query) {
+<#if (sql.params?size > 4) >
+	public <@generateResultClassName/> ${sql.operation}(${sql.operation}Query query) {
 		<@generateOperationMethodBody />
 	}
 <#else>
-	public <@generateResultClassName/> ${query.operation}(<#list query.params as param>${param.parameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.parameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
 		<@generateOperationMethodBody />
 	}
 </#if>
 
 <#macro generateResultClassName>
 <#compress>
-	<#if query.multiPolicy = 'one'>
-		${query.queryResultClassName}
+	<#if sql.multiPolicy = 'one'>
+		${sql.queryResultClassName}
 	<#else>
-		List<${query.queryResultClassName}>
+		List<${sql.queryResultClassName}>
 	</#if>
 </#compress>
 </#macro>
 
 <#macro generateOperationMethodBody>
-		<#if query.multiPolicy = 'one'>
-			return (<@generateResultClassName/>)queryForObject("${query.sourceSql}");
+		<#if sql.multiPolicy = 'one'>
+			return (<@generateResultClassName/>)queryForObject("${sql.sourceSql}");
 		<#else>
-			return (<@generateResultClassName/>)queryForList("${query.sourceSql}");
+			return (<@generateResultClassName/>)queryForList("${sql.sourceSql}");
 		</#if>
 </#macro>

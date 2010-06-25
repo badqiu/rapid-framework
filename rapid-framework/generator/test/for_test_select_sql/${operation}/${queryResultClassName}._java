@@ -2,9 +2,9 @@
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ${query.queryResultClassName} implements java.io.Serializable {
+public class ${sql.queryResultClassName} implements java.io.Serializable {
 
-	<#list query.columns as column>
+	<#list sql.columns as column>
 	private ${column.simpleJavaType} ${column.columnNameLower};
 	</#list>
 
@@ -17,7 +17,7 @@ public class ${query.queryResultClassName} implements java.io.Serializable {
 }
 
 <#macro generateJavaColumns>
-	<#list query.columns as column>
+	<#list sql.columns as column>
 	public void set${column.columnName}(${column.simpleJavaType} value) {
 		this.${column.columnNameLower} = value;
 	}
