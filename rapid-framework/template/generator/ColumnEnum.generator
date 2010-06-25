@@ -15,7 +15,7 @@ ${gg.setIgnoreOutput(true)}
 <#macro genEnumClassBody column>
 <#assign enumClassBody>
 
-package ${basepackage}.enums;
+package ${basepackage}.model.enums;
 
 import cn.org.rapid_framework.util.KeyValue;
 import cn.org.rapid_framework.util.KeyValueUtils;
