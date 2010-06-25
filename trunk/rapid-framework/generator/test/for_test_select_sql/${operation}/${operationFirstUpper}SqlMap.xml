@@ -10,7 +10,7 @@
 	</select>	
 	<#else>
 	
-	<#if !sql.inSameTable>
+	<#if !sql.columnsInSameTable>
 	<resultMap id="RM-${sql.queryResultClassName}" class="${sql.queryResultClassName}">
     <#list sql.columns as column>
 		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
