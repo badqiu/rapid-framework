@@ -21,7 +21,7 @@ public class ${className}RepositoryConverter {
     public static ${targetClassName} convert2${targetClassName}(${sourceClassName} source) {
         ${targetClassName} target = new ${targetClassName}();
     
-        <#list table.notPkColumns as column>
+        <#list table.columns as column>
         target.set${column.columnName}(source.get${column.columnName}());
         </#list>
         
