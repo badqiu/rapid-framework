@@ -22,12 +22,12 @@ import ${basepackage}.dal.query.UserInfoQuery;
 public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 
     public ${table.pkColumn.javaType} insert(${className}DO obj) {
-        Assert.notNull(obj,"cannot insert null data object into db")
+        Assert.notNull(obj,"cannot insert null data object into db");
         return (${table.pkColumn.javaType})getSqlMapClientTemplate().insert("${className}.insert",obj);
     }
     
     public void update(${className}DO obj) {
-        Assert.notNull(obj,"cannot update by a null data object.")
+        Assert.notNull(obj,"cannot update by a null data object.");
         getSqlMapClientTemplate().update("${className}.update",obj);
     }
     
