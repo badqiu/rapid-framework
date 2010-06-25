@@ -55,7 +55,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
-	public void test_update_sql_error() throws Exception {
+	public void test_sql_error() throws Exception {
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("update user_info1 set username = :username where password = :password and age=:age and sex=:sex");
 			fail();
