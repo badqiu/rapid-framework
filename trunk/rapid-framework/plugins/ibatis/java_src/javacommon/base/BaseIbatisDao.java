@@ -27,17 +27,17 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     }
     
 	public void deleteById(PK id) {
-		getSqlMapClientTemplate().delete(getDeleteQuery(), id);
+		int affectCount = getSqlMapClientTemplate().delete(getDeleteQuery(), id);
 	}
 	
     public void save(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		Object primaryKey = getSqlMapClientTemplate().insert(getInsertQuery(), entity);    	
+		getSqlMapClientTemplate().insert(getInsertQuery(), entity);    	
     }
     
 	public void update(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		Object primaryKey = getSqlMapClientTemplate().update(getUpdateQuery(), entity);
+		int affectCount = getSqlMapClientTemplate().update(getUpdateQuery(), entity);
 	}
 	
 	/**
