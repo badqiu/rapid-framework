@@ -8,16 +8,14 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang.math.RandomUtils;
+import java.util.Random;
 
 import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
-import cn.org.rapid_framework.generator.provider.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -47,7 +45,7 @@ public class SqlFactory {
         try {
 	        PreparedStatement ps = conn.prepareStatement(sql);
 	        setPreparedStatementParameters(sql, ps);
-	        Sql result = convert2SelectSqlMetaData(executeQueryForMetaData(ps)); 
+	        Sql result = convert2Sql(executeForMetaData(ps)); 
 	        result.setSourceSql(sourceSql);
 	        result.setParams(parseSqlParameters(ps, parsedSql,result));
 	        return result;
@@ -57,47 +55,48 @@ public class SqlFactory {
         }
     }
 
-	private Sql convert2SelectSqlMetaData(ResultSetMetaData metadata) throws SQLException, Exception {
+	private Sql convert2Sql(ResultSetMetaData metadata) throws SQLException, Exception {
 		Sql result = new Sql();
 		if(metadata == null) return result;
 		
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
-            ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
-            if(StringHelper.isNotBlank(m.getTableName())) {
-                Table table = DbTableFactory.getInstance().getTable(m.getTableName());
-                Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
-                if(column == null) {
-                    //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
-                	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
-                    column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-                    GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
-                    //isInSameTable以此种判断为错误
-                }else {
-                	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
-                }
-                result.addColumn(column);
-            }else {
-                Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-                result.addColumn(column);
-                GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
-            }
+            result.addColumn(convert2Column(metadata, i));
         }
 		return result;
 	}
 
-	private ResultSetMetaData executeQueryForMetaData(PreparedStatement ps)
-			throws SQLException {
+	private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
+		ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
+		if(StringHelper.isNotBlank(m.getTableName())) {
+		    Table table = DbTableFactory.getInstance().getTable(m.getTableName());
+		    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
+		    if(column == null) {
+		        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
+		    	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
+		        column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+		        GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+		        //isInSameTable以此种判断为错误
+		    }else {
+		    	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+		    }
+		    return column;
+		}else {
+		    Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+		    GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
+		    return column;
+		}
+	}
+
+	private ResultSetMetaData executeForMetaData(PreparedStatement ps)throws SQLException {
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
-		ResultSetMetaData metadata =  null;
         try {
 			ResultSet rs = ps.executeQuery();
-			metadata = rs.getMetaData(); 
+			return rs.getMetaData(); 
 		} catch (Exception e) {
-			metadata = ps.getMetaData();
+			return ps.getMetaData();
 		}
-		return metadata;
 	}
 
 	private void setPreparedStatementParameters(String sql, PreparedStatement ps)
@@ -105,16 +104,21 @@ public class SqlFactory {
         if(sql.contains("?")) {
             int size = sql.split("\\?").length;
             for(int i = 1; i <= size; i++) {
-            	try {
-            		ps.setLong(i, RandomUtils.nextInt()+System.currentTimeMillis()+RandomUtils.nextInt());
+            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()+new Random(System.currentTimeMillis()).nextInt() % Integer.MAX_VALUE;
+				try {
+            		ps.setLong(i, random);
             	}catch(Exception e) {
             		try {
-            			ps.setString(i,""+System.currentTimeMillis()+RandomUtils.nextInt()+RandomUtils.nextInt());
+            			ps.setString(i,""+random);
             		}catch(Exception ee) {
             			try {
-            				ps.setTimestamp(1, new Timestamp(RandomUtils.nextInt()+System.currentTimeMillis()+RandomUtils.nextInt()));
+            				ps.setTimestamp(1, new Timestamp(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
             			}catch(Exception eee) {
-            				System.err.println("error on set parametet index:"+i+" cause:"+eee);
+            				try {
+            					ps.setObject(i, random);
+            				}catch(Exception eeee) {
+            					GLogger.warn("error on set parametet index:"+i+" cause:"+eeee+" sql:"+sql);
+            				}
             			}
             		}
             	}
