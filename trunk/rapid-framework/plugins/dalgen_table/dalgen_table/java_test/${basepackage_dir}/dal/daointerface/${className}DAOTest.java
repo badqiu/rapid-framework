@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.Test;
 
 import cn.org.rapid_framework.test.context.TestMethodContext;
-import ${basepackage}.dal.query.UserInfoQuery;
+import ${basepackage}.dal.query.${className}Query;
+import ${basepackage}.dal.dataobject.${className}DO;
 
 import static junit.framework.Assert.*;
 
@@ -30,26 +31,37 @@ public class ${className}DAOTest extends BaseDaoTestCase{
         return new String[]{"classpath:testdata/common.xml","classpath:testdata/${className}.xml",
                             "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
     }
+
+    public void test_crud() {
+        ${className}DO target = new${className}DO();
+       
+        dao.insert(target);
+        
+        dao.update(target);
+        
+        assertNotNull(dao.queryById(target.get${table.idColumn.columnName}()));
+        dao.deleteById(target.get${table.idColumn.columnName}());
+        
+    }
     
     //数据库单元测试前会开始事务，结束时会回滚事务，所以测试方法可以不用关心测试数据的删除
     @Test
     public void findPage() {
 
         ${className}Query query = new${className}Query();
-        Page page = dao.findPage(query);
+        PageList page = dao.findPage(query);
         
-        assertEquals(pageNumber,page.getThisPageNumber());
+        assertEquals(pageNo,page.getPageNo());
         assertEquals(pageSize,page.getPageSize());
-        List resultList = (List)page.getResult();
-        assertNotNull(resultList);
+        assertNotNull(page);
         
     }
     
-    static int pageNumber = 1;
+    static int pageNo = 1;
     static int pageSize = 10;   
     public static ${className}Query new${className}Query() {
         ${className}Query query = new ${className}Query();
-        query.setPageNo(pageNumber);
+        query.setPageNo(pageNo);
         query.setPageSize(pageSize);
         query.setOrderBy(null);
         
@@ -64,6 +76,21 @@ public class ${className}DAOTest extends BaseDaoTestCase{
             </#if>
         </#list>
         return query;
+    }
+    
+    public static ${className}DO new${className}DO() {
+        ${className}DO target = new ${className}DO();
+        
+        <#list table.columns as column>
+            <#if column.isNotIdOrVersionField>
+                <#if column.isDateTimeColumn>
+        target.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
+                <#else>
+        target.set${column.columnName}(new ${column.javaType}("${column.testData}"));
+                </#if>
+            </#if>
+        </#list>
+        return target;
     }
     
 }
