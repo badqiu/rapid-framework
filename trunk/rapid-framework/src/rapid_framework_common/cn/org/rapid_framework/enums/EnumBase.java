@@ -4,10 +4,12 @@ package cn.org.rapid_framework.enums;
  * 
  * @author badqiu
  */
-public interface EnumIface<K,V> {
+public interface EnumBase<K,V> {
     
     public K getCode();
     
     public V getDesc();
+    
+    public String name();
     
 }
