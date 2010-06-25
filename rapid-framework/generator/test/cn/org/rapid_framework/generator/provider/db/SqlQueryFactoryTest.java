@@ -31,6 +31,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
+	public void test_with_in_parameers() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age in (:age)");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
 	public void test_with_many_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
 		GeneratorModel gm = newFromQuery(selectSql);
@@ -51,6 +57,15 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	
 	public void test_delete_sql() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username = :username and password = :password and age=:age and sex=:sex");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+
+	
+	public void test_delete_myisam_user_sql() throws Exception {
+		DbTableFactory.getInstance().getConnection().close();
+		GeneratorProperties.reload();
+		Sql selectSql  = new SqlFactory().parseSql("delete from myisam_user ");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
