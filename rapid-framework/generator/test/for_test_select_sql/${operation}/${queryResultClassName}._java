@@ -1,3 +1,4 @@
+${gg.setIgnoreOutput(sql.columnsCount <= 1)}
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

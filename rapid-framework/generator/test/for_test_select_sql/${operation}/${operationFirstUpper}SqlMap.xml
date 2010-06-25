@@ -1,12 +1,50 @@
 
 <#macro namespace>UserInfo.</#macro>
-
+	
+<#if sql.selectSql>
+	<#if sql.columnsCount == 1>
+	<select id="<@namespace/>${sql.operation}" resultMap="${sql.queryResultClassName}" >
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</select>	
+	<#else>
+	
 	<resultMap id="RM-${sql.queryResultClassName}" class="${sql.queryResultClassName}">
     <#list sql.columns as column>
-	        <result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
+		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
     </#list>
-	</resultMap>    
-    
+	</resultMap>
+	
 	<select id="<@namespace/>${sql.operation}" resultMap="RM-${sql.queryResultClassName}" >
-	 ${sql.ibatisSql}
-	</select>
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</select>	  	
+	</#if>
+    
+</#if>
+	
+<#if sql.updateSql>
+	<update id="UserInfo.update">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</update>
+</#if>
+	
+<#if sql.deleteSql>
+	<delete id="UserInfo.delete">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+    </delete>
+</#if>
+    
+<#if sql.insertSql>
+	<insert id="UserInfo.insert">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</insert>
+</#if>
