@@ -194,6 +194,15 @@ public class Table {
 		return getPkColumn();
 	}
 	
+	public List<Column> getEnumColumns() {
+        List results = new ArrayList();
+        for(Column c : getColumns()) {
+            if(!c.isEnumColumn())
+                results.add(c);
+        }
+        return results;	    
+	}
+	
 	public Column getColumnByName(String name) {
 	    Column c = getColumnBySqlName(name);
 	    if(c == null) {
