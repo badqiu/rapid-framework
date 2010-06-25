@@ -39,6 +39,7 @@ import cn.org.rapid_framework.web.util.CookieUtils;
  * @author badqiu
  *
  */
+@SuppressWarnings("unchecked")
 public class HttpSessionStoreFilter  extends OncePerRequestFilter implements Filter{
 	private static Log log = LogFactory.getLog(HttpSessionStoreFilter.class);
 	private String sessionIdCookieName = "_rapid_session_id";

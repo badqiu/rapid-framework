@@ -2,7 +2,7 @@ package cn.org.rapid_framework.web.session.store;
 
 import java.util.Map;
 
-
+@SuppressWarnings("unchecked")
 public abstract class SessionStore {
 	private boolean isSaveSessionDataOnAttributeChange = false;
 

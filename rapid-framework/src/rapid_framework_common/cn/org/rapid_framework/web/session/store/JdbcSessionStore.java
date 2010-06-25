@@ -40,6 +40,7 @@ import sun.misc.BASE64Encoder;
  * @author badqiu
  *
  */
+@SuppressWarnings("all")
 public class JdbcSessionStore extends SessionStore{
 	DataSource dataSource;
 
