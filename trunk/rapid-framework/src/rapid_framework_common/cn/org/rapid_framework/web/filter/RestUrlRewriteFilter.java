@@ -67,7 +67,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 	
 	private String prefix;
 	private boolean debug = false;
-	private Set excludeExtentions = new HashSet();
+	private Set<String> excludeExtentions = new HashSet<String>();
 	private String[] excludePrefixes = new String[0];
 	
 	protected void initFilterBean() throws ServletException {
@@ -82,7 +82,7 @@ public class RestUrlRewriteFilter extends OncePerRequestFilter implements Filter
 		prefix = getStringParameter(filterConfig,"prefix",DEFAULT_PREFIX);
 		debug = getBooleanParameter(filterConfig,"debug",false);
 		String excludeExtentionsString = getStringParameter(filterConfig,"excludeExtentions",DEFAULT_EXECUDE_EXTENTIONS);
-		excludeExtentions = new HashSet((Arrays.asList(excludeExtentionsString.split(","))));
+		excludeExtentions = new HashSet<String>((Arrays.asList(excludeExtentionsString.split(","))));
 		
 		String excludePrefixsString = getStringParameter(filterConfig,"excludePrefixes",null);
 		if(StringUtils.hasText(excludePrefixsString)) {
