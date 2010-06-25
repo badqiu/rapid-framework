@@ -63,7 +63,6 @@ public class ${className}ServiceImpl implements ${className}Service {
         return new PageList<${className}DTO>(${className}ServiceConverter.convert2${className}DTOList(resultList),resultList);
     }
     
-/*    
     @Transactional(readOnly=true)
     public ${className}DTO getByUsername(java.lang.String v) {
         return ${className}ServiceConverter.convert2${className}DTO(${classNameLower}Repository.getByUsername(v));
@@ -74,7 +73,6 @@ public class ${className}ServiceImpl implements ${className}Service {
         return ${className}ServiceConverter.convert2${className}DTO(${classNameLower}Repository.getByAge(v));
     }   
     
-*/
     
     private void initDefaultValuesForCreate(${className} v) {
     }
