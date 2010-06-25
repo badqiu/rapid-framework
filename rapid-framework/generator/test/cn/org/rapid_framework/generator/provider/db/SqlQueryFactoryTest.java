@@ -43,6 +43,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
+	public void test_count_sql() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
 	public void test_delete_sql() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username = :username and password = :password and age=:age and sex=:sex");
 		GeneratorModel gm = newFromQuery(selectSql);
@@ -55,6 +61,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 
+	public void test_insert_sql() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("insert into user_info values(:username,:password,:age,:sex,:userid,:blog)");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
+	
 	public void test_sql_error() throws Exception {
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("update user_info1 set username = :username where password = :password and age=:age and sex=:sex");
@@ -72,6 +84,13 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age=1:age ");
+			fail();
+		}catch(SQLException e){
+			assertTrue(true);
+		}
+		
+		try {
+			Sql selectSql  = new SqlFactory().parseSql("insert into userinfo2 values(:username,:password,:age,:sex)");
 			fail();
 		}catch(SQLException e){
 			assertTrue(true);
