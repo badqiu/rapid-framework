@@ -33,7 +33,7 @@ public class ${className}DAOTest extends BaseDaoTestCase{
     }
 
     public void test_crud() {
-        ${className}DO target = new${className}DO();
+        ${className}DO target = Factory.new${className}DO();
        
         dao.insert(target);
         
@@ -48,7 +48,7 @@ public class ${className}DAOTest extends BaseDaoTestCase{
     @Test
     public void findPage() {
 
-        ${className}Query query = new${className}Query();
+        ${className}Query query = Factory.new${className}Query();
         PageList page = dao.findPage(query);
         
         assertEquals(pageNo,page.getPageNo());
@@ -59,38 +59,42 @@ public class ${className}DAOTest extends BaseDaoTestCase{
     
     static int pageNo = 1;
     static int pageSize = 10;   
-    public static ${className}Query new${className}Query() {
-        ${className}Query query = new ${className}Query();
-        query.setPageNo(pageNo);
-        query.setPageSize(pageSize);
-        query.setOrderBy(null);
-        
-        <#list table.columns as column>
-            <#if column.isNotIdOrVersionField>
-            <#if column.isDateTimeColumn && !column.contains("begin,start,end")>
-        query.set${column.columnName}Begin(new ${column.simpleJavaType}(System.currentTimeMillis()));
-        query.set${column.columnName}End(new ${column.simpleJavaType}(System.currentTimeMillis()));
-            <#else>
-        query.set${column.columnName}(new ${column.simpleJavaType}("1"));
-            </#if>
-            </#if>
-        </#list>
-        return query;
-    }
     
-    public static ${className}DO new${className}DO() {
-        ${className}DO target = new ${className}DO();
-        
-        <#list table.columns as column>
-            <#if column.isNotIdOrVersionField>
-                <#if column.isDateTimeColumn>
-        target.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
+    public static class Factory {
+        public static ${className}Query new${className}Query() {
+            ${className}Query query = new ${className}Query();
+            query.setPageNo(pageNo);
+            query.setPageSize(pageSize);
+            query.setOrderBy(null);
+            
+            <#list table.columns as column>
+                <#if column.isNotIdOrVersionField>
+                <#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+            query.set${column.columnName}Begin(new ${column.simpleJavaType}(System.currentTimeMillis()));
+            query.set${column.columnName}End(new ${column.simpleJavaType}(System.currentTimeMillis()));
                 <#else>
-        target.set${column.columnName}(new ${column.javaType}("${column.testData}"));
+            query.set${column.columnName}(new ${column.simpleJavaType}("1"));
                 </#if>
-            </#if>
-        </#list>
-        return target;
+                </#if>
+            </#list>
+            
+            return query;
+        }
+        
+        public static ${className}DO new${className}DO() {
+            ${className}DO target = new ${className}DO();
+            
+            <#list table.columns as column>
+                <#if column.isNotIdOrVersionField>
+                    <#if column.isDateTimeColumn>
+            target.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
+                    <#else>
+            target.set${column.columnName}(new ${column.javaType}("${column.testData}"));
+                    </#if>
+                </#if>
+            </#list>
+            
+            return target;
+        }
     }
-    
 }
