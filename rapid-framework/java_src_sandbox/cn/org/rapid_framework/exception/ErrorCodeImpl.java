@@ -9,11 +9,11 @@ public class ErrorCodeImpl implements ErrorCode{
 	private static final long serialVersionUID = 6335800965783920460L;
 	
 	private String errorCode;
-	private String errorCodeDetails;
+	private String message;
 	
-	public ErrorCodeImpl(String errorCode, String errorCodeDetails) {
+	public ErrorCodeImpl(String errorCode, String message) {
 		this.errorCode = errorCode;
-		this.errorCodeDetails = errorCodeDetails;
+		this.message = message;
 	}
 	
 	public String getErrorCode() {
@@ -21,7 +21,7 @@ public class ErrorCodeImpl implements ErrorCode{
 	}
 
 	public String getMessage() {
-		return errorCodeDetails;
+		return message;
 	}
 	
 }
