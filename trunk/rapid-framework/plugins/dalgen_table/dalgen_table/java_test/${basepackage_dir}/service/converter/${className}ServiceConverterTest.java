@@ -9,7 +9,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import cn.org.rapid_framework.test.util.BeanDefaultValueSetterTest;
+import cn.org.rapid_framework.test.util.BeanAssert;
+import cn.org.rapid_framework.test.util.BeanDefaultValueUtils;
 
 import com.company.project.dal.dataobject.UserInfoDO;
 import com.company.project.repository.converter.UserInfoRepositoryConverter;
@@ -24,15 +25,17 @@ public class ${className}ServiceConverterTest extends TestCase {
 
     public void test_convert2UserInfoDO() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         UserInfo source = new UserInfo();
-        BeanDefaultValueSetterTest.setBeanProperties(source);
+        BeanDefaultValueUtils.setBeanProperties(source);
         UserInfoDTO target = UserInfoServiceConverter.convert2UserInfoDTO(source);
+        BeanAssert.assertPropertiesNotNull(target);
         System.out.println(BeanUtils.describe(target));
     }
     
     public void test_convert2UserInfo() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         UserInfoDTO source = new UserInfoDTO();
-        BeanDefaultValueSetterTest.setBeanProperties(source);
+        BeanDefaultValueUtils.setBeanProperties(source);
         UserInfo target = UserInfoServiceConverter.convert2UserInfo(source);
+        BeanAssert.assertPropertiesNotNull(target);
         System.out.println(BeanUtils.describe(target));
     }
     
