@@ -1,11 +1,14 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 
@@ -47,6 +50,18 @@ public class SqlParseHelper {
 	        return m.group(4);
 	    }
 	    return null;
+	}
+	
+	public static String getPrettySql(String sql)  {
+		try {
+			if(IOHelper.readLines(new StringReader(sql)).size() > 1) {
+				return sql;
+			}else {
+				return StringHelper.replace(StringHelper.replace(sql,"from","\n\tfrom"),"where","\n\twhere");
+			}
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 }

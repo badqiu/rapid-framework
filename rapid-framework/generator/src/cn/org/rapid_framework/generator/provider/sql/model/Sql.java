@@ -6,17 +6,17 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 public  class Sql {
     	String operation = null;
     	String multiPolicy = "many"; // many or one
     	Set<Column> columns = new LinkedHashSet<Column>();
-    	String queryResultClassName = null;
+    	String queryResultClass;
     	List<SqlParameter> params = new ArrayList();
     	
     	String sourceSql; // source sql
@@ -36,24 +36,27 @@ public  class Sql {
     		}
     		return true;
     	}
-    	public String getQueryResultClassName() {
+    	public String getQueryResultClass() {
     		if(columns.size() == 1) {
 //    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
     			return columns.iterator().next().getSimpleJavaType();
     		}
-    		if(queryResultClassName != null) return queryResultClassName;
+    		if(queryResultClass != null) return queryResultClass;
     		if(isInSameTable()) {
     			return columns.iterator().next().getTable().getClassName();
     		}else {
     			if(operation == null) return null;
     			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
     		}
+		}    
+    	public void setQueryResultClass(String queryResultClass) {
+			this.queryResultClass = queryResultClass;
 		}
-		public void setQueryResultClassName(String queryResultClassName) {
-			this.queryResultClassName = queryResultClassName;
+    	public String getQueryResultClassName() {
+    		return getQueryResultClass();
 		}
 		//TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
-		public int getColumnsSize() {
+		public int getColumnsCount() {
     		return columns.size();
     	}
     	public void addColumn(Column c) {
@@ -113,7 +116,8 @@ public  class Sql {
 		}
 		
 		public String getIbatisSql() {
-			return replaceParamsWith("#","#");
+			String sql = replaceParamsWith("#","#");
+			return SqlParseHelper.getPrettySql(sql);
 		}
 		
 		public String getHql() {
