@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 public class SqlParseHelper {
 	static Pattern from = Pattern.compile("(from\\s+)([,\\w]+)",Pattern.CASE_INSENSITIVE);
 	static Pattern join = Pattern.compile("(join\\s+)(\\w+)",Pattern.CASE_INSENSITIVE);
+	static Pattern update = Pattern.compile("(\\s*update\\s+)(\\w+)",Pattern.CASE_INSENSITIVE);
 	
 	public static Set<String> getTableNamesByQuery(String sql) {
 		Set<String> result = new LinkedHashSet();
@@ -19,6 +20,11 @@ public class SqlParseHelper {
 		}
 		
 		m = join.matcher(sql);
+		if(m.find()) {
+			result.add(m.group(2));
+		}
+		
+		m = update.matcher(sql);
 		if(m.find()) {
 			result.add(m.group(2));
 		}
