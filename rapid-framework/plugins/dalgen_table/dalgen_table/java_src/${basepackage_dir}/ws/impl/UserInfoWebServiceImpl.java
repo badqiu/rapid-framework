@@ -112,18 +112,31 @@ public class UserInfoWebServiceImpl implements UserInfoWebService {
         }
     }
     
-/*    
     @Transactional(readOnly=true)
-    public UserInfoDTO getByUsername(java.lang.String v) {
-        return UserInfoServiceConverter.convert2UserInfoDTO(userInfoRepository.getByUsername(v));
+    public UserInfoResult getByUsername(java.lang.String v) {
+        try {
+            return new UserInfoResult(UserInfoServiceConverter.convert2UserInfoDTO(userInfoRepository.getByUsername(v)));
+        }catch(IllegalArgumentException e) {
+            throw e;
+        }catch(ErrorCodeException e){
+            return new UserInfoResult(e.getErrorCode(),e.getMessage());
+        }catch(Exception e) {
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
+        }
     }   
     
     @Transactional(readOnly=true)
-    public UserInfoDTO getByAge(java.lang.Integer v) {
-        return UserInfoServiceConverter.convert2UserInfoDTO(userInfoRepository.getByAge(v));
+    public UserInfoResult getByAge(java.lang.Integer v) {
+        try {
+            return new UserInfoResult(UserInfoServiceConverter.convert2UserInfoDTO(userInfoRepository.getByAge(v)));
+        }catch(IllegalArgumentException e) {
+            throw e;
+        }catch(ErrorCodeException e){
+            return new UserInfoResult(e.getErrorCode(),e.getMessage());
+        }catch(Exception e) {
+            return new UserInfoResult(WSResult.SYSTEM_UNKNOW_ERROR,e.getMessage());
+        }
     }   
-    
-*/
     
     private void initDefaultValuesForCreate(UserInfo v) {
     }

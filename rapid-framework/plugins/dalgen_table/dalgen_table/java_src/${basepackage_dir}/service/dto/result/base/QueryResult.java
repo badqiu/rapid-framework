@@ -7,7 +7,7 @@ import java.util.List;
 public class QueryResult<T extends java.io.Serializable> extends WSResult {
 	private static final long serialVersionUID = 3667702877871528562L;
 	
-    private List<T> itemList = new ArrayList(0);
+    private List<T> itemList = new ArrayList<T>(0);
 	
 	public QueryResult() {
 	}

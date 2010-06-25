@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 public class ${className}ServiceTest extends TestCase{
     ${className}Service ${classNameLower}Service;
     
-    public void test_create${className}() {
+    public void test_find_some_thing() {
         
     }
     
