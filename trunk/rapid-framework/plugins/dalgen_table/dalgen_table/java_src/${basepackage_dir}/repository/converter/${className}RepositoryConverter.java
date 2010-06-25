@@ -6,6 +6,7 @@ package ${basepackage}.repository.converter;
 import ${basepackage}.dal.dataobject.${className}DO;
 import ${basepackage}.repository.model.${className};
 import ${basepackage}.model.enums.*;
+import cn.org.rapid_framework.util.KeyValueUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,11 @@ public class ${className}RepositoryConverter {
     
         <#list table.columns as column>
         <#if column.enumColumn>
-        target.set${column.columnName}(source.get${column.columnName}());
+            <#if sourceClassName?ends_with("DO")>
+        target.set${column.columnName}(${column.enumClassName}.getByKey(source.get${column.columnName}()));
+            <#else>
+        target.set${column.columnName}((${column.simpleJavaType})KeyValueUtils.getKey(source.get${column.columnName}()));
+            </#if>
         <#else>
         target.set${column.columnName}(source.get${column.columnName}());
         </#if>
