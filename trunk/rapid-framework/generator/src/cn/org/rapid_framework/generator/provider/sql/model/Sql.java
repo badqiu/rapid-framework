@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
@@ -134,5 +135,21 @@ public  class Sql {
 		    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
 		    }
 		    return c;
-		}		
+		}
+		
+		public boolean isSelectSql() {
+			return sourceSql.trim().toLowerCase().matches("(?i)\\s*select\\s.*from\\s+.*");
+		}
+		
+		public boolean isUpdateSql() {
+			return sourceSql.trim().toLowerCase().matches("(?i)\\s*update\\s+.*");
+		}
+		
+		public boolean isDeleteSql() {
+			return sourceSql.trim().toLowerCase().matches("(?i)\\s*delete\\s+from\\s.*");
+		}
+		
+		public boolean isInsertSql() {
+			return sourceSql.trim().toLowerCase().matches("(?i)\\s*insert\\s+into\\s+.*");
+		}
     }
