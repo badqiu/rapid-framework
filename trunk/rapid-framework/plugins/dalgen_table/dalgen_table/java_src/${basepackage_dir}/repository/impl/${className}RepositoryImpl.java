@@ -51,4 +51,12 @@ public class ${className}RepositoryImpl implements ${className}Repository {
         return new PageList(targetList,sourceList.getPageSize(),sourceList.getPageNo(),sourceList.getTotalCount());
     }
     
+    <#list table.columns as column>
+    <#if column.unique && !column.pk>
+    public ${className} getBy${column.columnName}(${column.javaType} v) {
+        return ${className}RepositoryConverter.convert2${className}(${classNameLower}DAO.getBy${column.columnName}(v));
+    }
+    
+    </#if>
+    </#list>    
 }

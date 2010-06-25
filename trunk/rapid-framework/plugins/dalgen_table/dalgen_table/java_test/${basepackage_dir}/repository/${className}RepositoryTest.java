@@ -16,7 +16,7 @@ public class ${className}RepositoryTest extends TestCase{
 	
 	private ${className}Repository repository;
 	
-	public void test_findPage() {
+	public void test_find_some_thing() {
 	    
 	}
 	
