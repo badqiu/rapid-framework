@@ -50,17 +50,17 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     }
     
 	public void deleteById(PK id) {
-		getSqlSessionTemplate().delete(getDeleteQuery(), id);
+		int affectCount = getSqlSessionTemplate().delete(getDeleteQuery(), id);
 	}
 	
     public void save(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		Object primaryKey = getSqlSessionTemplate().insert(getInsertQuery(), entity);    	
+		int affectCount = getSqlSessionTemplate().insert(getInsertQuery(), entity);    	
     }
     
 	public void update(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		Object primaryKey = getSqlSessionTemplate().update(getUpdateQuery(), entity);
+		int affectCount = getSqlSessionTemplate().update(getUpdateQuery(), entity);
 	}
 	
 	/**
