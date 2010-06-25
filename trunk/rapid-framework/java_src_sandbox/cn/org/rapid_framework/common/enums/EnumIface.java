@@ -1,9 +1,9 @@
 package cn.org.rapid_framework.common.enums;
 
-public interface EnumIface {
+public interface EnumIface<K,V> {
     
-    public String getCode();
+    public K getCode();
     
-    public String getDesc();
+    public V getDesc();
     
 }

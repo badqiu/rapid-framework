@@ -2,10 +2,11 @@ package cn.org.rapid_framework.common.enums;
 
 import java.util.LinkedHashMap;
 
+@SuppressWarnings("unchecked")
 public class EnumIfaceUtils {
 
-    public static  <T extends EnumIface> LinkedHashMap<String,String> toMap(T[] values) {
-        LinkedHashMap<String,String> map = new LinkedHashMap<String,String>();
+    public static  <T extends EnumIface> LinkedHashMap toMap(T[] values) {
+        LinkedHashMap map = new LinkedHashMap();
         for(EnumIface item : values) {
             map.put(item.getCode(), item.getDesc());
         }
@@ -44,7 +45,6 @@ public class EnumIfaceUtils {
     * @param values
     * @return
     */
-   @SuppressWarnings("unchecked")
    public static <T extends EnumIface> T getRequiredByCode(Object code,T[] values) {
        EnumIface v = getByCode(code,values);
        if(v == null) {
