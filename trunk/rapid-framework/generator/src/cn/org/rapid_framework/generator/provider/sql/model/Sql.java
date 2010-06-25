@@ -20,10 +20,7 @@ public  class Sql {
     	List<SqlParameter> params = new ArrayList();
     	
     	String sourceSql; // source sql
-//    	String jdbcSql; // jdbc sql
-//    	String ibatisSql; //ibatis sql
-//    	String hql; //hibernate sql
-//    	String ibatis3Sql; //ibatis3 sql
+    	
     	public boolean isInSameTable() {
     		if(columns.isEmpty()) return false;
     		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
@@ -40,8 +37,10 @@ public  class Sql {
     		return true;
     	}
     	public String getQueryResultClassName() {
-    		if(columns.size() == 1) 
-    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
+    		if(columns.size() == 1) {
+//    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
+    			return columns.iterator().next().getSimpleJavaType();
+    		}
     		if(queryResultClassName != null) return queryResultClassName;
     		if(isInSameTable()) {
     			return columns.iterator().next().getTable().getClassName();
@@ -93,9 +92,8 @@ public  class Sql {
 		}
 		public void setSourceSql(String sourceSql) {
 			this.sourceSql = sourceSql;
-//			setJdbcSql(sourceSql);
-//			setHql(sourceSql);
 		}
+		
 		public String replaceParamsWith(String prefix,String suffix) {
 			String sql = sourceSql;
 			List<SqlParameter> sortedParams = new ArrayList(params);
@@ -109,32 +107,21 @@ public  class Sql {
 			}
 			return sql;
 		}
+		
 		public String getJdbcSql() {
 			return sourceSql;
 		}
+		
 		public String getIbatisSql() {
 			return replaceParamsWith("#","#");
 		}
+		
 		public String getHql() {
 			return sourceSql;
 		}
+		
 		public String getIbatis3Sql() {
 			return replaceParamsWith("#{","}");
-		}
-		public Column getColumnBySqlName(String sqlName) {
-			for(Column c : getColumns()) {
-				if(c.getSqlName().equalsIgnoreCase(sqlName)) {
-					return c;
-				}
-			}
-			return null;
-		}
-		public Column getColumnByName(String name) {
-		    Column c = getColumnBySqlName(name);
-		    if(c == null) {
-		    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
-		    }
-		    return c;
 		}
 		
 		public boolean isSelectSql() {
@@ -151,5 +138,22 @@ public  class Sql {
 		
 		public boolean isInsertSql() {
 			return sourceSql.trim().toLowerCase().matches("(?i)\\s*insert\\s+into\\s+.*");
+		}
+		
+		public Column getColumnBySqlName(String sqlName) {
+			for(Column c : getColumns()) {
+				if(c.getSqlName().equalsIgnoreCase(sqlName)) {
+					return c;
+				}
+			}
+			return null;
+		}
+		
+		public Column getColumnByName(String name) {
+		    Column c = getColumnBySqlName(name);
+		    if(c == null) {
+		    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
+		    }
+		    return c;
 		}
     }
