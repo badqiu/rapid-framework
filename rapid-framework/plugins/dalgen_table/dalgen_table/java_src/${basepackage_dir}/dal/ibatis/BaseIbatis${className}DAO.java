@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
+import org.springframework.util.Assert;
 
 import com.company.project.dal.query.UserInfoQuery;
 
@@ -21,10 +22,12 @@ import ${basepackage}.dal.query.UserInfoQuery;
 public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 
     public ${table.pkColumn.javaType} insert(${className}DO obj) {
+        Assert.notNull(obj,"cannot insert null data object into db")
         return (${table.pkColumn.javaType})getSqlMapClientTemplate().insert("${className}.insert",obj);
     }
     
     public void update(${className}DO obj) {
+        Assert.notNull(obj,"cannot update by a null data object.")
         getSqlMapClientTemplate().update("${className}.update",obj);
     }
     

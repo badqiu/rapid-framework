@@ -4,7 +4,7 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.service.dto.query;
 
-import ${basepackage}.base.PageQuery;
+import cn.org.rapid_framework.util.PageQuery;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
