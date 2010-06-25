@@ -15,6 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @author badqiu
  *
  */
+@SuppressWarnings("all")
 public class MemcachedSessionStore extends SessionStore implements InitializingBean{
 	private MemcachedClient client;
 	private SerializingTranscoder serializingTranscoder = new SerializingTranscoder();

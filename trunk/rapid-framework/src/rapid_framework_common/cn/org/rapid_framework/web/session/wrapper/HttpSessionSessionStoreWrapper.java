@@ -4,14 +4,10 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.jms.core.SessionCallback;
-
 import cn.org.rapid_framework.web.session.store.SessionStore;
-
+@SuppressWarnings("unchecked")
 public class HttpSessionSessionStoreWrapper extends HttpSessionWrapper{
 	String sessionId;
 	Map sessionData;
