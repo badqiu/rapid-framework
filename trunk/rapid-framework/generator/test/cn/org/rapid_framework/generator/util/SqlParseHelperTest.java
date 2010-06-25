@@ -2,6 +2,8 @@ package cn.org.rapid_framework.generator.util;
 
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+
 import junit.framework.TestCase;
 
 
@@ -54,7 +56,12 @@ public class SqlParseHelperTest extends TestCase{
 
     public void test_verify_update() {
     	Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("update user_info set username = :username where password = :password and age=:age and sex=:sex");
-    	verifyTableNames(tableNames,"user_Info");
+    	verifyTableNames(tableNames,"user_info");
+    }
+
+    public void test_verify_insert() {
+    	Set<String> tableNames = SqlParseHelper.getTableNamesByQuery("insert into user_info values(:username,:password,:age,:sex,:userid,:blog)");
+    	verifyTableNames(tableNames,"user_info");
     }
     
 	private void verifyTableNames(Set<String> tableNames,String... expectedTableNames) {
