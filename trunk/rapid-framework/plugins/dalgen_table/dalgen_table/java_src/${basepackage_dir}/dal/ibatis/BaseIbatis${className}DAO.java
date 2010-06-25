@@ -36,6 +36,7 @@ public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
         getSqlMapClientTemplate().delete("${className}.deleteById",id);
     }
 	
+    @SuppressWarnings("unchecked")
 	public PageList<${className}DO> findPage(${className}Query query) {
 		return pageQuery(getSqlMapClientTemplate(),"${className}.findPage",query);
 	}
@@ -48,7 +49,8 @@ public class BaseIbatis${className}DAO  extends SqlMapClientDaoSupport{
 	
 	</#if>
 	</#list>
-
+	
+	@SuppressWarnings("unchecked")
     public static PageList pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String statementName, ${className}Query query) {
         int pageSize = 200;
         int pageNo = 10;
