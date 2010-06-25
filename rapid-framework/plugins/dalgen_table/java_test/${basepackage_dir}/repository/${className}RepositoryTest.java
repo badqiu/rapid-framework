@@ -24,26 +24,4 @@ public class ${className}RepositoryTest extends BaseLocalRepositoryTestCase{
 	    
 	}
 	
-    public void test_crud() {
-        ${className} target = new ${className}();
-        
-        <#list table.columns as column>
-            <#if column.isNotIdOrVersionField>
-                <#if column.isDateTimeColumn>
-        target.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
-                <#else>
-        target.set${column.columnName}(new ${column.javaType}("${column.testData}"));
-                </#if>
-            </#if>
-        </#list>
-        
-        dao.create${className}(target);
-        
-        dao.update${className}(target);
-        
-        assertNotNull(dao.queryById(target.get${table.idColumn.columnName}()));
-        dao.removeById(target.getId());
-        
-    }
-	
 }
