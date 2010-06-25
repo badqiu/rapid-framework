@@ -6,7 +6,8 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 
 public class CookieUtils {
-
+	
+	@SuppressWarnings("unchecked")
     public static Map<String,Cookie> toMap(Cookie[] cookies){
     	if(cookies == null || cookies.length == 0)
     		return new HashMap(0);

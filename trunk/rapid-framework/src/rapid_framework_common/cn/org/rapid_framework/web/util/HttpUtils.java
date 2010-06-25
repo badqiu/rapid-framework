@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 /**
  * @author badqiu
  */
+@SuppressWarnings("unchecked")
 public class HttpUtils {
 
 	public HttpUtils() {
