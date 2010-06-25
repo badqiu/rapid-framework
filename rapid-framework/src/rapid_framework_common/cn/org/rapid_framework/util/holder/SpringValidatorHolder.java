@@ -29,11 +29,12 @@ public class SpringValidatorHolder implements InitializingBean{
 		if(validator == null) throw new BeanCreationException("not found spring 'validator' for SpringValidatorHolder ");
 	}
 	
+	@SuppressWarnings("all")
 	public void setValidator(Validator v) {
-		if(this.validator != null) {
+		if(validator != null) {
 			throw new IllegalStateException("SpringValidatorHolder already holded 'validator'");
 		}
-		this.validator = v;
+		validator = v;
 	}
 
 	private static Validator getRequiredValidator() {

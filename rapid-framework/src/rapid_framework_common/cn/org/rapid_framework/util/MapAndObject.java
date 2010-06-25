@@ -1,28 +1,19 @@
 package cn.org.rapid_framework.util;
 
-import java.awt.Image;
-import java.beans.BeanDescriptor;
-import java.beans.BeanInfo;
-import java.beans.EventSetDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.MethodDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 /**
  * 混合两个对象为一个Map对象
  * MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
  * @author badqiu
  */
+@SuppressWarnings("all")
 public class MapAndObject implements Map{
 	Map map;
 	Object bean;

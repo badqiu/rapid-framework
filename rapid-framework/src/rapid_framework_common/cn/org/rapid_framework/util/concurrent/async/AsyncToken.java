@@ -57,6 +57,7 @@ import javax.swing.SwingUtilities;
  * @see AsyncTokenTemplate
  * @author badqiu
  */
+@SuppressWarnings("all")
 public class AsyncToken<T>  {
 	public static final String DEFAULT_TOKEN_GROUP = "default";
 	private static AtomicLong tokenIdSequence = new AtomicLong(1);

@@ -16,6 +16,7 @@ public class StringTokenizerUtils {
      * @param seperators
      * @return
      */
+	@SuppressWarnings("all")
 	public static String[] split(String str,String seperators) {
 		StringTokenizer tokenlizer = new StringTokenizer(str,seperators);
 		List result = new ArrayList();

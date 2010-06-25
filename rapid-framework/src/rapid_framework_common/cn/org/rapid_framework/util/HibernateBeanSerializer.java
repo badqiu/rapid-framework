@@ -28,6 +28,7 @@ import org.springframework.util.StringUtils;
  * @author badqiu
  * @param <T>
  */
+@SuppressWarnings("all")
 public class HibernateBeanSerializer <T> {
 	T proxy = null;
 	/**

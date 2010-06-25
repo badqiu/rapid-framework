@@ -24,6 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @author badqiu
  *
  */
+@SuppressWarnings("all")
 public class BeanValidatorHolder implements InitializingBean{
 	private static Validator validator;
 

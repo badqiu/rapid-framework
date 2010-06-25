@@ -16,6 +16,7 @@ import cn.org.rapid_framework.cache.Cache;
 /**
  * The Cache. Mainly an interface to memcached.
  */
+@SuppressWarnings("all")
 public class CacheHolder implements InitializingBean{
 	static Log logger = LogFactory.getLog(CacheHolder.class);
     /**

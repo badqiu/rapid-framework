@@ -1,11 +1,5 @@
 package cn.org.rapid_framework.util;
 
-import static cn.org.rapid_framework.util.SqlRemoveUtils.removeFetchKeyword;
-import static cn.org.rapid_framework.util.SqlRemoveUtils.removeOrders;
-import static cn.org.rapid_framework.util.SqlRemoveUtils.removeSelect;
-
-import java.util.Iterator;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
