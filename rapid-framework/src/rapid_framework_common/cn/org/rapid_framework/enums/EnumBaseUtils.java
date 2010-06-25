@@ -18,7 +18,7 @@ public class EnumBaseUtils {
     }
     
    /**
-    * 根据code查找得到EnumIface
+    * 根据code查找得到Enum
     * @param code
     * @param values
     * @return
@@ -44,12 +44,14 @@ public class EnumBaseUtils {
    }
    
    /**
-    * 根据code得到EnumIface,找不到则抛异常
+    * 根据code得到Enum,找不到则抛异常
+    * @param <T>
     * @param code
     * @param values
     * @return
+    * @throws IllegalArgumentException 根据code得到Enum,找不到则抛异常
     */
-   public static <T extends EnumBase> T getRequiredByCode(Object code,T[] values) {
+   public static <T extends EnumBase> T getRequiredByCode(Object code,T[] values) throws IllegalArgumentException {
        EnumBase v = getByCode(code,values);
        if(v == null) {
            if(values.length > 0) {
