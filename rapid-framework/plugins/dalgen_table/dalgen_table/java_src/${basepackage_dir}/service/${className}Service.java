@@ -24,14 +24,13 @@ public interface ${className}Service {
     public ${className}DTO get${className}ById(${table.idColumn.javaType} id);
     
     public PageList<${className}DTO> findPage(${className}QueryDTO query);
-/*    
-<#list table.columns as column>
+
+    <#list table.columns as column>
     <#if column.unique && !column.pk>
     @Transactional(readOnly=true)
     public ${className}DTO getBy${column.columnName}(${column.javaType} v);
     
     </#if>
-</#list>
-*/
+    </#list>
     
 }
