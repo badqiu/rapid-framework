@@ -24,7 +24,7 @@ public class ${className}ServiceConverter {
     public static ${targetClassName} convert2${targetClassName}(${sourceClassName} source) {
         ${targetClassName} target = new ${targetClassName}();
     
-        <#list table.notPkColumns as column>
+        <#list table.columns as column>
         <#if isQuery && column.isDateTimeColumn>
         target.set${column.columnName}Begin(source.get${column.columnName}Begin());
         target.set${column.columnName}End(source.get${column.columnName}End());
