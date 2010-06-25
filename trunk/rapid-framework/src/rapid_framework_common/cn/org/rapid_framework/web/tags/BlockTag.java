@@ -11,6 +11,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class BlockTag extends TagSupport{
 
+	private static final long serialVersionUID = -8246166191638588615L;
+	
 	private String name;
 	
 	public void setName(String name) {

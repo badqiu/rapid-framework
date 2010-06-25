@@ -7,7 +7,8 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  * @author badqiu
  */
 public class OverrideTag extends BodyTagSupport{
-		
+	private static final long serialVersionUID = -8379959647039117369L;
+	
 	private String name;
 	
 	public void setName(String name) {
