@@ -14,32 +14,13 @@ import static junit.framework.Assert.*;
 
 public class ${className}RepositoryTest extends TestCase{
 	
-	private ${className}Repository dao;
+	private ${className}Repository repository;
 	
 	public void test_findPage() {
 	    
 	}
 	
-    public void test_crud() {
-        ${className} target = new ${className}();
-        
-        <#list table.columns as column>
-            <#if column.isNotIdOrVersionField>
-                <#if column.isDateTimeColumn>
-        target.set${column.columnName}(new ${column.javaType}(System.currentTimeMillis()));
-                <#else>
-        target.set${column.columnName}(new ${column.javaType}("${column.testData}"));
-                </#if>
-            </#if>
-        </#list>
-        
-        dao.create${className}(target);
-        
-        dao.update${className}(target);
-        
-        assertNotNull(dao.queryById(target.get${table.idColumn.columnName}()));
-        dao.removeById(target.getId());
-        
-    }
-	
+	public void set${className}Repository(${className}Repository repository) {
+	    this.repository = repository;
+	}
 }

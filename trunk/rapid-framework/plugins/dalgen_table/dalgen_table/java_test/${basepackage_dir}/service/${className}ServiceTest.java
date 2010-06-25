@@ -9,9 +9,14 @@ import junit.framework.TestCase;
 
 <#include "/java_imports.include">
 public class ${className}ServiceTest extends TestCase{
-
+    ${className}Service ${classNameLower}Service;
+    
     public void test_create${className}() {
         
+    }
+    
+    public void set${className}Service(${className}Service service) {
+        this.${classNameLower}Service = service;
     }
     
 }
