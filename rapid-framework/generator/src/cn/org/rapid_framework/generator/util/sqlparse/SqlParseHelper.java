@@ -1,12 +1,15 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -52,6 +55,11 @@ public class SqlParseHelper {
 	    return null;
 	}
 	
+	/**
+	 * 美化sql
+	 * @param sql
+	 * @return
+	 */
 	public static String getPrettySql(String sql)  {
 		try {
 			if(IOHelper.readLines(new StringReader(sql)).size() > 1) {
@@ -63,5 +71,17 @@ public class SqlParseHelper {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * 去除select 子句，未考虑union的情况
+	 * @param sql
+	 * @return
+	 */
+    public static String removeSelect(String sql) {
+        Assert.hasText(sql);
+        int beginPos = sql.toLowerCase().indexOf("from");
+        Assert.isTrue(beginPos != -1, " sql : " + sql + " must has a keyword 'from'");
+        return sql.substring(beginPos);
+    }
 	
 }
