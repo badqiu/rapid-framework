@@ -17,42 +17,44 @@ ${gg.setIgnoreOutput(true)}
 
 package ${basepackage}.model.enums;
 
-import cn.org.rapid_framework.util.KeyValue;
-import cn.org.rapid_framework.util.KeyValueUtils;
+import java.util.LinkedHashMap;
 
-public enum ${column.enumClassName} implements KeyValue<${column.simpleJavaType},String>{
+import cn.org.rapid_framework.enums.EnumBase;
+import cn.org.rapid_framework.enums.EnumBaseUtils;
+
+public enum ${column.enumClassName} implements EnumBase<${column.simpleJavaType},String>{
 	<#list column.enumList as item>
 	${item.enumAlias}(new ${column.simpleJavaType}("${item.enumKey}"),"${item.enumDesc}")<#if item_has_next>,</#if>
 	</#list>
 	;
 	
-	private final ${column.simpleJavaType} key;
-	private final String value;
-	${column.enumClassName}(${column.simpleJavaType} key,String value) {
-		this.key = key;
-		this.value = value;
+	private final ${column.simpleJavaType} code;
+	private final String desc;
+	${column.enumClassName}(${column.simpleJavaType} code,String desc) {
+		this.code = code;
+		this.desc = desc;
 	}
 	
-	public static ${column.enumClassName} getByKey(${column.simpleJavaType} key) {
-		return KeyValueUtils.getByKey(key, values());
-	}
-	
-	public static ${column.enumClassName} getByValue(String value) {
-		return KeyValueUtils.getByValue(value, values());
-	}
-	
-	public static ${column.enumClassName} getRequiredByKey(${column.simpleJavaType} key) {
-		return KeyValueUtils.getRequiredByKey(key, values());
-	}
-	
-	public ${column.simpleJavaType} getKey() {
-		return key;
+	public ${column.simpleJavaType} getCode() {
+		return code;
 	}
 
-	public String getValue() {
-		return value;
+	public String getDesc() {
+		return desc;
+	}
+
+	public static ${column.enumClassName} getByCode(${column.simpleJavaType} code) {
+		return EnumBaseUtils.getByCode(code, values());
 	}
 	
+	public static ${column.enumClassName} getRequiredByCode(${column.simpleJavaType} code) throws IllegalArgumentException {
+		return EnumBaseUtils.getRequiredByCode(code, values());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static LinkedHashMap<${column.simpleJavaType}, String> toMap() {
+	    return EnumBaseUtils.toMap(values());
+	}	
 }
 </#assign>
 </#macro>
