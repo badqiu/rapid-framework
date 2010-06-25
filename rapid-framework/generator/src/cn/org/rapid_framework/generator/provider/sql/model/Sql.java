@@ -11,12 +11,12 @@ import cn.org.rapid_framework.generator.provider.db.model.Column;
 import cn.org.rapid_framework.generator.provider.db.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
-public  class SelectSqlMetaData {
+public  class Sql {
     	String operation = null;
     	String multiPolicy = "many"; // many or one
     	Set<Column> columns = new LinkedHashSet<Column>();
     	String queryResultClassName = null;
-    	List<SelectParameter> params = new ArrayList();
+    	List<SqlParameter> params = new ArrayList();
     	
     	String sourceSql; // source sql
 //    	String jdbcSql; // jdbc sql
@@ -80,10 +80,10 @@ public  class SelectSqlMetaData {
 		public void setColumns(Set<Column> columns) {
 			this.columns = columns;
 		}
-		public List<SelectParameter> getParams() {
+		public List<SqlParameter> getParams() {
 			return params;
 		}
-		public void setParams(List<SelectParameter> params) {
+		public void setParams(List<SqlParameter> params) {
 			this.params = params;
 		}
 		
@@ -97,13 +97,13 @@ public  class SelectSqlMetaData {
 		}
 		public String replaceParamsWith(String prefix,String suffix) {
 			String sql = sourceSql;
-			List<SelectParameter> sortedParams = new ArrayList(params);
-			Collections.sort(sortedParams,new Comparator<SelectParameter>() {
-				public int compare(SelectParameter o1, SelectParameter o2) {
+			List<SqlParameter> sortedParams = new ArrayList(params);
+			Collections.sort(sortedParams,new Comparator<SqlParameter>() {
+				public int compare(SqlParameter o1, SqlParameter o2) {
 					return o2.paramName.length() - o1.paramName.length();
 				}
 			});
-			for(SelectParameter s : sortedParams){
+			for(SqlParameter s : sortedParams){
 				sql = StringHelper.replace(sql,":"+s.getParamName(),prefix+s.getParamName()+suffix);
 			}
 			return sql;

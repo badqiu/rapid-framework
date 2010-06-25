@@ -3,7 +3,7 @@ package cn.org.rapid_framework.generator.provider.sql.model;
 import java.sql.ParameterMetaData;
 import java.sql.SQLException;
 
-public class SelectParameter {
+public class SqlParameter {
     	String parameterClassName;
     	int parameterMode;
     	int parameterType;
@@ -11,8 +11,8 @@ public class SelectParameter {
     	int precision;
     	int scale;
     	String paramName;
-    	public SelectParameter() {}
-    	public SelectParameter(ParameterMetaData m,int i) throws SQLException {
+    	public SqlParameter() {}
+    	public SqlParameter(ParameterMetaData m,int i) throws SQLException {
     		this.parameterClassName = m.getParameterClassName(i);
     		this.parameterMode = m.getParameterMode(i);
     		this.parameterType = m.getParameterType(i);
