@@ -39,6 +39,7 @@ public class UserInfoFacadeImpl implements UserInfoFacade,InitializingBean {
     }
     
     public UserInfoResult createUserInfo(UserInfoDTO userInfo){
+        Assert.notNull(userInfo,"'userInfo' must be not null");
         try {
             return new UserInfoResult(userInfoService.createUserInfo(userInfo));
         }catch(Exception ex) {
@@ -48,6 +49,7 @@ public class UserInfoFacadeImpl implements UserInfoFacade,InitializingBean {
     }
     
     public WSResult updateUserInfo(UserInfoDTO userInfo){
+        Assert.notNull(userInfo,"'userInfo' must be not null");
         try {
             userInfoService.updateUserInfo(userInfo);
             return new WSResult();
