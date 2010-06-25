@@ -25,7 +25,7 @@ public class Sql {
 	
 	String sourceSql; // source sql
 	
-	public boolean isInSameTable() {
+	public boolean isColumnsInSameTable() {
 		if(columns.isEmpty()) return false;
 		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
 		String preTableName = columns.iterator().next().getSqlName();
@@ -46,7 +46,7 @@ public class Sql {
 			return columns.iterator().next().getSimpleJavaType();
 		}
 		if(queryResultClass != null) return queryResultClass;
-		if(isInSameTable()) {
+		if(isColumnsInSameTable()) {
 			return columns.iterator().next().getTable().getClassName();
 		}else {
 			if(operation == null) return null;
