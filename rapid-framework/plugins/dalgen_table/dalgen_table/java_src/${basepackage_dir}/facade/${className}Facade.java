@@ -5,6 +5,12 @@
 
 package ${basepackage}.facade;
 
+import com.company.project.service.dto.UserInfoDTO;
+import com.company.project.service.dto.query.UserInfoQueryDTO;
+import com.company.project.service.dto.result.base.WSResult;
+import com.company.project.ws.result.UserInfoPageQueryResult;
+import com.company.project.ws.result.UserInfoResult;
+
 import cn.org.rapid_framework.util.PageList;
 
 import ${basepackage}.facade.${className}Facade;
@@ -12,16 +18,16 @@ import ${basepackage}.service.${className}Service;
 import ${basepackage}.service.dto.${className}DTO;
 import ${basepackage}.service.dto.query.${className}QueryDTO;
 
-public interface ${className}Facade {
+public interface UserInfoFacade {
     
-    public ${className}DTO create${className}(${className}DTO userInfo);
+    public UserInfoResult createUserInfo(UserInfoDTO userInfo);
     
-    public void update${className}(${className}DTO userInfo);
+    public WSResult updateUserInfo(UserInfoDTO userInfo);
     
-    public void remove${className}(Long id);
+    public WSResult removeUserInfo(Long id);
     
-    public ${className}DTO query${className}ById(Long id);
+    public UserInfoResult queryUserInfoById(Long id);
     
-    public PageList<${className}DTO> findPage(${className}QueryDTO query);
+    public UserInfoPageQueryResult findPage(UserInfoQueryDTO query);
     
 }
