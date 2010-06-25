@@ -13,7 +13,7 @@ public class EnumIfaceUtils {
     }
     
    /**
-    * 根据key查找得到EnumIface
+    * 根据code查找得到EnumIface
     * @param code
     * @param values
     * @return
