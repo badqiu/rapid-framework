@@ -5,14 +5,13 @@ import java.util.LinkedHashMap;
  * 枚举工具类
  * 
  * @author badqiu
- * @version $Id: EnumIfaceUtils.java,v 0.1 2010-6-25 下午06:16:40 zhongxuan Exp $
  */
 @SuppressWarnings("unchecked")
-public class EnumIfaceUtils {
+public class EnumBaseUtils {
 
-    public static  <T extends EnumIface> LinkedHashMap toMap(T[] values) {
+    public static  <T extends EnumBase> LinkedHashMap toMap(T[] values) {
         LinkedHashMap map = new LinkedHashMap();
-        for(EnumIface item : values) {
+        for(EnumBase item : values) {
             map.put(item.getCode(), item.getDesc());
         }
         return map;
@@ -24,7 +23,7 @@ public class EnumIfaceUtils {
     * @param values
     * @return
     */
-   public static <T extends EnumIface> T getByCode(Object code,T[] values) {
+   public static <T extends EnumBase> T getByCode(Object code,T[] values) {
        if(code == null) return null;
        for (T item : values) {
             if (item.getCode().equals(code)) {
@@ -34,12 +33,12 @@ public class EnumIfaceUtils {
        return null;
    }
    
-   public static <T extends EnumIface> Object getCode(T kv) {
+   public static <T extends EnumBase> Object getCode(T kv) {
        if(kv == null) return null;
        return kv.getCode();
    }
    
-   public static <T extends EnumIface> Object getDesc(T kv) {
+   public static <T extends EnumBase> Object getDesc(T kv) {
        if(kv == null) return null;
        return kv.getDesc();
    }
@@ -50,8 +49,8 @@ public class EnumIfaceUtils {
     * @param values
     * @return
     */
-   public static <T extends EnumIface> T getRequiredByCode(Object code,T[] values) {
-       EnumIface v = getByCode(code,values);
+   public static <T extends EnumBase> T getRequiredByCode(Object code,T[] values) {
+       EnumBase v = getByCode(code,values);
        if(v == null) {
            if(values.length > 0) {
                String className = values[0].getClass().getName();
