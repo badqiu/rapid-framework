@@ -12,6 +12,7 @@ import org.apache.commons.beanutils.PropertyUtils;
 /**
  * @author badqiu
  */
+@SuppressWarnings("all")
 public class CollectionHelper {
 	
 	private CollectionHelper(){}

@@ -13,6 +13,7 @@ import org.springframework.util.ReflectionUtils;
  * @author zhongxuan
  *
  */
+@SuppressWarnings("all")
 public class KeyValueUtils {
     
     public static  <T extends KeyValue> LinkedHashMap<String,String> toMap(T[] values) {

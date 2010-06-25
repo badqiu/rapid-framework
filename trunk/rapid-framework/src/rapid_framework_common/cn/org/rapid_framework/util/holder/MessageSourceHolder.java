@@ -28,6 +28,7 @@ public class MessageSourceHolder implements MessageSourceAware{
 	private static Log log = LogFactory.getLog(MessageSourceHolder.class);
 	private static MessageSource messageSource;
 	
+	@SuppressWarnings("all")
 	public void setMessageSource(MessageSource message) throws BeansException {
 		if(this.messageSource != null) {
 			throw new IllegalStateException("MessageSourceHolder already holded 'messageSource'.");

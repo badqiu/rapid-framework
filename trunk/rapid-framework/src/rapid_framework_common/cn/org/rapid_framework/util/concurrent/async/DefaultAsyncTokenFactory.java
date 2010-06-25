@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.util.Assert;
-
+@SuppressWarnings("all")
 public class DefaultAsyncTokenFactory implements AsyncTokenFactory{
 	
 	private String tokenGroup = AsyncToken.DEFAULT_TOKEN_GROUP;

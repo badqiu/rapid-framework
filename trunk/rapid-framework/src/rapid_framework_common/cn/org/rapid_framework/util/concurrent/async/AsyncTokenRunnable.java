@@ -7,6 +7,7 @@ import java.util.concurrent.Callable;
  * @author badqiu
  * @see AsyncTokenUtils
  */
+@SuppressWarnings("all")
 public class AsyncTokenRunnable implements Runnable {
 	AsyncToken asyncToken ;
 	Runnable targetRunnable;

@@ -23,6 +23,7 @@ public class ScanClassUtils {
 	 * @param basePackages 各个包名使用逗号分隔,各个包名可以有通配符
 	 * @return List包含className
 	 */
+	@SuppressWarnings("all")
 	public static List<String> scanPackages(String basePackages){
 		Assert.notNull(basePackages,"'basePakcages' must be not null");
 		ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();

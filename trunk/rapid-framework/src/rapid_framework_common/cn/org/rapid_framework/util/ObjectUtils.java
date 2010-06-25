@@ -24,6 +24,7 @@ public class ObjectUtils {
 	 * @param o
 	 * @return
 	 */
+	@SuppressWarnings("all")
 	public static boolean isEmpty(Object o) throws IllegalArgumentException {
 		if(o == null) return true;
 

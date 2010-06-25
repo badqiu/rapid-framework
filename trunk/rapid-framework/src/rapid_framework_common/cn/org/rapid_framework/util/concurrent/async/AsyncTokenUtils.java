@@ -8,6 +8,7 @@ import java.util.concurrent.Executor;
  * @author badqiu
  *
  */
+@SuppressWarnings("all")
 public class AsyncTokenUtils {
 	/**
 	 * 通过executor执行Callable,将callable的执行结果设置进token

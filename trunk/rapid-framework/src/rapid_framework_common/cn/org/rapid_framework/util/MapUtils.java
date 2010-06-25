@@ -5,7 +5,7 @@ import java.util.Map;
  * @author badqiu
  */
 public class MapUtils {
-
+	@SuppressWarnings("all")
 	public static void putIfNull(Map map,Object key,Object defaultValue) {
 		if(key == null)
 			throw new IllegalArgumentException("key must be not null");
