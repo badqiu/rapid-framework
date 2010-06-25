@@ -8,11 +8,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
+import cn.org.rapid_framework.util.PageList;
+import cn.org.rapid_framework.util.PageQuery;
 import java.io.Serializable;
 
 
-public class ${className}Query implements Serializable {
+public class ${className}Query extends PageQuery implements Serializable {
     private static final long serialVersionUID = 3148176768559230877L;
     
     <@generateFields/>

@@ -4,6 +4,7 @@
 <#assign classNameLower = className?uncap_first> 
 package ${basepackage}.service.dto.query;
 
+import ${basepackage}.base.PageQuery;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -12,7 +13,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import java.io.Serializable;
 
 
-public class ${className}QueryDTO implements Serializable {
+public class ${className}QueryDTO extends PageQuery implements Serializable {
     private static final long serialVersionUID = 3148176768559230877L;
     
     <@generateFields/>
