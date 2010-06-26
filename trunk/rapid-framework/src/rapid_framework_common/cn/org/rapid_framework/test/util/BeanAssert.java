@@ -63,8 +63,11 @@ public class BeanAssert {
     public static void assertNumberPropertiesEquals(Object bean,String expectedValue,String[] ignoreProperties) {
         List<PropertyValue> values = Utils.getPropertyValues(bean, ignoreProperties);
         for(PropertyValue p : values) {
-            if(p.getReturnType().isAssignableFrom(Number.class)) {
-                if(expectedValue != null && expectedValue.equals(p.getValue() == null ? null : p.getValue().toString())) {
+        	String actualValue = p.getValue() == null ? null : p.getValue().toString();
+        	System.out.println("out "+p.getName()+":"+actualValue);
+            if(p.getReturnType().isAssignableFrom(Number.class) || p.getReturnType().isPrimitive()) {
+            	System.out.println("\t in "+p.getName()+":"+actualValue);
+				if(! (expectedValue == p.getValue() || expectedValue.equals(actualValue))) {
                     String beanClass = bean.getClass().getSimpleName();
                     throw new AssertionError("["+beanClass+"."+p.getName()+"] must be equals:"+expectedValue+",actual value:"+p.getValue());                
                 }
@@ -75,9 +78,9 @@ public class BeanAssert {
     public static void assertPrimitivePropertiesEquals(Object bean,String expectedValue,String[] ignoreProperties) {
         List<PropertyValue> values = Utils.getPropertyValues(bean, ignoreProperties);
         for(PropertyValue p : values) {
-            if(p.getReturnType().isPrimitive()) {
-                String propValueString = p.getValue() == null ? null : p.getValue().toString();
-                if(expectedValue != null && expectedValue.equals(propValueString)) {
+            if(p.getReturnType().isPrimitive() || p.getReturnType().isAssignableFrom(String.class)) {
+                String actualValue = p.getValue() == null ? null : p.getValue().toString();
+                if(!(expectedValue == p.getValue() || expectedValue.equals(actualValue))) {
                     String beanClass = bean.getClass().getSimpleName();
                     throw new AssertionError("["+beanClass+"."+p.getName()+"] must be equals:"+expectedValue+",actual value:"+p.getValue());                
                 }
