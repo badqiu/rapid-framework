@@ -1,16 +1,20 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
 
 import java.io.StringReader;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.util.Assert;
 
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
@@ -84,4 +88,44 @@ public class SqlParseHelper {
         return sql.substring(beginPos);
     }
 	
+	public static void setRandomParamsValueForPreparedStatement(String sql, PreparedStatement ps) throws SQLException {
+        int count = StringHelper.containsCount(sql,"?");
+        for(int i = 1; i <= count; i++) {
+        	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()+ new Random(System.currentTimeMillis()).nextInt();
+			try {
+        		ps.setLong(i, random);
+        	}catch(SQLException e) {
+        		try {
+        			ps.setInt(i, (int)random);
+        		}catch(SQLException e1) {
+        			try {
+            			ps.setString(i,""+random);
+            		}catch(SQLException e2) {
+            			try {
+            				ps.setTimestamp(i,new java.sql.Timestamp(random));
+            			}catch(SQLException e3) {
+            				try {
+            					ps.setDate(i,new java.sql.Date(random));
+                			}catch(SQLException e6) {
+                				try {
+                					ps.setObject(i, ""+(int)random);
+                				}catch(SQLException e4) {
+                					try {
+                    					ps.setObject(i, ""+(short)random);
+                    				}catch(SQLException e82) {
+                    					try {
+                        					ps.setObject(i, ""+(byte)random);
+                        				}catch(SQLException error) {
+                        					GLogger.warn("error on set parametet index:"+i+" cause:"+error+" sql:"+sql);
+                        				}
+                    				}
+                				}
+                			}
+            			}
+            		}            			
+        		}
+        		
+        	}
+        }
+	}
 }
