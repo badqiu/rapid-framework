@@ -18,9 +18,9 @@
 	<#compress>
 	<#if sql.selectSql>
 		<#if sql.multiPolicy = 'one'>
-			${sql.queryResultClassName}
+			${sql.operationResultClassName}
 		<#else>
-			List<${sql.queryResultClassName}>
+			List<${sql.operationResultClassName}>
 		</#if>
 	<#else>
 		int

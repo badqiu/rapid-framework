@@ -3,7 +3,7 @@
 	
 <#if sql.selectSql>
 	<#if sql.columnsCount == 1>
-	<select id="<@namespace/>${sql.operation}" resultMap="${sql.queryResultClassName}" >
+	<select id="<@namespace/>${sql.operation}" resultMap="${sql.operationResultClassName}" >
     <![CDATA[
 	${sql.ibatisSql}
     ]]>
@@ -11,14 +11,14 @@
 	<#else>
 	
 	<#if !sql.columnsInSameTable>
-	<resultMap id="RM-${sql.queryResultClassName}" class="${sql.queryResultClassName}">
+	<resultMap id="RM-${sql.operationResultClassName}" class="${sql.operationResultClassName}">
     <#list sql.columns as column>
 		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
     </#list>
 	</resultMap>
 	</#if>
 	
-	<select id="<@namespace/>${sql.operation}" resultMap="RM-${sql.queryResultClassName}" >
+	<select id="<@namespace/>${sql.operation}" resultMap="RM-${sql.operationResultClassName}" >
     <![CDATA[
 	${sql.ibatisSql}
     ]]>
