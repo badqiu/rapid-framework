@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -33,37 +34,38 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 public class SqlFactory {
     
     public Sql parseSql(String sourceSql) throws Exception {
-        System.out.println("\n*******************************");
-        System.out.println(" sql:"+sourceSql);
-        System.out.println("*********************************");
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
+        
+        Sql sql = new Sql();
+        sql.setExecuteSql(executeSql);
+        sql.setSourceSql(sourceSql);
+        System.out.println("\n*******************************");
+        System.out.println("sourceSql  :"+sql.getSourceSql());
+        System.out.println("executeSql :"+sql.getExecuteSql());
+        System.out.println("*********************************");
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         conn.setAutoCommit(false);
         conn.setReadOnly(true);
         try {
 	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        setPreparedStatementParameters(executeSql, ps);
-	        Sql result = convert2Sql(executeForMetaData(ps)); 
-	        result.setSourceSql(sourceSql);
-	        result.setExecuteSql(executeSql);
-	        result.setParams(parseSqlParameters(parsedSql,result));
-	        return result;
+	        sql.setParams(parseSqlParameters(parsedSql,sql));
+	        sql.setColumns(convert2Columns(executeForResultSetMetaData(executeSql,ps)));
+	        return sql;
         }finally {
         	conn.rollback();
         	conn.close();
         }
     }
 
-	private Sql convert2Sql(ResultSetMetaData metadata) throws SQLException, Exception {
-		Sql result = new Sql();
-		if(metadata == null) return result;
-		
+	private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
+		if(metadata == null) return new LinkedHashSet();
+		LinkedHashSet<Column> columns = new LinkedHashSet();
         for(int i = 1; i <= metadata.getColumnCount(); i++) {
-            result.addColumn(convert2Column(metadata, i));
+        	columns.add(convert2Column(metadata, i));
         }
-		return result;
+		return columns;
 	}
 
 	private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
@@ -88,7 +90,8 @@ public class SqlFactory {
 		}
 	}
 
-	private ResultSetMetaData executeForMetaData(PreparedStatement ps)throws SQLException {
+	private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
+		setPreparedStatementParameters(executeSql, ps);
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
