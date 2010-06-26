@@ -13,13 +13,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 <mapper namespace="${className}">
 
 	<resultMap id="RM-${className}" type="${basepackage}.model.${className}">
+        <#list table.columns as column>
+        <result property="${column.columnNameLower}" column="${column.sqlName}"/>
+		</#list>
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="<@namespace/>columns">
 	    <![CDATA[
 		<#list table.columns as column>
-        	${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>
+        	${column.sqlName}<#if column_has_next>,</#if>
         </#list>
 	    ]]>
 	</sql>
