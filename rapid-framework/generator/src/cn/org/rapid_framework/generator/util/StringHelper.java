@@ -347,7 +347,7 @@ public class StringHelper {
 				break;
 			}
 			count ++;
-			i = indexOf + 1;
+			i = indexOf;
 		}
 		return count;
 	}
