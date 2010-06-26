@@ -11,6 +11,7 @@ public class SqlParameter {
     	int precision;
     	int scale;
     	String paramName;
+    	boolean isListParam = false;
     	public SqlParameter() {}
     	public SqlParameter(ParameterMetaData m,int i) throws SQLException {
     		this.parameterClassName = m.getParameterClassName(i);
@@ -21,7 +22,11 @@ public class SqlParameter {
     		this.scale = m.getScale(i);
     	}
 		public String getParameterClassName() {
-			return parameterClassName;
+			if(isListParam) {
+				return "java.util.List<"+parameterClassName+">";
+			}else {
+				return parameterClassName;
+			}
 		}
 		public void setParameterClassName(String parameterClassName) {
 			this.parameterClassName = parameterClassName;
@@ -61,6 +66,12 @@ public class SqlParameter {
 		}
 		public void setParamName(String paramName) {
 			this.paramName = paramName;
+		}
+		public boolean isListParam() {
+			return isListParam;
+		}
+		public void setListParam(boolean isListParam) {
+			this.isListParam = isListParam;
 		}
 		public String toString() {
 			return "paramName:"+paramName+" parameterClassName:"+parameterClassName;

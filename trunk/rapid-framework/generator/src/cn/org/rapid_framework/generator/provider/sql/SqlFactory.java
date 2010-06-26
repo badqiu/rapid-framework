@@ -99,7 +99,7 @@ public class SqlFactory {
 		}
 	}
 
-	private void setPreparedStatementParameters(String sql, PreparedStatement ps)
+	private static void setPreparedStatementParameters(String sql, PreparedStatement ps)
 			throws SQLException {
         if(sql.contains("?")) {
             int size = sql.split("\\?").length;
@@ -126,14 +126,14 @@ public class SqlFactory {
         }
 	}
 
-	private List<SqlParameter> parseSqlParameters(PreparedStatement ps,ParsedSql sql,Sql sqlMetaData) throws Exception {
+	private List<SqlParameter> parseSqlParameters(PreparedStatement ps,ParsedSql parsedSql,Sql sql) throws Exception {
 
 		List result = new ArrayList();
-		for(int i = 0; i < sql.getParameterNames().size(); i++) {
+		for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
 			SqlParameter param = new SqlParameter();
-			String paramName = sql.getParameterNames().get(i);
+			String paramName = parsedSql.getParameterNames().get(i);
 			param.setParamName(paramName);
-			Column column = findColumnByParamName(sql, sqlMetaData, paramName);
+			Column column = findColumnByParamName(parsedSql, sql, paramName);
 			if(column == null) {
 				param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
 			}else {
@@ -142,6 +142,9 @@ public class SqlFactory {
 				param.setPrecision(column.getDecimalDigits());
 				param.setScale(column.getSize());
 				param.setParameterTypeName(column.getJdbcSqlTypeName());
+			}
+			if(sql.getSourceSql().indexOf("(:"+paramName+")") >= 0) {
+				param.setListParam(true);
 			}
 			result.add(param);			
 		}
