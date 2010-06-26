@@ -4,15 +4,12 @@ import java.io.StringReader;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -91,18 +88,16 @@ public class SqlParseHelper {
 	 * @return
 	 */
 	public static String removeSelect(String sql) {
-		Assert.hasText(sql);
+		if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
 		int beginPos = sql.toLowerCase().indexOf("from");
-		Assert.isTrue(beginPos != -1, " sql : " + sql
-				+ " must has a keyword 'from'");
+		if(beginPos == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
 		return sql.substring(beginPos);
 	}
 
 	public static String getSelect(String sql) {
-		Assert.hasText(sql);
+		if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
 		int beginPos = sql.toLowerCase().indexOf("from");
-		Assert.isTrue(beginPos != -1, " sql : " + sql
-				+ " must has a keyword 'from'");
+		if(beginPos == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
 		return sql.substring(0,beginPos);
 	}
 	
