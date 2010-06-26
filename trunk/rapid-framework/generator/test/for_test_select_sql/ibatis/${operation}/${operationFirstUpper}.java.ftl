@@ -43,7 +43,6 @@
 		return getSqlMapClientTemplate().insert("${sql.operation}", param);    
 	</#if>
 	<#if sql.updateSql>
-		prepareObjectForSaveOrUpdate(entity);
 		return getSqlMapClientTemplate().update("${sql.operation}", param);
 	</#if>			
 </#macro>
