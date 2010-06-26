@@ -1,7 +1,7 @@
 
 ${gg.setIgnoreOutput(sql.params?size <= 4)}
 
-public class ${sql.operationFirstUpper}Query extends BaseQuery {
+public class ${sql.operationParameterClassName} extends BaseQuery {
 	<#list sql.params as param>
 		private ${param.parameterClassName} ${param.paramName};
 	</#list>

@@ -1,6 +1,6 @@
 
 <#if (sql.params?size > 4) >
-	public <@generateResultClassName/> ${sql.operation}(${sql.operation}Query param) {
+	public <@generateResultClassName/> ${sql.operation}(${sql.operationParameterClassName} param) {
 		<@generateOperationMethodBody />
 	}
 <#else>
