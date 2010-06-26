@@ -61,13 +61,11 @@ public class GeneratorFacade {
 		new ProcessUtils().processByClass(clazz, templateRootDir,true);
 	}
 	
-	public void generateBySql(String sourceSql,String templateRootDir) throws Exception {
-		Sql sql = new SqlFactory().parseSql(sourceSql);
+	public void generateBySql(Sql sql,String templateRootDir) throws Exception {
 		new ProcessUtils().processBySql(sql,templateRootDir,false);
 	}
 
-	public void deleteBySql(String sourceSql,String templateRootDir) throws Exception {
-		Sql sql = new SqlFactory().parseSql(sourceSql);
+	public void deleteBySql(Sql sql,String templateRootDir) throws Exception {
 		new ProcessUtils().processBySql(sql,templateRootDir,true);
 	}
 	
