@@ -100,28 +100,28 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("update user_info1 set username = :username where password = :password and age=:age and sex=:sex");
 			fail();
-		}catch(SQLException e){
+		}catch(Exception e){
 			assertTrue(true);
 		}
 		
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username1 = :username and password = :password and age=:age and sex=:sex");
 			fail();
-		}catch(SQLException e){
+		}catch(Exception e){
 			assertTrue(true);
 		}
 		
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and password =:password and age=1:age ");
 			fail();
-		}catch(SQLException e){
+		}catch(Exception e){
 			assertTrue(true);
 		}
 		
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("insert into userinfo2 values(:username,:password,:age,:sex)");
 			fail();
-		}catch(SQLException e){
+		}catch(Exception e){
 			assertTrue(true);
 		}
 	}
