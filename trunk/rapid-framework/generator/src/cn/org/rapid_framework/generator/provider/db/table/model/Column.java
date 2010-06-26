@@ -119,6 +119,21 @@ public class Column {
 		initOtherProperties();
 	}
 
+	public Column(Column c) {
+        this(c.getTable(),
+           c.getSqlType(),
+           c.getSqlTypeName(),
+           c.getColumnName(),
+           c.getSize(),
+           c.getDecimalDigits(),
+           c.isPk(),
+           c.isNullable(),
+           c.isIndexed(),
+           c.isUnique(),
+           c.getDefaultValue(),
+           c.getRemarks());
+	}
+	
 	public Column() {
 	}
 	
