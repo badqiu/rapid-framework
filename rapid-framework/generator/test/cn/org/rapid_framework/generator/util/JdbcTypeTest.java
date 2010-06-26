@@ -3,6 +3,8 @@ package cn.org.rapid_framework.generator.util;
 
 import java.sql.Types;
 
+import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
+
 import junit.framework.TestCase;
 
 
