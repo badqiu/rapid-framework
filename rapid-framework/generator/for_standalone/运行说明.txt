@@ -3,5 +3,5 @@
 	1.Saved Settings:Generic H2 (Server)
 	2.JDBC URL: jdbc:h2:tcp://localhost/test,
 	3.用户名密码为sa:sa
-2.运行rapid-gen.bat用于测试生成代码
+2.运行rapid-gen.bat用于再输入gen user_info用于生成测试代码
 3.主要配置文件为generator.xml,里面可以修改数据库连接
