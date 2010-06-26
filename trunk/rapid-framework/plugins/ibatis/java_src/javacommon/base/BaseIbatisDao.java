@@ -64,7 +64,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     }
 
     public String getCountQuery(String statementName) {
-		return statementName+"-count";
+		return statementName+".count";
 	}
     
     public String getIbatisSqlMapNamespace() {
