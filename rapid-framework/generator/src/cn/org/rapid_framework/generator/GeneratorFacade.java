@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
@@ -36,116 +38,154 @@ public class GeneratorFacade {
 	}
 	
 	public void deleteByAllTable(String templateRootDir) throws Exception {
-		List<Table> tables = TableFactory.getInstance().getAllTables();
-		List exceptions = new ArrayList();
-		for(int i = 0; i < tables.size(); i++ ) {
-			try {
-				deleteByTable(tables.get(i).getSqlName(),templateRootDir);
-			}catch(GeneratorException ge) {
-				exceptions.addAll(ge.getExceptions());
-			}catch(Exception e) {
-				exceptions.add(e);
-			}
-		}
-		PrintUtils.printExceptionsSumary("",exceptions);		
+		new ProcessUtils().processByAllTable(templateRootDir,true);		
 	}
 	
 	public void generateByAllTable(String templateRootDir) throws Exception {
-		List<Table> tables = TableFactory.getInstance().getAllTables();
-		List exceptions = new ArrayList();
-		for(int i = 0; i < tables.size(); i++ ) {
-			try {
-				generateByTable(getGenerator(templateRootDir),tables.get(i));
-			}catch(GeneratorException ge) {
-				exceptions.addAll(ge.getExceptions());
-			}
-		}
-		PrintUtils.printExceptionsSumary("",exceptions);
-	}
-	
-    public void generateByTable(String tableName,String templateRootDir) throws Exception {
-    	if("*".equals(tableName)) {
-    		generateByAllTable(templateRootDir);
-    		return;
-    	}
-		Generator g = getGenerator(templateRootDir);
-		
-		Table table = TableFactory.getInstance().getTable(tableName);
-		try {
-			generateByTable(g, table);
-		}catch(GeneratorException ge) {
-			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
-		}
+		new ProcessUtils().processByAllTable(templateRootDir,false);
 	}
 
-    private void generateByTable(Generator g, Table table) throws Exception {
-        GeneratorModel m = GeneratorModelUtils.newFromTable(table);
-        PrintUtils.printBeginGenerate(table.getSqlName()+" => "+table.getClassName());
-        g.generateBy(m.templateModel,m.filePathModel);
-    }
+    public void generateByTable(String tableName,String templateRootDir) throws Exception {
+    	new ProcessUtils().processByTable(tableName,templateRootDir,false);
+	}
 
     public void deleteByTable(String tableName,String templateRootDir) throws Exception {
-    	if("*".equals(tableName)) {
-    		deleteByAllTable(templateRootDir);
-    		return;
-    	}
-		Generator g = getGenerator(templateRootDir);
-		
-		Table table = TableFactory.getInstance().getTable(tableName);
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
-		g.deleteBy(m.templateModel, m.filePathModel);
+    	new ProcessUtils().processByTable(tableName,templateRootDir,true);
 	}
     
 	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
-		Generator g = getGenerator(templateRootDir);
-		GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
-		PrintUtils.printBeginGenerate("JavaClass:"+clazz.getSimpleName());
-		try {
-			g.generateBy(m.templateModel, m.filePathModel);
-		}catch(GeneratorException ge) {
-			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
-		}
+		new ProcessUtils().processByClass(clazz, templateRootDir,false);
 	}
-    
+
+	public void deleteByClass(Class clazz,String templateRootDir) throws Exception {
+		new ProcessUtils().processByClass(clazz, templateRootDir,true);
+	}
+	
+	public void generateBySql(String sql,String templateRootDir) throws Exception {
+		new ProcessUtils().processBySql(sql,templateRootDir,false);
+	}
+
+	public void deleteBySql(String sql,String templateRootDir) throws Exception {
+		new ProcessUtils().processBySql(sql,templateRootDir,true);
+	}
+	
     private Generator getGenerator(String templateRootDir) {
         g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
         g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
         return g;
     }
+    
+    public class ProcessUtils {
+    	public void processBySql(String sql,String templateRootDir,boolean isDeelte) throws Exception {
+    		Generator g = getGenerator(templateRootDir);
+    		GeneratorModel m = GeneratorModelUtils.newFromSql(sql);
+    		PrintUtils.printBeginProcess("sql:"+sql,isDeelte);
+    		try {
+    			if(isDeelte) {
+    				g.deleteBy(m.templateModel, m.filePathModel);
+    			}else {
+    				g.generateBy(m.templateModel, m.filePathModel);
+    			}
+    		}catch(GeneratorException ge) {
+    			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+    		}
+    	}   
+    	
+    	private void processByClass(Class clazz, String templateRootDir,boolean isDeelte) throws Exception, FileNotFoundException {
+			Generator g = getGenerator(templateRootDir);
+			GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
+			PrintUtils.printBeginProcess("JavaClass:"+clazz.getSimpleName(),isDeelte);
+			try {
+				if(isDeelte)
+					g.generateBy(m.templateModel, m.filePathModel);
+				else
+					g.deleteBy(m.templateModel, m.filePathModel);
+			}catch(GeneratorException ge) {
+				PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+			}
+    	}
+    	
+        public void processByTable(String tableName,String templateRootDir,boolean isDelete) throws Exception {
+        	if("*".equals(tableName)) {
+        		generateByAllTable(templateRootDir);
+        		return;
+        	}
+    		Generator g = getGenerator(templateRootDir);
+    		Table table = TableFactory.getInstance().getTable(tableName);
+    		try {
+    			processByTable(g,table,isDelete);
+    		}catch(GeneratorException ge) {
+    			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+    		}
+    	}    
+        
+		public void processByAllTable(String templateRootDir,boolean isDelete) throws Exception {
+			List<Table> tables = TableFactory.getInstance().getAllTables();
+			List exceptions = new ArrayList();
+			for(int i = 0; i < tables.size(); i++ ) {
+				try {
+					processByTable(getGenerator(templateRootDir),tables.get(i),isDelete);
+				}catch(GeneratorException ge) {
+					exceptions.addAll(ge.getExceptions());
+				}
+			}
+			PrintUtils.printExceptionsSumary("",exceptions);
+		}
+		
+	    private void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
+	        GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+	        PrintUtils.printBeginProcess(table.getSqlName()+" => "+table.getClassName(),isDelete);
+	        if(isDelete)
+	        	g.deleteBy(m.templateModel,m.filePathModel);
+	        else 
+	        	g.generateBy(m.templateModel,m.filePathModel);
+	    }        
+    }
 	
+    @SuppressWarnings("all")
 	public static class GeneratorModelUtils {
 		
 		public static GeneratorModel newFromTable(Table table) {
 			Map templateModel = new HashMap();
-			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("table", table);
 			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
-			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(table));
+			return new GeneratorModel(templateModel,filePathModel);
+		}
+
+		public static GeneratorModel newFromSql(String sourceSql) throws Exception {
+			Sql sql = new SqlFactory().parseSql(sourceSql);
+			Map templateModel = new HashMap();
+			templateModel.put("sql", sql);
+			setShareVars(templateModel);
+			
+			Map filePathModel = new HashMap();
+			setShareVars(filePathModel);
+			filePathModel.putAll(BeanHelper.describe(sql));
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 
 		public static GeneratorModel newFromClass(Class clazz) {
 			Map templateModel = new HashMap();
-			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("clazz", new JavaClass(clazz));
 			setShareVars(templateModel);
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
-			filePathModel.putAll(GeneratorProperties.getProperties());
 			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 		
 		private static void setShareVars(Map templateModel) {
+			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
 		}
+		
 	}
 	
 	private static class PrintUtils {
@@ -168,9 +208,9 @@ public class GeneratorFacade {
 			}
 		}
 		
-		private static void printBeginGenerate(String displayText) {
+		private static void printBeginProcess(String displayText,boolean isDatele) {
 			GLogger.println("***************************************************************");
-			GLogger.println("* BEGIN generate " + displayText);
+			GLogger.println("* BEGIN " + (isDatele ? " delete " : " generate ")+ displayText);
 			GLogger.println("***************************************************************");
 		}
 		
