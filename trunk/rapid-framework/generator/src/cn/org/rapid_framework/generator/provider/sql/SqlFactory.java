@@ -50,7 +50,7 @@ public class SqlFactory {
         conn.setReadOnly(true);
         try {
 	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        sql.setParams(parseSqlParameters(parsedSql,sql));
+	        sql.setParams(parseForSqlParameters(parsedSql,sql));
 	        sql.setColumns(convert2Columns(executeForResultSetMetaData(executeSql,ps)));
 	        return sql;
         }finally {
@@ -103,9 +103,8 @@ public class SqlFactory {
 		}
 	}
 
-	private List<SqlParameter> parseSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
-
-		List result = new ArrayList();
+	private List<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
+		List<SqlParameter> result = new ArrayList<SqlParameter>();
 		for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
 			SqlParameter param = new SqlParameter();
 			String paramName = parsedSql.getParameterNames().get(i);
