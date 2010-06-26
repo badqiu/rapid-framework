@@ -41,7 +41,7 @@ public class SqlFactory {
 		}
 	}
 	
-    public Sql parseSql0(String sourceSql) throws Exception {
+    private Sql parseSql0(String sourceSql) throws Exception {
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
