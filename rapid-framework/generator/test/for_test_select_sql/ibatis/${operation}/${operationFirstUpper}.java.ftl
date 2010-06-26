@@ -1,4 +1,6 @@
-
+	/**
+	 * sql: ${sql.executeSql}
+	 */
 <#if (sql.params?size > 4) >
 	public <@generateResultClassName/> ${sql.operation}(${sql.operationParameterClassName} param) {
 		<@generateOperationMethodBody />
@@ -6,7 +8,7 @@
 <#else>
 	@SuppressWarnings("unchecked")
 	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
-		Map param = new HashMap();
+		Map<String,Object> param = new HashMap<String,Object>();
 		<#list sql.params as param>
 		param.put("${param.paramName}",${param.paramName});
 		</#list>
