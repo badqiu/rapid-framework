@@ -37,14 +37,14 @@ public class GeneratorFacade {
 		g.deleteOutRootDir();
 	}
 	
+	public void generateByAllTable(String templateRootDir) throws Exception {
+		new ProcessUtils().processByAllTable(templateRootDir,false);
+	}
+	
 	public void deleteByAllTable(String templateRootDir) throws Exception {
 		new ProcessUtils().processByAllTable(templateRootDir,true);		
 	}
 	
-	public void generateByAllTable(String templateRootDir) throws Exception {
-		new ProcessUtils().processByAllTable(templateRootDir,false);
-	}
-
     public void generateByTable(String tableName,String templateRootDir) throws Exception {
     	new ProcessUtils().processByTable(tableName,templateRootDir,false);
 	}
@@ -61,11 +61,13 @@ public class GeneratorFacade {
 		new ProcessUtils().processByClass(clazz, templateRootDir,true);
 	}
 	
-	public void generateBySql(String sql,String templateRootDir) throws Exception {
+	public void generateBySql(String sourceSql,String templateRootDir) throws Exception {
+		Sql sql = new SqlFactory().parseSql(sourceSql);
 		new ProcessUtils().processBySql(sql,templateRootDir,false);
 	}
 
-	public void deleteBySql(String sql,String templateRootDir) throws Exception {
+	public void deleteBySql(String sourceSql,String templateRootDir) throws Exception {
+		Sql sql = new SqlFactory().parseSql(sourceSql);
 		new ProcessUtils().processBySql(sql,templateRootDir,true);
 	}
 	
@@ -76,12 +78,12 @@ public class GeneratorFacade {
     }
     
     public class ProcessUtils {
-    	public void processBySql(String sql,String templateRootDir,boolean isDeelte) throws Exception {
+    	public void processBySql(Sql sql,String templateRootDir,boolean isDelete) throws Exception {
     		Generator g = getGenerator(templateRootDir);
     		GeneratorModel m = GeneratorModelUtils.newFromSql(sql);
-    		PrintUtils.printBeginProcess("sql:"+sql,isDeelte);
+    		PrintUtils.printBeginProcess("sql:"+sql.getSourceSql(),isDelete);
     		try {
-    			if(isDeelte) {
+    			if(isDelete) {
     				g.deleteBy(m.templateModel, m.filePathModel);
     			}else {
     				g.generateBy(m.templateModel, m.filePathModel);
@@ -91,15 +93,15 @@ public class GeneratorFacade {
     		}
     	}   
     	
-    	private void processByClass(Class clazz, String templateRootDir,boolean isDeelte) throws Exception, FileNotFoundException {
+    	public void processByClass(Class clazz, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
 			Generator g = getGenerator(templateRootDir);
 			GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
-			PrintUtils.printBeginProcess("JavaClass:"+clazz.getSimpleName(),isDeelte);
+			PrintUtils.printBeginProcess("JavaClass:"+clazz.getSimpleName(),isDelete);
 			try {
-				if(isDeelte)
-					g.generateBy(m.templateModel, m.filePathModel);
-				else
+				if(isDelete)
 					g.deleteBy(m.templateModel, m.filePathModel);
+				else
+					g.generateBy(m.templateModel, m.filePathModel);
 			}catch(GeneratorException ge) {
 				PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
 			}
@@ -132,7 +134,7 @@ public class GeneratorFacade {
 			PrintUtils.printExceptionsSumary("",exceptions);
 		}
 		
-	    private void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
+		public void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
 	        GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 	        PrintUtils.printBeginProcess(table.getSqlName()+" => "+table.getClassName(),isDelete);
 	        if(isDelete)
@@ -156,8 +158,7 @@ public class GeneratorFacade {
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 
-		public static GeneratorModel newFromSql(String sourceSql) throws Exception {
-			Sql sql = new SqlFactory().parseSql(sourceSql);
+		public static GeneratorModel newFromSql(Sql sql) throws Exception {
 			Map templateModel = new HashMap();
 			templateModel.put("sql", sql);
 			setShareVars(templateModel);
@@ -179,7 +180,7 @@ public class GeneratorFacade {
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 		
-		private static void setShareVars(Map templateModel) {
+		public static void setShareVars(Map templateModel) {
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
