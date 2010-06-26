@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -19,9 +18,10 @@ public class Sql {
 	
 	String operation = null;
 	String multiPolicy = "many"; // many or one
-	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	String operationResultClass;
 	String operationParameterClass;
+	
+	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
 	
 	String sourceSql; // source sql
@@ -44,11 +44,10 @@ public class Sql {
 		return true;
 	}
 	public String getOperationResultClass() {
+		if(StringHelper.isNotBlank(operationResultClass)) return operationResultClass;
 		if(columns.size() == 1) {
-//    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
 			return columns.iterator().next().getSimpleJavaType();
 		}
-		if(operationResultClass != null) return operationResultClass;
 		if(isColumnsInSameTable()) {
 			return columns.iterator().next().getTable().getClassName();
 		}else {
@@ -146,7 +145,7 @@ public class Sql {
 	
 	public String getIbatisSql() {
 		String sql = replaceParamsWith("#","#");
-		if(isSelectSql()) {
+		if(isSelectSql() && SqlParseHelper.getSelect(sourceSql).indexOf("*") >= 0) {
 			return SqlParseHelper.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
 		}else {
 			return sql;
@@ -168,7 +167,7 @@ public class Sql {
 	
 	public String getIbatis3Sql() {
 		String sql = replaceParamsWith("#{","}");
-		if(isSelectSql()) {
+		if(isSelectSql() && SqlParseHelper.getSelect(sourceSql).indexOf("*") >= 0) {
 			return SqlParseHelper.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
 		}else {
 			return sql;
