@@ -2,8 +2,8 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 
 public class ExtjsGeneratorTest extends GeneratorTestCase{
 

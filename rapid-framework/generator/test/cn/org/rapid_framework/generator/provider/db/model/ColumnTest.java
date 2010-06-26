@@ -5,6 +5,8 @@ import java.sql.Types;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 
 
 

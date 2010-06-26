@@ -5,7 +5,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 
 

@@ -7,8 +7,9 @@ import java.util.Map;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
-import cn.org.rapid_framework.generator.provider.sql.SqlFactory;
-import cn.org.rapid_framework.generator.provider.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 

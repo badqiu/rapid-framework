@@ -2,12 +2,12 @@
  * Created on Jan 1, 2005
  *
  */
-package cn.org.rapid_framework.generator.provider.db.model;
+package cn.org.rapid_framework.generator.provider.db.table.model;
 
 
 import java.util.List;
 
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
 import cn.org.rapid_framework.generator.util.ListHashtable;
 
 /**

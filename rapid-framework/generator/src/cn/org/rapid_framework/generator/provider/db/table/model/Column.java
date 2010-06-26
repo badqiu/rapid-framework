@@ -1,11 +1,11 @@
-package cn.org.rapid_framework.generator.provider.db.model;
+package cn.org.rapid_framework.generator.provider.db.table.model;
 
 
 
 import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.provider.db.model.util.ColumnHelper;
+import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;

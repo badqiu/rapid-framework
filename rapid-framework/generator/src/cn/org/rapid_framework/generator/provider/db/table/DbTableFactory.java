@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.provider.db;
+package cn.org.rapid_framework.generator.provider.db.table;
 
 
 import java.io.File;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.provider.db.model.Column;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
