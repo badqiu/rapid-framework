@@ -21,6 +21,8 @@
 		<jackson.version>1.5.2</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
 		<hibernate.validator.version>4.1.0.Beta2</hibernate.validator.version>
+		<ibatis.version>2.3.4.726</ibatis.version>
+		<mybatis.version>3.0.1</mybatis.version>
 		
 		<project.sourceEncoding>UTF-8</project.sourceEncoding>
 	</properties>
@@ -368,7 +370,6 @@
 				<artifactId>hibernate-jmx</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
-			<!-- newest version in jboss repository -->
 			<dependency>
 				<groupId>javassist</groupId>
 				<artifactId>javassist</artifactId>
@@ -386,15 +387,13 @@
 			</dependency>						
 			<!-- hibernate END-->
 
-			<!-- excel begin -->
 			<dependency>
 				<groupId>org.apache.poi</groupId>
 				<artifactId>poi</artifactId>
 				<version>3.6</version>
 			</dependency>
-			<!-- excel end -->
 			
-			<!-- JSR303 bean balidation begin -->
+			<!-- JSR303 bean validation begin -->
 			<dependency>
 			    <groupId>javax.validation</groupId>
 			    <artifactId>validation-api</artifactId>
@@ -407,7 +406,6 @@
 			</dependency>
 			<!-- JSR303 bean validation end -->
 			
-			<!-- web begin -->
 			<!-- struts2 -->
 			<dependency>
 				<groupId>org.apache.struts</groupId>
@@ -463,12 +461,12 @@
 			<dependency>
 			    <groupId>org.mybatis</groupId>
 			    <artifactId>mybatis</artifactId>
-			    <version>3.0.1</version>
+			    <version>${mybatis.version}</version>
 			</dependency>	
 			<dependency>
 			    <groupId>org.apache.ibatis</groupId>
 			    <artifactId>ibatis-sqlmap</artifactId>
-			    <version>2.3.4.726</version>
+			    <version>${ibatis.version}</version>
 			</dependency>
 			
 			<!-- url rewrite -->
@@ -493,7 +491,14 @@
 				<scope>test</scope>
 			</dependency>
 			
-			<!--  rapid begin -->
+			<!-- test begin -->
+			<dependency>
+			    <groupId>junit</groupId>
+			    <artifactId>junit</artifactId>
+			    <version>4.8.1</version>
+			</dependency>
+			
+			<!-- jdbc drivers begin -->			
 			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
@@ -506,23 +511,17 @@
 			    <version>1.8.0.10</version>
 			</dependency>
 			<dependency>
-			    <groupId>junit</groupId>
-			    <artifactId>junit</artifactId>
-			    <version>4.8.1</version>
-			</dependency>
-			
-			<!-- rapid-generator -->
-			<dependency>
 			    <groupId>mysql</groupId>
 			    <artifactId>mysql-connector-java</artifactId>
 			    <version>5.1.12</version>
 			</dependency>
-			
 			<dependency>
 			    <groupId>com.oracle</groupId>
 			    <artifactId>ojdbc14</artifactId>
 			    <version>10.2.0.4.0</version>
 			</dependency>
+			<!-- jdbc drivers end -->	
+						
 			<dependency>
 			    <groupId>dwr</groupId>
 			    <artifactId>dwr</artifactId>
@@ -543,6 +542,8 @@
 			    <artifactId>backport-util-concurrent</artifactId>
 			    <version>3.1</version>
 			</dependency>
+			
+			<!-- rapid-being -->
 		</dependencies>
 	</dependencyManagement>
 
