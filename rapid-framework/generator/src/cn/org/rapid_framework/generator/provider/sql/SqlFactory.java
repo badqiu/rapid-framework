@@ -91,7 +91,7 @@ public class SqlFactory {
 	}
 
 	private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
-		setPreparedStatementParameters(executeSql, ps);
+		SqlParseHelper.setRandomParamsValueForPreparedStatement(executeSql, ps);
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
@@ -101,49 +101,6 @@ public class SqlFactory {
 		} catch (Exception e) {
 			return ps.getMetaData();
 		}
-	}
-
-	private static void setPreparedStatementParameters(String sql, PreparedStatement ps) throws SQLException {
-        if(sql.contains("?")) {
-            int size = StringHelper.containsCount(sql,"?");
-            for(int i = 1; i <= size; i++) {
-            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()+ new Random(System.currentTimeMillis()).nextInt();
-				try {
-            		ps.setLong(i, random);
-            	}catch(SQLException e) {
-            		try {
-            			ps.setInt(i, (int)random);
-            		}catch(SQLException e1) {
-            			try {
-                			ps.setString(i,""+random);
-                		}catch(SQLException e2) {
-                			try {
-                				ps.setTimestamp(i,new java.sql.Timestamp(random));
-                			}catch(SQLException e3) {
-                				try {
-                					ps.setDate(i,new java.sql.Date(random));
-                    			}catch(SQLException e6) {
-                    				try {
-                    					ps.setObject(i, ""+(int)random);
-                    				}catch(SQLException e4) {
-                    					try {
-                        					ps.setObject(i, ""+(short)random);
-                        				}catch(SQLException e82) {
-                        					try {
-                            					ps.setObject(i, ""+(byte)random);
-                            				}catch(SQLException error) {
-                            					GLogger.warn("error on set parametet index:"+i+" cause:"+error+" sql:"+sql);
-                            				}
-                        				}
-                    				}
-                    			}
-                			}
-                		}            			
-            		}
-            		
-            	}
-            }
-        }
 	}
 
 	private List<SqlParameter> parseSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
