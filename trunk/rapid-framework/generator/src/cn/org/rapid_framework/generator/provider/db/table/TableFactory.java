@@ -36,13 +36,13 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
-public class DbTableFactory {
+public class TableFactory {
 	
 	private DbHelper dbHelper = new DbHelper();
 	private Connection connection;
-	private static DbTableFactory instance = null;
+	private static TableFactory instance = null;
 	
-	private DbTableFactory() {
+	private TableFactory() {
 		init();
 	}
 
@@ -55,8 +55,8 @@ public class DbTableFactory {
 		}
 	}
 	
-	public synchronized static DbTableFactory getInstance() {
-		if(instance == null) instance = new DbTableFactory();
+	public synchronized static TableFactory getInstance() {
+		if(instance == null) instance = new TableFactory();
 		return instance;
 	}
 	

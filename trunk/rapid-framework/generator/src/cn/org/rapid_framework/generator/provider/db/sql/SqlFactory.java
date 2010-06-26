@@ -14,7 +14,7 @@ import java.util.Random;
 
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -45,7 +45,7 @@ public class SqlFactory {
         System.out.println("executeSql :"+sql.getExecuteSql());
         System.out.println("*********************************");
         
-        Connection conn = DbTableFactory.getInstance().getConnection();
+        Connection conn = TableFactory.getInstance().getConnection();
         conn.setAutoCommit(false);
         conn.setReadOnly(true);
         try {
@@ -71,7 +71,7 @@ public class SqlFactory {
 	private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
 		ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
 		if(StringHelper.isNotBlank(m.getTableName())) {
-		    Table table = DbTableFactory.getInstance().getTable(m.getTableName());
+		    Table table = TableFactory.getInstance().getTable(m.getTableName());
 		    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
 		    if(column == null) {
 		        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
@@ -139,7 +139,7 @@ public class SqlFactory {
 	private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
 		Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
 		for(String tableName : tableNames) {
-			Table t = DbTableFactory.getInstance().getTable(tableName);
+			Table t = TableFactory.getInstance().getTable(tableName);
 			if(t != null) {
 				Column column = t.getColumnByName(paramName);
 				if(column != null) {

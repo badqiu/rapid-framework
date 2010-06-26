@@ -9,7 +9,7 @@ import java.sql.Statement;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
@@ -45,8 +45,8 @@ public class GeneratorTestCase extends TestCase{
 		GeneratorProperties.setProperty("jdbc.schema", "");
 		GeneratorProperties.setProperty("jdbc.catalog", "");
 		
-		Connection conn = DbTableFactory.getInstance().getConnection();
-		Connection conn2 = DbTableFactory.getInstance().getConnection();
+		Connection conn = TableFactory.getInstance().getConnection();
+		Connection conn2 = TableFactory.getInstance().getConnection();
 		assertEquals(conn,conn2);
 		
 		System.out.println(conn.getCatalog());

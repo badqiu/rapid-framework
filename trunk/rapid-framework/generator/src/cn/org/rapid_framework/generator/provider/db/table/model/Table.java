@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * 
@@ -308,8 +308,8 @@ public class Table {
 		return "Database Table:"+getSqlName()+" to ClassName:"+getClassName();
 	}
 	
-	String catalog = DbTableFactory.getInstance().getCatalog();
-	String schema = DbTableFactory.getInstance().getSchema();
+	String catalog = TableFactory.getInstance().getCatalog();
+	String schema = TableFactory.getInstance().getSchema();
 	
 	private String tableAlias;
 	private ForeignKeys exportedKeys;
