@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -22,13 +21,24 @@ public class Table {
 	String className;
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
-	Set<Column> columns = new LinkedHashSet();
-	List<Column> primaryKeyColumns = new ArrayList();
-
-	public Set<Column> getColumns() {
+	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
+	List<Column> primaryKeyColumns = new ArrayList<Column>();
+	
+	public Table() {}
+	
+	public Table(Table t) {
+		this.sqlName = t.getSqlName();
+		this.remarks = t.getRemarks();
+		this.className = t.getSqlName();
+		this.ownerSynonymName = t.getOwnerSynonymName();
+		this.columns = t.getColumns();
+		this.primaryKeyColumns = t.getPrimaryKeyColumns();
+	}
+	
+	public LinkedHashSet<Column> getColumns() {
 		return columns;
 	}
-	public void setColumns(Set columns) {
+	public void setColumns(LinkedHashSet<Column> columns) {
 		this.columns = columns;
 	}
 	public String getOwnerSynonymName() {
