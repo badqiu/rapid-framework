@@ -97,14 +97,13 @@ public class SqlParseHelper {
 				+ " must has a keyword 'from'");
 		return sql.substring(beginPos);
 	}
-
+	
+	public static long startTimes = System.currentTimeMillis();
 	public static void setRandomParamsValueForPreparedStatement(String sql,
 			PreparedStatement ps) throws SQLException {
 		int count = StringHelper.containsCount(sql, "?");
 		for (int i = 1; i <= count; i++) {
-			long random = new Random(System.currentTimeMillis()).nextInt()
-					+ System.currentTimeMillis()
-					+ new Random(System.currentTimeMillis()).nextInt();
+			long random = new Random(System.currentTimeMillis()+startTimes++).nextInt() * 30 + System.currentTimeMillis() + startTimes;
 			try {
 				ps.setLong(i, random);
 			} catch (SQLException e) {
