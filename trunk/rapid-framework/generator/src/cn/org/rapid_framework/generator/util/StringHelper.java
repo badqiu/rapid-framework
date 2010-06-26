@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column.EnumMetaDada;
 
 /**
  * 

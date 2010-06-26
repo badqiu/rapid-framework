@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.generator.provider.db.model.Column.EnumMetaDada;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column.EnumMetaDada;
 
 
 public class StringConvertHelperTest extends  TestCase{

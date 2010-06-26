@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.provider.sql.model;
+package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import cn.org.rapid_framework.generator.provider.db.model.Column;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 

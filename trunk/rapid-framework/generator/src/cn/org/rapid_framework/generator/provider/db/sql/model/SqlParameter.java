@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.provider.sql.model;
+package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import java.sql.ParameterMetaData;
 import java.sql.SQLException;

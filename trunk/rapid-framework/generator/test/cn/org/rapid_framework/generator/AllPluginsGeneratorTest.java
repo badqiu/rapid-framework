@@ -5,7 +5,7 @@ import java.util.Collection;
 
 //import org.apache.commons.io.FileUtils;
 
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	

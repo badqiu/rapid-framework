@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.provider.sql;
+package cn.org.rapid_framework.generator.provider.db.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,11 +12,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.model.Column;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
-import cn.org.rapid_framework.generator.provider.sql.model.Sql;
-import cn.org.rapid_framework.generator.provider.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;

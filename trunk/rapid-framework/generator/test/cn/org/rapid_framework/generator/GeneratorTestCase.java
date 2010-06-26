@@ -9,8 +9,8 @@ import java.sql.Statement;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
-import cn.org.rapid_framework.generator.provider.db.DbTableFactory;
-import cn.org.rapid_framework.generator.provider.db.model.Table;
+import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{

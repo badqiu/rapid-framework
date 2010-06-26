@@ -2,6 +2,8 @@ package cn.org.rapid_framework.generator.provider.db.model.util;
 
 import java.util.Arrays;
 
+import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
+
 import junit.framework.TestCase;
 
 public class ColumnHelperTest extends TestCase {

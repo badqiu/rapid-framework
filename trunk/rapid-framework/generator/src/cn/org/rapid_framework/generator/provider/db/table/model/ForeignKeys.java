@@ -2,7 +2,7 @@
  * Created on Jan 6, 2005
  *
  */
-package cn.org.rapid_framework.generator.provider.db.model;
+package cn.org.rapid_framework.generator.provider.db.table.model;
 
 import cn.org.rapid_framework.generator.util.ListHashtable;
 

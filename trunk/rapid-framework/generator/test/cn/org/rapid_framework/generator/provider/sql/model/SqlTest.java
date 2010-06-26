@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.provider.sql.model;
 
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import junit.framework.TestCase;
 
 public class SqlTest extends TestCase {
