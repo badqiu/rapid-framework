@@ -126,16 +126,16 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public static int count;
-	public GeneratorModel newFromQuery(Sql query) {
-		query.setOperation(getName());
+	public GeneratorModel newFromQuery(Sql sql) {
+		sql.setOperation(getName());
 		Map templateModel = new HashMap();
 		templateModel.putAll(GeneratorProperties.getProperties());
-		templateModel.put("sql", query);
+		templateModel.put("sql", sql);
 		setShareVars(templateModel);
 		
 		Map filePathModel = new HashMap();
 		filePathModel.putAll(GeneratorProperties.getProperties());
-		filePathModel.putAll(BeanHelper.describe(query));
+		filePathModel.putAll(BeanHelper.describe(sql));
 		setShareVars(filePathModel);
 		return new GeneratorModel(templateModel,filePathModel);
 	}
