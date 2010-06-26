@@ -91,7 +91,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     }
 
     public String getCountQuery(String statementName) {
-		return statementName +"-count";
+		return statementName +".count";
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
