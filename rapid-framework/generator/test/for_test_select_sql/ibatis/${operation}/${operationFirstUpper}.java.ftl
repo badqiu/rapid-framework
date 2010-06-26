@@ -5,7 +5,7 @@
 	}
 <#else>
 	@SuppressWarnings("unchecked")
-	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.parameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterClassName} ${param.paramName} <#if param_has_next>,</#if></#list>) {
 		Map param = new HashMap();
 		<#list sql.params as param>
 		param.put("${param.paramName}",${param.paramName});
