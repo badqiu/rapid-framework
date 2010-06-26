@@ -33,7 +33,15 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  */
 public class SqlFactory {
     
-    public Sql parseSql(String sourceSql) throws Exception {
+	public static Sql parseSql(String sourceSql) {
+		try {
+			return new SqlFactory().parseSql0(sourceSql);
+		}catch(Exception e) {
+			throw new RuntimeException("parse sql error:"+sourceSql,e);
+		}
+	}
+	
+    public Sql parseSql0(String sourceSql) throws Exception {
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
