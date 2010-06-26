@@ -43,10 +43,9 @@ public class TableFactory {
 	private static TableFactory instance = null;
 	
 	private TableFactory() {
-		init();
 	}
 
-	private void init() {
+	private void loadJdbcDriver() {
 		String driver = GeneratorProperties.getRequiredProperty("jdbc.driver");
 		try {
 			Class.forName(driver);
@@ -70,7 +69,7 @@ public class TableFactory {
 
 	public Connection getConnection() throws SQLException {
 		if(connection == null || connection.isClosed()) {
-			init();
+			loadJdbcDriver();
 			connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
 		}
 		return connection;
