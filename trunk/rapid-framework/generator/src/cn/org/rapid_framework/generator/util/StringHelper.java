@@ -338,11 +338,11 @@ public class StringHelper {
 		}
 		return result.toString();
 	}
-	public static int containsCount(String sql, String keyword) {
-		if(sql == null) return 0;
+	public static int containsCount(String string, String keyword) {
+		if(string == null) return 0;
 		int count = 0;
-		for(int i = 0; i < sql.length(); i++ ) {
-			int indexOf = sql.indexOf(keyword,i);
+		for(int i = 0; i < string.length(); i++ ) {
+			int indexOf = string.indexOf(keyword,i);
 			if(indexOf < 0) {
 				break;
 			}

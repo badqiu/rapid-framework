@@ -127,6 +127,9 @@ public class StringHelperTest extends TestCase {
 		assertEquals(StringHelper.containsCount(null, "?"),0);
 		assertEquals(StringHelper.containsCount("????", "?"),4);
 		assertEquals(StringHelper.containsCount("? ?", "?"),2);
+		assertEquals(StringHelper.containsCount("kakaka", "ka"),3);
+		assertEquals(StringHelper.containsCount("kakabka", "kab"),1);
+		assertEquals(StringHelper.containsCount("kakabkakab", "kab"),2);
 	}
 	
 	public void test_remove_crlf() {
