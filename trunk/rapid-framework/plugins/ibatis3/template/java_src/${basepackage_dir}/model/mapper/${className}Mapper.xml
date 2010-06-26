@@ -25,9 +25,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
-	<insert id="<@namespace/>insert" parameterType="${basepackage}.model.${className}" 
-		useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}" 
-	>
+	<insert id="<@namespace/>insert" useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}">
     <![CDATA[
         INSERT INTO ${table.sqlName} (
         <#list table.columns as column>
@@ -35,7 +33,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         </#list>
         ) VALUES (
         <#list table.columns as column>
-        	<@mapperEl column.columnNameFirstLower+',jdbcType='+column.jdbcSqlTypeName/> <#if column_has_next>,</#if>
+        	<@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
         </#list>        
         )
     ]]>
@@ -48,11 +46,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		-->
 	</insert>
     
-	<update id="<@namespace/>update" parameterType="${basepackage}.model.${className}">
+	<update id="<@namespace/>update" >
     <![CDATA[
         UPDATE ${table.sqlName} SET
 	        <#list table.notPkColumns as column>
-	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower+',jdbcType='+column.jdbcSqlTypeName/> <#if column_has_next>,</#if>
+	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
@@ -61,7 +59,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
 	</update>
 
-    <delete id="<@namespace/>delete" parameterType="${table.idColumn.javaType}">
+    <delete id="<@namespace/>delete">
     <![CDATA[
         DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
@@ -70,7 +68,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="<@namespace/>getById" parameterType="${table.idColumn.javaType}" resultMap="RM-${className}">
+    <select id="<@namespace/>getById" resultMap="RM-${className}">
 		SELECT <include refid="<@namespace/>columns" />
 	    <![CDATA[
 		    FROM ${table.sqlName} 
