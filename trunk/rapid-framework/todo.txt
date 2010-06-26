@@ -45,7 +45,7 @@ struts2类型转换
 springmvc的share变量需要使用request,不能使用ModelAndView
         
 主从表需要指定那一张是主表，才可以进行页面操作
-修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
+#修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 #集成hibernate validator 
 #集成HibernateValidator	
 # ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
@@ -90,7 +90,7 @@ spring服务发布增加: spring/internal, spring/publish两个目录,internal�
 #add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
 #继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
 #为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
-Page,PageRequest重构,PageRequest用于继承以替代filter
+#Page,PageRequest重构,PageRequest用于继承以替代filter
 生成MockDao,MockManager以供调用
 
 为自动化配置及单元测试的配置文件区分提供更多支持
@@ -100,7 +100,7 @@ Page,PageRequest重构,PageRequest用于继承以替代filter
 #为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
 增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
 增加了exception package
-增加generate dto by javaClass
+#增加generate dto by javaClass
 
 WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
 所以确保WebService的返回结果是WSResult
@@ -114,7 +114,7 @@ pipeline中如果不能找到模板的异常处理
 
 为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
 
-考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
+#考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
 
 #为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
 #	示便: local: includer.include("/head.htm") 
@@ -161,7 +161,7 @@ pipeline中如果不能找到模板的异常处理
 #修改目录为标准的 java_src,java_test目录
 #事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
 
-  #缓存抽象,搞一个Map类型的cache
+#缓存抽象,搞一个Map类型的cache
 
 权限处理指南
 // 性能很好,cache刷新问题, 还有 resourceString auto deploy to database, url auto deploy需要小心
