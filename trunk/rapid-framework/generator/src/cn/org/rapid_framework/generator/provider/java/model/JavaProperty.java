@@ -2,7 +2,7 @@ package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.beans.PropertyDescriptor;
 
-import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
 public class JavaProperty {
 	PropertyDescriptor propertyDescriptor;

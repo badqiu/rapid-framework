@@ -5,7 +5,7 @@
  * Website: http://www.pomer.org.cn/
  * 
  */
-package cn.org.rapid_framework.generator.util;
+package cn.org.rapid_framework.generator.util.typemapping;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.model.util;
 
 import cn.org.rapid_framework.generator.provider.db.model.Column;
-import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.DatabaseDataTypesUtils;
 
 public class ColumnHelper {
 	

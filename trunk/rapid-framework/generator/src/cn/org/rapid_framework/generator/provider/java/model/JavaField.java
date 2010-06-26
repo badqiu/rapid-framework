@@ -2,7 +2,7 @@ package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.lang.reflect.Field;
 
-import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
 public class JavaField {
 	private Field field;
