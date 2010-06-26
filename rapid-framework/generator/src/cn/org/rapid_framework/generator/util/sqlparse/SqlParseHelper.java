@@ -97,6 +97,14 @@ public class SqlParseHelper {
 				+ " must has a keyword 'from'");
 		return sql.substring(beginPos);
 	}
+
+	public static String getSelect(String sql) {
+		Assert.hasText(sql);
+		int beginPos = sql.toLowerCase().indexOf("from");
+		Assert.isTrue(beginPos != -1, " sql : " + sql
+				+ " must has a keyword 'from'");
+		return sql.substring(0,beginPos);
+	}
 	
 	public static long startTimes = System.currentTimeMillis();
 	public static void setRandomParamsValueForPreparedStatement(String sql,
