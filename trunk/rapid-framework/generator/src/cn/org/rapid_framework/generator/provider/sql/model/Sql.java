@@ -20,7 +20,8 @@ public class Sql {
 	String operation = null;
 	String multiPolicy = "many"; // many or one
 	Set<Column> columns = new LinkedHashSet<Column>();
-	String queryResultClass;
+	String operationResultClass;
+	String operationParameterClass;
 	List<SqlParameter> params = new ArrayList();
 	
 	String sourceSql; // source sql
@@ -42,12 +43,12 @@ public class Sql {
 		}
 		return true;
 	}
-	public String getQueryResultClass() {
+	public String getOperationResultClass() {
 		if(columns.size() == 1) {
 //    			throw new IllegalArgumentException("only single column by query,cannot execute method:getQueryResultClassName(), operation:"+operation);
 			return columns.iterator().next().getSimpleJavaType();
 		}
-		if(queryResultClass != null) return queryResultClass;
+		if(operationResultClass != null) return operationResultClass;
 		if(isColumnsInSameTable()) {
 			return columns.iterator().next().getTable().getClassName();
 		}else {
@@ -55,11 +56,25 @@ public class Sql {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
 		}
 	}    
-	public void setQueryResultClass(String queryResultClass) {
-		this.queryResultClass = queryResultClass;
+	public void setOperationResultClass(String queryResultClass) {
+		this.operationResultClass = queryResultClass;
 	}
-	public String getQueryResultClassName() {
-		return getQueryResultClass();
+	public String getOperationResultClassName() {
+		return getOperationResultClass();
+	}
+	public String getOperationParameterClass() {
+		if(operationParameterClass != null) return operationParameterClass;
+		if(isSelectSql()) {
+			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Query";
+		}else {
+			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Parameter";
+		}
+	}
+	public void setOperationParameterClass(String operationParameterClass) {
+		this.operationParameterClass = operationParameterClass;
+	}
+	public String getOperationParameterClassName() {
+		return getOperationParameterClass();
 	}
 	//TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
 	public int getColumnsCount() {
