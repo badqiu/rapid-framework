@@ -16,10 +16,12 @@ public class Sql {
 	public static String MULTI_POLICY_ONE = "one";
 	public static String MULTI_POLICY_MANY = "many";
 	
+	String className = null;
 	String operation = null;
-	String multiPolicy = "many"; // many or one
 	String operationResultClass;
 	String operationParameterClass;
+	
+	String multiPolicy = "many"; // many or one
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
