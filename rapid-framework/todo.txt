@@ -45,6 +45,7 @@ struts2类型转换
 springmvc的share变量需要使用request,不能使用ModelAndView
         
 主从表需要指定那一张是主表，才可以进行页面操作
+#使用simpletable
 #修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 #集成hibernate validator 
 #集成HibernateValidator	
@@ -254,8 +255,6 @@ BlazeDS学习
 
 #整合其它显示层技术
 #	Ext2
-增加列表组件
-	Jmesa,SimpleList
 整合SiteMesh
 
 整合安全框架
