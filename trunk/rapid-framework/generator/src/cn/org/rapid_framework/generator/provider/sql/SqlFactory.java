@@ -37,17 +37,18 @@ public class SqlFactory {
         System.out.println(" sql:"+sourceSql);
         System.out.println("*********************************");
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
-        String sql = NamedParameterUtils.substituteNamedParameters(parsedSql);
+        String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Connection conn = DbTableFactory.getInstance().getConnection();
         conn.setAutoCommit(false);
         conn.setReadOnly(true);
         try {
-	        PreparedStatement ps = conn.prepareStatement(sql);
-	        setPreparedStatementParameters(sql, ps);
+	        PreparedStatement ps = conn.prepareStatement(executeSql);
+	        setPreparedStatementParameters(executeSql, ps);
 	        Sql result = convert2Sql(executeForMetaData(ps)); 
 	        result.setSourceSql(sourceSql);
-	        result.setParams(parseSqlParameters(ps, parsedSql,result));
+	        result.setExecuteSql(executeSql);
+	        result.setParams(parseSqlParameters(parsedSql,result));
 	        return result;
         }finally {
         	conn.rollback();
@@ -126,7 +127,7 @@ public class SqlFactory {
         }
 	}
 
-	private List<SqlParameter> parseSqlParameters(PreparedStatement ps,ParsedSql parsedSql,Sql sql) throws Exception {
+	private List<SqlParameter> parseSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
 
 		List result = new ArrayList();
 		for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {

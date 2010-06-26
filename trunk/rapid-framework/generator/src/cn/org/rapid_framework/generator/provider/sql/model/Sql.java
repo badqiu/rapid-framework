@@ -24,6 +24,7 @@ public class Sql {
 	List<SqlParameter> params = new ArrayList();
 	
 	String sourceSql; // source sql
+	String executeSql;
 	
 	public boolean isColumnsInSameTable() {
 		//FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
@@ -114,6 +115,14 @@ public class Sql {
 			sql = StringHelper.replace(sql,":"+s.getParamName(),prefix+s.getParamName()+suffix);
 		}
 		return sql;
+	}
+	
+	public String getExecuteSql() {
+		return executeSql;
+	}
+	
+	public void setExecuteSql(String executeSql) {
+		this.executeSql = executeSql;
 	}
 	
 	public String getJdbcSql() {
