@@ -1,31 +1,32 @@
 package cn.org.rapid_framework.test.util;
 
-import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.TestBean;
 import junit.framework.TestCase;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.TestBean;
+import cn.org.rapid_framework.test.util.testbean.Bean1;
 
 public class BeanAssertTest extends TestCase {
 	
 	public void test1() {
-		TestBean b = new TestBean();
+		Bean1 b = new Bean1();
 		try {
 		BeanAssert.assertPropertiesNotNull(b);
 		fail();
-		}catch(Error e) {
+		}catch(AssertionError e) {
 			e.getMessage().contains("AssertionFailedError, [TestBean.userName] must be not null");
 		}
 	}
 
 	public void test2() {
-		TestBean b = new TestBean();
+		Bean1 b = new Bean1();
 		BeanDefaultValueUtils.setBeanProperties(b);
 		BeanAssert.assertPropertiesNotNull(b);
 	}
 
 	public void test3() {
 		TestBean b = new TestBean();
+		b.setUserName("2");
 		b.setAge(1);
-		b.setPassword("pwd");
-		b.setUserName("usr");
+		b.setPassword("p");
 		BeanAssert.assertPropertiesNotNull(b);
 	}
 
@@ -44,17 +45,19 @@ public class BeanAssertTest extends TestCase {
 		}
 	}
 
-   public void test2_assertNumberPropertiesNotNull() {
-       if(true) throw new RuntimeException("not yet implements");
-        TestBean b = new TestBean();
-        BeanDefaultValueUtils.setBeanProperties(b);
-        BeanAssert.assertNumberPropertiesEquals(b,"1",new String[]{});
-   }
-   
-   public void test2_assertPrimitivePropertiesEquals() {
-       if(true) throw new RuntimeException("not yet implements");
-       TestBean b = new TestBean();
-       BeanDefaultValueUtils.setBeanProperties(b);
-       BeanAssert.assertPrimitivePropertiesEquals(b,"1",new String[]{});
-   }
+	public void test2_assertNumberPropertiesNotNull() {
+		if (true)
+			throw new RuntimeException("not yet implements");
+		Bean1 b = new Bean1();
+		BeanDefaultValueUtils.setBeanProperties(b);
+		BeanAssert.assertNumberPropertiesEquals(b, "1", new String[] {});
+	}
+
+	public void test2_assertPrimitivePropertiesEquals() {
+		if (true)
+			throw new RuntimeException("not yet implements");
+		Bean1 b = new Bean1();
+		BeanDefaultValueUtils.setBeanProperties(b);
+		BeanAssert.assertPrimitivePropertiesEquals(b, "1", new String[] {});
+	}
 }
