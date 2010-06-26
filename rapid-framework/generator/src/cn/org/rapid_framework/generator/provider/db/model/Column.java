@@ -6,12 +6,12 @@ import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.model.util.ColumnHelper;
-import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
-import cn.org.rapid_framework.generator.util.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
-import cn.org.rapid_framework.generator.util.JdbcType;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
+import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.DatabaseDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 
  * @author badqiu

@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.org.rapid_framework.generator.util.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
 public class JavaClass {
 	private Class clazz;

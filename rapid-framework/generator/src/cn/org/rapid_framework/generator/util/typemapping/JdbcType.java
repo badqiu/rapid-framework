@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.util;
+package cn.org.rapid_framework.generator.util.typemapping;
 
 import java.sql.Types;
 /**
