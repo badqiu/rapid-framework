@@ -103,28 +103,44 @@ public class SqlFactory {
 		}
 	}
 
-	private static void setPreparedStatementParameters(String sql, PreparedStatement ps)
-			throws SQLException {
+	private static void setPreparedStatementParameters(String sql, PreparedStatement ps) throws SQLException {
         if(sql.contains("?")) {
-            int size = sql.split("\\?").length;
+            int size = StringHelper.containsCount(sql,"?");
             for(int i = 1; i <= size; i++) {
-            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()+new Random(System.currentTimeMillis()).nextInt() % Integer.MAX_VALUE;
+            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis();
 				try {
             		ps.setLong(i, random);
-            	}catch(Exception e) {
+            	}catch(SQLException e) {
             		try {
-            			ps.setString(i,""+random);
-            		}catch(Exception ee) {
+            			ps.setInt(i, (int)random);
+            		}catch(SQLException e1) {
             			try {
-            				ps.setTimestamp(1, new Timestamp(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
-            			}catch(Exception eee) {
-            				try {
-            					ps.setObject(i, random);
-            				}catch(Exception eeee) {
-            					GLogger.warn("error on set parametet index:"+i+" cause:"+eeee+" sql:"+sql);
-            				}
-            			}
+                			ps.setString(i,""+random);
+                		}catch(SQLException e2) {
+                			try {
+                				ps.setTimestamp(i,new java.sql.Timestamp(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
+                			}catch(SQLException e3) {
+                				try {
+                					ps.setDate(i,new java.sql.Date(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
+                    			}catch(SQLException e6) {
+                    				try {
+                    					ps.setObject(i, ""+(int)random);
+                    				}catch(SQLException e4) {
+                    					try {
+                        					ps.setObject(i, ""+(short)random);
+                        				}catch(SQLException e82) {
+                        					try {
+                            					ps.setObject(i, ""+(byte)random);
+                            				}catch(SQLException error) {
+                            					GLogger.warn("error on set parametet index:"+i+" cause:"+error+" sql:"+sql);
+                            				}
+                        				}
+                    				}
+                    			}
+                			}
+                		}            			
             		}
+            		
             	}
             }
         }
