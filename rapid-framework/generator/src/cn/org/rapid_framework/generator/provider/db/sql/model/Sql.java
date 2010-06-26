@@ -19,10 +19,10 @@ public class Sql {
 	
 	String operation = null;
 	String multiPolicy = "many"; // many or one
-	Set<Column> columns = new LinkedHashSet<Column>();
+	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	String operationResultClass;
 	String operationParameterClass;
-	List<SqlParameter> params = new ArrayList();
+	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
 	
 	String sourceSql; // source sql
 	String executeSql;
@@ -98,16 +98,16 @@ public class Sql {
 	public void setMultiPolicy(String multiPolicy) {
 		this.multiPolicy = multiPolicy;
 	}
-	public Set<Column> getColumns() {
+	public LinkedHashSet<Column> getColumns() {
 		return columns;
 	}
-	public void setColumns(Set<Column> columns) {
+	public void setColumns(LinkedHashSet<Column> columns) {
 		this.columns = columns;
 	}
-	public List<SqlParameter> getParams() {
+	public LinkedHashSet<SqlParameter> getParams() {
 		return params;
 	}
-	public void setParams(List<SqlParameter> params) {
+	public void setParams(LinkedHashSet<SqlParameter> params) {
 		this.params = params;
 	}
 	

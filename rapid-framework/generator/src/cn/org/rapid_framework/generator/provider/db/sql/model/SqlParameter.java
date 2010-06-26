@@ -85,6 +85,20 @@ public class SqlParameter {
 		public void setListParam(boolean isListParam) {
 			this.isListParam = isListParam;
 		}
+		
+		public boolean equals(Object obj) {
+			if(obj == this) return true;
+			if(obj == null) return false;
+			if(obj instanceof SqlParameter) {
+				SqlParameter other = (SqlParameter)obj;
+				return paramName.equals(other.getParamName());
+			}else {
+				return false;
+			}
+		}
+		public int hashCode() {
+			return paramName.hashCode();
+		}
 		public String toString() {
 			return "paramName:"+paramName+" parameterClassName:"+parameterClassName;
 		}

@@ -49,6 +49,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
+	
+	public void test_select_same_params() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where username = :username and username like :username and birth_date between :birthDate and :birthDate");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
 
 	public void test_select_with_two_columns() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select sum(age) sum_age,count(username) cnt from user_info ");
