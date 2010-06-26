@@ -26,6 +26,7 @@ public class Sql {
 	String sourceSql; // source sql
 	
 	public boolean isColumnsInSameTable() {
+		//FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
 		if(columns.isEmpty()) return false;
 		if(columns.size() == 1 && columns.iterator().next().getTable() != null) return true;
 		String preTableName = columns.iterator().next().getSqlName();
