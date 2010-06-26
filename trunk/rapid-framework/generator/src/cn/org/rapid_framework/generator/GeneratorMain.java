@@ -20,6 +20,7 @@ public class GeneratorMain {
 		g.generateByAllTable("template");	//自动搜索数据库中的所有表并生成文件,template为模板的根目录
 //		g.generateByClass(Blog.class,"template_clazz");
 		
+//		g.generateBySql("select * from user_info", "template_sql");
 //		g.deleteByTable("table_name", "template"); //删除生成的文件
 		//打开文件夹
 		Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot"));
