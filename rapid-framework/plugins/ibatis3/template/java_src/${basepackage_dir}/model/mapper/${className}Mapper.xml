@@ -12,7 +12,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="${className}">
 
-	<resultMap id="RM-${className}" type="${basepackage}.model.${className}">
+	<resultMap id="RM.${className}" type="${basepackage}.model.${className}">
         <#list table.columns as column>
         <result property="${column.columnNameLower}" column="${column.sqlName}"/>
 		</#list>
@@ -71,7 +71,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
     </delete>
     
-    <select id="<@namespace/>getById" resultMap="RM-${className}">
+    <select id="<@namespace/>getById" resultMap="RM.${className}">
 		SELECT <include refid="<@namespace/>columns" />
 	    <![CDATA[
 		    FROM ${table.sqlName} 
@@ -82,7 +82,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
-	<sql id="<@namespace/>findPage-where">
+	<sql id="<@namespace/>findPage.where">
 		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
 		<where>	      				
 	       <#list table.columns as column>
@@ -102,19 +102,19 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</where>
 	</sql>
 		
-    <select id="<@namespace/>findPage-count" resultType="long">
+    <select id="<@namespace/>findPage.count" resultType="long">
         SELECT count(*) FROM ${table.sqlName} 
-		<include refid="findPage-where"/>    
+		<include refid="<@namespace/>findPage.where"/>    
     </select>
     
     <!--
     	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
     	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
-    <select id="<@namespace/>findPage" resultMap="RM-${className}">
+    <select id="<@namespace/>findPage" resultMap="RM.${className}">
     	SELECT <include refid="<@namespace/>columns" />
 	    FROM ${table.sqlName} 
-		<include refid="<@namespace/>findPage-where"/>
+		<include refid="<@namespace/>findPage.where"/>
 		
 		<if test="@Ognl@isNotEmpty(sortColumns)">
 			ORDER BY <@jspEl 'sortColumns'/>
@@ -123,7 +123,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
     <#list table.columns as column>
     <#if column.unique && !column.pk>
-    <select id="<@namespace/>getBy${column.columnName}" resultMap="RM-${className}" parameterType="${column.javaType}">
+    <select id="<@namespace/>getBy${column.columnName}" resultMap="RM.${className}" parameterType="${column.javaType}">
 	    SELECT <include refid="<@namespace/>columns"/>
 	    <![CDATA[
 	        FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
