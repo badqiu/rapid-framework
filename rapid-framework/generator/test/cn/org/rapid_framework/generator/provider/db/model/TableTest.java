@@ -5,7 +5,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 
@@ -16,7 +16,7 @@ public class TableTest extends TestCase{
 	public void testTable() throws Exception {
 		GeneratorTestCase.runSqlScripts();
 		
-		Table t = DbTableFactory.getInstance().getTable("USER_INFO");
+		Table t = TableFactory.getInstance().getTable("USER_INFO");
 
 		print(t);
 		

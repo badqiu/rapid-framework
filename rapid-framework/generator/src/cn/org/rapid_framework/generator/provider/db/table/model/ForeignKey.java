@@ -7,7 +7,7 @@ package cn.org.rapid_framework.generator.provider.db.table.model;
 
 import java.util.List;
 
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.ListHashtable;
 
 /**
@@ -71,7 +71,7 @@ public class ForeignKey {
 		secondRelation  = "";
 		Table foreignTable = null;
 		try {
-			foreignTable = (Table) DbTableFactory.getInstance().getTable(tableName);
+			foreignTable = (Table) TableFactory.getInstance().getTable(tableName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -157,7 +157,7 @@ public class ForeignKey {
 	public Table getSqlTable() {
 		Table table = null;
 		try {
-			table = (Table) DbTableFactory.getInstance().getTable(tableName);
+			table = (Table) TableFactory.getInstance().getTable(tableName);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

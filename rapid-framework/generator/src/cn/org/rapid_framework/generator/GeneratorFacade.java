@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -27,7 +27,7 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
 public class GeneratorFacade {
 	public Generator g = new Generator();
 	public static void printAllTableNames() throws Exception {
-		PrintUtils.printAllTableNames(DbTableFactory.getInstance().getAllTables());
+		PrintUtils.printAllTableNames(TableFactory.getInstance().getAllTables());
 	}
 	
 	public void deleteOutRootDir() throws IOException {
@@ -36,7 +36,7 @@ public class GeneratorFacade {
 	}
 	
 	public void deleteByAllTable(String templateRootDir) throws Exception {
-		List<Table> tables = DbTableFactory.getInstance().getAllTables();
+		List<Table> tables = TableFactory.getInstance().getAllTables();
 		List exceptions = new ArrayList();
 		for(int i = 0; i < tables.size(); i++ ) {
 			try {
@@ -51,7 +51,7 @@ public class GeneratorFacade {
 	}
 	
 	public void generateByAllTable(String templateRootDir) throws Exception {
-		List<Table> tables = DbTableFactory.getInstance().getAllTables();
+		List<Table> tables = TableFactory.getInstance().getAllTables();
 		List exceptions = new ArrayList();
 		for(int i = 0; i < tables.size(); i++ ) {
 			try {
@@ -70,7 +70,7 @@ public class GeneratorFacade {
     	}
 		Generator g = getGenerator(templateRootDir);
 		
-		Table table = DbTableFactory.getInstance().getTable(tableName);
+		Table table = TableFactory.getInstance().getTable(tableName);
 		try {
 			generateByTable(g, table);
 		}catch(GeneratorException ge) {
@@ -91,7 +91,7 @@ public class GeneratorFacade {
     	}
 		Generator g = getGenerator(templateRootDir);
 		
-		Table table = DbTableFactory.getInstance().getTable(tableName);
+		Table table = TableFactory.getInstance().getTable(tableName);
 		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
 		g.deleteBy(m.templateModel, m.filePathModel);
 	}

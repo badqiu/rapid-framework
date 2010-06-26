@@ -9,7 +9,7 @@ import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
@@ -77,7 +77,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_delete_myisam_user_sql() throws Exception {
-		DbTableFactory.getInstance().getConnection().close();
+		TableFactory.getInstance().getConnection().close();
 		GeneratorProperties.reload();
 		Sql selectSql  = new SqlFactory().parseSql("delete from myisam_user ");
 		GeneratorModel gm = newFromQuery(selectSql);

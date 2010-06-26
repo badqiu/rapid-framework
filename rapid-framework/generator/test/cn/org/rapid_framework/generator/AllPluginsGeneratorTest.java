@@ -5,7 +5,7 @@ import java.util.Collection;
 
 //import org.apache.commons.io.FileUtils;
 
-import cn.org.rapid_framework.generator.provider.db.table.DbTableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
@@ -29,7 +29,7 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 //		for(Table t : allTables) {
 //			generateByTable(t);
 //		}
-		generateByTable(DbTableFactory.getInstance().getTable("USER_INFO"));
+		generateByTable(TableFactory.getInstance().getTable("USER_INFO"));
 //		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
 	}
 	
