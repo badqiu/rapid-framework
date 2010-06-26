@@ -8,12 +8,15 @@
 
 三.代码生成器模板可以引用的相关变量
 	1. g.generateByTable("table_name") 方法可以引用的变量
-		table : cn.org.rapid_framework.generator.provider.db.model.Table
+		table : cn.org.rapid_framework.generator.provider.db.table.model.Table
 	
-	2. g.generateByClass("class") 方法可以引用的变量
+	2. g.generateByClass(UserInfo.class) 方法可以引用的变量
 		clazz : cn.org.rapid_framework.generator.provider.java.model.JavaClass
-	
-	3.公共变量
+
+	3. g.generateBySql("select * from user_info") 方法可以引用的变量
+		sql : cn.org.rapid_framework.generator.provider.db.sql.model.Sql
+
+	4.公共变量
 		env : 系统环境变量
 		System.getProperties() :  直接引用,没有前缀
 		generator.properties 文件中的所有属性,直接引用,没有前缀
