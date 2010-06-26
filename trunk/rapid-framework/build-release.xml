@@ -225,7 +225,7 @@
 				<include name="项目需知.txt"/>
 				<include name="readme.txt"/>
 				<include name="changelog.txt"/>
-				<include name="MIT-LICENSE.txt"/>
+				<include name="LICENSE.txt"/>
 				
 				<exclude name="${dir.src.web}/WEB-INF/classes/**"/>
 				<exclude name="generator/test/**"/>
