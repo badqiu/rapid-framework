@@ -10,14 +10,14 @@
 <!-- 不使用namespace是由于sql搜索定位会比较方便 -->
 <sqlMap>
 
-    <resultMap id="RM-${className}" class="${basepackage}.model.${className}">
+    <resultMap id="RM.${className}" class="${basepackage}.model.${className}">
         <#list table.columns as column>
         <result property="${column.columnNameLower}" column="${column.sqlName}"/>
 		</#list>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
-	<sql id="<@namespace/>commonColumns">
+	<sql id="<@namespace/>columns">
 	    <![CDATA[
         <#list table.columns as column>
         	${column.sqlName} <#if column_has_next>,</#if>
@@ -70,8 +70,8 @@
     ]]>
     </delete>
     
-    <select id="<@namespace/>getById" resultMap="RM-${className}">
-	    SELECT <include refid="<@namespace/>commonColumns"/>
+    <select id="<@namespace/>getById" resultMap="RM.${className}">
+	    SELECT <include refid="<@namespace/>columns"/>
 	    <![CDATA[
 	        FROM ${table.sqlName} 
 	        WHERE 
@@ -81,7 +81,7 @@
 	    ]]>
     </select>
 
-	<sql id="<@namespace/>findPage-where">
+	<sql id="<@namespace/>findPage.where">
 	    <dynamic prepend="WHERE">
 	       <#list table.columns as column>
 		        <#if column.isDateTimeColumn>
@@ -100,21 +100,17 @@
 	    </dynamic>	
 	</sql>
 	 
-    <select id="<@namespace/>findPage-count" resultClass="long">
-    <![CDATA[
-        SELECT count(*) FROM ${table.sqlName}
-    ]]>
-		<include refid="<@namespace/>findPage-where"/>    
+    <select id="<@namespace/>findPage.count" resultClass="long">
+        SELECT count(*) FROM ${table.sqlName} <include refid="<@namespace/>findPage.where"/>    
     </select>
     
     <!--
     	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
-    <select id="<@namespace/>findPage" resultMap="RM-${className}">
-    	SELECT <include refid="<@namespace/>commonColumns"/>
-	    FROM ${table.sqlName} 
-		<include refid="<@namespace/>findPage-where"/>
+    <select id="<@namespace/>findPage" resultMap="RM.${className}">
+    	SELECT <include refid="<@namespace/>columns"/> FROM ${table.sqlName} 
+		<include refid="<@namespace/>findPage.where"/>
 		<dynamic prepend="ORDER BY">
 			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
 		</dynamic>
@@ -122,8 +118,8 @@
 
     <#list table.columns as column>
     <#if column.unique && !column.pk>
-    <select id="<@namespace/>getBy${column.columnName}" resultMap="RM-${className}" >
-	    SELECT <include refid="<@namespace/>commonColumns"/>
+    <select id="<@namespace/>getBy${column.columnName}" resultMap="RM.${className}" >
+	    SELECT <include refid="<@namespace/>columns"/>
 	    <![CDATA[
 	        FROM ${table.sqlName} WHERE ${column.sqlName} = #${column.columnNameLower}#
 	    ]]>
