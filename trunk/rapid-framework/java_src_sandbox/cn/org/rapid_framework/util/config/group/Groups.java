@@ -11,7 +11,8 @@ import java.util.Properties;
 import java.util.Set;
 
 public class Groups implements java.io.Serializable{
-	private Map<String,Properties> groups = new LinkedHashMap();
+	private static final long serialVersionUID = -1335431769066383676L;
+	private Map<String,Properties> groups = new LinkedHashMap<String,Properties>();
 	
 	public Set<String> getGroupNames() {
 		return groups.keySet();
@@ -54,6 +55,10 @@ public class Groups implements java.io.Serializable{
 		this.groups = groups;
 	}
 	
+	public void mergeGroups(Groups g) {
+		this.groups.putAll(g.getGroups());
+	}
+	
 //	public void loadFromWindowsInI(InputStream in) {
 //		
 //	}
@@ -61,8 +66,6 @@ public class Groups implements java.io.Serializable{
 //	public void saveAsWindowsInI(InputStream in) {
 //		
 //	}
-	
-	
 	
 	public void loadFromXML(InputStream in) throws IOException {
 		XMLUtils.load(this, in);
