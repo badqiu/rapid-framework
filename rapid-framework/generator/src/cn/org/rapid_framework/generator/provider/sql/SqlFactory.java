@@ -107,7 +107,7 @@ public class SqlFactory {
         if(sql.contains("?")) {
             int size = StringHelper.containsCount(sql,"?");
             for(int i = 1; i <= size; i++) {
-            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis();
+            	long random = new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()+ new Random(System.currentTimeMillis()).nextInt();
 				try {
             		ps.setLong(i, random);
             	}catch(SQLException e) {
@@ -118,10 +118,10 @@ public class SqlFactory {
                 			ps.setString(i,""+random);
                 		}catch(SQLException e2) {
                 			try {
-                				ps.setTimestamp(i,new java.sql.Timestamp(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
+                				ps.setTimestamp(i,new java.sql.Timestamp(random));
                 			}catch(SQLException e3) {
                 				try {
-                					ps.setDate(i,new java.sql.Date(new Random(System.currentTimeMillis()).nextInt()+System.currentTimeMillis()));
+                					ps.setDate(i,new java.sql.Date(random));
                     			}catch(SQLException e6) {
                     				try {
                     					ps.setObject(i, ""+(int)random);
