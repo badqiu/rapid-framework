@@ -22,14 +22,26 @@ public class SqlParameter {
     		this.scale = m.getScale(i);
     	}
 		public String getParameterClassName() {
+			return parameterClassName;
+		}
+		public void setParameterClassName(String parameterClassName) {
+			this.parameterClassName = parameterClassName;
+		}
+		public String getPreferredParameterClassName() {
 			if(isListParam) {
+				if(parameterClassName.indexOf("[]") >= 0){
+					return parameterClassName;
+				}
+				if(parameterClassName.indexOf("List") >= 0){
+					return parameterClassName;
+				}
+				if(parameterClassName.indexOf("Set") >= 0){
+					return parameterClassName;
+				}
 				return "java.util.List<"+parameterClassName+">";
 			}else {
 				return parameterClassName;
 			}
-		}
-		public void setParameterClassName(String parameterClassName) {
-			this.parameterClassName = parameterClassName;
 		}
 		public int getParameterMode() {
 			return parameterMode;
