@@ -54,16 +54,29 @@ public class SqlFactory {
         conn.setReadOnly(true);
         try {
 	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        sql.setParams(new SqlParametersParse().parseForSqlParameters(parsedSql,sql));
-	        sql.setColumns(new SelectColumnsParse().convert2Columns(executeForResultSetMetaData(executeSql,ps)));
+	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
+	        sql.setColumns(new SelectColumnsParser().convert2Columns(executeForResultSetMetaData(executeSql,ps)));
 	        return sql;
         }finally {
         	conn.rollback();
         	conn.close();
         }
     }
-    
-    public class SelectColumnsParse {
+	
+    private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
+		SqlParseHelper.setRandomParamsValueForPreparedStatement(executeSql, ps);
+		ps.setMaxRows(3);
+        ps.setFetchSize(3);
+        ps.setQueryTimeout(20);
+        try {
+			ResultSet rs = ps.executeQuery();
+			return rs.getMetaData(); 
+		} catch (Exception e) {
+			return ps.getMetaData();
+		}
+	}
+	
+    public static class SelectColumnsParser {
     
 		private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
 			if(metadata == null) return new LinkedHashSet();
@@ -99,20 +112,7 @@ public class SqlFactory {
 		}
     }
 
-	private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
-		SqlParseHelper.setRandomParamsValueForPreparedStatement(executeSql, ps);
-		ps.setMaxRows(3);
-        ps.setFetchSize(3);
-        ps.setQueryTimeout(20);
-        try {
-			ResultSet rs = ps.executeQuery();
-			return rs.getMetaData(); 
-		} catch (Exception e) {
-			return ps.getMetaData();
-		}
-	}
-	
-	public class SqlParametersParse {
+	public static class SqlParametersParser {
 		private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
 			LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
 			for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
@@ -129,13 +129,18 @@ public class SqlFactory {
 					param.setScale(column.getSize());
 					param.setParameterTypeName(column.getJdbcSqlTypeName());
 				}
-				if(sql.getSourceSql().indexOf("(:"+paramName+")") >= 0) {
+				
+				if(isMatchListParam(sql.getSourceSql(), paramName)) { //FIXME 只考虑(:username)未考虑(#inUsernames#) and (#{inPassword})
 					param.setListParam(true);
 				}
 				result.add(param);			
 			}
 			return result;
 	    
+		}
+
+		public static boolean isMatchListParam(String sql, String paramName) {
+			return sql.matches("(?d).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*");
 		}
 	
 		private Column findColumnByParamName(ParsedSql sql,Sql sqlMetaData, String paramName) throws Exception {
