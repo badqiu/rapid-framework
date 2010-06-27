@@ -69,7 +69,9 @@ public class SqlFactory {
 			if(metadata == null) return new LinkedHashSet();
 			LinkedHashSet<Column> columns = new LinkedHashSet();
 	        for(int i = 1; i <= metadata.getColumnCount(); i++) {
-	        	columns.add(convert2Column(metadata, i));
+	        	Column c = convert2Column(metadata, i);
+	        	if(c == null) throw new IllegalStateException("column must be not null");
+				columns.add(c);
 	        }
 			return columns;
 		}

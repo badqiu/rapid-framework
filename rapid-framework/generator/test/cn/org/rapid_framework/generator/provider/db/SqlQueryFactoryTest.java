@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.generator.provider.db;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public void setUp() throws Exception {
@@ -134,7 +134,9 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	
 	public static int count;
 	public GeneratorModel newFromQuery(Sql sql) {
-		sql.setOperation(getName());
+		sql.setOperation(StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(getName())));
+		sql.setTableSqlName("user_blog_info");
+		
 		Map templateModel = new HashMap();
 		templateModel.putAll(GeneratorProperties.getProperties());
 		templateModel.put("sql", sql);

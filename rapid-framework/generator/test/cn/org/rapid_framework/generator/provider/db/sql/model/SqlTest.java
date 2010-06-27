@@ -65,10 +65,10 @@ public class SqlTest extends GeneratorTestCase {
 	
 	public void test_getTableName() {
 		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
-		assertNull(sql.getTableName());
+		assertNull(sql.getTableSqlName());
 		
-		sql.setTableName("t1_abc_blog_123");
-		assertEquals("t1_abc_blog_123",sql.getTableName());
+		sql.setTableSqlName("t1_abc_blog_123");
+		assertEquals("t1_abc_blog_123",sql.getTableSqlName());
 		
 		assertEquals("T1AbcBlog123",sql.getTableClassName());
 	}

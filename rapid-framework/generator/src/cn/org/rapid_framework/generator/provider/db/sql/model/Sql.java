@@ -16,7 +16,7 @@ public class Sql {
 	public static String MULTI_POLICY_ONE = "one";
 	public static String MULTI_POLICY_MANY = "many";
 	
-	String tableName = null; //是否需要
+	String tableSqlName = null; //是否需要
 	String operation = null;
 	String operationResultClass;
 	String operationParameterClass;
@@ -33,7 +33,7 @@ public class Sql {
 	}
 	
 	public Sql(Sql sql) {
-		this.tableName = sql.tableName;
+		this.tableSqlName = sql.tableSqlName;
 		
 		this.operation = sql.operation;
 		this.operationParameterClass = sql.operationParameterClass;
@@ -212,17 +212,17 @@ public class Sql {
 		return sourceSql.trim().toLowerCase().matches("(?i)\\s*insert\\s+into\\s+.*");
 	}
 	
-	public String getTableName() {
-		return tableName;
+	public String getTableSqlName() {
+		return tableSqlName;
 	}
 
-	public void setTableName(String tableName) {
-		this.tableName = tableName;
+	public void setTableSqlName(String tableName) {
+		this.tableSqlName = tableName;
 	}
 	
 	public String getTableClassName() {
-		if(StringHelper.isBlank(tableName)) return null;
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(tableName));
+		if(StringHelper.isBlank(tableSqlName)) return null;
+		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(tableSqlName));
 	}
 
 	public Column getColumnBySqlName(String sqlName) {
