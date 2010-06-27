@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.orm.ibatis.SqlMapClientTemplate;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import cn.org.rapid_framework.page.Page;
@@ -72,8 +73,12 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     }
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
+		return pageQuery(getSqlMapClientTemplate(),statementName,getCountQuery(statementName),pageRequest);
+	}
+
+	public static Page pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlMapClientTemplate().queryForObject(getCountQuery(statementName),pageRequest);
+		Number totalCount = (Number) sqlMapClientTemplate.queryForObject(countStatementName,pageRequest);
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
@@ -89,7 +94,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		
 		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
 		Map parameterObject = new MapAndObject(otherFilters,pageRequest);
-		List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
+		List list = sqlMapClientTemplate.queryForList(statementName, parameterObject,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;
 	}
