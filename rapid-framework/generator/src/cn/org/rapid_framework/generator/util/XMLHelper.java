@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -101,6 +103,16 @@ public class XMLHelper {
             map.put(nodeNameKey, nodeName);
             return map;
         }
+    }
+    
+    public static String getXMLEncoding(String s) {
+    	if(s == null) return null;
+    	Pattern p = Pattern.compile("<\\?xml.*encoding=[\"'](.*)[\"']\\?>");
+    	Matcher m = p.matcher(s);
+    	if(m.find()) {
+    		return m.group(1);
+    	}
+    	return null;
     }
     
     public static void main(String[] args) throws FileNotFoundException, SAXException, IOException {
