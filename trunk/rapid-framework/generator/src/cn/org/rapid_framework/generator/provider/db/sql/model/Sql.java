@@ -33,7 +33,7 @@ public class Sql {
 	}
 	
 	public Sql(Sql sql) {
-		this.tableName = tableName;
+		this.tableName = sql.tableName;
 		
 		this.operation = sql.operation;
 		this.operationParameterClass = sql.operationParameterClass;
