@@ -132,10 +132,20 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		}
 	}
 	
+	public void test_isMatchListParam() {
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (&username) ", "username"));
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (#username#) ", "username"));
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  ($username$) ", "username"));
+		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+	}
+	
 	public static int count;
 	public GeneratorModel newFromQuery(Sql sql) {
 		sql.setOperation(StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(getName())));
 		sql.setTableSqlName("user_blog_info");
+		if(count++ % 2 == 0) sql.setComments("Blog操作");
 		
 		Map templateModel = new HashMap();
 		templateModel.putAll(GeneratorProperties.getProperties());
