@@ -60,7 +60,7 @@ public class SqlTest extends GeneratorTestCase {
 		
 		sql.setOperation(null);
 		sql.setOperationParameterClass(null);
-		assertEquals("set_by_user",sql.getOperationParameterClass());
+		assertEquals(null,sql.getOperationParameterClass());
 	}
 	
 	public void test_getTableName() {
