@@ -67,7 +67,6 @@ public class IOHelper {
 		Reader reader = new InputStreamReader(inputStream,encoding);
 		StringWriter writer = new StringWriter();
 		copy(reader,writer);
-		writer.flush();
 		return writer.toString();
 	}
 
@@ -111,7 +110,7 @@ public class IOHelper {
         }
     }
 
-    private static void close(InputStream in, OutputStream out) {
+    public static void close(InputStream in, OutputStream out) {
         try { if(in != null) in.close();}catch(Exception e){};
         try { if(out != null) out.close();}catch(Exception e){};
     }
