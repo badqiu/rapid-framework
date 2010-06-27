@@ -10,7 +10,13 @@ import org.springframework.util.ReflectionUtils;
  * @author badqiu
  */
 public class EnumBaseUtils {
-
+	
+	/**
+	 * 将EnumBase.getCode()作为Key,EnumBase.getDesc()作为value,存放在Map中并返回
+	 * @param <T>
+	 * @param values
+	 * @return
+	 */
     public static  <T extends EnumBase> LinkedHashMap toMap(T[] values) {
         LinkedHashMap map = new LinkedHashMap();
         for(EnumBase item : values) {
