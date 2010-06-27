@@ -9,7 +9,6 @@ import org.springframework.util.ReflectionUtils;
  * 
  * @author badqiu
  */
-@SuppressWarnings("unchecked")
 public class EnumBaseUtils {
 
     public static  <T extends EnumBase> LinkedHashMap toMap(T[] values) {
@@ -67,7 +66,7 @@ public class EnumBaseUtils {
        return (T)v;
    }
    
-   public static <T extends Enum> T[] getEnumValues(Class type) {
+   public static <T extends Enum> T[] getEnumValues(Class<T> type) {
 	   if(type.isEnum()) {
 		   try {
 			   Method m = type.getMethod("values");
