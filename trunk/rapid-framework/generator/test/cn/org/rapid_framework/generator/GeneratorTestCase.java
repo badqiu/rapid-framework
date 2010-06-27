@@ -29,7 +29,8 @@ public class GeneratorTestCase extends TestCase{
 			System.out.println("running by ant, set outRootDir to tempDir="+tempDir);
 			g.setOutRootDir(tempDir);
 		}else {
-			g.setOutRootDir(".");
+			if(g.getOutRootDir() == null)
+				g.setOutRootDir(".");
 		}
 	}
 
