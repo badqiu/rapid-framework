@@ -140,7 +140,7 @@ public class SqlFactory {
 		}
 
 		public static boolean isMatchListParam(String sql, String paramName) {
-			return sql.matches("(?d).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*");
+			return sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*");
 		}
 	
 		private Column findColumnByParamName(ParsedSql sql,Sql sqlMetaData, String paramName) throws Exception {
