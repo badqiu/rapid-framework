@@ -2,7 +2,7 @@
 	 * sql: ${sql.executeSql}
 	 */
 <#if (sql.params?size > 4) >
-	public <@generateResultClassName/> ${sql.operation}(${sql.operationParameterClassName} param) {
+	public <@generateResultClassName/> ${sql.operation}(${sql.parameterClassName} param) {
 		<@generateOperationMethodBody />
 	}
 <#else>
@@ -20,9 +20,9 @@
 	<#compress>
 	<#if sql.selectSql>
 		<#if sql.multiPolicy = 'one'>
-			${sql.operationResultClassName}
+			${sql.resultClassName}
 		<#else>
-			List<${sql.operationResultClassName}>
+			List<${sql.resultClassName}>
 		</#if>
 	<#else>
 		int
