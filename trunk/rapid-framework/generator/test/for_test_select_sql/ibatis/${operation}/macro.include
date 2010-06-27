@@ -1,1 +1,13 @@
-<#assgin useParamObjectLength = 4/>
+<#macro generateResultClassName>
+	<#compress>
+	<#if sql.selectSql>
+		<#if sql.multiPolicy = 'one'>
+			${sql.operationResultClassName}
+		<#else>
+			List<${sql.operationResultClassName}>
+		</#if>
+	<#else>
+		int
+	</#if>
+	</#compress>
+</#macro>
