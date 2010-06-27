@@ -34,7 +34,7 @@ public class GeneratorTestCase extends TestCase{
 		}
 	}
 
-	private boolean isRuningByAnt() {
+	public boolean isRuningByAnt() {
 		return System.getProperty("java.class.path").indexOf("ant.jar") >= 0;
 	}
 
