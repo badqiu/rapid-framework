@@ -44,6 +44,9 @@ SafeSqlProcessor
 struts2类型转换
 springmvc的share变量需要使用request,不能使用ModelAndView
 
+dbunit自动加载 package.Class.method.xml下的数据
+
+SqlFactory.insert语句要为insert into user_info values(?,?,?,?,?,?) => insert into user_info(username,password,info) values(?,?,?,?,?,?)
 增加generate dao,service by sqlmap for ibatis2        
 增加generate dao,service by mapper for ibatis3        
 主从表需要指定那一张是主表，才可以进行页面操作
