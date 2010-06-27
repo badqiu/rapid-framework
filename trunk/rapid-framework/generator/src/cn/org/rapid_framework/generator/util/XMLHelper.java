@@ -114,6 +114,14 @@ public class XMLHelper {
     	}
     	return null;
     }
+
+    public static String removeXmlns(String s) {
+    	if(s == null) return null;
+    	Pattern p = Pattern.compile("xmlns:?\\w*=['\"].*?['\"]");
+    	s = s.replaceAll("xmlns:?\\w*=['\"].*?['\"]", "");
+    	s = s.replaceAll("\\w*:schemaLocation=['\"].*?['\"]", "");
+    	return s;
+    }
     
     public static void main(String[] args) throws FileNotFoundException, SAXException, IOException {
         String file = "D:/dev/workspaces/alipay/ali-generator/generator/src/table_test.xml";
