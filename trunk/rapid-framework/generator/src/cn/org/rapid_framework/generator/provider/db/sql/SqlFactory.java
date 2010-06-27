@@ -7,8 +7,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
@@ -34,8 +32,6 @@ public class SqlFactory {
 	public static Sql parseSql(String sourceSql) {
 		try {
 			return new SqlFactory().parseSql0(sourceSql);
-		}catch(SQLException e) {
-			throw new RuntimeException("parse sql error:"+sourceSql,e);
 		}catch(Exception e) {
 			throw new RuntimeException("parse sql error:"+sourceSql,e);
 		}
@@ -58,45 +54,48 @@ public class SqlFactory {
         conn.setReadOnly(true);
         try {
 	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        sql.setParams(parseForSqlParameters(parsedSql,sql));
-	        sql.setColumns(convert2Columns(executeForResultSetMetaData(executeSql,ps)));
+	        sql.setParams(new SqlParametersParse().parseForSqlParameters(parsedSql,sql));
+	        sql.setColumns(new SelectColumnsParse().convert2Columns(executeForResultSetMetaData(executeSql,ps)));
 	        return sql;
         }finally {
         	conn.rollback();
         	conn.close();
         }
     }
-
-	private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
-		if(metadata == null) return new LinkedHashSet();
-		LinkedHashSet<Column> columns = new LinkedHashSet();
-        for(int i = 1; i <= metadata.getColumnCount(); i++) {
-        	columns.add(convert2Column(metadata, i));
-        }
-		return columns;
-	}
-
-	private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
-		ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
-		if(StringHelper.isNotBlank(m.getTableName())) {
-		    Table table = TableFactory.getInstance().getTable(m.getTableName());
-		    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
-		    if(column == null) {
-		        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
-		    	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
-		        column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-		        GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
-		        //isInSameTable以此种判断为错误
-		    }else {
-		    	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
-		    }
-		    return column;
-		}else {
-		    Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-		    GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
-		    return column;
+    
+    public class SelectColumnsParse {
+    
+		private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
+			if(metadata == null) return new LinkedHashSet();
+			LinkedHashSet<Column> columns = new LinkedHashSet();
+	        for(int i = 1; i <= metadata.getColumnCount(); i++) {
+	        	columns.add(convert2Column(metadata, i));
+	        }
+			return columns;
 		}
-	}
+	
+		private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
+			ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
+			if(StringHelper.isNotBlank(m.getTableName())) {
+			    Table table = TableFactory.getInstance().getTable(m.getTableName());
+			    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
+			    if(column == null) {
+			        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
+			    	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
+			        column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+			        GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			        //isInSameTable以此种判断为错误
+			    }else {
+			    	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			    }
+			    return column;
+			}else {
+			    Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+			    GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
+			    return column;
+			}
+		}
+    }
 
 	private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
 		SqlParseHelper.setRandomParamsValueForPreparedStatement(executeSql, ps);
@@ -110,52 +109,54 @@ public class SqlFactory {
 			return ps.getMetaData();
 		}
 	}
-
-	private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
-		LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
-		for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
-			SqlParameter param = new SqlParameter();
-			String paramName = parsedSql.getParameterNames().get(i);
-			param.setParamName(paramName);
-			Column column = findColumnByParamName(parsedSql, sql, paramName);
+	
+	public class SqlParametersParse {
+		private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
+			LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
+			for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
+				SqlParameter param = new SqlParameter();
+				String paramName = parsedSql.getParameterNames().get(i);
+				param.setParamName(paramName);
+				Column column = findColumnByParamName(parsedSql, sql, paramName);
+				if(column == null) {
+					param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
+				}else {
+					param.setParameterClassName(column.getJavaType());
+					param.setParameterType(column.getSqlType());
+					param.setPrecision(column.getDecimalDigits());
+					param.setScale(column.getSize());
+					param.setParameterTypeName(column.getJdbcSqlTypeName());
+				}
+				if(sql.getSourceSql().indexOf("(:"+paramName+")") >= 0) {
+					param.setListParam(true);
+				}
+				result.add(param);			
+			}
+			return result;
+	    
+		}
+	
+		private Column findColumnByParamName(ParsedSql sql,Sql sqlMetaData, String paramName) throws Exception {
+			Column column = sqlMetaData.getColumnByName(paramName);
 			if(column == null) {
-				param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
-			}else {
-				param.setParameterClassName(column.getJavaType());
-				param.setParameterType(column.getSqlType());
-				param.setPrecision(column.getDecimalDigits());
-				param.setScale(column.getSize());
-				param.setParameterTypeName(column.getJdbcSqlTypeName());
+				column = findColumnByParseSql(sql, paramName);
 			}
-			if(sql.getSourceSql().indexOf("(:"+paramName+")") >= 0) {
-				param.setListParam(true);
-			}
-			result.add(param);			
+			return column;
 		}
-		return result;
-    
-	}
-
-	private Column findColumnByParamName(ParsedSql sql,Sql sqlMetaData, String paramName) throws Exception {
-		Column column = sqlMetaData.getColumnByName(paramName);
-		if(column == null) {
-			column = findColumnByParseSql(sql, paramName);
-		}
-		return column;
-	}
-
-	private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
-		Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
-		for(String tableName : tableNames) {
-			Table t = TableFactory.getInstance().getTable(tableName);
-			if(t != null) {
-				Column column = t.getColumnByName(paramName);
-				if(column != null) {
-					return column;
+	
+		private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
+			Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+			for(String tableName : tableNames) {
+				Table t = TableFactory.getInstance().getTable(tableName);
+				if(t != null) {
+					Column column = t.getColumnByName(paramName);
+					if(column != null) {
+						return column;
+					}
 				}
 			}
+			return null;
 		}
-		return null;
 	}
     
     public static void main(String[] args) throws Exception {
