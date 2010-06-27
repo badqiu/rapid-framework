@@ -58,4 +58,10 @@ public class XMLHelperTest extends TestCase {
         NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
         System.out.println("sql config:\n"+nd);
     }
+    
+    public void test()  throws Exception{
+    	File file = FileHelper.getFileByClassLoader("fortest_gen_by_sqlmap/UserInfoSqlMap.xml");
+    	NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
+        System.out.println("sql config:\n"+nd);
+    }
 }
