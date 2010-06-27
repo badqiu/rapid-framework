@@ -43,7 +43,9 @@ SafeSqlProcessor
         escapedQuery = StringUtil.replace(escapedQuery, "'", "\\'");
 struts2类型转换
 springmvc的share变量需要使用request,不能使用ModelAndView
-        
+
+增加generate dao,service by sqlmap for ibatis2        
+增加generate dao,service by mapper for ibatis3        
 主从表需要指定那一张是主表，才可以进行页面操作
 #使用simpletable
 #修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
