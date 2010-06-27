@@ -79,12 +79,15 @@ public class GeneratorControl {
 		try {
 			Properties p = new Properties();
 			InputStream in = FileHelper.getInputStream(file);
-			p.load(in);
+			if(file.endsWith(".xml")) {
+				p.loadFromXML(in);
+			}else {
+				p.load(in);
+			}
 			in.close();
 			return p;
 		} catch (Exception e) {
-//			GLogger.error("loadProperties error,file:"+file+" cause:"+e);
-			throw new IllegalArgumentException("loadProperties error,file:"+file+" cause:"+e,e);
+			throw new IllegalArgumentException("loadProperties error,file:"+file,e);
 		}
 	}
 
