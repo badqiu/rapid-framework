@@ -2,7 +2,7 @@
 	 * sql: ${sql.executeSql}
 	 */
 <#if (sql.params?size > 4) >
-	public <@generateResultClassName/> ${sql.operation}(${sql.operationParameterClassName} param) {
+	public <@generateResultClassName/> ${sql.operation}(${sql.parameterClassName} param) {
 		return ${sql.tableClassName?uncap_first}DAO.${sql.operation}(param);
 	}
 <#else>

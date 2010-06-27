@@ -3,7 +3,7 @@ ${gg.setIgnoreOutput(sql.columnsCount <= 1 || sql.columnsInSameTable)}
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class ${sql.operationResultClassName} implements java.io.Serializable {
+public class ${sql.resultClassName} implements java.io.Serializable {
 
 	<#list sql.columns as column>
 	private ${column.simpleJavaType} ${column.columnNameLower};
