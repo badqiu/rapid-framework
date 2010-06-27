@@ -37,6 +37,17 @@ public class XMLHelperTest extends TestCase {
         System.out.println(columns);
     }
     
+    public void test_getXMLEncoding() {
+    	assertEquals("UTF-8",XMLHelper.getXMLEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
+    	assertEquals("UTF-8",XMLHelper.getXMLEncoding("<?xml version=\"1.0\" encoding='UTF-8'?>"));
+    }
+
+    public void test_removeXmlns() {
+    	assertEquals("abc  dd ",XMLHelper.removeXmlns("abc xmlns=\"http://maven.apache.org/POM/4.0.0\" dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
+    	assertEquals("abc ",XMLHelper.removeXmlns("abc xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\""));
+//    	assertEquals("UTF-8",XMLHelper.removeXmlns("<?xml version=\"1.0\" encoding='UTF-8'?>"));
+    }
+    
     public void verifyColumn(NodeData c, String expected) {
         Map column = c.getElementMap("sqlName");
         assertEquals(expected,column.toString());
