@@ -115,7 +115,7 @@ public class Generator {
 	}
 	
 	public String getOutRootDir() {
-		if(outRootDir == null) throw new IllegalStateException("'outRootDir' property must be not null.");
+//		if(outRootDir == null) throw new IllegalStateException("'outRootDir' property must be not null.");
 		return outRootDir;
 	}
 
