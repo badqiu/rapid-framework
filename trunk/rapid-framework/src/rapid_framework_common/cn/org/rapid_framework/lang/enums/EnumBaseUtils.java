@@ -1,6 +1,9 @@
 package cn.org.rapid_framework.lang.enums;
 
+import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
+
+import org.springframework.util.ReflectionUtils;
 /**
  * 枚举工具类
  * 
@@ -62,6 +65,20 @@ public class EnumBaseUtils {
            }
        }
        return (T)v;
+   }
+   
+   public static <T extends Enum> T[] getEnumValues(Class type) {
+	   if(type.isEnum()) {
+		   try {
+			   Method m = type.getMethod("values");
+			   return (T[])m.invoke(null);
+		   }catch(Exception e) {
+			   ReflectionUtils.handleReflectionException(e);
+			   return null;
+		   }
+	   }else {
+		   throw new IllegalArgumentException("type must be Enum,actual:"+type.getName());
+	   }
    }
    
 }
