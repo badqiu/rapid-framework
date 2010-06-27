@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,6 +42,16 @@ public class FileHelper {
 			}
 		});
 		return arrayList;
+	}
+	
+	public static InputStream getInputStream(String file) throws FileNotFoundException {
+		InputStream inputStream = null;
+		if(file.startsWith("classpath:")) {
+			inputStream = FileHelper.class.getClassLoader().getResourceAsStream(file.substring("classpath:".length()));
+		}else {
+			inputStream = new FileInputStream(file);
+		}
+		return inputStream;
 	}
 
 	public static void searchAllNotIgnoreFile(File dir,List collector) throws IOException {

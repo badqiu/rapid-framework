@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -103,6 +104,10 @@ public class XMLHelper {
             map.put(nodeNameKey, nodeName);
             return map;
         }
+    }
+    
+    public static String getXMLEncoding(InputStream inputStream) throws UnsupportedEncodingException, IOException {
+    	return getXMLEncoding(IOHelper.toString("UTF-8", inputStream));
     }
     
     public static String getXMLEncoding(String s) {
