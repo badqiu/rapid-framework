@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +24,19 @@ import java.util.List;
 public class IOHelper {
 	public static Writer NULL_WRITER = new NullWriter();
 	
-	public static void copy(Reader in,Writer out) throws IOException {
+	public static void copy(Reader reader,Writer writer) throws IOException {
 		char[] buf = new char[8192];
-		while(in.read(buf) != -1) {
-			out.write(buf);
+		int n = 0;
+		while((n = reader.read(buf)) != -1) {
+			writer.write(buf,0,n);
 		}
 	}
 	
     public static void copy(InputStream in,OutputStream out) throws IOException {
         byte[] buf = new byte[8192];
-        while(in.read(buf) != -1) {
-            out.write(buf);
+        int n = 0;
+        while((n = in.read(buf)) != -1) {
+            out.write(buf,0,n);
         }
     }
 	
@@ -56,10 +59,16 @@ public class IOHelper {
 	}
 	
 	public static String readFile(File file,String encoding) throws IOException {
-		Reader in = new InputStreamReader(new FileInputStream(file),encoding);
-		StringWriter out = new StringWriter();
-		copy(in,out);
-		return out.toString();
+		InputStream inputStream = new FileInputStream(file);
+		return toString(encoding, inputStream);
+	}
+
+	public static String toString(String encoding, InputStream inputStream) throws UnsupportedEncodingException, IOException {
+		Reader reader = new InputStreamReader(inputStream,encoding);
+		StringWriter writer = new StringWriter();
+		copy(reader,writer);
+		writer.flush();
+		return writer.toString();
 	}
 
     public static void saveFile(File file,String content)  {
