@@ -12,6 +12,4 @@ public interface EnumBase<CODE,DESC> {
     
     public String name();
     
-//    public EnumBase values();
-    
 }
