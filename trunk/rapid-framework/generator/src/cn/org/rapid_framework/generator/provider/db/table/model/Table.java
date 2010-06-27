@@ -33,6 +33,9 @@ public class Table {
 		this.ownerSynonymName = t.getOwnerSynonymName();
 		this.columns = t.getColumns();
 		this.primaryKeyColumns = t.getPrimaryKeyColumns();
+		this.tableAlias = t.getTableAlias();
+		this.exportedKeys = t.exportedKeys;
+		this.importedKeys = t.importedKeys;
 	}
 	
 	public LinkedHashSet<Column> getColumns() {
