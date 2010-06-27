@@ -13,7 +13,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.dao.support.DaoSupport;
 import org.springframework.util.Assert;
 
-import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.beanutils.PropertyUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -95,8 +94,12 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
+		return pageQuery(getSqlSessionTemplate(),statementName,getCountQuery(statementName),pageRequest);
+	}
+	
+	public static Page pageQuery(SqlSessionTemplate sqlSessionTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
 		
-		Number totalCount = (Number) this.getSqlSessionTemplate().selectOne(getCountQuery(statementName),pageRequest);
+		Number totalCount = (Number) sqlSessionTemplate.selectOne(countStatementName,pageRequest);
 		if(totalCount == null || totalCount.intValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
@@ -113,7 +116,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 		Map parameterObject = PropertyUtils.describe(pageRequest);
 		filters.putAll(parameterObject);
 		
-		List list = getSqlSessionTemplate().selectList(statementName, filters,page.getFirstResult(),page.getPageSize());
+		List list = sqlSessionTemplate.selectList(statementName, filters,page.getFirstResult(),page.getPageSize());
 		page.setResult(list);
 		return page;
 	}
