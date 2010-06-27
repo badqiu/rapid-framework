@@ -82,7 +82,8 @@ public class Sql {
 		return lastIndexOf >= 0 ? getOperationResultClass().substring(lastIndexOf+1) : getOperationResultClass();
 	}
 	public String getOperationParameterClass() {
-		if(operationParameterClass != null) return operationParameterClass;
+		if(StringHelper.isNotBlank(operationParameterClass)) return operationParameterClass;
+		//FIXME operation可能为空
 		if(isSelectSql()) {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Query";
 		}else {
@@ -211,6 +212,19 @@ public class Sql {
 		return sourceSql.trim().toLowerCase().matches("(?i)\\s*insert\\s+into\\s+.*");
 	}
 	
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
+	
+	public String getTableClassName() {
+		if(StringHelper.isBlank(tableName)) return null;
+		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(tableName));
+	}
+
 	public Column getColumnBySqlName(String sqlName) {
 		for(Column c : getColumns()) {
 			if(c.getSqlName().equalsIgnoreCase(sqlName)) {
