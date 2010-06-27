@@ -11,56 +11,56 @@ public class SqlTest extends GeneratorTestCase {
 	}
 	
 	public void test_getOperationResultClassName() {
-		sql.setOperationResultClass("com.badqiu.User");
-		sql.setOperationParameterClass("com.badqiu.UserParam");
-		assertEquals("User",sql.getOperationResultClassName());
-		assertEquals("UserParam",sql.getOperationParameterClassName());
+		sql.setResultClass("com.badqiu.User");
+		sql.setParameterClass("com.badqiu.UserParam");
+		assertEquals("User",sql.getResultClassName());
+		assertEquals("UserParam",sql.getParameterClassName());
 	}
 	
 	public void test_getOperationParameterClassName() {
 		sql.setSourceSql("select * from user_info");
 		sql.setExecuteSql("select * from user_info");
 		sql.setOperation("findPage");
-		assertEquals("FindPageResult",sql.getOperationResultClassName());
-		assertEquals("FindPageQuery",sql.getOperationParameterClassName());
+		assertEquals("FindPageResult",sql.getResultClassName());
+		assertEquals("FindPageQuery",sql.getParameterClassName());
 		
 		sql.setSourceSql("delete from user_info");
-		assertEquals("FindPageParameter",sql.getOperationParameterClassName());
+		assertEquals("FindPageParameter",sql.getParameterClassName());
 	}
 	
 	public void test_getOperationResultClass() {
 		Sql sql = SqlFactory.parseSql("select username from user_info");
-		assertEquals("String",sql.getOperationResultClass());
+		assertEquals("String",sql.getResultClass());
 		
 		sql = SqlFactory.parseSql("select username,password from user_info");
-		assertEquals("UserInfo",sql.getOperationResultClass());
+		assertEquals("UserInfo",sql.getResultClass());
 		
 		sql = SqlFactory.parseSql("select username as user,password as pwd from user_info");
-		assertEquals("UserInfo",sql.getOperationResultClass());
+		assertEquals("UserInfo",sql.getResultClass());
 		
 		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		sql.setOperation("op1");
-		assertEquals("Op1Result",sql.getOperationResultClass());
+		assertEquals("Op1Result",sql.getResultClass());
 		
-		sql.setOperationResultClass("test_by_set_result");
-		assertEquals("test_by_set_result",sql.getOperationResultClass());
+		sql.setResultClass("test_by_set_result");
+		assertEquals("test_by_set_result",sql.getResultClass());
 	}
 	
 	public void test_getOperationParameterClass() {
 		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		sql.setOperation("findPage");
-		assertEquals("FindPageQuery",sql.getOperationParameterClass());
+		assertEquals("FindPageQuery",sql.getParameterClass());
 		
 		sql = SqlFactory.parseSql("insert into user_info(username) values (:username)");
 		sql.setOperation("insertUsername");
-		assertEquals("InsertUsernameParameter",sql.getOperationParameterClass());
+		assertEquals("InsertUsernameParameter",sql.getParameterClass());
 		
-		sql.setOperationParameterClass("set_by_user");
-		assertEquals("set_by_user",sql.getOperationParameterClass());
+		sql.setParameterClass("set_by_user");
+		assertEquals("set_by_user",sql.getParameterClass());
 		
 		sql.setOperation(null);
-		sql.setOperationParameterClass(null);
-		assertEquals(null,sql.getOperationParameterClass());
+		sql.setParameterClass(null);
+		assertEquals(null,sql.getParameterClass());
 	}
 	
 	public void test_getTableName() {
