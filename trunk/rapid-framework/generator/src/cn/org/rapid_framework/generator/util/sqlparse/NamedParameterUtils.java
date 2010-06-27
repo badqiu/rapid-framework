@@ -61,7 +61,7 @@ public abstract class NamedParameterUtils {
 	//-------------------------------------------------------------------------
 	// Core methods used by NamedParameterJdbcTemplate and SqlQuery/SqlUpdate
 	//-------------------------------------------------------------------------
-
+	
 	/**
 	 * Parse the SQL statement and locate any placeholders or named parameters.
 	 * Named parameters are substituted for a JDBC placeholder.
@@ -89,7 +89,7 @@ public abstract class NamedParameterUtils {
 				i = skipToPosition;
 			}
 			char c = statement[i];
-			if (c == ':' || c == '&') {
+			if (c == ':' || c == '&' || c == '#') {
 				int j = i + 1;
 				if (j < statement.length && statement[j] == ':' && c == ':') {
 					// Postgres-style "::" casting operator - to be skipped.
@@ -105,6 +105,9 @@ public abstract class NamedParameterUtils {
 						namedParameters.add(parameter);
 						namedParameterCount++;
 					}
+					
+					parameter = removePrefixAndSuffix(c,parameter,sql); //add by badqiu
+					
 					parsedSql.addNamedParameter(parameter, i, j);
 					totalParameterCount++;
 				}
@@ -122,6 +125,51 @@ public abstract class NamedParameterUtils {
 		parsedSql.setUnnamedParameterCount(unnamedParameterCount);
 		parsedSql.setTotalParameterCount(totalParameterCount);
 		return parsedSql;
+	}
+
+	private static String[] removePrefixArray =  new String[] {"{"};
+	private static String[] removeSuffixArray = new String[] {"}","#"};
+	//add by badqiu,增加是否需要强制要有#后缀用于ibatis2
+	private static String removePrefixAndSuffix(char startPrifix,String parameter,String sql) {
+		//for ibatis3
+		if(parameter.startsWith("{") || parameter.endsWith("}")) {
+			if(parameter.startsWith("{") && parameter.endsWith("}") ) {
+				parameter = parameter.substring(1,parameter.length() - 1);
+			}else {
+				throw new IllegalArgumentException("parameter error:"+parameter+",must wrap with {param},sql:"+sql);
+			}
+			return parameter;
+		}
+
+		//for ibatis2
+		if(startPrifix == '#') {
+			if(parameter.endsWith("#")) {
+				parameter = parameter.substring(0,parameter.length() - 1);
+			}else {
+				throw new IllegalArgumentException("parameter error:"+parameter+",must wrap with #param#,sql:"+sql);
+			}
+			return parameter;
+		}
+		
+		//for spring jdbc
+		if(startPrifix == ':' || startPrifix == '&') {
+			return parameter;
+		}
+		
+		throw new IllegalArgumentException("cannot reach this");
+//		for(String p : removePrefixArray) {
+//			if(parameter.startsWith(p)) {
+//				parameter = parameter.substring(p.length());
+//				break;
+//			}
+//		}
+//		for(String s : removeSuffixArray) {
+//			if(parameter.endsWith(s)) {
+//				parameter = parameter.substring(0,parameter.length() - s.length());
+//				break;
+//			}
+//		}
+//		return parameter;
 	}
 
 	/**
@@ -222,7 +270,8 @@ public abstract class NamedParameterUtils {
 		}
 		return false;
 	}
-
+	
+	/** by badqiu,FIXME: delete me */
 	static Pattern PATTERN = Pattern.compile(":([\\w_]*):([\\w_]*)");
 	public static Map getNamedParameters(String sql) {
 		Map map = new LinkedHashMap();

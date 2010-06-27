@@ -27,9 +27,9 @@ public class XMLHelperTest extends TestCase {
         assertEquals("cn1",table.get("className"));
         assertEquals("ta1",table.get("tableAlias"));
         
-        verifyColumn(columns.get(0),"{columnAlias=a1, sqlName=username, columnName=c1}");
-        verifyColumn(columns.get(1),"{columnAlias=a2, sqlName=password, columnName=c2}");
-        verifyColumn(columns.get(2),"{columnAlias=a3, sqlName=sex, columnName=c3}");
+        verifyColumn(columns.get(0),"{sqlName=username, columnName=c1, columnAlias=a1}");
+        verifyColumn(columns.get(1),"{sqlName=password, columnName=c2, columnAlias=a2}");
+        verifyColumn(columns.get(2),"{sqlName=sex, columnName=c3, columnAlias=a3}");
         
         assertEquals(columns.size(),3);
         
@@ -51,5 +51,11 @@ public class XMLHelperTest extends TestCase {
     public void verifyColumn(NodeData c, String expected) {
         Map column = c.getElementMap("sqlName");
         assertEquals(expected,column.toString());
+    }
+    
+    public void test_parse_SqlConfig() throws Exception {
+    	File file = FileHelper.getFileByClassLoader("generator_config/sql/USER_INFO.xml");
+        NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
+        System.out.println("sql config:\n"+nd);
     }
 }
