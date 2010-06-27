@@ -18,8 +18,9 @@ public class Sql {
 	
 	String tableSqlName = null; //是否需要
 	String operation = null;
-	String operationResultClass;
-	String operationParameterClass;
+	String resultClass;
+	String parameterClass;
+	String comments;
 	
 	String multiPolicy = "many"; // many or one
 	
@@ -36,14 +37,15 @@ public class Sql {
 		this.tableSqlName = sql.tableSqlName;
 		
 		this.operation = sql.operation;
-		this.operationParameterClass = sql.operationParameterClass;
-		this.operationResultClass = sql.operationResultClass;
+		this.parameterClass = sql.parameterClass;
+		this.resultClass = sql.resultClass;
 		this.multiPolicy = sql.multiPolicy;
 		
 		this.columns = sql.columns;
 		this.params = sql.params;
 		this.sourceSql = sql.sourceSql;
 		this.executeSql = sql.executeSql;
+		this.comments = sql.comments;
 	}
 	
 	public boolean isColumnsInSameTable() {
@@ -62,8 +64,8 @@ public class Sql {
 		}
 		return true;
 	}
-	public String getOperationResultClass() {
-		if(StringHelper.isNotBlank(operationResultClass)) return operationResultClass;
+	public String getResultClass() {
+		if(StringHelper.isNotBlank(resultClass)) return resultClass;
 		if(columns.size() == 1) {
 			return columns.iterator().next().getSimpleJavaType();
 		}
@@ -74,15 +76,15 @@ public class Sql {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
 		}
 	}    
-	public void setOperationResultClass(String queryResultClass) {
-		this.operationResultClass = queryResultClass;
+	public void setResultClass(String queryResultClass) {
+		this.resultClass = queryResultClass;
 	}
-	public String getOperationResultClassName() {
-		int lastIndexOf = getOperationResultClass().lastIndexOf(".");
-		return lastIndexOf >= 0 ? getOperationResultClass().substring(lastIndexOf+1) : getOperationResultClass();
+	public String getResultClassName() {
+		int lastIndexOf = getResultClass().lastIndexOf(".");
+		return lastIndexOf >= 0 ? getResultClass().substring(lastIndexOf+1) : getResultClass();
 	}
-	public String getOperationParameterClass() {
-		if(StringHelper.isNotBlank(operationParameterClass)) return operationParameterClass;
+	public String getParameterClass() {
+		if(StringHelper.isNotBlank(parameterClass)) return parameterClass;
 		if(StringHelper.isBlank(operation)) return null;
 		if(isSelectSql()) {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Query";
@@ -90,12 +92,12 @@ public class Sql {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Parameter";
 		}
 	}
-	public void setOperationParameterClass(String operationParameterClass) {
-		this.operationParameterClass = operationParameterClass;
+	public void setParameterClass(String operationParameterClass) {
+		this.parameterClass = operationParameterClass;
 	}
-	public String getOperationParameterClassName() {
-		int lastIndexOf = getOperationParameterClass().lastIndexOf(".");
-		return lastIndexOf >= 0 ? getOperationParameterClass().substring(lastIndexOf+1) : getOperationParameterClass();
+	public String getParameterClassName() {
+		int lastIndexOf = getParameterClass().lastIndexOf(".");
+		return lastIndexOf >= 0 ? getParameterClass().substring(lastIndexOf+1) : getParameterClass();
 	}
 	//TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
 	public int getColumnsCount() {
