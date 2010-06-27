@@ -64,9 +64,6 @@ public class SharedRenderVariableInterceptor extends HandlerInterceptorAdapter i
 		
 		//也可以存放一些共享的工具类,以便视图使用,如StringUtils
 		
-		// KeyValueUtils是工具类,可以将enum转换为Map类型的数据
-		//sharedRenderVariables.put("userTypeEnum",KeyValueUtils.toMap(UserTypeEnum.values()));
-		//sharedRenderVariables.put("areaEnum",KeyValueUtils.toMap(AreaEnum.values()));
 	}
 	
 	//在系统启动时会执行
