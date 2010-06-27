@@ -1,9 +1,9 @@
 package cn.org.rapid_framework.util.fortest_enum;
 
-import cn.org.rapid_framework.util.KeyValue;
-import cn.org.rapid_framework.util.KeyValueUtils;
+import cn.org.rapid_framework.lang.enums.EnumBase;
+import cn.org.rapid_framework.lang.enums.EnumBaseUtils;
 
-public enum SomeTypeEnum implements KeyValue<String,String>{
+public enum SomeTypeEnum implements EnumBase<String,String>{
 	K1("K1","V1"),
 	K2("K2","V2")
 	;
@@ -16,15 +16,11 @@ public enum SomeTypeEnum implements KeyValue<String,String>{
 	}
 	
 	public SomeTypeEnum getByKey(String key) {
-		return KeyValueUtils.getByKey(key, values());
-	}
-	
-	public static SomeTypeEnum getByValue(String value) {
-		return KeyValueUtils.getByValue(value, values());
+		return EnumBaseUtils.getByCode(key, values());
 	}
 	
 	public SomeTypeEnum getRequiredByKey(String key) {
-		return KeyValueUtils.getRequiredByKey(key, values());
+		return EnumBaseUtils.getRequiredByCode(key, values());
 	}
 
 	public String getKey() {
@@ -32,6 +28,16 @@ public enum SomeTypeEnum implements KeyValue<String,String>{
 	}
 
 	public String getValue() {
+		return value;
+	}
+
+	@Override
+	public String getCode() {
+		return key;
+	}
+
+	@Override
+	public String getDesc() {
 		return value;
 	}
 	
