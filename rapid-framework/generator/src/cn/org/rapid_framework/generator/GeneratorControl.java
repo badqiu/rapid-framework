@@ -2,18 +2,21 @@ package cn.org.rapid_framework.generator;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Date;
+import java.io.StringReader;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
+
+import org.xml.sax.InputSource;
 
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
+import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
 
 /**
@@ -47,34 +50,41 @@ public class GeneratorControl {
 	private String sourceEncoding; //no pass //? 难道process两次确定sourceEncoding
 	
 	/** load xml data */
-	public NodeModel loadXml(String file,boolean ignoreError) {
+	public NodeModel loadXml(String file) {
+		return loadXml(file,true);
+	}	
+	/** load xml data */
+	public NodeModel loadXml(String file,boolean removeXmlNamespace) {
 		try {
-			return NodeModel.parse(new File(file));
-		} catch (Exception e) {
-			GLogger.error("loadXml error,file:"+file+" cause:"+e);
-			if(ignoreError) {
-				return null;
+			if(removeXmlNamespace) {
+				InputStream forEncodingInput = FileHelper.getInputStream(file);
+				String encoding = XMLHelper.getXMLEncoding(forEncodingInput);
+				forEncodingInput.close();
+				
+				InputStream input = FileHelper.getInputStream(file);
+				String xml = IOHelper.toString(encoding,input);
+				xml = XMLHelper.removeXmlns(xml);
+				input.close();
+				return NodeModel.parse(new InputSource(new StringReader(xml.trim())));
 			}else {
-				throw new IllegalArgumentException("loadXml error,file:"+file+" cause:"+e,e);
+				return NodeModel.parse(new InputSource(FileHelper.getInputStream(file)));
 			}
+		} catch (Exception e) {
+			throw new IllegalArgumentException("loadXml error,file:"+file,e);
 		}
 	}
 
 	/** load Properties data */
-	public Properties loadProperties(String file,boolean ignoreError) {
+	public Properties loadProperties(String file) {
 		try {
 			Properties p = new Properties();
-			FileInputStream in = new FileInputStream(new File(file));
+			InputStream in = FileHelper.getInputStream(file);
 			p.load(in);
 			in.close();
 			return p;
 		} catch (Exception e) {
-			GLogger.error("loadProperties error,file:"+file+" cause:"+e);
-			if(ignoreError) {
-				return null;
-			}else {
-				throw new IllegalArgumentException("loadProperties error,file:"+file+" cause:"+e,e);
-			}
+//			GLogger.error("loadProperties error,file:"+file+" cause:"+e);
+			throw new IllegalArgumentException("loadProperties error,file:"+file+" cause:"+e,e);
 		}
 	}
 

@@ -16,7 +16,7 @@ public class Sql {
 	public static String MULTI_POLICY_ONE = "one";
 	public static String MULTI_POLICY_MANY = "many";
 	
-	String className = null;
+	String tableName = null; //是否需要
 	String operation = null;
 	String operationResultClass;
 	String operationParameterClass;
@@ -28,6 +28,23 @@ public class Sql {
 	
 	String sourceSql; // source sql
 	String executeSql;
+	
+	public Sql() {
+	}
+	
+	public Sql(Sql sql) {
+		this.tableName = tableName;
+		
+		this.operation = sql.operation;
+		this.operationParameterClass = sql.operationParameterClass;
+		this.operationResultClass = sql.operationResultClass;
+		this.multiPolicy = sql.multiPolicy;
+		
+		this.columns = sql.columns;
+		this.params = sql.params;
+		this.sourceSql = sql.sourceSql;
+		this.executeSql = sql.executeSql;
+	}
 	
 	public boolean isColumnsInSameTable() {
 		//FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
@@ -61,7 +78,8 @@ public class Sql {
 		this.operationResultClass = queryResultClass;
 	}
 	public String getOperationResultClassName() {
-		return getOperationResultClass();
+		int lastIndexOf = getOperationResultClass().lastIndexOf(".");
+		return lastIndexOf >= 0 ? getOperationResultClass().substring(lastIndexOf+1) : getOperationResultClass();
 	}
 	public String getOperationParameterClass() {
 		if(operationParameterClass != null) return operationParameterClass;
@@ -75,7 +93,8 @@ public class Sql {
 		this.operationParameterClass = operationParameterClass;
 	}
 	public String getOperationParameterClassName() {
-		return getOperationParameterClass();
+		int lastIndexOf = getOperationParameterClass().lastIndexOf(".");
+		return lastIndexOf >= 0 ? getOperationParameterClass().substring(lastIndexOf+1) : getOperationParameterClass();
 	}
 	//TODO columnsSize大于二并且不是在同一张表中,将创建一个QueryResultClassName类,同一张表中也要考虑创建类
 	public int getColumnsCount() {
