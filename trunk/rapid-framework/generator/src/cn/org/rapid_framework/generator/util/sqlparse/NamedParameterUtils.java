@@ -89,7 +89,8 @@ public abstract class NamedParameterUtils {
 				i = skipToPosition;
 			}
 			char c = statement[i];
-			if (c == ':' || c == '&' || c == '#') {
+			// || c == '#' || c == '$' add by badqiu
+			if (c == ':' || c == '&' || c == '#' || c == '$') {
 				int j = i + 1;
 				if (j < statement.length && statement[j] == ':' && c == ':') {
 					// Postgres-style "::" casting operator - to be skipped.
@@ -131,6 +132,11 @@ public abstract class NamedParameterUtils {
 	private static String[] removeSuffixArray = new String[] {"}","#"};
 	//add by badqiu,增加是否需要强制要有#后缀用于ibatis2
 	private static String removePrefixAndSuffix(char startPrifix,String parameter,String sql) {
+		//for spring jdbc
+		if(startPrifix == ':' || startPrifix == '&') {
+			return parameter;
+		}
+		
 		//for ibatis3
 		if(parameter.startsWith("{") || parameter.endsWith("}")) {
 			if(parameter.startsWith("{") && parameter.endsWith("}") ) {
@@ -150,9 +156,12 @@ public abstract class NamedParameterUtils {
 			}
 			return parameter;
 		}
-		
-		//for spring jdbc
-		if(startPrifix == ':' || startPrifix == '&') {
+		if(startPrifix == '$') {
+			if(parameter.endsWith("$")) {
+				parameter = parameter.substring(0,parameter.length() - 1);
+			}else {
+				throw new IllegalArgumentException("parameter error:"+parameter+",must wrap with $param$,sql:"+sql);
+			}
 			return parameter;
 		}
 		
