@@ -83,7 +83,7 @@ public class Sql {
 	}
 	public String getOperationParameterClass() {
 		if(StringHelper.isNotBlank(operationParameterClass)) return operationParameterClass;
-		//FIXME operation可能为空
+		if(StringHelper.isBlank(operation)) return null;
 		if(isSelectSql()) {
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Query";
 		}else {
