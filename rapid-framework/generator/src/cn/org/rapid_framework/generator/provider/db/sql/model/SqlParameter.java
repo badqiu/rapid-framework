@@ -13,6 +13,18 @@ public class SqlParameter {
     	String paramName;
     	boolean isListParam = false;
     	public SqlParameter() {}
+    	
+    	public SqlParameter(SqlParameter param) {
+    		this.isListParam = param.isListParam;
+    		this.parameterClassName = param.parameterClassName;
+    		this.parameterMode = param.parameterMode;
+    		this.parameterType = param.parameterType;
+    		this.parameterTypeName = param.parameterTypeName;
+    		this.paramName = param.paramName;
+    		this.precision = param.precision;
+    		this.scale = param.scale;
+    	}
+    	
     	public SqlParameter(ParameterMetaData m,int i) throws SQLException {
     		this.parameterClassName = m.getParameterClassName(i);
     		this.parameterMode = m.getParameterMode(i);
