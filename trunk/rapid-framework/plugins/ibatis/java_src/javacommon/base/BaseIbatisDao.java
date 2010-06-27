@@ -72,10 +72,12 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     	 throw new RuntimeException("not yet implement");
     }
     
+    @SuppressWarnings("unchecked")
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
 		return pageQuery(getSqlMapClientTemplate(),statementName,getCountQuery(statementName),pageRequest);
 	}
-
+	
+	@SuppressWarnings("unchecked")
 	public static Page pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
 		
 		Number totalCount = (Number) sqlMapClientTemplate.queryForObject(countStatementName,pageRequest);
