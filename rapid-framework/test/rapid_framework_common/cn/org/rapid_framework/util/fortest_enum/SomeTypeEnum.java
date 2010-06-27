@@ -41,4 +41,5 @@ public enum SomeTypeEnum implements EnumBase<String,String>{
 		return value;
 	}
 	
+	
 }
