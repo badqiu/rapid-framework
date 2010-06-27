@@ -24,7 +24,6 @@ import org.springframework.beans.factory.InitializingBean;
  * @author badqiu
  *
  */
-@SuppressWarnings("all")
 public class BeanValidatorHolder implements InitializingBean{
 	private static Validator validator;
 
@@ -33,10 +32,10 @@ public class BeanValidatorHolder implements InitializingBean{
 	}
 	
 	public void setValidator(Validator v) {
-		if(this.validator != null) {
+		if(validator != null) {
 			throw new IllegalStateException("BeanValidatorHolder already holded 'validator'");
 		}
-		this.validator = v;
+		validator = v;
 	}
 
 	public static Validator getValidator() {
