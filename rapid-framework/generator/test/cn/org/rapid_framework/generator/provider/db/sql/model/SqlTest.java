@@ -72,4 +72,21 @@ public class SqlTest extends GeneratorTestCase {
 		
 		assertEquals("T1AbcBlog123",sql.getTableClassName());
 	}
+	
+	public void test_isColumnsInSameTable() {
+		sql = SqlFactory.parseSql("select username from user_info");
+		assertTrue(sql.isColumnsInSameTable());
+		
+		sql = SqlFactory.parseSql("select username,password from user_info");
+		assertTrue(sql.isColumnsInSameTable());
+		
+		sql = SqlFactory.parseSql("select username user,password pwd from user_info");
+		assertTrue(sql.isColumnsInSameTable());
+		
+		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+		assertFalse(sql.isColumnsInSameTable());
+		
+		sql = SqlFactory.parseSql("insert into user_info(username) values (:username)");
+		assertFalse(sql.isColumnsInSameTable());
+	}
 }
