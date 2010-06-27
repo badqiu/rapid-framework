@@ -222,6 +222,14 @@ public class Sql {
 		this.tableSqlName = tableName;
 	}
 	
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
 	public String getTableClassName() {
 		if(StringHelper.isBlank(tableSqlName)) return null;
 		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(tableSqlName));
