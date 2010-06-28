@@ -152,11 +152,14 @@ public static void main(String[] args) throws Exception {
 [rapid_generator_gg gg控制变量]
 ==table变量参考==
 [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Table.html Table.java 请使用IE查看]
+[rapid_generator_table_model_ref table模板变量参考]
 ==column变量参考]==
 [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html Column.java 请使用IE查看]
 
-  * 模板引擎为freemarker,语法参考: [http://freemarker.sourceforge.net/docs/index.html]
-  * [rapid_generator_table_model_ref 模板变量参考]
+
+==模板引擎为freemarker==
+语法参考: [http://freemarker.sourceforge.net/docs/index.html]
+
 
 
  
