@@ -1,0 +1,30 @@
+= 通过SQL查询生成代码 =
+
+我们通过一个实际的例子来演示使用,通过一个Sql查询生成ibatis的SqlMap及Dao.java
+API使用:
+{{{
+public void test_generate_by_sql() throws Exception {
+	Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
+	sql.setTableSqlName("user_info");
+	sql.setMultiPolicy("many");  //many or one,用于控制查询结果是one,many
+	sql.setOperation("findByUsernameAndPassword"); 
+	sql.setRemarks("根据用户名及密码进行查询");
+	generatorFacade.generateBySql(sql, "generator/test/for_test_select_sql");
+}
+}}}
+
+= 生成的代码 =
+==DAO==
+{{{
+/**
+* 根据用户名及密码进行查询
+* sql: select * from user_info where username=? and password=?
+*/
+@SuppressWarnings("unchecked")
+public List<UserInfo> findByUsernameAndPassword(String username ,String password ) {
+	Map<String,Object> param = new HashMap<String,Object>();
+	param.put("username",username);
+	param.put("password",password);
+	return (List<UserInfo>)getSqlMapClientTemplate().queryForList("findByUsernameAndPassword",param);
+}
+}}}
