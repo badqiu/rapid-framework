@@ -1,8 +1,5 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
-import java.sql.ParameterMetaData;
-import java.sql.SQLException;
-
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 
 public class SqlParameter extends Column {
@@ -14,7 +11,6 @@ public class SqlParameter extends Column {
 //    	int scale;
     	String paramName;
     	boolean isListParam = false;
-    	boolean cannotGuessParamType = false; //是否是不能从数据库metadata猜测出数据类型的column
     	
     	public SqlParameter() {}
 
