@@ -9,6 +9,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	GeneratorFacade generatorFacade = new GeneratorFacade();
 	public void setUp() throws Exception {
 		super.setUp();
+		g.setOutRootDir("temp/"+getName());
 		generatorFacade.g = g;
 	}
 	
