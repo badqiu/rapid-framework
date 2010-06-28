@@ -12,6 +12,7 @@ public void test_generate_by_sql() throws Exception {
 	generatorFacade.generateBySql(sql, "generator/test/for_test_select_sql");
 }
 }}}
+*可以根据以上提供的API封装出各种使用方法,如eclipse插件,swing查询界面*
 
 = 生成的代码 =
 ==UserInfoDAO==
