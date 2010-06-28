@@ -34,7 +34,6 @@ ${gg.setIgnoreOutput(!sql.selectSql)}
 				<#list sql.params?chunk(4) as row>
 				<tr>	
 					<#list row as column>
-					<#if !column.htmlHidden>	
 					<td class="tdLabel"><%=${className}.ALIAS_${column.constantName}%></td>		
 					<td>
 						<#if column.isDateTimeColumn>
@@ -44,7 +43,6 @@ ${gg.setIgnoreOutput(!sql.selectSql)}
 						<input value="<@jspEl "query."+column.columnNameLower/>" id="${column.columnNameLower}" name="${column.columnNameLower}" maxlength="${column.size}"  class="${column.noRequiredValidateString}"/>
 						</#if>
 					</td>
-					</#if>
 					</#list>
 				</tr>	
 				</#list>			
@@ -73,9 +71,7 @@ ${gg.setIgnoreOutput(!sql.selectSql)}
 				
 				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
 				<#list sql.columns as column>
-				<#if !column.htmlHidden>
 				<th sortColumn="${column.sqlName}" ><%=${className}.ALIAS_${column.constantName}%></th>
-				</#if>
 				</#list>
 	
 				<th>操作</th>
@@ -89,7 +85,6 @@ ${gg.setIgnoreOutput(!sql.selectSql)}
 				<td><@jspEl 'page.thisPageFirstElementNumber + status.index'/></td>
 				
 				<#list sql.columns as column>
-				<#if !column.htmlHidden>
 				<td><#rt>
 					<#compress>
 					<#if column.isDateTimeColumn>
@@ -99,7 +94,6 @@ ${gg.setIgnoreOutput(!sql.selectSql)}
 					</#if>
 					</#compress>
 				<#lt></td>
-				</#if>
 				</#list>
 				<td>
 				</td>
