@@ -20,6 +20,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 
  * 根据SQL语句生成Sql对象,用于代码生成器的生成
@@ -116,20 +117,15 @@ public class SqlFactory {
 		private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
 			LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
 			for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
-				SqlParameter param = new SqlParameter();
 				String paramName = parsedSql.getParameterNames().get(i);
-				param.setParamName(paramName);
 				Column column = findColumnByParamName(parsedSql, sql, paramName);
 				if(column == null) {
-					param.setParameterClassName("String"); //FIXME 未设置正确的数据类型
-				}else {
-					param.setParameterClassName(column.getJavaType());
-					param.setParameterType(column.getSqlType());
-					param.setPrecision(column.getDecimalDigits());
-					param.setScale(column.getSize());
-					param.setParameterTypeName(column.getJdbcSqlTypeName());
+				    //FIXME 不能猜测的column类型
+				    column = new Column(null,JdbcType.VARCHAR.TYPE_CODE,"String",paramName,0,0,false,false,false,false,null,null);
 				}
+				SqlParameter param = new SqlParameter(column);
 				
+				param.setParamName(paramName);
 				if(isMatchListParam(sql.getSourceSql(), paramName)) { //FIXME 只考虑(:username)未考虑(#inUsernames#) and (#{inPassword})
 					param.setListParam(true);
 				}
