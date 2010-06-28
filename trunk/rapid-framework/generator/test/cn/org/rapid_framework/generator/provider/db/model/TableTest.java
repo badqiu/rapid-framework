@@ -6,6 +6,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 
@@ -34,15 +35,14 @@ public class TableTest extends TestCase{
 		}
 	}
 	
-	private void printForTableConfig(Object o) throws IllegalAccessException,
-	InvocationTargetException, NoSuchMethodException {
+	private void printForTableConfig(Column o) throws IllegalAccessException,InvocationTargetException, NoSuchMethodException {
 		Map map = BeanHelper.describe(o);
 		System.out.println("|| *属性* || *描述* || *示例值* ||");
 		for(Object key : map.keySet()) {
 			if(map.get(key) instanceof Boolean) {
-				System.out.println(String.format("<%s>${c.%s?string}</%s>",key,key,key));
+				System.out.println(String.format("<%s>${c.%s?string}</%s>",key,key,map.get(key)));
 			}else {
-				System.out.println(String.format("<%s>${c.%s!}</%s>",key,key,key));
+				System.out.println(String.format("<%s>${c.%s!}</%s>",key,key,map.get(key)));
 			}
 		}
 	}
