@@ -145,7 +145,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public GeneratorModel newFromQuery(Sql sql) {
 		sql.setOperation(StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(getName())));
 		sql.setTableSqlName("user_blog_info");
-		if(count++ % 2 == 0) sql.setComments("Blog操作");
+		if(count++ % 2 == 0) sql.setRemarks("Blog操作");
 		
 		Map templateModel = new HashMap();
 		templateModel.putAll(GeneratorProperties.getProperties());
