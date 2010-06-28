@@ -55,8 +55,8 @@ public class SqlFactory {
         conn.setReadOnly(true);
         try {
 	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        sql.setColumns(new SelectColumnsParser().convert2Columns(executeForResultSetMetaData(executeSql,ps)));
+	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        return sql;
         }finally {
         	conn.rollback();
@@ -121,7 +121,7 @@ public class SqlFactory {
 				Column column = findColumnByParamName(parsedSql, sql, paramName);
 				if(column == null) {
 				    //FIXME 不能猜测的column类型
-				    column = new Column(null,JdbcType.VARCHAR.TYPE_CODE,"String",paramName,0,0,false,false,false,false,null,null);
+				    column = new Column(null,JdbcType.UNDEFINED.TYPE_CODE,"Object",paramName,0,0,false,false,false,false,null,null);
 				}
 				SqlParameter param = new SqlParameter(column);
 				
