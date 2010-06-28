@@ -25,7 +25,12 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 
- * 根据SQL语句生成Sql对象,用于代码生成器的生成
+ * 根据SQL语句生成Sql对象,用于代码生成器的生成<br />
+ * 
+ * 示例使用：
+ * <pre>
+ * Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
+ * </pre>
  * 
  * @author badqiu
  *
