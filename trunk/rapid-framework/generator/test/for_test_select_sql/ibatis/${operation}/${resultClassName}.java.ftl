@@ -9,15 +9,6 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 	private ${column.simpleJavaType} ${column.columnNameLower};
 	</#list>
 
-<@generateJavaColumns/>
-
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
-	}
-	
-}
-
-<#macro generateJavaColumns>
 	<#list sql.columns as column>
 	public void set${column.columnName}(${column.simpleJavaType} value) {
 		this.${column.columnNameLower} = value;
@@ -27,4 +18,9 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 		return this.${column.columnNameLower};
 	}
 	</#list>
-</#macro>
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+	}
+	
+}
