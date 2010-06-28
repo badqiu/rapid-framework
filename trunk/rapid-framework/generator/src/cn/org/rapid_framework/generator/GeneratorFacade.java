@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
-import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -28,6 +27,10 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
  */
 public class GeneratorFacade {
 	public Generator g = new Generator();
+	{
+		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
+	}
+	
 	public static void printAllTableNames() throws Exception {
 		PrintUtils.printAllTableNames(TableFactory.getInstance().getAllTables());
 	}
@@ -71,7 +74,6 @@ public class GeneratorFacade {
 	
     private Generator getGenerator(String templateRootDir) {
         g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
-        g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
         return g;
     }
     
