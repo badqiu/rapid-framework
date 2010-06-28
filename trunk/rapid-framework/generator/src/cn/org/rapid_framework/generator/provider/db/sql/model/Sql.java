@@ -20,7 +20,7 @@ public class Sql {
 	String operation = null;
 	String resultClass;
 	String parameterClass;
-	String comments;
+	String remarks;
 	
 	String multiPolicy = "many"; // many or one
 	
@@ -45,7 +45,7 @@ public class Sql {
 		this.params = sql.params;
 		this.sourceSql = sql.sourceSql;
 		this.executeSql = sql.executeSql;
-		this.comments = sql.comments;
+		this.remarks = sql.remarks;
 	}
 	
 	public boolean isColumnsInSameTable() {
@@ -222,12 +222,12 @@ public class Sql {
 		this.tableSqlName = tableName;
 	}
 	
-	public String getComments() {
-		return comments;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setRemarks(String comments) {
+		this.remarks = comments;
 	}
 
 	public String getTableClassName() {
