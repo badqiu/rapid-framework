@@ -21,7 +21,7 @@
 
 =生成器的运行=
 ==在eclipse中运行==
-  # 配置classpath,将generator/lib中的rapid-generator.jar加入classpath,lib自带了几种常用jdbc驱动 
+  # 配置classpath,将generator/lib中的rapid-generator.jar及其它数据库驱动加入classpath
   # 修改generator.xml的数据库连接属性及其它属性 
   # 以application的方式运行GeneratorMain类,要生成不同的table,直接修改代码即可 
 {{{
