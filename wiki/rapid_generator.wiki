@@ -157,7 +157,7 @@ public static void main(String[] args) throws Exception {
 [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html Column.java 请使用IE查看]
 
 
-==模板引擎为freemarker==
+==模板引擎freemarker==
 语法参考: [http://freemarker.sourceforge.net/docs/index.html]
 
 
