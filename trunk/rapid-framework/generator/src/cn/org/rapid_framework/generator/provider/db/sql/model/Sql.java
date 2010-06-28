@@ -13,7 +13,8 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 /**
- * SQL对象.用于生成代码,使用SqlFactory.parseSql()生成 <br />
+ * 用于生成代码的Sql对象.对应数据库的sql语句
+ * 使用SqlFactory.parseSql()生成 <br />
  * 
  * SQL参数同时支持以下几种语法
  * <pre>
