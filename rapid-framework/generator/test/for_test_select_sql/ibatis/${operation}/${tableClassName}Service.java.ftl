@@ -1,5 +1,5 @@
 	/**
-	 * ${sql.comments!}
+	 * ${sql.remarks!}
 	 * sql: ${sql.executeSql}
 	 */
 <#if (sql.params?size > 4) >
