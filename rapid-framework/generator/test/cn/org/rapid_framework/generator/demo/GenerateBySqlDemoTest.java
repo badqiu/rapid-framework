@@ -12,7 +12,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 		generatorFacade.g = g;
 	}
 	
-	public void test() throws Exception {
+	public void test_generate_by_sql() throws Exception {
 		Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
 		sql.setTableSqlName("user_info");
 		sql.setMultiPolicy("many");  //many or one
