@@ -153,11 +153,13 @@ public class GeneratoMain {
 ==GG控制变量参考==
 [rapid_generator_gg gg控制变量]
 ==table变量参考==
-[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Table.html Table.java 请使用IE查看]
+[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/table/model/Table.html Table.java 请使用IE查看]
 [rapid_generator_table_model_ref table模板变量参考]
 ==column变量参考]==
 [http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/model/Column.html Column.java 请使用IE查看]
 
+==sql变量参考==
+[http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/provider/db/sql/model/Sql.html Sql.java 请使用IE查看]
 
 ==模板引擎freemarker==
 语法参考: [http://freemarker.sourceforge.net/docs/index.html]
