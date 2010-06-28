@@ -28,3 +28,13 @@ public List<UserInfo> findByUsernameAndPassword(String username ,String password
 	return (List<UserInfo>)getSqlMapClientTemplate().queryForList("findByUsernameAndPassword",param);
 }
 }}}
+==SqlMap==
+{{{
+<select id="UserInfo.findByUsernameAndPassword" resultMap="RM-UserInfo" >
+    <![CDATA[
+	select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE 
+	from user_info 
+	where username=#username# and password=#password#
+    ]]>
+</select>
+}}}
