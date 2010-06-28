@@ -1,14 +1,15 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlParameter extends Column {
-//    	String parameterClassName;
+    	String parameterClassName;
 //    	int parameterMode;
 //    	int parameterType;
 //    	String parameterTypeName;
-//    	int precision;
-//    	int scale;
+//    	int precision; //no use
+//    	int scale; //no use
     	String paramName;
     	boolean isListParam = false;
     	
@@ -39,14 +40,18 @@ public class SqlParameter extends Column {
 //    		this.precision = m.getPrecision(i);
 //    		this.scale = m.getScale(i);
 //    	}
-//		public String getParameterClassName() {
-//			return parameterClassName;
-//		}
-//		public void setParameterClassName(String parameterClassName) {
-//			this.parameterClassName = parameterClassName;
-//		}
-		public String getPreferredParameterClassName() {
-		    String parameterClassName = getJavaType();
+    	/**
+    	 * 得到参数的java类型
+    	 */
+		public String getParameterJavaType() {
+			if(StringHelper.isNotBlank(parameterClassName)) return parameterClassName;
+			return getSimpleJavaType();
+		}
+		public void setParameterJavaType(String parameterClassName) {
+			this.parameterClassName = parameterClassName;
+		}
+		public String getPreferredParameterJavaType() {
+		    String parameterClassName = getParameterJavaType();
 			if(isListParam) {
 				if(parameterClassName.indexOf("[]") >= 0){
 					return parameterClassName;
@@ -92,12 +97,19 @@ public class SqlParameter extends Column {
 //		public void setScale(int scale) {
 //			this.scale = scale;
 //		}
+		/**
+		 * 参数名称
+		 */
 		public String getParamName() {
 			return paramName;
 		}
 		public void setParamName(String paramName) {
 			this.paramName = paramName;
 		}
+		/**
+		 * 是否是列表参数,主要是in语句,如 username in (:usernames) 则为true, username = :username则false
+		 * @return
+		 */
 		public boolean isListParam() {
 			return isListParam;
 		}
@@ -119,6 +131,6 @@ public class SqlParameter extends Column {
 			return paramName.hashCode();
 		}
 		public String toString() {
-			return "paramName:"+paramName+" parameterClassName:"+getPreferredParameterClassName();
+			return "paramName:"+paramName+" preferredParameterJavaType:"+getPreferredParameterJavaType();
 		}
     }
