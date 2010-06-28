@@ -14,7 +14,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{
-	protected Generator g;
+	protected Generator g = new Generator();;
 	public void setUp()throws Exception {
 		try {
 			runSqlScripts();
@@ -23,7 +23,7 @@ public class GeneratorTestCase extends TestCase{
 //			e.printStackTrace();
 		}
 		
-		g = new Generator();
+		
 		if(isRuningByAnt()) {
 			String tempDir = getTempDir();
 			System.out.println("running by ant, set outRootDir to tempDir="+tempDir);
