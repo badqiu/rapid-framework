@@ -13,7 +13,7 @@
 	2. g.generateByClass(UserInfo.class) 方法可以引用的变量
 		clazz : cn.org.rapid_framework.generator.provider.java.model.JavaClass
 
-	3. g.generateBySql("select * from user_info") 方法可以引用的变量
+	3. g.generateBySql("select * from user_info where pwd=:pwd") 方法可以引用的变量
 		sql : cn.org.rapid_framework.generator.provider.db.sql.model.Sql
 
 	4.公共变量
