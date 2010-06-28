@@ -55,12 +55,15 @@ public static void main(String[] args) throws Exception {
 ==代码生成器模板可以引用的相关变量==
 {{{
 	1. g.generateByTable("table_name") 方法可以引用的变量
-		table : cn.org.rapid_framework.generator.provider.db.model.Table
+		table : cn.org.rapid_framework.generator.provider.db.table.model.Table
 	
 	2. g.generateByClass("class") 方法可以引用的变量
 		clazz : cn.org.rapid_framework.generator.provider.java.model.JavaClass
+
+	3. g.generateBySql(Sql) 方法可以引用的变量
+		sql : cn.org.rapid_framework.generator.provider.db.sql.model.Sql
 	
-	3.公共变量
+	4.公共变量
 		env : 系统环境变量
 		System.getProperties() :  直接引用,没有前缀
 		generator.properties 文件中的所有属性,直接引用,没有前缀
@@ -139,6 +142,12 @@ public static void main(String[] args) throws Exception {
 具体请查看template/insert_demo目录的内容
 
 =参考=
+==generateByTable()==
+[generator_generate_by_table 通过表(或视图)查询生成代码]
+==generateBySql()==
+[generator_generate_by_sql 通过sql查询生成代码]
+==generateByClass()==
+[generator_generate_by_class 通过java class生成代码]
 ==GG控制变量参考==
 [rapid_generator_gg gg控制变量]
 ==table变量参考,请使用IE查看==
