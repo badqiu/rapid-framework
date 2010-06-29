@@ -5,6 +5,7 @@ package ${basepackage}.dao;
 
 <#include "/java_imports.include">
 
+import static cn.org.rapid_framework.util.ObjectUtils.*;
 import org.springframework.stereotype.Repository;
 
 @Repository
