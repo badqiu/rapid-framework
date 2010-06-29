@@ -150,7 +150,7 @@ public class GeneratoMain {
 ==generateByTable()==
 [generator_generate_by_table 通过表(或视图)查询生成代码]
 ==generateBySql()==
-[generator_generate_by_sql 通过sql查询生成代码]
+[generator_generate_by_sql 通过sql语句生成代码]
 ==generateByClass()==
 [generator_generate_by_class 通过java class生成代码]
 ==GG控制变量参考==
