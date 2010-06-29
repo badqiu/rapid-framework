@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.Types;
+
 
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -130,8 +132,12 @@ public class SqlParseHelper {
 									} catch (SQLException e82) {
 										try {
 											ps.setString(i, "" + (byte) random);
-										} catch (SQLException error) {
-											warn(sql, i, error);
+										} catch (SQLException e32) {
+										    try {
+										        ps.setNull(i, java.sql.Types.OTHER);
+										    }catch(SQLException error){
+										        warn(sql, i, error);
+										    }
 										}
 									}
 								}
