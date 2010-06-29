@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
+import static cn.org.rapid_framework.util.ObjectUtils.*;
 
 <#include "/java_imports.include">
 @Repository
@@ -48,6 +49,27 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 				</#if>
 			</#list>
 				+ "/~ order by [sortColumns] ~/";
+		
+		//生成sql2的原因是为了不喜欢使用xsqlbuilder的同学，请修改生成器模板，删除本段的生成
+		StringBuilder sql2 = new StringBuilder("select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 ");
+		<#list table.columns as column>
+		<#if column.isDateTimeColumn>
+		if(isNotEmpty(query.get${column.columnName}())) {
+		    sql2.append(" and t.${column.sqlName} >= :${column.columnNameLower}Begin ");
+		}
+		if(isNotEmpty(query.get${column.columnName}())) {
+            sql2.append(" and t.${column.sqlName} <= :${column.columnNameLower}End ");
+        }
+		<#else>
+		if(isNotEmpty(query.get${column.columnName}())) {
+            sql2.append(" and t.${column.sqlName} = :${column.columnNameLower} ");
+        }
+		</#if>
+		</#list>
+		if(isNotEmpty(query.getSortColumns())) {
+            sql2.append(" order by :sortColumns ");
+        }
+		
 		return pageQuery(sql,query);
 	}
 	
