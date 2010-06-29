@@ -5,6 +5,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,23 @@ public class JavaClass {
 	
 	public JavaMethod[] getMethods() {
 		return toJavaMethods(clazz.getDeclaredMethods());
+	}
+	
+	public JavaMethod[] getPublicMethods() {
+		Method[] methods = clazz.getDeclaredMethods();
+		return toJavaMethods(filterByModifiers(methods,Modifier.PUBLIC));
+	}
+
+	public JavaMethod[] getPublicStaticMethods() {
+		Method[] methods = clazz.getDeclaredMethods();
+		return toJavaMethods(filterByModifiers(methods,Modifier.PUBLIC,Modifier.STATIC));
+	}
+
+	public JavaMethod[] getPublicNotStaticMethods() {
+		Method[] staticMethods = filterByModifiers(clazz.getDeclaredMethods(),Modifier.STATIC);
+		Method[] publicMethods = filterByModifiers(clazz.getDeclaredMethods(),Modifier.PUBLIC);
+		Method[] filtered = exclude(publicMethods,staticMethods).toArray(new Method[0]);
+		return toJavaMethods(filtered);
 	}
 	
 	public JavaProperty[] getProperties() throws Exception {
@@ -127,12 +145,38 @@ public class JavaClass {
 	    return clazz;
 	}
 	
+	private Method[] filterByModifiers(Method[] methods,int... filteredModifiers) {
+		List<Method> filtered = new ArrayList<Method>();
+		for(int i = 0; i < methods.length; i++) {
+			for(int j = 0; j < filteredModifiers.length; j++) {
+				if((filteredModifiers[j] & methods[i].getModifiers()) != 0) {
+					filtered.add(methods[i]);
+				}
+			}
+		}
+		return filtered.toArray(new Method[0]);
+	}
+	
 	private JavaMethod[] toJavaMethods(Method[] declaredMethods) {
 		JavaMethod[] methods = new JavaMethod[declaredMethods.length];
 		for(int i = 0; i < declaredMethods.length; i++) {
 			methods[i] = new JavaMethod(declaredMethods[i],this);
 		}
 		return methods;
+	}
+	
+	private <T> List<T> exclude(T[] methods, T[] excludeMethods) {
+		List<T> result = new ArrayList<T>();
+		outerLoop:
+		for(int i = 0; i < methods.length; i++) {
+			for(int j = 0;j < excludeMethods.length; j++) {
+				if(methods[i].equals(excludeMethods[j])) {
+					break outerLoop;
+				}
+			}
+			result.add(methods[i]);
+		}
+		return result;
 	}
 	
 	public String toString() {
