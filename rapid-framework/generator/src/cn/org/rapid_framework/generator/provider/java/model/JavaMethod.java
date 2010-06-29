@@ -19,8 +19,8 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  * @author badqiu,Linlin Yu
  */
 public class JavaMethod {
-	private JavaClass clazz;
 	private Method method;
+	private JavaClass clazz; //与method相关联的class
 	
 	
 	public JavaMethod(Method method, JavaClass clazz) {
