@@ -30,6 +30,27 @@ public class ${className}Dao extends BaseHibernateDao<${className},${table.idCol
 				</#if>
 			</#list>
 				+ "/~ order by [sortColumns] ~/";
+
+        //生成sql2的原因是为了不喜欢使用xsqlbuilder的同学，请修改生成器模板，删除本段的生成
+        StringBuilder sql2 = new StringBuilder("select t from ${className} t where 1=1 ");
+        <#list table.columns as column>
+        <#if column.isDateTimeColumn>
+        if(isNotEmpty(query.get${column.columnName}Begin())) {
+            sql2.append(" and  t.${column.columnNameLower} >= :${column.columnNameLower}Begin ");
+        }
+        if(isNotEmpty(query.get${column.columnName}End())) {
+            sql2.append(" and  t.${column.columnNameLower} <= :${column.columnNameLower}End ");
+        }
+        <#else>
+        if(isNotEmpty(query.get${column.columnName}())) {
+            sql2.append(" and  t.${column.columnNameLower} = :${column.columnNameLower} ");
+        }
+        </#if>
+        </#list>
+        if(isNotEmpty(query.getSortColumns())) {
+            sql2.append(" order by :sortColumns ");
+        }	
+        
 		return pageQuery(sql,query);
 	}
 	
