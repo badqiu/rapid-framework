@@ -214,6 +214,7 @@
 				<include name="java_test/**"/>
 				<include name="generator/lib/**"/>
 				<include name="generator/src/**/GeneratorMain.java"/>
+				<include name="generator/src/*"/>
 				<include name="template/**"/>
 				<include name="web/**"/>
 				<include name="doc/**"/>
