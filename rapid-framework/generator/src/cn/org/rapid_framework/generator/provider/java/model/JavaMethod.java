@@ -42,15 +42,15 @@ public class JavaMethod {
 		return new JavaClass(method.getReturnType());
 	}
 
-	public List getParameters() {
+	public List<MethodParameter> getParameters() {
 		Class[] parameters  = method.getParameterTypes();
-		List results = new ArrayList();
+		List<MethodParameter> results = new ArrayList<MethodParameter>();
 		for(int i = 0; i < parameters.length; i++) {
 			results.add(new MethodParameter(i+1,new JavaClass(parameters[i])));
 		}
 		return results;
 	}
-
+	
 	public String getMethodNameUpper() {
 		return StringHelper.capitalize(getMethodName());
 	}

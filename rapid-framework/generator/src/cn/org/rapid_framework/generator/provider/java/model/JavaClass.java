@@ -76,6 +76,10 @@ public class JavaClass {
 		return clazz.getName();
 	}
 	
+	public Class getClazz() {
+	    return clazz;
+	}
+	
 	public String toString() {
 		return "JavaClass:"+clazz.getName();
 	}

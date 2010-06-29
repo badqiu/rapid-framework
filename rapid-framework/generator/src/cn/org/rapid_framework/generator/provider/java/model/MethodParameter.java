@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -16,7 +17,11 @@ public class MethodParameter {
 	}
 
 	public String getName() {
-		return StringHelper.uncapitalize(clazz.getClassName());
+	    if(clazz.getClazz().isPrimitive() || clazz.getClazz().getName().startsWith("java.")) {
+	        return "param"+paramIndex;
+	    }else {
+	        return StringHelper.uncapitalize(clazz.getClassName());
+	    }
 //		return "param"+paramIndex;
 	}
 
@@ -59,4 +64,9 @@ public class MethodParameter {
 	public String toString() {
 		return "MethodParameter:"+getName()+"="+getJavaType();
 	}
+
+    public JavaClass getClazz() {
+        return clazz;
+    }
+	
 }
