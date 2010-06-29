@@ -7,13 +7,13 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class MethodParameter {
 	int paramIndex = -1;
-	JavaClass paramClazz; //parameter的类型
+	JavaClass parameterClass; //parameter的类型
 	JavaMethod method; //与parameter相关联的method
 	
 	public MethodParameter(int paramIndex, JavaMethod method,JavaClass paramClazz) {
 		super();
 		this.paramIndex = paramIndex;
-		this.paramClazz = paramClazz;
+		this.parameterClass = paramClazz;
 	}
 
     public JavaMethod getMethod() {
@@ -22,101 +22,101 @@ public class MethodParameter {
     
 	public String getName() {
 		//return "param"+paramIndex;
-	    if(paramClazz.getClazz().isPrimitive() || paramClazz.getClazz().getName().startsWith("java.")) {
+	    if(parameterClass.getClazz().isPrimitive() || parameterClass.getClazz().getName().startsWith("java.")) {
 	        return "param"+paramIndex;
 	    }else {
-	        return StringHelper.uncapitalize(paramClazz.getClassName());
+	        return StringHelper.uncapitalize(parameterClass.getClassName());
 	    }
 	}
 
 	public String getAsType() {
-		return paramClazz.getAsType();
+		return parameterClass.getAsType();
 	}
 
 	public String getClassName() {
-		return paramClazz.getClassName();
+		return parameterClass.getClassName();
 	}
 
 	public String getJavaType() {
-		return paramClazz.getJavaType();
+		return parameterClass.getJavaType();
 	}
 
 	public String getPackageName() {
-		return paramClazz.getPackageName();
+		return parameterClass.getPackageName();
 	}
 
 	public String getPackagePath() {
-		return paramClazz.getPackagePath();
+		return parameterClass.getPackagePath();
 	}
 
 	public String getParentPackageName() {
-		return paramClazz.getParentPackageName();
+		return parameterClass.getParentPackageName();
 	}
 
 	public String getParentPackagePath() {
-		return paramClazz.getParentPackagePath();
+		return parameterClass.getParentPackagePath();
 	}
 
     public boolean isArray() {
-    	return paramClazz.isArray();
+    	return parameterClass.isArray();
     }
     
     
     
 	public String getCanonicalName() {
-		return paramClazz.getCanonicalName();
+		return parameterClass.getCanonicalName();
 	}
 
 	public List<JavaField> getFields() {
-		return paramClazz.getFields();
+		return parameterClass.getFields();
 	}
 
 	public JavaMethod[] getMethods() {
-		return paramClazz.getMethods();
+		return parameterClass.getMethods();
 	}
 
 	public boolean isAnnotation() {
-		return paramClazz.isAnnotation();
+		return parameterClass.isAnnotation();
 	}
 
 	public boolean isAnonymousClass() {
-		return paramClazz.isAnonymousClass();
+		return parameterClass.isAnonymousClass();
 	}
 
 	public boolean isEnum() {
-		return paramClazz.isEnum();
+		return parameterClass.isEnum();
 	}
 
 	public boolean isInterface() {
-		return paramClazz.isInterface();
+		return parameterClass.isInterface();
 	}
 
 	public boolean isLocalClass() {
-		return paramClazz.isLocalClass();
+		return parameterClass.isLocalClass();
 	}
 
 	public boolean isMemberClass() {
-		return paramClazz.isMemberClass();
+		return parameterClass.isMemberClass();
 	}
 
 	public boolean isPrimitive() {
-		return paramClazz.isPrimitive();
+		return parameterClass.isPrimitive();
 	}
 
 	public boolean isSynthetic() {
-		return paramClazz.isSynthetic();
+		return parameterClass.isSynthetic();
 	}
 
 	public JavaProperty[] getProperties() throws Exception {
-		return paramClazz.getProperties();
+		return parameterClass.getProperties();
 	}
 
 	public String getSuperclassName() {
-		return paramClazz.getSuperclassName();
+		return parameterClass.getSuperclassName();
 	}
 
-	public JavaClass getParamClazz() {
-        return paramClazz;
+	public JavaClass getParameterClass() {
+        return parameterClass;
     }
     
 	public String toString() {
