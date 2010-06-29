@@ -7,7 +7,7 @@ import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUt
 
 public class JavaField {
 	private Field field;
-	private JavaClass clazz;
+	private JavaClass clazz; //与field相关联的class
 	
 	public JavaField(Field field, JavaClass clazz) {
 		super();

@@ -6,7 +6,7 @@ import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUt
 
 public class JavaProperty {
 	PropertyDescriptor propertyDescriptor;
-	JavaClass clazz;
+	JavaClass clazz; //与property相关联的class
 	public JavaProperty(PropertyDescriptor pd, JavaClass javaClass) {
 		this.propertyDescriptor = pd;
 		this.clazz = javaClass;
