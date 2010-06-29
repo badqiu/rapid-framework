@@ -31,12 +31,10 @@ public enum SomeTypeEnum implements EnumBase<String,String>{
 		return value;
 	}
 
-	@Override
 	public String getCode() {
 		return key;
 	}
 
-	@Override
 	public String getDesc() {
 		return value;
 	}
