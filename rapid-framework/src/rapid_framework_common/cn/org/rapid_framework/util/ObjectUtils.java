@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.util;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Map;
 
@@ -25,31 +26,31 @@ public class ObjectUtils {
 	 * @return
 	 */
 	@SuppressWarnings("all")
-	public static boolean isEmpty(Object o) throws IllegalArgumentException {
-		if(o == null) return true;
+    public static boolean isEmpty(Object o) throws IllegalArgumentException {
+        if(o == null) return true;
 
-		if(o instanceof String) {
-			if(((String)o).length() == 0){
-				return true;
-			}
-		} else if(o instanceof Collection) {
-			if(((Collection)o).isEmpty()){
-				return true;
-			}
-		} else if(o.getClass().isArray()) {
-			if(((Object[])o).length == 0){
-				return true;
-			}
-		} else if(o instanceof Map) {
-			if(((Map)o).isEmpty()){
-				return true;
-			}
-		}else {
-			throw new IllegalArgumentException("Illegal argument type,must be : Map,Collection,Array,String. but was:"+o.getClass());
-		}
+        if(o instanceof String) {
+            if(((String)o).length() == 0){
+                return true;
+            }
+        } else if(o instanceof Collection) {
+            if(((Collection)o).isEmpty()){
+                return true;
+            }
+        } else if(o.getClass().isArray()) {
+            if(Array.getLength(o) == 0){
+                return true;
+            }
+        } else if(o instanceof Map) {
+            if(((Map)o).isEmpty()){
+                return true;
+            }
+        }else {
+            return false;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
 	/**
 	 * 可以用于判断 Map,Collection,String,Array是否不为空
