@@ -1,4 +1,4 @@
-= 通过SQL查询生成代码 =
+= 通过SQL语句生成代码 =
 
 我们通过一个实际的例子来演示使用,通过一个Sql查询生成ibatis的SqlMap及Dao.java
 API使用:
