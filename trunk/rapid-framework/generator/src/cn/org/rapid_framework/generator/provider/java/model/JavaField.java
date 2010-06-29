@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
@@ -28,6 +29,10 @@ public class JavaField {
 
 	public String getAsType() {
 		return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
+	}
+
+	public Annotation[] getAnnotations() {
+		return field.getAnnotations();
 	}
 
 	public boolean getIsDateTimeField() {

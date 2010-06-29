@@ -20,8 +20,28 @@ public class JavaProperty {
 		return propertyDescriptor.getPropertyType().getName();
 	}
 	
+	public JavaClass getPropertyType() {
+		return new JavaClass(propertyDescriptor.getPropertyType());
+	}
+
+	public String getDisplayName() {
+		return propertyDescriptor.getDisplayName();
+	}
+	
+	public JavaMethod getReadMethod() {
+		return new JavaMethod(propertyDescriptor.getReadMethod(),clazz);
+	}
+
+	public JavaMethod getWriteMethod() {
+		return new JavaMethod(propertyDescriptor.getWriteMethod(),clazz);
+	}
+
 	public String getAsType() {
 		return ActionScriptDataTypesUtils.getPreferredAsType(propertyDescriptor.getPropertyType().getName());
+	}
+	
+	public JavaClass getClazz() {
+		return clazz;
 	}
 
 	public String toString() {

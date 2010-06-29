@@ -1,72 +1,74 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
-import java.lang.reflect.Method;
-import java.util.List;
-
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 
 public class MethodParameter {
 	int paramIndex = -1;
-	JavaClass clazz;
+	JavaClass paramClazz;
+	JavaMethod method;
 	
-	public MethodParameter(int paramIndex, JavaClass clazz) {
+	public MethodParameter(int paramIndex, JavaMethod method,JavaClass paramClazz) {
 		super();
 		this.paramIndex = paramIndex;
-		this.clazz = clazz;
+		this.paramClazz = paramClazz;
 	}
 
 	public String getName() {
-	    if(clazz.getClazz().isPrimitive() || clazz.getClazz().getName().startsWith("java.")) {
+	    if(paramClazz.getClazz().isPrimitive() || paramClazz.getClazz().getName().startsWith("java.")) {
 	        return "param"+paramIndex;
 	    }else {
-	        return StringHelper.uncapitalize(clazz.getClassName());
+	        return StringHelper.uncapitalize(paramClazz.getClassName());
 	    }
 //		return "param"+paramIndex;
 	}
 
 	public String getAsType() {
-		return clazz.getAsType();
+		return paramClazz.getAsType();
 	}
 
 	public String getClassName() {
-		return clazz.getClassName();
+		return paramClazz.getClassName();
 	}
 
 	public String getJavaType() {
-		return clazz.getJavaType();
+		return paramClazz.getJavaType();
 	}
 
 	public String getPackageName() {
-		return clazz.getPackageName();
+		return paramClazz.getPackageName();
 	}
 
 	public String getPackagePath() {
-		return clazz.getPackagePath();
+		return paramClazz.getPackagePath();
 	}
 
 	public String getParentPackageName() {
-		return clazz.getParentPackageName();
+		return paramClazz.getParentPackageName();
 	}
 
 	public String getParentPackagePath() {
-		return clazz.getParentPackagePath();
+		return paramClazz.getParentPackagePath();
 	}
 
-	public List getProperties() throws Exception {
-		return clazz.getProperties();
+	public JavaProperty[] getProperties() throws Exception {
+		return paramClazz.getProperties();
 	}
 
 	public String getSuperclassName() {
-		return clazz.getSuperclassName();
+		return paramClazz.getSuperclassName();
 	}
 	
+    public JavaMethod getMethod() {
+		return method;
+	}
+
+	public JavaClass getParamClazz() {
+        return paramClazz;
+    }
+    
 	public String toString() {
 		return "MethodParameter:"+getName()+"="+getJavaType();
 	}
-
-    public JavaClass getClazz() {
-        return clazz;
-    }
 	
 }
