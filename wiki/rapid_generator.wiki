@@ -43,6 +43,8 @@ public class GeneratoMain {
   下载standandalone-rapid-generator.zip,解压并运行rapid-gen.bat
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/rapid_generator/v3.9/standalon_commandline.jpg]
 
+[http://code.google.com/p/rapid-generator/downloads/list 独立版下载地址]
+
 ----
 =生成器讲解=
 
