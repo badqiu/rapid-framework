@@ -41,7 +41,7 @@ public class GeneratoMain {
   # 以application方式运行cn.org.rapid_framework.generator.ext.CommandLine
 ==独立版运行==
   下载standandalone-rapid-generator.zip,解压并运行rapid-gen.bat
-[https://rapid-framework.googlecode.com/svn/trunk/images/doc/rapid_generator/v3.9/standalon_commandline.jpg]
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/rapid_generator/v3.9/standalon_commandline.jpg]
 
 ----
 =生成器讲解=
