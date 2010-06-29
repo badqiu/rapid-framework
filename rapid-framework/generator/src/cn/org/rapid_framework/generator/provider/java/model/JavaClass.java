@@ -28,23 +28,18 @@ public class JavaClass {
 		return clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : null;
 	}
 	
-	public List<JavaMethod> getMethods() {
-		Method[] methods = clazz.getDeclaredMethods();
-		List result = new ArrayList();
-		for(Method m : methods) {
-			result.add(new JavaMethod(m,this));
-		}
-		return result;
+	public JavaMethod[] getMethods() {
+		return toJavaMethods(clazz.getDeclaredMethods());
 	}
 	
-	public List getProperties() throws Exception {
-		List result = new ArrayList();
+	public JavaProperty[] getProperties() throws Exception {
+		List<JavaProperty> result = new ArrayList<JavaProperty>();
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
 		for(PropertyDescriptor pd : pds) {
 			result.add(new JavaProperty(pd,this));
 		}
-		return result;
+		return (JavaProperty[])result.toArray(new JavaProperty[0]);
 	}
 	
 	public List<JavaField> getFields() {
@@ -76,8 +71,68 @@ public class JavaClass {
 		return clazz.getName();
 	}
 	
+	public String getCanonicalName() {
+		return clazz.getCanonicalName();
+	}
+
+	public JavaField getField(String name) throws NoSuchFieldException,SecurityException {
+		return new JavaField(clazz.getField(name),this);
+	}
+
+	public JavaClass getSuperclass() {
+		return new JavaClass(clazz.getSuperclass());
+	}
+
+	public boolean isAnnotation() {
+		return clazz.isAnnotation();
+	}
+
+	public boolean isAnonymousClass() {
+		return clazz.isAnonymousClass();
+	}
+
+	public boolean isArray() {
+		return clazz.isArray();
+	}
+
+	public boolean isEnum() {
+		return clazz.isEnum();
+	}
+
+	public boolean isInstance(Object obj) {
+		return clazz.isInstance(obj);
+	}
+
+	public boolean isInterface() {
+		return clazz.isInterface();
+	}
+
+	public boolean isLocalClass() {
+		return clazz.isLocalClass();
+	}
+
+	public boolean isMemberClass() {
+		return clazz.isMemberClass();
+	}
+
+	public boolean isPrimitive() {
+		return clazz.isPrimitive();
+	}
+
+	public boolean isSynthetic() {
+		return clazz.isSynthetic();
+	}
+
 	public Class getClazz() {
 	    return clazz;
+	}
+	
+	private JavaMethod[] toJavaMethods(Method[] declaredMethods) {
+		JavaMethod[] methods = new JavaMethod[declaredMethods.length];
+		for(int i = 0; i < declaredMethods.length; i++) {
+			methods[i] = new JavaMethod(declaredMethods[i],this);
+		}
+		return methods;
 	}
 	
 	public String toString() {

@@ -7,11 +7,10 @@
  */
 package cn.org.rapid_framework.generator.provider.java.model;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.TypeVariable;
 import java.util.ArrayList;
 import java.util.List;
-
 
 import cn.org.rapid_framework.generator.util.StringHelper;
 
@@ -42,11 +41,27 @@ public class JavaMethod {
 		return new JavaClass(method.getReturnType());
 	}
 
+	public Annotation[] getAnnotations() {
+		return method.getAnnotations();
+	}
+
+	public boolean isBridge() {
+		return method.isBridge();
+	}
+
+	public boolean isSynthetic() {
+		return method.isSynthetic();
+	}
+
+	public boolean isVarArgs() {
+		return method.isVarArgs();
+	}
+
 	public List<MethodParameter> getParameters() {
 		Class[] parameters  = method.getParameterTypes();
 		List<MethodParameter> results = new ArrayList<MethodParameter>();
 		for(int i = 0; i < parameters.length; i++) {
-			results.add(new MethodParameter(i+1,new JavaClass(parameters[i])));
+			results.add(new MethodParameter(i+1,this,new JavaClass(parameters[i])));
 		}
 		return results;
 	}
