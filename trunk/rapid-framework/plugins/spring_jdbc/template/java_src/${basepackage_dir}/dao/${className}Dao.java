@@ -54,10 +54,10 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		StringBuilder sql2 = new StringBuilder("select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 ");
 		<#list table.columns as column>
 		<#if column.isDateTimeColumn>
-		if(isNotEmpty(query.get${column.columnName}())) {
+		if(isNotEmpty(query.get${column.columnName}Begin())) {
 		    sql2.append(" and t.${column.sqlName} >= :${column.columnNameLower}Begin ");
 		}
-		if(isNotEmpty(query.get${column.columnName}())) {
+		if(isNotEmpty(query.get${column.columnName}End())) {
             sql2.append(" and t.${column.sqlName} <= :${column.columnNameLower}End ");
         }
 		<#else>
