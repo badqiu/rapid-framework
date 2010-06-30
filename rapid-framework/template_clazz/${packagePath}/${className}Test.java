@@ -13,12 +13,11 @@ public class ${clazz.className}Test extends TestCase{
     
     <#list clazz.methods as method>
     public void test_${method.methodName}() {
-        //FIXME 数组判断，接口判断,void判断
         <#list method.parameters as param>
-        <#if (param.clazz.clazz.interface || param.clazz.clazz.array)>
+        <#if (param.interface || param.array)>
         
         <#else>
-        ${param.javaType} ${param.name} <#if !param.clazz.clazz.primitive>= new ${param.javaType}()</#if>;
+        ${param.javaType} ${param.name} <#if !param.primitive>= new ${param.javaType}()</#if>;
         </#if>
         </#list>
         <#if !(method.returnType.className=="void")>
