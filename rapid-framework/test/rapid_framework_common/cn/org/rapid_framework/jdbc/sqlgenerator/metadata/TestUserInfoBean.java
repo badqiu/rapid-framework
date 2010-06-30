@@ -68,7 +68,7 @@ public class TestUserInfoBean implements java.io.Serializable{
 		this.userId = userId;
 	}
 
-	@Column(insertable=false,name="user_id")
+	@Column(insertable=false)
 	@Id
 	public java.lang.Long getUserId() {
 		return this.userId;
