@@ -9,6 +9,8 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alipay.mquery.test.util.TestGenerater;
+
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
 public class JavaClass {
@@ -79,6 +81,10 @@ public class JavaClass {
 
 	public String getParentPackagePath() {
 		return getParentPackageName().replace(".", "/");
+	}
+	
+	public String getClassFile() {
+	    return clazz.getClassLoader().getResource(clazz.getName().replace('.', '/')+".class").getFile();
 	}
 	
 	public String getAsType() {
