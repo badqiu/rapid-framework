@@ -69,6 +69,8 @@ public interface SqlGenerator {
 {{{
 Table t = MetadataCreateUtils.createTable(User.class);
 }}}
+
+=使用JPA annotation=
 User.class可以使用[http://java.sun.com/javaee/technologies/persistence.jsp JPA]的annotation,现只支持@Table,@ID,@Column,@Transient,示例如下:
 {{{
 @Table(name="ann_user")
