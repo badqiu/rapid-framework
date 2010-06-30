@@ -97,20 +97,23 @@ public class MetadataCreateUtils {
 	}
 
 	private static String getColumnSqlName(PropertyDescriptor pd, Method readMethod) {
-		String sqlName = toUnderscoreName(pd.getName());
+		String sqlName = null;
 		if(isJPAClassAvaiable) {
 			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
 			if(annColumn != null) {
 				sqlName = annColumn.name();
 			}
 		}
+		if(sqlName == null || sqlName.length() == 0) {
+			sqlName = toUnderscoreName(pd.getName());
+		}
 		return sqlName;
 	}
 
-	private static boolean getColumnInsertable(PropertyDescriptor pd, Method readMethod) {
+	private static boolean getColumnInsertable(PropertyDescriptor pd, Method method) {
 		boolean insertable = true;
 		if(isJPAClassAvaiable) {
-			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			javax.persistence.Column annColumn = (javax.persistence.Column)method.getAnnotation(javax.persistence.Column.class);
 			if(annColumn != null) {
 				insertable = annColumn.insertable();
 			}
@@ -118,10 +121,10 @@ public class MetadataCreateUtils {
 		return insertable;
 	}
 
-	private static boolean getColumnUpdatable(PropertyDescriptor pd, Method readMethod) {
+	private static boolean getColumnUpdatable(PropertyDescriptor pd, Method method) {
 		boolean updatable = true;
 		if(isJPAClassAvaiable) {
-			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			javax.persistence.Column annColumn = (javax.persistence.Column)method.getAnnotation(javax.persistence.Column.class);
 			if(annColumn != null) {
 				updatable = annColumn.updatable();
 			}
@@ -129,10 +132,10 @@ public class MetadataCreateUtils {
 		return updatable;
 	}
 
-	private static boolean getColumnUnique(PropertyDescriptor pd, Method readMethod) {
+	private static boolean getColumnUnique(PropertyDescriptor pd, Method method) {
 		boolean unique = false;
 		if(isJPAClassAvaiable) {
-			javax.persistence.Column annColumn = (javax.persistence.Column)readMethod.getAnnotation(javax.persistence.Column.class);
+			javax.persistence.Column annColumn = (javax.persistence.Column)method.getAnnotation(javax.persistence.Column.class);
 			if(annColumn != null) {
 				unique = annColumn.unique();
 			}

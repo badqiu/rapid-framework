@@ -52,7 +52,25 @@ public class Table {
 	public int getPrimaryKeyCount() {
 		return getPrimaryKeyColumns().size();
 	}
+	
+	public Column getColumnBySqlName(String sqlName) {
+		for(Column c : columns) {
+			if(c.getSqlName().equals(sqlName)) {
+				return c;
+			}
+		}
+		return null;
+	}
 
+	public Column getColumnByPropertyName(String propertyName) {
+		for(Column c : columns) {
+			if(c.getPropertyName().equals(propertyName)) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
 	private List<Column> getPrimaryKeyColumns0() {
 		List result = new ArrayList();
 		for(Column c : getColumns()) {
