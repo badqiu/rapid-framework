@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
+import com.thoughtworks.paranamer.BytecodeReadingParanamer;
+import com.thoughtworks.paranamer.CachingParanamer;
+import com.thoughtworks.paranamer.Paranamer;
+
 
 public class MethodParameter {
 	int paramIndex = -1;
@@ -20,6 +24,7 @@ public class MethodParameter {
 	
 	public MethodParameter(int paramIndex, JavaMethod method,JavaClass paramClazz) {
 		super();
+		this.method = method;
 		this.paramIndex = paramIndex;
 		this.paramClass = paramClazz;
 	}
@@ -29,14 +34,23 @@ public class MethodParameter {
 	}
     
 	public String getName() {
-	    //return "param"+paramIndex;
-	    if(StringHelper.isNotBlank(paramName))
-	        return paramName;
-	    if(paramClass.getClazz().isPrimitive() || paramClass.getClazz().getName().startsWith("java.")) {
-	        return "param"+paramIndex;
-	    }else {
-	        return StringHelper.uncapitalize(paramClass.getClassName());
-	    }
+		String[] parameterNames = lookupParameterNamesByParanamer();
+		if(parameterNames == null || paramIndex == -1)  {
+		    if(StringHelper.isNotBlank(paramName))
+		        return paramName;
+		    if(paramClass.getClazz().isPrimitive() || paramClass.getClazz().getName().startsWith("java.")) {
+		        return "param"+paramIndex;
+		    }else {
+		        return StringHelper.uncapitalize(paramClass.getClassName());
+		    }			
+		}else {
+			return parameterNames[paramIndex - 1];
+		}
+	}
+	
+	static Paranamer paranamer = new CachingParanamer(new BytecodeReadingParanamer());
+	private String[] lookupParameterNamesByParanamer() {
+		return paranamer.lookupParameterNames(method.method,false);
 	}
 
 	public int getParamIndex() {
