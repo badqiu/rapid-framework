@@ -362,4 +362,8 @@ public class Sql {
 	    }
 	    return c;
 	}
+	
+	public String toString() {
+		return "sourceSql:\n"+sourceSql+"\nsql:"+getSql();
+	}
 }
