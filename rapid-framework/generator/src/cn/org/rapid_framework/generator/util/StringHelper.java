@@ -326,8 +326,11 @@ public class StringHelper {
 		}
 		return (String[])result.toArray(new String[result.size()]);
 	}
-
-	public static String join(String[] array, String seperator) {
+    public static String join(List list, String seperator) {
+        return join(list.toArray(new Object[0]),seperator);
+    }
+    
+	public static String join(Object[] array, String seperator) {
 		if(array == null) return null;
 		StringBuffer result = new StringBuffer();
 		for(int i = 0; i < array.length; i++) {
