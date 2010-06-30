@@ -86,7 +86,11 @@ public class JavaClass {
 	}
 	
 	public String getJavaType() {
-		return clazz.getName();
+	    if(isArray()) {
+	        return clazz.getComponentType().getName();
+	    }else {
+	        return clazz.getName();
+	    }
 	}
 	
 	public String getCanonicalName() {
