@@ -87,7 +87,7 @@ public class JavaClass {
 	    return clazz.getClassLoader().getResource(clazz.getName().replace('.', '/')+".class").getFile();
 	}
 
-    public String getClassLoadDir() {
+    public String getClassLoadPath() {
         return getClassFile().substring(0,getClassFile().length() - (clazz.getName()+".class").length());
     }
 	
