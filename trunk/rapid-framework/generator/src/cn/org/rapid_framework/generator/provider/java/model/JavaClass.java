@@ -86,6 +86,10 @@ public class JavaClass {
 	public String getClassFile() {
 	    return clazz.getClassLoader().getResource(clazz.getName().replace('.', '/')+".class").getFile();
 	}
+
+    public String getClassLoadDir() {
+        return getClassFile().substring(0,getClassFile().length() - (clazz.getName()+".class").length());
+    }
 	
 	public String getAsType() {
 		return ActionScriptDataTypesUtils.getPreferredAsType(clazz.getName());
