@@ -1,11 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
 
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
@@ -225,19 +221,19 @@ public class Sql {
 		this.sourceSql = sourceSql;
 	}
 	
-	public String replaceParamsWith(String prefix,String suffix) {
-		String sql = sourceSql;
-		List<SqlParameter> sortedParams = new ArrayList(params);
-		Collections.sort(sortedParams,new Comparator<SqlParameter>() {
-			public int compare(SqlParameter o1, SqlParameter o2) {
-				return o2.paramName.length() - o1.paramName.length();
-			}
-		});
-		for(SqlParameter s : sortedParams){ //FIXME 现在只实现了:username参数替换
-			sql = StringHelper.replace(sql,":"+s.getParamName(),prefix+s.getParamName()+suffix);
-		}
-		return sql;
-	}
+//	public String replaceParamsWith(String prefix,String suffix) {
+//		String sql = sourceSql;
+//		List<SqlParameter> sortedParams = new ArrayList(params);
+//		Collections.sort(sortedParams,new Comparator<SqlParameter>() {
+//			public int compare(SqlParameter o1, SqlParameter o2) {
+//				return o2.paramName.length() - o1.paramName.length();
+//			}
+//		});
+//		for(SqlParameter s : sortedParams){ //FIXME 现在只实现了:username参数替换
+//			sql = StringHelper.replace(sql,":"+s.getParamName(),prefix+s.getParamName()+suffix);
+//		}
+//		return sql;
+//	}
 	/**
 	 * sourceSql转换为在数据库实际执行的SQL,
 	 * 示例:
@@ -255,23 +251,24 @@ public class Sql {
 		this.executeSql = executeSql;
 	}
 	
-	public String getJdbcSql() {
+	public String getSql() {
 		return replaceWildcardWithColumnsSqlName(sourceSql);
+	}
+	
+	public String getJdbcSql() {
+		return getSql();
 	}
 	
 	public String getIbatisSql() {
-		String sql = replaceParamsWith("#","#");
-		return replaceWildcardWithColumnsSqlName(sql);
+		return getSql();
 	}
 	
-	
 	public String getHql() {
-		return replaceWildcardWithColumnsSqlName(sourceSql);
+		return getSql();
 	}
 	
 	public String getIbatis3Sql() {
-		String sql = replaceParamsWith("#{","}");
-		return replaceWildcardWithColumnsSqlName(sql);
+		return getSql();
 	}
 
 	private String joinColumnsSqlName() {
