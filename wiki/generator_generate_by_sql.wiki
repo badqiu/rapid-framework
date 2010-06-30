@@ -4,7 +4,7 @@
 API使用:
 {{{
 public void test_generate_by_sql() throws Exception {
-	Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");  //同时支持:param #param# $param$ #{param} ${param} 几种占位符
+	Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");  //同时支持 #param# $param$ #{param} ${param} :param 几种占位符
 	sql.setTableSqlName("user_info");
 	sql.setMultiPolicy("many");  //many or one,用于控制查询结果是one,many
 	sql.setOperation("findByUsernameAndPassword"); 
@@ -12,7 +12,13 @@ public void test_generate_by_sql() throws Exception {
 	new GeneratorFacade().generateBySql(sql, "generator/test/for_test_select_sql");
 }
 }}}
+
 可以根据以上提供的API封装出各种使用方法,如 *eclipse插件* , *swing查询界面*
+
+*占位符风格:*
+  * iBatis3占位符风格: #{param} ${param}
+  * iBatis2占位符风格: #param# $param$
+  * hibernate及spring_jdbc占位符风格: :param
 
 = 生成的代码 =
 ==UserInfoDAO==
