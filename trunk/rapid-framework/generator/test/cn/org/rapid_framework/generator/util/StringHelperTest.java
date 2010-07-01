@@ -52,6 +52,14 @@ public class StringHelperTest extends TestCase {
 		fail();
 		}catch(Exception e) {}
 	}
+	
+	public void test_getExtention() {
+		assertEquals("123",StringHelper.getExtension("abc.123"));
+		assertEquals("123",StringHelper.getExtension(".123"));
+		assertEquals("",StringHelper.getExtension("."));
+		assertEquals(null,StringHelper.getExtension(null));
+		assertEquals(null,StringHelper.getExtension("abc123"));
+	}
 //	public void testPerformance() {
 //		ProfileUtils.printCostTime("underscoreName", new Runnable() {
 //			public void run() {
