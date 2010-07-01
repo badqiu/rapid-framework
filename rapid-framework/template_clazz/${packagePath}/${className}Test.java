@@ -1,3 +1,5 @@
+${gg.setOverride(false)}
+
 package ${clazz.packageName};
 import junit.framework.*;
 import ${clazz.packageName}.*;
@@ -14,8 +16,10 @@ public class ${clazz.className}Test extends TestCase{
     <#list clazz.methods as method>
     public void test_${method.methodName}() {
         <#list method.parameters as param>
-        <#if (param.interface || param.array)>
-        
+        <#if (param.interface)>
+        ${param.javaType} ${param.name};
+        <#elseif (param.array)>
+        ${param.javaType}[] ${param.name};
         <#else>
         ${param.javaType} ${param.name} <#if !param.primitive>= new ${param.javaType}()</#if>;
         </#if>
