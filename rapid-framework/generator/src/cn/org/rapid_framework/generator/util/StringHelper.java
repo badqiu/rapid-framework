@@ -35,6 +35,15 @@ public class StringHelper {
     public static boolean isNotBlank(String str) {
         return !isBlank(str);
     }
+    
+    public static String getExtension(String str) {
+    	if(str == null) return null;
+    	int i = str.lastIndexOf('.');
+    	if(i >= 0) {
+    		return str.substring(i+1);
+    	}
+    	return null;
+    }
 
 	/**
 	 * Count the occurrences of the substring in string s.
