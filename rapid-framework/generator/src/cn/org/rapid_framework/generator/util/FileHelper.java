@@ -33,7 +33,7 @@ public class FileHelper {
 		return file.getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
 	}
 	
-	public static List searchAllNotIgnoreFile(File dir) throws IOException {
+	public static List<File> searchAllNotIgnoreFile(File dir) throws IOException {
 		ArrayList arrayList = new ArrayList();
 		searchAllNotIgnoreFile(dir,arrayList);
 		Collections.sort(arrayList,new Comparator<File>() {
@@ -54,7 +54,7 @@ public class FileHelper {
 		return inputStream;
 	}
 
-	public static void searchAllNotIgnoreFile(File dir,List collector) throws IOException {
+	public static void searchAllNotIgnoreFile(File dir,List<File> collector) throws IOException {
 		collector.add(dir);
 		if((!dir.isHidden() && dir.isDirectory()) && !isIgnoreFile(dir)) {
 			File[] subFiles = dir.listFiles();
