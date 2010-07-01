@@ -15,7 +15,8 @@ public class DalgenGeneratorTest extends GeneratorTestCase{
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
 		g.addTemplateRootDir(new File("plugins/dalgen_table//dalgen_table/"));
-		
+		g.setExcludes("**/*Manager*.java,**/vo/query/**");
+		g.setExcludes("**/*Manager*.java,**/*DaoTest.java,**/*ManagerTest.java");
 		generateByTable(table);
 		
 		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
