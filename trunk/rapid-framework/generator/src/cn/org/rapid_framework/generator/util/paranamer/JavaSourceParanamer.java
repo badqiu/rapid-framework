@@ -9,7 +9,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
-
+/**
+ * get parameter names from java source file
+ * @author badqiu
+ */
 public class JavaSourceParanamer implements Paranamer{
     
     public String[] lookupParameterNames(AccessibleObject methodOrConstructor) {
