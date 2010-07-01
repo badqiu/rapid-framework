@@ -1,7 +1,7 @@
 = 持续集成 =
 公司推荐使用hudson作为持续集成工具. 现rapid使用cruisecontrol是由于没有更新至hudson
 
-现rapid使用cruisecontrol作为持续集成工具，请下载预先为rapid配置好的cruisecontrol
+请下载预先为rapid配置好的cruisecontrol
 
 *下载地址:*
 
