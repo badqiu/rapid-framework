@@ -1,4 +1,4 @@
-<wiki:toc max_depth="2" />
+<wiki:toc max_depth="3" />
 
 = 通过SQL语句生成代码 =
 
@@ -22,8 +22,8 @@ public void test_generate_by_sql() throws Exception {
   * iBatis2占位符风格: #param# $param$
   * hibernate及spring_jdbc占位符风格: :param
 
-= 生成的代码 =
-==UserInfoDAO==
+== 生成的代码 ==
+===UserInfoDAO===
 {{{
 /**
 * 根据用户名及密码进行查询
@@ -37,7 +37,7 @@ public List<UserInfo> findByUsernameAndPassword(String username ,String password
 	return (List<UserInfo>)getSqlMapClientTemplate().queryForList("findByUsernameAndPassword",param);
 }
 }}}
-==UserInfoSqlMap.xml==
+===UserInfoSqlMap.xml===
 {{{
 <select id="UserInfo.findByUsernameAndPassword" resultMap="RM-UserInfo" >
     <![CDATA[
@@ -48,8 +48,8 @@ public List<UserInfo> findByUsernameAndPassword(String username ,String password
 </select>
 }}}
 
-=相对应的生成器模板=
-==${tableClassName}Dao.java==
+==相对应的生成器模板==
+===${tableClassName}Dao.java===
 {{{
 	/**
 	 * ${sql.remarks!}
