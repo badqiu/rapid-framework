@@ -29,6 +29,10 @@ public class JavaClass {
 	public String getLastPackageName() {
 		return StringHelper.getExtension(getPackageName());
 	}
+
+	public String getLastPackageNameFirstUpper() {
+		return getLastPackageName() == null ? null : StringHelper.capitalize(getLastPackageName());
+	}
 	
 	public String getSuperclassName() {
 		return clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : null;
