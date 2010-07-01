@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,8 +17,8 @@ import cn.org.rapid_framework.generator.util.paranamer.Paranamer;
 
 
 public class MethodParameter {
-	int paramIndex = -1;
-	String paramName;
+	int paramIndex = -1; // paramIndex,从1开始
+	String paramName; //paramName名称
 	JavaClass paramClass; //parameter的类型
 	JavaMethod method; //与parameter相关联的method
 	
@@ -33,8 +34,9 @@ public class MethodParameter {
 	}
     
 	public String getName() {
+	    if(paramIndex < 0) return null;
 		String[] parameterNames = lookupParameterNamesByParanamer();
-		if(parameterNames == null || paramIndex == -1)  {
+		if(parameterNames == null || parameterNames.length == 0)  {
 		    if(StringHelper.isNotBlank(paramName))
 		        return paramName;
 		    if(paramClass.getClazz().isPrimitive() || paramClass.getClazz().getName().startsWith("java.")) {
