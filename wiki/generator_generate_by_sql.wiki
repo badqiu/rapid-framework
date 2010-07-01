@@ -1,13 +1,16 @@
 <wiki:toc max_depth="3" />
 
 = 通过SQL语句生成代码 =
-==应用场景==
-  # 适用于信息管理系统,你可以通过一个SQL语句一个Service,Action至html查询页面
-  # 适用于ibatis2,mybatis,生成dao及dao queryObject,dao queryResult
+可以通过一条sql语句(select,insert,update,delete)生成相关代码,如为ibatis生成参数及查询结果.
+或者直接根据sql语句生成html界面.
+
+=应用场景=
+  # 适用于ibatis2,mybatis,生成dao及dao parameterObject,dao queryResultObject
+  # 如果是信息管理系统,你甚至可以通过一个SQL语句一个Service,Action至html查询页面
 注意: 生成的代码配合手工编辑提升开发效率,不要完全依赖代码生成. 因为一定无法满足所有需求
 只满足大部分需求.
 
-==实际的例子==
+=实际的例子=
 我们通过一个实际的例子来演示使用,通过一个Sql查询生成ibatis的SqlMap及Dao.java
 API使用:
 {{{
