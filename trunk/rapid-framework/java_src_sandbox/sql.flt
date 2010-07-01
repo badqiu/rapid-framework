@@ -16,11 +16,6 @@
 	<#if StringUtils.isNotEmpty(error_param)>
 		and error_param = :error_param
 	</#if>	
-	and username in (
-		<#list list as item>
-			item = ? <#if item_has_next>,</#if>
-		</#list>
-	)
 </#macro>
 
 <@pageQuery/>
