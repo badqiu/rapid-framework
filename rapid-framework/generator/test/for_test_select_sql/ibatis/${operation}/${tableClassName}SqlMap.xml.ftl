@@ -18,7 +18,7 @@
 	</resultMap>
 	</#if>
 	
-	<select id="<@namespace/>${sql.operation}" resultMap="RM-${sql.resultClassName}" >
+	<select id="<@namespace/>${sql.operation}" resultMap="RM.${sql.resultClassName}" >
     <![CDATA[
 	${sql.ibatisSql}
     ]]>
