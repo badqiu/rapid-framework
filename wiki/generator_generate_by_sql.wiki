@@ -6,7 +6,7 @@
 
 =应用场景=
   # 适用于ibatis2,mybatis,生成dao及dao parameterObject,dao queryResultObject
-  # 如果是信息管理系统,你甚至可以通过一个SQL语句一个Service,Action至html查询页面
+  # 如果是信息管理系统,你甚至可以通过一个SQL语句生成Service,Action至html查询页面
 注意: 生成的代码配合手工编辑提升开发效率,不要完全依赖代码生成. 因为一定无法满足所有需求
 只满足大部分需求.
 
