@@ -10,10 +10,9 @@ import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
-
-import com.thoughtworks.paranamer.BytecodeReadingParanamer;
-import com.thoughtworks.paranamer.CachingParanamer;
-import com.thoughtworks.paranamer.Paranamer;
+import cn.org.rapid_framework.generator.util.paranamer.BytecodeReadingParanamer;
+import cn.org.rapid_framework.generator.util.paranamer.CachingParanamer;
+import cn.org.rapid_framework.generator.util.paranamer.Paranamer;
 
 
 public class MethodParameter {
