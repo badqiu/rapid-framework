@@ -259,11 +259,11 @@ public class Sql {
 		return getSql();
 	}
 	
-	public String getIbatisSql() {
+	public String getHql() {
 		return getSql();
 	}
 	
-	public String getHql() {
+	public String getIbatisSql() {
 		return getSql();
 	}
 	
