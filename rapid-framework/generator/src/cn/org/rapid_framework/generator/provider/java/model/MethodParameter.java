@@ -147,14 +147,13 @@ public class MethodParameter {
 	
 	public static String[] parseJavaFileForParamNames(Method method,File javaFile) throws IOException {
 	    String content = IOHelper.readFile(javaFile);
-	    return new MethodParametersParser().parseJavaFileForParamNames(method, content);
+	    return new JavaSourceFileMethodParametersParser().parseJavaFileForParamNames(method, content);
 	}
 	
-	public static class MethodParametersParser {
+	public static class JavaSourceFileMethodParametersParser {
 
         public String[] parseJavaFileForParamNames(Method method,String content) {
-            Pattern methodPattern = Pattern.compile(method.getName()+"\\s*\\("+getParamsPattern(method)+"\\)\\s*\\{");
-    //        System.out.println(methodPattern);
+            Pattern methodPattern = Pattern.compile("(?s)"+method.getName()+"\\s*\\("+getParamsPattern(method)+"\\)\\s*\\{");
     	    List<String> methodParams = new ArrayList();
     	    Matcher m = methodPattern.matcher(content);
     	    List paramNames = new ArrayList();
@@ -171,7 +170,7 @@ public class MethodParameter {
             List paramPatterns = new ArrayList();
     	    for(int i = 0; i < method.getParameterTypes().length; i++ ) {
     	        Class type = method.getParameterTypes()[i];
-    	        String paramPattern = "\\s*.*"+type.getSimpleName()+".*\\s+(\\w+)\\s*";
+    	        String paramPattern = ".*"+type.getSimpleName()+".*\\s+(\\w+).*";
     	        paramPatterns.add(paramPattern);
     	    }
     	    return StringHelper.join(paramPatterns, ",");
