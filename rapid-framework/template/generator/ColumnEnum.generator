@@ -19,8 +19,8 @@ package ${basepackage}.model.enums;
 
 import java.util.LinkedHashMap;
 
-import cn.org.rapid_framework.enums.EnumBase;
-import cn.org.rapid_framework.enums.EnumBaseUtils;
+import cn.org.rapid_framework.lang.enums.EnumBase;
+import cn.org.rapid_framework.lang.enums.EnumBaseUtils;
 
 public enum ${column.enumClassName} implements EnumBase<${column.simpleJavaType},String>{
 	<#list column.enumList as item>
