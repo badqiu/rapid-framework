@@ -16,12 +16,14 @@ public class ${clazz.className}Test extends Base${clazz.lastPackageNameFirstUppe
     
     <#list clazz.publicMethods as method>
     <#if !(method.methodName?starts_with('get') || method.methodName?starts_with('set') || method.methodName?starts_with('is'))>
-    public void test_${method.methodName}() {
+    public void test_${method.methodName}_${method_index}() throws Exception{
         <#list method.parameters as param>
             <#if (param.interface)>
         ${param.javaType} ${param.name} = null;
             <#elseif (param.array)>
         ${param.javaType}[] ${param.name} = null;
+            <#elseif (param.primitive)>
+        ${param.javaType} ${param.name} = (byte)1;        
             <#elseif (param.paramClass.hasDefaultConstructor)>
         ${param.javaType} ${param.name} <#if !param.primitive>= new ${param.javaType}()</#if>;
             <#else>
