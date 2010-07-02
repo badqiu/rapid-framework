@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.provider.java.model;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -32,6 +33,17 @@ public class JavaClass {
 
 	public String getLastPackageNameFirstUpper() {
 		return getLastPackageName() == null ? "" : StringHelper.capitalize(getLastPackageName());
+	}
+	
+	public boolean isHasDefaultConstructor() {
+	    for(Constructor c : clazz.getConstructors()) {
+	        if(c.isAccessible() && Modifier.isPublic(c.getModifiers())) {
+	            if(c.getParameterTypes().length == 0) {
+	                return true;
+	            }
+	        }
+	    }
+	    return false;
 	}
 	
 	public String getSuperclassName() {
