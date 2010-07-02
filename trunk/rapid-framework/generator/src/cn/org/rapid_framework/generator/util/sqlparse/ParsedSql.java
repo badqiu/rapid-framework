@@ -33,6 +33,8 @@ public class ParsedSql {
 	private String originalSql;
 
 	private List<String> parameterNames = new ArrayList<String>();
+	
+	private List<String> parameterPlaceholders = new ArrayList<String>();
 
 	private List<int[]> parameterIndexes = new ArrayList<int[]>();
 
@@ -65,8 +67,9 @@ public class ParsedSql {
 	 * @param startIndex the start index in the original SQL String
 	 * @param endIndex the end index in the original SQL String
 	 */
-	public void addNamedParameter(String parameterName, int startIndex, int endIndex) {
+	public void addNamedParameter(String parameterName,String parameterPlaceholder, int startIndex, int endIndex) {
 		this.parameterNames.add(parameterName);
+		this.parameterPlaceholders.add(parameterPlaceholder);
 		this.parameterIndexes.add(new int[] {startIndex, endIndex});
 	}
 
@@ -76,6 +79,15 @@ public class ParsedSql {
 	 */
 	public List<String> getParameterNames() {
 		return this.parameterNames;
+	}
+	
+	
+	/**
+	 * Return all of the parameters placeholder in the parsed SQL statement.
+	 * @return
+	 */
+	public List<String> getParameterPlaceholders() {
+		return parameterPlaceholders;
 	}
 
 	/**
