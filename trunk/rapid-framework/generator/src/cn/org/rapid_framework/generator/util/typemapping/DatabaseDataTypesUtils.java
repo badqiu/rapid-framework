@@ -12,32 +12,34 @@ public class DatabaseDataTypesUtils {
 
 	private final static IntStringMap _preferredJavaTypeForSqlType = new IntStringMap();
 	 
-	public static boolean isFloatNumber(int sqlType,int size,int decimalDigits) {
-		String javaType = getPreferredJavaType(sqlType,size,decimalDigits);
-		if(javaType.endsWith("Float") || javaType.endsWith("Double") || javaType.endsWith("BigDecimal")) {
+	public static boolean isFloatNumber(String javaType) {
+		if(javaType.endsWith("Float") || javaType.endsWith("Double") || javaType.endsWith("BigDecimal") || javaType.endsWith("BigInteger")) {
 			return true;
 		}
+		if(javaType.endsWith("float") || javaType.endsWith("double") || javaType.endsWith("BigDecimal") || javaType.endsWith("BigInteger")) {
+            return true;
+        }
 		return false;
 	}
 	
-	public static boolean isIntegerNumber(int sqlType,int size,int decimalDigits) {
-		String javaType = getPreferredJavaType(sqlType,size,decimalDigits);
+	public static boolean isIntegerNumber(String javaType) {
 		if(javaType.endsWith("Long") || javaType.endsWith("Integer") || javaType.endsWith("Short") || javaType.endsWith("Byte")) {
 			return true;
 		}
+		if(javaType.endsWith("long") || javaType.endsWith("int") || javaType.endsWith("short") || javaType.endsWith("byte")) {
+            return true;
+        }
 		return false;
 	}
 
-	public static boolean isDate(int sqlType,int size,int decimalDigits) {
-		String javaType = getPreferredJavaType(sqlType,size,decimalDigits);
+	public static boolean isDate(String javaType) {
 		if(javaType.endsWith("Date") || javaType.endsWith("Timestamp") || javaType.endsWith("Time")) {
 			return true;
 		}
 		return false;
 	}
 	
-	public static boolean isString(int sqlType,int size,int decimalDigits) {
-		String javaType = getPreferredJavaType(sqlType,size,decimalDigits);
+	public static boolean isString(String javaType) {
 		if(javaType.endsWith("String")) {
 			return true;
 		}

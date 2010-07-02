@@ -75,7 +75,14 @@ public class StringHelper {
 		}
 		return false;
 	}
-	
+
+   public static String defaultString(Object value) {
+        if(value == null) {
+            return "";
+        }
+        return value.toString();
+    }
+	   
 	public static String defaultIfEmpty(Object value,String defaultValue) {
 		if(value == null || "".equals(value)) {
 			return defaultValue;

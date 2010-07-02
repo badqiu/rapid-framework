@@ -13,7 +13,7 @@ public class ColumnHelper {
 	/** 得到JSR303 bean validation的验证表达式 */
 	public static String getHibernateValidatorExpression(Column c) {
 		if(!c.isPk() && !c.isNullable()) {
-			if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
+			if(DatabaseDataTypesUtils.isString(c.getJavaType())) {
 				return  "@NotBlank " + getNotRequiredHibernateValidatorExpression(c);
 			}else {
 				return  "@NotNull " + getNotRequiredHibernateValidatorExpression(c);
@@ -28,10 +28,10 @@ public class ColumnHelper {
 		if(c.getSqlName().indexOf("mail") >= 0) {
 			result += "@Email ";
 		}
-		if(DatabaseDataTypesUtils.isString(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
+		if(DatabaseDataTypesUtils.isString(c.getJavaType())) {
 			result += String.format("@Length(max=%s)",c.getSize());
 		}
-		if(DatabaseDataTypesUtils.isIntegerNumber(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
+		if(DatabaseDataTypesUtils.isIntegerNumber(c.getJavaType())) {
 			String javaType = DatabaseDataTypesUtils.getPreferredJavaType(c.getSqlType(), c.getSize(), c.getDecimalDigits());
 			if(javaType.toLowerCase().indexOf("short") >= 0) {
 				result += " @Max("+Short.MAX_VALUE+")";
@@ -48,10 +48,10 @@ public class ColumnHelper {
 		if(c.getSqlName().indexOf("mail") >= 0) {
 			result += "validate-email ";
 		}
-		if(DatabaseDataTypesUtils.isFloatNumber(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
+		if(DatabaseDataTypesUtils.isFloatNumber(c.getJavaType())) {
 			result += "validate-number ";
 		}
-		if(DatabaseDataTypesUtils.isIntegerNumber(c.getSqlType(), c.getSize(), c.getDecimalDigits())) {
+		if(DatabaseDataTypesUtils.isIntegerNumber(c.getJavaType())) {
 			result += "validate-integer ";
 			if(c.getJavaType().toLowerCase().indexOf("short") >= 0) {
 				result += "max-value-"+Short.MAX_VALUE;

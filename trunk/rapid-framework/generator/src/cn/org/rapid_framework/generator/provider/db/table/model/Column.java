@@ -254,6 +254,25 @@ public class Column {
 		return _remarks;
 	}
 
+    public void setUpdatable(boolean updatable) {
+        this.updatable = updatable;
+    }
+
+    public void setInsertable(boolean insertable) {
+        this.insertable = insertable;
+    }
+    
+    public void setNullable(boolean v) {
+        this._isNullable = v;
+    }
+    
+    public void setUnique(boolean unique) {
+        _isUnique = unique;
+    }
+
+    public void setPk(boolean v) {
+        this._isPk = v;
+    }	
 	/**
 	 * Describe what the method does
 	 * 
@@ -418,18 +437,18 @@ public class Column {
 	
 	/** 列是否是String类型 */
 	public boolean getIsStringColumn() {
-		return DatabaseDataTypesUtils.isString(getSqlType(), getSize(), getDecimalDigits());
+		return DatabaseDataTypesUtils.isString(getJavaType());
 	}
 	
 	/** 列是否是日期类型 */
 	public boolean getIsDateTimeColumn() {
-		return DatabaseDataTypesUtils.isDate(getSqlType(), getSize(), getDecimalDigits());
+		return DatabaseDataTypesUtils.isDate(getJavaType());
 	}
 	
 	/** 列是否是Number类型 */
 	public boolean getIsNumberColumn() {
-		return DatabaseDataTypesUtils.isFloatNumber(getSqlType(), getSize(), getDecimalDigits()) 
-			|| DatabaseDataTypesUtils.isIntegerNumber(getSqlType(), getSize(), getDecimalDigits());
+		return DatabaseDataTypesUtils.isFloatNumber(getJavaType()) 
+			|| DatabaseDataTypesUtils.isIntegerNumber(getJavaType());
 	}
 	
 	/** 检查是否包含某些关键字,关键字以逗号分隔 */
@@ -518,26 +537,6 @@ public class Column {
 
 	public void setEnumClassName(String enumClassName) {
 		this.enumClassName = enumClassName;
-	}
-
-	public void setUpdatable(boolean updatable) {
-		this.updatable = updatable;
-	}
-
-	public void setInsertable(boolean insertable) {
-		this.insertable = insertable;
-	}
-	
-	public void setNullable(boolean v) {
-		this._isNullable = v;
-	}
-	
-	public void setUnique(boolean unique) {
-		_isUnique = unique;
-	}
-
-	public void setPk(boolean v) {
-		this._isPk = v;
 	}
 
 	private void initOtherProperties() {
