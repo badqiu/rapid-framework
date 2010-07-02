@@ -19,11 +19,13 @@ public class ${clazz.className}Test extends TestCase{
     public void test_${method.methodName}() {
         <#list method.parameters as param>
             <#if (param.interface)>
-        ${param.javaType} ${param.name};
+        ${param.javaType} ${param.name} = null;
             <#elseif (param.array)>
-        ${param.javaType}[] ${param.name};
-            <#else>
+        ${param.javaType}[] ${param.name} = null;
+            <#elseif (param.paramClass.hasDefaultConstructor)>
         ${param.javaType} ${param.name} <#if !param.primitive>= new ${param.javaType}()</#if>;
+            <#else>
+        ${param.javaType} ${param.name} = null;
             </#if>
         </#list>
         
