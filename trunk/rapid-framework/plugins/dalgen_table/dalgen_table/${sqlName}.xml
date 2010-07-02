@@ -18,13 +18,25 @@
 	        )
 			]]>
 		</sql>
+		<sqlmap>
+			<![CDATA[
+			INSERT INTO ${table.sqlName} (
+	        	<#list table.columns as column>${column.sqlName} <#if column_has_next>,</#if></#list>
+	        ) VALUES (
+	        	<#list table.columns as column>#${column.columnNameFirstLower}# <#if column_has_next>,</#if></#list>        
+	        )
+	        <selectKey resultClass="${table.idColumn.javaType}" type="post" keyProperty="${table.idColumn.columnNameFirstLower}" >
+            	select last_insert_id()
+        	</selectKey>
+			]]>
+		</sqlmap>		
 	</operation>
 
-	<operation name="delete" paramtype="object">
+	<operation name="delete">
 		<sql>
 		    <![CDATA[
 		        DELETE FROM ${table.sqlName} WHERE
-		        <#list table.compositeIdColumns as column>
+		        <#list table.pkColumns as column>
 		        ${column.sqlName} = ? <#if column_has_next>,</#if>
 				</#list>
 		    ]]>
@@ -39,11 +51,23 @@
 			        ${column.sqlName} = ? <#if column_has_next>,</#if>
 			        </#list>
 		        WHERE 
-		        	<#list table.compositeIdColumns as column>
+		        	<#list table.pkColumns as column>
 			        ${column.sqlName} = ? <#if column_has_next>,</#if>
 			        </#list>
 		    ]]>
 		</sql>
+		<sqlmap>
+		    <![CDATA[
+		        UPDATE ${table.sqlName} SET
+			        <#list table.notPkColumns as column>
+			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next>,</#if>
+			        </#list>
+		        WHERE 
+		        	<#list table.pkColumns as column>
+			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next>,</#if>
+			        </#list>
+		    ]]>
+		</sqlmap>					
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
@@ -55,7 +79,7 @@
 		        </#list>
 		        FROM ${table.sqlName} 
 		        WHERE 
-					<#list table.compositeIdColumns as column>
+					<#list table.pkColumns as column>
 			        ${column.sqlName} = ? <#if column_has_next>,</#if>
 			        </#list>
 		    ]]>
@@ -151,7 +175,7 @@
 		       <#list table.notPkColumns as column>
 		        <#if column.isDateTimeColumn>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}Begin">
-		             ${column.sqlName} >= #${column.columnNameLower}Begin#
+		             ${column.sqlName} &gt;= #${column.columnNameLower}Begin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="${column.columnNameLower}End">
 		             ${column.sqlName} &lt;= #${column.columnNameLower}End#
@@ -163,12 +187,12 @@
 				</#if>
 		       </#list>
 		    </dynamic>
-		    LIMIT #startRow#,#pageSize#
-		    <dynamic prepend="ORDER BY">
+		    <dynamic>
 		    	<isNotEmpty property="orderby">
 		    	ORDER BY #orderby#
 		    	</isNotEmpty>
-		    </dynamic>		    		    
+		    </dynamic> 		    
+		    LIMIT #startRow#,#pageSize#
 		    ]]>
 		</sqlmap>		
 	</operation>
