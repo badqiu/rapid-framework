@@ -1,5 +1,5 @@
 
 
-public class Base${lastPackageNameFirstUpper}TestCase extends TestCase {
+public class Base${clazz.lastPackageNameFirstUpper}TestCase extends TestCase {
 	
 }
