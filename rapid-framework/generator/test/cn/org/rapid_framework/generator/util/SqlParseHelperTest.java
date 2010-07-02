@@ -72,7 +72,7 @@ public class SqlParseHelperTest extends TestCase{
 	
 	public void test_getColumnNameByRightCondition() {
 		String sql = "delete from user_Info where " +
-				" user_param =>:user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
+				" user_param =>  :user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
 				" and Memoparam like #memo# and birth_date between #{min_birth_date} and #{max_birth_date}"+
 				" and java_param in (#java#) and net_param => substring(#net#)";
 		assertEquals("user_param",SqlParseHelper.getColumnNameByRightCondition(sql, "user"));
