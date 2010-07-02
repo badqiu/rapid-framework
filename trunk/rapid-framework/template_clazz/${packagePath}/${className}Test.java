@@ -6,7 +6,7 @@ import junit.framework.*;
 import ${clazz.packageName}.*;
 import java.util.*;
 
-public class ${clazz.className}Test extends TestCase{
+public class ${clazz.className}Test extends Base${clazz.lastPackageNameFirstUpper}TestCase{
     <#--
     <#list clazz.fields as field>
     protected ${field.javaType} ${field.fieldName};
