@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator.util.paranamer;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -8,26 +10,44 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * get parameter names from java source file
  * @author badqiu
  */
 public class JavaSourceParanamer implements Paranamer{
+    private ClassLoader classLoader;
+    
+    public JavaSourceParanamer(ClassLoader classLoader) {
+    	this.classLoader = classLoader;
+    }
     
     public String[] lookupParameterNames(AccessibleObject methodOrConstructor) {
         return lookupParameterNames(methodOrConstructor,true);
     }
 
-    public String[] lookupParameterNames(AccessibleObject methodOrConstructor,boolean throwExceptionIfMissing) {
-        if(true) throw new IllegalArgumentException("not yet implements");
-        JavaSourceFileMethodParametersParser parser = new JavaSourceFileMethodParametersParser();
-        if(methodOrConstructor instanceof Method) {
-            return parser.parseJavaFileForParamNames((Method)methodOrConstructor, null); 
-        }else if(methodOrConstructor instanceof Constructor) {
-            return parser.parseJavaFileForParamNames((Constructor)methodOrConstructor, null);
-        }else {
-            throw new IllegalArgumentException("unknow AccessibleObject"+methodOrConstructor+",must be Method or Constructor");
+    @SuppressWarnings("unchecked")
+	public String[] lookupParameterNames(AccessibleObject methodOrConstructor,boolean throwExceptionIfMissing) {
+        try {
+	        JavaSourceFileMethodParametersParser parser = new JavaSourceFileMethodParametersParser();
+	        if(methodOrConstructor instanceof Method) {
+	        	Method m = (Method)methodOrConstructor;
+	        	InputStream javaSourceInput = classLoader.getResourceAsStream(m.getDeclaringClass().getName().replace('.', '/')+".java");
+	            return parser.parseJavaFileForParamNames((Method)methodOrConstructor, IOHelper.toString(javaSourceInput)); 
+	        }else if(methodOrConstructor instanceof Constructor) {
+	        	Constructor c = (Constructor)methodOrConstructor;
+	        	InputStream javaSourceInput = classLoader.getResourceAsStream(c.getDeclaringClass().getName().replace('.', '/')+".java");
+	            return parser.parseJavaFileForParamNames((Constructor)methodOrConstructor, IOHelper.toString(javaSourceInput));
+	        }else {
+	            throw new IllegalArgumentException("unknow AccessibleObject"+methodOrConstructor+",must be Method or Constructor");
+	        }
+        }catch(IOException e) {
+        	if(throwExceptionIfMissing) {
+        		throw new RuntimeException("cannot get method parameters:"+methodOrConstructor,e);
+        	}else {
+        		return null;
+        	}
         }
     }
     
