@@ -166,10 +166,14 @@ public class SqlFactory {
 			return sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*");
 		}
 	
-		private Column findColumnByParamName(ParsedSql sql,Sql sqlMetaData, String paramName) throws Exception {
-			Column column = sqlMetaData.getColumnByName(paramName);
+		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
+			Column column = sql.getColumnByName(paramName);
 			if(column == null) {
-				column = findColumnByParseSql(sql, paramName);
+				//FIXME 还未处理 t.username = :username的t前缀问题
+				column = findColumnByParseSql(parsedSql, SqlParseHelper.getColumnNameByRightCondition(parsedSql.toString(), paramName) );
+			}
+			if(column == null) {
+				column = findColumnByParseSql(parsedSql, paramName);
 			}
 			return column;
 		}
