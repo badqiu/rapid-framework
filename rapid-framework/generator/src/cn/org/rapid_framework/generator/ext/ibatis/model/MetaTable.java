@@ -1,12 +1,14 @@
 package cn.org.rapid_framework.generator.ext.ibatis.model;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.FileHelper;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -14,8 +16,8 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class MetaTable {
     public String sqlname;
     public String sequence;
-    public List<MetaColumn> columns = new ArrayList();
-    public List<MetaOperation> operations = new ArrayList<MetaOperation>();
+    public List<MetaColumn> column = new ArrayList();
+    public List<MetaOperation> operation = new ArrayList<MetaOperation>();
     
     public String getSqlname() {
         return sqlname;
@@ -29,17 +31,17 @@ public class MetaTable {
     public void setSequence(String sequence) {
         this.sequence = sequence;
     }
-    public List<MetaColumn> getColumns() {
-        return columns;
+    public List<MetaColumn> getColumn() {
+		return column;
+	}
+	public void setColumn(List<MetaColumn> column) {
+		this.column = column;
+	}
+	public List<MetaOperation> getOperation() {
+        return operation;
     }
-    public void setColumns(List<MetaColumn> columns) {
-        this.columns = columns;
-    }
-    public List<MetaOperation> getOperations() {
-        return operations;
-    }
-    public void setOperations(List<MetaOperation> operations) {
-        this.operations = operations;
+    public void setOperation(List<MetaOperation> operations) {
+        this.operation = operations;
     }
 
     public static MetaTable parseFromXML(InputStream reader) {
@@ -53,10 +55,16 @@ public class MetaTable {
         x.alias("column", MetaColumn.class);
         x.alias("param", MetaColumn.class);
         x.alias("operation", MetaOperation.class);
+        x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
+        x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
         x.useAttributeFor(String.class);
         x.useAttributeFor(Integer.class);
         x.useAttributeFor(Long.class);
         x.useAttributeFor(Boolean.class);
+        x.useAttributeFor(Double.class);
+        x.useAttributeFor(Float.class);
+        x.useAttributeFor(Short.class);
+        x.useAttributeFor(Byte.class);
         return x;
     }
     
@@ -64,12 +72,12 @@ public class MetaTable {
         return BeanHelper.describe(this).toString();
     }
     
-    public static void main(String[] args) throws FileNotFoundException {
-        String file = "D:/dev/workspaces/workspace/rapid/generator/src/cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml";
+    public static void main(String[] args) throws IOException {
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
         MetaTable metaTable = new MetaTable();
-        metaTable.columns.add(new MetaColumn());
-        metaTable.columns.add(new MetaColumn());
-        metaTable.columns.add(new MetaColumn());
+//        metaTable.columns.add(new MetaColumn());
+//        metaTable.columns.add(new MetaColumn());
+//        metaTable.columns.add(new MetaColumn());
         newXStream().toXML(metaTable, System.out);
         System.out.println("\n"+MetaTable.parseFromXML(new FileInputStream(file)));
     }
