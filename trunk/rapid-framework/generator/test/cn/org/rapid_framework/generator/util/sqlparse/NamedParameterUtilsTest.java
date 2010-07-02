@@ -6,6 +6,14 @@ public class NamedParameterUtilsTest extends TestCase {
 	public void setUp() {
 		System.out.println(""+getName()+"()");
 	}
+	
+	public void test_get_parameters_placeholders() {
+		String sourceSql = "select * from username=#{username} and password=$pwd$ and blog=:blog and diy=${diy} and sex=${sex}";
+		ParsedSql sql = NamedParameterUtils.parseSqlStatement(sourceSql);
+		System.out.println(sql.getParameterPlaceholders());
+		assertEquals("[#{username}, $pwd$, :blog, ${diy}, ${sex}]",sql.getParameterPlaceholders().toString());
+	}
+	
 	public void testSpringJdbc() {
 		verify("select * from username=:username and password=:pwd","select * from username=? and password=?");
 		verify("select * from username=&username and password=&pwd","select * from username=? and password=?");
