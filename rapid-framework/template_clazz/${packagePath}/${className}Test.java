@@ -1,4 +1,5 @@
 ${gg.setOverride(false)}
+${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
 
 package ${clazz.packageName};
 import junit.framework.*;
@@ -14,6 +15,7 @@ public class ${clazz.className}Test extends TestCase{
     protected ${clazz.className} ${clazz.className?uncap_first};
     
     <#list clazz.publicMethods as method>
+    <#if !(method.methodName?starts_with('get') || method.methodName?starts_with('set') || method.methodName?starts_with('is'))>
     public void test_${method.methodName}() {
         <#list method.parameters as param>
             <#if (param.interface)>
@@ -32,6 +34,7 @@ public class ${clazz.className}Test extends TestCase{
         assertNotNull(returnValue);
         </#if>
     }
+    </#if>
     </#list>
     
     public void set${clazz.className}(${clazz.className} ${clazz.className?uncap_first}) {
