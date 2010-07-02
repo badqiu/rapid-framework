@@ -2,9 +2,8 @@ package cn.org.rapid_framework.generator.util;
 
 import java.util.Set;
 
-import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
-
 import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 
 public class SqlParseHelperTest extends TestCase{
@@ -70,6 +69,23 @@ public class SqlParseHelperTest extends TestCase{
 		}
 	}
 	
+	
+	public void test_getColumnNameByRightCondition() {
+		String sql = "delete from user_Info where " +
+				" user_param =>:user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
+				" and Memoparam like #memo# and birth_date between #{min_birth_date} and #{max_birth_date}"+
+				" and java_param in (#java#) and net_param => substring(#net#)";
+		assertEquals("user_param",SqlParseHelper.getColumnNameByRightCondition(sql, "user"));
+		assertEquals("blog_param",SqlParseHelper.getColumnNameByRightCondition(sql, "blog"));
+		assertEquals("sex_param",SqlParseHelper.getColumnNameByRightCondition(sql, "sex"));
+		assertEquals("pwd_param",SqlParseHelper.getColumnNameByRightCondition(sql, "pwd"));
+		assertEquals("content_param",SqlParseHelper.getColumnNameByRightCondition(sql, "content"));
+		assertEquals("Memoparam",SqlParseHelper.getColumnNameByRightCondition(sql, "memo"));
+		assertEquals("birth_date",SqlParseHelper.getColumnNameByRightCondition(sql, "min_birth_date"));
+		assertEquals("birth_date",SqlParseHelper.getColumnNameByRightCondition(sql, "max_birth_date"));
+		assertEquals("java_param",SqlParseHelper.getColumnNameByRightCondition(sql, "java"));
+		assertEquals("net_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
+	}
 	public void test_get_sql() {
 	    String t = SqlParseHelper.getParameterClassName("select * from user where username = :username|Integer and pwd = :pwd|SexEnum", "username");
 	    assertEquals(t,"Integer");
