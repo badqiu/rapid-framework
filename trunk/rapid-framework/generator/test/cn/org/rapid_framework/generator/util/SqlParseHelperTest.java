@@ -74,7 +74,7 @@ public class SqlParseHelperTest extends TestCase{
 		String sql = "delete from user_Info where " +
 				" user_param =>  :user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
 				" and Memoparam like #memo# and birth_date between #{min_birth_date} and #{max_birth_date}"+
-				" and java_param in (#java#) and net_param => substring(#net#)";
+				" and java_param in (#java#) and and t.prifix_param=#{prefix} net_param => substring(#net#)";
 		assertEquals("user_param",SqlParseHelper.getColumnNameByRightCondition(sql, "user"));
 		assertEquals("blog_param",SqlParseHelper.getColumnNameByRightCondition(sql, "blog"));
 		assertEquals("sex_param",SqlParseHelper.getColumnNameByRightCondition(sql, "sex"));
@@ -84,6 +84,7 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("birth_date",SqlParseHelper.getColumnNameByRightCondition(sql, "min_birth_date"));
 		assertEquals("birth_date",SqlParseHelper.getColumnNameByRightCondition(sql, "max_birth_date"));
 		assertEquals("java_param",SqlParseHelper.getColumnNameByRightCondition(sql, "java"));
+		assertEquals("prifix_param",SqlParseHelper.getColumnNameByRightCondition(sql, "prefix"));
 		assertEquals("net_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
 	}
 	public void test_get_sql() {
