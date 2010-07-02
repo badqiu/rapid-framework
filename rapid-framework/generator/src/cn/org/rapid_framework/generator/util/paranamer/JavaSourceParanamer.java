@@ -44,9 +44,9 @@ public class JavaSourceParanamer implements Paranamer{
 	        }
         }catch(IOException e) {
         	if(throwExceptionIfMissing) {
-        		throw new RuntimeException("cannot get method parameters:"+methodOrConstructor,e);
+        		throw new RuntimeException("IOException while reading class bytes,method:"+methodOrConstructor,e);
         	}else {
-        		return null;
+        		return Paranamer.EMPTY_NAMES;
         	}
         }
     }
