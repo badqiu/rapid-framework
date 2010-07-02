@@ -34,11 +34,11 @@ public class JavaSourceParanamer implements Paranamer{
 	        if(methodOrConstructor instanceof Method) {
 	        	Method m = (Method)methodOrConstructor;
 	        	InputStream javaSourceInput = classLoader.getResourceAsStream(m.getDeclaringClass().getName().replace('.', '/')+".java");
-	            return parser.parseJavaFileForParamNames((Method)methodOrConstructor, IOHelper.toString(javaSourceInput)); 
+	            return parser.parseJavaFileForParamNames(m, IOHelper.toString(javaSourceInput)); 
 	        }else if(methodOrConstructor instanceof Constructor) {
 	        	Constructor c = (Constructor)methodOrConstructor;
 	        	InputStream javaSourceInput = classLoader.getResourceAsStream(c.getDeclaringClass().getName().replace('.', '/')+".java");
-	            return parser.parseJavaFileForParamNames((Constructor)methodOrConstructor, IOHelper.toString(javaSourceInput));
+	            return parser.parseJavaFileForParamNames(c, IOHelper.toString(javaSourceInput));
 	        }else {
 	            throw new IllegalArgumentException("unknow AccessibleObject"+methodOrConstructor+",must be Method or Constructor");
 	        }
