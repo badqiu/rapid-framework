@@ -31,7 +31,7 @@ public class JavaClass {
 	}
 
 	public String getLastPackageNameFirstUpper() {
-		return getLastPackageName() == null ? null : StringHelper.capitalize(getLastPackageName());
+		return getLastPackageName() == null ? "" : StringHelper.capitalize(getLastPackageName());
 	}
 	
 	public String getSuperclassName() {
