@@ -107,9 +107,9 @@ public abstract class NamedParameterUtils {
 						namedParameterCount++;
 					}
 					
-					parameter = removePrefixAndSuffix(c,parameter,sql); //add by badqiu
+					String removedPrefixAndSuffixParameter = removePrefixAndSuffix(c,parameter,sql); //add by badqiu
 					
-					parsedSql.addNamedParameter(parameter, i, j);
+					parsedSql.addNamedParameter(removedPrefixAndSuffixParameter,c+parameter, i, j);
 					totalParameterCount++;
 				}
 				i = j - 1;
