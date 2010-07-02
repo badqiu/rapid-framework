@@ -50,13 +50,40 @@ public class SqlParseHelper {
 		return result;
 	}
 
-	static Pattern p = Pattern.compile("(:)(\\w+)(\\|?)([\\w.]+)");
-
+//	static Pattern p = Pattern.compile("(:)(\\w+)(\\|?)([\\w.]+)");
 	public static String getParameterClassName(String sql, String paramName) {
 		Pattern p = Pattern.compile("(:)(" + paramName + ")(\\|?)([\\w.]+)");
 		Matcher m = p.matcher(sql);
 		if (m.find()) {
 			return m.group(4);
+		}
+		return null;
+	}
+	
+	public static String getColumnNameByRightCondition(String sql,String column) {
+		String operator = "[=<>!]{1,2}";
+		String result = getColumnNameByRightCondition(sql, column, operator);
+		if(result == null) {
+			result = getColumnNameByRightCondition(sql, column, "\\s+like\\s+");
+		}
+		if(result == null) {
+			result = getColumnNameByRightCondition(sql, column, "\\s+between\\s+");
+		}
+		if(result == null) {
+			result = getColumnNameByRightCondition(sql, column, "\\s+between\\s.+\\sand\\s+");
+		}
+		if(result == null) {
+			result = getColumnNameByRightCondition(sql, column, "\\s+in\\s+\\(");
+		}
+		return result;
+	}
+
+	private static String getColumnNameByRightCondition(String sql,
+			String column, String operator) {
+		Pattern p = Pattern.compile("(\\w+)\\s*"+operator+"\\s*[:#$&]\\{?"+column+"[\\}#$]?",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(sql);
+		if(m.find()) {
+			return m.group(1);
 		}
 		return null;
 	}
