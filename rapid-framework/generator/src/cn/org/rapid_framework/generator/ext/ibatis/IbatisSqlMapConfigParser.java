@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import org.springframework.util.Assert;
 
+import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
@@ -89,6 +90,7 @@ public class IbatisSqlMapConfigParser {
     public static void main(String[] args) throws IOException {
         System.out.println("<abc>123</abc> <diy></diy>".replaceAll("</?\\w*>", ""));
         System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
-        System.out.println("parsed file:"+parse(IOHelper.readFile(new File("D:/dev/workspaces/workspace/rapid/generator/src/cn/org/rapid_framework/generator/ext/ibatis/test.xml"))));
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/test.xml");
+		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
     }
 }
