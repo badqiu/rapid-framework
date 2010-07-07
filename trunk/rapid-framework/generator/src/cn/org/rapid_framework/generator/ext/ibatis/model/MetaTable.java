@@ -10,6 +10,7 @@ import java.util.List;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
+import com.ibatis.sqlmap.engine.mapping.sql.Sql;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -118,6 +119,7 @@ public class MetaTable {
         public String multiPolicy = "many";
         public String sql;
         public String sqlmap;
+        public Sql parsedSql;
         
         public String tableSqlName = null; //是否需要
         
