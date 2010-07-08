@@ -34,6 +34,7 @@ import org.hibernate.impl.SessionFactoryImpl;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
@@ -41,7 +42,6 @@ import org.springframework.util.StringUtils;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
-import cn.org.rapid_framework.util.CollectionHelper;
 
 /**
  * @author badqiu
@@ -81,7 +81,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 				
 				Query query = session.createQuery(queryString.toString());
 				Query countQuery = session.createQuery(countQueryString);
-				return executeQueryForPage(pageRequest, query, countQuery);
+				return PageQueryUtils.executeQueryForPage(pageRequest, query, countQuery);
 			}
 		});
 	}
@@ -101,7 +101,7 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		XsqlFilterResult queryXsqlResult = builder.generateHql(sql,pageRequest);
 		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,pageRequest);
 		
-		return pageQuery(pageRequest,queryXsqlResult,countQueryXsqlResult);
+		return PageQueryUtils.pageQuery(getHibernateTemplate(),pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
 	
 	protected XsqlBuilder getXsqlBuilder() {
@@ -118,34 +118,38 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		return builder;
 	}
 	
-	private Page pageQuery(final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
-		return (Page)getHibernateTemplate().execute(new HibernateCallback() {
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
-				
-				Query query = setQueryParameters(session.createQuery(queryXsqlResult.getXsql()),queryXsqlResult.getAcceptedFilters());
-				Query countQuery = setQueryParameters(session.createQuery(removeOrders(countQueryXsqlResult.getXsql())),countQueryXsqlResult.getAcceptedFilters());
-				
-				return executeQueryForPage(pageRequest, query, countQuery);
+	static class PageQueryUtils {
+		private static Page pageQuery(HibernateTemplate template,final PageRequest pageRequest, final XsqlFilterResult queryXsqlResult, final XsqlFilterResult countQueryXsqlResult) {
+			return (Page)template.execute(new HibernateCallback() {
+				public Object doInHibernate(Session session) throws HibernateException, SQLException {
+					
+					Query query = setQueryParameters(session.createQuery(queryXsqlResult.getXsql()),pageRequest);
+					Query countQuery = setQueryParameters(session.createQuery(removeOrders(countQueryXsqlResult.getXsql())),pageRequest);
+					
+					return executeQueryForPage(pageRequest, query, countQuery);
+				}
+			});
+		}
+		
+		private static Object executeQueryForPage(final PageRequest pageRequest,Query query, Query countQuery) {
+			Page page = new Page(pageRequest,((Number)countQuery.uniqueResult()).intValue());
+			if(page.getTotalCount() <= 0) {
+				page.setResult(new ArrayList(0));
+			}else {
+				page.setResult(query.setFirstResult(page.getFirstResult()).setMaxResults(page.getPageSize()).list());
 			}
-		});
-	}
+			return page;
+		}
 	
-	private Object executeQueryForPage(final PageRequest pageRequest,Query query, Query countQuery) {
-		Page page = new Page(pageRequest,((Number)countQuery.uniqueResult()).intValue());
-		if(page.getTotalCount() <= 0) {
-			page.setResult(new ArrayList(0));
-		}else {
-			page.setResult(query.setFirstResult(page.getFirstResult()).setMaxResults(page.getPageSize()).list());
+		public static Query setQueryParameters(Query q,Object params) {
+			q.setProperties(params);
+			return q;
 		}
-		return page;
-	}
-
-	public static Query setQueryParameters(Query q,Map params) {
-		for(Iterator it = params.entrySet().iterator(); it.hasNext();) {
-			Map.Entry entry = (Map.Entry)it.next();
-			q.setParameter((String)entry.getKey(),entry.getValue());
+		
+		public static Query setQueryParameters(Query q,Map params) {
+			q.setProperties(params);
+			return q;
 		}
-		return q;
 	}
 	 
 	public void save(E entity) {
