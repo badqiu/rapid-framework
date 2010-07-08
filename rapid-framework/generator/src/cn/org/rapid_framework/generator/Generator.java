@@ -153,6 +153,7 @@ public class Generator {
     }	
 	
 	private void processTemplateRootDirs(Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
+	    if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not null.");
 		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
