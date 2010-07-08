@@ -78,13 +78,15 @@ jdbc.password=abc123
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
-==11.修改java_src/jdbc.properties的数据库连接信息==
+==11.修改java_src/spring/applicationContext-datasource.xml的数据库连接信息==
 该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与*第8步*的数据库连接配置相同即可
 {{{
-jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8 
-jdbc.driver=com.mysql.jdbc.Driver 
-jdbc.username=root 
-jdbc.password=abc123
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"/>
+	<property name="username" value="root"/>
+	<property name="password" value="123456"/>
+</bean>
 }}}
 
 ==12.部署应用struts2_demo至tomcat==
