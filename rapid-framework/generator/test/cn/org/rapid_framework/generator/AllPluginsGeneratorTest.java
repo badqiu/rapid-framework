@@ -1,9 +1,6 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.File;
-import java.util.Collection;
-
-//import org.apache.commons.io.FileUtils;
 
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 
