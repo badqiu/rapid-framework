@@ -264,14 +264,22 @@ public class Sql {
 	}
 	
 	public String getIbatisSql() {
-		return getSql();
+	    return StringHelper.isBlank(ibatisSql) ? getSql() : ibatisSql;
 	}
 	
 	public String getIbatis3Sql() {
-		return getSql();
+	    return StringHelper.isBlank(ibatis3Sql) ? getSql() : ibatis3Sql;
 	}
 
-	private String joinColumnsSqlName() {
+	public void setIbatisSql(String ibatisSql) {
+        this.ibatisSql = ibatisSql;
+    }
+
+    public void setIbatis3Sql(String ibatis3Sql) {
+        this.ibatis3Sql = ibatis3Sql;
+    }
+
+    private String joinColumnsSqlName() {
 		StringBuffer sb = new StringBuffer();
 		for(Iterator<Column> it = columns.iterator();it.hasNext();) {
 			sb.append(it.next().getSqlName());
@@ -366,4 +374,7 @@ public class Sql {
 	public String toString() {
 		return "sourceSql:\n"+sourceSql+"\nsql:"+getSql();
 	}
+	
+	private String ibatisSql;
+	private String ibatis3Sql;
 }
