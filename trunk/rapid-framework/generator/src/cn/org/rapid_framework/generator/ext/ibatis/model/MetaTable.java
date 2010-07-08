@@ -29,7 +29,7 @@ public class MetaTable {
         XStream x = new XStream(new DomDriver());
         x.alias("table", MetaTable.class);
         x.alias("column", MetaColumn.class);
-        x.alias("param", MetaColumn.class);
+        x.alias("param", MetaParam.class);
         x.alias("operation", MetaOperation.class);
         x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
         x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
@@ -108,6 +108,10 @@ public class MetaTable {
         public String toString() {
             return BeanHelper.describe(this).toString();
         }
+    }
+
+    public static class MetaParam extends MetaColumn {
+ 
     }
     
     public static class MetaOperation {
