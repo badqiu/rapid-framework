@@ -124,6 +124,7 @@ public class Generator {
 	}
 
     public void deleteOutRootDir() throws IOException {
+        if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not null.");
         GLogger.println("[delete dir]    "+getOutRootDir());
         FileHelper.deleteDirectory(new File(getOutRootDir()));
     }
