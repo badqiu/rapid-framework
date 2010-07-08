@@ -76,10 +76,10 @@ public class MetaTable {
     public static void main(String[] args) throws IOException {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
         MetaTable metaTable = new MetaTable();
-//        metaTable.columns.add(new MetaColumn());
-//        metaTable.columns.add(new MetaColumn());
-//        metaTable.columns.add(new MetaColumn());
-        newXStream().toXML(metaTable, System.out);
+        metaTable.column.add(new MetaColumn());
+        metaTable.column.add(new MetaColumn());
+        metaTable.column.add(new MetaColumn());
+        newXStream().toXML(MetaTable.parseFromXML(new FileInputStream(file)), System.out);
         System.out.println("\n"+MetaTable.parseFromXML(new FileInputStream(file)));
     }
     
