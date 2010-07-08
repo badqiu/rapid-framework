@@ -28,7 +28,7 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
 public class GeneratorFacade {
 	public Generator g = new Generator();
 	{
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
+		g.setOutRootDir(GeneratorProperties.getProperty("outRoot"));
 	}
 	
 	public static void printAllTableNames() throws Exception {
@@ -36,7 +36,6 @@ public class GeneratorFacade {
 	}
 	
 	public void deleteOutRootDir() throws IOException {
-		g.setOutRootDir(GeneratorProperties.getRequiredProperty("outRoot"));
 		g.deleteOutRootDir();
 	}
 	
@@ -95,7 +94,7 @@ public class GeneratorFacade {
 				else
 					g.generateBy(m.templateModel, m.filePathModel);
 			}catch(GeneratorException ge) {
-				PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
 			}
     	}
     	
@@ -110,7 +109,7 @@ public class GeneratorFacade {
     				g.generateBy(m.templateModel, m.filePathModel);
     			}
     		}catch(GeneratorException ge) {
-    			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+    			PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
     		}
     	}   
     	
@@ -124,7 +123,7 @@ public class GeneratorFacade {
 				else
 					g.generateBy(m.templateModel, m.filePathModel);
 			}catch(GeneratorException ge) {
-				PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
 			}
     	}
     	
@@ -138,7 +137,7 @@ public class GeneratorFacade {
     		try {
     			processByTable(g,table,isDelete);
     		}catch(GeneratorException ge) {
-    			PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+    			PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
     		}
     	}    
         
@@ -152,7 +151,7 @@ public class GeneratorFacade {
 					exceptions.addAll(ge.getExceptions());
 				}
 			}
-			PrintUtils.printExceptionsSumary("",exceptions);
+			PrintUtils.printExceptionsSumary("",getGenerator(templateRootDir).getOutRootDir(),exceptions);
 		}
 		
 		public void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
@@ -223,8 +222,8 @@ public class GeneratorFacade {
 	
 	private static class PrintUtils {
 		
-		private static void printExceptionsSumary(String msg,List<Exception> exceptions) throws FileNotFoundException {
-			File errorFile = new File(GeneratorProperties.getRequiredProperty("outRoot"),"generator_error.log");
+		private static void printExceptionsSumary(String msg,String outRoot,List<Exception> exceptions) throws FileNotFoundException {
+			File errorFile = new File(outRoot,"generator_error.log");
 			if(exceptions != null && exceptions.size() > 0) {
 				System.err.println("[Generate Error Summary] : "+msg);
 				PrintStream output = new PrintStream(new FileOutputStream(errorFile));
