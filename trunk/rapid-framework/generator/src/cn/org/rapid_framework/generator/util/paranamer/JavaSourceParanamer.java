@@ -20,6 +20,7 @@ public class JavaSourceParanamer implements Paranamer{
     private ClassLoader classLoader;
     
     public JavaSourceParanamer(ClassLoader classLoader) {
+        if(classLoader == null) throw new IllegalArgumentException("'classLoader' must be not null");
     	this.classLoader = classLoader;
     }
     
