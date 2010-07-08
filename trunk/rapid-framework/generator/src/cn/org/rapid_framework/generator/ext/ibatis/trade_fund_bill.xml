@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table sqlname="trade_fund_bill" dummypk="bill_no" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
-<!--	<columns>-->
-		<column name="service_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-		<column name="SERVICE_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-		
-		<column name="TOTAL_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-		<column name="SERVICE_FEE_RATIO" javaType="double" />
-		
-		<column name="amount" javaType="com.iwallet.biz.common.util.money.Money" />
-		<column name="AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-		
-		<column name="bank_amount" javaType="com.iwallet.biz.common.util.money.Money" />
-		<column name="BANK_AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-		
-		<column name="return_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-		<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-<!--	</columns>-->
+	<column name="service_fee" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="TOTAL_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE_RATIO" javaType="double" />
+	<column name="amount" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="bank_amount" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="BANK_AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="return_fee" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
 	
 	<!-- 新增一条交易资金单据记录 -->
 	<operation name="insert" paramtype="object">
