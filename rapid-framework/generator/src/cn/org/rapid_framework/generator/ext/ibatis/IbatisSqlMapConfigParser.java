@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -54,7 +53,6 @@ public class IbatisSqlMapConfigParser {
      * @return
      */
     public static String removeOrders(String sql) {
-        Assert.hasText(sql);
         Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(sql);
         StringBuffer sb = new StringBuffer();
