@@ -19,6 +19,30 @@ public class MetaTable {
     public String sequence;
     public List<MetaColumn> column = new ArrayList();
     public List<MetaOperation> operation = new ArrayList<MetaOperation>();
+
+    public static MetaTable parseFromXML(InputStream reader) {
+        XStream x = newXStream();
+        return (MetaTable)x.fromXML(reader);
+    }
+
+    private static XStream newXStream() {
+        XStream x = new XStream(new DomDriver());
+        x.alias("table", MetaTable.class);
+        x.alias("column", MetaColumn.class);
+        x.alias("param", MetaColumn.class);
+        x.alias("operation", MetaOperation.class);
+        x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
+        x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
+        x.useAttributeFor(String.class);
+        x.useAttributeFor(Integer.class);
+        x.useAttributeFor(Long.class);
+        x.useAttributeFor(Boolean.class);
+        x.useAttributeFor(Double.class);
+        x.useAttributeFor(Float.class);
+        x.useAttributeFor(Short.class);
+        x.useAttributeFor(Byte.class);
+        return x;
+    }
     
     public String getSqlname() {
         return sqlname;
@@ -45,30 +69,6 @@ public class MetaTable {
         this.operation = operations;
     }
 
-    public static MetaTable parseFromXML(InputStream reader) {
-        XStream x = newXStream();
-        return (MetaTable)x.fromXML(reader);
-    }
-
-    private static XStream newXStream() {
-        XStream x = new XStream(new DomDriver());
-        x.alias("table", MetaTable.class);
-        x.alias("column", MetaColumn.class);
-        x.alias("param", MetaColumn.class);
-        x.alias("operation", MetaOperation.class);
-        x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
-        x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
-        x.useAttributeFor(String.class);
-        x.useAttributeFor(Integer.class);
-        x.useAttributeFor(Long.class);
-        x.useAttributeFor(Boolean.class);
-        x.useAttributeFor(Double.class);
-        x.useAttributeFor(Float.class);
-        x.useAttributeFor(Short.class);
-        x.useAttributeFor(Byte.class);
-        return x;
-    }
-    
     public String toString() {
         return BeanHelper.describe(this).toString();
     }
