@@ -82,4 +82,4 @@ SecurityControler.start(permissions,'visible');
 }}}
 如上，如果用户拥有这两个权限(permissions):user_new,user_update,则可以见到这两个按钮,然后执行相关操作
 
-其它具体详情，请查看: [http://code.google.com/p/flex-security/ flex-security]
+其它具体详情，请查看: *[http://code.google.com/p/flex-security/ flex-security]*
