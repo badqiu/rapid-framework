@@ -58,7 +58,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	
 	public abstract Class getEntityClass();
 	
-	//用于分页的dialect
+	//用于分页的dialect,在线参考: http://code.google.com/p/rapid-framework/wiki/rapid_dialect
 	private Dialect dialect;
 	
 	public void setDialect(Dialect d) {
@@ -111,26 +111,28 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	}
 	
 	public Page pageQuery(String query,PageRequest pageRequest,RowMapper rowMapper, String countQuerySelectPrefix) {
-		return pageQuery(query,countQuerySelectPrefix+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
+		String countQuery = countQuerySelectPrefix + SqlRemoveUtils.removeSelect(query);
+		return pageQuery(query,countQuery,pageRequest,rowMapper);
 	}
 	
 	public Page pageQuery(String query,PageRequest pageRequest,String countQueryPrefix,RowMapper rowMapper) {
-		return pageQuery(query,countQueryPrefix+SqlRemoveUtils.removeSelect(query),pageRequest,rowMapper);
+		String countQuery = countQueryPrefix + SqlRemoveUtils.removeSelect(query);
+		return pageQuery(query,countQuery,pageRequest,rowMapper);
 	}
 	
 	public Page pageQuery(String query,String countQuery,final PageRequest pageRequest,RowMapper rowMapper) {
 		final int totalCount = queryTotalCount(countQuery,pageRequest);
 		
-		Map otherFilters = new HashMap(1);
+		Map otherFilters = new HashMap();
 		otherFilters.put("sortColumns", pageRequest.getSortColumns());
 		
 		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
 		XsqlFilterResult queryXsqlResult = getXsqlBuilder().generateHql(query,otherFilters,pageRequest);
 		String sql = queryXsqlResult.getXsql();
-		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
+//		Map acceptedFilters = queryXsqlResult.getAcceptedFilters();
 		int pageSize = pageRequest.getPageSize();
 		int pageNumber = pageRequest.getPageNumber();
-		return pageQuery(sql, acceptedFilters, totalCount, pageSize, pageNumber,rowMapper);
+		return pageQuery(sql, cn.org.rapid_framework.beanutils.PropertyUtils.describe(pageRequest), totalCount, pageSize, pageNumber,rowMapper);
 	}
 
 	protected XsqlBuilder getXsqlBuilder() {
@@ -145,7 +147,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	private int queryTotalCount(String countQuery,Object filtersObject) {
 		XsqlFilterResult countQueryXsqlResult = getXsqlBuilder().generateHql(countQuery,filtersObject);
 		String removedOrderByQuery = SqlRemoveUtils.removeOrders(countQueryXsqlResult.getXsql());
-		final int totalCount = getSimpleJdbcTemplate().queryForInt(removedOrderByQuery,countQueryXsqlResult.getAcceptedFilters());
+		final int totalCount = getNamedParameterJdbcTemplate().queryForInt(removedOrderByQuery,new BeanPropertySqlParameterSource(filtersObject));
 		return totalCount;
 	}
 
@@ -181,15 +183,20 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 		return (List)getNamedParameterJdbcTemplate().query(sql, paramMap, new OffsetLimitResultSetExtractor(startRow,pageSize,rowMapper));
 	}
 	
+	///// insert with start
 	/**
 	 * 适用sqlserver,mysql 自动生成主键
 	 */
-	protected void insertWithIdentity(Object entity,String insertSql) {
+	protected void insertWithGeneratedKey(Object entity, String insertSql) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity) , keyHolder);
 		setIdentifierProperty(entity, keyHolder.getKey().longValue());
 	}
-
+	
+	protected void insertWithIdentity(Object entity,String insertSql) {
+		insertWithGeneratedKey(entity, insertSql);
+	}
+	
 	protected void insertWithAutoIncrement(Object entity,String insertSql) {
 		insertWithIdentity(entity,insertSql);
 	}
@@ -221,6 +228,7 @@ public abstract class BaseSpringJdbcDao<E,PK extends Serializable> extends JdbcD
 	protected void insertWithAssigned(Object entity,String insertSql) {
 		getNamedParameterJdbcTemplate().update(insertSql, new BeanPropertySqlParameterSource(entity));
 	}
+	///// insert with end
 	
 	public void flush() {
 		//ignore
