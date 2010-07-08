@@ -38,6 +38,10 @@ import org.xml.sax.SAXException;
  */
 public class XMLHelper {
 
+	public static Document getLoadingDoc(String file) throws FileNotFoundException, SAXException, IOException{
+		return getLoadingDoc(new FileInputStream(file));
+	}
+	
     static Document getLoadingDoc(InputStream in) throws SAXException,IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setIgnoringElementContentWhitespace(true);
