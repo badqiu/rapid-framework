@@ -2,21 +2,31 @@ ${gg.setOverride(false)}
 ${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
 
 package ${clazz.packageName};
+
+import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
+import org.nuxeo.runtime.test.autowire.annotation.XMode;
+import org.springframework.beans.factory.annotation.Autowired;
 import junit.framework.*;
 import ${clazz.packageName}.*;
 import java.util.*;
 
-public class ${clazz.className}Test extends Base${clazz.lastPackageNameFirstUpper}TestCase{
+import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
+
+import com.alipay.test.base.BaseSofaTestCase;
+
+public class ${clazz.className}Test extends BaseSofaTestCase{
     <#--
     <#list clazz.fields as field>
     protected ${field.javaType} ${field.fieldName};
     </#list>
     -->
-    protected ${clazz.className} ${clazz.className?uncap_first};
+    
+    @Autowired
+    protected ${clazz.clazz.name} ${clazz.className?uncap_first};
     
     <#list clazz.publicMethods as method>
-    <#if !(method.methodName?starts_with('get') || method.methodName?starts_with('set') || method.methodName?starts_with('is'))>
-    public void test_${method.methodName}_${method_index}() throws Exception{
+    <#if isNotPropertyMethod(method.methodName)>
+    public void test_${method.methodName}_${method_index}() throws Throwable{
         <#list method.parameters as param>
             <#if (param.interface)>
         ${param.javaType} ${param.name} = null;
@@ -27,14 +37,16 @@ public class ${clazz.className}Test extends Base${clazz.lastPackageNameFirstUppe
             <#elseif (param.paramClass.hasDefaultConstructor)>
         ${param.javaType} ${param.name} <#if !param.primitive>= new ${param.javaType}()</#if>;
             <#else>
-        ${param.javaType} ${param.name} = null;
+        ${param.javaType?replace("$", ".")} ${param.name} = null;
             </#if>
         </#list>
         
         <#if (method.returnType.className=="void")>
-        ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
+        ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name}<#if param_has_next>, </#if></#list>);
+        <#elseif (method.returnType.clazz.array)>
+        ${method.returnType.javaType}[] returnValue = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
         <#else>
-        ${method.returnType.className} returnValue = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
+        ${method.returnType.clazz.name?replace("$", ".")} returnValue = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
         assertNotNull(returnValue);
         </#if>
     }
@@ -53,3 +65,14 @@ public class ${clazz.className}Test extends Base${clazz.lastPackageNameFirstUppe
     </#list>
     -->
 }
+
+<#function isNotPropertyMethod methodName>
+    <#if methodName?starts_with('get') || methodName?starts_with('set') || methodName?starts_with('is') >
+        <#list clazz.fields as field>
+            <#if methodName?ends_with(field.fieldName) >
+                <#return false>
+            </#if>
+        </#list>
+    </#if>
+    <#return true>
+</#function>
