@@ -40,6 +40,14 @@ public class GeneratorFacade {
 		g.deleteOutRootDir();
 	}
 	
+	public void generateByMap(Map map,String templateRootDir) throws Exception {
+		new ProcessUtils().processByMap(map, templateRootDir,false);
+	}
+
+	public void deleteByMap(Map map,String templateRootDir) throws Exception {
+		new ProcessUtils().processByMap(map, templateRootDir,true);
+	}
+	
 	public void generateByAllTable(String templateRootDir) throws Exception {
 		new ProcessUtils().processByAllTable(templateRootDir,false);
 	}
@@ -78,6 +86,19 @@ public class GeneratorFacade {
     }
     
     public class ProcessUtils {
+    	public void processByMap(Map params, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
+			Generator g = getGenerator(templateRootDir);
+			GeneratorModel m = GeneratorModelUtils.newFromMap(params);
+			try {
+				if(isDelete)
+					g.deleteBy(m.templateModel, m.filePathModel);
+				else
+					g.generateBy(m.templateModel, m.filePathModel);
+			}catch(GeneratorException ge) {
+				PrintUtils.printExceptionsSumary(ge.getMessage(),ge.getExceptions());
+			}
+    	}
+    	
     	public void processBySql(Sql sql,String templateRootDir,boolean isDelete) throws Exception {
     		Generator g = getGenerator(templateRootDir);
     		GeneratorModel m = GeneratorModelUtils.newFromSql(sql);
@@ -177,6 +198,17 @@ public class GeneratorFacade {
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
 			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
+			return new GeneratorModel(templateModel,filePathModel);
+		}
+		
+		public static GeneratorModel newFromMap(Map params) {
+			Map templateModel = new HashMap();
+			templateModel.putAll(params);
+			setShareVars(templateModel);
+			
+			Map filePathModel = new HashMap();
+			setShareVars(filePathModel);
+			filePathModel.putAll(params);
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 		
