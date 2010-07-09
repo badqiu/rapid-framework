@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -37,7 +39,18 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
  */
 public class SqlFactory {
     
-	public static Sql parseSql(String sourceSql) {
+    private List<SqlParameter> customParameters = new ArrayList<SqlParameter>();
+    private List<Column> customColumns = new ArrayList<Column>();
+    
+    public SqlFactory() {
+    }
+    
+	public SqlFactory(List<SqlParameter> customParameters,List<Column> customColumns) {
+        this.customParameters = customParameters;
+        this.customColumns = customColumns;
+    }
+
+    public static Sql parseSql(String sourceSql) {
 		try {
 			return new SqlFactory().parseSql0(sourceSql);
 		}catch(Exception e) {
@@ -45,7 +58,7 @@ public class SqlFactory {
 		}
 	}
 	
-    private Sql parseSql0(String sourceSql) throws SQLException,Exception{
+    public Sql parseSql0(String sourceSql) throws SQLException,Exception{
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
@@ -158,7 +171,7 @@ public class SqlFactory {
 				SqlParameter param = new SqlParameter(column);
 				
 				param.setParamName(paramName);
-				if(isMatchListParam(sql.getSourceSql(), paramName)) { //FIXME 只考虑(:username)未考虑(#inUsernames#) and (#{inPassword})
+				if(isMatchListParam(sql.getSourceSql(), paramName)) { //FIXME 只考虑(:username)未考虑(#inUsernames#) and (#{inPassword}),并且可以使用 #inUsername[]#
 					param.setListParam(true);
 				}
 				result.add(param);			
@@ -168,7 +181,7 @@ public class SqlFactory {
 		}
 
 		public static boolean isMatchListParam(String sql, String paramName) {
-			return sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*");
+			return sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") || sql.matches(".*[#$]"+paramName+"\\[][#$].*");
 		}
 	
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
