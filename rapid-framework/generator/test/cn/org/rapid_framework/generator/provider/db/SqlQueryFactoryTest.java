@@ -7,6 +7,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory.SqlParametersParser;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -133,12 +134,16 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_isMatchListParam() {
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (&username) ", "username"));
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (#username#) ", "username"));
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  ($username$) ", "username"));
-		assertTrue(SqlFactory.SqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+		SqlParametersParser sqlParametersParser = new SqlFactory().new SqlParametersParser();
+        assertTrue(sqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  (&username) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  (#username#) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  ($username$) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  #username[]# ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  $username[]$ ", "username"));
+		assertTrue(sqlParametersParser.isMatchListParam("  #user[].age# ", "user"));
 	}
 	
 	public static int count;
