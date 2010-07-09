@@ -32,16 +32,22 @@ public class JavaSourceParanamer implements Paranamer{
 	public String[] lookupParameterNames(AccessibleObject methodOrConstructor,boolean throwExceptionIfMissing) {
         try {
 	        JavaSourceFileMethodParametersParser parser = new JavaSourceFileMethodParametersParser();
+	        String javaSource = null;
 	        if(methodOrConstructor instanceof Method) {
 	        	Method m = (Method)methodOrConstructor;
-	        	InputStream javaSourceInput = classLoader.getResourceAsStream(m.getDeclaringClass().getName().replace('.', '/')+".java");
-	            return parser.parseJavaFileForParamNames(m, IOHelper.toString(javaSourceInput)); 
+	        	javaSource = m.getDeclaringClass().getName().replace('.', '/')+".java";
 	        }else if(methodOrConstructor instanceof Constructor) {
 	        	Constructor c = (Constructor)methodOrConstructor;
-	        	InputStream javaSourceInput = classLoader.getResourceAsStream(c.getDeclaringClass().getName().replace('.', '/')+".java");
-	            return parser.parseJavaFileForParamNames(c, IOHelper.toString(javaSourceInput));
+	        	javaSource = c.getDeclaringClass().getName().replace('.', '/')+".java";
 	        }else {
 	            throw new IllegalArgumentException("unknow AccessibleObject"+methodOrConstructor+",must be Method or Constructor");
+	        }
+	        
+	        InputStream javaSourceInputStream = classLoader.getResourceAsStream(javaSource);
+	        try {
+	        	return parser.parseJavaFileForParamNames(methodOrConstructor, IOHelper.toString(javaSourceInputStream));
+	        }finally {
+	        	javaSourceInputStream.close();
 	        }
         }catch(IOException e) {
         	if(throwExceptionIfMissing) {
@@ -62,6 +68,16 @@ public class JavaSourceParanamer implements Paranamer{
             return parseJavaFileForParamNames(content, method.getName(), method.getParameterTypes());
         }
 
+        public String[] parseJavaFileForParamNames(AccessibleObject methodOrConstructor,String content) {
+        	if(methodOrConstructor instanceof Method) {
+        		return parseJavaFileForParamNames((Method)methodOrConstructor,content);
+        	}else if(methodOrConstructor instanceof Constructor) {
+        		return parseJavaFileForParamNames((Constructor)methodOrConstructor,content);
+        	}else {
+        		 throw new IllegalArgumentException("unknow AccessibleObject"+methodOrConstructor+",must be Method or Constructor");
+        	}
+        }
+        
         private String[] parseJavaFileForParamNames(String content,
                                                     String name,
                                                     Class<?>[] parameterTypes) {
