@@ -13,6 +13,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.paranamer.AdaptiveParanamer;
 import cn.org.rapid_framework.generator.util.paranamer.BytecodeReadingParanamer;
 import cn.org.rapid_framework.generator.util.paranamer.CachingParanamer;
+import cn.org.rapid_framework.generator.util.paranamer.DefaultParanamer;
 import cn.org.rapid_framework.generator.util.paranamer.JavaSourceParanamer;
 import cn.org.rapid_framework.generator.util.paranamer.Paranamer;
 
@@ -50,7 +51,12 @@ public class MethodParameter {
 		}
 	}
 	
-	public static Paranamer paranamer = new CachingParanamer(new AdaptiveParanamer(new BytecodeReadingParanamer(),new JavaSourceParanamer(Thread.currentThread().getContextClassLoader())) );
+	public static Paranamer paranamer = setParanamer(Thread.currentThread().getContextClassLoader());
+	public static Paranamer setParanamer(ClassLoader classLoader) {
+		paranamer = new CachingParanamer(new AdaptiveParanamer(new DefaultParanamer(),new BytecodeReadingParanamer(),new JavaSourceParanamer(classLoader)) );
+		return paranamer;
+	}
+	
 	private String[] lookupParameterNamesByParanamer() {
 		return paranamer.lookupParameterNames(method.method,false);
 	}
