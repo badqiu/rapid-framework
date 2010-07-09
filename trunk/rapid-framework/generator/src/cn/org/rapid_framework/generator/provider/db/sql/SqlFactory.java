@@ -97,7 +97,7 @@ public class SqlFactory {
 		}
 	}
 	
-    public static class SelectColumnsParser {
+    public class SelectColumnsParser {
     
 		private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
 			if(metadata == null) return new LinkedHashSet();
@@ -133,7 +133,7 @@ public class SqlFactory {
 		}
     }
 
-	public static class SqlParametersParser {
+	public class SqlParametersParser {
 		Map<String,Column> specialParametersMapping = new HashMap<String,Column>();
 		{
 			specialParametersMapping.put("offset", new Column(null,JdbcType.INTEGER.TYPE_CODE,"INTEGER","offset",0,0,false,false,false,false,null,null));
@@ -180,7 +180,7 @@ public class SqlFactory {
 	    
 		}
 
-		public static boolean isMatchListParam(String sql, String paramName) {
+		public boolean isMatchListParam(String sql, String paramName) {
 			return 
 			    sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") // match (:username) (#username#)
 			    || sql.matches(".*[#$]"+paramName+"\\[]\\.?\\w*[#$].*"); //match #user[]# $user[]$ #user[].age#
