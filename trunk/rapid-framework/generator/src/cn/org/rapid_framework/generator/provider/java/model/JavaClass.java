@@ -7,9 +7,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
@@ -28,10 +29,6 @@ public class JavaClass {
 		return clazz.getPackage().getName();
 	}
 	
-	public String getName() {
-	    return this.clazz.getName();
-	}
-
 	public String getLastPackageName() {
 		return StringHelper.getExtension(getPackageName());
 	}
@@ -49,6 +46,20 @@ public class JavaClass {
 	        }
 	    }
 	    return false;
+	}
+	
+	public Set<JavaClass> getImportClasses() {
+	    Set<JavaClass> set = new LinkedHashSet<JavaClass>();
+	    for(Method m :clazz.getMethods()) {
+	        set.add(new JavaClass(m.getReturnType()));
+	        for(Class<?> paramType : m.getParameterTypes()) {
+	            set.add(new JavaClass(paramType));
+	        }
+	    }
+	    for(Field f :clazz.getFields()) {
+            set.add(new JavaClass(f.getType()));
+        }
+	    return set;
 	}
 	
 	public String getSuperclassName() {
