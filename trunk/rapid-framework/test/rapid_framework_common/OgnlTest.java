@@ -16,7 +16,7 @@ public class OgnlTest extends TestCase {
 		NOT_EMPTY_MAP.put("1", 1);
 	}
 	
-	public void isBlank() {
+	public void test_isBlank() {
 		assertTrue(Ognl.isBlank(null));
 		assertTrue(Ognl.isBlank(""));
 		
@@ -29,7 +29,7 @@ public class OgnlTest extends TestCase {
 		assertFalse(Ognl.isBlank("a"));
 	}
 	
-	public void isNotBlank() {
+	public void test_isNotBlank() {
 		assertFalse(Ognl.isNotBlank(null));
 		assertFalse(Ognl.isNotBlank(""));
 		
@@ -39,7 +39,7 @@ public class OgnlTest extends TestCase {
 	}
 	
 	
-	public void isEmpty() {
+	public void test_isEmpty() {
 		assertTrue(Ognl.isEmpty(null));
 		assertTrue(Ognl.isEmpty(""));
 		
@@ -47,12 +47,12 @@ public class OgnlTest extends TestCase {
 		assertFalse(Ognl.isEmpty("a"));
 	}
 
-	public void isEmptyWithObjectException() {
+	public void test_isEmptyWithObjectException() {
 		assertFalse(Ognl.isEmpty(new Object()));
 		assertFalse(Ognl.isEmpty(new Integer(1)));
 	}
 
-	public void isNotEmptyWithObjectException() {
+	public void test_isNotEmptyWithObjectException() {
 		assertTrue(Ognl.isNotEmpty(new Object()));
 		assertTrue(Ognl.isNotEmpty(new Integer(1)));
 	}
@@ -75,7 +75,7 @@ public class OgnlTest extends TestCase {
 	}
 	
 	
-	public void isNotEmpty() {
+	public void test_isNotEmpty() {
 		assertFalse(Ognl.isNotEmpty(null));
 		assertFalse(Ognl.isNotEmpty(""));
 		
@@ -84,7 +84,7 @@ public class OgnlTest extends TestCase {
 	}
 	
 	
-	public void isNumber() {
+	public void test_isNumber() {
 		assertFalse(Ognl.isNumber(""));
 		assertFalse(Ognl.isNumber(null));
 		assertFalse(Ognl.isNumber(" "));
@@ -101,6 +101,7 @@ public class OgnlTest extends TestCase {
 		assertTrue(Ognl.isNumber((double)1));
 		assertTrue(Ognl.isNumber(1.1));
 		assertTrue(Ognl.isNumber(new Integer(1)));
+		System.out.println(Double.POSITIVE_INFINITY);
 	}
 	
 	
