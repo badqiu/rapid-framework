@@ -26,7 +26,7 @@ public class ${clazz.className}Test extends BaseSofaTestCase{
     
     <#list clazz.publicMethods as method>
     <#if isNotPropertyMethod(method.methodName)>
-    public void test_${method.methodName}_${method_index}() throws Throwable{
+    public void test_${method.methodName}${method_index}() throws Throwable{
         <#list method.parameters as param>
             <#if (param.interface)>
         ${param.javaType} ${param.name} = null;
