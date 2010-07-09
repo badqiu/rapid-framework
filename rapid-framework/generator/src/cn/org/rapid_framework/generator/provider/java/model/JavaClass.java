@@ -133,8 +133,12 @@ public class JavaClass {
 	public String getJavaSourceFile() {
 	        return clazz.getName().replace('.', '/')+".java";
 	}
-	   
-    public String getClassLoadPath() {
+	
+	/**
+	 * 得到class是在那个classpath路径装载
+	 * @return
+	 */
+    public String getLoadedClasspath() {
         return getClassFile().substring(0,getClassFile().length() - (clazz.getName()+".class").length());
     }
 	
