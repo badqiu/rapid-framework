@@ -279,6 +279,7 @@ public class Generator {
 			for(String removeExtension : removeExtensions.split(",")) {
 				if(outputFilePath.endsWith(removeExtension)) {
 					outputFilePath = outputFilePath.substring(0,outputFilePath.length() - removeExtension.length());
+					break;
 				}
 			}
 			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, sourceEncoding,"/filepath/processor/");
