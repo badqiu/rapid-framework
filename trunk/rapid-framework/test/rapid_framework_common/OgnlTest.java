@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
-
-import org.junit.Before;
-
 import flex.messaging.io.ArrayList;
 
 
@@ -95,7 +92,9 @@ public class OgnlTest extends TestCase {
 		assertTrue(Ognl.isNumber("1.1"));
 		assertTrue(Ognl.isNumber("1"));
 		assertTrue(Ognl.isNumber("-1"));
+		assertTrue(Ognl.isNumber("234E12"));
 		assertTrue(Ognl.isNumber(1));
+		assertTrue(Ognl.isNumber((double)1));
 		assertTrue(Ognl.isNumber(1.1));
 		assertTrue(Ognl.isNumber(new Integer(1)));
 	}
