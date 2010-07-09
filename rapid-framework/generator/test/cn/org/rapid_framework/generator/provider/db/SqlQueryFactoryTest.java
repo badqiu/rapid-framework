@@ -144,6 +144,9 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		assertTrue(sqlParametersParser.isMatchListParam("  #username[]# ", "username"));
 		assertTrue(sqlParametersParser.isMatchListParam("  $username[]$ ", "username"));
 		assertTrue(sqlParametersParser.isMatchListParam("  #user[].age# ", "user"));
+		
+		assertFalse(sqlParametersParser.isMatchListParam("  $username[] $ ", "username"));
+		assertFalse(sqlParametersParser.isMatchListParam("  #user[].age # ", "user"));
 	}
 	
 	public static int count;
