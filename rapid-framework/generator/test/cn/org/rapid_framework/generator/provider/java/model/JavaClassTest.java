@@ -10,7 +10,7 @@ public class JavaClassTest extends TestCase {
 		JavaClass c = new JavaClass(JavaClass.class);
 		assertEquals(c.getClassName(),"JavaClass");
 		for(Method m : JavaClass.class.getMethods()) {
-			System.out.println(m.toString());
+			System.out.println(m.getDeclaringClass().getName());
 		}
 	}
 	
