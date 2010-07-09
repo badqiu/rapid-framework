@@ -27,6 +27,10 @@ public class JavaClass {
 	public String getPackageName() {
 		return clazz.getPackage().getName();
 	}
+	
+	public String getName() {
+	    return this.clazz.getName();
+	}
 
 	public String getLastPackageName() {
 		return StringHelper.getExtension(getPackageName());
