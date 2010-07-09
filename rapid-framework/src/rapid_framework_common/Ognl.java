@@ -69,8 +69,12 @@ public class Ognl {
 			return true;
 		}
 		if(o instanceof String) {
+			String str = (String)o;
+			if(str.length() == 0) return false;
+			if(str.trim().length() == 0) return false;
+			
 			try {
-				Double.parseDouble((String)o);
+				Double.parseDouble(str);
 				return true;
 			}catch(NumberFormatException e) {
 				return false;
