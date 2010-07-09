@@ -242,7 +242,7 @@ public class GeneratorFacade {
 		
 		private static void printBeginProcess(String displayText,boolean isDatele) {
 			GLogger.println("***************************************************************");
-			GLogger.println("* BEGIN " + (isDatele ? " delete " : " generate ")+ displayText);
+			GLogger.println("* BEGIN " + (isDatele ? " delete by " : " generate by ")+ displayText);
 			GLogger.println("***************************************************************");
 		}
 		
