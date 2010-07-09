@@ -50,6 +50,11 @@ public class EnumBaseUtils {
        if(kv == null) return null;
        return kv.getDesc();
    }
+
+   public static <T extends Enum> Object getName(T kv) {
+       if(kv == null) return null;
+       return kv.name();
+   }
    
    /**
     * 根据code得到Enum,找不到则抛异常
@@ -70,11 +75,6 @@ public class EnumBaseUtils {
            }
        }
        return (T)v;
-   }
-   
-   public static <T extends Enum> Object getName(T kv) {
-       if(kv == null) return null;
-       return kv.name();
    }
    
    public static <T extends Enum> T[] getEnumValues(Class<T> type) {
