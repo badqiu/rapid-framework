@@ -11,8 +11,12 @@ import ${clazz.packageName}.*;
 import java.util.*;
 
 import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
-
 import com.alipay.test.base.BaseSofaTestCase;
+
+<#list clazz.importClasses as importClass>
+import ${importClass.javaType};
+</#list>
+
 
 public class ${clazz.className}Test extends BaseSofaTestCase{
     <#--
@@ -22,7 +26,13 @@ public class ${clazz.className}Test extends BaseSofaTestCase{
     -->
     
     @Autowired
-    protected ${clazz.clazz.name} ${clazz.className?uncap_first};
+    @XAutoWire(XAutoWire.BY_NAME)
+    protected ${clazz.javaType} ${clazz.className?uncap_first};
+    
+    public void setUp() throws Exception {
+        super.setUp();
+        assertNotNull("${clazz.className?uncap_first} must be not null",${clazz.className?uncap_first});
+    }
     
     <#list clazz.publicMethods as method>
     <#if isNotPropertyMethod(method.methodName)>
