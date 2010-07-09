@@ -69,7 +69,7 @@ public class ${clazz.className}Test extends BaseSofaTestCase{
 <#function isNotPropertyMethod methodName>
     <#if methodName?starts_with('get') || methodName?starts_with('set') || methodName?starts_with('is') >
         <#list clazz.fields as field>
-            <#if methodName?ends_with(field.fieldName) >
+            <#if methodName?lower_case?ends_with(field.fieldName?lower_case) >
                 <#return false>
             </#if>
         </#list>
