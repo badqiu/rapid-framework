@@ -20,6 +20,12 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_select_sql"));
 		g.setOutRootDir("./temp/sql");
 	}
+
+	public void test_select_with_between() throws Exception {
+		Sql selectSql  = new SqlFactory().parseSql("select * from user_info where birth_date between #minBirthDate# and #maxBirthDate# and username = :specialUsername and sex <= :specialSex and age >= ${specialAge} and password <> #{password}");
+		GeneratorModel gm = newFromQuery(selectSql);
+		g.generateBy(gm.templateModel, gm.filePathModel);
+	}
 	
 	public void test_select_with_no_parameers() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select * from user_info");
