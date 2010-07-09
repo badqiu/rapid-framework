@@ -130,7 +130,7 @@ public class JavaClass {
 	    return clazz.getClassLoader().getResource(clazz.getName().replace('.', '/')+".class").getFile();
 	}
 
-	public String getClassJavaFile() {
+	public String getJavaSourceFile() {
 	        return clazz.getName().replace('.', '/')+".java";
 	}
 	   
