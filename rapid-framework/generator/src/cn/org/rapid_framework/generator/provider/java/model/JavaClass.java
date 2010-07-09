@@ -51,16 +51,24 @@ public class JavaClass {
 	public Set<JavaClass> getImportClasses() {
 	    Set<JavaClass> set = new LinkedHashSet<JavaClass>();
 	    for(Method m :clazz.getMethods()) {
-	        set.add(new JavaClass(m.getReturnType()));
+	        addImportClass(set, m.getReturnType());
 	        for(Class<?> paramType : m.getParameterTypes()) {
-	            set.add(new JavaClass(paramType));
+	            addImportClass(set, paramType);
 	        }
 	    }
 	    for(Field f :clazz.getFields()) {
-            set.add(new JavaClass(f.getType()));
+            addImportClass(set, f.getType());
         }
 	    return set;
 	}
+
+    private boolean addImportClass(Set<JavaClass> set, Class<?> clazz) {
+        if(clazz == null) return false;
+        if(clazz.getName().startsWith("java.lang.")) return false;
+        if(clazz.isPrimitive()) return false;
+        if("void".equals(clazz.getName())) return false;
+        return set.add(new JavaClass(clazz));
+    }
 	
 	public String getSuperclassName() {
 		return clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : null;
@@ -232,7 +240,30 @@ public class JavaClass {
 		return result;
 	}
 	
-	public String toString() {
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((clazz == null) ? 0 : clazz.hashCode());
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        JavaClass other = (JavaClass) obj;
+        if (clazz == null) {
+            if (other.clazz != null)
+                return false;
+        } else if (!clazz.equals(other.clazz))
+            return false;
+        return true;
+    }
+
+    public String toString() {
 		return "JavaClass:"+clazz.getName();
 	}
 }
