@@ -4,7 +4,6 @@
 <html>
 <head>
 	<title>Error Page</title>
-	<script src="<c:url value="/scripts/prototype.js"/>" type="text/javascript"></script>
 	<script language="javascript">
 		function showDetail()
 		{
