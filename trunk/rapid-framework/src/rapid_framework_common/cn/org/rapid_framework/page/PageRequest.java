@@ -13,6 +13,7 @@ public class PageRequest<T> implements Serializable {
 	/**
 	 * 过滤参数
 	 */
+	@Deprecated
 	private T filters;
 	/**
 	 * 页号码,页码从1开始
