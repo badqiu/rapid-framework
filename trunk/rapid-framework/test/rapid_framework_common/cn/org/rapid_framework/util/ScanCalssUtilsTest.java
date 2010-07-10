@@ -3,11 +3,13 @@ package cn.org.rapid_framework.util;
 //import java.util.List;
 //
 import junit.framework.TestCase;
-//import cn.org.rapid_framework.generator.GeneratorFacade;
-//import cn.org.rapid_framework.generator.GeneratorProperties;
 
 public class ScanCalssUtilsTest extends TestCase {
-    
+      
+	 public void test2() {
+    	  
+     }
+      
 //    public void test() throws Exception {
 //        generateTestByPackage("cn.org.rapid_framework.util**");
 //    }
