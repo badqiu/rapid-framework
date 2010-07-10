@@ -23,7 +23,7 @@ public class PageRequestFactory {
     static BeanUtilsBean2 beanUtils = new BeanUtilsBean2();
     static {
     	//用于注册日期类型的转换
-    	String[] datePatterns = new String[] {"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd","HH:mm:ss"};
+    	String[] datePatterns = new String[] {"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm:ss.SSS","HH:mm:ss"};
     	ConvertRegisterHelper.registerConverters(beanUtils.getConvertUtils(),datePatterns);
     	
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
