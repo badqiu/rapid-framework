@@ -13,7 +13,7 @@
   	</tstamp>
 	
 	<!--版本控制信息-->
-	<property name="version" value="3.9.0.${today}"></property>
+	<property name="version" value="3.9.1.${today}"></property>
 	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 	<property name="version.file" value="version.txt"></property>
 	<target name="generate_version">
@@ -113,7 +113,7 @@
 	<target name="jar.source" depends="">
 		<jar jarfile="${dir.dist}/${ant.project.name}-${version}-source.jar">
 			<fileset dir="generator/src" >
-				<include name="**"/>
+				<include name="**/*.java"/>
 			</fileset>
 		</jar>
 	</target>
@@ -181,10 +181,11 @@
 		</zip>		
 	</target>
 
-	<target name="standalone-zip" depends="clean,jar" description="独立的命令行简单的zip压缩打包">
+	<target name="standalone-zip" depends="clean,jar,jar.source" description="独立的命令行简单的zip压缩打包">
 		<zip zipfile="${dir.dist}/standalone-${ant.project.name}-${version}.zip" encoding="GBK">
 			<zipfileset dir="${dir.dist}" prefix="rapid-generator-${version}/lib">
 					<include name="rapid-generator.jar"/>
+					<include name="rapid-generator*source.jar"/>
 			</zipfileset>
 			<zipfileset dir="./generator" prefix="rapid-generator-${version}">
 				<include name="lib/**"/>
