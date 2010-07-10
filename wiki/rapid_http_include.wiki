@@ -1,4 +1,3 @@
-
 = 为velocity,freemarker提供jsp:include功能 =
 
 ==一.介绍==
@@ -11,20 +10,20 @@
 }}}
  
 而如果你不是使用JSP，而是使用模板引擎如Freemarker,Velocity。有该功能也将十分方便。
-Freemarker提供了<@include_page path="/servlet/header"/>指令，使freemarker可以完成jsp:include功能，但velocity则没有提供该功能。
+Freemarker提供了[http://freemarker.sourceforge.net/docs/pgui_misc_servlet.html#pgui_misc_servlet_include <@include_page path="/servlet/header"/>]指令，使freemarker可以完成jsp:include功能，但velocity则没有提供该功能。
  
 ==二.扩展==
 
 现扩展实现一个比Freemarker更加通用的HttpInclude对象，可以适用于Freemarker及Velocity。
  
-Freemarker及Velocity示例使用:
+*Freemarker及Velocity示例使用:*
 {{{
 ${httpInclude.include("/servlet/head?p1=v1&p2=v2")};
 ${httpInclude.include("/head.jsp")};
 ${httpInclude.include("http://www.google.com")};
 }}} 
  
-与jsp:include相比:
+*与jsp:include相比:*
  
 与jsp:include完成相同的功能
 可以include远程的http内容.并且会将session_id等cookie传递至该请求,如: http://www.google.com
