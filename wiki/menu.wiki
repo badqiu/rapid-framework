@@ -14,13 +14,13 @@
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
     * [rapid_ant ant脚本]
     * [rapid_generator 代码生成器rapid-generator(new)]
-    * view层
+    * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
       * [rapid_freemarker_extends freemarker实现模板继承]
       * [rapid_velocity_extends velocity实现模板继承]
       * [rapid_pipeline freemarker,velocity模板管道操作]
-      * [rapid_http_include 为velocity,freemarker提供jsp:include功能]
+      * [rapid_http_include 为velocity,freemarker提供jsp:include功能(new)]
     * dao层介绍
       * [rapid_transaction spring事务]
       * [rapid_dialect jdbc分页方言]
