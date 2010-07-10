@@ -222,6 +222,7 @@
 				
 				<include name="build.properties"/>
 				<include name="build.xml"/>
+				<include name="pom.xml"/>
 				
 				<include name="项目需知.txt"/>
 				<include name="readme.txt"/>
