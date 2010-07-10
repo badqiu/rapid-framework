@@ -1,3 +1,45 @@
+--------------------------------------------------------
+rapid-framework v3.9.0
+
+脚手架相关修改
+	使用rapid的jsp继承用于网页的布局
+	集成hibernate validator
+	引用Flash Scope,用于显示消息
+	将extremetable替换为更简单的simpletable列表分页.
+	dao层查询代码修改,让用户选择是否需要使用xsqlbuilder
+	加入SharedRenderVariableInterceptor?,用于存放所有视图需要的共享变量
+	增加HttpInclude?功能,便freemarker,velocity可以完成jsp:include功能
+	PageRequest?现在使用强类型的TableNameQuery?
+	dbunit测试改进
+生成器相关修改
+	Generator包提供jar包,不直接在项目中使用源代码,以便提供一个统一的生成器引擎,大家编写的模板都可以在生成器上面运行.
+	table变量现在可以通过配置文件自定义配置,具体请查看rapid_generator
+	增加table变量枚举的生成
+	生成器配置文件 generator.properties 改名为 generator.xml
+	生成的代码优化
+
+--------------------------------------------------------
+rapid-framework v3.5.1
+	spring_jdbc插件的${className}.java模板增加@Transnit标注
+	flex模板修正
+	生成器忽略生成错误
+	生成器忽略表名的大小写
+
+--------------------------------------------------------
+rapid-framework v3.5
+更新内容:
+	jsp,freemarker,velocity的模板实现继承关系,即模板之间可以继承.
+	freemarker,velocity实现管道操作来进行布局
+	新增分页方言: SQLServer2005Dialect
+	spring事务配置采用@Transactional替换xml配置
+	session框架,可以将session存储在数据库,cache
+	jdbc增加了sql生成工具类,构建最简单orm,用于进一步封装spring jdbc操作
+新增插件
+	flex_cairngorm: 基于cairngorm mvc的flex插件,代码生成器生成的在线demo
+	freemarker_html_view: 基于freemarker的html视图,用于不喜欢jsp的同学使用
+文档:
+	通过工具http://code.google.com/p/google-code-wiki-to-html/, 现rapid压缩包包含离线文档
+	其它修改:
 
 
 --------------------------------------------------------
