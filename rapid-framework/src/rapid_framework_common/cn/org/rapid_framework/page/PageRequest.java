@@ -1,11 +1,8 @@
 package cn.org.rapid_framework.page;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 /**
  * 分页请求信息
  * 其中范型<T>为filters的类型
@@ -34,6 +31,7 @@ public class PageRequest<T> implements Serializable {
 		this(0,0);
 	}
 	
+	@Deprecated
 	public PageRequest(T filters) {
 		this(0,0,filters);
 	}
@@ -42,6 +40,7 @@ public class PageRequest<T> implements Serializable {
 		this(pageNumber,pageSize,(T)null);
 	}
 	
+	@Deprecated
 	public PageRequest(int pageNumber, int pageSize, T filters) {
 		this(pageNumber,pageSize,filters,null);
 	}
@@ -50,6 +49,7 @@ public class PageRequest<T> implements Serializable {
 		this(pageNumber,pageSize,null,sortColumns);
 	}
 	
+	@Deprecated
 	public PageRequest(int pageNumber, int pageSize, T filters,String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
