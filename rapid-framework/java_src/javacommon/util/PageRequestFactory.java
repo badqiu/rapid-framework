@@ -1,6 +1,7 @@
 package javacommon.util;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javacommon.base.BaseQuery;
@@ -21,6 +22,7 @@ public class PageRequestFactory {
     
     static BeanUtilsBean2 beanUtils = new BeanUtilsBean2();
     static {
+    	//用于注册日期类型的转换
     	String[] datePatterns = new String[] {"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd","HH:mm:ss"};
     	ConvertRegisterHelper.registerConverters(beanUtils.getConvertUtils(),datePatterns);
     	
@@ -32,9 +34,14 @@ public class PageRequestFactory {
     }
     
     public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
-    	try {
 	    	Map params = WebUtils.getParametersStartingWith(request, "");
-	    	beanUtils.copyProperties(pageRequest, params);
+	    	try {
+	    		beanUtils.copyProperties(pageRequest, params);
+		    } catch (IllegalAccessException e) {
+		    	throw new IllegalArgumentException("beanUtils.copyProperties() error",e);
+			} catch (InvocationTargetException e) {
+				throw new IllegalArgumentException("beanUtils.copyProperties() error",e.getTargetException());
+			}
 	        
 	        pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
 	        pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
@@ -44,9 +51,6 @@ public class PageRequestFactory {
 	            pageRequest.setPageSize(MAX_PAGE_SIZE);
 	        }
 	        return pageRequest;
-    	}catch(Exception e) {
-    		throw new IllegalArgumentException("beanUtils.copyProperties() error",e);
-    	}
     }
     
     static String getStringParameter(HttpServletRequest request,String paramName, String defaultValue) {
