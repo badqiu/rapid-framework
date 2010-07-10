@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.badqiu.sfmvc</groupId>
-	<artifactId>sfmvc-parent</artifactId>
+	<groupId>com.company.projectname</groupId>
+	<artifactId>projectname-parent</artifactId>
 	<packaging>pom</packaging>
-	<name>sfmvc parent pom.xml</name>
+	<name>projectname parent pom.xml</name>
 	<version>1.0</version>
 	<organization>
 		<name>Rapid-Framework</name>
@@ -13,14 +13,16 @@
 	</organization>
 
 	<properties>
-		<spring.version>3.0.2.RELEASE</spring.version>
-		<hibernate.version>3.3.2.GA</hibernate.version>
+		<spring.version>3.0.3.RELEASE</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>
+
 		<jetty.version>6.1.24</jetty.version>
 		<h2.version>1.2.135</h2.version>
 		<jackson.version>1.5.2</jackson.version>
 		<slf4j.version>1.6.0</slf4j.version>
 		<hibernate.validator.version>4.1.0.Beta2</hibernate.validator.version>
+		
+		<hibernate.version>3.3.2.GA</hibernate.version>
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<mybatis.version>3.0.1</mybatis.version>
 		
@@ -32,23 +34,23 @@
 		<dependencies>
 			<!--  sub projects BEGIN -->
 			<dependency>
-				<groupId>com.badqiu.sfmvc</groupId>
-				<artifactId>sfmvc-common</artifactId>
+				<groupId>com.company.projectname</groupId>
+				<artifactId>projectname-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badqiu.sfmvc</groupId>
-				<artifactId>sfmvc-dao</artifactId>
+				<groupId>com.company.projectname</groupId>
+				<artifactId>projectname-dao</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badqiu.sfmvc</groupId>
-				<artifactId>sfmvc-service</artifactId>
+				<groupId>com.company.projectname</groupId>
+				<artifactId>projectname-service</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.badqiu.sfmvc</groupId>
-				<artifactId>sfmvc-web</artifactId>
+				<groupId>com.company.projectname</groupId>
+				<artifactId>projectname-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>			
 			<!--  sub projects END -->
@@ -457,7 +459,8 @@
 				<artifactId>jackson-jaxrs</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
-
+			
+			<!-- ibatis2 and mybatis -->
 			<dependency>
 			    <groupId>org.mybatis</groupId>
 			    <artifactId>mybatis</artifactId>
