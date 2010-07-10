@@ -1,0 +1,183 @@
+    
+    <select id="MS-TRADE-REFUND-FIND-PAGE" resultMap="RM-TRADE-REFUND">
+        select /*MS-MQUERY-TRADE-REFUND-FIND-PAGE*/ * from (select T1.*, rownum linenum from (select
+			BTR.ID, BTR.TRADE_NO, BTR.OUT_TRADE_NO, BTR.RETURN_STATUS, BTR.MEMO, BTR.RETURN_FEE,
+			BTR.GMT_ADMIN_MODIFIED, BTR.ADMIN_STATUS, BTR.RETURN_TYPE, BTR.RETURN_GOODS, BTR.GOODS_STATUS,
+			BTR.CLOSE_CAUSE, BTR.REQUIRE_VOUCHER, BTR.GMT_CREATE, BTR.GMT_MODIFIED, BTR.SELLER_NOT_RECEIVE,
+			BTR.REFUND_REASON, BTR.APPEAL_NO, BTR.GMT_DW_SYNC, BTR.BUY_USER_ID, BTR.BUY_ACCOUNT,
+			BTR.SELL_USER_ID, BTR.SELL_ACCOUNT, BTR.TRADE_FROM, BTR.TRADE_EMAIL, BTR.IS_INPOUR_REFUND,
+			BTR.REFUND_FLOW_TYPE
+		from
+			trade_refund_00 BTR
+		<dynamic>
+			<!-- mapped statement for IbatisTradeRefundDAO.findPage -->
+		    <isEmpty property="partnerIds">
+				  <isEmpty property="account">
+					  <isEmpty property="direction">
+		                 query not allowed
+					  </isEmpty>
+			  	  </isEmpty>
+			</isEmpty>
+					
+			<isNotEmpty prepend="," property="join">
+				trade_base_00 BTB
+				where BTR.trade_no = BTB.trade_no
+			</isNotEmpty>
+			
+			<isEmpty property="join">
+				where 1=1
+			</isEmpty>
+
+			<isNotEmpty prepend="and" property="partnerIds">
+				 BTR.trade_email IN
+				<iterate property="partnerIds" open="(" close=")" conjunction=",">
+					#partnerIds[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty property="account">
+				<isEqual prepend="and" property="direction" compareValue="PAY">
+					BTR.buy_account = #account#
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						BTR.sell_account = #oppositeAccount#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.seller_nick LIKE #oppositeNick#  escape '\' OR BTB.seller_fullname LIKE #oppositeNick# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.seller_nick LIKE #oppositeFullName#  escape '\' OR BTB.seller_fullname LIKE #oppositeFullName# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.seller_login_email LIKE #oppositeLoginName# escape '\'
+					</isNotEmpty>
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="RECEIVE">
+					BTR.sell_account = #account#
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						BTR.buy_account = #oppositeAccount#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.buyer_nick LIKE #oppositeNick# escape '\' OR BTB.buyer_fullname LIKE #oppositeNick# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.buyer_nick LIKE #oppositeFullName# escape '\' OR BTB.buyer_fullname LIKE #oppositeFullName# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.buyer_login_email LIKE #oppositeLoginName# escape '\'
+					</isNotEmpty>
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="ALL">
+					(BTR.buy_account = #account# OR BTR.sell_account = #account#)
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						(BTR.buy_account = #oppositeAccount# OR BTR.sell_account = #oppositeAccount#)
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.buyer_nick LIKE #oppositeNick# escape '\' OR BTB.seller_nick LIKE #oppositeNick# escape '\' OR BTB.buyer_fullname LIKE #oppositeNick# escape '\' OR BTB.seller_fullname LIKE #oppositeNick# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.buyer_nick LIKE #oppositeFullName# escape '\' OR BTB.seller_nick LIKE #oppositeFullName# escape '\' OR BTB.buyer_fullname LIKE #oppositeFullName# escape '\' OR BTB.seller_fullname LIKE #oppositeFullName# escape '\')
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						(BTB.buyer_login_email LIKE #oppositeLoginName# escape '\' OR BTB.seller_login_email LIKE #oppositeLoginName# escape '\')
+					</isNotEmpty>
+				</isEqual>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeNo">
+				BTR.trade_no = #tradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="outTradeNo">
+				BTR.out_trade_no = #outTradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeTypes">
+				 BTB.trade_type IN
+				<iterate property="tradeTypes" open="(" close=")" conjunction=",">
+					#tradeTypes[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeStatuses">
+				 BTB.trade_status IN
+				<iterate property="tradeStatuses" open="(" close=")" conjunction=",">
+					#tradeStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="refundStatuses">
+				 BTR.return_status IN
+				<iterate property="refundStatuses" open="(" close=")" conjunction=",">
+					#refundStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="goodsStatuses">
+				 BTR.goods_status IN
+				<iterate property="goodsStatuses" open="(" close=")" conjunction=",">
+					#goodsStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="refundType">
+				BTR.return_type = #refundType#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="goodsTitle">
+				BTB.goods_title LIKE #goodsTitle# escape '\'
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeFroms">
+				 BTR.trade_from IN
+				<iterate property="tradeFroms" open="(" close=")" conjunction=",">
+					#tradeFroms[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="notInTradeFroms">
+				 BTR.trade_from NOT IN
+				<iterate property="notInTradeFroms" open="(" close=")" conjunction=",">
+					#notInTradeFroms[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradePriceDown">
+					BTR.return_fee &gt;= #tradePriceDown#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradePriceUp">
+					BTR.return_fee &lt;= #tradePriceUp#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="gmtCreateStartTime">
+					BTR.gmt_create &gt;= #gmtCreateStartTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtCreateEndTime">
+					BTR.gmt_create &lt;= #gmtCreateEndTime#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="gmtLastModifiedDtStartTime">
+					BTR.gmt_modified &gt;= #gmtLastModifiedDtStartTime#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="gmtLastModifiedDtEndTime">
+					BTR.gmt_modified &lt;= #gmtLastModifiedDtEndTime#
+			</isNotEmpty>
+			
+			<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_ASC">
+				order by BTR.GMT_CREATE ASC
+			</isEqual>
+			
+			<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_DESC">
+				order by BTR.GMT_CREATE DESC
+			</isEqual>
+			
+			<isEqual prepend="" property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
+				order by BTR.gmt_modified ASC
+			</isEqual>
+			
+			<isEqual prepend="" property="orderby" compareValue="GMT_LAST_MODIFIED_DT_DESC">
+				order by BTR.gmt_modified DESC
+			</isEqual>
+		</dynamic>) T1 where rownum &lt;= #endRow#) T2 where linenum &gt;= #startRow#
+    </select>

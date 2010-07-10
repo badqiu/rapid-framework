@@ -1,0 +1,45 @@
+<#include "/macro.include">
+<#assign className = table.className>   
+<#assign classNameLower = className?uncap_first> 
+
+#set(<@jspEl 'title'/> = 'query${className}')
+#set(<@jspEl 'group'/> = <@jspEl 'form'/>.query${className}.defaultInstance)
+
+<h2>'query${className}'</h2>
+
+<form method="post" action="query${className}.htm">
+	<input type="hidden" name="doAction" value="true"/>
+	<table  border="0" cellpadding="5" cellspacing="0" width="100%">
+	
+<#list table.notPkColumns?chunk(3) as rows>
+	<tr>
+	<#list rows as column>
+		<td width="15%" align="right">${column.columnName}</td>
+		<td><input type="text" name="$!group.${column.columnNameFirstLower}.key" value="$!group.${column.columnNameFirstLower}.value"/></td>
+
+	</#list>
+	</tr>
+</#list>
+	
+	<tr>
+		<td colspan="4">
+			<div align="center"><input type="submit" value="query ${className}"></div>
+		</td>
+	</tr>
+	</table>
+</form>
+
+
+<table class="gridTabalBody" border="1">
+	<tr>
+	<#list table.notPkColumns as column>
+		<th>$!item.${column.columnName}</th>
+	</#list>	
+	</tr>
+
+	<tr>
+	<#list table.notPkColumns as column>
+		<td>$!item.${column.columnNameFirstLower}</td>
+	</#list>	
+	</tr>	
+</table>

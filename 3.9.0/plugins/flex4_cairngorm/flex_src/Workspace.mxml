@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="400"
+		 height="300"
+		>
+
+	<s:layout>
+
+		<s:BasicLayout />
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	<mx:ViewStack width="100%"
+				  height="100%"
+				  id="viewStack">
+
+
+		<mx:Panel id="HelloWorldView">
+
+			<mx:Text text="rapid-framework项目脚手架" />
+		</mx:Panel>
+
+		<mx:Panel id="HelloView">
+
+			<mx:Button label="hello" />
+		</mx:Panel>
+
+		<mx:Panel id="PowerByView">
+
+			<mx:Button label="Powered By Rapid-framework" />
+		</mx:Panel>
+
+		<mx:Panel id="RapidHOME">
+
+			<mx:Button label="http://www.rapid-framework.org.cn" />
+		</mx:Panel>
+
+
+	</mx:ViewStack>
+</s:Group>

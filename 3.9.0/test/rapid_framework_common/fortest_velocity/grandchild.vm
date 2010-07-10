@@ -1,0 +1,8 @@
+#override("head") 
+	grandchild_head_content 
+#end
+#override("body") 
+	grandchild_body_content 
+#end
+
+#parse("child.vm")

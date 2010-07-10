@@ -1,0 +1,6 @@
+#override("body")
+	<div class='content'>
+		Powered By rapid-framework
+	</div> 
+#end
+#extends("base.vm")
