@@ -23,7 +23,7 @@ public class GeneratorProperties {
 	
 	static final String PROPERTIES_FILE_NAMES[] = new String[]{"generator.properties","generator.xml","custom-generator.properties","custom-generator.xml"};
 	
-	static PropertiesHelper props = new PropertiesHelper(new Properties());
+	static PropertiesHelper props = new PropertiesHelper(new Properties(),true);
 	private GeneratorProperties(){}
 	static {
 		reload();
@@ -114,7 +114,7 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperties(Properties inputProps) {
-		props = new PropertiesHelper(resolveProperties(inputProps));
+		props = new PropertiesHelper(resolveProperties(inputProps),true);
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
             GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
