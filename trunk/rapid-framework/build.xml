@@ -110,7 +110,15 @@
 			</fileset>
 		</jar>
 	</target>
-	
+
+	<target name="jar.source" depends="">
+		<jar jarfile="${dir.dist}/${ant.project.name}-${version}-source.jar">
+			<fileset dir="java_src" >
+				<include name="**"/>
+			</fileset>
+		</jar>
+	</target>
+					
 	<!-- 运行前请将junit.jar加入ant runtime classpath
 	      打开Window>>Perferences>>Ant>>Runtime>>Classpath里加入junit.jar-->
 	<target name="test" depends="compile-all">
