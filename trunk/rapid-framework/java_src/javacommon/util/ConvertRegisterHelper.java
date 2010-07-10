@@ -23,7 +23,7 @@ import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 
 import cn.org.rapid_framework.beanutils.converter.StringConverter;
 /**
- * 用于注册Converter, 用于Bean.copyProperties()方法中的class类型转换;
+ * 注册Converter, 用于apache commons BeanUtils.copyProperties()方法中的class类型转换;
  * 可以修改此处代码以添加新的Converter
  * @author badqiu
  */
