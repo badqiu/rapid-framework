@@ -50,7 +50,7 @@ public class ConvertRegisterHelper {
 	}
 
 //	public static void registerConverters(ConvertUtilsBean convertUtils) {
-//		registerConverters(convertUtils,new String[] {"yyyy-MM-dd HH:mm:ss","yyyy-MM-dd","HH:mm:ss"});
+//		registerConverters(convertUtils,new String[] {"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm:ss.SSS","HH:mm:ss"});
 //	}
 	
 	public static void registerConverters(ConvertUtilsBean convertUtils,String[] datePatterns) {
