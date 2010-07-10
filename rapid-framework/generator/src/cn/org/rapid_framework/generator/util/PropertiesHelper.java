@@ -14,10 +14,16 @@ import java.util.Map.Entry;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 
 public class PropertiesHelper {
+	boolean isSearchSystemProperty = false;
 	Properties p;
 
 	public PropertiesHelper(Properties p) {
 		this.p = p;
+	}
+
+	public PropertiesHelper(Properties p,boolean isSearchSystemProperty) {
+		this.p = p;
+		this.isSearchSystemProperty = isSearchSystemProperty;
 	}
 	
 	public Properties getProperties() {
@@ -25,11 +31,18 @@ public class PropertiesHelper {
 	}
 	
 	public String getProperty(String key, String defaultValue) {
-		return getProperties().getProperty(key, defaultValue);
+		String value = null;
+		if(isSearchSystemProperty) {
+			value = System.getProperty(key);
+		}
+		if(value == null || "".equals(value.trim())) {
+			value = getProperties().getProperty(key);
+		}
+		return value == null || "".equals(value.trim()) ? defaultValue : value;
 	}
 	
 	public String getProperty(String key) {
-		return getProperties().getProperty(key);
+		return getProperty(key,null);
 	}
 	
 	public String getRequiredProperty(String key) {
@@ -77,7 +90,7 @@ public class PropertiesHelper {
 	}
 	
 	public String getNullIfBlank(String key) {
-		String value = getProperties().getProperty(key);
+		String value = getProperty(key);
 		if(value == null || "".equals(value.trim())) {
 			return null;
 		}
