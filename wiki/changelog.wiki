@@ -1,7 +1,8 @@
 #labels changelog
 #修改日志
 ==rapid-framework v3.9.0==
-  * 使用rapid的jsp继承用于网页的布局
+*脚手架相关修改*
+  * 使用rapid的[http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends jsp继承]用于网页的布局
   * 集成hibernate validator
   * 引用Flash Scope,用于显示消息
   * 将extremetable替换为更简单的simpletable列表分页.
@@ -10,7 +11,7 @@
   * 增加HttpInclude功能,便freemarker,velocity可以完成jsp:include功能
   * PageRequest现在使用强类型的TableNameQuery
   * dbunit测试改进
-生成器修改
+*生成器相关修改*
   * Generator包提供jar包,不直接在项目中使用源代码,以便提供一个统一的生成器引擎,大家编写的模板都可以在生成器上面运行.
   * table变量现在可以通过配置文件自定义配置,具体请查看[http://code.google.com/p/rapid-framework/wiki/rapid_generator rapid_generator]
   * 增加table变量枚举的生成
