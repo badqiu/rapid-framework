@@ -54,14 +54,13 @@ SqlFactory.insert语句要为insert into user_info values(?,?,?,?,?,?) => insert
 #修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
 #集成hibernate validator 
 #集成HibernateValidator	
-# ibatis3 mapper.xml中增加 @Ognl@checkOrderby(orderby,'username,pwd')用于验证可以排序的列
 #增加manual-${className}SqlMap.xml
 __#日期类型的dao sql生成 dateBegin,dateEnd输入
 #ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
 #UserManager.findByPageRequest() rename to UserManager.findPage
 #考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
 #使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
-#支持文件名称扩展名为.gen,并自动移除该扩展名,再生成文件
+#支持文件名称扩展名为.ftl,.vm,并自动移除该扩展名,再生成文件
 #生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
 #支持删除生成的内容:
 		内容: javaType配置
@@ -89,7 +88,6 @@ spring服务发布增加: spring/internal, spring/publish两个目录,internal�
 	#status and type关键字将自动生成Enum
 增加解析remark表达式用于column的metadata,如{enumListString=M(男);F(女),} ,增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
 将数据库的数据load出来,作为dbUnit的测试数据源
-#为DAO层指定readonly/queryOnly属性，以禁止标准的insert update语句不能执行
 #使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
 #支持一条sql语句生成操作，可以使用ZQL来解析sql
 #完成Flash Scope
