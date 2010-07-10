@@ -15,15 +15,17 @@ Freemarker提供了[http://freemarker.sourceforge.net/docs/pgui_misc_servlet.htm
 ==二.扩展==
 
 现扩展实现一个比Freemarker更加通用的HttpInclude对象，可以适用于Freemarker及Velocity。
- 
+
+
 *Freemarker及Velocity示例使用:*
 {{{
 ${httpInclude.include("/servlet/head?p1=v1&p2=v2")};
 ${httpInclude.include("/head.jsp")};
 ${httpInclude.include("http://www.google.com")};
 }}} 
- 
+
 *与jsp:include相比:*
+
  
 与jsp:include完成相同的功能
 可以include远程的http内容.并且会将session_id等cookie传递至该请求,如: http://www.google.com
