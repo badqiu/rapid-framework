@@ -30,8 +30,8 @@ public class ObjectUtilsTest {
 		Assert.assertTrue(!ObjectUtils.isEmpty(new Object[]{1,2,3}));
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test
 	public void testIsEmptyWithIeelgalArgument() {
-		Assert.assertTrue(ObjectUtils.isEmpty(new Object()));
+		Assert.assertFalse(ObjectUtils.isEmpty(new Object()));
 	}
 }

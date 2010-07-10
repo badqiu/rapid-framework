@@ -1,14 +1,33 @@
 package cn.org.rapid_framework.util;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import javacommon.util.ConvertRegisterHelper;
 import junit.framework.TestCase;
 
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.apache.commons.beanutils.converters.BigDecimalConverter;
+import org.apache.commons.beanutils.converters.BigIntegerConverter;
+import org.apache.commons.beanutils.converters.BooleanConverter;
+import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.DateTimeConverter;
+import org.apache.commons.beanutils.converters.DoubleConverter;
+import org.apache.commons.beanutils.converters.FloatConverter;
+import org.apache.commons.beanutils.converters.IntegerConverter;
+import org.apache.commons.beanutils.converters.LongConverter;
+import org.apache.commons.beanutils.converters.ShortConverter;
+import org.apache.commons.beanutils.converters.SqlDateConverter;
+import org.apache.commons.beanutils.converters.SqlTimeConverter;
+import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.springframework.beans.BeanUtils;
+
+import cn.org.rapid_framework.beanutils.converter.StringConverter;
 
 public class MiscTest extends TestCase {
 	
@@ -26,7 +45,38 @@ public class MiscTest extends TestCase {
 		System.out.println(map);
 		System.out.println(toString(map));
 	}
+	
+	public void test_convert_utils() {
+		ConvertUtilsBean convert = new ConvertUtilsBean();
+		registerConverters(convert, new String[]{"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm:ss.SSS"});
+		System.out.println(convert.convert("2010-01-01", java.util.Date.class));
+		System.out.println(convert.convert("2010-01-01 10:10:10", java.util.Date.class));
+		System.out.println(convert.convert("2010-01-01 10:10:10.102", java.sql.Timestamp.class));
+	}
 
+	public static void registerConverters(ConvertUtilsBean convertUtils,String[] datePatterns) {
+		convertUtils.register(new StringConverter(), String.class);
+		//date 
+		convertUtils.register(ConvertRegisterHelper.setPatterns(new DateConverter(null),datePatterns),java.util.Date.class);
+		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlDateConverter(null),datePatterns),java.sql.Date.class);
+		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlTimeConverter(null),datePatterns),Time.class);
+		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlTimestampConverter(null),datePatterns),Timestamp.class);
+		//number
+		convertUtils.register(new BooleanConverter(null), Boolean.class);
+		convertUtils.register(new ShortConverter(null), Short.class);
+		convertUtils.register(new IntegerConverter(null), Integer.class);
+		convertUtils.register(new LongConverter(null), Long.class);
+		convertUtils.register(new FloatConverter(null), Float.class);
+		convertUtils.register(new DoubleConverter(null), Double.class);
+		convertUtils.register(new BigDecimalConverter(null), BigDecimal.class); 
+		convertUtils.register(new BigIntegerConverter(null), BigInteger.class);	
+	}
+	
+	public static <T extends DateTimeConverter> T setPatterns(T converter ,String... patterns) {
+		converter.setPatterns(patterns);
+		return converter;
+	}
+	
     public static String toString(Map<?,?> map) {
         StringBuffer sb = new StringBuffer();
         int count = 0;
