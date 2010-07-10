@@ -114,7 +114,7 @@
 	<target name="jar.source" depends="">
 		<jar jarfile="${dir.dist}/${ant.project.name}-${version}-source.jar">
 			<fileset dir="java_src" >
-				<include name="**"/>
+				<include name="**/*.java"/>
 			</fileset>
 		</jar>
 	</target>
