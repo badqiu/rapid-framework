@@ -204,6 +204,7 @@
 		<property name="dir.for.framework" value="${dir.dist}/for_framework_zip"/>
 		<mkdir dir="${dir.for.framework}/generator/lib"/>
 		<ant antfile="build-generator.xml" target="jar" inheritall="false" inheritrefs="false" />
+		<ant antfile="build-generator.xml" target="jar.source" inheritall="false" inheritrefs="false" />
 		
 		<copy  todir="${dir.for.framework}/generator/lib">
 			<fileset dir="${dir.dist}/generator" includes="rapid-generator-*.jar"></fileset>
