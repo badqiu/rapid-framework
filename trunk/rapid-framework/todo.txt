@@ -32,7 +32,7 @@ app.name=projectName
 app.version=1.0
 app.mode=dev,prod,test,perf
 
-
+自动搜索xml数据并作为generator数据源,如pom.xml,引用变量名为${pom}
 完成SqlQueryFactory
 SafeSqlProcessor
         //转义%
