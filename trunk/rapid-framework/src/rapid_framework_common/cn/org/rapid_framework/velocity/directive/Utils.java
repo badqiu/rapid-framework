@@ -19,12 +19,12 @@ class Utils {
 	static String getRequiredArgument(InternalContextAdapter context,Node node,int argumentIndex,String directive) throws ParseErrorException {
 		SimpleNode sn_value = (SimpleNode)node.jjtGetChild(argumentIndex);
         if ( sn_value == null){
-        	throw new ParseErrorException("required argument is null with directive:#"+directive+"()");
+        	throw new ParseErrorException("required argument is null with directive:#"+directive+"(),argumentIndex="+argumentIndex);
         }
         
 		String value = (String)sn_value.value(context);
 		if ( value == null){
-			throw new ParseErrorException("required argument is null with directive:#"+directive+"()");
+			throw new ParseErrorException("required argument is null with directive:#"+directive+"(),argumentIndex="+argumentIndex);
         }
 		return value;
 	}
