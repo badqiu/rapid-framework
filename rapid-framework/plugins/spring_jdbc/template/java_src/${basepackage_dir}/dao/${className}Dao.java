@@ -35,7 +35,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	
 	public Page findPage(${className}Query query) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
-		// [column]为字符串拼接, {column}为使用占位符. [column]为使用字符串拼接,如username='[username]',偷懒时可以使用字符串拼接 
+		// [column]为字符串拼接, {column}为使用占位符. 如username='[username]',偷懒时可以使用字符串拼接 
 		// [column] 为PageRequest的属性
 		String sql = "select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 "
 			<#list table.columns as column>
