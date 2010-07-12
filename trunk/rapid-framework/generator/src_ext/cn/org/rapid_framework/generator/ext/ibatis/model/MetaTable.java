@@ -4,12 +4,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -72,7 +80,75 @@ public class MetaTable {
     public String toString() {
         return BeanHelper.describe(this).toString();
     }
+
+    public List<Sql> toSqls() throws SQLException, Exception {
+        return toSqls(this);
+    }
     
+    public static List<Sql> toSqls(MetaTable table) throws SQLException, Exception {
+        return Convert2SqlsProecssor.toSqls(table);
+    }
+    
+    private static class Convert2SqlsProecssor {
+        
+        public static List<Sql> toSqls(MetaTable table) throws SQLException, Exception {
+            List<Sql> sqls = new ArrayList<Sql>();
+            for(MetaOperation op :table.getOperation()) {
+                SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
+                Sql sql = sqlFactory.parseSql0(op.getSql());
+                if(StringHelper.isNotBlank(op.getSqlmap())) {
+                    sql.setIbatisSql(op.getSqlmap());
+                    sql.setIbatis3Sql(op.getSqlmap());
+                }
+                sql.setOperation(op.getName());
+                sql.setMultiPolicy(op.getMultiPolicy());
+                sql.setParameterClass(op.getParameterClass());
+                sql.setResultClass(op.getResultClass());
+                sql.setRemarks(op.getComments());
+                sql.setTableSqlName(table.getSqlname());
+                sqls.add(sql);
+            }
+            return sqls;
+        }        
+        
+        private static List<Column> getCustomColumns(MetaTable table) throws Exception {
+            List<Column> result = new ArrayList<Column>();
+            Table t = TableFactory.getInstance().getTable(table.getSqlname());
+            for(MetaColumn mc : table.getColumn()) {
+                Column c = t.getColumnByName(mc.getName());
+                if(c == null) {
+                    c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
+                        mc.getName(), -1, -1, false,false,false,false,
+                        "",mc.getColumnAlias());
+                }
+                c.setJavaType(mc.getJavaType());
+                c.setColumnAlias(mc.getColumnAlias());
+                result.add(c);
+            }
+            return result;
+        }
+    
+        private static List<SqlParameter> getCustomSqlParameters(MetaTable table) throws Exception {
+            List<SqlParameter> result = new ArrayList<SqlParameter>();
+            Table t = TableFactory.getInstance().getTable(table.getSqlname());
+            for(MetaOperation op : table.getOperation()) {
+                for(MetaParam param : op.getExtraparams()) {
+                    Column c = t.getColumnByName(param.getName());
+                    if(c == null) {
+                        c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
+                            param.getName(), -1, -1, false,false,false,false,
+                            "",param.getColumnAlias());
+                    }
+                    SqlParameter sqlParam = new SqlParameter(c);
+                    sqlParam.setJavaType(param.getJavaType());
+                    sqlParam.setColumnAlias(param.getColumnAlias());
+                    result.add(sqlParam);
+                }
+            }
+            return result;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
         MetaTable metaTable = new MetaTable();
@@ -111,11 +187,10 @@ public class MetaTable {
     }
 
     public static class MetaParam extends MetaColumn {
- 
     }
     
     public static class MetaOperation {
-        public List<MetaColumn> extraparams = new ArrayList();
+        public List<MetaParam> extraparams = new ArrayList<MetaParam>();
         public String name;
         public String resultClass;
         public String parameterClass;
@@ -124,14 +199,15 @@ public class MetaTable {
         public String sql;
         public String sqlmap;
         public Sql parsedSql;
+        public String comments;
         
         public String tableSqlName = null; //是否需要
         
-        public List<MetaColumn> getExtraparams() {
+        public List<MetaParam> getExtraparams() {
             return extraparams;
         }
 
-        public void setExtraparams(List<MetaColumn> extraparams) {
+        public void setExtraparams(List<MetaParam> extraparams) {
             this.extraparams = extraparams;
         }
 
@@ -197,6 +273,14 @@ public class MetaTable {
 
         public void setTableSqlName(String tableSqlName) {
             this.tableSqlName = tableSqlName;
+        }
+        
+        public String getComments() {
+            return comments;
+        }
+
+        public void setComments(String comments) {
+            this.comments = comments;
         }
 
         public String toString() {
