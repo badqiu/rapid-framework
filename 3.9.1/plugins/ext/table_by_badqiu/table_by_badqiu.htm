@@ -1,0 +1,239 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<title>无标题文档</title>
+
+<style type="text/css">
+
+.gridTable {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+}
+
+// grid body
+.gridTable .gridBody {
+	border-right: 1px solid silver;
+	border-top: 1px solid silver;
+}
+.gridTable .gridBody th {
+	border-left: 1px solid silver;
+	border-bottom: 1px solid silver;
+	vertical-align: middle;
+	background-color: #E5E5E5;
+}
+.gridTable .gridBody td {
+	border-left: 1px solid silver;
+	border-bottom: 1px solid silver;
+}
+
+//grid header sort
+.gridTable th.sort {
+	padding:0 10px 0 0;
+	background-color: #F00;
+}
+.gridTable th.sort.desc {
+	background:#c5c5c5 url(images/sort_desc.gif) center right no-repeat
+}
+.gridTable th.sort.asc {
+	background:#c5c5c5 url(images/sort_asc.gif) center right no-repeat
+}
+
+//gridBody row colors
+.gridTable .gridBody .odd {
+	background-color: #FFFFFF;
+}
+.gridTable .gridBody .even {
+	background-color: #F8F8F8;
+}
+
+//grid toolbar
+.gridTable .gridToolbar .pagination_controls .button_label{
+	margin:0 0 0 12px
+}
+.gridTable .gridToolbar .box div {
+	display:inline;
+	float:left;
+}
+.gridTable .gridToolbar .box .pagination_controls {
+	float:right;
+}
+.gridTable .gridToolbar td{
+	background-color: #F4F4F4;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script>
+	function doJump(pageNumber,pageSize,sortColumn,sortDirection) {
+		alert('pageNumber:'+pageNumber+" pageSize:"+pageSize+" sortColumn:"+sortColumn+" sortDirection:"+sortDirection);
+	}
+
+	function togglePage(page) {
+		doJump(page);
+	}
+
+	function togglePageSize(pageSize) {
+		doJump(null,pageSize);
+	}
+
+	function toggleSort(sortColumn,sortDirection) {
+		doJump(null,null,sortColumn,sortDirection);
+	}
+
+	function atleaseOneCheck(name){
+		var items = document.getElementsByName(name);
+		if (items.length > 0) {
+			for (var i = 0; i < items.length; i++){
+				if (items[i].checked == true){
+					return true;
+				}
+			}
+		} else {
+			if (items.checked == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	function setAllCheckboxState(name,state) {
+		var elms = document.getElementsByName(name);
+		for(var i = 0; i < elms.length; i++) {
+			elms[i].checked = state
+		}
+	}
+
+</script>
+
+<div>
+
+</div>
+
+<form action="" method="post">
+<input type="hidden" name="s_pageNumber" value="1"/>
+<input type="hidden" name="s_pageSize" value="20"/>
+<input type="hidden" name="s_sortColumn" value="age"/>
+<input type="hidden" name="s_sortDirection" value="asc"/>
+
+<div class="gridTable">
+
+	<table width="100%"  border="0" cellspacing="0" class="gridToolbar">
+	  <tr>
+		<td class="statusBar">找到100 条记录, 显示 1 到 15</td>
+		<td class="compactToolbar" align="right">
+			<table border="0" cellpadding="1"  cellspacing="3"  >
+			  <tr>
+				<td><a href="javascript:doJump(1);"><img src="images/firstPage.gif" style="border:0" alt="第一页"></a></td>
+				<td><a href="javascript:doJump(1);"><img src="images/prevPage.gif" style="border:0" alt="上一页"></a></td>
+				<td><a href="javascript:doJump(1);">1</a>,<a href="javascript:doJump(2);">2</a></td>
+				<td><a href="javascript:doJump(1);"><img src="images/nextPage.gif" style="border:0" alt="下一页"></a></td>
+				<td><a href="javascript:doJump(1);"><img src="images/lastPage.gif" style="border:0" alt="最后页"></a></td>
+				<td>
+					<select name="select" onChange="doJump(this.value)">
+					  <option value="1" selected>1</option>
+					  <option value="2">2</option>
+					</select>
+				</td>
+			  </tr>
+			</table>
+		</td>
+	  </tr>
+	</table>
+
+	<table width="100%"  border="0" cellspacing="0" class="gridBody">
+	  <col>
+	  <col>
+	  <col>
+	  <col>
+
+	  <thead>
+		  <tr>
+			<th style="width:1px;"><input type="checkbox" onclick="setAllCheckboxState('items',this.checked)"></th>
+			<th onClick="toggleSort('name','asc')" class="sort asc">名称</th>
+			<th onClick="toggleSort('age','asc')" class="sort desc">年龄</th>
+			<th onClick="toggleSort('age','desc')" class="">性别</th>
+		  </tr>
+	  </thead>
+	  <tbody>
+		  <tr class="odd">
+			<td><input type="checkbox" name="items" value="checkbox"></td>
+			<td>名称1</td>
+			<td>18</td>
+			<td>M</td>
+		  </tr>
+		  <tr class="even">
+			<td><input type="checkbox" name="items" value="checkbox"></td>
+			<td>名称2</td>
+			<td>18</td>
+			<td>F</td>
+		  </tr>
+		  <tr class="odd">
+			<td><input type="checkbox" name="items" value="checkbox"></td>
+			<td>名称1</td>
+			<td>18</td>
+			<td>M</td>
+		  </tr>
+		  <tr class="even">
+			<td><input type="checkbox" name="items" value="checkbox"></td>
+			<td>名称2</td>
+			<td>18</td>
+			<td>F</td>
+		  </tr>
+	  </tbody>
+	</table>
+
+	<table width="100%"  border="0" cellspacing="0" class="gridToolbar">
+	  <tr>
+		<td colspan="3">
+			<div class="box">
+			
+				<div id="filter_controls" class="filter_controls" >
+					<div id="basic_filter">
+						<span class="button_label"> Filter Source: </span>
+						<select id="basic_filter_drpdown"
+							onchange="table._toggleFilterType(this.options[this.selectedIndex].value)">
+							<option value="0" selected>
+								containing
+							</option>
+							<option value="1">
+								excluding
+							</option>
+						</select>
+						<input id="f_filter_str" type="text" value="" onchange="table._setFilterString(this.value)">
+						<a href="#" onclick="table._filter(); return false;" class="button" title="Go"> <b><b><b>Go</b> </b> </b> </a>
+					</div>
+				</div>
+			
+				
+				<div class="pagination_controls">
+					<span class="button_label">Go to:</span>
+					<input id="f_row_start" type="text" size="5" value="1" onchange="table._toggleRowStart(this.value)">
+					<span class="button_label">1 - 15 of 100</span>
+					<a href="javascript:doJump(1);"><img src="images/firstPage.gif" style="border:0" alt="第一页"></a>
+					<a href="javascript:doJump(1);"><img src="images/prevPage.gif" style="border:0" alt="上一页"></a>
+					<a href="javascript:doJump(1);">1</a>,<a href="javascript:doJump(2);">2</a>
+					<a href="javascript:doJump(1);"><img src="images/nextPage.gif" style="border:0" alt="下一页"></a>
+					<a href="javascript:doJump(1);"><img src="images/lastPage.gif" style="border:0" alt="最后页"></a>
+					<select name="select" title="显示行数" onChange="togglePageSize(this.value)">
+						<option value="10" selected>10</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+						<option value="200">200</option>
+					</select>
+				</div>
+			<div>
+		</td>
+	  </tr>
+	</table>
+</div>
+</form>
+
+</body>
+</html>

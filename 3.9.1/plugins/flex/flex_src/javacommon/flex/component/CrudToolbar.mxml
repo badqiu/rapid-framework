@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" height="35" styleName="saveDeleteBar" width="100%" verticalAlign="middle" horizontalAlign="right">
+	<mx:Metadata>
+		[Event(name="saveEvent")]
+		[Event(name="newEvent")]
+		[Event(name="deleteEvent")]
+	</mx:Metadata>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.MenuEvent;
+
+			[Bindable]public var saveBtnLbl:String = "Save Changes";
+			[Bindable]public var newBtnLbl:String = "New Record";
+			[Bindable]public var deleteBtnLbl:String = "Delete Record";
+			
+			[Bindable]public var showSaveButton:Boolean = true;
+			[Bindable]public var showNewButton:Boolean = true;
+			[Bindable]public var showDeleteButton:Boolean = true;
+		]]>
+	</mx:Script>
+	
+<!-- ====================== States start ====================== -->	
+	<mx:states>
+		<mx:State name="progress">
+			<mx:AddChild relativeTo="{spacer1}" position="before">
+				<mx:ProgressBar label="" labelPlacement="center" height="15" width="100" themeColor="#00cc00" indeterminate="true" left="10" verticalCenter="0"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	<mx:Spacer/>
+	<mx:Button 
+		id="saveBtn" 	
+		label="{saveBtnLbl}"
+		visible="{showSaveButton}"
+		includeInLayout="{showSaveButton}" 
+		click="dispatchEvent(new Event('saveEvent'))" 
+		fillAlphas="[1.0, 1.0]" fillColors="[#FFEA00, #FFEA00]"/>
+		
+	<mx:Spacer width="100%" id="spacer1"/>
+	
+	<mx:Button 
+		id="newBtn"
+		label="{newBtnLbl}"  
+		visible="{showNewButton}" 
+		includeInLayout="{showNewButton}"		 	
+		click="dispatchEvent(new Event('newEvent'))"/>
+	<mx:Button 
+		id="deleteBtn"
+		label="{deleteBtnLbl}" 
+		visible="{showDeleteButton}" 
+		includeInLayout="{showDeleteButton}"	 	
+		click="dispatchEvent(new Event('deleteEvent'))"/>
+<!-- ====================== States end ====================== -->
+	<mx:Spacer/>
+	
+</mx:HBox>

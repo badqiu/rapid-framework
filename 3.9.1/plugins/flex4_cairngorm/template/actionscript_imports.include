@@ -1,0 +1,6 @@
+	import appcommon.flex.base.*;
+	import appcommon.flex.page.*;
+	import appcommon.flex.util.*;
+	
+	import ${basepackage}.model.*;
+

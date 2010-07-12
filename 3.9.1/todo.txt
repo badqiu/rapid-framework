@@ -1,0 +1,421 @@
+rapid-framework路线图
+增加BaseQuery或者将PageRequest.getSortInfos() => PageRequest.fetchSortInfos();
+
+将project全部应用maven构建并如下项目划分,并且考虑是否需要支持 dao-module1,service-module2,web-module1,2,3,4
+	project-generator
+	project-common : common-util common-vo
+	project-dao
+	project-service
+	project-web
+
+add groupId=basepackage:com.company.project=com-company-project
+	Define value for groupId: : com.badqiu.sfmvc
+	Define value for artifactId: : sfmvc
+	Define value for version:  1.0-SNAPSHOT: : 1.0
+	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
+
+SecurityManagerHolder.checkPermission()
+ConfigHolder
+MailerHolder
+MessageSourceHolder
+MessagePublisherHodler
+
+增加支持多开发环境: prod,dev,test,perf. 程序员的一定是开发环境，其它环境用于覆盖本地环境
+
+增加spring/resource/dev,spring/resource/prod,spring/resource/test目录以区分不同的开发环境
+
+新增时增加 save,save and continue edit,save and continue new
+编辑时增加save,save and continue edit
+
+add application.properties
+app.name=projectName
+app.version=1.0
+app.mode=dev,prod,test,perf
+
+自动搜索xml数据并作为generator数据源,如pom.xml,引用变量名为${pom}
+完成SqlQueryFactory
+SafeSqlProcessor
+        //转义%
+        escapedQuery = StringUtil.replace(escapedQuery, "%", "\\%");
+        //转义\_
+        escapedQuery = StringUtil.replace(escapedQuery, "_", "\\_");
+        //转义单引号
+        escapedQuery = StringUtil.replace(escapedQuery, "'", "\\'");
+struts2类型转换
+springmvc的share变量需要使用request,不能使用ModelAndView
+
+dbunit自动加载 package.Class.method.xml下的数据
+
+SqlFactory.insert语句要为insert into user_info values(?,?,?,?,?,?) => insert into user_info(username,password,info) values(?,?,?,?,?,?)
+增加generate dao,service by sqlmap for ibatis2        
+增加generate dao,service by mapper for ibatis3        
+主从表需要指定那一张是主表，才可以进行页面操作
+#使用simpletable
+#修改为UserManager.findByPageRequest(PageRequest<UserQuery> pr)
+#集成hibernate validator 
+#集成HibernateValidator	
+#增加manual-${className}SqlMap.xml
+__#日期类型的dao sql生成 dateBegin,dateEnd输入
+#ibatis使用 pageSelect.count pageSelect.where 替换 count dynamicWhere
+#UserManager.findByPageRequest() rename to UserManager.findPage
+#考虑将jsp继承的PageContext.setAttribute()修改为Request.setAttribute();
+#使用完整的js来实现分页,new SimpleTable('simpleTableForm',pageNo,pageSize,orderby); 还需要指定: pageNoInputName,pageSizeInputName,orderbyInputName
+#支持文件名称扩展名为.ftl,.vm,并自动移除该扩展名,再生成文件
+#生成tables_config/${base_package}/${table_name}___config.xml用于表的配置
+#支持删除生成的内容:
+		内容: javaType配置
+			  alias 配置
+			  validation配置
+			  order配置
+			  Enum配置
+			  input type: select option,label
+#使用 httpInclude.include(value_from_http_request.ftl,'*/default_value.ftl')			  
+generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
+增加DTO converter的测试框架
+	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
+继续完成jdbc_all_crud_sql的基类
+
+Bean.copyProps()测试主流程思想
+	1.生成target代理
+	2.Bean.copyProps(source,target)
+	3.得到target代理的set调用次数
+	4.assertEquals(期待set调用次数,实际的target set调用次数)
+
+spring服务发布增加: spring/internal, spring/publish两个目录,internal的bean,外部不能引用,publish反之
+
+#Enum
+	#生成器增加 column的 enum数据生成,如生成 BizTypeEnum
+	#status and type关键字将自动生成Enum
+增加解析remark表达式用于column的metadata,如{enumListString=M(男);F(女),} ,增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
+将数据库的数据load出来,作为dbUnit的测试数据源
+#使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
+#支持一条sql语句生成操作，可以使用ZQL来解析sql
+#完成Flash Scope
+#add ScopeRenderArgsInterceptor.postHandle()用于将RenderArgs作为ModelAndView的模板变量
+#继承体系中增加可以使用#includeOtherJspOrServlet('/header.jsp');
+#为Generator生成独立jar包,通过.bat文件运行生成代码,避免需要eclipse
+#Page,PageRequest重构,PageRequest用于继承以替代filter
+生成MockDao,MockManager以供调用
+
+为自动化配置及单元测试的配置文件区分提供更多支持
+增加生成一个${Project}Exception用于区别不同的系统异常
+考虑是否将 springmvc的package.controller => package.web.controller
+#考虑在service中增加表单验证功能
+#为生成器提供一个generator变量,以供在模板里控制override,isGenerated等功能
+增加generator.getTable('tableName',Table.class,Column.class)以便可以让用户hack table对象
+增加了exception package
+#增加generate dto by javaClass
+
+WebService中直接抛异常,通过拦截器拦截得到WSResult的结果,将根据ExceptionResolver自动设置WSResult的ErrorCode,
+所以确保WebService的返回结果是WSResult
+实现order通过table config xml
+增加一个@Cache('message_key#id')自动将method执行结果存放在cache
+
+业务流程处理框架,用于记录当前执行至那一步时发生错误
+
+spring xmlns to spring3.0.xsd
+pipeline中如果不能找到模板的异常处理
+
+为spring rest增加 routes配置文件以解决spring不能使用welcome list的问题
+
+#考虑是否增加http request id用于日志记录,通过request id可以将一次请求的所有操作都查找回来
+
+#为freemarker,velocity,jsp增加直接include其它http请求（包含local，remote request)
+#	示便: local: includer.include("/head.htm") 
+#	remote: includer.include("http://www.163.com"), 判断条件为以http开头 
+
+使用
+	--dto
+		--result
+		--parameter
+		--query
+		--model
+	--service
+		--vo
+			--result
+			--parameter
+			--query
+				--result
+			--model
+		--iface
+			--impl
+	--dao
+		--vo
+			--query
+				--result
+			--model
+		--iface
+			--impl			
+不要使用
+	--dto
+	--result
+	--parameter
+	--query
+
+	//问题: 系统不能启动
+	//错误提示: error_code:9959,error_detail:非法参数
+	//操作(action): 验证身份, can null or lookupByErrorCode
+	//原因(reason): 表单验证错误,可以lookupByErrorCodeAndAction
+	//解决办法(fix): 请验证输入数据,可以lookupByErrorCodeAndAction
+	
+#session框架,可以将session存储在数据库,cache
+#spring aspectjrt.jar升级至最新版本以适应不兼容jdk1.6的错误
+#Freemarker中@extends指令中相对路径的处理。测试velocity中是否存在相同问题
+#SQLServer2005Dialect不完善
+#修改目录为标准的 java_src,java_test目录
+#事务采用@Transactional处理，BaseManager增加，find，query,get的事务read-only
+
+#缓存抽象,搞一个Map类型的cache
+
+权限处理指南
+// 性能很好,cache刷新问题, 还有 resourceString auto deploy to database, url auto deploy需要小心
+// if(lookup cache #resourcString for roles fail)
+//      这几步的 #resourceList可以定时刷新
+// 		lookup resource list => #resourceList: big
+// 		convert #resourcString by #resourceList => #resourceRole
+// 		put #resourcString and #resourceRoleList => cache, 间隔: 1小时,2小时,1天
+// else
+//		test #resourceRole with #loginRoles
+
+/** 
+ * permission deny
+ *  if not login 
+ *  	if has ticket
+ *  		auto login with ticket and find user roles => #loginRoles
+ *  	else
+ *  		forward to login page #### big error
+ *  else
+ *  	display permission deny, permission deny还需要自定义错误消息,如: 成为小组成员才能发贴,
+ */
+		 
+
+生成器:
+	#1.增加生成器的type mapping:
+    #<typemap from="java.sql.Date" to="java.util.Date"/>
+    #<typemap from="java.sql.Timestamp" to="java.util.Date"/>
+    #<typemap from="java.math.BigDecimal" to="Long"/>
+    #<typemap from="byte" to="Integer"/>
+    #<typemap from="short" to="Integer"/>
+    #实现 java_typemap.byte=Integer
+    # java_typemap.short=Integer
+     
+     2.智能的解析properties,如将string "true" => boolean, "123" => integer
+     
+     3.支持从视图中生成数据,并增加视图的专有模板 template/view
+     
+     4.支持从sql query中生成数据, sql query可以作为一个文件储存起来 template/query
+
+
+
+#flex权限控制
+#	参考: http://code.google.com/p/flexible-chimp/
+#	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
+	
+
+生成器:
+	增加通过一个查询得到列表界面的sql
+
+	#实现模板引擎的pipeline处理模式:
+	#即有一个layout.flt
+	#<html>
+	#   ${pipeline}
+	#</html>
+	#两种实现方式
+	#1.其中${pileline}会自动include其它模板页面,其中模板名称通过变量pipeline_template_name= target.flt来传递
+	#2.将另外一个模板的输出作为其它模板的一个输入,并将输出显示在${pipeline}标签的位置
+	
+	#3.可以为每一个模板定义一组管道
+	#4.管理可以是一个数组,方法签名为
+	#	1) pipeline(template,pipetemplate[],context,writer)
+	#	2) pipeline(template,pipetemplate_queue,context,writer)
+	#	3) pipeline(pipetemplate[],context,writer)
+	#	4) String pipeline(template,pipetemplate[],context)
+	#5.输出内容为最后一个管理的输出
+	#6.以上管道只能重定义一个部分内容，所以可以结合模板的继承，自动实现多部分内容的重定义
+
+#整合MailEngine
+#整合GroupProperties file,用于读取分组的配置文件
+
+#fixed number NaN => 0 : NaN => Null
+	https://bugs.adobe.com/jira/browse/BLZ-305
+	http://flexblog.faratasystems.com/2010/01/09/custom-type-masrhaller-in-blazeds
+	http://ajax.sys-con.com/node/1240225?page=0,1
+
+BlazeDS学习
+	MessageSerializer.writeObject()复杂对象的序列化
+	AmfxOutput 负责 具体实现writeObject()方法
+	AmfOutput的
+		1.PropertyProxyRegistry为PropertyProxy的全局注册器
+		2.writePropertyProxy()方法调用PropertyProxy的getPropertyNames()
+	PropertyProxy 可以得到序列化的getPropertyNames()
+	BeanProxy的includeReadOnly可以包含readOnly属性
+	//AmfxInput中直接new BeanProxy()导致无法设置includeReadOnly属性
+
+	注册所有Serializable.class都IncludeReadOnly beanProperties
+		BeanProxy beanProxy = new BeanProxy();
+		beanProxy.setIncludeReadOnly(true);
+		PropertyProxyRegistry.getRegistry().register(Serializable.class, beanProxy);
+
+#整合其它显示层技术
+#	Ext2
+整合SiteMesh
+
+整合安全框架
+	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
+数据访问层
+	JPA
+整合RichEditor
+    FckEditor
+寻找Tree组件
+
+模板文件
+	修改hiberante_xml使用CompositeId.java
+#	增加简单版本的list.jsp,争取不喜欢extremeTable的用户
+#	增加freemarker的CURD页面
+
+rapid-validation
+	3.ajax验证使用异步方式
+插件相关
+	支持plugin属性参数的修改
+其它
+
+	struts2 DirectResult对其它返回类型的支持,FreeMarker优先
+
+	提供复杂模板，完成多表关联操作
+
+	编写配置系统的ant脚本
+
+	#查询页跟列表也整合到一起
+
+	Generator.generateAllTable()方法在Oracle不可用
+
+	struts2重复提交，提示信息
+
+	将<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+	替换为
+	<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*.*(..))" advice-ref="txAdvice"/>
+	以可以拦截Manager的所有方法,并删除
+	<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
+
+junit-3.8.1.jar
+
+jsp-api.jar
+servlet-api.jar
+
+hsqldb.jar
+mysql-connector-java-5.0.5-bin.jar
+ojdbc14.jar
+sqljdbc.jar
+
+dwr.jar
+ezmorph-1.0.6.jar
+json-lib-2.2.3-jdk15.jar
+
+javassist.jar
+jaxen-1.1-beta-7.jar
+backport-util-concurrent.jar
+cfgatewayadapter.jar
+concurrent.jar
+
+xalan.jar
+dom4j-1.6.1.jar
+ehcache-1.2.1.jar
+
+ejb3-persistence.jar
+hibernate-annotations.jar
+hibernate-commons-annotations.jar
+hibernate3.jar
+
+jaxen-1.1-beta-7.jar
+jta-1.1.jar
+oscache-2.3.1.jar
+ibatis-2.3.4.726.jar
+
+freemarker.jar
+velocity-1.6.2.jar
+
+jackson-core-lgpl-1.2.1.jar
+jackson-mapper-lgpl-1.2.1.jar
+urlrewrite-2.6.0.jar
+
+activation.jar
+mail.jar
+
+struts-el.jar
+struts.jar
+freemarker.jar
+ognl-2.7.3.jar
+struts2-core-2.1.8.jar
+struts2-spring-plugin-2.1.8.jar
+xwork-core-2.1.6.jar
+aopalliance.jar
+aspectjrt.jar
+aspectjweaver.jar
+cglib-nodep-2.1_3.jar
+
+flex-messaging-common.jar
+flex-messaging-core.jar
+flex-messaging-opt.jar
+flex-messaging-proxy.jar
+flex-messaging-remoting.jar
+
+commons-digester.jar
+commons-net-1.4.0.jar
+commons-validator.jar
+commons-beanutils.jar
+commons-codec-1.3.jar
+commons-collections.jar
+commons-dbcp.jar
+commons-fileupload.jar
+commons-io.jar
+commons-lang-2.4.jar
+commons-logging-1.1.jar
+commons-pool.jar
+commons-httpclient-3.0.1.jar
+
+dbunit-2.4.2.jar
+dom4j-1.6.1.jar
+jakarta-oro.jar
+jstl.jar
+
+poi-2.5.1.jar
+standard.jar
+xsqlbuilder.jar
+bcprov-jdk15-142.jar
+junit-4.8.1.jar
+
+antlr-2.7.6.jar
+javassist-3.9.0.GA.jar
+memcached-2.4.2.jar
+
+slf4j-api-1.5.10.jar
+slf4j-log4j12-1.5.10.jar
+slf4j-api-1.5.10.jar
+log4j-1.2.15.jar
+
+org.springframework.aop-3.0.1.RELEASE.jar
+org.springframework.asm-3.0.1.RELEASE.jar
+org.springframework.aspects-3.0.1.RELEASE.jar
+org.springframework.beans-3.0.1.RELEASE.jar
+org.springframework.context-3.0.1.RELEASE.jar
+org.springframework.context.support-3.0.1.RELEASE.jar
+org.springframework.core-3.0.1.RELEASE.jar
+org.springframework.expression-3.0.1.RELEASE.jar
+org.springframework.instrument-3.0.1.RELEASE.jar
+org.springframework.instrument.tomcat-3.0.1.RELEASE.jar
+org.springframework.jdbc-3.0.1.RELEASE.jar
+org.springframework.jms-3.0.1.RELEASE.jar
+org.springframework.orm-3.0.1.RELEASE.jar
+org.springframework.oxm-3.0.1.RELEASE.jar
+org.springframework.spring-library-3.0.1.RELEASE.libd
+org.springframework.test-3.0.1.RELEASE.jar
+org.springframework.transaction-3.0.1.RELEASE.jar
+org.springframework.web-3.0.1.RELEASE.jar
+org.springframework.web.portlet-3.0.1.RELEASE.jar
+org.springframework.web.servlet-3.0.1.RELEASE.jar
+org.springframework.web.struts-3.0.1.RELEASE.jar
+mybatis-3.0.1.jar
+
+extremecomponents-1.0.1.jar
+extremecomponentsEXT.jar
+anttask_for_plugin.jar	

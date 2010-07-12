@@ -1,0 +1,193 @@
+﻿<!--
+  All rights reserved.
+  author: badqiu
+{ $Id: build.xml,v 1.4 2007/05/15 07:48:36 baichao_qiu Exp $ }
+-->
+
+<!-- ======================================================================= -->
+<!-- build file -->
+<!-- ======================================================================= -->
+<project name="rapid-framework" basedir="." default="war">
+	<tstamp></tstamp>
+	 
+	<property environment="env"/>
+	<property file="build.properties" />
+	
+	<!--版本控制信息-->
+	<property name="version" value="v1.0.3"></property>
+	<property name="version.message" value="version:${version} build:${cctimestamp}"/>
+	<property name="version.file" value="version.txt"></property>
+	<target name="generate_version">
+		<echo file="${dir.src.web}/${version.file}" append="no" message="${version.message}"/>
+	</target>
+	
+	<!-- 主要路径修改START -->
+	<path id="lib.classpath">
+		<fileset dir="${dir.src.web}/WEB-INF/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${tomcat.home}">
+			<include name="lib/*.jar"/>
+			<include name="common/lib/*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="dirs.java.src">
+	  	<pathelement path="java_src"/>
+	</path>
+
+	<path id="dirs.test.src">
+	  	<pathelement path="java_test"/>
+	</path>
+	  		
+	<!-- 主要路径修改END -->
+		
+	<target name="prepare">
+		<echo message="tomcat.home=${tomcat.home}"/>
+		<echo message="version.message=${version.message}" />
+		<mkdir dir="${dir.dist}"/>
+		<mkdir dir="${dir.dist.java}"/>
+		<mkdir dir="${dir.dist.test}"/>
+		<mkdir dir="${dir.dist}/${dir.src.web}"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${dir.dist}"></delete>
+	</target>
+			
+	<target name="war" depends="compile-src">
+		<war destfile="${dir.dist}/${context.path}.war" webxml="${dir.src.web}/WEB-INF/web.xml" >
+			<classes dir="${dir.dist.java}" includes="**/*.*"></classes>
+			<fileset dir="${dir.src.web}" includes="**/*">
+				<exclude name="WEB-INF/classes/**/*.*"/>
+			</fileset>
+			<fileset dir="${dir.dist}/${dir.src.web}" includes="**/*" />
+		</war>
+	</target>
+
+	<target name="compile-src" depends="prepare">
+		
+		<javac 
+			nowarn="yes" target="${compile.version}" source="${compile.version}" encoding="${encoding}"
+			destdir="${dir.dist.java}" debug="true"
+			classpathref="lib.classpath">
+			  <src refid="dirs.java.src"/>
+		</javac>
+		
+		<copy todir="${dir.dist.java}">
+			<fileset dir="java_src" excludes="**/*.java"/>
+		</copy>
+		
+	</target>
+	
+	<target name="compile-test" depends="compile-src">
+		
+		<javac destdir="${dir.dist.test}" 
+			includes="**/*.*"  target="${compile.version}" 
+			source="${compile.version}" encoding="${encoding}">
+			<src refid="dirs.test.src"/>
+			<classpath>
+				<path refid="lib.classpath"/>
+				<path path="${dir.dist.java}"/>
+			</classpath>
+		</javac>
+		
+		<copy todir="${dir.dist.test}">
+			<fileset dir="java_test" excludes="**/*.java"/>
+		</copy>
+	</target>
+	
+	<target name="compile-all" description="compile java src and java test source">
+		<antcall target="compile-src"/>
+		<antcall target="compile-test"/>
+	</target>
+		
+	<target name="jar" depends="test">
+		<jar jarfile="${dir.dist}/${jar.name}">
+			<fileset dir="${dir.dist.java}">
+				<include name="META-INF/**"/>
+				<include name="**"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="jar.source" depends="">
+		<jar jarfile="${dir.dist}/${ant.project.name}-${version}-source.jar">
+			<fileset dir="java_src" >
+				<include name="**/*.java"/>
+			</fileset>
+		</jar>
+	</target>
+					
+	<!-- 运行前请将junit.jar加入ant runtime classpath
+	      打开Window>>Perferences>>Ant>>Runtime>>Classpath里加入junit.jar-->
+	<target name="test" depends="compile-all">
+		<delete dir="${dir.test.report}" failonerror="no"/>
+		<mkdir dir="${dir.test.report}"/>
+		<junit printsummary="yes" fork="yes" haltonfailure="yes" dir="${basedir}"  maxmemory="256M">
+			
+			<classpath>
+				<path refid="lib.classpath"/>
+				<pathelement path="${dir.dist.java}"/>
+				<pathelement path="${dir.dist.test}"/>
+			</classpath>
+				
+			<formatter type="plain"/>
+			<formatter type="xml"/>
+			<formatter type="brief"/>
+			
+			<batchtest todir="${dir.test.report}" haltonfailure="no">
+				<fileset dir="${dir.dist.test}">
+					<include name="**/*Test.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		
+		<antcall target="test-report"></antcall>
+	</target>
+	
+	
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: test-report                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-report">
+		<junitreport todir="${dir.test.report}">
+			<fileset dir="${dir.test.report}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${dir.test.report}"/>
+		</junitreport>  
+    </target>
+
+	<target name="javadoc">
+		<javadoc  destdir="${dir.javadoc}" windowtitle="${ant.project.name}"
+			source="1.5" access="protected" author="true" version="true" use="true"
+			encoding="${encoding}"
+			header=''>
+			<sourcepath refid="dirs.java.src"/>
+			<classpath refid="lib.classpath"/>
+			
+			
+			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+			<bottom>API</bottom>
+		</javadoc>
+	</target>
+
+	<target name="zip" depends="clean,prepare">
+		<zip zipfile="${dir.dist}/${ant.project.name}-${version}.zip">
+			<zipfileset dir="." prefix="${ant.project.name}-${version}">
+				<include name="java_src/**"/>
+				<include name="build.xml"/>
+				<include name="build.properties"/>
+				<include name="readme.txt"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="cc_main" description="用于持续集成工具CruiseControl的接入">
+		<antcall target="clean"></antcall>
+		<antcall target="test"></antcall>
+		<antcall target="war"></antcall>
+	</target>
+	
+</project>

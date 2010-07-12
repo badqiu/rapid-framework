@@ -1,0 +1,21 @@
+<#macro insert>
+	insert into user (username,password)
+	values(
+		? , ? 
+	)
+</#macro>
+
+<#macro pageQuery>
+	select * from user where 1 = 1
+	<#if StringUtils.isNotEmpty(age)>
+		age = :age
+	</#if>
+	<#if StringUtils.isNotEmpty(username)>
+		and username = '${username}'
+	</#if>
+	<#if StringUtils.isNotEmpty(error_param)>
+		and error_param = :error_param
+	</#if>	
+</#macro>
+
+<@pageQuery/>
