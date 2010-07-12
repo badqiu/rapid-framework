@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = 介绍 =
 
 用于spring jdbc根据配置*生成*基本的*增删改查SQL*
