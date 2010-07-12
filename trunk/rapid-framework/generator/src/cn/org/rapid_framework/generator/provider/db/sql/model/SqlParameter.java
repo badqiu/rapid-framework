@@ -4,7 +4,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlParameter extends Column {
-    	String parameterClassName;
+    	String parameterClass;
 //    	int parameterMode;
 //    	int parameterType;
 //    	String parameterTypeName;
@@ -40,18 +40,18 @@ public class SqlParameter extends Column {
 //    		this.precision = m.getPrecision(i);
 //    		this.scale = m.getScale(i);
 //    	}
-    	/**
-    	 * 得到参数的java类型
-    	 */
-		public String getParameterJavaType() {
-			if(StringHelper.isNotBlank(parameterClassName)) return parameterClassName;
-			return getSimpleJavaType();
-		}
-		public void setParameterJavaType(String parameterClassName) {
-			this.parameterClassName = parameterClassName;
-		}
-		public String getPreferredParameterJavaType() {
-		    String parameterClassName = getParameterJavaType();
+
+		public String getParameterClass() {
+		    if(StringHelper.isNotBlank(parameterClass)) return parameterClass;
+		    return getSimpleJavaType();
+        }
+
+        public void setParameterClass(String parameterClass) {
+            this.parameterClass = parameterClass;
+        }
+
+        public String getPreferredParameterJavaType() {
+		    String parameterClassName = getParameterClass();
 			if(isListParam) {
 				if(parameterClassName.indexOf("[]") >= 0){
 					return parameterClassName;
