@@ -75,8 +75,8 @@ author:badqiu
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
-	<target name="install_flex_cairngorm" description="安装flex">
-		<property name="plugin_name" value="flex_cairngorm"/>
+	<target name="install_flex4_cairngorm" description="安装flex4">
+		<property name="plugin_name" value="flex4_cairngorm"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
