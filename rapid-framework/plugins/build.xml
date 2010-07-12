@@ -80,11 +80,6 @@ author:badqiu
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
     </target>
 	
-	<target name="install_simpletable" description="安装simpletable分页列表">
-		<property name="plugin_name" value="simpletable"/>
-		<antcall target="_install_plugin_with_plugin_name"></antcall>
-    </target>
-	
 	<target name="install_rapid_mailer" description="安装rapid_mailer邮件发送引擎">
 		<property name="plugin_name" value="rapid_mailer"/>
 		<antcall target="_install_plugin_with_plugin_name"></antcall>
