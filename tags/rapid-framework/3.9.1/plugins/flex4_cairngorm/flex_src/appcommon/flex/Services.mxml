@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cairngorm:ServiceLocator xmlns="*"
+						  xmlns:mx="http://www.adobe.com/2006/mxml"
+						  xmlns:cairngorm="http://www.adobe.com/2006/cairngorm"
+						  xmlns:service="com.project.flex.service.*"
+						  xmlns:userInfo="com.project.service.userInfo.*">
+	
+	<!--请在这里加入远程对象的配置-->
+	
+
+	
+</cairngorm:ServiceLocator>

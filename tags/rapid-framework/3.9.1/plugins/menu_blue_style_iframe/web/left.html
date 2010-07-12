@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>menu</title>
+<style type="text/css">
+
+/* 可抽取出 global.css  START*/
+html, body, div, span, object, iframe, pre, a, code, font, ul, li, img, samp, small, strong, big, form, label, table, caption, tr, td {
+    margin:0px;
+	padding:0px;
+	border:0px;
+	outline:0;
+	font-weight:inherit;
+	font-style:inherit;
+	font-family:inherit;
+	text-align:left;
+	vertical-align:baseline;
+}
+li {
+    list-style:none;
+}
+
+a:link {
+	text-decoration:underline; 
+	color:#074495;
+}
+a:visited {
+	text-decoration:underline;
+	color:#074495;
+}
+a:hover {
+	text-decoration:underline;
+	color:#f60;
+}
+a:active {
+    text-decoration:underline;
+    color:#0066A7;
+}
+/* 可抽取出 global.css  END*/
+
+/* 可抽取出 left.css  START*/
+#leftBox {
+	width:200px;
+	padding:10px 0px 10px 0px;
+	background:#F0F0F0;
+	height:460px;
+}
+#leftBox ul {
+    padding-left:10px;
+	margin-bottom:15px;
+}
+#leftBox ul li {
+    font-size:12px;
+	margin-bottom:10px;
+	padding-left:30px;
+}
+#leftBox ul li.title {
+    font-weight:bold;
+	padding-left:0px;
+	background:url(images/arrowdown.gif) no-repeat;
+	text-indent:25px;
+}
+
+#leftBox .currentLocation {
+	background-color: #696969;
+	color: white;
+}
+
+/* 可抽取出 left.css  END*/
+
+</style>
+
+<script src="scripts/jquery.js"></script>
+<script>
+/* 点击链接时增加背景颜色 */
+$(document).ready(function() {
+	$('#leftBox a').click(function() {
+		$('#leftBox a').removeClass('currentLocation');
+		$(this).addClass('currentLocation');
+	});
+});
+</script>
+
+</head>
+
+<body>
+ <div id="leftBox">
+ 
+	  <ul>
+		<li class="title">rapid-framework</li>
+		<li><a href="http://code.google.com/p/rapid-framework/" target="rightFrame">index</a></li>
+		<li><a href="http://code.google.com/p/rapid-framework/downloads/list" target="rightFrame">downloads</a></li>
+		<li><a href="http://code.google.com/p/rapid-framework/wiki/menu?tm=6" target="rightFrame">wiki</a></li>
+		<li><a href="http://code.google.com/p/rapid-framework/issues/list" target="rightFrame">issues</a></li>
+		<li><a href="http://code.google.com/p/rapid-framework/source/checkout" target="rightFrame">source</a></li>
+	  </ul>
+	  
+	  <ul>
+		<li class="title">网页链接</li>
+		<li><a href="http://www.rapid-framework.org.cn" target="rightFrame">rapid-frameworl.org.cn</a></li>
+	  </ul>
+	  
+	  <ul>
+		<li class="title">删除说明</li>
+		<li>不喜欢本界面,请删除如下相关资源</li>
+		<li>index.html</li>
+		<li>left.html</li>
+		<li>images/arrowdown.gif</li>
+	  </ul>
+	  
+	  <div class="end"></div>
+ </div>
+</body>
+</html>
