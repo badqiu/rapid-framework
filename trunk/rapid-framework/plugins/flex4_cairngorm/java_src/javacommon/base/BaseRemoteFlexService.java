@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javacommon.util.ConvertRegisterHelper;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.flex.messaging.io.CglibBeanProxy;
 import cn.org.rapid_framework.page.Page;
@@ -14,6 +15,7 @@ import flex.messaging.io.PropertyProxyRegistry;
 public class BaseRemoteFlexService <E>{
 	
 	static {
+	    ConvertRegisterHelper.registerConverters();
 		//注册所有Serializable.class的对象都includeReadOnly bean properties
 		BeanProxy beanProxy = new CglibBeanProxy();
 		beanProxy.setIncludeReadOnly(true);
