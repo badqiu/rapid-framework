@@ -41,19 +41,11 @@ public class BaseRemoteFlexService <E>{
 	public static <T extends PageRequest> T newQuery(Class<T> queryClazz,PageRequest pr) {
 		PageRequest query = org.springframework.beans.BeanUtils
 				.instantiateClass(queryClazz);
-		PropertyUtils.copyProperties(query, pr.getFilters());
+		copyProperties(query, pr.getFilters());
 		query.setPageNumber(pr.getPageNumber());
 		query.setPageSize(pr.getPageSize());
 		query.setSortColumns(pr.getSortColumns());
 		return (T) query;
-	}
-
-	private static <T> T newInstance(Class<T> queryClazz) {
-		try {
-			return queryClazz.newInstance();
-		} catch (Exception e) {
-			throw new IllegalArgumentException(e);
-		} 
 	}
 	
 }
