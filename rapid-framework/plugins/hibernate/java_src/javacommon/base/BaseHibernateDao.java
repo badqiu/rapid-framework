@@ -97,9 +97,9 @@ public abstract class BaseHibernateDao<E,PK extends Serializable> extends Hibern
 		
 		XsqlBuilder builder = getXsqlBuilder();
 		
-		//混合使用otherFilters与pageRequest.getFilters()为一个filters使用
-		XsqlFilterResult queryXsqlResult = builder.generateHql(sql,pageRequest);
-		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,pageRequest);
+		//混合使用otherFilters与pageRequest为一个filters使用
+		XsqlFilterResult queryXsqlResult = builder.generateHql(sql,otherFilters,pageRequest);
+		XsqlFilterResult countQueryXsqlResult = builder.generateHql(countQuery,otherFilters,pageRequest);
 		
 		return PageQueryUtils.pageQuery(getHibernateTemplate(),pageRequest,queryXsqlResult,countQueryXsqlResult);
 	}
