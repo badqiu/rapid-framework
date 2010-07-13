@@ -53,7 +53,7 @@
 		<sql>
 			select count(username) username_cnt,sum(age) sum_age
 			from user_info
-			where user_id = #userId#
+			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
 		</sql>
 	</operation>	
 </table>
