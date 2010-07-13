@@ -12,7 +12,7 @@
 	<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
 	
 	<!-- 新增一条交易资金单据记录 -->
-	<operation name="insert" paramtype="object">
+	<operation name="insert" paramtype="object" >
 		<extraparams>
 		    <param name="startRow" javaType="int"/>
 		    <param name="pageSize" javaType="int"/>
@@ -40,12 +40,20 @@
 	</operation>	
 	
 	<!-- 根据订单号查询订单 -->
-	<operation name="queryByUserId" paramtype="primitive" multiplicity="one">
+	<operation name="queryByUserId" paramtype="primitive" multiPolicy="one">
 		<sql>
 			select *
 			from user_info
 			where user_id = #userId#
 		</sql>
 	</operation>	
-	
+
+	<!-- 根据订单号查询订单 -->
+	<operation name="countUsername" paramtype="primitive" multiPolicy="one">
+		<sql>
+			select count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId#
+		</sql>
+	</operation>	
 </table>
