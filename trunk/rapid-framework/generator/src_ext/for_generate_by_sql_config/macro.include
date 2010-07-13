@@ -1,0 +1,60 @@
+<#macro generateResultClassName>
+	<#compress>
+	<#if sql.selectSql>
+		<#if sql.multiPolicy = 'one'>
+			${sql.resultClassName}
+		<#else>
+			List<${sql.resultClassName}>
+		</#if>
+	<#else>
+		int
+	</#if>
+	</#compress>
+</#macro>
+
+<#macro generateParameterClassName sql>
+${gg.setIgnoreOutput(sql.params?size <= 4)}
+public class ${sql.parameterClassName} extends BaseQuery {
+	<#list sql.params as param>
+		private ${param.preferredParameterJavaType} ${param.paramName};
+	</#list>
+	
+	<#list sql.params as param>
+		public ${param.preferredParameterJavaType} get${param.paramName?cap_first}() {
+			return ${param.paramName};
+		}
+		public void set${param.paramName?cap_first}(${param.preferredParameterJavaType} v) {
+			this.${param.paramName} = v;
+		}
+	</#list>
+}
+</#macro>
+
+<#macro generateParameterClassName sql>
+${gg.setIgnoreOutput(sql.columnsCount <= 1 || sql.columnsInSameTable)}
+
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+public class ${sql.resultClassName} implements java.io.Serializable {
+
+	<#list sql.columns as column>
+	private ${column.simpleJavaType} ${column.columnNameLower};
+	</#list>
+
+	<#list sql.columns as column>
+	public void set${column.columnName}(${column.simpleJavaType} value) {
+		this.${column.columnNameLower} = value;
+	}
+	
+	public ${column.simpleJavaType} get${column.columnName}() {
+		return this.${column.columnNameLower};
+	}
+	</#list>
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+	}
+	
+}
+</#macro>
