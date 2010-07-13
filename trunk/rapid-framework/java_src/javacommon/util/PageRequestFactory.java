@@ -8,7 +8,7 @@ import javacommon.base.BaseQuery;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -20,7 +20,7 @@ import cn.org.rapid_framework.page.PageRequest;
 public class PageRequestFactory {
     public static final int MAX_PAGE_SIZE = 1000;
     
-    static BeanUtilsBean2 beanUtils = new BeanUtilsBean2();
+    static BeanUtilsBean beanUtils = new BeanUtilsBean();
     static {
     	//用于注册日期类型的转换
     	String[] datePatterns = new String[] {"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm:ss.SSS","HH:mm:ss"};
