@@ -10,8 +10,8 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 	</#list>
 
 	<#list sql.columns as column>
-	public void set${column.columnName}(${column.simpleJavaType} value) {
-		this.${column.columnNameLower} = value;
+	public void set${column.columnName}(${column.simpleJavaType} ${column.columnNameLower}) {
+		this.${column.columnNameLower} = ${column.columnNameLower};
 	}
 	
 	public ${column.simpleJavaType} get${column.columnName}() {

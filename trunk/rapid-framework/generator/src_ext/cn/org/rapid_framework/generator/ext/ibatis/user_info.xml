@@ -31,16 +31,14 @@
 		</sql>
 	</operation>
 
-	<!-- 更新一条交易资金单据记录 -->
-	<operation name="update" paramtype="object">
+	<operation name="update" paramtype="object" comments="更新一条交易资金单据记录 ">
 		<sql>
 			UPDATE user_info SET username = #username#,password = #password#
 			WHERE username = #username#
 		</sql>
 	</operation>	
 	
-	<!-- 根据订单号查询订单 -->
-	<operation name="queryByUserId" paramtype="primitive" multiPolicy="one">
+	<operation name="queryByUserId" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
 			select *
 			from user_info
@@ -48,8 +46,7 @@
 		</sql>
 	</operation>	
 
-	<!-- 根据订单号查询订单 -->
-	<operation name="countUsername" paramtype="primitive" multiPolicy="one">
+	<operation name="countUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
 			select count(username) username_cnt,sum(age) sum_age
 			from user_info
