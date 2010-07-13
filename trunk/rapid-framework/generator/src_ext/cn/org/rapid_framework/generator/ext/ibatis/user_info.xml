@@ -52,5 +52,159 @@
 			from user_info
 			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
 		</sql>
-	</operation>	
+	</operation>
+
+	<operation name="countDynimicUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+		<sql>
+			select count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
+		</sql>
+	</operation>
+
+	<operation name="insert" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<sql>
+    <![CDATA[
+        INSERT INTO USER_INFO (
+        	USER_ID ,
+        	USERNAME ,
+        	PASSWORD ,
+        	BIRTH_DATE ,
+        	SEX ,
+        	AGE 
+        ) VALUES (
+        	#userId# ,
+        	#username# ,
+        	#password# ,
+        	#birthDate# ,
+        	#sex# ,
+        	#age# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
+            select last_insert_id()
+        </selectKey>
+        </sql>
+    </operation>
+
+	<operation name="update" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<sql>
+    <![CDATA[
+        UPDATE USER_INFO SET
+	        USERNAME = #username# ,
+	        PASSWORD = #password# ,
+	        BIRTH_DATE = #birthDate# ,
+	        SEX = #sex# ,
+	        AGE = #age# 
+        WHERE 
+	        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+
+	<operation name="delete" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <sql>
+    <![CDATA[
+        DELETE FROM USER_INFO WHERE
+        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+    
+    <operation name="getById" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <sql>
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO 
+	        WHERE 
+		        USER_ID = #userId# 
+	    ]]>
+    </sql>
+    </operation>
+
+	<operation name="findPage.count" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+		<sql>
+        SELECT count(*) FROM USER_INFO
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age#
+		       </isNotEmpty>
+	    </dynamic>
+	    </sql>        
+    </operation>
+    
+    <operation name="findPage" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    	<sql>
+    	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age#
+		       </isNotEmpty>
+	    </dynamic>
+		<dynamic prepend="ORDER BY">
+			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
+		</dynamic>
+		</sql>
+    </operation>
+	
+	<operation name="getByUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+		<sql>
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO WHERE USERNAME = #username#
+	    ]]>
+	    </sql>
+    </operation>
+    
+    <operation name="getByAge" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    	<sql>
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO WHERE AGE = #age#
+	    ]]>
+	    </sql>
+    </operation>
+    			
 </table>
