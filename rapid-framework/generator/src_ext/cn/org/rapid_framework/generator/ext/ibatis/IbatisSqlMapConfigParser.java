@@ -18,7 +18,7 @@ public class IbatisSqlMapConfigParser {
     //1. 处理  query not allowed
     //2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
     public static String parse(String str) {
-        str = removeXmlComments(str);
+        str = removeXmlComments("<sql>"+str+"</sql>");
         Pattern p =  Pattern.compile("</?\\w+(.*?)>");
         StringBuffer sb = new StringBuffer();
         Matcher m = p.matcher(str);
@@ -88,6 +88,7 @@ public class IbatisSqlMapConfigParser {
     public static void main(String[] args) throws IOException {
         System.out.println("<abc>123</abc> <diy></diy>".replaceAll("</?\\w*>", ""));
         System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
+        System.out.println("parsed:"+parse("select * from user_info"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/test.xml");
 		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
     }
