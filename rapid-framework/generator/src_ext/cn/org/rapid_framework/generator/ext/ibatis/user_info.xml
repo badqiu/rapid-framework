@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
+	<column name="service_fee" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="TOTAL_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE_RATIO" javaType="double" />
+	<column name="amount" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="bank_amount" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="BANK_AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="return_fee" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	
+	<!-- 新增一条交易资金单据记录 -->
+	<operation name="insert" paramtype="object">
+		<extraparams>
+		    <param name="startRow" javaType="int"/>
+		    <param name="pageSize" javaType="int"/>
+		    <param name="orderby" javaType="java.lang.String"/>
+			<param name="userId" javaType="java.lang.String"/>
+			<param name="partnerId" javaType="java.lang.String"/>
+			<param name="datasourceName" javaType="java.lang.String"/>
+			<param name="migrateStatus" javaType="java.lang.String"/>
+			<param name="gmtEnterTimeBegin" javaType="java.util.Date"/>
+			<param name="gmtEnterTimeEnd" javaType="java.util.Date"/>
+			<param name="gmtCreateBegin" javaType="java.util.Date"/>
+			<param name="gmtCreateEnd" javaType="java.util.Date"/>
+		</extraparams>	
+		<sql>
+				INSERT INTO user_info (username,password) values (#username#,#password#)
+		</sql>
+	</operation>
+
+	<!-- 更新一条交易资金单据记录 -->
+	<operation name="update" paramtype="object">
+		<sql>
+			UPDATE user_info SET username = #username#,password = #password#
+			WHERE username = #username#
+		</sql>
+	</operation>	
+	
+	<!-- 根据订单号查询订单 -->
+	<operation name="queryByUserId" paramtype="primitive" multiplicity="one">
+		<sql>
+			select *
+			from user_info
+			where user_id = #userId#
+		</sql>
+	</operation>	
+	
+</table>

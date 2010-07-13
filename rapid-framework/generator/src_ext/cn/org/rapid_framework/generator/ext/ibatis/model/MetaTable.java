@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.org.rapid_framework.generator.ext.ibatis.IbatisSqlMapConfigParser;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
@@ -51,7 +52,10 @@ public class MetaTable {
         x.useAttributeFor(Byte.class);
         return x;
     }
-    
+    public String getTableClassName() {
+        if(StringHelper.isBlank(sqlname)) return null;
+        return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(sqlname));
+    }
     public String getSqlname() {
         return sqlname;
     }
@@ -78,10 +82,11 @@ public class MetaTable {
     }
 
     public String toString() {
-        return BeanHelper.describe(this).toString();
+//        return BeanHelper.describe(this).toString();
+        return "sqlname:"+sqlname;
     }
 
-    public List<Sql> toSqls() throws SQLException, Exception {
+    public List<Sql> getSqls() throws SQLException, Exception {
         return toSqls(this);
     }
     
@@ -95,10 +100,14 @@ public class MetaTable {
             List<Sql> sqls = new ArrayList<Sql>();
             for(MetaOperation op :table.getOperation()) {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
-                Sql sql = sqlFactory.parseSql0(op.getSql());
+//                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
+                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
+                Sql sql = sqlFactory.parseSql0(sqlString);
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
                     sql.setIbatis3Sql(op.getSqlmap());
+                }else {
+                    //TODO fixed me
                 }
                 sql.setOperation(op.getName());
                 sql.setMultiPolicy(op.getMultiPolicy());
@@ -132,17 +141,19 @@ public class MetaTable {
             List<SqlParameter> result = new ArrayList<SqlParameter>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
             for(MetaOperation op : table.getOperation()) {
-                for(MetaParam param : op.getExtraparams()) {
-                    Column c = t.getColumnByName(param.getName());
-                    if(c == null) {
-                        c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
-                            param.getName(), -1, -1, false,false,false,false,
-                            "",param.getColumnAlias());
+                if(op.getExtraparams() != null) {
+                    for(MetaParam param : op.getExtraparams()) {
+                        Column c = t.getColumnByName(param.getName());
+                        if(c == null) {
+                            c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
+                                param.getName(), -1, -1, false,false,false,false,
+                                "",param.getColumnAlias());
+                        }
+                        SqlParameter sqlParam = new SqlParameter(c);
+                        sqlParam.setJavaType(param.getJavaType());
+                        sqlParam.setColumnAlias(param.getColumnAlias());
+                        result.add(sqlParam);
                     }
-                    SqlParameter sqlParam = new SqlParameter(c);
-                    sqlParam.setJavaType(param.getJavaType());
-                    sqlParam.setColumnAlias(param.getColumnAlias());
-                    result.add(sqlParam);
                 }
             }
             return result;
