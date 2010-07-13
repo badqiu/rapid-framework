@@ -280,6 +280,7 @@ public class Sql {
     }
 
     private String joinColumnsSqlName() {
+        // TODO 未解决 a.*,b.*问题
 		StringBuffer sb = new StringBuffer();
 		for(Iterator<Column> it = columns.iterator();it.hasNext();) {
 			sb.append(it.next().getSqlName());
@@ -300,28 +301,28 @@ public class Sql {
 	 * @return
 	 */
 	public boolean isSelectSql() {
-		return sourceSql.trim().toLowerCase().matches("(?i)\\s*select\\s.*from\\s+.*");
+		return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*from\\s+.*");
 	}
 	/**
 	 * 当前的sourceSql是否是update语句
 	 * @return
 	 */
 	public boolean isUpdateSql() {
-		return sourceSql.trim().toLowerCase().matches("(?i)\\s*update\\s+.*");
+		return sourceSql.trim().toLowerCase().matches("(?is)\\s*update\\s+.*");
 	}
 	/**
 	 * 当前的sourceSql是否是delete语句
 	 * @return
 	 */
 	public boolean isDeleteSql() {
-		return sourceSql.trim().toLowerCase().matches("(?i)\\s*delete\\s+from\\s.*");
+		return sourceSql.trim().toLowerCase().matches("(?is)\\s*delete\\s+from\\s.*");
 	}
 	/**
 	 * 当前的sourceSql是否是insert语句
 	 * @return
 	 */
 	public boolean isInsertSql() {
-		return sourceSql.trim().toLowerCase().matches("(?i)\\s*insert\\s+into\\s+.*");
+		return sourceSql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*");
 	}
 	/**
 	 * 得到表相对应的sqlName,主要用途为生成文件时的分组.
