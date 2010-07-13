@@ -1,7 +1,7 @@
 
 ${gg.setIgnoreOutput(sql.params?size <= 4)}
 
-public class ${sql.parameterClassName} extends BaseQuery {
+public class ${sql.parameterClassName} extends BaseQuery implements java.io.Serializable {
 	<#list sql.params as param>
 	private ${param.preferredParameterJavaType} ${param.paramName};
 	</#list>
@@ -19,8 +19,8 @@ public class ${sql.parameterClassName} extends BaseQuery {
 	public ${param.preferredParameterJavaType} get${param.paramName?cap_first}() {
 		return ${param.paramName};
 	}
-	public void set${param.paramName?cap_first}(${param.preferredParameterJavaType} v) {
-		this.${param.paramName} = v;
+	public void set${param.paramName?cap_first}(${param.preferredParameterJavaType} ${param.paramName}) {
+		this.${param.paramName} = ${param.paramName};
 	}
 	</#list>
 }
