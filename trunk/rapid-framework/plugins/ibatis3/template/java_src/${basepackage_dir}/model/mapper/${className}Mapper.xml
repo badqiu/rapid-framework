@@ -21,9 +21,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="<@namespace/>columns">
 	    <![CDATA[
-		<#list table.columns as column>
-        	${column.sqlName}<#if column_has_next>,</#if>
-        </#list>
+		<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if></#list>
 	    ]]>
 	</sql>
 
