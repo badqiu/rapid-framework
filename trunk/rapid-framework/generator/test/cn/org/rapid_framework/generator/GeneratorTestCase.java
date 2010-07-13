@@ -16,6 +16,7 @@ import cn.org.rapid_framework.generator.util.IOHelper;
 public class GeneratorTestCase extends TestCase{
 	protected Generator g = new Generator();;
 	public void setUp()throws Exception {
+	    System.setProperty("gg.isOverride", "true");
 		try {
 			runSqlScripts();
 		}catch(Exception e) {
