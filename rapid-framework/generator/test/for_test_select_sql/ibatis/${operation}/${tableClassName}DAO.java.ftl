@@ -1,23 +1,4 @@
-	/**
-	 * ${sql.remarks!}
-	 * sql: ${sql.executeSql}
-	 */
-<#if (sql.params?size > 4) >
-	public <@generateResultClassName/> ${sql.operation}(${sql.parameterClassName} param) {
-		<@generateOperationMethodBody />
-	}
-<#else>
-	@SuppressWarnings("unchecked")
-	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) {
-		Map<String,Object> param = new HashMap<String,Object>();
-		<#list sql.params as param>
-		param.put("${param.paramName}",${param.paramName});
-		</#list>
-		<@generateOperationMethodBody />
-	}
-</#if>
-
-<#macro generateResultClassName>
+<#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
 		<#if sql.multiPolicy = 'one'>
@@ -31,12 +12,12 @@
 	</#compress>
 </#macro>
 
-<#macro generateOperationMethodBody>
+<#macro generateOperationMethodBody sql>
 	<#if sql.selectSql>
 		<#if sql.multiPolicy = 'one'>
-		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
 		<#else>
-		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);
 		</#if>
 	</#if>
 	<#if sql.deleteSql>
@@ -49,3 +30,23 @@
 		return getSqlMapClientTemplate().update("${sql.operation}", param);
 	</#if>			
 </#macro>
+
+	/**
+	 * ${sql.remarks!}
+	 * sql: ${sql.executeSql}
+	 */
+<#if (sql.params?size > 4) >
+	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) {
+		<@generateOperationMethodBody sql/>
+	}
+<#else>
+	@SuppressWarnings("unchecked")
+	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		<#list sql.params as param>
+		param.put("${param.paramName}",${param.paramName});
+		</#list>
+		<@generateOperationMethodBody sql/>
+	}
+</#if>
+
