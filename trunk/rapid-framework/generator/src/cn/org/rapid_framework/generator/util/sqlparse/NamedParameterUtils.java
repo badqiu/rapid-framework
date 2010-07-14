@@ -128,8 +128,6 @@ public abstract class NamedParameterUtils {
 		return parsedSql;
 	}
 
-	private static String[] removePrefixArray =  new String[] {"{"};
-	private static String[] removeSuffixArray = new String[] {"}","#"};
 	//add by badqiu,增加是否需要强制要有#后缀用于ibatis2
 	private static String removePrefixAndSuffix(char startPrifix,String parameter,String sql) {
 		//for spring jdbc
@@ -166,19 +164,6 @@ public abstract class NamedParameterUtils {
 		}
 		
 		throw new IllegalArgumentException("cannot reach this");
-//		for(String p : removePrefixArray) {
-//			if(parameter.startsWith(p)) {
-//				parameter = parameter.substring(p.length());
-//				break;
-//			}
-//		}
-//		for(String s : removeSuffixArray) {
-//			if(parameter.endsWith(s)) {
-//				parameter = parameter.substring(0,parameter.length() - s.length());
-//				break;
-//			}
-//		}
-//		return parameter;
 	}
 
 	/**

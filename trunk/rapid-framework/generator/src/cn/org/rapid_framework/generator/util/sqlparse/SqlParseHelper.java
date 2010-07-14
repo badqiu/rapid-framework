@@ -88,6 +88,79 @@ public class SqlParseHelper {
 		return null;
 	}
 
+	public static String convert2ParametersString(String sql,String prefix,String suffix) {
+	    return new NamedSqlConverter(prefix,suffix).convert2ParametersString(sql);
+	}
+
+	 /**
+     * 将sql从占位符转换为命名参数,如 select * from user where id =? ,将返回: select * from user where id = #id#
+     * @param sql
+     * @param prefix 命名参数的前缀
+     * @param suffix 命名参数的后缀
+     * @return
+     */
+	public static class NamedSqlConverter {
+	    private String prefix;
+	    private String suffix;
+	    
+        public NamedSqlConverter(String prefix, String suffix) {
+            if(prefix == null) throw new NullPointerException("'prefix' must be not null");
+            if(suffix == null) throw new NullPointerException("'suffix' must be not null");
+            this.prefix = prefix;
+            this.suffix = suffix;
+        }
+
+        public String convert2ParametersString(String sql) {
+	        if(sql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*")) {
+	            return replace2NamedParameters(replaceInsertSql2NamedParameters(sql));
+	        }else {
+	            return replace2NamedParameters(sql);
+	        }
+	    }
+
+        private String replace2NamedParameters(String sql) {
+            String replacedSql = replace2NamedParametersByOperator(sql,"[=<>!]{1,2}");
+            return replace2NamedParametersByOperator(replacedSql,"\\s+like\\s+");
+        }
+
+        private String replaceInsertSql2NamedParameters(String sql) {
+            Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(sql);
+            StringBuffer sb = new StringBuffer();
+            if(m.find()) {
+                String[] columns = StringHelper.tokenizeToStringArray(m.group(1),", \t\n\r\f");
+                String[] values = StringHelper.tokenizeToStringArray(m.group(2),", \t\n\r\f");
+                if(columns.length != values.length) {
+                    throw new IllegalArgumentException("insert 语句的插入列与值列数目不相等,sql:"+sql+" columns:"+StringHelper.join(columns,",")+" values:"+StringHelper.join(values,","));
+                }
+                for(int i = 0; i < columns.length; i++) {
+                    String column = columns[i];
+                    String paranName = StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(column));
+                    values[i] = values[i].replace("?", prefix + paranName + suffix);;
+                }
+                m.appendReplacement(sb, "insert into ("+StringHelper.join(columns,",")+") values ("+StringHelper.join(values,",")+")");
+                
+            }
+            m.appendTail(sb);
+            return sb.toString();
+        }
+	    
+        private String replace2NamedParametersByOperator(String sql,String operator) {
+            Pattern p = Pattern.compile("(\\w+)\\s*"+operator+"\\s*\\?",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(sql);
+            StringBuffer sb = new StringBuffer();
+            while(m.find()) {
+                String segment = m.group(0);
+                String columnSqlName = m.group(1);
+                String paramName = StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(columnSqlName));
+                String replacedSegment = segment.replace("?", prefix + paramName + suffix);
+                m.appendReplacement(sb, replacedSegment);
+            }
+            m.appendTail(sb);
+            return sb.toString();
+        }
+	}
+
 	/**
 	 * 美化sql
 	 * 
