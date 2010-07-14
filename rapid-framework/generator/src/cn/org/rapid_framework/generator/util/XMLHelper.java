@@ -124,6 +124,18 @@ public class XMLHelper {
     	return null;
     }
 
+    public static String removeXmlns(File file) throws IOException {
+        InputStream forEncodingInput = new FileInputStream(file);
+        String encoding = XMLHelper.getXMLEncoding(forEncodingInput);
+        forEncodingInput.close();
+        
+        InputStream input = new FileInputStream(file);
+        String xml = IOHelper.toString(encoding,input);
+        xml = XMLHelper.removeXmlns(xml);
+        input.close();
+        return xml;
+    }
+    
     public static String removeXmlns(String s) {
     	if(s == null) return null;
     	Pattern p = Pattern.compile("xmlns:?\\w*=['\"].*?['\"]");
