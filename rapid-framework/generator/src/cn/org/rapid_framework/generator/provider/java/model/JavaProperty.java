@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 
@@ -40,6 +41,10 @@ public class JavaProperty {
 		return ActionScriptDataTypesUtils.getPreferredAsType(propertyDescriptor.getPropertyType().getName());
 	}
 	
+	public boolean isPk() {
+	    return JPAUtils.isPk(propertyDescriptor.getReadMethod());
+	}
+	
 	public JavaClass getClazz() {
 		return clazz;
 	}
@@ -47,4 +52,32 @@ public class JavaProperty {
 	public String toString() {
 		return "JavaClass:"+clazz+" JavaProperty:"+getName();
 	}
+	
+    public static class JPAUtils {
+        private static boolean isJPAClassAvaiable = false;
+        static {
+            try {
+                Class.forName("javax.persistence.Table");
+                isJPAClassAvaiable = true;
+            } catch (ClassNotFoundException e) {
+            }
+        }
+
+        public static boolean isPk(Method readMethod) {
+            if (isJPAClassAvaiable) {
+                if (readMethod != null && readMethod.isAnnotationPresent(classForName("javax.persistence.Id"))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static Class classForName(String clazz)  {
+            try {
+                return Class.forName(clazz);
+            } catch (ClassNotFoundException e) {
+                return null;
+            }
+        }
+    }
 }
