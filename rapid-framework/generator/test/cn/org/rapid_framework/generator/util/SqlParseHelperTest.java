@@ -74,7 +74,7 @@ public class SqlParseHelperTest extends TestCase{
 		String sql = "delete from user_Info where " +
 				" user_param =>  :user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
 				" and Memoparam like #memo# and birth_date between #{min_birth_date} and #{max_birth_date}"+
-				" and java_param in (#java#) and and t.prifix_param=#{prefix} net_param => substring(#net#)";
+				" and java_param in (#java#) and  t.prifix_param=#{prefix} and net_param => substring(#net#)";
 		assertEquals("user_param",SqlParseHelper.getColumnNameByRightCondition(sql, "user"));
 		assertEquals("blog_param",SqlParseHelper.getColumnNameByRightCondition(sql, "blog"));
 		assertEquals("sex_param",SqlParseHelper.getColumnNameByRightCondition(sql, "sex"));
@@ -87,6 +87,30 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("prifix_param",SqlParseHelper.getColumnNameByRightCondition(sql, "prefix"));
 		assertEquals("net_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
 	}
+	
+    public void test_convert2ParametersString() {
+        String sql = " delete from user_Info where \n " +
+                " user_param>=? and blog_param=? and sex_param<=  ? and pwd_param!=? and content_param<>? and sex2like like ?";
+        assertEquals(" delete from user_Info where \n  user_param>=#userParam# and blog_param=#blogParam# and sex_param<=  #sexParam# and pwd_param!=#pwdParam# and content_param<>#contentParam# and sex2like like #sex2like#",SqlParseHelper.convert2ParametersString(sql, "#","#"));
+    }
+    
+    public void test_convert2ParametersString_by_insert() {
+        String sql = " insert into userinfo ( " +
+                " user_name,pass_word, sex, age, birth_date , content,nowdate )"
+                + " values(?,?,123,?,sysdate,?,now() )";
+        String expected = " insert into userinfo ( " +
+        " username,password, sex, age, birth_date \n , content,nowdate"
+        + " values(#username#,#password#,123,#birthDate#,sysdate,#content#,now(?))";
+        String expected2 = "insert into (user_name,pass_word,sex,age,birth_date,content,nowdate) values (#userName#,#passWord#,123,#age#,sysdate,#content#,now())";
+        assertEquals(expected2,SqlParseHelper.convert2ParametersString(sql, "#","#"));
+        
+        try {
+            SqlParseHelper.convert2ParametersString("insert into userinfo (id,sex) values (?)","#","#");
+            fail();
+        }catch(Exception e) {
+            assertTrue(true);
+        }
+    }
 	public void test_get_sql() {
 	    String t = SqlParseHelper.getParameterClassName("select * from user where username = :username|Integer and pwd = :pwd|SexEnum", "username");
 	    assertEquals(t,"Integer");
