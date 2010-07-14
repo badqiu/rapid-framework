@@ -136,9 +136,10 @@ public class XMLHelper {
         return xml;
     }
     
+    //只移除default namesapce
     public static String removeXmlns(String s) {
     	if(s == null) return null;
-    	Pattern p = Pattern.compile("xmlns:?\\w*=['\"].*?['\"]");
+    	s = s.replaceAll("(?s)xmlns=['\"].*?['\"]", "");
     	s = s.replaceAll("(?s)xmlns:?\\w*=['\"].*?['\"]", "");
     	s = s.replaceAll("(?s)\\w*:schemaLocation=['\"].*?['\"]", "");
     	return s;
