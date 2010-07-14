@@ -139,8 +139,8 @@ public class XMLHelper {
     public static String removeXmlns(String s) {
     	if(s == null) return null;
     	Pattern p = Pattern.compile("xmlns:?\\w*=['\"].*?['\"]");
-    	s = s.replaceAll("xmlns:?\\w*=['\"].*?['\"]", "");
-    	s = s.replaceAll("\\w*:schemaLocation=['\"].*?['\"]", "");
+    	s = s.replaceAll("(?s)xmlns:?\\w*=['\"].*?['\"]", "");
+    	s = s.replaceAll("(?s)\\w*:schemaLocation=['\"].*?['\"]", "");
     	return s;
     }
     
