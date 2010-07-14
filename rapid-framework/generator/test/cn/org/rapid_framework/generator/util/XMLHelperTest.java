@@ -43,7 +43,8 @@ public class XMLHelperTest extends TestCase {
     }
 
     public void test_removeXmlns() {
-    	assertEquals("abc  dd ",XMLHelper.removeXmlns("abc xmlns=\"http://maven.apache.org/POM/4.0.0\" dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
+//    	assertEquals("abc  dd ",XMLHelper.removeXmlns("abc xmlns=\"http://maven.apache.org/POM/4.0.0\" dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
+    	assertEquals("abc  dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"",XMLHelper.removeXmlns("abc xmlns=\"http://maven.apache.org/POM/4.0.0\" dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
     	assertEquals("abc ",XMLHelper.removeXmlns("abc xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\""));
 //    	assertEquals("UTF-8",XMLHelper.removeXmlns("<?xml version=\"1.0\" encoding='UTF-8'?>"));
     }
