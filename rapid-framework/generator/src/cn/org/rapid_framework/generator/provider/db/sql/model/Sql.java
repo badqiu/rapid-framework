@@ -364,7 +364,8 @@ public class Sql {
 	 */
 	public String getTableClassName() {
 		if(StringHelper.isBlank(tableSqlName)) return null;
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(tableSqlName));
+		String removedPrefixSqlName = Table.removeTableSqlNamePrefix(tableSqlName);
+		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
 	}
 
 	public Column getColumnBySqlName(String sqlName) {

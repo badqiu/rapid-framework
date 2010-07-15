@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
@@ -27,7 +28,7 @@ public class Table {
 	public Table() {}
 	
 	public Table(Table t) {
-		this.sqlName = t.getSqlName();
+		setSqlName(t.getSqlName());
 		this.remarks = t.getRemarks();
 		this.className = t.getSqlName();
 		this.ownerSynonymName = t.getOwnerSynonymName();
@@ -67,8 +68,21 @@ public class Table {
 	}
 	public void setSqlName(String sqlName) {
 		this.sqlName = sqlName;
-		className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
+		String removedPrefixSqlName = removeTableSqlNamePrefix(sqlName);
+		className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
 	}
+
+	public static String removeTableSqlNamePrefix(String sqlName) {
+		String prefixs = GeneratorProperties.getProperty("tableRemovePrefixs", "");
+		for(String prefix : prefixs.split(",")) {
+			String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
+			if(!removedPrefixSqlName.equals(sqlName)) {
+				return removedPrefixSqlName;
+			}
+		}
+		return sqlName;
+	}
+	
 	/** 数据库中表的表备注 */
 	public String getRemarks() {
 		return remarks;
