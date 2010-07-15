@@ -14,6 +14,7 @@ import java.util.Set;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 
 public class JavaClass {
 	private Class clazz;
@@ -152,6 +153,10 @@ public class JavaClass {
 	    }else {
 	        return clazz.getName();
 	    }
+	}
+
+	public String getPrimitiveJavaType() {
+	    return JavaPrimitiveTypeMapping.getPrimitiveType(getJavaType());
 	}
 	
 	public String getCanonicalName() {

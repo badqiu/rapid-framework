@@ -4,6 +4,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 
 public class JavaProperty {
 	PropertyDescriptor propertyDescriptor;
@@ -19,6 +20,10 @@ public class JavaProperty {
 	
 	public String getJavaType() {
 		return propertyDescriptor.getPropertyType().getName();
+	}
+	
+	public String getPrimitiveJavaType() {
+	    return JavaPrimitiveTypeMapping.getPrimitiveType(getJavaType());
 	}
 	
 	public JavaClass getPropertyType() {
