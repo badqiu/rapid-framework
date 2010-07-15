@@ -142,7 +142,7 @@
 	    </sql>        
     </operation>
     
-    <operation name="findPage" paging="true" paramtype="primitive" multiPolicy="many" comments="根据订单号查询订单">
+    <operation name="findPage" paging="true" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
     	<sql>
     	<![CDATA[
     	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
@@ -169,6 +169,9 @@
 		             AGE = ?
 		       </isNotEmpty>
 	    </dynamic>
+	    <isNotEmpty prepend="ORDER BY" property="orderBy">
+		      #orderBy#
+		</isNotEmpty>
 		]]>
 		</sql>
     </operation>
