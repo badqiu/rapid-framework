@@ -28,6 +28,7 @@ public class IbatisSqlMapConfigParser {
         while(m.find()) {
             Map<String,String> attributes = parse2Attributes(m.group(1));
             String prepend = attributes.get("prepend");
+            System.out.println("group:"+m.group()+" attributes:"+attributes);
             
             open = attributes.get("open");
             if(prepend != null) {
@@ -72,15 +73,11 @@ public class IbatisSqlMapConfigParser {
      * @return
      */
     private static Map<String, String> parse2Attributes(String attributes) {
-        String[] pairs = StringHelper.tokenizeToStringArray(attributes, " ");
         Map result = new HashMap();
-        for(int i = 0; i < pairs.length; i++) {
-            String pair = pairs[i];
-            Pattern p = Pattern.compile("(.*?)=['\"](.*)['\"]");
-            Matcher m = p.matcher(pair);
-            if(m.find()) {
-                result.put(m.group(1), m.group(2));
-            }
+        Pattern p = Pattern.compile("(\\w+?)=['\"](.*?)['\"]");
+        Matcher m = p.matcher(attributes);
+        while(m.find()) {
+            result.put(m.group(1), m.group(2));
         }
         return result;
     }
@@ -88,6 +85,7 @@ public class IbatisSqlMapConfigParser {
     public static void main(String[] args) throws IOException {
         System.out.println("<abc>123</abc> <diy></diy>".replaceAll("</?\\w*>", ""));
         System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
+        System.out.println("parsed:"+parse("<dynamic prepend='WHERE 1=1'>123</dynamic>"));
         System.out.println("parsed:"+parse("select * from user_info"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/test.xml");
 		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
