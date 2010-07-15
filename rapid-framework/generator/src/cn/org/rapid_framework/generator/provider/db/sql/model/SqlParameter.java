@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 
 public class SqlParameter extends Column {
     	String parameterClass;
@@ -47,7 +48,7 @@ public class SqlParameter extends Column {
         }
 
 		public String getPrimitiveParameterClass() {
-		    if(StringHelper.isNotBlank(parameterClass)) return parameterClass;
+		    if(StringHelper.isNotBlank(parameterClass)) return JavaPrimitiveTypeMapping.getPrimitiveType(parameterClass);
 		    return getPrimitiveJavaType();
         }
 		
