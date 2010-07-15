@@ -11,6 +11,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.TestDataGenerator;
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.typemapping.DatabaseDataTypesUtils;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 用于生成代码的Columb对象.对应数据库表column
@@ -475,6 +476,14 @@ public class Column {
 	 */
 	public String getSimpleJavaType() {
 		return StringHelper.removePrefix(getJavaType(), "java.lang.");
+	}
+	
+	/**
+	 * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型,将直接返回getSimpleJavaType()
+	 * @return
+	 */	
+	public String getPrimitiveJavaType() {
+		return JavaPrimitiveTypeMapping.getPrimitiveType(getSimpleJavaType());
 	}
 	
 	/** 得到ActionScript的映射类型,用于Flex代码的生成  */
