@@ -6,8 +6,8 @@ public class GLogger {
 	public static final int TRACE = 60;
 	public static final int DEBUG = 70;
 	public static final int INFO = 80;
-	public static final int ERROR = 90;
-	public static final int WARN = 100;
+	public static final int WARN = 90;
+	public static final int ERROR = 100;
 
 	public static int logLevel = INFO;
 	public static PrintStream out = System.out;
