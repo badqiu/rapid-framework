@@ -20,6 +20,7 @@ import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
+import cn.org.rapid_framework.generator.util.typemapping.DatabaseTypeUtils;
 /**
  * 
  * @author badqiu
@@ -238,9 +239,16 @@ public class GeneratorFacade {
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
+			templateModel.put("database_type", getDatabaseType("database_type"));
 			templateModel.putAll(GeneratorContext.getContext());
 		}
-		
+
+		private static String getDatabaseType(String key) {
+			String value = GeneratorProperties.getProperty(key);
+			if(value != null) return null;
+			return DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(GeneratorProperties.getProperty("jdbc.driver"));
+		}
+
 	}
 	
 	private static class PrintUtils {
