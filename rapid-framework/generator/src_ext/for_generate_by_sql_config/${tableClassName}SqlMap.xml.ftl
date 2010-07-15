@@ -47,28 +47,32 @@
     	<![CDATA[
 		${sql.ibatisSql}
     	]]>
-    	<#if sql.operation == 'insert'>
-	        <#if database_type == 'oracle'>
-			<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
-	            SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
-	        </selectKey>         
-	        </#if>
-	        <#if database_type == 'mysql'>
-			<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
-	            select last_insert_id()
-	        </selectKey>        
-	        </#if> 
-	        <#if database_type == 'sqlserver'>
-			<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
-	            SELECT  @@identity  AS  ID
-	        </selectKey>        
-	        </#if>                     
-        </#if>                     
+        <@genSelectKeyOfInsertSql sql/>             
 	</insert>
 </#if>
 </#list>
 
 </sqlMap>
+
+<#macro genSelectKeyOfInsertSql sql>
+	<#if sql.operation == 'insert'>
+        <#if database_type == 'oracle'>
+		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
+            SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
+        </selectKey>         
+        </#if>
+        <#if database_type == 'mysql'>
+		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+            select last_insert_id()
+        </selectKey>        
+        </#if> 
+        <#if database_type == 'sqlserver'>
+		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+            SELECT  @@identity  AS  ID
+        </selectKey>        
+        </#if>                     
+    </#if>
+</#macro>
 
 <#macro genPageQueryStart sql>
 	<#if sql.paging>
