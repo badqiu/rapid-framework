@@ -8,6 +8,7 @@ import java.util.Map;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
@@ -70,7 +71,6 @@ public class MetaTableTest extends GeneratorTestCase {
     }
     
     private static void setShareVars(Map templateModel) {
-        templateModel.putAll(System.getProperties());
-        templateModel.put("env", System.getenv());
+    	GeneratorModelUtils.setShareVars(templateModel);
     }
 }
