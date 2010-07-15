@@ -47,8 +47,8 @@ public class MetaTableTest extends GeneratorTestCase {
         
         Map filePathModel = new HashMap();
         filePathModel.putAll(GeneratorProperties.getProperties());
-        filePathModel.putAll(BeanHelper.describe(sql));
         filePathModel.putAll(BeanHelper.describe(t));
+        filePathModel.putAll(BeanHelper.describe(sql));
         setShareVars(filePathModel);
         GeneratorModel gm = new GeneratorModel(templateModel,filePathModel);
         return gm;

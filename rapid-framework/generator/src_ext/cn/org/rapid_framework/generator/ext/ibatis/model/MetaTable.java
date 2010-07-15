@@ -43,6 +43,15 @@ public class MetaTable {
         x.alias("operation", MetaOperation.class);
         x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
         x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
+        x.useAttributeFor(int.class);
+        x.useAttributeFor(long.class);
+        x.useAttributeFor(boolean.class);
+        x.useAttributeFor(float.class);
+        x.useAttributeFor(double.class);
+        x.useAttributeFor(short.class);
+        x.useAttributeFor(byte.class);
+        x.useAttributeFor(char.class);
+        
         x.useAttributeFor(String.class);
         x.useAttributeFor(Integer.class);
         x.useAttributeFor(Long.class);
@@ -86,9 +95,12 @@ public class MetaTable {
 //        return BeanHelper.describe(this).toString();
         return "sqlname:"+sqlname;
     }
-
+    List<Sql> sqls;
     public List<Sql> getSqls() throws SQLException, Exception {
-        return toSqls(this);
+        if(sqls == null) {
+            sqls = toSqls(this);
+        }
+        return sqls;
     }
     
     public static List<Sql> toSqls(MetaTable table) throws SQLException, Exception {
@@ -118,6 +130,7 @@ public class MetaTable {
                 sql.setResultClass(op.getResultClass());
                 sql.setRemarks(op.getComments());
                 sql.setTableSqlName(table.getSqlname());
+                sql.setPaging(op.isPaging());
                 sqls.add(sql);
             }
             return sqls;
@@ -214,6 +227,7 @@ public class MetaTable {
         public String sqlmap;
         public Sql parsedSql;
         public String comments;
+        public boolean paging = false;
         
         public String tableSqlName = null; //是否需要
         
@@ -295,6 +309,14 @@ public class MetaTable {
 
         public void setComments(String comments) {
             this.comments = comments;
+        }
+        
+        public boolean isPaging() {
+            return paging;
+        }
+
+        public void setPaging(boolean paging) {
+            this.paging = paging;
         }
 
         public String toString() {

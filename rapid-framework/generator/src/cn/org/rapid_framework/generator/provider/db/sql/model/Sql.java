@@ -30,6 +30,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 public class Sql {
 	public static String MULTI_POLICY_ONE = "one";
 	public static String MULTI_POLICY_MANY = "many";
+	public static String MULTI_POLICY_PAGING = "paging";
 	
 	String tableSqlName = null; //是否需要
 	String operation = null;
@@ -38,6 +39,7 @@ public class Sql {
 	String remarks;
 	
 	String multiPolicy = "many"; // many or one
+	boolean paging = false; // 是否分页查询
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
@@ -290,7 +292,7 @@ public class Sql {
 	}
 	
 	public String replaceWildcardWithColumnsSqlName(String sql) {
-		if(isSelectSql() && SqlParseHelper.getSelect(sql).indexOf("*") >= 0) {
+		if(isSelectSql() && SqlParseHelper.getSelect(sql).indexOf("*") >= 0 && SqlParseHelper.getSelect(sql).indexOf("count(") < 0) {
 			return SqlParseHelper.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
 		}else {
 			return sql;
@@ -347,7 +349,16 @@ public class Sql {
 	public void setRemarks(String comments) {
 		this.remarks = comments;
 	}
-	/**
+	
+	public boolean isPaging() {
+        return paging;
+    }
+
+    public void setPaging(boolean paging) {
+        this.paging = paging;
+    }
+
+    /**
 	 * 根据tableSqlName和成相对应的tableClassName,主要用途路径变量引用.如${tableClassName}Dao.java
 	 * @return
 	 */
