@@ -11,9 +11,12 @@
 	
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
-
+	
 	<entry key="outRoot">.\generator-output</entry>
 
+	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
+	<entry key="tableRemovePrefixs"></entry>
+	
 	<entry key="jdbc.username">sa</entry>
 	<entry key="jdbc.password">sa</entry>
 		
