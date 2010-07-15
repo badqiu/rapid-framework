@@ -245,7 +245,7 @@ public class GeneratorFacade {
 
 		private static String getDatabaseType(String key) {
 			String value = GeneratorProperties.getProperty(key);
-			if(value != null) return null;
+			if(value != null) return value;
 			return DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(GeneratorProperties.getProperty("jdbc.driver"));
 		}
 
