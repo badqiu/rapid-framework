@@ -27,7 +27,7 @@
 </#if>
 	
 <#if sql.updateSql>
-	<update id="UserInfo.update">
+	<update id="<@namespace/>${sql.operation}">
     	<![CDATA[
 		${sql.ibatisSql}
     	]]>
@@ -35,7 +35,7 @@
 </#if>
 	
 <#if sql.deleteSql>
-	<delete id="UserInfo.delete">
+	<delete id="<@namespace/>${sql.operation}">
     	<![CDATA[
 		${sql.ibatisSql}
     	]]>
@@ -43,24 +43,26 @@
 </#if>
     
 <#if sql.insertSql>
-	<insert id="UserInfo.insert">
+	<insert id="<@namespace/>${sql.operation}">
     	<![CDATA[
 		${sql.ibatisSql}
     	]]>
-        <#if database_type == 'oracle'>
-		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
-            SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
-        </selectKey>         
-        </#if>
-        <#if database_type == 'mysql'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
-            select last_insert_id()
-        </selectKey>        
-        </#if> 
-        <#if database_type == 'sqlserver'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
-            SELECT  @@identity  AS  ID
-        </selectKey>        
+    	<#if sql.operation == 'insert'>
+	        <#if database_type == 'oracle'>
+			<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
+	            SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
+	        </selectKey>         
+	        </#if>
+	        <#if database_type == 'mysql'>
+			<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+	            select last_insert_id()
+	        </selectKey>        
+	        </#if> 
+	        <#if database_type == 'sqlserver'>
+			<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+	            SELECT  @@identity  AS  ID
+	        </selectKey>        
+	        </#if>                     
         </#if>                     
 	</insert>
 </#if>
