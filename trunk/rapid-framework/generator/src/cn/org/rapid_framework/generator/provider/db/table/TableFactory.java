@@ -408,10 +408,10 @@ public class TableFactory {
 		private static NodeData getTableConfigXmlNodeData0(String tableSqlName) {
 			try {
 				File file = FileHelper.getFileByClassLoader("generator_config/table/"+tableSqlName+".xml");
-				GLogger.debug("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
+				GLogger.trace("getTableConfigXml() load nodeData by tableSqlName:"+tableSqlName+".xml");
 				return new XMLHelper().parseXML(file);
 			}catch(Exception e) {//ignore
-				GLogger.debug("not found config xml for table:"+tableSqlName+", exception:"+e);
+				GLogger.trace("not found config xml for table:"+tableSqlName+", exception:"+e);
 				return null;
 			}
 		}
