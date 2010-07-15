@@ -233,6 +233,24 @@ public class PropertiesHelper {
 	public Object setProperty(String key,boolean value) {
 		return setProperty(key, String.valueOf(value));
 	}
+
+	public String[] getStringArray(String key) {
+		String v = p.getProperty(key);
+		if(v == null) {
+			return new String[0];
+		}else {
+			return StringTokenizerUtils.split(v, ",");
+		}
+	}
+
+	public int[] getIntArray(String key) {
+		String[] array = getStringArray(key);
+		int[] result = new int[array.length];
+		for(int i = 0; i < array.length; i++) {
+			result[i] = Integer.parseInt(array[i]);
+		}
+		return result;
+	}
 	
 	/** delegate method start */
 	
