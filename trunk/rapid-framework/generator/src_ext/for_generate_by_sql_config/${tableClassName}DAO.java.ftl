@@ -1,4 +1,13 @@
+/*
+ * Alipay.com Inc.
+ * Copyright (c) 2004 All Rights Reserved.
+ */
+ 
 
+/**
+ * 
+ 
+ */
 public class ${tableConfig.tableClassName}DAO {
 
 <#list tableConfig.sqls as sql>
