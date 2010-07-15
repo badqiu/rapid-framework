@@ -13,7 +13,10 @@
 	<entry key="namespace">pages</entry>
 
 	<entry key="outRoot">d:\generator-output</entry>
-
+	
+	<!-- 需要移除的表名前缀 -->
+	<entry key="tableRemovePrefixs"></entry>
+	
 	<entry key="jdbc.username">root</entry>
 	<entry key="jdbc.password">123456</entry>
 		
