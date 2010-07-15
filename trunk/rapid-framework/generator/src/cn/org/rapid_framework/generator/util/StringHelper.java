@@ -346,6 +346,12 @@ public class StringHelper {
         return join(list.toArray(new Object[0]),seperator);
     }
     
+    public static String replace(int start, int end, String str,String replacement) {
+        String before = str.substring(0,start);
+        String after = str.substring(end);
+        return before + replacement + after;
+    }
+    
 	public static String join(Object[] array, String seperator) {
 		if(array == null) return null;
 		StringBuffer result = new StringBuffer();

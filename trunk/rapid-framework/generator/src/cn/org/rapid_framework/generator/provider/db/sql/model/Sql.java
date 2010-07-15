@@ -289,13 +289,14 @@ public class Sql {
 		return sb.toString();
 	}
 	
-	private String replaceWildcardWithColumnsSqlName(String sql) {
-		if(isSelectSql() && SqlParseHelper.getSelect(sourceSql).indexOf("*") >= 0) {
+	public String replaceWildcardWithColumnsSqlName(String sql) {
+		if(isSelectSql() && SqlParseHelper.getSelect(sql).indexOf("*") >= 0) {
 			return SqlParseHelper.getPrettySql("select " + joinColumnsSqlName() + " " + SqlParseHelper.removeSelect(sql));
 		}else {
 			return sql;
 		}
 	}
+	
 	/**
 	 * 当前的sourceSql是否是select语句
 	 * @return
