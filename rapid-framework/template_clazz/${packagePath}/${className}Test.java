@@ -27,7 +27,7 @@ public class ${clazz.className}Test extends BaseSofaTestCase{
     
     @Autowired
     @XAutoWire(XAutoWire.BY_NAME)
-    protected ${clazz.javaType} ${clazz.className?uncap_first};
+    protected ${clazz.javaType} ${springBeanId};
     
     public void setUp() throws Exception {
         super.setUp();
