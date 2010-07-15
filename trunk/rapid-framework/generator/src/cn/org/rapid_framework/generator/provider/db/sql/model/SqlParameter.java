@@ -46,12 +46,24 @@ public class SqlParameter extends Column {
 		    return getSimpleJavaType();
         }
 
+		public String getPrimitiveParameterClass() {
+		    if(StringHelper.isNotBlank(parameterClass)) return parameterClass;
+		    return getPrimitiveJavaType();
+        }
+		
         public void setParameterClass(String parameterClass) {
             this.parameterClass = parameterClass;
         }
 
         public String getPreferredParameterJavaType() {
-		    String parameterClassName = getParameterClass();
+		    return toListParam(getParameterClass());
+		}
+
+        public String getPreferredPrimitiveParameterJavaType() {
+		    return toListParam(getPrimitiveParameterClass());
+		}
+        
+		private String toListParam(String parameterClassName) {
 			if(isListParam) {
 				if(parameterClassName.indexOf("[]") >= 0){
 					return parameterClassName;
