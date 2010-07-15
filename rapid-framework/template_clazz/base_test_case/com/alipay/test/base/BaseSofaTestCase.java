@@ -8,13 +8,21 @@ public class BaseSofaTestCase extends AnnotatedAutowireSofaTestCase {
 
 	@Override
 	public String[] getConfigurationLocations() {
-		return new String[] {<#list springConfigs as springConfig>"${springConfig?replace("\\", "/")}",</#list>};
+		return new String[] {<#list springConfigs as springConfig>
+		                    <#if hasSofaReferenceConfigs?seq_contains(springConfig)>
+		                    //"${springConfig?replace('\\', '/')}",
+		                    <#else>
+		                    "${springConfig?replace('\\', '/')}",
+		                    </#if>
+		                     </#list>};
 	}
 
 	
 	@Override
 	public String[] getResourceFilterNames() {
-		return new String[] {<#list springReplaceConfigs as springReplaceConfig>"${springReplaceConfig?replace("\\", "/")}",</#list>};
+		return new String[] {<#list springReplaceConfigs as springReplaceConfig>
+		"${springReplaceConfig?replace('\\', '/')}",
+		</#list>};
 	}
 	
 
