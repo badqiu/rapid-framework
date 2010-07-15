@@ -27,7 +27,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     private SqlSessionFactory sqlSessionFactory;
     private SqlSessionTemplate sqlSessionTemplate;
 	protected void checkDaoConfig() throws IllegalArgumentException {
-		Assert.notNull("sqlSessionFactory must be not null");
+		Assert.notNull(sqlSessionFactory,"sqlSessionFactory must be not null");
 	}
 
 	public SqlSessionFactory getSqlSessionFactory() {
