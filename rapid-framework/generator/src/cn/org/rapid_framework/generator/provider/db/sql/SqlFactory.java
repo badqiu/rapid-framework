@@ -74,8 +74,9 @@ public class SqlFactory {
         conn.setAutoCommit(false);
         conn.setReadOnly(true);
         try {
-	        PreparedStatement ps = conn.prepareStatement(executeSql);
-	        sql.setColumns(new SelectColumnsParser().convert2Columns(executeForResultSetMetaData(executeSql,ps)));
+	        PreparedStatement ps = conn.prepareStatement(removeOrderBy(executeSql));
+	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
+            sql.setColumns(new SelectColumnsParser().convert2Columns(resultSetMetaData));
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        return sql;
         }finally {
@@ -83,9 +84,13 @@ public class SqlFactory {
         	conn.close();
         }
     }
+
+    private String removeOrderBy(String executeSql) {
+        return executeSql.replaceAll("(?is)order\\s+by[\\w|\\W|\\s|\\S]*", "");
+    }
 	
     private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
-		SqlParseHelper.setRandomParamsValueForPreparedStatement(executeSql, ps);
+		SqlParseHelper.setRandomParamsValueForPreparedStatement(removeOrderBy(executeSql), ps);
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
