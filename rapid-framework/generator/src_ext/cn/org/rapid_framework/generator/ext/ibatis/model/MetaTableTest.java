@@ -39,6 +39,19 @@ public class MetaTableTest extends GeneratorTestCase {
         }
     }
     
+	public void test_remove_table_prefix() {
+		GeneratorProperties.setProperty("tableRemovePrefixs", "t_,v_");
+		MetaTable sql = new MetaTable();
+		sql.setSqlname("t_user_info");
+		assertEquals("UserInfo",sql.getTableClassName());
+		sql.setSqlname("v_user");
+		assertEquals("User",sql.getTableClassName());
+		
+		sql.setSqlname("diy_user");
+		assertEquals("DiyUser",sql.getTableClassName());
+	}
+	
+    
     private GeneratorModel newFromSql(Sql sql, MetaTable t) {
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
