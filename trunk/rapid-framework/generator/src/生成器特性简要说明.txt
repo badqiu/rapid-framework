@@ -52,7 +52,9 @@
 	如模板目录下的 zip,rar,doc文件将会自动拷贝至输出目录,不会破坏文件格式   (通过扩展名自动识别)
 
 	
-十. 数据库表配置,用于自定义生成器模板引用的table变量,配置文件必须存放在classpath: generator_config/table/table_name.xml (该文件生成器可以生成，自己再自定义修改)
+十. 数据库表配置,用于自定义生成器模板引用的table变量,配置文件必须存放在classpath: generator_config/table/table_name.xml 
+   (该文件生成器可以生成，自己再自定义修改)
+   
 	<!--
 	<数据库表名 className="类名称" tableAlias="表的别名">
 		<数据库列名 columnAlias="列的别名"
