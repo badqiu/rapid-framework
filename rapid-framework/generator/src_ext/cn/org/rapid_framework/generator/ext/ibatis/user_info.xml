@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
-	<column name="age" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="sex" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
 	
 	<!-- 新增一条交易资金单据记录 -->
 	<operation name="insert" paramtype="object" >
 		<extraparams>
-		    <param name="startRow" javaType="int"/>
-		    <param name="pageSize" javaType="int"/>
+		    <param name="startRow" javatype="int"/>
+		    <param name="pageSize" javatype="int"/>
 		</extraparams>	
 		<sql>
 				INSERT INTO user_info (username,password) values (#username#,#password#)
