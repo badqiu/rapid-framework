@@ -27,6 +27,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 public class MetaTable {
     public String sqlname;
     public String sequence;
+    public String dummypk;
     public List<MetaColumn> column = new ArrayList();
     public List<MetaOperation> operation = new ArrayList<MetaOperation>();
 
@@ -90,6 +91,13 @@ public class MetaTable {
     public void setOperation(List<MetaOperation> operations) {
         this.operation = operations;
     }
+    public String getDummypk() {
+        return dummypk;
+    }
+
+    public void setDummypk(String dummypk) {
+        this.dummypk = dummypk;
+    }
 
     public String toString() {
 //        return BeanHelper.describe(this).toString();
@@ -146,7 +154,7 @@ public class MetaTable {
                         mc.getName(), -1, -1, false,false,false,false,
                         "",mc.getColumnAlias());
                 }
-                c.setJavaType(mc.getJavaType());
+                c.setJavaType(mc.getJavatype());
                 c.setColumnAlias(mc.getColumnAlias());
                 result.add(c);
             }
@@ -166,7 +174,7 @@ public class MetaTable {
                                 "",param.getColumnAlias());
                         }
                         SqlParameter sqlParam = new SqlParameter(c);
-                        sqlParam.setJavaType(param.getJavaType());
+                        sqlParam.setJavaType(param.getJavatype());
                         sqlParam.setColumnAlias(param.getColumnAlias());
                         result.add(sqlParam);
                     }
@@ -188,7 +196,7 @@ public class MetaTable {
     
     public static class MetaColumn {
         private String name;
-        private String javaType;
+        private String javatype;
         private String columnAlias;
         public String getName() {
             return name;
@@ -196,11 +204,11 @@ public class MetaTable {
         public void setName(String sqlname) {
             this.name = sqlname;
         }
-        public String getJavaType() {
-            return javaType;
+        public String getJavatype() {
+            return javatype;
         }
-        public void setJavaType(String javatype) {
-            this.javaType = javatype;
+        public void setJavatype(String javatype) {
+            this.javatype = javatype;
         }
         public String getColumnAlias() {
             return columnAlias;
