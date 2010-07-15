@@ -18,7 +18,7 @@ public class IbatisSqlMapConfigParser {
     //1. 处理  query not allowed
     //2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
     public static String parse(String str) {
-        str = removeXmlComments("<sql>"+str+"</sql>");
+        str = removeComments("<sql>"+str+"</sql>");
         Pattern p =  Pattern.compile("</?\\w+(.*?)>");
         StringBuffer sb = new StringBuffer();
         Matcher m = p.matcher(str);
@@ -28,7 +28,6 @@ public class IbatisSqlMapConfigParser {
         while(m.find()) {
             Map<String,String> attributes = parse2Attributes(m.group(1));
             String prepend = attributes.get("prepend");
-            System.out.println("group:"+m.group()+" attributes:"+attributes);
             
             open = attributes.get("open");
             if(prepend != null) {
@@ -43,9 +42,7 @@ public class IbatisSqlMapConfigParser {
             open = null;
             close = attributes.get("close");
         }
-//        return StringEscapeUtils.unescapeXml(sb.toString());
-        return sb.toString();
-//        return removeOrders(sb.toString());
+        return sb.toString().replaceAll("(?i)where\\s+and", "WHERE");
     }
     
     /**
@@ -64,7 +61,8 @@ public class IbatisSqlMapConfigParser {
         return sb.toString();
     }
     
-    private static String removeXmlComments(String str) {
+    private static String removeComments(String str) {
+        if(str == null) return null;
         return str.replaceAll("<!--.*?-->", "").replaceAll("/\\*.*?\\*/", "").replace("query not allowed", "");
     }
     /**
