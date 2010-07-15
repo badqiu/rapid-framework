@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="generator/src"/>
+	<classpathentry kind="src" path="generator/src_ext"/>
 	<classpathentry kind="src" path="java_test"/>
 	<classpathentry kind="src" path="java_src"/>
 	<classpathentry kind="src" path="plugins/flex_cairngorm/java_src"/>
@@ -54,7 +55,7 @@
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/jaxen-1.1-beta-7.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/jta-1.1.jar"/>
 	<classpathentry kind="lib" path="plugins/hibernate/web/WEB-INF/lib/oscache-2.3.1.jar"/>
-	<classpathentry kind="lib" path="plugins/ibatis/web/WEB-INF/lib/ibatis-2.3.4.726.jar"/>
+	<classpathentry kind="lib" path="plugins/ibatis/web/WEB-INF/lib/ibatis-2.3.4.726.jar" sourcepath="F:/download/java-lib/ibatis/ibatis-2.3.4.726/src/ibatis-src.zip"/>
 	<classpathentry kind="lib" path="plugins/rapid_mailer/web/WEB-INF/lib/activation.jar"/>
 	<classpathentry kind="lib" path="plugins/rapid_mailer/web/WEB-INF/lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="plugins/rapid_mailer/web/WEB-INF/lib/mail.jar"/>
@@ -100,7 +101,6 @@
 	<classpathentry kind="lib" path="plugins/http_session_store/web/WEB-INF/lib/memcached-2.4.2.jar"/>
 	<classpathentry kind="lib" path="plugins/ibatis3/web/WEB-INF/lib/mybatis-3.0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/hibernate-validator-4.1.0.Beta2.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-common.jar"/>
 	<classpathentry kind="lib" path="plugins/flex4_cairngorm/web/WEB-INF/lib/flex-messaging-core.jar"/>
@@ -118,7 +118,7 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.expression-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.instrument.tomcat-3.0.3.RELEASE.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jdbc-3.0.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jdbc-3.0.3.RELEASE.jar" sourcepath="F:/download/java-lib/spring/spring-framework-3.0.0.M4/src/org.springframework.jdbc-sources-3.0.0.M4.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.jms-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.orm-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.oxm-3.0.3.RELEASE.jar"/>
@@ -131,6 +131,8 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/org.springframework.web.struts-3.0.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="plugins/extremetable/web/WEB-INF/lib/extremecomponents-1.0.1.jar"/>
 	<classpathentry kind="lib" path="plugins/extremetable/web/WEB-INF/lib/extremecomponentsEXT.jar"/>
-	<classpathentry kind="lib" path="plugins/extremetable/web/WEB-INF/lib/poi-2.5.1.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/hibernate-validator-4.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="for_release_lib/xstream-1.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
