@@ -65,10 +65,10 @@ public class SqlFactory {
         Sql sql = new Sql();
         sql.setExecuteSql(executeSql);
         sql.setSourceSql(sourceSql);
-        System.out.println("\n*******************************");
-        System.out.println("sourceSql  :"+sql.getSourceSql());
-        System.out.println("executeSql :"+sql.getExecuteSql());
-        System.out.println("*********************************");
+        GLogger.debug("\n*******************************");
+        GLogger.debug("sourceSql  :"+sql.getSourceSql());
+        GLogger.debug("executeSql :"+sql.getExecuteSql());
+        GLogger.debug("*********************************");
         
         Connection conn = TableFactory.getInstance().getConnection();
         conn.setAutoCommit(false);
@@ -124,15 +124,15 @@ public class SqlFactory {
 			        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
 			    	//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
 			        column = new Column(table,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-			        GLogger.debug("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			        GLogger.trace("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
 			        //isInSameTable以此种判断为错误
 			    }else {
-			    	GLogger.debug("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			    	GLogger.trace("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
 			    }
 			    return column;
 			}else {
 			    Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-			    GLogger.debug("not found on table by table emtpty:"+BeanHelper.describe(column));
+			    GLogger.trace("not found on table by table emtpty:"+BeanHelper.describe(column));
 			    return column;
 			}
 		}
