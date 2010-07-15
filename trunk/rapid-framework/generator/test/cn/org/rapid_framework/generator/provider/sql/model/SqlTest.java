@@ -1,7 +1,8 @@
 package cn.org.rapid_framework.generator.provider.sql.model;
 
-import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 public class SqlTest extends TestCase {
 	
@@ -25,6 +26,18 @@ public class SqlTest extends TestCase {
 	    assertTrue(newSql("\n\n \t UPDATE user_info SET username = ?,password = ? WHERE username = ?").isUpdateSql());
 	    assertTrue(newSql("UPDATE user_info SET username = #username#,password = #password# WHERE username = #username#").isUpdateSql());
 	    assertTrue(newSql("update user_info set username = #username#,password = #password#").isUpdateSql());
+	}
+	
+	public void test_remove_table_prefix() {
+		GeneratorProperties.setProperty("tableRemovePrefixs", "t_,v_");
+		Sql sql = new Sql();
+		sql.setTableSqlName("t_user_info");
+		assertEquals("UserInfo",sql.getTableClassName());
+		sql.setTableSqlName("v_user");
+		assertEquals("User",sql.getTableClassName());
+		
+		sql.setTableSqlName("diy_user");
+		assertEquals("DiyUser",sql.getTableClassName());
 	}
 
 	private Sql newSql(String string) {
