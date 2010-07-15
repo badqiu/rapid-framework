@@ -27,7 +27,9 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorContext;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.util.ProjectTesterGenerator4Sofa.SofaConfigsProcessor.SpringXmls;
 
 public class ProjectTesterGenerator4Sofa {
     
@@ -66,9 +68,9 @@ public class ProjectTesterGenerator4Sofa {
 //      Map beanDefinations = analysisSpringBeanConfig(xmlFiles);
         
         //根据spring xml配置文件生成BaseTestCase
-        new SofaConfigsProcessor().generateBaseTestCaseBySpringConfigs(projectClassesOutputPaths,xmlFiles);
+        SpringXmls springXmls = new SofaConfigsProcessor().generateBaseTestCaseBySpringConfigs(projectClassesOutputPaths,xmlFiles);
         //根据通配符扫描需要生成TestCase的目标测试类，并生成TestCase
-        generateTestCaseByPackage(scanClassPackage);
+        generateTestCaseByPackage(scanClassPackage,springXmls);
     }
 
     private static ClassLoader genDependenciesUrlsClassLoader(
@@ -188,10 +190,9 @@ public class ProjectTesterGenerator4Sofa {
         return dependencyPaths;
     }
     
-    private static void generateTestCaseByPackage(String packageName) throws ClassNotFoundException,Exception {
+    private static void generateTestCaseByPackage(String packageName,SpringXmls springXmls) throws ClassNotFoundException,Exception {
         List<String> classes = ScanClassUtils.scanPackages(packageName);
         for(String className:classes){
-            System.out.println("generate TestCase by class named:"+className);
             Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
             //如果该类不属于一般服务类，则不生成TestCase
             if(clazz.isAnnotation()||clazz.isAnonymousClass()||clazz.isArray()||clazz.isEnum()||clazz.isLocalClass()||clazz.isPrimitive()||clazz.isInterface()){
@@ -205,11 +206,48 @@ public class ProjectTesterGenerator4Sofa {
             if(!hasPublicMethod(clazz)){
                 continue;
             }
-            new GeneratorFacade().generateByClass(clazz, "test_template\\test_case");
+            
+            String springBeanId = getSpringBeanIdByClass(springXmls, clazz);
+            System.out.println("generate TestCase by class:"+className+" springBeanId:"+springBeanId);
+            GeneratorContext.put("springBeanId",springBeanId);
+            try {
+                new GeneratorFacade().generateByClass(clazz, "test_template\\test_case");
+            }finally {
+                GeneratorContext.clear();
+            }
         }
     }
+    
+    /** 根据spring.xml中的bean定义得到spring bean id */
+    private static String getSpringBeanIdByClass(SpringXmls springXmls,Class<?> clazz) {
+        for(Map bean : springXmls.springBeans) {
+            String beanClass = (String)bean.get("class");
+            if(clazz.getName().equals(beanClass)) {
+                String id = (String)bean.get("id");
+                if(StringHelper.isNotBlank(id)) {
+                    return id;
+                }
+            }
+        }
+        return StringHelper.uncapitalize(clazz.getSimpleName());
+    }
+    
     public static class SofaConfigsProcessor {
-        private void generateBaseTestCaseBySpringConfigs(List<File> projectClassesOutputPaths,List<String> xmlConfigs) throws Exception{
+        public static class SpringXmls {
+            List<Map> springBeans;
+            List<Map> sofaReferences;
+            List<Map> sofaServiceses;
+            List<String> springXmls;
+            public SpringXmls(List<Map> springBeans, List<Map> sofaReferences,
+                              List<Map> sofaServiceses,
+                              List<String> springXmls) {
+                this.springBeans = springBeans;
+                this.sofaReferences = sofaReferences;
+                this.sofaServiceses = sofaServiceses;
+                this.springXmls = springXmls;
+            }
+        }
+        private SpringXmls generateBaseTestCaseBySpringConfigs(List<File> projectClassesOutputPaths,List<String> xmlConfigs) throws Exception{
     
             List<String> springConfigs = new ArrayList<String>();
             List<String> resourceFilters = getSofaResourceFilters(projectClassesOutputPaths);
@@ -217,6 +255,9 @@ public class ProjectTesterGenerator4Sofa {
             List<String> hasSofaReferenceConfigs = new ArrayList<String>();
             //过滤xml文件，选出spring配置文件及需要替换properties配置的spring配置文件
             SAXBuilder builder = new SAXBuilder();
+            List allBeans = new ArrayList();
+            List allSofaReferences = new ArrayList();
+            List allSofaServiceses = new ArrayList();
             for(String xmlConfig:xmlConfigs){
                 String springPath = xmlConfig.substring(xmlConfig.indexOf("META-INF\\spring\\"));
                 springConfigs.add(springPath);
@@ -227,13 +268,16 @@ public class ProjectTesterGenerator4Sofa {
                 }
                 
                 Document doc = builder.build(new FileInputStream(xmlConfig));
-                List beans = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/beans:bean");
-                List sofaReferences = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:reference");
-                List sofaServiceses = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:service");
+                List<Map> beans = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/beans:bean");
+                List<Map> sofaReferences = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:reference");
+                List<Map> sofaServiceses = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:service");
                 
                 if(sofaReferences.size() > 0) {
                     hasSofaReferenceConfigs.add(springPath);
                 }
+                allBeans.addAll(beans);
+                allSofaReferences.addAll(allSofaReferences);
+                allSofaServiceses.addAll(allSofaServiceses);
             }
             
             Map<String, List<String>> params = new HashMap<String, List<String>>();
@@ -241,6 +285,8 @@ public class ProjectTesterGenerator4Sofa {
             params.put("springReplaceConfigs", springReplaceConfigs);
             params.put("hasSofaReferenceConfigs", hasSofaReferenceConfigs);
             new GeneratorFacade().generateByMap(params, "test_template\\base_test_case");
+            
+            return new SpringXmls(allBeans,allSofaReferences,allSofaServiceses,springConfigs);
         }
 
         private List<String> getSofaResourceFilters(List<File> projectClassesOutputPaths)
