@@ -128,6 +128,10 @@ public class StringHelperTest extends TestCase {
 	public void testRemovePrefix() {
 		assertEquals(null,StringHelper.removePrefix(null, "java.lang."));
 		assertEquals("Integer",StringHelper.removePrefix("java.lang.Integer", "java.lang."));
+		
+		assertEquals("user",StringHelper.removePrefix("t_user", "t_",true));
+		assertEquals("user",StringHelper.removePrefix("T_user", "t_",true));
+		assertEquals("T_user",StringHelper.removePrefix("T_user", "t_",false));
 	}
 	
 	public void testContailsCount() {

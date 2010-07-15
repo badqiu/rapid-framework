@@ -21,9 +21,20 @@ public class StringHelper {
 		return StringHelper.join(StringHelper.tokenizeToStringArray(str,"\t\n\r\f")," ");
 	}
 	public static String removePrefix(String str,String prefix) {
+		return removePrefix(str,prefix,false);
+	}
+
+	public static String removePrefix(String str,String prefix,boolean ignoreCase) {
 		if(str == null) return null;
-		if(str.startsWith(prefix)) {
-			return str.substring(prefix.length());
+		if(prefix == null) return str;
+		if(ignoreCase) {
+			if(str.toLowerCase().startsWith(prefix.toLowerCase())) {
+				return str.substring(prefix.length());
+			}
+		}else {
+			if(str.startsWith(prefix)) {
+				return str.substring(prefix.length());
+			}
 		}
 		return str;
 	}
