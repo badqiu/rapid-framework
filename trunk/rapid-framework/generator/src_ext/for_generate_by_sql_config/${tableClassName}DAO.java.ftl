@@ -28,7 +28,9 @@ public class ${tableConfig.tableClassName}DAO {
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
+		<#if sql.paging || sql.multiPolicy = 'paging'>
+			PageList<${sql.resultClassName}>
+		<#elseif sql.multiPolicy = 'one'>
 			${sql.resultClassName}
 		<#else>
 			List<${sql.resultClassName}>
@@ -41,19 +43,21 @@ public class ${tableConfig.tableClassName}DAO {
 
 <#macro generateOperationMethodBody sql>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
+		<#if sql.paging || sql.multiPolicy = 'paging'>
+		return (<@generateResultClassName sql/>)pageQuery(getSqlMapClientTemplate(),"${sql.tableClassName}.${sql.operation}",param);
+		<#elseif sql.multiPolicy = 'one'>
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.tableClassName}.${sql.operation}",param);
 		<#else>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.tableClassName}.${sql.operation}",param);
 		</#if>
 	</#if>
 	<#if sql.deleteSql>
-		return getSqlMapClientTemplate().delete("${sql.operation}", param);
+		return getSqlMapClientTemplate().delete("${sql.tableClassName}.${sql.operation}", param);
 	</#if>
 	<#if sql.insertSql>
-		return getSqlMapClientTemplate().insert("${sql.operation}", param);    
+		return getSqlMapClientTemplate().insert("${sql.tableClassName}.${sql.operation}", param);    
 	</#if>
 	<#if sql.updateSql>
-		return getSqlMapClientTemplate().update("${sql.operation}", param);
-	</#if>			
+		return getSqlMapClientTemplate().update("${sql.tableClassName}.${sql.operation}", param);
+	</#if>
 </#macro>

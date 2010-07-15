@@ -10,13 +10,13 @@
     ]]>
 	</select>	
 	<#else>
-	<#if !sql.columnsInSameTable>
+		<#if !sql.columnsInSameTable>
 	<resultMap id="RM-${sql.resultClassName}" class="${sql.resultClass}">
     <#list sql.columns as column>
 		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
     </#list>
 	</resultMap>
-	</#if>
+		</#if>
 	
 	<select id="<@namespace/>${sql.operation}" resultMap="RM.${sql.resultClassName}" >
     <![CDATA[
