@@ -91,7 +91,7 @@ public class SqlParseHelperTest extends TestCase{
     public void test_convert2ParametersString() {
         String sql = " delete from user_Info where \n " +
                 " user_param>=? and blog_param=? and sex_param<=  ? and pwd_param!=? and content_param<>? and sex2like like ?";
-        assertEquals(" delete from user_Info where \n  user_param>=#userParam# and blog_param=#blogParam# and sex_param<=  #sexParam# and pwd_param!=#pwdParam# and content_param<>#contentParam# and sex2like like #sex2like#",SqlParseHelper.convert2ParametersString(sql, "#","#"));
+        assertEquals(" delete from user_Info where \n  user_param>=#userParam# and blog_param=#blogParam# and sex_param<=  #sexParam# and pwd_param!=#pwdParam# and content_param<>#contentParam# and sex2like like #sex2like#",SqlParseHelper.convert2NamedParametersSql(sql, "#","#"));
     }
     
     public void test_convert2ParametersString_by_insert() {
@@ -102,10 +102,10 @@ public class SqlParseHelperTest extends TestCase{
         " username,password, sex, age, birth_date \n , content,nowdate"
         + " values(#username#,#password#,123,#birthDate#,sysdate,#content#,now(?))";
         String expected2 = "insert into (user_name,pass_word,sex,age,birth_date,content,nowdate) values (#userName#,#passWord#,123,#age#,sysdate,#content#,now())";
-        assertEquals(expected2,SqlParseHelper.convert2ParametersString(sql, "#","#"));
+        assertEquals(expected2,SqlParseHelper.convert2NamedParametersSql(sql, "#","#"));
         
         try {
-            SqlParseHelper.convert2ParametersString("insert into userinfo (id,sex) values (?)","#","#");
+            SqlParseHelper.convert2NamedParametersSql("insert into userinfo (id,sex) values (?)","#","#");
             fail();
         }catch(Exception e) {
             assertTrue(true);
