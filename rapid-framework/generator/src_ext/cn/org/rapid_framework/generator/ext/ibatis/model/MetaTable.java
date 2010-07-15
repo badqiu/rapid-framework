@@ -18,6 +18,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
 import com.thoughtworks.xstream.XStream;
@@ -102,12 +103,14 @@ public class MetaTable {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
-                Sql sql = sqlFactory.parseSql0(sqlString);
+                String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
+                Sql sql = sqlFactory.parseSql0(namedSql);
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
                     sql.setIbatis3Sql(op.getSqlmap());
                 }else {
-                    //TODO fixed me
+                    sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
+                    sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
                 }
                 sql.setOperation(op.getName());
                 sql.setMultiPolicy(op.getMultiPolicy());

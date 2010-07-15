@@ -130,8 +130,9 @@
 
 	<operation name="findPage.count" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
+		<![CDATA[
         SELECT count(*) FROM USER_INFO
-	    <dynamic prepend="WHERE">
+	    <dynamic prepend="WHERE 1=1">
 		       <isNotEmpty prepend="AND" property="userId">
 		             USER_ID = #userId#
 		       </isNotEmpty>
@@ -145,7 +146,7 @@
 		             BIRTH_DATE >= #birthDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateEnd">
-		             BIRTH_DATE &lt;= #birthDateEnd#
+		             BIRTH_DATE <= #birthDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="sex">
 		             SEX = #sex#
@@ -154,13 +155,15 @@
 		             AGE = #age#
 		       </isNotEmpty>
 	    </dynamic>
+	    ]]>
 	    </sql>        
     </operation>
     
     <operation name="findPage" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
     	<sql>
+    	<![CDATA[
     	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
-	    <dynamic prepend="WHERE">
+	    <dynamic prepend="WHERE 1=1">
 		       <isNotEmpty prepend="AND" property="userId">
 		             USER_ID = #userId#
 		       </isNotEmpty>
@@ -174,25 +177,23 @@
 		             BIRTH_DATE >= #birthDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateEnd">
-		             BIRTH_DATE &lt;= #birthDateEnd#
+		             BIRTH_DATE <= #birthDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="sex">
-		             SEX = #sex#
+		             SEX = ?
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="age">
-		             AGE = #age#
+		             AGE = ?
 		       </isNotEmpty>
 	    </dynamic>
-		<dynamic prepend="ORDER BY">
-			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
-		</dynamic>
+		]]>
 		</sql>
     </operation>
 	
 	<operation name="getByUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
-	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
 	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
 	        FROM USER_INFO WHERE USERNAME = #username#
 	    ]]>
 	    </sql>
@@ -200,8 +201,8 @@
     
     <operation name="getByAge" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
     	<sql>
-	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
 	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
 	        FROM USER_INFO WHERE AGE = #age#
 	    ]]>
 	    </sql>
