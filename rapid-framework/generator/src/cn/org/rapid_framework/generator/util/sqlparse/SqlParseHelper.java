@@ -88,8 +88,8 @@ public class SqlParseHelper {
 		return null;
 	}
 
-	public static String convert2ParametersString(String sql,String prefix,String suffix) {
-	    return new NamedSqlConverter(prefix,suffix).convert2ParametersString(sql);
+	public static String convert2NamedParametersSql(String sql,String prefix,String suffix) {
+	    return new NamedSqlConverter(prefix,suffix).convert2NamedParametersSql(sql);
 	}
 
 	 /**
@@ -110,7 +110,7 @@ public class SqlParseHelper {
             this.suffix = suffix;
         }
 
-        public String convert2ParametersString(String sql) {
+        public String convert2NamedParametersSql(String sql) {
 	        if(sql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*")) {
 	            return replace2NamedParameters(replaceInsertSql2NamedParameters(sql));
 	        }else {
@@ -126,7 +126,6 @@ public class SqlParseHelper {
         private String replaceInsertSql2NamedParameters(String sql) {
             Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(sql);
-            StringBuffer sb = new StringBuffer();
             if(m.find()) {
                 String[] columns = StringHelper.tokenizeToStringArray(m.group(1),", \t\n\r\f");
                 String[] values = StringHelper.tokenizeToStringArray(m.group(2),", \t\n\r\f");
@@ -138,11 +137,9 @@ public class SqlParseHelper {
                     String paranName = StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(column));
                     values[i] = values[i].replace("?", prefix + paranName + suffix);;
                 }
-                m.appendReplacement(sb, "insert into ("+StringHelper.join(columns,",")+") values ("+StringHelper.join(values,",")+")");
-                
+                return StringHelper.replace(m.start(2), m.end(2), sql, StringHelper.join(values,","));
             }
-            m.appendTail(sb);
-            return sb.toString();
+            throw new IllegalArgumentException("无法解析的sql:"+sql+",不匹配正则表达式:"+p.pattern());
         }
 	    
         private String replace2NamedParametersByOperator(String sql,String operator) {
