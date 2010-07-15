@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
-	<column name="service_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="SERVICE_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="TOTAL_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="SERVICE_FEE_RATIO" javaType="double" />
-	<column name="amount" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="bank_amount" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="BANK_AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="return_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="age" javaType="com.iwallet.biz.common.util.money.Money" />
+	<column name="sex" javaType="com.iwallet.biz.common.util.money.Money" />
 	
 	<!-- 新增一条交易资金单据记录 -->
 	<operation name="insert" paramtype="object" >
 		<extraparams>
 		    <param name="startRow" javaType="int"/>
 		    <param name="pageSize" javaType="int"/>
-		    <param name="orderby" javaType="java.lang.String"/>
-			<param name="userId" javaType="java.lang.String"/>
-			<param name="partnerId" javaType="java.lang.String"/>
-			<param name="datasourceName" javaType="java.lang.String"/>
-			<param name="migrateStatus" javaType="java.lang.String"/>
-			<param name="gmtEnterTimeBegin" javaType="java.util.Date"/>
-			<param name="gmtEnterTimeEnd" javaType="java.util.Date"/>
-			<param name="gmtCreateBegin" javaType="java.util.Date"/>
-			<param name="gmtCreateEnd" javaType="java.util.Date"/>
 		</extraparams>	
 		<sql>
 				INSERT INTO user_info (username,password) values (#username#,#password#)
@@ -89,7 +72,7 @@
     -->
         <selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
             select last_insert_id()
-        </selectKey>
+        </selectKey>     
         </sql>
     </operation>
 
@@ -132,7 +115,7 @@
 		<sql>
 		<![CDATA[
         SELECT count(*) FROM USER_INFO
-	    <dynamic prepend="WHERE 1=1">
+	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="userId">
 		             USER_ID = #userId#
 		       </isNotEmpty>
@@ -159,11 +142,11 @@
 	    </sql>        
     </operation>
     
-    <operation name="findPage" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <operation name="findPage" paging="true" paramtype="primitive" multiPolicy="many" comments="根据订单号查询订单">
     	<sql>
     	<![CDATA[
     	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
-	    <dynamic prepend="WHERE 1=1">
+	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="userId">
 		             USER_ID = #userId#
 		       </isNotEmpty>
