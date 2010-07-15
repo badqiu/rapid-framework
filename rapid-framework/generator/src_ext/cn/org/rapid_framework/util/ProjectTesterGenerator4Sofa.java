@@ -2,6 +2,7 @@ package cn.org.rapid_framework.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -10,6 +11,7 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class ProjectTesterGenerator4Sofa {
     
@@ -46,6 +49,8 @@ public class ProjectTesterGenerator4Sofa {
         for(Object key : System.getProperties().keySet()) {
             System.out.println(key+"="+System.getProperty(key.toString()));
         }
+        System.setProperty("gg.isOverride", "true");
+        
         List<String> classPathFiles = scanClassPathFiles();
         
         //分析目标项目classpath文件，获得class编译路径及项目依赖
@@ -61,7 +66,7 @@ public class ProjectTesterGenerator4Sofa {
 //      Map beanDefinations = analysisSpringBeanConfig(xmlFiles);
         
         //根据spring xml配置文件生成BaseTestCase
-        generateBaseTestCaseBySpringConfigs(projectClassesOutputPaths,xmlFiles);
+        new SofaConfigsProcessor().generateBaseTestCaseBySpringConfigs(projectClassesOutputPaths,xmlFiles);
         //根据通配符扫描需要生成TestCase的目标测试类，并生成TestCase
         generateTestCaseByPackage(scanClassPackage);
     }
@@ -83,10 +88,10 @@ public class ProjectTesterGenerator4Sofa {
             
             URL clazzTargetPath = analysisProjectclazzTargetPath(classPathFile);
             dependenciesUrls.add(clazzTargetPath);
-            System.out.println("project class target path:"+clazzTargetPath);
+//            System.out.println("project class target path:"+clazzTargetPath);
             List<URL> dependencyFiles = analysisProjectDependencyJar(classPathFile);
             for(URL dependencyFile:dependencyFiles){
-                System.out.println("project dependency file:"+dependencyFile);
+//                System.out.println("project dependency file:"+dependencyFile);
                 dependenciesUrls.add(dependencyFile);
             }
             System.out.println("===========================================================");
@@ -203,42 +208,92 @@ public class ProjectTesterGenerator4Sofa {
             new GeneratorFacade().generateByClass(clazz, "test_template\\test_case");
         }
     }
+    public static class SofaConfigsProcessor {
+        private void generateBaseTestCaseBySpringConfigs(List<File> projectClassesOutputPaths,List<String> xmlConfigs) throws Exception{
     
-    private static void generateBaseTestCaseBySpringConfigs(List<File> projectClassesOutputPaths,List<String> xmlConfigs) throws Exception{
-        List<String> springConfigs = new ArrayList<String>();
-        List<String> resourceFilters = new ArrayList<String>();
-        
-        List<String> springReplaceConfigs = new ArrayList<String>();
-        //查询项目中的MF文件,解析manifest中的Resource-Filter属性
-        for(File projectTargetPath : projectClassesOutputPaths){
-            Manifest manifest = new Manifest(new FileInputStream(projectTargetPath.getAbsolutePath()+"\\META-INF\\MANIFEST.MF"));
-            Attributes attrs =  manifest.getMainAttributes();
-            String resourceFiltersStrings = attrs.getValue("Resource-Filter");
-            if(resourceFiltersStrings!=null && resourceFiltersStrings.trim().length()>0){
-                String[] originalResourceFilters = resourceFiltersStrings.split(",");
-                if(originalResourceFilters!=null&&originalResourceFilters.length>0){
-                    for(String originalResourceFilter:originalResourceFilters){
-                        resourceFilters.add(originalResourceFilter.trim());
+            List<String> springConfigs = new ArrayList<String>();
+            List<String> resourceFilters = getSofaResourceFilters(projectClassesOutputPaths);
+            List<String> springReplaceConfigs = new ArrayList<String>();
+            List<String> hasSofaReferenceConfigs = new ArrayList<String>();
+            //过滤xml文件，选出spring配置文件及需要替换properties配置的spring配置文件
+            SAXBuilder builder = new SAXBuilder();
+            for(String xmlConfig:xmlConfigs){
+                String springPath = xmlConfig.substring(xmlConfig.indexOf("META-INF\\spring\\"));
+                springConfigs.add(springPath);
+                for(String resourceFilter : resourceFilters){
+                    if(springPath.contains(resourceFilter)){
+                        springReplaceConfigs.add(resourceFilter);
+                    }
+                }
+                
+                Document doc = builder.build(new FileInputStream(xmlConfig));
+                List beans = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/beans:bean");
+                List sofaReferences = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:reference");
+                List sofaServiceses = SpringXmlConfigUtils.selectAttributesByXpath(doc, "//beans:beans/sofa:service");
+                
+                if(sofaReferences.size() > 0) {
+                    hasSofaReferenceConfigs.add(springPath);
+                }
+            }
+            
+            Map<String, List<String>> params = new HashMap<String, List<String>>();
+            params.put("springConfigs", springConfigs);
+            params.put("springReplaceConfigs", springReplaceConfigs);
+            params.put("hasSofaReferenceConfigs", hasSofaReferenceConfigs);
+            new GeneratorFacade().generateByMap(params, "test_template\\base_test_case");
+        }
+
+        private List<String> getSofaResourceFilters(List<File> projectClassesOutputPaths)
+                                                                                         throws IOException,
+                                                                                         FileNotFoundException {
+            List<String> resourceFilters = new ArrayList<String>();
+            
+            //查询项目中的MF文件,解析manifest中的Resource-Filter属性
+            for(File projectTargetPath : projectClassesOutputPaths){
+                Manifest manifest = new Manifest(new FileInputStream(projectTargetPath.getAbsolutePath()+"\\META-INF\\MANIFEST.MF"));
+                Attributes attrs =  manifest.getMainAttributes();
+                String resourceFilterString = attrs.getValue("Resource-Filter");
+                if(resourceFilterString != null && resourceFilterString.trim().length()>0){
+                    for(String filter : StringHelper.tokenizeToStringArray(resourceFilterString,", \t\n\r\f")){
+                        resourceFilters.add(filter.trim());
                     }
                 }
             }
+            return resourceFilters;
         }
-
-        //过滤xml文件，选出spring配置文件及需要替换properties配置的spring配置文件
-        for(String xmlConfig:xmlConfigs){
-            String springPath = xmlConfig.substring(xmlConfig.indexOf("META-INF\\spring\\"));
-            springConfigs.add(springPath);
-            for(String resourceFilter : resourceFilters){
-                if(springPath.contains(resourceFilter)){
-                    springReplaceConfigs.add(resourceFilter);
-                }
+    }
+    
+    public static class SpringXmlConfigUtils {
+        private static List<Map> selectAttributesByXpath(Document doc, String xpath) throws JDOMException {
+            XPath sofaRef = XPath.newInstance(xpath);
+            sofaRef.addNamespace("beans", "http://www.springframework.org/schema/beans");
+            sofaRef.addNamespace("sofa", "http://www.alipay.com/schema/service");
+            sofaRef.addNamespace("p", "http://www.springframework.org/schema/p");
+            sofaRef.addNamespace("context", "http://www.springframework.org/schema/context");
+            sofaRef.addNamespace("webflow", "http://www.springframework.org/schema/webflow-config");
+            Iterator<Element> it2 = sofaRef.selectNodes(doc).iterator();
+            List<Map> elements = new ArrayList();
+            while(it2.hasNext()){
+                Element elm = it2.next();
+                Map attributes = attributes2Map(elm.getAttributes());
+                elements.add(attributes);
             }
+            return elements;
         }
         
-        Map<String, List<String>> params = new HashMap<String, List<String>>();
-        params.put("springConfigs", springConfigs);
-        params.put("springReplaceConfigs", springReplaceConfigs);
-        new GeneratorFacade().generateByMap(params, "test_template\\base_test_case");
+        public static Map toMap(List<Map> list,String... keyProperties) {
+            Map result = new LinkedHashMap();
+            for(Map m : list) {
+                for(String key : keyProperties) {
+                    Object  value = m.get(key);
+                    if(value != null) {
+                        result.put(value, m);
+                        break;
+                    }
+                }
+            }
+            return result;
+        }
     }
     
 //    private static Map analysisSpringBeanConfig(List<String> springConfigs){
@@ -253,6 +308,14 @@ public class ProjectTesterGenerator4Sofa {
 //      return beandefinations;
 //    }
     
+    private static Map attributes2Map(List<Attribute> attributes) {
+        Map map = new LinkedHashMap();
+        for(Attribute attr : attributes) {
+            map.put(attr.getName(),attr.getValue());
+        }
+        return map;
+    }
+
     private static boolean hasPublicMethod(Class<?> clazz){
         Method[] methods = clazz.getDeclaredMethods();
         for(Method method:methods){
