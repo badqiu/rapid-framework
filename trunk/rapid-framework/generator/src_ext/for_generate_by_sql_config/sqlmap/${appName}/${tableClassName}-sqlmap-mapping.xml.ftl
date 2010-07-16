@@ -23,7 +23,15 @@
     	<@genPageQueryEnd sql/>
     	]]>
 	</select>	
-    
+
+	<#if sql.paging>
+	<select id="<@namespace/>${sql.operation}.count.for.paging" resultClass="long" >
+    	<![CDATA[
+    	${sql.ibatisCountSql}
+    	]]>
+	</select>
+	</#if>
+	    
 </#if>
 	
 <#if sql.updateSql>
