@@ -1,7 +1,9 @@
 package cn.org.rapid_framework.generator.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -20,6 +22,26 @@ public class StringHelper {
 		if(str == null) return null;
 		return StringHelper.join(StringHelper.tokenizeToStringArray(str,"\t\n\r\f")," ");
 	}
+	
+	private static final Map<String,String> XML = new HashMap<String,String>();
+	static{
+		XML.put("apos", "'");
+		XML.put("quot", "\"");
+		XML.put("amp", "&");
+		XML.put("lt", "<");
+		XML.put("gt", ">");
+	}
+	
+	public static String unescapeXml(String str) {
+		if(str == null) return null;
+		for(String key : XML.keySet()) {
+			String value = XML.get(key);
+			str = StringHelper.replace(str, "&"+key+";", value);
+		}
+		return str;
+	}
+		 
+
 	public static String removePrefix(String str,String prefix) {
 		return removePrefix(str,prefix,false);
 	}

@@ -59,7 +59,8 @@ public class SqlFactory {
 	}
 	
     public Sql parseSql0(String sourceSql) throws SQLException,Exception{
-        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sourceSql);
+    	String unscapedSourceSql = StringHelper.unescapeXml(sourceSql);
+        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(unscapedSourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Sql sql = new Sql();
