@@ -1,7 +1,7 @@
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
+		<#if sql.multiplicity = 'one'>
 			${sql.resultClassName}
 		<#else>
 			List<${sql.resultClassName}>
@@ -14,7 +14,7 @@
 
 <#macro generateOperationMethodBody sql>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
+		<#if sql.multiplicity = 'one'>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
 		<#else>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);

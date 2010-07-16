@@ -1,9 +1,9 @@
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.paging || sql.multiPolicy = 'paging'>
+		<#if sql.paging || sql.multiplicity = 'paging'>
 			PageList<${sql.resultClassName}>
-		<#elseif sql.multiPolicy = 'one'>
+		<#elseif sql.multiplicity = 'one'>
 			${sql.resultClassName}
 		<#else>
 			List<${sql.resultClassName}>
