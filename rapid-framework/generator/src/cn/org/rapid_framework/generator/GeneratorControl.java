@@ -103,10 +103,13 @@ public class GeneratorControl {
 	public void generateFile(String outputFile,String content,boolean append) {
 		//TODO /root/hello.txt使用绝对路径, root/hello.txt使用相对路径
 		try {
-			String realOutputFile = outputFile;
-			if(!new File(outputFile).isAbsolute()) {
+			String realOutputFile = null;
+			if(new File(outputFile).isAbsolute()) {
+				realOutputFile = outputFile ;
+			}else {
 				realOutputFile = new File(getOutRoot(),outputFile).getAbsolutePath();
 			}
+			
 			if(deleteGeneratedFile) {
 				GLogger.println("[delete gg.generateFile()] file:"+realOutputFile+" by template:"+getSourceFile());
 				new File(realOutputFile).delete();
