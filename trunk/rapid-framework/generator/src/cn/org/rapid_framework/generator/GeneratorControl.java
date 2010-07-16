@@ -101,7 +101,6 @@ public class GeneratorControl {
 	 * @param append
 	 */
 	public void generateFile(String outputFile,String content,boolean append) {
-		//TODO /root/hello.txt使用绝对路径, root/hello.txt使用相对路径
 		try {
 			String realOutputFile = null;
 			if(new File(outputFile).isAbsolute()) {
