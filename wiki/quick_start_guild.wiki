@@ -38,6 +38,8 @@
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_generator_jars_to_classpath.jpg]
 
+注：如果使用Eclipse，需要将web/WEB-INF/lib下jars和Tomcat的servlet-api.jar加入。
+
 ==6.安装插件 hibernate及struts2==
 项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
 
@@ -60,6 +62,8 @@ CREATE TABLE user_info (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 }}}
 
+注：需要自行将数据库中插入相应的数据。
+
 == 8.修改生成器配置文件{{{generator.properties}}}的jdbc数据库连接信息 其它属性暂不修改 ==
 {{{
 jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
@@ -78,6 +82,8 @@ jdbc.password=abc123
 
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg]
 
+注：缺省Hibernate生成代码为注解方式，可以手工选择other目录下生成的XML方式代码进行替换。
+
 ==11.修改java_src/spring/applicationContext-datasource.xml的数据库连接信息==
 该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与*第8步*的数据库连接配置相同即可
 {{{
@@ -88,6 +94,8 @@ jdbc.password=abc123
 	<property name="password" value="123456"/>
 </bean>
 }}}
+
+注：如果生成代码缺省包不是以com开头，需要修改spring下相关的XML文件。
 
 ==12.部署应用struts2_demo至tomcat==
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg]
