@@ -197,6 +197,22 @@ public class SqlParseHelper {
 		return sql.substring(0,beginPos);
 	}
 	
+    /**
+     * 去除orderby 子句
+     * @param sql
+     * @return
+     */
+    public static String removeOrders(String sql) {
+        Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(sql);
+        StringBuffer sb = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(sb, "");
+        }
+        m.appendTail(sb);
+        return sb.toString();
+    }
+	
 	public static long startTimes = System.currentTimeMillis();
 	public static void setRandomParamsValueForPreparedStatement(String sql,
 			PreparedStatement ps) throws SQLException {
