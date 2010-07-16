@@ -28,6 +28,7 @@ public class MetaTable {
     public String sqlname;
     public String sequence;
     public String dummypk;
+    public String remarks;
     public List<MetaColumn> column = new ArrayList();
     public List<MetaOperation> operation = new ArrayList<MetaOperation>();
 
@@ -238,7 +239,6 @@ public class MetaTable {
         public String sql;
         public String sqlmap;
         public Sql parsedSql;
-        public String comments;
         public boolean paging = false;
         
         public String tableSqlName = null; //是否需要
@@ -315,13 +315,7 @@ public class MetaTable {
             this.tableSqlName = tableSqlName;
         }
         
-        public String getComments() {
-            return comments;
-        }
 
-        public void setComments(String comments) {
-            this.comments = comments;
-        }
         
         public boolean isPaging() {
             return paging;
