@@ -15,7 +15,7 @@
 	<entry key="outRoot">.\generator-output</entry>
 
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
-	<entry key="tableRemovePrefixs"></entry>
+	<entry key="tableRemovePrefixes"></entry>
 	
 	<entry key="jdbc.username">sa</entry>
 	<entry key="jdbc.password">sa</entry>
