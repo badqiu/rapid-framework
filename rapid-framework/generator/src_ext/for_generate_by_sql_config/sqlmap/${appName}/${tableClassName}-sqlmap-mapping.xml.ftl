@@ -17,18 +17,14 @@
 	</#if>
 		
 	<select id="<@namespace/>${sql.operation}" resultMap="<#if sql.columnsCount == 1>${sql.resultClassName}<#else>RM.${sql.resultClassName}</#if>" >
-    	<![CDATA[
     	<@genPageQueryStart sql/>
-    	${sql.ibatisSql}
+    	${sql.ibatisSql?trim}
     	<@genPageQueryEnd sql/>
-    	]]>
 	</select>	
 
 	<#if sql.paging>
 	<select id="<@namespace/>${sql.operation}.count.for.paging" resultClass="long" >
-    	<![CDATA[
-    	${sql.ibatisCountSql}
-    	]]>
+    	${sql.ibatisCountSql?trim}
 	</select>
 	</#if>
 	    
@@ -36,25 +32,19 @@
 	
 <#if sql.updateSql>
 	<update id="<@namespace/>${sql.operation}">
-    	<![CDATA[
-		${sql.ibatisSql}
-    	]]>
+		${sql.ibatisSql?trim}
 	</update>
 </#if>
 	
 <#if sql.deleteSql>
 	<delete id="<@namespace/>${sql.operation}">
-    	<![CDATA[
-		${sql.ibatisSql}
-    	]]>
+		${sql.ibatisSql?trim}
     </delete>
 </#if>
     
 <#if sql.insertSql>
 	<insert id="<@namespace/>${sql.operation}">
-    	<![CDATA[
-		${sql.ibatisSql}
-    	]]>
+		${sql.ibatisSql?trim}
         <@genSelectKeyOfInsertSql sql/>             
 	</insert>
 </#if>
