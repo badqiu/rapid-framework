@@ -203,14 +203,7 @@ public class SqlParseHelper {
      * @return
      */
     public static String removeOrders(String sql) {
-        Pattern p = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(sql);
-        StringBuffer sb = new StringBuffer();
-        while (m.find()) {
-            m.appendReplacement(sb, "");
-        }
-        m.appendTail(sb);
-        return sb.toString();
+    	return sql.replaceAll("(?is)order\\s+by[\\w|\\W|\\s|\\S]*", "");
     }
 	
 	public static long startTimes = System.currentTimeMillis();
