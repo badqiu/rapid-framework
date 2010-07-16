@@ -9,6 +9,6 @@
 		maxTransactions="3000" useStatementNamespaces="false" />
 
 
-	<!-- 这里无需配置sqlMap,可以通过spring的配置加载某个目录的多个SqlMap.xml-->
+	<sqlMap resource="sqlmap/${appName}/common-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/${appName}/${tableConfig.tableClassName}-sqlmap-mapping.xml" />
 </sqlMapConfig>
