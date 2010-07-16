@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -13,7 +14,12 @@ import cn.org.rapid_framework.generator.util.XMLHelper;
 /**
  * 解析sql map文件，生成Sql对象
  */
-public class IbatisSqlMapConfigParser {
+public class IbatisSqlMapConfigParser extends SqlFactory {
+	
+	protected String beforeParseSql(String sourceSql) {
+		return parse(sourceSql);
+	}
+	
     //1. 处理  query not allowed
     //2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
     public static String parse(String str) {

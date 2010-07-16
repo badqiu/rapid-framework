@@ -126,10 +126,10 @@
 		             PASSWORD = #password#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateBegin">
-		             BIRTH_DATE >= #birthDateBegin#
+		             BIRTH_DATE &gt;= #birthDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateEnd">
-		             BIRTH_DATE <= #birthDateEnd#
+		             BIRTH_DATE &lt;= #birthDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="sex">
 		             SEX = #sex#
