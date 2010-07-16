@@ -29,7 +29,7 @@ public class SqlTest extends TestCase {
 	}
 	
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixs", "t_,v_");
+		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
 		Sql sql = new Sql();
 		sql.setTableSqlName("t_user_info");
 		assertEquals("UserInfo",sql.getTableClassName());
