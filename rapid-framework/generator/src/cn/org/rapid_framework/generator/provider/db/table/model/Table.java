@@ -73,7 +73,7 @@ public class Table {
 	}
 
 	public static String removeTableSqlNamePrefix(String sqlName) {
-		String prefixs = GeneratorProperties.getProperty("tableRemovePrefixs", "");
+		String prefixs = GeneratorProperties.getProperty("tableRemovePrefixes", "");
 		for(String prefix : prefixs.split(",")) {
 			String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
 			if(!removedPrefixSqlName.equals(sqlName)) {
