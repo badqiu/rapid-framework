@@ -9,23 +9,23 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 public class FreemarkerHelper {
 
-	public static List<String> getAvailableAutoInclude(Configuration conf,String... autoIncludes) {
+	public static List<String> getAvailableAutoInclude(Configuration conf,List<String> autoIncludes) {
 		List<String> results = new ArrayList();
 		for(String autoInclude : autoIncludes) {
 			try {
 				Template t = new Template("__auto_include_test__",new StringReader("1"),conf);
-				conf.setAutoIncludes(Arrays.asList(autoInclude));
+				conf.setAutoIncludes(Arrays.asList(new String[]{autoInclude}));
 				t.process(new HashMap(), new StringWriter());
 				results.add(autoInclude);
 			}catch(Exception e) {
