@@ -28,9 +28,9 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  *
  */
 public class Sql {
-	public static String MULTI_POLICY_ONE = "one";
-	public static String MULTI_POLICY_MANY = "many";
-	public static String MULTI_POLICY_PAGING = "paging";
+	public static String MULTIPLICITY_ONE = "one";
+	public static String MULTIPLICITY_MANY = "many";
+	public static String MULTIPLICITY_PAGING = "paging";
 	
 	String tableSqlName = null; //是否需要
 	String operation = null;
@@ -38,7 +38,7 @@ public class Sql {
 	String parameterClass;
 	String remarks;
 	
-	String multiPolicy = "many"; // many or one
+	String multiplicity = "many"; // many or one or paging
 	boolean paging = false; // 是否分页查询
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
@@ -56,7 +56,7 @@ public class Sql {
 		this.operation = sql.operation;
 		this.parameterClass = sql.parameterClass;
 		this.resultClass = sql.resultClass;
-		this.multiPolicy = sql.multiPolicy;
+		this.multiplicity = sql.multiplicity;
 		
 		this.columns = sql.columns;
 		this.params = sql.params;
@@ -175,12 +175,12 @@ public class Sql {
 	 * 用于控制查询结果,固定值为:one,many
 	 * @return
 	 */
-	public String getMultiPolicy() {
-		return multiPolicy;
+	public String getMultiplicity() {
+		return multiplicity;
 	}
-	public void setMultiPolicy(String multiPolicy) {
+	public void setMultiplicity(String multiPolicy) {
 		//TODO 是否要增加验证数据为 one,many
-		this.multiPolicy = multiPolicy;
+		this.multiplicity = multiPolicy;
 	}
 	/**
 	 * 得到sqlect 查询的列对象(column),如果是insert,delete,update语句,则返回empty Set.<br />
@@ -384,6 +384,9 @@ public class Sql {
 	}
 	
 	public boolean isPaging() {
+		if(MULTIPLICITY_PAGING.equalsIgnoreCase(multiplicity)) {
+			return true;
+		}
         return paging;
     }
 
