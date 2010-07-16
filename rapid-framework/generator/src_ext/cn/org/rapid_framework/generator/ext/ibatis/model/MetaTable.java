@@ -138,7 +138,7 @@ public class MetaTable {
                     sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
                 }
                 sql.setOperation(op.getName());
-                sql.setMultiPolicy(op.getMultiPolicy());
+                sql.setMultiplicity(op.getMultiplicity());
                 sql.setParameterClass(op.getParameterClass());
                 sql.setResultClass(op.getResultClass());
                 sql.setRemarks(op.getRemarks());
@@ -235,7 +235,7 @@ public class MetaTable {
         public String resultClass;
         public String parameterClass;
         public String remarks;
-        public String multiPolicy = "many";
+        public String multiplicity = "many";
         public String sql;
         public String sqlmap;
         public Sql parsedSql;
@@ -283,15 +283,15 @@ public class MetaTable {
             this.remarks = remarks;
         }
 
-        public String getMultiPolicy() {
-            return multiPolicy;
-        }
+        public String getMultiplicity() {
+			return multiplicity;
+		}
 
-        public void setMultiPolicy(String multiPolicy) {
-            this.multiPolicy = multiPolicy;
-        }
+		public void setMultiplicity(String multiplicity) {
+			this.multiplicity = multiplicity;
+		}
 
-        public String getSql() {
+		public String getSql() {
             return sql;
         }
 

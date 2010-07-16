@@ -37,9 +37,9 @@ public class ${tableConfig.tableClassName}DAO {
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.paging || sql.multiPolicy = 'paging'>
+		<#if sql.paging || sql.multiplicity = 'paging'>
 			PageList<${sql.resultClassName}>
-		<#elseif sql.multiPolicy = 'one'>
+		<#elseif sql.multiplicity = 'one'>
 			${sql.resultClassName}
 		<#else>
 			List<${sql.resultClassName}>
@@ -52,9 +52,9 @@ public class ${tableConfig.tableClassName}DAO {
 
 <#macro generateOperationMethodBody sql>
 	<#if sql.selectSql>
-		<#if sql.paging || sql.multiPolicy = 'paging'>
+		<#if sql.paging || sql.multiplicity = 'paging'>
 		return (<@generateResultClassName sql/>)pageQuery(getSqlMapClientTemplate(),"${sql.tableClassName}.${sql.operation}",param);
-		<#elseif sql.multiPolicy = 'one'>
+		<#elseif sql.multiplicity = 'one'>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.tableClassName}.${sql.operation}",param);
 		<#else>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.tableClassName}.${sql.operation}",param);

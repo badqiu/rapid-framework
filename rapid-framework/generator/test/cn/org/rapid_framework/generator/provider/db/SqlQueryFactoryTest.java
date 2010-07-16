@@ -71,14 +71,14 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	
 	public void test_select_count_and_multi_policy_one() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
-		selectSql.setMultiPolicy(Sql.MULTI_POLICY_ONE);
+		selectSql.setMultiplicity(Sql.MULTI_POLICY_ONE);
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
 	public void test_select_string_and_multi_policy_one() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select username from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
-		selectSql.setMultiPolicy(Sql.MULTI_POLICY_ONE);
+		selectSql.setMultiplicity(Sql.MULTI_POLICY_ONE);
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}

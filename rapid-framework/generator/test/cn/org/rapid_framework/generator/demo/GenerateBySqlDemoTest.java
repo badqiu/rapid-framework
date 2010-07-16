@@ -16,7 +16,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	public void test_generate_by_sql() throws Exception {
 		Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
 		sql.setTableSqlName("user_info");
-		sql.setMultiPolicy("many");  //many or one
+		sql.setMultiplicity("many");  //many or one
 		sql.setOperation("findByUsernameAndPassword");
 		sql.setRemarks("根据用户名及密码进行查询");
 		generatorFacade.generateBySql(sql, "generator/test/for_test_select_sql");

@@ -178,9 +178,9 @@ public class Sql {
 	public String getMultiplicity() {
 		return multiplicity;
 	}
-	public void setMultiplicity(String multiPolicy) {
+	public void setMultiplicity(String multiplicity) {
 		//TODO 是否要增加验证数据为 one,many
-		this.multiplicity = multiPolicy;
+		this.multiplicity = multiplicity;
 	}
 	/**
 	 * 得到sqlect 查询的列对象(column),如果是insert,delete,update语句,则返回empty Set.<br />
