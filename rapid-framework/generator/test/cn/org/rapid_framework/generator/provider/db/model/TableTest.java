@@ -49,7 +49,7 @@ public class TableTest extends TestCase{
 	}
 	
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixs", "t_,v_");
+		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
 		Table sql = new Table();
 		sql.setSqlName("t_user_info");
 		assertEquals("UserInfo",sql.getClassName());

@@ -11,11 +11,13 @@ import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{
 	protected Generator g = new Generator();;
 	public void setUp()throws Exception {
+		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty("gg.isOverride", "true");
 		try {
 			runSqlScripts();
