@@ -40,12 +40,12 @@ public class StringHelperTest extends TestCase {
 	}
 	
 	public void test_unescapeXml() {
-		assertEquals("123< 456",StringHelper.unescapeXml("123&lt; 456"));
 		assertEquals(">",StringHelper.unescapeXml("&gt;"));
 		assertEquals("& ",StringHelper.unescapeXml("&amp; "));
 		assertEquals(null,StringHelper.unescapeXml(null));
 		assertEquals("\"",StringHelper.unescapeXml("&quot;"));
 		assertEquals("'",StringHelper.unescapeXml("&apos;"));
+		assertEquals("123< 456 < &",StringHelper.unescapeXml("123&lt; 456 &lt; &amp;"));
 	}
 	public void testContains() {
 		assertTrue(StringHelper.contains("badqiu", "adq"));
