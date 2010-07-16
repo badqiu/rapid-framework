@@ -110,10 +110,11 @@
 		</jar>		
 	</target>
 	
-	<target name="jar.source" depends="">
+	<target name="jar.source" depends="prepare">
 		<jar jarfile="${dir.dist}/${ant.project.name}-${version}-source.jar">
 			<fileset dir="generator/src" >
 				<include name="**/*.java"/>
+				<include name="**/cn/**"/>
 			</fileset>
 		</jar>
 	</target>
