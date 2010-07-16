@@ -18,6 +18,7 @@ public class MetaTableTest extends GeneratorTestCase {
     public void setUp() throws Exception {
         super.setUp();
         g.setOutRootDir("./temp/generate_by_sql_config");
+        GeneratorProperties.setProperty("appName", "rapid");
     }
     
     public void test_genereate_by_sql_config() throws Exception {
