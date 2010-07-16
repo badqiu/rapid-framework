@@ -265,6 +265,19 @@ public class Sql {
 		return getSql();
 	}
 	
+	private String countQueryPrefix = "select count(*) ";
+	public String getPagingSql() {
+        return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
+	}
+
+    public String getPagingIbatisSql() {
+        return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
+    }
+    
+    public String getPagingIbatis3Sql() {
+        return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
+    }
+    
 	public String getIbatisSql() {
 	    return StringHelper.isBlank(ibatisSql) ? getSql() : ibatisSql;
 	}
