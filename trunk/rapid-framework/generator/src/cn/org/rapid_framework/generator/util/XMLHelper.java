@@ -145,6 +145,21 @@ public class XMLHelper {
     	return s;
     }
     
+    /**
+     * 解析attributes为hashMap
+     * @param attributes 格式： name='badqiu' sex='F'
+     * @return
+     */
+    public static Map<String, String> parse2Attributes(String attributes) {
+        Map result = new HashMap();
+        Pattern p = Pattern.compile("(\\w+?)=['\"](.*?)['\"]");
+        Matcher m = p.matcher(attributes);
+        while(m.find()) {
+            result.put(m.group(1), m.group(2));
+        }
+        return result;
+    }
+    
     public static void main(String[] args) throws FileNotFoundException, SAXException, IOException {
         String file = "D:/dev/workspaces/alipay/ali-generator/generator/src/table_test.xml";
         NodeData nd = new XMLHelper().parseXML(new FileInputStream(new File(file)));
