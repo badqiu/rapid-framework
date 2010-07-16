@@ -23,12 +23,10 @@
     <!-- ============================================= -->
     <!-- mapped statements for SEQUENCE                -->
     <!-- ============================================= -->
-#foreach ($seq in ${plugin.sequences})
-    <!-- mapped statement for ${plugin.seqIbatisClassName}.${seq.operationName} -->
-    <select id="${seq.mappedStatementId}" resultClass="long">
+    <!-- mapped statement for plugin.seqIbatisClassName.seq.operationName -->
+    <select id="seq.mappedStatementId" resultClass="long">
     <![CDATA[
-        ${seq.mappedStatementSql}
+        seq.mappedStatementSql
     ]]>
     </select>
-#end
 </sqlMap>
