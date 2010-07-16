@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
+<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
 	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
 	
@@ -14,14 +14,14 @@
 		</sql>
 	</operation>
 
-	<operation name="update" paramtype="object" comments="更新一条交易资金单据记录 ">
+	<operation name="update" paramtype="object" remarks="更新一条交易资金单据记录 ">
 		<sql>
 			UPDATE user_info SET username = #username#,password = #password#
 			WHERE username = #username#
 		</sql>
 	</operation>	
 	
-	<operation name="queryByUserId" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="queryByUserId" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 		<sql>
 			select *
 			from user_info
@@ -29,7 +29,7 @@
 		</sql>
 	</operation>	
 
-	<operation name="countUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="countUsername" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 		<sql>
 		<![CDATA[
 			select count(username) username_cnt,sum(age) sum_age
@@ -39,7 +39,7 @@
 		</sql>
 	</operation>
 
-	<operation name="countDynimicUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="countDynimicUsername" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 		<sql>
 		<![CDATA[
 			select count(username) username_cnt,sum(age) sum_age
@@ -49,7 +49,7 @@
 		</sql>
 	</operation>
 
-	<operation name="insert" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="insert" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 	<sql>
     <![CDATA[
         INSERT INTO USER_INFO (
@@ -80,7 +80,7 @@
         </sql>
     </operation>
 
-	<operation name="update" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="update" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 	<sql>
     <![CDATA[
         UPDATE USER_INFO SET
@@ -95,7 +95,7 @@
     </sql>
     </operation>
 
-	<operation name="delete" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="delete" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
     <sql>
     <![CDATA[
         DELETE FROM USER_INFO WHERE
@@ -104,7 +104,7 @@
     </sql>
     </operation>
     
-    <operation name="getById" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <operation name="getById" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
     <sql>
 	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
 	    <![CDATA[
@@ -115,7 +115,7 @@
     </sql>
     </operation>
 
-	<operation name="findPage.count" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="findPage.count" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 		<sql>
 		<![CDATA[
         SELECT count(*) FROM USER_INFO
@@ -146,7 +146,7 @@
 	    </sql>        
     </operation>
     
-    <operation name="findPage" paging="true" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <operation name="findPage" paging="true" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
     	<sql>
     	<![CDATA[
     	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
@@ -180,7 +180,7 @@
 		</sql>
     </operation>
 	
-	<operation name="getByUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+	<operation name="getByUsername" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
 		<sql>
 	    <![CDATA[
 	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
@@ -189,7 +189,7 @@
 	    </sql>
     </operation>
     
-    <operation name="getByAge" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
+    <operation name="getByAge" paramtype="primitive" multiPolicy="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
 	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
