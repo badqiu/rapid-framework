@@ -370,11 +370,29 @@ public class Generator {
 			conf.setBooleanFormat("true,false");
 			conf.setDefaultEncoding(defaultEncoding);
 			
-			String autoIncludes = new File(new File(templateName).getParent(),"macro.include").getPath();
-			List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, "macro.include",autoIncludes);
+//			String autoIncludes = new File(new File(templateName).getParent(),"macro.include").getPath();
+//			List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf, Arrays.asList("macro.include",autoIncludes));
+//			conf.setAutoIncludes(availableAutoInclude);
+//			GLogger.info("[set Freemarker.autoIncludes]"+availableAutoInclude+" for templateName:"+templateName);
+			
+			List<String> autoIncludes = getParentPaths(templateName,"macro.include");
+			List<String> availableAutoInclude = FreemarkerHelper.getAvailableAutoInclude(conf,autoIncludes);
 			conf.setAutoIncludes(availableAutoInclude);
-			GLogger.debug("[set Freemarker.autoIncludes]"+availableAutoInclude+" for templateName:"+templateName);
+			GLogger.debug("set Freemarker.autoIncludes:"+availableAutoInclude+" for templateName:"+templateName+" autoIncludes:"+autoIncludes);
 			return conf;
+		}
+
+		public static List<String> getParentPaths(String templateName,String suffix) {
+			String array[] = StringHelper.tokenizeToStringArray(templateName, "\\/");
+			List<String> list = new ArrayList<String>();
+			list.add(suffix);
+			list.add(File.separator+suffix);
+			String path = "";
+			for(int i = 0; i < array.length; i++){
+				path = path + File.separator + array[i];
+				list.add(path + File.separator+suffix);
+			}
+			return list;
 		}
 	}
 
