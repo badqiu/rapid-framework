@@ -264,18 +264,38 @@ public class Sql {
 	public String getHql() {
 		return getSql();
 	}
-	
+
+    public String getCountHql() {
+        if(isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getHql());
+        }else {
+            return getHql();
+        }
+    }
+	   
 	private String countQueryPrefix = "select count(*) ";
-	public String getPagingSql() {
-        return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
+	public String getCountSql() {
+	    if(isSelectSql()) {
+	        return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
+	    }else {
+	        return getSql();
+	    }
 	}
 
-    public String getPagingIbatisSql() {
-        return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
+    public String getIbatisCountSql() {
+        if(isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
+        }else {
+            return getIbatisSql();
+        }
     }
     
-    public String getPagingIbatis3Sql() {
-        return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
+    public String getIbatis3CountSql() {
+        if(isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
+        }else {
+            return getIbatis3Sql();
+        }
     }
     
 	public String getIbatisSql() {
