@@ -41,7 +41,7 @@
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 	-->
 
-	<!-- Oracle 
+	<!-- Oracle 	jdbc:oracle:oci:@tnsname_devdb
 	<entry key="jdbc.url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry>
 	<entry key="jdbc.driver">oracle.jdbc.driver.OracleDriver</entry>
 	-->
