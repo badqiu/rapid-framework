@@ -41,7 +41,7 @@ public class MetaTableTest extends GeneratorTestCase {
     }
     
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixs", "t_,v_");
+		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
 		MetaTable sql = new MetaTable();
 		sql.setSqlname("t_user_info");
 		assertEquals("UserInfo",sql.getTableClassName());
