@@ -141,7 +141,7 @@ public class MetaTable {
                 sql.setMultiPolicy(op.getMultiPolicy());
                 sql.setParameterClass(op.getParameterClass());
                 sql.setResultClass(op.getResultClass());
-                sql.setRemarks(op.getComments());
+                sql.setRemarks(op.getRemarks());
                 sql.setTableSqlName(table.getSqlname());
                 sql.setPaging(op.isPaging());
                 sqls.add(sql);
