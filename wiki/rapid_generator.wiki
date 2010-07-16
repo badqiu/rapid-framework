@@ -146,6 +146,15 @@ public class GeneratoMain {
 在.properties文件中我们可以使用 #generator-insert-location
 具体请查看template/insert_demo目录的内容
 
+== 生成器核心类图 ==
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/rapid_generator/core_generator_classes_uml.jpg]
+  * Generator为生成器引擎
+  * GeneratorFacade为生成器入口调用类
+  * GeneratorProperties 生成器的相关配置，用于读取generator.properties(或者是generator.xml)
+  * TableFactory用于创建Table.java对象，用于GeneratorFacade.generateByTable()使用
+  * SqlFactory用于创建Sql.java对象,用于GeneratorFacade.generateBySql()使用
+  * JavaClass模板变量，用于GeneratorFacade.generateByClass()使用
+
 =参考=
 ==generateByTable()==
 [generator_generate_by_table 通过表(或视图)查询生成代码]
