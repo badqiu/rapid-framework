@@ -60,12 +60,15 @@ public class ${tableConfig.tableClassName}DAO {
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.tableClassName}.${sql.operation}",param);
 		</#if>
 	</#if>
+	
 	<#if sql.deleteSql>
 		return getSqlMapClientTemplate().delete("${sql.tableClassName}.${sql.operation}", param);
 	</#if>
+	
 	<#if sql.insertSql>
 		return getSqlMapClientTemplate().insert("${sql.tableClassName}.${sql.operation}", param);    
 	</#if>
+	
 	<#if sql.updateSql>
 		return getSqlMapClientTemplate().update("${sql.tableClassName}.${sql.operation}", param);
 	</#if>

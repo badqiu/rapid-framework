@@ -55,9 +55,11 @@
 <#macro genSelectKeyOfInsertSql sql>
 	<#if sql.operation == 'insert'>
         <#if database_type == 'oracle'>
+        	<#if tableConfig.sequence != null>
 		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
             SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
-        </selectKey>         
+        </selectKey>
+        	</#if>         
         </#if>
         <#if database_type == 'mysql'>
 		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
