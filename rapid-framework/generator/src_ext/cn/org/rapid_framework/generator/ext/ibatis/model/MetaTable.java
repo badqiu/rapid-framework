@@ -236,6 +236,7 @@ public class MetaTable {
         public String parameterClass;
         public String remarks;
         public String multiplicity = "many";
+        public String paramtype = "object"; //object or primitive
         public String sql;
         public String sqlmap;
         public Sql parsedSql;
@@ -315,9 +316,15 @@ public class MetaTable {
             this.tableSqlName = tableSqlName;
         }
         
+        public String getParamtype() {
+			return paramtype;
+		}
 
-        
-        public boolean isPaging() {
+		public void setParamtype(String paramtype) {
+			this.paramtype = paramtype;
+		}
+
+		public boolean isPaging() {
             return paging;
         }
 
