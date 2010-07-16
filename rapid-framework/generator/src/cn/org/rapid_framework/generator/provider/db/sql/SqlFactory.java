@@ -59,13 +59,15 @@ public class SqlFactory {
 	}
 	
     public Sql parseSql0(String sourceSql) throws SQLException,Exception{
-    	String unscapedSourceSql = StringHelper.unescapeXml(sourceSql);
+    	String beforeProcessedSql = beforeParseSql(sourceSql);
+    	
+    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(unscapedSourceSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Sql sql = new Sql();
-        sql.setExecuteSql(executeSql);
         sql.setSourceSql(sourceSql);
+        sql.setExecuteSql(executeSql);
         GLogger.debug("\n*******************************");
         GLogger.debug("sourceSql  :"+sql.getSourceSql());
         GLogger.debug("executeSql :"+sql.getExecuteSql());
@@ -79,14 +81,23 @@ public class SqlFactory {
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
             sql.setColumns(new SelectColumnsParser().convert2Columns(resultSetMetaData));
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
-	        return sql;
+	        
+	        return afterProcessedSql(sql);
         }finally {
         	conn.rollback();
         	conn.close();
         }
     }
 
-    private String removeOrderBy(String executeSql) {
+    protected Sql afterProcessedSql(Sql sql) {
+		return sql;
+	}
+
+	protected String beforeParseSql(String sourceSql) {
+		return sourceSql;
+	}
+
+	private String removeOrderBy(String executeSql) {
         return executeSql.replaceAll("(?is)order\\s+by[\\w|\\W|\\s|\\S]*", "");
     }
 	
