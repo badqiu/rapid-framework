@@ -31,17 +31,21 @@
 
 	<operation name="countUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
+		<![CDATA[
 			select count(username) username_cnt,sum(age) sum_age
 			from user_info
 			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
+		]]>			
 		</sql>
 	</operation>
 
 	<operation name="countDynimicUsername" paramtype="primitive" multiPolicy="one" comments="根据订单号查询订单">
 		<sql>
+		<![CDATA[
 			select count(username) username_cnt,sum(age) sum_age
 			from user_info
 			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
+		]]>
 		</sql>
 	</operation>
 
@@ -160,7 +164,7 @@
 		             BIRTH_DATE >= #birthDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateEnd">
-		             BIRTH_DATE <= #birthDateEnd#
+		             BIRTH_DATE &lt;= #birthDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="sex">
 		             SEX = ?
