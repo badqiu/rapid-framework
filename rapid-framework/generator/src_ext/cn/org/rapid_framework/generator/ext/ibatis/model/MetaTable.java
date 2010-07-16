@@ -68,6 +68,9 @@ public class MetaTable {
         String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
         return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
     }
+    public Table getTable() throws Exception {
+        return TableFactory.getInstance().getTable(getSqlname());
+    }
     public String getSqlname() {
         return sqlname;
     }
