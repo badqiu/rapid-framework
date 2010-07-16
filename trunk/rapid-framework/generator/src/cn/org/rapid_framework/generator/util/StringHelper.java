@@ -138,6 +138,14 @@ public class StringHelper {
 		return result;
 	}
 	
+	public static String toJavaVariableName(String str) {
+		return uncapitalize(toJavaClassName(str));
+	}
+
+	public static String toJavaClassName(String str) {
+		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(str));
+	}
+	
 	public static String replace(String inString, String oldPattern, String newPattern) {
 		if (inString == null) {
 			return null;
