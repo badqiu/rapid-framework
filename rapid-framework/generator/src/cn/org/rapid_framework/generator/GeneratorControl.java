@@ -103,13 +103,17 @@ public class GeneratorControl {
 	public void generateFile(String outputFile,String content,boolean append) {
 		//TODO /root/hello.txt使用绝对路径, root/hello.txt使用相对路径
 		try {
+			String realOutputFile = outputFile;
+			if(!new File(outputFile).isAbsolute()) {
+				realOutputFile = new File(getOutRoot(),outputFile).getAbsolutePath();
+			}
 			if(deleteGeneratedFile) {
-				GLogger.println("[delete gg.generateFile()] file:"+outputFile+" by template:"+getSourceFile());
-				new File(outputFile).delete();
+				GLogger.println("[delete gg.generateFile()] file:"+realOutputFile+" by template:"+getSourceFile());
+				new File(realOutputFile).delete();
 			}else {
-				File file = new File(outputFile);
+				File file = new File(realOutputFile);
 				FileHelper.parnetMkdir(file);
-				GLogger.println("[gg.generateFile()] outputFile:"+outputFile+" append:"+append+" by template:"+getSourceFile());
+				GLogger.println("[gg.generateFile()] outputFile:"+realOutputFile+" append:"+append+" by template:"+getSourceFile());
 				IOHelper.saveFile(file, content,getOutputEncoding(),append);
 			}
 		} catch (Exception e) {
