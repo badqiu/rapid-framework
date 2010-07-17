@@ -25,6 +25,7 @@ import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
+import cn.org.rapid_framework.generator.util.SqlExecutorHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
@@ -247,23 +248,7 @@ public class GeneratorControl {
 	
 	public List<Map> executeSql(String sql,int limit) throws SQLException {
 		Connection conn = TableFactory.getInstance().getConnection();
-		PreparedStatement ps = conn.prepareStatement(sql.trim());
-		ResultSet rs = ps.executeQuery();
-		ResultSetMetaData rsmd = rs.getMetaData();
-		int count = 0;
-		List<Map> list = new ArrayList<Map>();
-		while(rs.next()) {
-			Map row = new HashMap();
-			for(int i = 1; i <= rsmd.getColumnCount(); i++) {
-				row.put(rsmd.getColumnName(i), rs.getObject(i));
-			}
-			list.add(row);
-			count ++;
-			if(count >= limit) {
-				break;
-			}
-		}
-		return list;
+		return SqlExecutorHelper.queryForList(conn, sql, limit);
 	}
 	
 	boolean deleteGeneratedFile = false;
