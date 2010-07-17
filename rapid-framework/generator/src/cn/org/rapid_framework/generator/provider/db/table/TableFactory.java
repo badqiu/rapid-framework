@@ -75,20 +75,28 @@ public class TableFactory {
 		return connection;
 	}
 
-	public List getAllTables() throws Exception {
-		Connection conn = getConnection();
-		return getAllTables(conn);
+	public List getAllTables() {
+		try {
+			Connection conn = getConnection();
+			return getAllTables(conn);
+		}catch(Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
-	public Table getTable(String tableName) throws Exception {
-		Table t = _getTable(tableName);
-		if(t == null && !tableName.equals(tableName.toUpperCase())) {
-			t = _getTable(tableName.toUpperCase());
+	public Table getTable(String tableName) {
+		Table t = null;
+		try {
+			t = _getTable(tableName);
+			if(t == null && !tableName.equals(tableName.toUpperCase())) {
+				t = _getTable(tableName.toUpperCase());
+			}
+			if(t == null && !tableName.equals(tableName.toLowerCase())) {
+				t = _getTable(tableName.toLowerCase());
+			}
+		}catch(Exception e) {
+			throw new RuntimeException(e);
 		}
-		if(t == null && !tableName.equals(tableName.toLowerCase())) {
-			t = _getTable(tableName.toLowerCase());
-		}
-		
 		if(t == null) {
 			throw new NotFoundTableException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : ""));
 		}
