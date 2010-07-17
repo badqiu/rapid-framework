@@ -8,6 +8,29 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 public class SqlFactoryTest extends TestCase {
 	SqlFactory parser = new SqlFactory();
+
+	public void test_union() throws SQLException, Exception {
+		String query = "select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) ";
+		String orderByQuery = "select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) order by :orderby ";
+		Sql sql = parser.parseSql0(query+" union " + query);
+		verifyParameters(sql,"userId","username","password","age","sex");
+		
+		sql = parser.parseSql0(orderByQuery+" union " + orderByQuery);
+		verifyParameters(sql,"userId","username","password","age","sex");
+	}
+	
+	public void test_order_by() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) order by :orderby :asc_desc");
+		verifyParameters(sql,"userId","username","password","age","sex");
+	}
+	public void test_unscaped_xml() throws SQLException, Exception {
+		try {
+		Sql sql = parser.parseSql0("select * from user_info where user_id &lt; :user_id");
+		fail();
+		}catch(RuntimeException e) {
+		}
+	}
+	
 	public void test_select() throws SQLException, Exception {
 		Sql sql = parser.parseSql0("select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");
 		verifyParameters(sql,"userId","username","password","age","sex");
