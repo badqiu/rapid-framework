@@ -5,6 +5,7 @@ package cn.org.rapid_framework.generator.provider.db.table.model;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.table.model.ForeignKey.ReferenceKey;
 import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -546,6 +547,51 @@ public class Column {
 
 	public void setEnumClassName(String enumClassName) {
 		this.enumClassName = enumClassName;
+	}
+
+//	public void setBelongsTo(String foreignKey) {
+//		ReferenceKey ref = ReferenceKey.fromString(foreignKey);
+//		if(ref != null && _table != null) {
+//			_table.getImportedKeys().addForeignKey(ref.tableName, ref.columnSqlName, getSqlName(), ref.columnSqlName.hashCode());
+//		}
+//	}
+//	
+//	public void setHasAndBelongsToMany(String foreignKey) {
+//	}
+
+	private ReferenceKey hasOne;
+	public String getHasOne() {
+		return ReferenceKey.toString(hasOne);
+	}
+	
+	/**
+	 * 设置many-to-one,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
+	 * @param foreignKey
+	 * @return
+	 */
+	public void setHasOne(String foreignKey) {
+		hasOne = ReferenceKey.fromString(foreignKey);
+		if(hasOne != null && _table != null) {
+			_table.getImportedKeys().addForeignKey(_table.getSqlName(),getSqlName(), hasOne.columnSqlName, hasOne.columnSqlName.hashCode());
+		}
+	}
+	
+	private ReferenceKey hasMany = null;
+	public String getHasMany() {
+		return ReferenceKey.toString(hasMany);
+	}
+	
+	/**
+	 * 设置one-to-many,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
+	 * @param foreignKey
+	 * @return
+	 */
+	public void setHasMany(String foreignKey) {
+		hasMany = ReferenceKey.fromString(foreignKey);
+		if(hasMany != null && _table != null) {
+//			Table refTable = TableFactory.getInstance().getTable(ref.tableName);
+			_table.getExportedKeys().addForeignKey(hasMany.tableName, hasMany.columnSqlName, getSqlName(), hasMany.columnSqlName.hashCode());
+		}
 	}
 
 	private void initOtherProperties() {
