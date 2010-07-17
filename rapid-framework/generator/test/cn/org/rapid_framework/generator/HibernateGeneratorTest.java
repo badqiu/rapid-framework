@@ -15,6 +15,8 @@ public class HibernateGeneratorTest extends GeneratorTestCase{
 		g.addTemplateRootDir(new File("plugins/hibernate/template"));
 		
 		generateByTable(table);
+		generateByTable(TableFactory.getInstance().getTable("role"));
+		generateByTable(TableFactory.getInstance().getTable("blog"));
 		
 		//Runtime.getRuntime().exec("cmd.exe /c start "+new File(g.outRootDir).getAbsolutePath());
 	}

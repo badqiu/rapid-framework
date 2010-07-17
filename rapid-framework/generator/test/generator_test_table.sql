@@ -14,11 +14,12 @@ CREATE TABLE role (
   role_desc varchar(20) default NULL
 );
 CREATE TABLE blog (
-  id bigint PRIMARY KEY,
+  blog_id bigint PRIMARY KEY,
   username varchar(50) NOT NULL UNIQUE,
-  birth_date date DEFAULT NULL,
-  sex varchar(1) DEFAULT NULL,
+  created date DEFAULT NULL,
+  modified date DEFAULT NULL,
   title varchar(10) default NULL,
-  length int default NULL,
   content varchar(56) default NULL,
+  content_length int default NULL,
+  status varchar(56) default NULL
 );
