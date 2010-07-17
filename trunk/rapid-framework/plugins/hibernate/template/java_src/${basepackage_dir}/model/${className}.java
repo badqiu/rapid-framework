@@ -194,7 +194,6 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	<#assign fkPojoClassVar = fkPojoClass?uncap_first>
 	
 	private ${fkPojoClass} ${fkPojoClassVar};
-	
 	public void set${fkPojoClass}(${fkPojoClass} ${fkPojoClassVar}){
 		this.${fkPojoClassVar} = ${fkPojoClassVar};
 	}
