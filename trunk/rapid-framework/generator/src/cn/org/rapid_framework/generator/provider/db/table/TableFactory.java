@@ -90,9 +90,15 @@ public class TableFactory {
 		}
 		
 		if(t == null) {
-			throw new RuntimeException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : ""));
+			throw new NotFoundTableException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : ""));
 		}
 		return t;
+	}
+	
+	public static class NotFoundTableException extends RuntimeException {
+		public NotFoundTableException(String message) {
+			super(message);
+		}
 	}
 
 	private Table _getTable(String tableName) throws SQLException {

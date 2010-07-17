@@ -154,6 +154,16 @@ public class StringHelper {
 	public static String toJavaClassName(String str) {
 		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(str));
 	}
+
+	public static String removeMany(String inString, String... keywords) {
+		if (inString == null) {
+			return null;
+		}
+		for(String k : keywords) {
+			inString = replace(inString, k, "");
+		}
+		return inString;
+	}
 	
 	public static String replace(String inString, String oldPattern, String newPattern) {
 		if (inString == null) {
