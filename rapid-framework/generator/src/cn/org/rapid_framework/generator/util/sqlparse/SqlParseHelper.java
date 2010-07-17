@@ -1,9 +1,7 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
-
 import java.io.StringReader;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
@@ -14,41 +12,108 @@ import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
+
 public class SqlParseHelper {
+
+	public static class SqlAlias {
+		private String tableName;
+		private String tableAlias;
+		public SqlAlias(String tableName, String tableAlias) {
+			this.tableName = tableName.trim();
+			this.tableAlias = tableAlias == null ? null : tableAlias.trim();
+		}
+		public String getTableName() {
+			return tableName;
+		}
+		public String getTableAlias() {
+			return StringHelper.isBlank(tableAlias) ? getTableName() : tableAlias;
+		}
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result
+					+ ((tableName == null) ? 0 : tableName.hashCode());
+			return result;
+		}
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			SqlAlias other = (SqlAlias) obj;
+			if (tableName == null) {
+				if (other.tableName != null)
+					return false;
+			} else if (!tableName.equals(other.tableName))
+				return false;
+			return true;
+		}
+		public String toString() {
+			return StringHelper.isBlank(tableAlias) ? tableName  : tableName +" as " + tableAlias;
+		}
+	}
+	
 	static Pattern from = Pattern.compile("(from\\s+)([,\\w]+)",
 			Pattern.CASE_INSENSITIVE);
-	static Pattern join = Pattern.compile("(join\\s+)(\\w+)",
+	static Pattern join = Pattern.compile("(join\\s+)(\\w+)(as)?(\\w*)",
 			Pattern.CASE_INSENSITIVE);
 	static Pattern update = Pattern.compile("(\\s*update\\s+)(\\w+)",
 			Pattern.CASE_INSENSITIVE);
 	static Pattern insert = Pattern.compile("(\\s*insert\\s+into\\s+)(\\w+)",
 			Pattern.CASE_INSENSITIVE);
-
-	public static Set<String> getTableNamesByQuery(String sql) {
+		
+	public static Set<SqlAlias> getTableNamesByQuery(String sql) {
 		sql = sql.trim();
-		Set<String> result = new LinkedHashSet();
+		Set<SqlAlias> result = new LinkedHashSet();
 		Matcher m = from.matcher(sql);
 		if (m.find()) {
-			result.addAll(Arrays.asList(StringHelper.tokenizeToStringArray(m
-					.group(2), ",")));
-		}
-
-		m = join.matcher(sql);
-		if (m.find()) {
-			result.add(m.group(2));
+			String from = getFromClauses(sql);
+			if(from.indexOf(',') >= 0) {
+				//逗号分隔的多表
+				String[] array = StringHelper.tokenizeToStringArray(from, ",");
+				for(String s : array) {
+					result.add(parseSqlAlias(s));
+				}
+			}else if(from.indexOf("join") >= 0) {
+				//join的多表
+				String removedFrom = StringHelper.removeMany(from.toLowerCase(),"inner","full","left","right","outer");
+				String[] joins = removedFrom.split("join");
+				for(String s : joins) {
+					result.add(parseSqlAlias(s));
+				}
+			}else {
+				//单表
+				result.add(parseSqlAlias(from));
+			}
 		}
 
 		m = update.matcher(sql);
 		if (m.find()) {
-			result.add(m.group(2));
+			result.add(new SqlAlias(m.group(2),null));
 		}
 
 		m = insert.matcher(sql);
 		if (m.find()) {
-			result.add(m.group(2));
+			result.add(new SqlAlias(m.group(2),null));
 		}
 		return result;
 	}
+		
+	/** 解析sql的别名,如 user as u,将返回 user及u */
+	public static SqlAlias parseSqlAlias(String str) {
+		String[] array = str.split("\\sas\\s");
+		if(array.length >= 2) {
+			return new SqlAlias(array[0], array[1]);
+		}
+		array = StringHelper.tokenizeToStringArray(str, " \n\t");
+		if(array.length >= 2) {
+			return new SqlAlias(array[0], array[1]);
+		}
+		return new SqlAlias(str.trim(),null);
+	}
+
 
 //	static Pattern p = Pattern.compile("(:)(\\w+)(\\|?)([\\w.]+)");
 	public static String getParameterClassName(String sql, String paramName) {
@@ -204,6 +269,7 @@ public class SqlParseHelper {
 		return sql.substring(0,beginPos);
 	}
 	
+	/** 得到sql的from子句 */
 	public static String getFromClauses(String sql) {
 		String lowerSql = sql.toLowerCase();
 		int fromBegin = lowerSql.indexOf("from");

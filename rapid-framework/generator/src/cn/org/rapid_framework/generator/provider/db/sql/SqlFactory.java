@@ -11,10 +11,12 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory.NotFoundTableException;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -24,6 +26,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.SqlAlias;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 
@@ -81,7 +84,7 @@ public class SqlFactory {
         try {
 	        PreparedStatement ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
-            sql.setColumns(new SelectColumnsParser().convert2Columns(resultSetMetaData));
+            sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        
 	        return afterProcessedSql(sql);
@@ -116,21 +119,22 @@ public class SqlFactory {
 	
     public class SelectColumnsParser {
     
-		private LinkedHashSet<Column> convert2Columns(ResultSetMetaData metadata) throws SQLException, Exception {
+		private LinkedHashSet<Column> convert2Columns(Sql sql,ResultSetMetaData metadata) throws SQLException, Exception {
 			if(metadata == null) return new LinkedHashSet();
 			LinkedHashSet<Column> columns = new LinkedHashSet();
 	        for(int i = 1; i <= metadata.getColumnCount(); i++) {
-	        	Column c = convert2Column(metadata, i);
+	        	Column c = convert2Column(sql,metadata, i);
 	        	if(c == null) throw new IllegalStateException("column must be not null");
 				columns.add(c);
 	        }
 			return columns;
 		}
 	
-		private Column convert2Column(ResultSetMetaData metadata, int i) throws SQLException, Exception {
+		private Column convert2Column(Sql sql,ResultSetMetaData metadata, int i) throws SQLException, Exception {
 			ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
 			if(StringHelper.isNotBlank(m.getTableName())) {
-			    Table table = TableFactory.getInstance().getTable(m.getTableName());
+				//FIXME 如果表有别名,将会找不到表,如 inner join user_info t1, tableName将为t1,应该转换为user_info
+				Table table = foundTableByTableNameOrTableAlias(sql, m);
 			    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
 			    if(column == null) {
 			        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
@@ -147,6 +151,20 @@ public class SqlFactory {
 			    GLogger.trace("not found on table by table emtpty:"+BeanHelper.describe(column));
 			    return column;
 			}
+		}
+
+		private Table foundTableByTableNameOrTableAlias(Sql sql,ResultSetMetaDataHolder m) throws Exception {
+			try {
+				return TableFactory.getInstance().getTable(m.getTableName());
+			}catch(NotFoundTableException e) {
+				Set<SqlAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
+				for(SqlAlias tableName : tableNames) {
+					if(tableName.getTableAlias().equalsIgnoreCase(m.getTableName())) {
+						return TableFactory.getInstance().getTable(tableName.getTableName());
+					}
+				}
+			}
+			throw new IllegalStateException("没有找到表名");
 		}
     }
 
@@ -216,9 +234,9 @@ public class SqlFactory {
 		}
 	
 		private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
-			Collection<String> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
-			for(String tableName : tableNames) {
-				Table t = TableFactory.getInstance().getTable(tableName);
+			Collection<SqlAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+			for(SqlAlias tableName : tableNames) {
+				Table t = TableFactory.getInstance().getTable(tableName.getTableName());
 				if(t != null) {
 					Column column = t.getColumnByName(paramName);
 					if(column != null) {
