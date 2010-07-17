@@ -25,8 +25,8 @@ public class SqlFactoryTest extends TestCase {
 	}
 	public void test_unscaped_xml() throws SQLException, Exception {
 		try {
-		Sql sql = parser.parseSql0("select * from user_info where user_id &lt; :user_id");
-		fail();
+			Sql sql = parser.parseSql0("select * from user_info where user_id &lt; :user_id");
+			fail();
 		}catch(RuntimeException e) {
 		}
 	}
@@ -34,7 +34,45 @@ public class SqlFactoryTest extends TestCase {
 	public void test_select() throws SQLException, Exception {
 		Sql sql = parser.parseSql0("select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");
 		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"userId","username","password","BIRTH_DATE","age","sex");
 	}
+	
+	public void test_聚合函数() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select DISTINCT(count(*)) DISTINCT_count,count(username) cnt_username,sum(age) sum_age,avg(sex) avg_sex from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");
+		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"DISTINCT_count","cnt_username","sum_age","avg_sex");
+	}
+
+	public void test_聚合函数2() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select DISTINCT username from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");
+		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"username");
+	}
+
+	public void test_group_by() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select DISTINCT username from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) group by username");
+		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"username");
+	}
+
+	public void test_join() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select DISTINCT t1.username from user_info t1 inner join user_info t2 on t1.user_id=t2.user_id where t1.user_id = ? and t1.age = ? and t1.password = ? and t1.username like ? or (t1.sex >= ?) group by username");
+		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"username");
+	}
+
+	public void test_select_with_table_alias() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select * from user_info t where t.user_id = ? and t.age = ? and t.password = ? and t.username like ? or (t.sex >= ?)");
+		verifyParameters(sql,"userId","username","password","age","sex");
+		verifyColumns(sql,"userId","username","password","BIRTH_DATE","age","sex");
+	}
+	
+	public void test_group_by_having() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select sum(age) sum_age from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) group by username having sum(age) = :havingUsername");
+		verifyParameters(sql,"userId","username","password","age","sex","havingUsername");
+		verifyColumns(sql,"sum_age");
+	}
+	
 	public void test_select_willcard() throws SQLException, Exception {
 		Sql sql = parser.parseSql0("select * from user_info where user_id = ? and username = :username");
 		verifyParameters(sql,"userId","username");
@@ -87,6 +125,11 @@ public class SqlFactoryTest extends TestCase {
 	private void verifyNoParameters(Sql sql, String... expectedParameters) {
 		for(String param : expectedParameters) {
 			assertNull("not found param:"+param+" on sql:"+sql.getSourceSql(),sql.getParam(param));
+		}
+	}
+	private void verifyColumns(Sql sql, String... expectedColumns) {
+		for(String name : expectedColumns) {
+			assertNotNull("not found column:"+name+" on sql:"+sql.getSourceSql(),sql.getColumnByName(name));
 		}
 	}
 }
