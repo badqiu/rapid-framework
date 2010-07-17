@@ -45,9 +45,13 @@ public class JavaSourceParanamer implements Paranamer{
 	        
 	        InputStream javaSourceInputStream = classLoader.getResourceAsStream(javaSource);
 	        try {
-	        	return parser.parseJavaFileForParamNames(methodOrConstructor, IOHelper.toString(javaSourceInputStream));
+	        	if(javaSourceInputStream != null) {
+	        		return parser.parseJavaFileForParamNames(methodOrConstructor, IOHelper.toString(javaSourceInputStream));
+	        	}
+	        	return Paranamer.EMPTY_NAMES;
 	        }finally {
-	        	javaSourceInputStream.close();
+	        	if(javaSourceInputStream != null) 
+	        		javaSourceInputStream.close();
 	        }
         }catch(IOException e) {
         	if(throwExceptionIfMissing) {
