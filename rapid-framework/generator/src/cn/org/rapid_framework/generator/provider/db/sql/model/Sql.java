@@ -326,7 +326,8 @@ public class Sql {
         // TODO 未解决 a.*,b.*问题
 		StringBuffer sb = new StringBuffer();
 		for(Iterator<Column> it = columns.iterator();it.hasNext();) {
-			sb.append(it.next().getSqlName());
+			Column c = it.next();
+			sb.append(c.getSqlName());
 			if(it.hasNext()) sb.append(",");
 		}
 		return sb.toString();

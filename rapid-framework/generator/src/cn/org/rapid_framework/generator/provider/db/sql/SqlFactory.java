@@ -134,7 +134,10 @@ public class SqlFactory {
 			ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
 			if(StringHelper.isNotBlank(m.getTableName())) {
 				//FIXME 如果表有别名,将会找不到表,如 inner join user_info t1, tableName将为t1,应该转换为user_info
-				Table table = foundTableByTableNameOrTableAlias(sql, m);
+				Table table = foundTableByTableNameOrTableAlias(sql, m.getTableName());
+				if(table == null) {
+					return newColumn(m);
+				}
 			    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
 			    if(column == null) {
 			        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
@@ -147,24 +150,28 @@ public class SqlFactory {
 			    }
 			    return column;
 			}else {
-			    Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
-			    GLogger.trace("not found on table by table emtpty:"+BeanHelper.describe(column));
-			    return column;
+			    return newColumn(m);
 			}
 		}
 
-		private Table foundTableByTableNameOrTableAlias(Sql sql,ResultSetMetaDataHolder m) throws Exception {
+		private Column newColumn(ResultSetMetaDataHolder m) {
+			Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+			GLogger.trace("not found on table by table emtpty:"+BeanHelper.describe(column));
+			return column;
+		}
+
+		private Table foundTableByTableNameOrTableAlias(Sql sql,String tableNameId) throws Exception {
 			try {
-				return TableFactory.getInstance().getTable(m.getTableName());
+				return TableFactory.getInstance().getTable(tableNameId);
 			}catch(NotFoundTableException e) {
 				Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
 				for(NameWithAlias tableName : tableNames) {
-					if(tableName.getAlias().equalsIgnoreCase(m.getTableName())) {
+					if(tableName.getAlias().equalsIgnoreCase(tableNameId)) {
 						return TableFactory.getInstance().getTable(tableName.getName());
 					}
 				}
 			}
-			throw new IllegalStateException("没有找到表名");
+			return null;
 		}
     }
 
