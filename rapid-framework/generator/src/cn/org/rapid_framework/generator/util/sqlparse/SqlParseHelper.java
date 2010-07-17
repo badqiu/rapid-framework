@@ -124,6 +124,13 @@ public class SqlParseHelper {
         }
 
         private String replaceInsertSql2NamedParameters(String sql) {
+        	if(sql.matches("(?is)\\s*insert\\s+into\\s+\\w+\\s+values\\s*\\(.*\\).*")) {
+        		if(sql.indexOf("?") >= 0) {
+        			throw new IllegalArgumentException("无法解析的insert sql:"+sql+",values()段不能包含疑问号?");
+        		} else {
+        			return sql;
+        		}
+        	}
             Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(sql);
             if(m.find()) {
