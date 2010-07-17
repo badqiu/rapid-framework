@@ -6,12 +6,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
 import org.xml.sax.InputSource;
 
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -233,6 +243,27 @@ public class GeneratorControl {
 			GeneratorProperties.setProperty(key, v);
 		}
 		return v;
+	}
+	
+	public List<Map> executeSql(String sql,int limit) throws SQLException {
+		Connection conn = TableFactory.getInstance().getConnection();
+		PreparedStatement ps = conn.prepareStatement(sql.trim());
+		ResultSet rs = ps.executeQuery();
+		ResultSetMetaData rsmd = rs.getMetaData();
+		int count = 0;
+		List<Map> list = new ArrayList<Map>();
+		while(rs.next()) {
+			Map row = new HashMap();
+			for(int i = 1; i <= rsmd.getColumnCount(); i++) {
+				row.put(rsmd.getColumnName(i), rs.getObject(i));
+			}
+			list.add(row);
+			count ++;
+			if(count >= limit) {
+				break;
+			}
+		}
+		return list;
 	}
 	
 	boolean deleteGeneratedFile = false;
