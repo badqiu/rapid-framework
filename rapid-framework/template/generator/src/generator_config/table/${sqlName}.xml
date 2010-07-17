@@ -10,8 +10,7 @@
  
 <!-- 
 <数据库表名 className="类名称" tableAlias="表的别名">
-	<数据库列名 columnAlias="列的别名" 
-	javaType="自定义javaType"
+	<数据库列名 columnAlias="列的别名" javaType="自定义javaType"
 	unique="是否唯一性约束" nullable="是否可以为空" pk="是否主键,在表没有主键的情况下,可以指定一个代理主键" 
 	updatable="是否可以更新" insertable="是否插入"	
 	enumString="枚举值,以分号分隔,示例值:M(1,男);F(0,女) 或者是:M(男);F(女)" 
@@ -22,12 +21,14 @@
  -->
 <${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
 <#list table.columns as c>
-	<${c.sqlName} columnAlias="${c.columnAlias}"
-		javaType="${c.simpleJavaType}" 
+
+	<${c.sqlName} columnAlias="${c.columnAlias}" javaType="${c.simpleJavaType}" 
 		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
 		updatable="${c.updatable?string}" insertable="${c.insertable?string}"
 		enumString="${c.enumString}" enumClassName="${c.enumClassName}"
 		hibernateValidatorExprssion="${c.hibernateValidatorExprssion}"
+		hasOne="${c.hasOne!?string}" hasMany="${c.hasMany!?string}"
 	/>
 </#list>
+
 </${table.sqlName}>
