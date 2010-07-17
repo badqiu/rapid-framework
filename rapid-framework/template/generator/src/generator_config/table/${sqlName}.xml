@@ -21,7 +21,7 @@
 </数据库表名>
  -->
 <${table.sqlName} className="${className}" tableAlias="${table.tableAlias}" >
-<#list table.notPkColumns as c>
+<#list table.columns as c>
 	<${c.sqlName} columnAlias="${c.columnAlias}"
 		javaType="${c.simpleJavaType}" 
 		unique="${c.unique?string}" nullable="${c.nullable?string}" pk="${c.pk?string}"
