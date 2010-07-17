@@ -76,6 +76,13 @@ public class ColumnTest  extends TestCase{
 		assertNull(ReferenceKey.fromString("   "));
 		assertNull(ReferenceKey.fromString(null));
 		assertNull(ReferenceKey.fromString(""));
+		
+		try {
+		assertNull(ReferenceKey.fromString("role"));
+		fail();
+		}catch(IllegalArgumentException e){
+			
+		}
 	}
 	
 	public void test_getJSR303Validation() {
