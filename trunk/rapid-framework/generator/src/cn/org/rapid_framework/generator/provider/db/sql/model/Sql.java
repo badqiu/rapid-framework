@@ -212,6 +212,14 @@ public class Sql {
 	public void setParams(LinkedHashSet<SqlParameter> params) {
 		this.params = params;
 	}
+	public SqlParameter getParam(String paramName) {
+		for(SqlParameter p : getParams()) {
+			if(p.getParamName().equals(paramName)) {
+				return p;
+			}
+		}
+		return null;
+	}
 	/**
 	 * 得到SQL原始语句
 	 * @return
@@ -253,18 +261,6 @@ public class Sql {
 		this.executeSql = executeSql;
 	}
 	
-	public String getSql() {
-		return replaceWildcardWithColumnsSqlName(sourceSql);
-	}
-	
-	public String getJdbcSql() {
-		return getSql();
-	}
-	
-	public String getHql() {
-		return getSql();
-	}
-
     public String getCountHql() {
         if(isSelectSql()) {
             return countQueryPrefix + SqlParseHelper.removeSelect(getHql());
@@ -297,13 +293,25 @@ public class Sql {
             return getIbatis3Sql();
         }
     }
-    
+
+	public String getSql() {
+		return replaceWildcardWithColumnsSqlName(sourceSql);
+	}
+	
+	public String getSpringJdbcSql() {
+		return SqlParseHelper.convert2NamedParametersSql(getSql(),":","");
+	}
+	
+	public String getHql() {
+		return SqlParseHelper.convert2NamedParametersSql(getSql(),":","");
+	}
+	
 	public String getIbatisSql() {
-	    return StringHelper.isBlank(ibatisSql) ? getSql() : ibatisSql;
+	    return StringHelper.isBlank(ibatisSql) ? SqlParseHelper.convert2NamedParametersSql(getSql(),"#","#") : ibatisSql;
 	}
 	
 	public String getIbatis3Sql() {
-	    return StringHelper.isBlank(ibatis3Sql) ? getSql() : ibatis3Sql;
+	    return StringHelper.isBlank(ibatis3Sql) ? SqlParseHelper.convert2NamedParametersSql(getSql(),"#{","}") : ibatis3Sql;
 	}
 
 	public void setIbatisSql(String ibatisSql) {
