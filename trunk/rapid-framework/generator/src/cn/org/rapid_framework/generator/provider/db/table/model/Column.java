@@ -572,7 +572,7 @@ public class Column {
 	public void setHasOne(String foreignKey) {
 		hasOne = ReferenceKey.fromString(foreignKey);
 		if(hasOne != null && _table != null) {
-			_table.getImportedKeys().addForeignKey(_table.getSqlName(),getSqlName(), hasOne.columnSqlName, hasOne.columnSqlName.hashCode());
+			_table.getImportedKeys().addForeignKey(hasOne.tableName, hasOne.columnSqlName, getSqlName(), hasOne.columnSqlName.hashCode());
 		}
 	}
 	
