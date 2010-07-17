@@ -69,6 +69,27 @@ public class SqlParseHelperTest extends TestCase{
 		}
 	}
 	
+	public void test_from_closes() {
+		assertEquals(" user",SqlParseHelper.getFromClauses("select * from user"));
+		assertEquals(" user t inner join info b",SqlParseHelper.getFromClauses("select * from user t inner join info b"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b where a=1"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b group by username"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b group by username having username > 100"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b order by username"));
+		
+		assertEquals(" user t inner join info b   ",SqlParseHelper.getFromClauses("select * from user t inner join info b   order    by   username"));
+		assertEquals(" user t inner join info b   order username",SqlParseHelper.getFromClauses("select * from user t inner join info b   order username"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b group     by username"));
+		assertEquals(" user t inner join info b group  username",SqlParseHelper.getFromClauses("select * from user t inner join info b group  username"));
+	}
+
+	public void test_from_closes_union() {
+		//UNION INTERSECT MINUS sqlserver:EXCEPT
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b union select * from user"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b INTERSECT select * from user"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b MINUS select * from user"));
+		assertEquals(" user t inner join info b ",SqlParseHelper.getFromClauses("select * from user t inner join info b EXCEPT select * from user"));
+	}
 	
 	public void test_getColumnNameByRightCondition() {
 		String sql = "delete from user_Info where " +

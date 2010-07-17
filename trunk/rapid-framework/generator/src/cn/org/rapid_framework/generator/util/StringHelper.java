@@ -138,6 +138,15 @@ public class StringHelper {
 		return result;
 	}
 	
+	public static int indexOfByRegex(String input,String regex) {
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(input);
+		if(m.find()) {
+			return m.start();
+		}
+		return -1;
+	}
+	
 	public static String toJavaVariableName(String str) {
 		return uncapitalize(toJavaClassName(str));
 	}

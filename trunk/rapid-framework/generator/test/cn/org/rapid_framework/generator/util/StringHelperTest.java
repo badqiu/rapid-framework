@@ -47,6 +47,17 @@ public class StringHelperTest extends TestCase {
 		assertEquals("'",StringHelper.unescapeXml("&apos;"));
 		assertEquals("123< 456 < &",StringHelper.unescapeXml("123&lt; 456 &lt; &amp;"));
 	}
+	
+	public void test_indexOfRegex() {
+		String str = "select * from order \n by blog";
+		int i = StringHelper.indexOfByRegex(str, "order\\s+by");
+		assertEquals("select * from ",str.substring(0,i));
+		
+		str = "select * from order \n blog";
+		i = StringHelper.indexOfByRegex(str, "order\\s+by");
+		assertEquals(-1,i);
+	}
+	
 	public void testContains() {
 		assertTrue(StringHelper.contains("badqiu", "adq"));
 		assertTrue(StringHelper.contains("badqiu", "ADQ"));
