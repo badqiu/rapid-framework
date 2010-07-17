@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
+import cn.org.rapid_framework.generator.provider.db.table.model.ForeignKey.ReferenceKey;
 
 
 
@@ -59,6 +60,22 @@ public class ColumnTest  extends TestCase{
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "java.math.BigDecimal");
 		assertEquals("java.math.BigDecimal",newBigDecimal().getSimpleJavaType());
+	}
+	
+	public void test_setForeignKey() {
+		ReferenceKey ref = ReferenceKey.fromString("role(role_id)");
+		assertEquals(ref.columnSqlName,"role_id");
+		assertEquals(ref.tableName,"role");
+		assertEquals(ref.schemaName,null);
+		
+		ref = ReferenceKey.fromString("security.role(role_id)");
+		assertEquals(ref.columnSqlName,"role_id");
+		assertEquals(ref.tableName,"role");
+		assertEquals(ref.schemaName,"security");
+		
+		assertNull(ReferenceKey.fromString("   "));
+		assertNull(ReferenceKey.fromString(null));
+		assertNull(ReferenceKey.fromString(""));
 	}
 	
 	public void test_getJSR303Validation() {
