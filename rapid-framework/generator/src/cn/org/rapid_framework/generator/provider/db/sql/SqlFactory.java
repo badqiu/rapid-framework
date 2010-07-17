@@ -54,14 +54,10 @@ public class SqlFactory {
     }
 
     public static Sql parseSql(String sourceSql) {
-		try {
-			return new SqlFactory().parseSql0(sourceSql);
-		}catch(Exception e) {
-			throw new RuntimeException("parse sql error:"+sourceSql,e);
-		}
+		return new SqlFactory().parseSql0(sourceSql);
 	}
 	
-    public Sql parseSql0(String sourceSql) throws SQLException,Exception{
+    public Sql parseSql0(String sourceSql) {
     	String beforeProcessedSql = beforeParseSql(sourceSql);
     	
 //    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
@@ -79,9 +75,9 @@ public class SqlFactory {
         GLogger.debug("*********************************");
         
         Connection conn = TableFactory.getInstance().getConnection();
-        conn.setAutoCommit(false);
-        conn.setReadOnly(true);
         try {
+        	conn.setReadOnly(true);
+        	conn.setAutoCommit(false);
 	        PreparedStatement ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
             sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
@@ -91,8 +87,12 @@ public class SqlFactory {
         }catch(Exception e) {
         	throw new RuntimeException("sql parse error,\nsourceSql:"+sourceSql+"\nnamedSql:"+namedSql+"\nexecutedSql:"+executeSql,e);
         }finally {
-        	conn.rollback();
-        	conn.close();
+        	try {
+	        	conn.rollback();
+	        	conn.close();
+        	}catch(Exception e) {
+        		throw new RuntimeException(e);
+        	}
         }
     }
 
