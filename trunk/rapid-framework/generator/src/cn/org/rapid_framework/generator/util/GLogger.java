@@ -53,7 +53,9 @@ public class GLogger {
 	}
 	
 	public static void println(String s) {
-	    out.println(s);
+		if (logLevel <= INFO) {
+			out.println(s);
+		}
 	}
 	
 }
