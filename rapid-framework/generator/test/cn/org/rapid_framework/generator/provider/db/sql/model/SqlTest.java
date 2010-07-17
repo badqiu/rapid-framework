@@ -29,16 +29,16 @@ public class SqlTest extends GeneratorTestCase {
 	}
 	
 	public void test_getOperationResultClass() {
-		Sql sql = SqlFactory.parseSql("select username from user_info");
+		Sql sql = new SqlFactory().parseSql("select username from user_info");
 		assertEquals("String",sql.getResultClass());
 		
-		sql = SqlFactory.parseSql("select username,password from user_info");
+		sql = new SqlFactory().parseSql("select username,password from user_info");
 		assertEquals("UserInfo",sql.getResultClass());
 		
-		sql = SqlFactory.parseSql("select username as user,password as pwd from user_info");
+		sql = new SqlFactory().parseSql("select username as user,password as pwd from user_info");
 		assertEquals("UserInfo",sql.getResultClass());
 		
-		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		sql.setOperation("op1");
 		assertEquals("Op1Result",sql.getResultClass());
 		
@@ -47,11 +47,11 @@ public class SqlTest extends GeneratorTestCase {
 	}
 	
 	public void test_getOperationParameterClass() {
-		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		sql.setOperation("findPage");
 		assertEquals("FindPageQuery",sql.getParameterClass());
 		
-		sql = SqlFactory.parseSql("insert into user_info(username) values (:username)");
+		sql = new SqlFactory().parseSql("insert into user_info(username) values (:username)");
 		sql.setOperation("insertUsername");
 		assertEquals("InsertUsernameParameter",sql.getParameterClass());
 		
@@ -64,7 +64,7 @@ public class SqlTest extends GeneratorTestCase {
 	}
 	
 	public void test_getTableName() {
-		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		assertNull(sql.getTableSqlName());
 		
 		sql.setTableSqlName("t1_abc_blog_123");
@@ -74,19 +74,19 @@ public class SqlTest extends GeneratorTestCase {
 	}
 	
 	public void test_isColumnsInSameTable() {
-		sql = SqlFactory.parseSql("select username from user_info");
+		sql = new SqlFactory().parseSql("select username from user_info");
 		assertTrue(sql.isColumnsInSameTable());
 		
-		sql = SqlFactory.parseSql("select username,password from user_info");
+		sql = new SqlFactory().parseSql("select username,password from user_info");
 		assertTrue(sql.isColumnsInSameTable());
 		
-		sql = SqlFactory.parseSql("select username user,password pwd from user_info");
+		sql = new SqlFactory().parseSql("select username user,password pwd from user_info");
 		assertTrue(sql.isColumnsInSameTable());
 		
-		sql = SqlFactory.parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		assertFalse(sql.isColumnsInSameTable());
 		
-		sql = SqlFactory.parseSql("insert into user_info(username) values (:username)");
+		sql = new SqlFactory().parseSql("insert into user_info(username) values (:username)");
 		assertFalse(sql.isColumnsInSameTable());
 	}
 }

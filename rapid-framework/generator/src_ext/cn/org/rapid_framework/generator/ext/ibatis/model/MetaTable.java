@@ -134,7 +134,7 @@ public class MetaTable {
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
-                Sql sql = sqlFactory.parseSql0(namedSql);
+                Sql sql = sqlFactory.parseSql(namedSql);
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
                     sql.setIbatis3Sql(op.getSqlmap());
