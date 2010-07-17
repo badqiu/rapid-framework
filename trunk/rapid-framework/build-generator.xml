@@ -87,6 +87,7 @@
 		
 		<copy todir="${dir.dist.test}">
 			<fileset dir="generator/test" excludes="**/*.java"/>
+			<fileset dir="generator/src" excludes="**/*.java"/>
 		</copy>
 	</target>
 	
