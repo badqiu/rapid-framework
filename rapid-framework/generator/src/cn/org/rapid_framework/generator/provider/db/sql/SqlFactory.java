@@ -85,6 +85,8 @@ public class SqlFactory {
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        
 	        return afterProcessedSql(sql);
+        }catch(Exception e) {
+        	throw new RuntimeException("sql parse error,\nsourceSql:"+sourceSql+"\nnamedSql:"+namedSql+"\nexecutedSql:"+executeSql,e);
         }finally {
         	conn.rollback();
         	conn.close();
