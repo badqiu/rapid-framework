@@ -245,6 +245,9 @@ public class ForeignKey {
 			if(StringHelper.isBlank(foreignKey)) {
 				return null;
 			}
+			if(!foreignKey.trim().matches(".*\\w+\\(.*\\)")) {
+				throw new IllegalArgumentException("Illegal foreignKey:["+foreignKey+"] ,example value: fk_table_name(fk_column) ");
+			}
 			String schemaName = foreignKey.substring(0,Math.max(foreignKey.lastIndexOf("."),0));
 			String tableSqlName = foreignKey.substring(Math.max(foreignKey.lastIndexOf(".")+1,0),foreignKey.indexOf("("));
 			String columnSqlName = foreignKey.substring(foreignKey.indexOf("(")+1,foreignKey.indexOf(")"));

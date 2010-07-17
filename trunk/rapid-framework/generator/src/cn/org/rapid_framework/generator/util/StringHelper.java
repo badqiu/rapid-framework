@@ -356,9 +356,10 @@ public class StringHelper {
 		//enumAlias(enumKey,enumDesc),enumAlias(enumDesc)
 		
 		List<EnumMetaDada> list = new ArrayList();
-		String[] data_arr = data.split(";");
-		for (int i = 0; i < data_arr.length; i++) {
-			String str = data_arr[i];
+		Pattern p = Pattern.compile("\\w+\\(.*?\\)");
+		Matcher m = p.matcher(data);
+		while (m.find()) {
+			String str = m.group();
             Matcher three_m = three.matcher(str);
 			if(three_m.find()) {
 				list.add(new EnumMetaDada(three_m.group(1),three_m.group(2),three_m.group(3)));
