@@ -61,8 +61,9 @@ public class SqlFactory {
     public Sql parseSql0(String sourceSql) throws SQLException,Exception{
     	String beforeProcessedSql = beforeParseSql(sourceSql);
     	
-    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
-        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(unscapedSourceSql);
+//    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
+    	String namedSql = SqlParseHelper.convert2NamedParametersSql(beforeProcessedSql,":","");
+        ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(namedSql);
         String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
         
         Sql sql = new Sql();
@@ -70,6 +71,7 @@ public class SqlFactory {
         sql.setExecuteSql(executeSql);
         GLogger.debug("\n*******************************");
         GLogger.debug("sourceSql  :"+sql.getSourceSql());
+        GLogger.debug("namedSql  :"+namedSql);
         GLogger.debug("executeSql :"+sql.getExecuteSql());
         GLogger.debug("*********************************");
         
