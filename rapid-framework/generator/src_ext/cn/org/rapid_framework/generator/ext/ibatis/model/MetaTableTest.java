@@ -24,7 +24,7 @@ public class MetaTableTest extends GeneratorTestCase {
     public void test_genereate_by_sql_config() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
-        MetaTable t = MetaTable.parseFromXML(new FileInputStream(file));
+        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         GeneratorModel gm = newFromTable(t);
         g.generateBy(gm.templateModel, gm.filePathModel);
         
@@ -33,7 +33,7 @@ public class MetaTableTest extends GeneratorTestCase {
     public void test_generate_by_sql() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
-        MetaTable t = MetaTable.parseFromXML(new FileInputStream(file));
+        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
             g.generateBy(gm.templateModel, gm.filePathModel);
@@ -42,7 +42,7 @@ public class MetaTableTest extends GeneratorTestCase {
     
 	public void test_remove_table_prefix() {
 		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
-		MetaTable sql = new MetaTable();
+		TableConfig sql = new TableConfig();
 		sql.setSqlname("t_user_info");
 		assertEquals("UserInfo",sql.getTableClassName());
 		sql.setSqlname("v_user");
@@ -53,7 +53,7 @@ public class MetaTableTest extends GeneratorTestCase {
 	}
 	
     
-    private GeneratorModel newFromSql(Sql sql, MetaTable t) {
+    private GeneratorModel newFromSql(Sql sql, TableConfig t) {
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
         templateModel.put("sql", sql);
@@ -69,7 +69,7 @@ public class MetaTableTest extends GeneratorTestCase {
         return gm;
     }
 
-    private GeneratorModel newFromTable(MetaTable t) {
+    private GeneratorModel newFromTable(TableConfig t) {
         
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
