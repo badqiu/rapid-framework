@@ -14,7 +14,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	}
 	
 	public void test_generate_by_sql() throws Exception {
-		Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
+		Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");
 		sql.setTableSqlName("user_info");
 		sql.setMultiplicity("many");  //many or one
 		sql.setOperation("findByUsernameAndPassword");
