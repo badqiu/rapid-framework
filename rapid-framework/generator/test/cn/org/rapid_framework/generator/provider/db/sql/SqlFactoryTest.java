@@ -79,6 +79,13 @@ public class SqlFactoryTest extends TestCase {
 		String expected = "select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE from user_info where user_id = #userId# and username = :username";
 		assertStringEquals(expected,sql.getIbatisSql());
 	}
+
+	public void test_select_willcard_multi_table() throws SQLException, Exception {
+		Sql sql = parser.parseSql0("select t1.*,t2.* from user_info t1 inner join role t2 on t1.username=t2.role_name where t1.user_id = ? and t2.role_name = :role_name");
+		verifyParameters(sql,"userId","role_name");
+		String expected = "select t1.USER_ID,t1.USERNAME,t1.PASSWORD,t1.BIRTH_DATE,t1.SEX,t1.AGE,t2.USER_ID,t2.USERNAME,t2.PASSWORD,t2.BIRTH_DATE,t2.SEX,t2.AGE from user_info where user_id = #userId# and username = :username";
+		assertStringEquals(expected,sql.getIbatisSql());
+	}
 	
 	public void test_escaped() throws SQLException, Exception {
 		Sql sql = parser.parseSql0("select * from user_info where user_id > ? and username < :username");
@@ -115,7 +122,10 @@ public class SqlFactoryTest extends TestCase {
 	}
 	
 	private void assertStringEquals(String expected, String str) {
-		assertEquals(expected.toLowerCase().replaceAll("\\s", ""),str.toLowerCase().replaceAll("\\s", ""));
+		if(expected.toLowerCase().replaceAll("\\s", "").equals(str.toLowerCase().replaceAll("\\s", ""))) {
+		}else {
+			assertEquals(expected,str);
+		}
 	}
 	private void verifyParameters(Sql sql, String... expectedParameters) {
 		for(String param : expectedParameters) {
