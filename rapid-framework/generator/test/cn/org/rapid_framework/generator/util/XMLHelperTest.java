@@ -54,15 +54,15 @@ public class XMLHelperTest extends TestCase {
         assertEquals(expected,column.toString());
     }
     
-    public void test_parse_SqlConfig() throws Exception {
-    	File file = FileHelper.getFileByClassLoader("generator_config/sql/USER_INFO.xml");
-        NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
-        System.out.println("sql config:\n"+nd);
-    }
-    
-    public void test()  throws Exception{
-    	File file = FileHelper.getFileByClassLoader("fortest_gen_by_sqlmap/UserInfoSqlMap.xml");
-    	NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
-        System.out.println("sql config:\n"+nd);
-    }
+//    public void test_parse_SqlConfig() throws Exception {
+//    	File file = FileHelper.getFileByClassLoader("generator_config/sql/USER_INFO.xml");
+//        NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
+//        System.out.println("sql config:\n"+nd);
+//    }
+//    
+//    public void test()  throws Exception{
+//    	File file = FileHelper.getFileByClassLoader("fortest_gen_by_sqlmap/UserInfoSqlMap.xml");
+//    	NodeData nd = new XMLHelper().parseXML(new FileInputStream(file));
+//        System.out.println("sql config:\n"+nd);
+//    }
 }
