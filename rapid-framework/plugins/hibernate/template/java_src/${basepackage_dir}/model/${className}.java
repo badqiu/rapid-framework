@@ -200,9 +200,11 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	}
 	
 	@ManyToOne(cascade = {}, fetch = FetchType.LAZY)
+	@JoinColumns({
 	<#list foreignKey.parentColumns?values as fkColumn>
-	@JoinColumn(name = "${fkColumn}",nullable = false, insertable = false, updatable = false)
+		@JoinColumn(name = "${fkColumn}",nullable = false, insertable = false, updatable = false) <#if fkColumn_has_next>,</#if>
     </#list>
+	})
 	public ${fkPojoClass} get${fkPojoClass}() {
 		return ${fkPojoClassVar};
 	}
