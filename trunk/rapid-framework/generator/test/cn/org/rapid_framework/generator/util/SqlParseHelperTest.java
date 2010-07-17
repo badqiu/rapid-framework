@@ -80,6 +80,11 @@ public class SqlParseHelperTest extends TestCase{
     	verifyTableNames(tableNames,"user_info");
     }
     
+	public void test() {
+		Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery("select t1.*,t2.* from user_info t1 inner join user_info t2 on t1.username=t2.username where t1.user_id = ? and t2.username = ?");
+		verifyTableNames(tableNames,"user_info t1","user_info t2");
+	}
+	
 	private void verifyTableNames(Set<NameWithAlias> tableNames,String... expectedTableNames) {
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			String expectedTableName = expectedTableNames[i];
@@ -138,6 +143,8 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("username_param",SqlParseHelper.getColumnNameByRightCondition(sql, "username"));
 		assertEquals("password_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
 	}
+	
+
 	
     public void test_convert2ParametersString() {
         String sql = " delete from user_Info where \n " +
