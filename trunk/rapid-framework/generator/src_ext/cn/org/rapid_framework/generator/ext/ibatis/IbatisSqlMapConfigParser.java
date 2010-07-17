@@ -7,17 +7,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 /**
  * 解析sql map文件，生成Sql对象
  */
 public class IbatisSqlMapConfigParser extends SqlFactory {
-	
 	protected String beforeParseSql(String sourceSql) {
-		return parse(sourceSql);
+		String parsedSql = parse(sourceSql);
+		String namedSql = SqlParseHelper.convert2NamedParametersSql(parsedSql,"#","#");
+		return namedSql;
+	}
+	
+	@Override
+	protected Sql afterProcessedSql(Sql sql) {
+		return super.afterProcessedSql(sql);
 	}
 	
     //1. 处理  query not allowed
