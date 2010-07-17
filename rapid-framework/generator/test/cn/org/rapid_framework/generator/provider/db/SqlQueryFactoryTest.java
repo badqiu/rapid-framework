@@ -71,14 +71,14 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	
 	public void test_select_count_and_multi_policy_one() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select count(username) cnt from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
-		selectSql.setMultiplicity(Sql.MULTI_POLICY_ONE);
+		selectSql.setMultiplicity(Sql.MULTIPLICITY_ONE);
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
 	public void test_select_string_and_multi_policy_one() throws Exception {
 		Sql selectSql  = new SqlFactory().parseSql("select username from user_info where username = :username and password =:password and age = :age and sex = :sex and birth_date > :birth_date and birth_date < :birth_date2");
-		selectSql.setMultiplicity(Sql.MULTI_POLICY_ONE);
+		selectSql.setMultiplicity(Sql.MULTIPLICITY_ONE);
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
@@ -109,9 +109,20 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
 	
+	public void test_insert_into() {
+		Sql selectSql  = new SqlFactory().parseSql("insert into user_info (username,password,age) values(?,?,?)");
+	}
+	
 	public void test_sql_error() throws Exception {
 		try {
 			Sql selectSql  = new SqlFactory().parseSql("update user_info1 set username = :username where password = :password and age=:age and sex=:sex");
+			fail();
+		}catch(Exception e){
+			assertTrue(true);
+		}
+		
+		try {
+			Sql selectSql  = new SqlFactory().parseSql("insert into user_info (username,password) values(?,?,?)");
 			fail();
 		}catch(Exception e){
 			assertTrue(true);
