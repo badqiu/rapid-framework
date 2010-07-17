@@ -56,6 +56,12 @@ public class StringConvertHelperTest extends  TestCase{
 	    verifyMetadata(list.get(0), "F", "女", "F");
 	    verifyMetadata(list.get(1), "M", "男", "M");
 	    verifyMetadata(list.get(2), "G", "未知", "G");
+	    
+	    list= StringHelper.string2EnumMetaData("中国人民争行: F(女),M(男);G(未知)");
+	    assertEquals(3,list.size());
+	    verifyMetadata(list.get(0), "F", "女", "F");
+	    verifyMetadata(list.get(1), "M", "男", "M");
+	    verifyMetadata(list.get(2), "G", "未知", "G");
 	}
 
 	public void testEmptyString() {
@@ -82,7 +88,8 @@ public class StringConvertHelperTest extends  TestCase{
 	public void test_string2ColumnEnumList_with_exception() {
 		try {
 		List<EnumMetaDada> list= StringHelper.string2EnumMetaData(",,");
-		fail();
+		assertTrue(list.isEmpty());
+//		fail();
 		}catch(Exception e) {
 			System.out.println(e);
 		}
