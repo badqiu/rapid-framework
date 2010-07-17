@@ -15,24 +15,26 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class SqlParseHelper {
 
-	public static class SqlAlias {
-		private String tableName;
-		private String tableAlias;
-		public SqlAlias(String tableName, String tableAlias) {
-			this.tableName = tableName.trim();
-			this.tableAlias = tableAlias == null ? null : tableAlias.trim();
+	public static class NameWithAlias {
+		private String name;
+		private String alias;
+		public NameWithAlias(String tableName, String tableAlias) {
+			if(tableName.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error name:"+tableName);
+			if(tableAlias != null && tableAlias.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error alias:"+tableAlias);
+			this.name = tableName.trim();
+			this.alias = tableAlias == null ? null : tableAlias.trim();
+		} 
+		public String getName() {
+			return name;
 		}
-		public String getTableName() {
-			return tableName;
-		}
-		public String getTableAlias() {
-			return StringHelper.isBlank(tableAlias) ? getTableName() : tableAlias;
+		public String getAlias() {
+			return StringHelper.isBlank(alias) ? getName() : alias;
 		}
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result
-					+ ((tableName == null) ? 0 : tableName.hashCode());
+					+ ((name == null) ? 0 : name.hashCode());
 			return result;
 		}
 		public boolean equals(Object obj) {
@@ -42,16 +44,16 @@ public class SqlParseHelper {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			SqlAlias other = (SqlAlias) obj;
-			if (tableName == null) {
-				if (other.tableName != null)
+			NameWithAlias other = (NameWithAlias) obj;
+			if (name == null) {
+				if (other.name != null)
 					return false;
-			} else if (!tableName.equals(other.tableName))
+			} else if (!name.equals(other.name))
 				return false;
 			return true;
 		}
 		public String toString() {
-			return StringHelper.isBlank(tableAlias) ? tableName  : tableName +" as " + tableAlias;
+			return StringHelper.isBlank(alias) ? name  : name +" as " + alias;
 		}
 	}
 	
@@ -64,9 +66,9 @@ public class SqlParseHelper {
 	static Pattern insert = Pattern.compile("(\\s*insert\\s+into\\s+)(\\w+)",
 			Pattern.CASE_INSENSITIVE);
 		
-	public static Set<SqlAlias> getTableNamesByQuery(String sql) {
+	public static Set<NameWithAlias> getTableNamesByQuery(String sql) {
 		sql = sql.trim();
-		Set<SqlAlias> result = new LinkedHashSet();
+		Set<NameWithAlias> result = new LinkedHashSet();
 		Matcher m = from.matcher(sql);
 		if (m.find()) {
 			String from = getFromClauses(sql);
@@ -91,27 +93,27 @@ public class SqlParseHelper {
 
 		m = update.matcher(sql);
 		if (m.find()) {
-			result.add(new SqlAlias(m.group(2),null));
+			result.add(new NameWithAlias(m.group(2),null));
 		}
 
 		m = insert.matcher(sql);
 		if (m.find()) {
-			result.add(new SqlAlias(m.group(2),null));
+			result.add(new NameWithAlias(m.group(2),null));
 		}
 		return result;
 	}
 		
 	/** 解析sql的别名,如 user as u,将返回 user及u */
-	public static SqlAlias parseSqlAlias(String str) {
+	public static NameWithAlias parseSqlAlias(String str) {
 		String[] array = str.split("\\sas\\s");
 		if(array.length >= 2) {
-			return new SqlAlias(array[0], array[1]);
+			return new NameWithAlias(array[0],StringHelper.tokenizeToStringArray(array[1], " \n\t")[0]);
 		}
 		array = StringHelper.tokenizeToStringArray(str, " \n\t");
 		if(array.length >= 2) {
-			return new SqlAlias(array[0], array[1]);
+			return new NameWithAlias(array[0], array[1]);
 		}
-		return new SqlAlias(str.trim(),null);
+		return new NameWithAlias(str.trim(),null);
 	}
 
 

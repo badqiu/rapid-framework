@@ -26,7 +26,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
-import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.SqlAlias;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
  * 
@@ -157,10 +157,10 @@ public class SqlFactory {
 			try {
 				return TableFactory.getInstance().getTable(m.getTableName());
 			}catch(NotFoundTableException e) {
-				Set<SqlAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
-				for(SqlAlias tableName : tableNames) {
-					if(tableName.getTableAlias().equalsIgnoreCase(m.getTableName())) {
-						return TableFactory.getInstance().getTable(tableName.getTableName());
+				Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
+				for(NameWithAlias tableName : tableNames) {
+					if(tableName.getAlias().equalsIgnoreCase(m.getTableName())) {
+						return TableFactory.getInstance().getTable(tableName.getName());
 					}
 				}
 			}
@@ -234,9 +234,9 @@ public class SqlFactory {
 		}
 	
 		private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
-			Collection<SqlAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
-			for(SqlAlias tableName : tableNames) {
-				Table t = TableFactory.getInstance().getTable(tableName.getTableName());
+			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+			for(NameWithAlias tableName : tableNames) {
+				Table t = TableFactory.getInstance().getTable(tableName.getName());
 				if(t != null) {
 					Column column = t.getColumnByName(paramName);
 					if(column != null) {
