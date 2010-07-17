@@ -67,12 +67,16 @@ public class TableFactory {
 		return GeneratorProperties.getNullIfBlank("jdbc.schema");
 	}
 
-	public Connection getConnection() throws SQLException {
-		if(connection == null || connection.isClosed()) {
-			loadJdbcDriver();
-			connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
+	public Connection getConnection() {
+		try {
+			if(connection == null || connection.isClosed()) {
+				loadJdbcDriver();
+				connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
+			}
+			return connection;
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
 		}
-		return connection;
 	}
 
 	public List getAllTables() {
