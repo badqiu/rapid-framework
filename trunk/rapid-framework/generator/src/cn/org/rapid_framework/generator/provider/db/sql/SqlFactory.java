@@ -53,11 +53,7 @@ public class SqlFactory {
         this.customColumns = customColumns;
     }
 
-    public static Sql parseSql(String sourceSql) {
-		return new SqlFactory().parseSql0(sourceSql);
-	}
-	
-    public Sql parseSql0(String sourceSql) {
+    public Sql parseSql(String sourceSql) {
     	String beforeProcessedSql = beforeParseSql(sourceSql);
     	
 //    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);

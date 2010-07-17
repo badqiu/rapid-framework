@@ -24,7 +24,7 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-public class MetaTable {
+public class TableConfig {
     public String sqlname;
     public String sequence;
     public String dummypk;
@@ -32,19 +32,19 @@ public class MetaTable {
     public List<MetaColumn> column = new ArrayList();
     public List<MetaOperation> operation = new ArrayList<MetaOperation>();
 
-    public static MetaTable parseFromXML(InputStream reader) {
+    public static TableConfig parseFromXML(InputStream reader) {
         XStream x = newXStream();
-        return (MetaTable)x.fromXML(reader);
+        return (TableConfig)x.fromXML(reader);
     }
 
     private static XStream newXStream() {
         XStream x = new XStream(new DomDriver());
-        x.alias("table", MetaTable.class);
+        x.alias("table", TableConfig.class);
         x.alias("column", MetaColumn.class);
         x.alias("param", MetaParam.class);
         x.alias("operation", MetaOperation.class);
-        x.addImplicitCollection(MetaTable.class,"column",MetaColumn.class);
-        x.addImplicitCollection(MetaTable.class,"operation",MetaOperation.class);
+        x.addImplicitCollection(TableConfig.class,"column",MetaColumn.class);
+        x.addImplicitCollection(TableConfig.class,"operation",MetaOperation.class);
         x.useAttributeFor(int.class);
         x.useAttributeFor(long.class);
         x.useAttributeFor(boolean.class);
@@ -121,13 +121,13 @@ public class MetaTable {
         return sqls;
     }
     
-    public static List<Sql> toSqls(MetaTable table) throws SQLException, Exception {
+    public static List<Sql> toSqls(TableConfig table) throws SQLException, Exception {
         return Convert2SqlsProecssor.toSqls(table);
     }
     
     private static class Convert2SqlsProecssor {
         
-        public static List<Sql> toSqls(MetaTable table) throws SQLException, Exception {
+        public static List<Sql> toSqls(TableConfig table) throws SQLException, Exception {
             List<Sql> sqls = new ArrayList<Sql>();
             for(MetaOperation op :table.getOperation()) {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
@@ -154,7 +154,7 @@ public class MetaTable {
             return sqls;
         }        
         
-        private static List<Column> getCustomColumns(MetaTable table) throws Exception {
+        private static List<Column> getCustomColumns(TableConfig table) throws Exception {
             List<Column> result = new ArrayList<Column>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
             for(MetaColumn mc : table.getColumn()) {
@@ -171,7 +171,7 @@ public class MetaTable {
             return result;
         }
     
-        private static List<SqlParameter> getCustomSqlParameters(MetaTable table) throws Exception {
+        private static List<SqlParameter> getCustomSqlParameters(TableConfig table) throws Exception {
             List<SqlParameter> result = new ArrayList<SqlParameter>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
             for(MetaOperation op : table.getOperation()) {
@@ -196,12 +196,12 @@ public class MetaTable {
 
     public static void main(String[] args) throws IOException {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
-        MetaTable metaTable = new MetaTable();
+        TableConfig metaTable = new TableConfig();
         metaTable.column.add(new MetaColumn());
         metaTable.column.add(new MetaColumn());
         metaTable.column.add(new MetaColumn());
-        newXStream().toXML(MetaTable.parseFromXML(new FileInputStream(file)), System.out);
-        System.out.println("\n"+MetaTable.parseFromXML(new FileInputStream(file)));
+        newXStream().toXML(TableConfig.parseFromXML(new FileInputStream(file)), System.out);
+        System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
     }
     
     public static class MetaColumn {
