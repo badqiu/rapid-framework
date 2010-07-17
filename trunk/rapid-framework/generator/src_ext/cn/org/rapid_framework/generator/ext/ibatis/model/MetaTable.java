@@ -70,7 +70,12 @@ public class MetaTable {
         return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
     }
     public Table getTable() throws Exception {
-        return TableFactory.getInstance().getTable(getSqlname());
+        Table t = TableFactory.getInstance().getTable(getSqlname());
+        for(MetaColumn c : column) {
+        	Column tableColumn = t.getColumnByName(c.getName());
+        	tableColumn.setJavaType(c.getJavatype());
+        }
+        return t;
     }
     public String getSqlname() {
         return sqlname;
