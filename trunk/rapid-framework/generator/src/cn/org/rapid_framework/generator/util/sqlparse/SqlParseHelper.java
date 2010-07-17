@@ -204,6 +204,38 @@ public class SqlParseHelper {
 		return sql.substring(0,beginPos);
 	}
 	
+	public static String getFromClauses(String sql) {
+		String lowerSql = sql.toLowerCase();
+		int fromBegin = lowerSql.indexOf("from");
+		int fromEnd = lowerSql.indexOf("where");
+		if(fromEnd == -1) {
+			fromEnd = StringHelper.indexOfByRegex(lowerSql,"group\\s+by");
+		}
+		if(fromEnd == -1) {
+			fromEnd = lowerSql.indexOf("having");
+		}
+		if(fromEnd == -1) {
+			fromEnd = StringHelper.indexOfByRegex(lowerSql,"order\\s+by");
+		}
+		if(fromEnd == -1) {
+			fromEnd = lowerSql.indexOf("union");
+		}
+		if(fromEnd == -1) {
+			fromEnd = lowerSql.indexOf("intersect");
+		}
+		if(fromEnd == -1) {
+			fromEnd = lowerSql.indexOf("minus");
+		}
+		if(fromEnd == -1) {
+			fromEnd = lowerSql.indexOf("except");
+		}
+		if(fromEnd == -1) {
+			fromEnd = sql.length();
+		}
+		return sql.substring(fromBegin+"from".length(),fromEnd);
+	}
+
+	
     /**
      * 去除orderby 子句
      * @param sql
