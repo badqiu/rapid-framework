@@ -1,7 +1,8 @@
 --------------------------------------------------------
 rapid-framework v3.9.1
-增加 gg.executeSql("select * from user",limit) 方法
+增加 gg.queryForList("select * from user",limit) 方法
 表名移除前缀: tableRemovePrefixes
+为表配置文件增加 hasOne="ref_table(ref_key)" hasMany="ref_table(ref_key)"用于生成one-to-many及many-to-one
 
 --------------------------------------------------------
 rapid-framework v3.9.0
