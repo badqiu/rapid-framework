@@ -40,6 +40,7 @@ public class Sql {
 	
 	String multiplicity = "many"; // many or one or paging
 	boolean paging = false; // 是否分页查询
+	String sqlmap; //for ibatis and ibatis3
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
@@ -231,7 +232,15 @@ public class Sql {
 		this.sourceSql = sourceSql;
 	}
 	
-//	public String replaceParamsWith(String prefix,String suffix) {
+	public String getSqlmap() {
+		return sqlmap;
+	}
+
+	public void setSqlmap(String sqlmap) {
+		this.sqlmap = sqlmap;
+	}
+
+	//	public String replaceParamsWith(String prefix,String suffix) {
 //		String sql = sourceSql;
 //		List<SqlParameter> sortedParams = new ArrayList(params);
 //		Collections.sort(sortedParams,new Comparator<SqlParameter>() {
