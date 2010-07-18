@@ -23,6 +23,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 /**
@@ -89,14 +90,22 @@ public class TableFactory {
 	}
 	
 	public Table getTable(String tableName) {
+		return getTable(getSchema(),tableName);
+	}
+
+	private Table getTable(String schema,String tableName) {
+		return getTable(getCatalog(),schema,tableName);
+	}
+	
+	private Table getTable(String catalog,String schema,String tableName) {
 		Table t = null;
 		try {
-			t = _getTable(tableName);
+			t = _getTable(catalog,schema,tableName);
 			if(t == null && !tableName.equals(tableName.toUpperCase())) {
-				t = _getTable(tableName.toUpperCase());
+				t = _getTable(catalog,schema,tableName.toUpperCase());
 			}
 			if(t == null && !tableName.equals(tableName.toLowerCase())) {
-				t = _getTable(tableName.toLowerCase());
+				t = _getTable(catalog,schema,tableName.toLowerCase());
 			}
 		}catch(Exception e) {
 			throw new RuntimeException(e);
@@ -108,18 +117,21 @@ public class TableFactory {
 	}
 	
 	public static class NotFoundTableException extends RuntimeException {
+		private static final long serialVersionUID = 5976869128012158628L;
 		public NotFoundTableException(String message) {
 			super(message);
 		}
 	}
 
-	private Table _getTable(String tableName) throws SQLException {
+	private Table _getTable(String catalog,String schema,String tableName) throws SQLException {
 	    if(tableName== null || tableName.trim().length() == 0) 
 	         throw new IllegalArgumentException("tableName must be not empty");
-	       
+	    catalog = StringHelper.defaultIfEmpty(catalog, null);
+	    schema = StringHelper.defaultIfEmpty(schema, null);
+	    
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
-		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), tableName, null);
+		ResultSet rs = dbMetaData.getTables(catalog, schema, tableName, null);
 		while(rs.next()) {
 			Table table = createTable(conn, rs);
 			return table;
