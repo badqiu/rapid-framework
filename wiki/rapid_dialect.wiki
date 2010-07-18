@@ -1,6 +1,6 @@
 <wiki:toc max_depth="2" />
 =介绍=
-rapid中的dialect主要目的是用于分页，代码完全抄录自hiberante,但只精简出分页部分
+rapid中的dialect主要目的是用于分页，代码参考自hiberante,但只精简出分页部分.
 适用于jdbc或是iBatis.
 
 == 分页Dialect接口==
@@ -46,6 +46,7 @@ public class MySQLDialect extends Dialect{
 
 ==Jdbc的分页实现==
 {{{
+// spring jdbc现在的实现是使用占位符的方式
 static final String LIMIT_PLACEHOLDER = ":__limit";
 static final String OFFSET_PLACEHOLDER = ":__offset";
 public List pageQuery(String sql, final Map paramMap, int startRow,int pageSize, final RowMapper rowMapper) {
