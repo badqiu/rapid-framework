@@ -14,6 +14,8 @@ add groupId=basepackage:com.company.project=com-company-project
 	Define value for version:  1.0-SNAPSHOT: : 1.0
 	Define value for package:  com.badqiu.sfmvc: : com.badqiu.sfmvc
 
+add Table.operations properties for ibatis and ibatis3
+
 SecurityManagerHolder.checkPermission()
 ConfigHolder
 MailerHolder
