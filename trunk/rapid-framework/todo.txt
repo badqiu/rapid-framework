@@ -23,7 +23,7 @@ MessageSourceHolder
 MessagePublisherHodler
 
 增加支持多开发环境: prod,dev,test,perf. 程序员的一定是开发环境，其它环境用于覆盖本地环境
-
+将所有的 className相关的属性整合在一个类中,如 constansName
 增加spring/resource/dev,spring/resource/prod,spring/resource/test目录以区分不同的开发环境
 
 新增时增加 save,save and continue edit,save and continue new
