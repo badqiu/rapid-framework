@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.*;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 <#include "/java_imports.include">
 
@@ -42,17 +43,21 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 <@generateJavaManyToOne/>
 
 	public String toString() {
-		return new ToStringBuilder(this)
+		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
 		<#list table.columns as column>
+			<#if !table.compositeId>
 			.append("${column.columnName}",get${column.columnName}())
+			</#if>
 		</#list>
 			.toString();
 	}
 	
 	public int hashCode() {
 		return new HashCodeBuilder()
-		<#list table.columns as column>
+		<#list table.pkColumns as column>
+			<#if !table.compositeId>
 			.append(get${column.columnName}())
+			</#if>
 		</#list>
 			.toHashCode();
 	}
@@ -62,8 +67,10 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 		if(this == obj) return true;
 		${className} other = (${className})obj;
 		return new EqualsBuilder()
-			<#list table.columns as column>
+			<#list table.pkColumns as column>
+				<#if !table.compositeId>
 			.append(get${column.columnName}(),other.get${column.columnName}())
+				</#if>
 			</#list>
 			.isEquals();
 	}
