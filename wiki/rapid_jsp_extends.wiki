@@ -92,3 +92,8 @@
 <jsp:include page="${someIncludePage}"/>
 }}}
 这样就可动态的继承某页面,改变布局
+
+=六.源代码=
+只用两个主要的类即实现的整个功能.
+
+[http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/web/tags/]
