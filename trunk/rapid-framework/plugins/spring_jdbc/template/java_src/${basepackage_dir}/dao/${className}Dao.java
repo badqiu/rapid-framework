@@ -6,6 +6,7 @@ package ${basepackage}.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
@@ -77,7 +78,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
 		String sql = "select " + getSqlGenerator().getColumnsSql() + " from ${table.sqlName} where ${column.columnNameLower}=?";
-		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v);
+		return (${className})DataAccessUtils.singleResult(getSimpleJdbcTemplate().queryForList(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v));
 	}	
 	
 	</#if>
