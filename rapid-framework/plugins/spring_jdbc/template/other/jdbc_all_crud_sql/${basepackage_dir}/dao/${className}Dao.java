@@ -33,7 +33,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 				<#list table.columns as column>
 				+" ${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>"
 				</#list>
-				+" from ${table.sqlName} ";
+				;
 	}
 	
 	/**
@@ -47,7 +47,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	 * return sql for getById();
 	 */
 	public String getFindByIdSql() {
-		return "select " + getColumns() + " where ${table.idColumn.sqlName}=? ";
+		return "select " + getColumns() + " from ${table.sqlName} where ${table.idColumn.sqlName}=? ";
 	}
 	
 	public void save(${className} entity) {
@@ -72,7 +72,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	}
 	
 	public List findAll() {
-		String sql = "select " + getColumns() ;
+		String sql = "select " + getColumns() + " from ${table.sqlName}" ;
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
 	}
 
@@ -80,7 +80,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
 		// [column]为字符串拼接, {column}为使用占位符. 如username='[username]',偷懒时可以使用字符串拼接 
 		// [column] 为PageRequest的属性
-		String sql = "select " + getColumns() + " t where 1=1 "
+		String sql = "select " + getColumns() + " from ${table.sqlName} t where 1=1 "
 			<#list table.columns as column>
 		  		<#if column.isNotIdOrVersionField>
 		  		<#if column.isDateTimeColumn>
@@ -94,7 +94,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 			+ "/~ order by [sortColumns] ~/";
 
 		//生成sql2的原因是为了不喜欢使用xsqlbuilder的同学，请修改生成器模板，删除本段的生成
-		StringBuilder sql2 = new StringBuilder("select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 ");
+		StringBuilder sql2 = new StringBuilder("select "+ getColumns() + " from ${table.sqlName} t where 1=1 ");
 		<#list table.columns as column>
 		<#if column.isDateTimeColumn>
 		if(isNotEmpty(query.get${column.columnName}Begin())) {
@@ -119,7 +119,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		String sql =  "select " + getColumns() + " where ${column.columnNameLower}=?";
+		String sql =  "select " + getColumns() + " from ${table.sqlName} where ${column.columnNameLower}=?";
 		return (${className})DataAccessUtils.singleResult(getSimpleJdbcTemplate().queryForList(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v));
 	}	
 	</#if>
