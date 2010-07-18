@@ -239,14 +239,12 @@ public class GeneratorFacade {
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
-			templateModel.put("database_type", getDatabaseType("database_type"));
+			templateModel.put("databaseType", getDatabaseType("databaseType"));
 			templateModel.putAll(GeneratorContext.getContext());
 		}
 
 		private static String getDatabaseType(String key) {
-			String value = GeneratorProperties.getProperty(key);
-			if(value != null) return value;
-			return DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(GeneratorProperties.getProperty("jdbc.driver"));
+			return GeneratorProperties.getProperty(key,DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(GeneratorProperties.getProperty("jdbc.driver")));
 		}
 
 	}
