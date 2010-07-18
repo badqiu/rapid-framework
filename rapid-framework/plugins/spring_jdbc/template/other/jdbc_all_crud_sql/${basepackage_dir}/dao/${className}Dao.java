@@ -6,9 +6,11 @@ package ${basepackage}.dao;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.ParameterizedBeanPropertyRowMapper;
 import org.springframework.stereotype.Component;
+import static cn.org.rapid_framework.util.ObjectUtils.*;
 
 <#include "/java_imports.include">
 @Component
@@ -26,8 +28,8 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 		</#if>
 	}
 	
-	public String getSelectPrefix() {
-		return "select  "
+	public String getColumns() {
+		return ""
 				<#list table.columns as column>
 				+" ${column.sqlName} as ${column.columnNameFirstLower}<#if column_has_next>,</#if>"
 				</#list>
@@ -45,7 +47,7 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	 * return sql for getById();
 	 */
 	public String getFindByIdSql() {
-		return getSelectPrefix() + " where ${table.idColumn.sqlName}=? ";
+		return "select " + getColumns() + " where ${table.idColumn.sqlName}=? ";
 	}
 	
 	public void save(${className} entity) {
@@ -70,29 +72,55 @@ public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idCo
 	}
 	
 	public List findAll() {
-		String sql = getSelectPrefix() ;
+		String sql = "select " + getColumns() ;
 		return getSimpleJdbcTemplate().query(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()));
 	}
 
-	public Page findByPageRequest(PageRequest<Map> pageRequest) {
+	public Page findPage(${className}Query query) {
 		//XsqlBuilder syntax,please see http://code.google.com/p/rapid-xsqlbuilder
-		// [column]为字符串拼接, {column}为使用占位符. 以下为图方便采用sql拼接,适用性能要求不高的应用,使用占位符方式可以优化性能. 
-		// [column] 为PageRequest.getFilters()中的key
-		String sql = getSelectPrefix() + " t where 1=1 "
+		// [column]为字符串拼接, {column}为使用占位符. 如username='[username]',偷懒时可以使用字符串拼接 
+		// [column] 为PageRequest的属性
+		String sql = "select " + getColumns() + " t where 1=1 "
 			<#list table.columns as column>
-			  	<#if column.isNotIdOrVersionField>
-				+ "/~ and t.${column.sqlName} = '[${column.columnNameLower}]' ~/"
-				</#if>
+		  		<#if column.isNotIdOrVersionField>
+		  		<#if column.isDateTimeColumn>
+			+ "/~ and t.${column.sqlName} >= {${column.columnNameLower}Begin} ~/"
+			+ "/~ and t.${column.sqlName} <= {${column.columnNameLower}End} ~/"
+				<#else>
+		  	+ "/~ and t.${column.sqlName} = {${column.columnNameLower}} ~/"
+		  		</#if>
+		  		</#if>
 			</#list>
-				+ "/~ order by [sortColumns] ~/";
-		return pageQuery(sql,pageRequest);
+			+ "/~ order by [sortColumns] ~/";
+
+		//生成sql2的原因是为了不喜欢使用xsqlbuilder的同学，请修改生成器模板，删除本段的生成
+		StringBuilder sql2 = new StringBuilder("select "+ getSqlGenerator().getColumnsSql("t") + " from ${table.sqlName} t where 1=1 ");
+		<#list table.columns as column>
+		<#if column.isDateTimeColumn>
+		if(isNotEmpty(query.get${column.columnName}Begin())) {
+		    sql2.append(" and t.${column.sqlName} >= :${column.columnNameLower}Begin ");
+		}
+		if(isNotEmpty(query.get${column.columnName}End())) {
+		    sql2.append(" and t.${column.sqlName} <= :${column.columnNameLower}End ");
+		}
+		<#else>
+		if(isNotEmpty(query.get${column.columnName}())) {
+		    sql2.append(" and t.${column.sqlName} = :${column.columnNameLower} ");
+		}
+		</#if>
+		</#list>
+		if(isNotEmpty(query.getSortColumns())) {
+		    sql2.append(" order by :sortColumns ");
+		}
+		
+		return pageQuery(sql,query);
 	}
 	
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		String sql =  getSelectPrefix() + " where ${column.columnNameLower}=?";
-		return (${className})getSimpleJdbcTemplate().queryForObject(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v);
+		String sql =  "select " + getColumns() + " where ${column.columnNameLower}=?";
+		return (${className})DataAccessUtils.singleResult(getSimpleJdbcTemplate().queryForList(sql, ParameterizedBeanPropertyRowMapper.newInstance(getEntityClass()), v));
 	}	
 	</#if>
 	</#list>
