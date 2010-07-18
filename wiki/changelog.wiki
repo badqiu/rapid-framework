@@ -16,6 +16,7 @@
   * Generator包提供jar包,不直接在项目中使用源代码,以便提供一个统一的生成器引擎,大家编写的模板都可以在生成器上面运行.
   * table变量现在可以通过配置文件自定义配置,具体请查看[http://code.google.com/p/rapid-framework/wiki/rapid_generator rapid_generator]
   * 增加table变量枚举的生成
+  * log4j配置文件优化及使用Log4j MDC
   * 生成器配置文件 generator.properties 改名为 generator.xml
   * 生成的代码优化
 
