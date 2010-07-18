@@ -246,7 +246,7 @@ public class GeneratorControl {
 		return v;
 	}
 	
-	public List<Map> executeSql(String sql,int limit) throws SQLException {
+	public List<Map> queryForList(String sql,int limit) throws SQLException {
 		Connection conn = TableFactory.getInstance().getConnection();
 		return SqlExecutorHelper.queryForList(conn, sql, limit);
 	}
