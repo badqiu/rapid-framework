@@ -5,6 +5,7 @@ package cn.org.rapid_framework.generator.provider.db.table.model;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.ForeignKey.ReferenceKey;
 import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -572,7 +573,9 @@ public class Column {
 	public void setHasOne(String foreignKey) {
 		hasOne = ReferenceKey.fromString(foreignKey);
 		if(hasOne != null && _table != null) {
-			_table.getImportedKeys().addForeignKey(hasOne.tableName, hasOne.columnSqlName, getSqlName(), hasOne.columnSqlName.hashCode());
+//			Table refTable = TableFactory.getInstance().getTable(hasOne.tableName);
+//			_table.getImportedKeys().addForeignKey(refTable.getSqlName(), hasOne.columnSqlName, getSqlName(), hasOne.columnSqlName.toLowerCase().hashCode());
+			_table.getImportedKeys().addForeignKey(hasOne.tableName, hasOne.columnSqlName, getSqlName(), hasOne.columnSqlName.toLowerCase().hashCode());
 		}
 	}
 	
@@ -589,8 +592,9 @@ public class Column {
 	public void setHasMany(String foreignKey) {
 		hasMany = ReferenceKey.fromString(foreignKey);
 		if(hasMany != null && _table != null) {
-//			Table refTable = TableFactory.getInstance().getTable(ref.tableName);
-			_table.getExportedKeys().addForeignKey(hasMany.tableName, hasMany.columnSqlName, getSqlName(), hasMany.columnSqlName.hashCode());
+//			Table refTable = TableFactory.getInstance().getTable(hasMany.tableName);
+//			_table.getExportedKeys().addForeignKey(refTable.getSqlName(), hasMany.columnSqlName, getSqlName(), hasMany.columnSqlName.toLowerCase().hashCode());
+			_table.getExportedKeys().addForeignKey(hasMany.tableName, hasMany.columnSqlName, getSqlName(), hasMany.columnSqlName.toLowerCase().hashCode());
 		}
 	}
 

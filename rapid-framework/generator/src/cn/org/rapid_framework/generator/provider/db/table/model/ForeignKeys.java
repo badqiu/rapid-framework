@@ -14,8 +14,8 @@ import cn.org.rapid_framework.generator.util.ListHashtable;
  * 
  */
 public class ForeignKeys  {
-
-	protected Table parentTable;
+	
+	protected Table parentTable;  //宿主表
 	protected ListHashtable associatedTables;
 	/**
 	 * Constructor for Foreign Keys
