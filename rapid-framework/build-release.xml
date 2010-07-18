@@ -18,7 +18,7 @@
 	<!--版本控制信息-->
 
 	<target name="get-build-version">
-		<property name="version" value="3.9.0.${today}"/>
+		<property name="version" value="3.9.2.${today}"/>
 		<property name="version.message" value="version:${version} build:${cctimestamp}"/>
 		<property name="version.file" value="version.txt"></property>
 	</target>
