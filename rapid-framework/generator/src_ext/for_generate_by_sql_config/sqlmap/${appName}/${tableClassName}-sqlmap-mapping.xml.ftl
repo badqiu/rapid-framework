@@ -54,19 +54,19 @@
 
 <#macro genSelectKeyOfInsertSql sql>
 	<#if sql.operation == 'insert'>
-        <#if database_type == 'oracle'>
+        <#if databaseType == 'oracle'>
         	<#if tableConfig.sequence != null>
 		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
             SELECT  ${tableConfig.sequence}.nextval AS ID FROM DUAL
         </selectKey>
         	</#if>         
         </#if>
-        <#if database_type == 'mysql'>
+        <#if databaseType == 'mysql'>
 		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
             select last_insert_id()
         </selectKey>        
         </#if> 
-        <#if database_type == 'sqlserver'>
+        <#if databaseType == 'sqlserver'>
 		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
             SELECT  @@identity  AS  ID
         </selectKey>        
@@ -76,20 +76,20 @@
 
 <#macro genPageQueryStart sql>
 	<#if sql.paging>
-		<#if database_type == 'oracle'>
+		<#if databaseType == 'oracle'>
 		select * from ( select row_.*, rownum rownum_ from (
 		</#if>
 	</#if>
 </#macro>
 <#macro genPageQueryEnd sql>
 	<#if sql.paging>
-		<#if database_type == 'oracle'>
+		<#if databaseType == 'oracle'>
 		) row_ ) where rownum_ <= #endRow# and rownum_ > #startRow#
 		</#if>
-		<#if database_type == 'mysql'>
+		<#if databaseType == 'mysql'>
 		limit #offset#,#limit#
 		</#if>
-		<#if database_type == 'postgre_sql'>
+		<#if databaseType == 'postgre_sql'>
 		offset #offset# limit #limit#
 		</#if>		
 	</#if>
