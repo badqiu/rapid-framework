@@ -17,7 +17,7 @@ API使用:
 public void test_generate_by_sql() throws Exception {
 	Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");  //同时支持 #param# $param$ #{param} ${param} :param 几种占位符
 	sql.setTableSqlName("user_info");
-	sql.setMultiPolicy("many");  //many or one,用于控制查询结果是one,many
+	sql.setMultiplicity("many");  //many or one,用于控制查询结果是one,many
 	sql.setOperation("findByUsernameAndPassword"); 
 	sql.setRemarks("根据用户名及密码进行查询");
 	new GeneratorFacade().generateBySql(sql, "generator/test/for_test_select_sql");
@@ -71,7 +71,7 @@ public List<UserInfo> findByUsernameAndPassword(String username ,String password
 		param.put("${param.paramName}",${param.paramName});
 		</#list>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
+		<#if sql.multiplicity = 'one'>
 		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
 		<#else>
 		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);
@@ -91,7 +91,7 @@ public List<UserInfo> findByUsernameAndPassword(String username ,String password
 <#macro generateResultClassName>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.multiPolicy = 'one'>
+		<#if sql.multiplicity = 'one'>
 			${sql.resultClassName}
 		<#else>
 			List<${sql.resultClassName}>
