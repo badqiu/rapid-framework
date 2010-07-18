@@ -15,6 +15,7 @@ CREATE TABLE role (
 );
 CREATE TABLE blog (
   blog_id bigint PRIMARY KEY,
+  user_id bigint,
   username varchar(50) NOT NULL UNIQUE,
   created date DEFAULT NULL,
   modified date DEFAULT NULL,
@@ -22,4 +23,13 @@ CREATE TABLE blog (
   content varchar(56) default NULL,
   content_length int default NULL,
   status varchar(56) default NULL
+);
+CREATE TABLE topic (
+  topic_id bigint NOT NULL,
+  topic_type varchar(10) default 'UNKNOWN',
+  topic_name varchar(10),
+  topic_content varchar(10),
+  created date NOT NULL,
+  modified date NOT NULL,
+  PRIMARY KEY(topic_id,topic_type)
 );
