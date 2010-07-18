@@ -38,7 +38,7 @@ public class DatabaseTypeUtils {
 		if(driver.indexOf("h2") >= 0) {
 			return "h2";
 		}
-		return null;
+		return driver;
 	}
 	
 }
