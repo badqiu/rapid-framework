@@ -81,7 +81,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 	public static Page pageQuery(SqlMapClientTemplate sqlMapClientTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
 		
 		Number totalCount = (Number) sqlMapClientTemplate.queryForObject(countStatementName,pageRequest);
-		if(totalCount == null || totalCount.intValue() <= 0) {
+		if(totalCount == null || totalCount.longValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
 		
