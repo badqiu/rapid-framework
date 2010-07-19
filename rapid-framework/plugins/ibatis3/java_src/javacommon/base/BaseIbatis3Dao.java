@@ -44,22 +44,22 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     }
     
     public Object getById(PK primaryKey) {
-        Object object = getSqlSessionTemplate().selectOne(getFindByPrimaryKeyQuery(), primaryKey);
+        Object object = getSqlSessionTemplate().selectOne(getFindByPrimaryKeyStatement(), primaryKey);
         return object;
     }
     
 	public void deleteById(PK id) {
-		int affectCount = getSqlSessionTemplate().delete(getDeleteQuery(), id);
+		int affectCount = getSqlSessionTemplate().delete(getDeleteStatement(), id);
 	}
 	
     public void save(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		int affectCount = getSqlSessionTemplate().insert(getInsertQuery(), entity);    	
+		int affectCount = getSqlSessionTemplate().insert(getInsertStatement(), entity);    	
     }
     
 	public void update(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		int affectCount = getSqlSessionTemplate().update(getUpdateQuery(), entity);
+		int affectCount = getSqlSessionTemplate().update(getUpdateStatement(), entity);
 	}
 	
 	/**
@@ -73,28 +73,28 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
         throw new RuntimeException("not yet implement");
     }
     
-    public String getFindByPrimaryKeyQuery() {
+    public String getFindByPrimaryKeyStatement() {
         return getIbatisMapperNamesapce()+".getById";
     }
 
-    public String getInsertQuery() {
+    public String getInsertStatement() {
         return getIbatisMapperNamesapce()+".insert";
     }
 
-    public String getUpdateQuery() {
+    public String getUpdateStatement() {
     	return getIbatisMapperNamesapce()+".update";
     }
 
-    public String getDeleteQuery() {
+    public String getDeleteStatement() {
     	return getIbatisMapperNamesapce()+".delete";
     }
 
-    public String getCountQuery(String statementName) {
+    public String getCountStatement(String statementName) {
 		return statementName +".count";
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
-		return pageQuery(getSqlSessionTemplate(),statementName,getCountQuery(statementName),pageRequest);
+		return pageQuery(getSqlSessionTemplate(),statementName,getCountStatement(statementName),pageRequest);
 	}
 	
 	public static Page pageQuery(SqlSessionTemplate sqlSessionTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
