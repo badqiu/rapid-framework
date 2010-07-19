@@ -83,4 +83,5 @@ file.resource.loader.cache = true
 
 =五.源代码=
 只用主要的两个类即实现整个功能.
+
 [http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/velocity/directive/]
