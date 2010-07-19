@@ -10,6 +10,7 @@ import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
+import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
 
 /**
@@ -25,9 +26,15 @@ public class OverrideDirective implements TemplateDirectiveModel {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
 		String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
 		
-		if(env.getVariable(overrideVariableName) == null) {
-			env.setVariable(overrideVariableName, new TemplateDirectiveBodyModel(body));
+		if(isOverried(env, overrideVariableName)) {
+			return;
 		}
+		
+		env.setVariable(overrideVariableName, new TemplateDirectiveBodyModel(body));
+	}
+
+	private boolean isOverried(Environment env, String overrideVariableName) throws TemplateModelException {
+		return env.getVariable(overrideVariableName) != null;
 	}
 	
 	public static class TemplateDirectiveBodyModel implements TemplateModel{
