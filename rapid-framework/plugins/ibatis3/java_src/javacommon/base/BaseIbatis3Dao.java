@@ -100,7 +100,7 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 	public static Page pageQuery(SqlSessionTemplate sqlSessionTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
 		
 		Number totalCount = (Number) sqlSessionTemplate.selectOne(countStatementName,pageRequest);
-		if(totalCount == null || totalCount.intValue() <= 0) {
+		if(totalCount == null || totalCount.longValue() <= 0) {
 			return new Page(pageRequest,0);
 		}
 		
