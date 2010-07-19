@@ -23,22 +23,22 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     
     
     public Object getById(PK primaryKey) {
-        Object object = getSqlMapClientTemplate().queryForObject(getFindByPrimaryKeyQuery(), primaryKey);
+        Object object = getSqlMapClientTemplate().queryForObject(getFindByPrimaryKeyStatement(), primaryKey);
         return object;
     }
     
 	public void deleteById(PK id) {
-		int affectCount = getSqlMapClientTemplate().delete(getDeleteQuery(), id);
+		int affectCount = getSqlMapClientTemplate().delete(getDeleteStatement(), id);
 	}
 	
     public void save(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		getSqlMapClientTemplate().insert(getInsertQuery(), entity);    	
+		getSqlMapClientTemplate().insert(getInsertStatement(), entity);    	
     }
     
 	public void update(E entity) {
 		prepareObjectForSaveOrUpdate(entity);
-		int affectCount = getSqlMapClientTemplate().update(getUpdateQuery(), entity);
+		int affectCount = getSqlMapClientTemplate().update(getUpdateStatement(), entity);
 	}
 	
 	/**
@@ -48,23 +48,23 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     protected void prepareObjectForSaveOrUpdate(E o) {
     }
 
-    public String getFindByPrimaryKeyQuery() {
+    public String getFindByPrimaryKeyStatement() {
         return getIbatisSqlMapNamespace()+".getById";
     }
 
-    public String getInsertQuery() {
+    public String getInsertStatement() {
         return getIbatisSqlMapNamespace()+".insert";
     }
 
-    public String getUpdateQuery() {
+    public String getUpdateStatement() {
     	return getIbatisSqlMapNamespace()+".update";
     }
 
-    public String getDeleteQuery() {
+    public String getDeleteStatement() {
     	return getIbatisSqlMapNamespace()+".delete";
     }
 
-    public String getCountQuery(String statementName) {
+    public String getCountStatementForPaging(String statementName) {
 		return statementName+".count";
 	}
     
@@ -74,7 +74,7 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
     
     @SuppressWarnings("unchecked")
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
-		return pageQuery(getSqlMapClientTemplate(),statementName,getCountQuery(statementName),pageRequest);
+		return pageQuery(getSqlMapClientTemplate(),statementName,getCountStatementForPaging(statementName),pageRequest);
 	}
 	
 	@SuppressWarnings("unchecked")
