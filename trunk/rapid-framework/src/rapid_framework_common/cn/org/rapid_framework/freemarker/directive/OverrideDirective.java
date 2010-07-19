@@ -26,14 +26,14 @@ public class OverrideDirective implements TemplateDirectiveModel {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
 		String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
 		
-		if(isOverried(env, overrideVariableName)) {
+		if(isOverrieded(env, overrideVariableName)) {
 			return;
 		}
 		
 		env.setVariable(overrideVariableName, new TemplateDirectiveBodyModel(body));
 	}
 
-	private boolean isOverried(Environment env, String overrideVariableName) throws TemplateModelException {
+	private boolean isOverrieded(Environment env, String overrideVariableName) throws TemplateModelException {
 		return env.getVariable(overrideVariableName) != null;
 	}
 	
