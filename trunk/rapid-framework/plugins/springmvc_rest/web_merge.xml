@@ -1,9 +1,17 @@
 
 	<!-- 将静态资源映射至/static/目录，如原来访问 http://localhost/foo.css ,现在http://localhost/static/foo.css -->
+	<!-- 注意: default servlet由容器tomcat,jetty提供, 现发现resin相同功能的为: resin-file -->
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>/static/*</url-pattern>
 	</servlet-mapping>
+	
+	<!--  
+	<servlet-mapping>
+		<servlet-name>resin-file</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+	</servlet-mapping>
+	-->
 	
 	<filter>
 		<filter-name>RestUrlRewriteFilter</filter-name>
