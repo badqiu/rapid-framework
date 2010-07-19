@@ -40,7 +40,7 @@ public class BlockTag extends TagSupport{
 		try {
 			pageContext.getOut().write(overriedContent);
 		} catch (IOException e) {
-			throw new JspException("write overridedContent occer error,block name:"+name,e);
+			throw new JspException("write overridedContent occer IOException,block name:"+name,e);
 		}
 		return EVAL_PAGE;
 	}
