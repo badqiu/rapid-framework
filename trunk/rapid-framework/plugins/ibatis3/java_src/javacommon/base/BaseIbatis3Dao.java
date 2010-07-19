@@ -89,12 +89,12 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
     	return getIbatisMapperNamesapce()+".delete";
     }
 
-    public String getCountStatement(String statementName) {
+    public String getCountStatementForPaging(String statementName) {
 		return statementName +".count";
 	}
     
 	protected Page pageQuery(String statementName, PageRequest pageRequest) {
-		return pageQuery(getSqlSessionTemplate(),statementName,getCountStatement(statementName),pageRequest);
+		return pageQuery(getSqlSessionTemplate(),statementName,getCountStatementForPaging(statementName),pageRequest);
 	}
 	
 	public static Page pageQuery(SqlSessionTemplate sqlSessionTemplate,String statementName,String countStatementName, PageRequest pageRequest) {
