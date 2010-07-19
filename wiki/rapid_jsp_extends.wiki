@@ -36,7 +36,7 @@
 *子页面: child.jsp*
 {{{
 <%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
-<% //重定义父页面的内容为content的内容 %>  
+<% //重定义父页面name=content的内容 %>  
 <rapid:override name="content">  
      <div>
         <h2>Entry one</h2>
