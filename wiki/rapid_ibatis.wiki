@@ -1,3 +1,4 @@
+<wiki:toc max_depth="2" />
 = 介绍 =
 
 rapid扩展了iBatis使其也可以使用类似hiberante提供的[rapid_dialect jdbc分页方言].
@@ -70,3 +71,9 @@ public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlM
 {{{
 List list = getSqlMapClientTemplate().queryForList(statementName, parameterObject,offset,limit)
 }}}
+
+=存在的问题=
+现ibatis2.3,ibatis3的分页参数没有使用疑问号 *占位符"?"* ,所以在如oracle这种数据库,会影响性能.
+
+
+spring_jdbc现在的实现没有这个问题
