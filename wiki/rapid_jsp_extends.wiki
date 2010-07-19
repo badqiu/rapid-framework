@@ -75,14 +75,14 @@
     * 定义块，可以被子模板用override tag覆盖显示,没有被override则显示自身的内容
   * *`override tag:`*
     * 重定义block tag显示的内容
-  * *@include指令(<jsp:include>):*
-    * 通过该指令来实现继承(extends)的功能（只能使用这个技巧），*该指令必须放置在页面的最后面*
+  * *@include指令(或者是<jsp:include>):*
+    * 通过该指令来实现继承(extends)的功能（只能使用这个技巧），该指令必须放置在页面的*最后面*
 
 *rapid v3.5以后版本将支持<jsp:include/>*
 {{{
 <jsp:include page="base.jsp">
-   <jsp:param name=”fitstParamer” value=”firstValue”>
-   <jsp:param name=”secondParamer” value=”secondValue”>
+   <jsp:param name="fitstParamer" value="firstValue">
+   <jsp:param name="secondParamer" value="secondValue">
 </jsp:include>
 }}}
 
