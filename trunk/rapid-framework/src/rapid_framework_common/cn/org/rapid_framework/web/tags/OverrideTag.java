@@ -29,7 +29,6 @@ public class OverrideTag extends BodyTagSupport{
 //		System.out.println("Override.content:"+b.getString());
 		String varName = Utils.getOverrideVariableName(name);
 
-		//TODO 或者可以通过参数指定scope: 如page or request
 		pageContext.getRequest().setAttribute(varName, b.getString());
 		return EVAL_PAGE;
 	}
