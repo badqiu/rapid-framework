@@ -2,12 +2,12 @@
 #修改日志
 == rapid-framework v3.9.2 20100720 ==
 本版本主要是生成器改进
-	增加 gg.queryForList("select * from user",limit) 方法
-	表名移除前缀: tableRemovePrefixes
-	为表配置文件增加 hasOne="ref_table(ref_key)" hasMany="ref_table(ref_key)",用于在没有外键的情况手工指定,生成one-to-many及many-to-one
-	增加databaseType=mysql,sqlserver,oracle,db2属性用于dao层的生成
-	generatorBySql()sql解析能力加强
-	table自定义配置文件的格式修改
+  * 增加 `gg.queryForList("select * from user",limit)` 方法
+  * 	表名移除前缀: tableRemovePrefixes
+  * 	为表配置文件增加 hasOne="ref_table(ref_key)" hasMany="ref_table(ref_key)",用于没有外键的情况手工指定,生成one-to-many及many-to-one
+  * 	增加databaseType=mysql,sqlserver,oracle,db2属性用于dao层的生成
+  * 	generatorBySql()sql解析能力加强
+  * 	table自定义配置文件的格式修改
 
 ==rapid-framework v3.9.0==
 *脚手架相关修改*
