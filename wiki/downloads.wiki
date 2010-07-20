@@ -1,5 +1,6 @@
 == rapid-framework v3.9.2 发布 ==
-主要是生成器改进.
+  主要是生成器改进.
+
 [http://code.google.com/p/rapid-framework/downloads/list Download] | [changelog Changelog] | [menu Documentation] | [http://groups.google.hk/group/rapid-framework Forum]
 
 == rapid-framework v3.9.0 发布 ==
