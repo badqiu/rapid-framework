@@ -68,8 +68,6 @@ public class Table {
 	}
 	public void setSqlName(String sqlName) {
 		this.sqlName = sqlName;
-		String removedPrefixSqlName = removeTableSqlNamePrefix(sqlName);
-		className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
 	}
 
 	public static String removeTableSqlNamePrefix(String sqlName) {
@@ -102,6 +100,10 @@ public class Table {
 	 * @return
 	 */
 	public String getClassName() {
+	    if(StringHelper.isBlank(className)) {
+	        String removedPrefixSqlName = removeTableSqlNamePrefix(sqlName);
+	        className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
+	    }
 		return className;
 	}
 	/** 数据库中表的别名，等价于:  getRemarks().isEmpty() ? getClassName() : getRemarks() */

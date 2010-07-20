@@ -409,15 +409,20 @@ public class TableFactory {
 		
 		private static Map getTableOverrideValues(String tableSqlName){
 			NodeData nd = getTableConfigXmlNodeData(tableSqlName);
-			return nd == null ? new HashMap() : nd.getElementMap("sqlName");
+			if(nd == null) {
+			    return new HashMap();
+			}
+			return nd == null ? new HashMap() : nd.attributes;
 		}
 	
 		private static Map getColumnOverrideValues(Table table, Column column) {
 			NodeData root = getTableConfigXmlNodeData(table.getSqlName());
 			if(root != null){
 				 for(NodeData item : root.childs) {
-					 if(item.nodeName.equalsIgnoreCase(column.getSqlName())) {
-						 return item.getElementMap("sqlName");
+					 if(item.nodeName.equals("column")) {
+					     if(column.getSqlName().equalsIgnoreCase(item.attributes.get("sqlName"))) {
+					         return item.attributes;
+					     }
 					 }
 			     }
 			}
