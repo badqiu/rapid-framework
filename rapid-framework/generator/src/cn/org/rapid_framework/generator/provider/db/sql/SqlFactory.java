@@ -34,7 +34,7 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
  * 
  * 示例使用：
  * <pre>
- * Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
+ * Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");
  * </pre>
  * 
  * @author badqiu
