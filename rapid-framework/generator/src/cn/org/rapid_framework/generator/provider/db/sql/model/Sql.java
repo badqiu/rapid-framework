@@ -20,7 +20,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  * </pre>
  * SQL对象创建示例：
  * <pre>
- * Sql sql = SqlFactory.parseSql("select * from user_info where username=#username# and password=#password#");
+ * Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");
  * </pre>
  * 
  * @see SqlFactory
