@@ -11,6 +11,7 @@ var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,
 	this.pageSizeKey = pageSizeKey || 'pageSize';
 	this.sortColumnsKey = sortColumnsKey || 'sortColumns';
 	
+	//handle sort
 	_this = this;
 	$("#"+formId+" .gridBody th[sortColumn]").click(function() {
 		//handle click sort header
@@ -37,7 +38,7 @@ var SimpleTable = function(formId,pageNumber,pageSize,sortColumns,pageNumberKey,
 		$(selector).addClass("sort " + order.toLowerCase());
 	}
 	
-	//handle highlight
+	//handle highlight on mouseover
 	$("#"+formId+" .gridBody tbody tr").mouseover(function() {
 		$(this).toggleClass('highlight',true);
 	}).mouseout(function() {
