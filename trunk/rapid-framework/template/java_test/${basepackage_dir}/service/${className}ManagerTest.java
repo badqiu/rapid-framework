@@ -27,7 +27,6 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
                             "classpath:testdata/${className}_"+TestMethodContext.getMethodName()+".xml"};
     }
 
-	//最佳实践:测试方法要有可读性,如可以使用: test_find_page_with_error_parameter()
 	//数据库单元测试前会开始事务，结束时会回滚事务，所以测试方法可以不用关心测试数据的删除
 	@Test
 	public void crud() {
