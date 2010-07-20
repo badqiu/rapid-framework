@@ -9,7 +9,7 @@
 
 [http://code.google.com/p/rapid-framework/downloads/list Download] | [changelog Changelog] | [menu Documentation] | [http://groups.google.hk/group/rapid-framework Forum]
 
-== rapid-generator v3.9.2.20100719 独立版发布 ==
+== rapid-generator v3.9.2 独立版发布 ==
 
   本次版本与以往版本不同之处为现在提供一个命令行工具,可以独立运行. 
 
