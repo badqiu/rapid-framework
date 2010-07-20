@@ -59,25 +59,24 @@ public class XMLHelper {
     
     private NodeData treeWalk(Element elm) {
         NodeData nodeData = new NodeData();
-        Map map = attrbiuteToMap(elm.getAttributes());
-        List childs = new ArrayList();
-        nodeData.attributes = map;
+        nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
-        nodeData.childs = childs;
+        nodeData.childs = new ArrayList<NodeData>();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
+            nodeData.nodeValue = node.getNodeValue();
             if(node.getNodeType() == Node.ELEMENT_NODE) {
-                childs.add(treeWalk((Element)node));
-            }else { // do some thing
+                nodeData.childs.add(treeWalk((Element)node));
+            }else {
             }
         }
         return nodeData;
     }
     
-    private static Map attrbiuteToMap(NamedNodeMap attributes) {
-        if(attributes == null) return new LinkedHashMap();
-        Map result = new LinkedHashMap();
+    private static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
+        if(attributes == null) return new LinkedHashMap<String,String>();
+        Map<String,String> result = new LinkedHashMap<String,String>();
         for(int i = 0; i < attributes.getLength(); i++) {
             result.put(attributes.item(i).getNodeName(), attributes.item(i).getNodeValue());
         }
@@ -96,11 +95,12 @@ public class XMLHelper {
     
     public static class NodeData {
         public String nodeName;
-        public Map attributes = new HashMap();
-        public List<NodeData> childs = new ArrayList();
+        public String nodeValue;
+        public Map<String,String> attributes = new HashMap<String,String>();
+        public List<NodeData> childs = new ArrayList<NodeData>();
         
         public String toString() {
-            return "nodeName="+nodeName+",attributes="+attributes+" child:\n"+childs;
+            return "nodeName="+nodeName+",attributes="+attributes+" nodeValue="+nodeValue+" child:\n"+childs;
         }
         public Map getElementMap(String nodeNameKey) {
             Map map = new HashMap();
