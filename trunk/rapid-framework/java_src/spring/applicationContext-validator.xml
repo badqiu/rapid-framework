@@ -23,7 +23,7 @@
  		<property name="messageSource" ref="messageSource"/>		
  	</bean>
     
-    <!-- 用于持有Validator,可以将Validator当做静态方法调用方法,示例:SpringValidatorHolder.validate() -->
+    <!-- 用于持有Validator,可以将Validator当做静态方法调用方法,示例:SpringValidatorHolder.validate(blogBean) -->
     <!-- 
     <bean class="cn.org.rapid_framework.util.holder.SpringValidatorHolder">
     	<property name="validator" ref="validator"/>
