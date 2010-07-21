@@ -102,30 +102,30 @@ public class GeneratoMain {
 配置文件必须存放在classpath: generator_config/table/table_name.xml (该文件生成器可以生成，自己再自定义修改)
 {{{
 	<!--
-	<数据库表名 className="类名称" tableAlias="表的别名">
-		<数据库列名 columnAlias="列的别名"
+	<table sqlName="数据库表名" className="类名称" tableAlias="表的别名">
+		<column sqlName="数据库列名" columnAlias="列的别名"
 		javaType="自定义javaType"
 		unique="是否唯一性约束" nullable="是否可以为空" pk="是否主键,在表没有主键的情况下,可以指定一个代理主键"
 		updatable="是否可以更新" insertable="是否插入"	
 		enumString="枚举值,以分号分隔,示例值:M(1,男);F(0,女) 或者是:M(男);F(女)"
 		enumClassName="如果枚举有值,生成的类名称将是这个,没有枚举值，该配置无用.示例值:Sex"
 		/>
-	</数据库表名>
+	</table>
 	 -->
-	<user_info className="UserInfo" tableAlias="UserInfo" >
-		<username columnAlias="用户名"
+	<table sqlName="user_info" className="UserInfo" tableAlias="UserInfo" >
+		<column sqlName="username" columnAlias="用户名"
 			javaType="String"
 			unique="false" nullable="true" pk="false"
 			updatable="true" insertable="true"
 			enumString="F(1,Female);M(0,Male)" enumClassName="用户枚举"
 		/>
-		<password columnAlias="password"
+		<column sqlName="password" columnAlias="password"
 			javaType="String"
 			unique="false" nullable="true" pk="false"
 			updatable="true" insertable="true"
 			enumString="" enumClassName="PasswordEnum"
 		/>
-	</user_info>
+	</table>
 }}}
 
 ==生成的代码插入文档的某个部位==
