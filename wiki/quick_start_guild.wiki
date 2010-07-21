@@ -66,8 +66,8 @@ CREATE TABLE user_info (
 
 == 8.修改生成器配置文件{{{generator.xml}}}的jdbc数据库连接信息 其它属性暂不修改 ==
 {{{
-<entry key="jdbc.schema"></entry>
-<entry key="jdbc.catalog"></entry>
+<entry key="jdbc.username">root</entry>
+<entry key="jdbc.password">123456</entry>
 <entry key="jdbc.url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 <entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>	
 }}}
