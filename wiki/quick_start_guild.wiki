@@ -64,7 +64,7 @@ CREATE TABLE user_info (
 
 注：需要自行将数据库中插入相应的数据。
 
-== 8.修改生成器配置文件{{{generator.properties}}}的jdbc数据库连接信息 其它属性暂不修改 ==
+== 8.修改生成器配置文件{{{generator.xml}}}的jdbc数据库连接信息 其它属性暂不修改 ==
 {{{
 jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8
 jdbc.driver=com.mysql.jdbc.Driver
