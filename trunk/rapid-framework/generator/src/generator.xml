@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="GBK"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<comment>
-		´úÂëÉú³ÉÆ÷ÅäÖÃÎÄ¼ş: 
-		1.»áÎªËùÓĞµÄpropertyÉú³Éproperty_dirÊôĞÔ,Èçpkg=com.company => pkg_dir=com/company
-		2.¿ÉÒÔÒıÓÃ»·¾³±äÁ¿: ${env.JAVA_HOME} or System.properties: ${user.home},propertyÖ®¼äÒ²¿ÉÒÔÏà»¥ÒıÓÃ
+		ä»£ç ç”Ÿæˆå™¨é…ç½®æ–‡ä»¶: 
+		1.ä¼šä¸ºæ‰€æœ‰çš„propertyç”Ÿæˆproperty_dirå±æ€§,å¦‚pkg=com.company => pkg_dir=com/company
+		2.å¯ä»¥å¼•ç”¨ç¯å¢ƒå˜é‡: ${env.JAVA_HOME} or System.properties: ${user.home},propertyä¹‹é—´ä¹Ÿå¯ä»¥ç›¸äº’å¼•ç”¨
 	</comment>
 	
 	<entry key="basepackage">com.company.project</entry>
@@ -14,17 +14,17 @@
 
 	<entry key="outRoot">d:\generator-output</entry>
 	
-	<!-- ĞèÒªÒÆ³ıµÄ±íÃûÇ°×º,Ê¹ÓÃ¶ººÅ½øĞĞ·Ö¸ô¶à¸öÇ°×º,Ê¾ÀıÖµ: t_,v_ -->
+	<!-- éœ€è¦ç§»é™¤çš„è¡¨åå‰ç¼€,ä½¿ç”¨é€—å·è¿›è¡Œåˆ†éš”å¤šä¸ªå‰ç¼€,ç¤ºä¾‹å€¼: t_,v_ -->
 	<entry key="tableRemovePrefixes"></entry>
 	
 	<entry key="jdbc.username">root</entry>
 	<entry key="jdbc.password">123456</entry>
 		
-	<!-- oracleĞèÒªÖ¸¶¨jdbc.schema,²¢ÇÒ¿ÉÄÜÒª´óĞ´£¬ÆäËüÊı¾İ¿âºöÂÔ´ËÏîÅäÖÃ  -->
+	<!-- oracleéœ€è¦æŒ‡å®šjdbc.schema,å¹¶ä¸”å¯èƒ½è¦å¤§å†™ï¼Œå…¶å®ƒæ•°æ®åº“å¿½ç•¥æ­¤é¡¹é…ç½®  -->
 	<entry key="jdbc.schema"></entry>
 	<entry key="jdbc.catalog"></entry>
 	
-	<!-- Êı¾İ¿âÀàĞÍÖÁjavaÀàĞÍÓ³Éä  -->
+	<!-- æ•°æ®åº“ç±»å‹è‡³javaç±»å‹æ˜ å°„  -->
 	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
 	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
