@@ -84,3 +84,6 @@ configuration.setSharedVariable("extends", new ExtendsDirective());
 =五.源代码=
 
 [http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/freemarker/directive/]
+
+=六.性能测试=
+由SeanHe提供的sitemesh,rapid性能测试比较 [http://www.javaeye.com/topic/715100]
