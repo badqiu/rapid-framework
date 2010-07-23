@@ -7,6 +7,10 @@ import java.util.Map;
 
 public class ArrayUtils {
 	
+	private ArrayUtils(){
+		
+	}
+	
 	/**
 	 * 将一个array转为根据keys转为map
 	 * @param array
