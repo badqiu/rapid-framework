@@ -31,4 +31,13 @@ public class ArrayUtilsTest extends TestCase {
 		
 	}
 	
+	public void testToMapWithKeyArray(){
+		String[] keys = new String[]{"age", "height", "width", "many"};
+		Map map = ArrayUtils.toMap(array, keys);
+		assertNotNull(map);
+		assertEquals("1", map.get(keys[0]));
+		assertEquals("2", map.get(keys[1]));
+		assertEquals("3", map.get(keys[2]));
+		assertEquals(3, map.size());
+	}
 }
