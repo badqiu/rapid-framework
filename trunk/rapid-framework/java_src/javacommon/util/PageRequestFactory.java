@@ -14,7 +14,7 @@ import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
 /**
- * 用于分页组件覆盖的类,新的分页组件覆盖此类的newPageRequest()方法以适合不同的分页创建
+ * 用于分页组件覆盖的类,新的分页组件覆盖此类的bindPageRequest()方法以适合不同的分页创建
  * @author badqiu
  */
 public class PageRequestFactory {
@@ -33,6 +33,9 @@ public class PageRequestFactory {
         return bindPageRequest(pageRequest, request, defaultSortColumns, BaseQuery.DEFAULT_PAGE_SIZE);
     }
     
+    /**
+     * 绑定PageRequest的属性值
+     */
     public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
 	    	Map params = WebUtils.getParametersStartingWith(request, "");
 	    	try {
