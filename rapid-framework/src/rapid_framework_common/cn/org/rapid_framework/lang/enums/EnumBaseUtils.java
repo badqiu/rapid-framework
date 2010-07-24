@@ -77,18 +77,4 @@ public class EnumBaseUtils {
        return (T)v;
    }
    
-   public static <T extends Enum> T[] getEnumValues(Class<T> type) {
-	   if(type.isEnum()) {
-		   try {
-			   Method m = type.getMethod("values");
-			   return (T[])m.invoke(null);
-		   }catch(Exception e) {
-			   ReflectionUtils.handleReflectionException(e);
-			   return null;
-		   }
-	   }else {
-		   throw new IllegalArgumentException("type must be Enum,actual:"+type.getName());
-	   }
-   }
-   
 }
