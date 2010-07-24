@@ -54,7 +54,7 @@ public class PageRequest<T> implements Serializable {
 	public PageRequest(int pageNumber, int pageSize, T filters,String sortColumns) {
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
-//		setFilters(filters);
+		setFilters(filters);
 		setSortColumns(sortColumns);
 	}
 	
