@@ -9,7 +9,7 @@ import javacommon.base.BaseQuery;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
@@ -46,25 +46,14 @@ public class PageRequestFactory {
 				throw new IllegalArgumentException("beanUtils.copyProperties() error",e.getTargetException());
 			}
 	        
-	        pageRequest.setPageNumber(getIntParameter(request, "pageNumber", 1));
-	        pageRequest.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
-	        pageRequest.setSortColumns(getStringParameter(request, "sortColumns",defaultSortColumns));
+	        pageRequest.setPageNumber(ServletRequestUtils.getIntParameter(request, "pageNumber", 1));
+	        pageRequest.setPageSize(ServletRequestUtils.getIntParameter(request, "pageSize", defaultPageSize));
+	        pageRequest.setSortColumns(ServletRequestUtils.getStringParameter(request, "sortColumns",defaultSortColumns));
 	        
 	        if(pageRequest.getPageSize() > MAX_PAGE_SIZE) {
 	            pageRequest.setPageSize(MAX_PAGE_SIZE);
 	        }
 	        return pageRequest;
     }
-    
-    static String getStringParameter(HttpServletRequest request,String paramName, String defaultValue) {
-        String value = request.getParameter(paramName);
-        return StringUtils.isEmpty(value) ? defaultValue : value;
-    }
-
-    static int getIntParameter(HttpServletRequest request,String paramName,int defaultValue) {
-        String value = request.getParameter(paramName);
-        return StringUtils.isEmpty(value) ? defaultValue : Integer.parseInt(value);
-    }
-    
 
 }
