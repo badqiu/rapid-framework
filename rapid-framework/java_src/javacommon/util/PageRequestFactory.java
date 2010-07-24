@@ -28,6 +28,10 @@ public class PageRequestFactory {
     	
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
     }
+
+    public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request){
+        return bindPageRequest(pageRequest, request, null);
+    }
     
     public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns){
         return bindPageRequest(pageRequest, request, defaultSortColumns, BaseQuery.DEFAULT_PAGE_SIZE);
