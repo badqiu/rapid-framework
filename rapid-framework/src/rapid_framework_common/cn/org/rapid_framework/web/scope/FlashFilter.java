@@ -28,6 +28,7 @@ public class FlashFilter  extends OncePerRequestFilter implements Filter{
 			chain.doFilter(request, response);
 		}finally {
 			Flash flash = Flash.current();
+			Flash.setCurrent(null);
 			if(flash != null)
 				flash.save(request, response);
 		}
