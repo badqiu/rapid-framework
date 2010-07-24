@@ -37,8 +37,8 @@ public class PageRequestFactory {
      * 绑定PageRequest的属性值
      */
     public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
-	    	Map params = WebUtils.getParametersStartingWith(request, "");
 	    	try {
+	    		Map params = WebUtils.getParametersStartingWith(request, "");
 	    		beanUtils.copyProperties(pageRequest, params);
 		    } catch (IllegalAccessException e) {
 		    	throw new IllegalArgumentException("beanUtils.copyProperties() error",e);
