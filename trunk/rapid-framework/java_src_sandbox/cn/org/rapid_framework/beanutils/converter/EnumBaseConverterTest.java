@@ -3,6 +3,7 @@ package cn.org.rapid_framework.beanutils.converter;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConversionException;
+import org.apache.commons.beanutils.ConvertUtils;
 
 import cn.org.rapid_framework.lang.enums.EnumBase;
 import cn.org.rapid_framework.lang.enums.EnumBaseUtils;
@@ -27,7 +28,7 @@ public class EnumBaseConverterTest extends TestCase{
 		}catch(ConversionException e) {
 		}
 	}
-
+	
 	public void test_convert_fail() {
 
 		try {
@@ -43,4 +44,19 @@ public class EnumBaseConverterTest extends TestCase{
 		}
 	}
 	
+	public void test_convert_by_ConvertUtils() {
+		ConvertUtils.register(new EnumBaseConverter(), EnumBase.class);
+		ConvertUtils.register(new EnumBaseConverter(), String.class);
+		ConvertUtils.register(new EnumBaseConverter(), Integer.class);
+		ConvertUtils.register(new EnumBaseConverter(), Long.class);
+		
+		assertEquals("K1",ConvertUtils.convert(SomeTypeEnum.K1));
+		assertEquals("K2",ConvertUtils.convert(SomeTypeEnum.K2));
+		
+		try {
+		assertEquals("K1",ConvertUtils.convert(SomeTypeEnum.K1,Integer.class));
+		fail();
+		}catch(ConversionException e) {
+		}
+	}
 }
