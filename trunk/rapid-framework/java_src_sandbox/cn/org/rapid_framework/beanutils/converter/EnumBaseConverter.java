@@ -27,7 +27,7 @@ public class EnumBaseConverter implements Converter {
 		}
 		
 		if(!type.isInstance(value)) {
-			throw new ConversionException("enum type mission match,targetType:"+type+" actual EnumBase.getCode() type:"+enumBase.getCode().getClass().getName());
+			throw new ConversionException("enum type mission match,targetType:"+type+" actual EnumBase.getCode().getClass():"+enumBase.getCode().getClass().getName());
 		}
 		
 		try {
