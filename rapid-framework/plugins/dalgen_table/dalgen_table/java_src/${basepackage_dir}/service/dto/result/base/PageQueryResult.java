@@ -1,5 +1,7 @@
 package com.company.project.service.dto.result.base;
 
+import java.util.List;
+
 
 
 public class PageQueryResult<T extends java.io.Serializable> extends QueryResult<T> {
@@ -16,8 +18,8 @@ public class PageQueryResult<T extends java.io.Serializable> extends QueryResult
         super(errorCode, errorDetails);
     }
 
-    public PageQueryResult(int pageNo, int pageSize, long totalCount) {
-		super();
+    public PageQueryResult(List<T> itemList,int pageNo, int pageSize, long totalCount) {
+		super(itemList);
 		this.pageNo = pageNo;
 		this.pageSize = pageSize;
 		this.totalCount = totalCount;
