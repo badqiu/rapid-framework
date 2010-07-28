@@ -37,7 +37,7 @@
 		    <![CDATA[
 		        DELETE FROM ${table.sqlName} WHERE
 		        <#list table.pkColumns as column>
-		        ${column.sqlName} = ? <#if column_has_next>,</#if>
+		        ${column.sqlName} = ? <#if column_has_next> AND </#if>
 				</#list>
 		    ]]>
 		</sql>
@@ -52,7 +52,7 @@
 			        </#list>
 		        WHERE 
 		        	<#list table.pkColumns as column>
-			        ${column.sqlName} = ? <#if column_has_next>,</#if>
+			        ${column.sqlName} = ? <#if column_has_next> AND </#if>
 			        </#list>
 		    ]]>
 		</sql>
@@ -64,7 +64,7 @@
 			        </#list>
 		        WHERE 
 		        	<#list table.pkColumns as column>
-			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next>,</#if>
+			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next> AND </#if>
 			        </#list>
 		    ]]>
 		</sqlmap>					
@@ -80,7 +80,7 @@
 		        FROM ${table.sqlName} 
 		        WHERE 
 					<#list table.pkColumns as column>
-			        ${column.sqlName} = ? <#if column_has_next>,</#if>
+			        ${column.sqlName} = ? <#if column_has_next> AND </#if>
 			        </#list>
 		    ]]>
 		</sql>
