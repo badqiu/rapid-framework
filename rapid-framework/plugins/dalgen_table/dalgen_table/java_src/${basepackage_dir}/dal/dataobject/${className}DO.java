@@ -18,7 +18,7 @@ public class ${className}DO  implements java.io.Serializable{
     private static final long serialVersionUID = 3148176768559230877L;
     
     <#list table.columns as column>
-    // ${column.columnAlias}
+    /** ${column.columnAlias} */
     private ${column.javaType} ${column.columnNameLower};
     </#list>
 
