@@ -55,7 +55,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
-	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next>,</#if>
+	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next> AND </#if>
 	        </#list>	        
     ]]>
 	</update>
@@ -64,7 +64,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <![CDATA[
         DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
-        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next> AND </#if>
 		</#list>
     ]]>
     </delete>
@@ -75,7 +75,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		    FROM ${table.sqlName} 
 	        WHERE 
 				<#list table.compositeIdColumns as column>
-		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
+		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next> AND </#if>
 		        </#list>    
 	    ]]>
 	</select>

@@ -54,7 +54,7 @@
 	        </#list>
         WHERE 
         	<#list table.compositeIdColumns as column>
-	        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+	        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next> AND </#if>
 	        </#list>
     ]]>
     </update>
@@ -63,7 +63,7 @@
     <![CDATA[
         DELETE FROM ${table.sqlName} WHERE
         <#list table.compositeIdColumns as column>
-        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next> AND </#if>
 		</#list>
     ]]>
     </delete>
@@ -74,7 +74,7 @@
 	        FROM ${table.sqlName} 
 	        WHERE 
 				<#list table.compositeIdColumns as column>
-		        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next>,</#if>
+		        ${column.sqlName} = #${column.columnNameLower}# <#if column_has_next> AND </#if>
 		        </#list>
 	    ]]>
     </select>
