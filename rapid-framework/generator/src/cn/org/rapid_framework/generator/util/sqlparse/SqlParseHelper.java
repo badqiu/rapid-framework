@@ -259,14 +259,14 @@ public class SqlParseHelper {
 	 */
 	public static String removeSelect(String sql) {
 		if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
-		int beginPos = sql.toLowerCase().indexOf("from");
+		int beginPos = StringHelper.indexOfByRegex(sql.toLowerCase(), "\\sfrom\\s");
 		if(beginPos == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
 		return sql.substring(beginPos);
 	}
 
 	public static String getSelect(String sql) {
 		if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
-		int beginPos = sql.toLowerCase().indexOf("from");
+		int beginPos = StringHelper.indexOfByRegex(sql.toLowerCase(), "\\sfrom\\s");
 		if(beginPos == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
 		return sql.substring(0,beginPos);
 	}
@@ -274,7 +274,9 @@ public class SqlParseHelper {
 	/** 得到sql的from子句 */
 	public static String getFromClauses(String sql) {
 		String lowerSql = sql.toLowerCase();
-		int fromBegin = lowerSql.indexOf("from");
+		int fromBegin = StringHelper.indexOfByRegex(lowerSql, "\\sfrom\\s");
+		if(fromBegin <= 0) throw new IllegalArgumentException("error from begin:"+fromBegin);
+		
 		int fromEnd = lowerSql.indexOf("where");
 		if(fromEnd == -1) {
 			fromEnd = StringHelper.indexOfByRegex(lowerSql,"group\\s+by");
@@ -300,7 +302,7 @@ public class SqlParseHelper {
 		if(fromEnd == -1) {
 			fromEnd = sql.length();
 		}
-		return sql.substring(fromBegin+"from".length(),fromEnd);
+		return sql.substring(fromBegin+" from ".length(),fromEnd);
 	}
 
 	
