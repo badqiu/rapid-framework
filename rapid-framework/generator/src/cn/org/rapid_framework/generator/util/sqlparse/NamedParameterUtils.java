@@ -152,7 +152,11 @@ public abstract class NamedParameterUtils {
 			}else {
 				throw new IllegalArgumentException("parameter error:"+parameter+",must wrap with #param#,sql:"+sql);
 			}
-			return parameter;
+			if(parameter.endsWith("[]")) {
+			    return parameter.substring(0,parameter.length() - 2);
+			}else {
+			    return parameter;
+			}
 		}
 		if(startPrifix == '$') {
 			if(parameter.endsWith("$")) {
