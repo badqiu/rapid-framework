@@ -221,7 +221,7 @@ public class SqlFactory {
 		public boolean isMatchListParam(String sql, String paramName) {
 			return 
 			    sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") // match (:username) (#username#)
-			    || sql.matches(".*[#$]"+paramName+"\\[]\\.?\\w*[#$].*"); //match #user[]# $user[]$ #user[].age#
+			    || sql.matches("(?s).*[#$]"+paramName+"\\[]\\.?\\w*[#$].*"); //match #user[]# $user[]$ #user[].age#
 		}
 	
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
