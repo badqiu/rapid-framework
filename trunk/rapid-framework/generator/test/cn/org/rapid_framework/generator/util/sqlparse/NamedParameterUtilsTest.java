@@ -22,6 +22,8 @@ public class NamedParameterUtilsTest extends TestCase {
 	public void testIbatis() {
 		verify("select * from username=#username# and password=#pwd#","select * from username=? and password=?");
 		
+		verify("select * from username=#username[]# and password=#pwd[]#","select * from username=? and password=?");
+		
 		//FIXME 应该抛出异常for ibatis2
 		try {
 			verify("select * from username=#username and password=#pwd","select * from username=? and password=?");
@@ -31,6 +33,10 @@ public class NamedParameterUtilsTest extends TestCase {
 		}
 		
 		verify("select * from username=username# and password=pwd#","select * from username=username# and password=pwd#");
+		
+		ParsedSql sql = NamedParameterUtils.parseSqlStatement("select * from username=#username[]# and password=#pwd[]#");
+		assertEquals("username",sql.getParameterNames().get(0));
+		assertEquals("pwd",sql.getParameterNames().get(1));
 	}
 
 	public void testIbatisDollor() {
@@ -45,6 +51,7 @@ public class NamedParameterUtilsTest extends TestCase {
 		}
 		
 		verify("select * from username=username$ and password=pwd$","select * from username=username$ and password=pwd$");
+		
 	}
 	
 	public void testMybatis() {
