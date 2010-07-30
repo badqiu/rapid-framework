@@ -152,7 +152,10 @@ public class GeneratorFacade {
     	
         public void processByTable(String tableName,String templateRootDir,boolean isDelete) throws Exception {
         	if("*".equals(tableName)) {
-        		generateByAllTable(templateRootDir);
+        	    if(isDelete)
+        	        deleteByAllTable(templateRootDir);
+        	    else
+        	        generateByAllTable(templateRootDir);
         		return;
         	}
     		Generator g = getGenerator(templateRootDir);
