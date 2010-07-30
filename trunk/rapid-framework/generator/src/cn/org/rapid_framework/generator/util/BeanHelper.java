@@ -29,7 +29,9 @@ public class BeanHelper {
             Method readMethod = descriptors[i].getReadMethod();
 			if (readMethod != null) {
 				try {
+				    long start = System.currentTimeMillis();
 					map.put(name, readMethod.invoke(obj, new Object[]{}));
+					long cost = start - System.currentTimeMillis();
 				}catch(Exception e){
 					GLogger.warn("error get property value,name:"+name+" on bean:"+obj,e);
 				}
