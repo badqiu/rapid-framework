@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory.DatabaseMetaDataUtils;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -319,6 +320,14 @@ public class SqlParseHelper {
 	public static void setRandomParamsValueForPreparedStatement(String sql,
 			PreparedStatement ps) throws SQLException {
 		int count = StringHelper.containsCount(sql, "?");
+		if(DatabaseMetaDataUtils.isOracleDataBase(ps.getConnection().getMetaData())) {
+			if(SqlTypeChecker.isSelectSql(sql)) {
+				for (int i = 1; i <= count; i++) {
+					ps.setObject(i, null);
+				}
+				return;
+			}
+		}
 		for (int i = 1; i <= count; i++) {
 			long random = new Random(System.currentTimeMillis()+startTimes++).nextInt() * 30 + System.currentTimeMillis() + startTimes;
 			try {
