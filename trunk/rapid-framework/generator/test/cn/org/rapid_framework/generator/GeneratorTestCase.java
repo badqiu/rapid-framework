@@ -16,16 +16,15 @@ import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{
 	protected Generator g = new Generator();;
+	private static boolean notRunCreatedTabled = true;
 	public void setUp()throws Exception {
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty("gg.isOverride", "true");
-		try {
-			runSqlScripts();
-		}catch(Exception e) {
-			//ignore 
-//			e.printStackTrace();
-		}
 		
+	    if(notRunCreatedTabled) {
+	    	runSqlScripts();
+	    	notRunCreatedTabled = false;
+	    }
 		
 		if(isRuningByAnt()) {
 			String tempDir = getTempDir();
@@ -49,6 +48,11 @@ public class GeneratorTestCase extends TestCase{
 		GeneratorProperties.setProperty("jdbc.schema", "");
 		GeneratorProperties.setProperty("jdbc.catalog", "");
 		
+		runSqlScripts("generator/test/generator_test_table.sql");
+		
+	}
+
+	public static void runSqlScripts(String file) throws SQLException, IOException {
 		Connection conn = TableFactory.getInstance().getConnection();
 		Connection conn2 = TableFactory.getInstance().getConnection();
 		assertEquals(conn,conn2);
@@ -56,11 +60,10 @@ public class GeneratorTestCase extends TestCase{
 		System.out.println(conn.getCatalog());
 		
 		Statement stat = conn.createStatement();
-		String sqlTables = IOHelper.readFile(new File("generator/test/generator_test_table.sql"));
+		String sqlTables = IOHelper.readFile(new File(file));
 		System.out.println(sqlTables);
 		stat.execute(sqlTables.trim());
 		stat.close();
-		
 	}
 	
 	public void generateByTable(Table table) throws Exception {
