@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
+	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<!-- 新增一条交易资金单据记录 -->
+	<operation name="insert" paramtype="object" >
+		<extraparams>
+		    <param name="startRow" javatype="int"/>
+		    <param name="pageSize" javatype="int"/>
+		</extraparams>	
+		<sql>
+				INSERT INTO user_info (user_id,username,password) values (?,#username#,#password#)
+		</sql>
+	</operation>
+
+	<operation name="update" paramtype="object" remarks="更新一条交易资金单据记录 ">
+		<sql>
+			UPDATE user_info SET username = #username#,password = #password#
+			WHERE username = #username#
+		</sql>
+	</operation>	
+	
+	<operation name="queryByUserId" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+		<sql>
+			select *
+			from user_info
+			where user_id = #userId#
+		</sql>
+	</operation>	
+
+	<operation name="countUsername" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+		<sql>
+		<![CDATA[
+			select count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
+		]]>			
+		</sql>
+	</operation>
+
+	<operation name="countDynimicUsername" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+		<sql>
+		<![CDATA[
+			select count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId# and age = #age# and sex = #sex# and username > #maxUsername# and username &lt; #minUsername#
+		]]>
+		</sql>
+	</operation>
+
+	<operation name="insert" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+	<sql>
+    <![CDATA[
+        INSERT INTO USER_INFO (
+        	USER_ID ,
+        	USERNAME ,
+        	PASSWORD ,
+        	BIRTH_DATE ,
+        	SEX ,
+        	AGE 
+        ) VALUES (
+        	#userId# ,
+        	#username# ,
+        	#password# ,
+        	#birthDate# ,
+        	#sex# ,
+        	#age# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
+            select last_insert_id()
+        </selectKey>     
+        </sql>
+    </operation>
+
+	<operation name="update" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+	<sql>
+    <![CDATA[
+        UPDATE USER_INFO SET
+	        USERNAME = #username# ,
+	        PASSWORD = #password# ,
+	        BIRTH_DATE = #birthDate# ,
+	        SEX = #sex# ,
+	        AGE = #age# 
+        WHERE 
+	        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+
+	<operation name="delete" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    <sql>
+    <![CDATA[
+        DELETE FROM USER_INFO WHERE
+        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+    
+    <operation name="getById" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    <sql>
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO 
+	        WHERE 
+		        USER_ID = #userId# 
+	    ]]>
+    </sql>
+    </operation>
+
+	<operation name="findPage.count" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+		<sql>
+		<![CDATA[
+        SELECT count(*) FROM USER_INFO
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE &gt;= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age#
+		       </isNotEmpty>
+	    </dynamic>
+	    ]]>
+	    </sql>        
+    </operation>
+    
+    <operation name="findPage" paging="true" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+    	<![CDATA[
+    	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = ?
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = ?
+		       </isNotEmpty>
+	    </dynamic>
+	    <isNotEmpty prepend="ORDER BY" property="orderBy">
+		      #orderBy#
+		</isNotEmpty>
+		]]>
+		</sql>
+    </operation>
+	
+	<operation name="getByUsername" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+		<sql>
+	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE USERNAME = #username#
+	    ]]>
+	    </sql>
+    </operation>
+    
+    <operation name="getByAge" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE 
+	    ]]>
+	    </sql>
+    </operation>
+    			
+</table>
