@@ -462,15 +462,13 @@ public class TableFactory {
 			}
 		}
 		public boolean isOracleDataBase() {
-			boolean ret = false;
 			try {
-				ret = (getMetaData().getDatabaseProductName().toLowerCase()
-						.indexOf("oracle") != -1);
-			} catch (Exception ignore) {
+				return DatabaseMetaDataUtils.isOracleDataBase(getMetaData());
+			} catch (SQLException e) {
+				throw new RuntimeException(e);
 			}
-			return ret;
 		}
-		
+
 		public String queryForString(String sql) {
 			Statement s = null;
 			ResultSet rs = null;
@@ -488,5 +486,20 @@ public class TableFactory {
 				close(rs,null,s);
 			}
 		}		
+	}
+	
+	public static class DatabaseMetaDataUtils {
+		public static boolean isOracleDataBase(DatabaseMetaData metadata) {
+			try {
+				boolean ret = false;
+				ret = (metadata.getDatabaseProductName().toLowerCase()
+							.indexOf("oracle") != -1);
+				return ret;
+			}catch(SQLException s) {
+				return false;
+//				throw new RuntimeException(s);
+			}
+		}
+		
 	}
 }
