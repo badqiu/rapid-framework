@@ -10,6 +10,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlTypeChecker;
 /**
  * 用于生成代码的Sql对象.对应数据库的sql语句
  * 使用SqlFactory.parseSql()生成 <br />
@@ -364,28 +365,28 @@ public class Sql {
 	 * @return
 	 */
 	public boolean isSelectSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*from\\s+.*");
+		return SqlTypeChecker.isSelectSql(sourceSql);
 	}
 	/**
 	 * 当前的sourceSql是否是update语句
 	 * @return
 	 */
 	public boolean isUpdateSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*update\\s+.*");
+		return SqlTypeChecker.isUpdateSql(sourceSql);
 	}
 	/**
 	 * 当前的sourceSql是否是delete语句
 	 * @return
 	 */
 	public boolean isDeleteSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*delete\\s+from\\s.*");
+		return SqlTypeChecker.isDeleteSql(sourceSql);
 	}
 	/**
 	 * 当前的sourceSql是否是insert语句
 	 * @return
 	 */
 	public boolean isInsertSql() {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*insert\\s+into\\s+.*");
+		return SqlTypeChecker.isInsertSql(sourceSql);
 	}
 	/**
 	 * 得到表相对应的sqlName,主要用途为生成文件时的分组.
