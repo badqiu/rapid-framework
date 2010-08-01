@@ -143,7 +143,20 @@ public class SqlParseHelper {
 		if(result == null) {
 			result = getColumnNameByRightCondition(sql, column, "\\s+in\\s+\\(");
 		}
+		
+		if(result == null) {
+			result = getColumnNameByRightConditionWithFunction(sql, column, operator);
+		}
 		return result;
+	}
+	//有函数的表达式提取
+	private static String getColumnNameByRightConditionWithFunction(String sql,String column, String operator) {
+		Pattern p = Pattern.compile("(\\w+)\\s*"+operator+"\\s*\\w+\\([,\\w]*[:#$&]\\{?"+column+"[\\}#$]?[,\\w]*\\)",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+		Matcher m = p.matcher(sql);
+		if(m.find()) {
+			return m.group(1);
+		}
+		return null;
 	}
 
 	private static String getColumnNameByRightCondition(String sql,
