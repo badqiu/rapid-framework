@@ -280,25 +280,31 @@ public class SqlParseHelper {
 		
 		int fromEnd = lowerSql.indexOf("where");
 		if(fromEnd == -1) {
-			fromEnd = StringHelper.indexOfByRegex(lowerSql,"group\\s+by");
+			fromEnd = StringHelper.indexOfByRegex(lowerSql,"\\sgroup\\s+by\\s");
 		}
 		if(fromEnd == -1) {
-			fromEnd = lowerSql.indexOf("having");
+			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\shaving\\s");
 		}
 		if(fromEnd == -1) {
-			fromEnd = StringHelper.indexOfByRegex(lowerSql,"order\\s+by");
+			fromEnd = StringHelper.indexOfByRegex(lowerSql,"\\sorder\\s+by\\s");
 		}
 		if(fromEnd == -1) {
-			fromEnd = lowerSql.indexOf("union");
+			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sunion\\s");;
 		}
 		if(fromEnd == -1) {
-			fromEnd = lowerSql.indexOf("intersect");
+			//SELECT Date FROM Store_Information
+			//INTERSECT
+			//SELECT Date FROM Internet_Sales
+			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sintersect\\s");
 		}
 		if(fromEnd == -1) {
-			fromEnd = lowerSql.indexOf("minus");
+			//SELECT Date FROM Store_Information
+			//MINUS
+			//SELECT Date FROM Internet_Sales
+			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sminus\\s"); 
 		}
 		if(fromEnd == -1) {
-			fromEnd = lowerSql.indexOf("except");
+			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sexcept\\s");
 		}
 		if(fromEnd == -1) {
 			fromEnd = sql.length();
