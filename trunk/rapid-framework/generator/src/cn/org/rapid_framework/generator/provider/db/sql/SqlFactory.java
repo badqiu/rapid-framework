@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
@@ -70,7 +71,7 @@ public class SqlFactory {
         GLogger.debug("executeSql :"+sql.getExecuteSql());
         GLogger.debug("*********************************");
         
-        Connection conn = TableFactory.getInstance().getConnection();
+        Connection conn = DataSourceProvider.getConnection();
         try {
         	conn.setReadOnly(true);
         	conn.setAutoCommit(false);

@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 
 import org.xml.sax.InputSource;
 
+import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -247,7 +248,7 @@ public class GeneratorControl {
 	}
 	
 	public List<Map> queryForList(String sql,int limit) throws SQLException {
-		Connection conn = TableFactory.getInstance().getConnection();
+		Connection conn = DataSourceProvider.getConnection();
 		return SqlExecutorHelper.queryForList(conn, sql, limit);
 	}
 	

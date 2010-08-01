@@ -59,7 +59,7 @@ public class TableFactory {
 		return GeneratorProperties.getNullIfBlank("jdbc.schema");
 	}
 
-	public Connection getConnection() {
+	private Connection getConnection() {
 		return DataSourceProvider.getConnection();
 	}
 
