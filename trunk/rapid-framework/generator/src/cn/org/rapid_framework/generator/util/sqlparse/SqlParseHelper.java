@@ -304,6 +304,9 @@ public class SqlParseHelper {
 			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sminus\\s"); 
 		}
 		if(fromEnd == -1) {
+			//SELECT Date FROM Store_Information
+			//EXCEPT
+			//SELECT Date FROM Internet_Sales			
 			fromEnd = StringHelper.indexOfByRegex(lowerSql, "\\sexcept\\s");
 		}
 		if(fromEnd == -1) {
