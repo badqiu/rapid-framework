@@ -141,7 +141,7 @@ public class SqlParseHelperTest extends TestCase{
 		sql = "delete from user_Info where " +
 		" username_param = lower(#username#) and password_param >= substring(1,2,#password#)";
 		assertEquals("username_param",SqlParseHelper.getColumnNameByRightCondition(sql, "username"));
-		assertEquals("password_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
+		assertEquals("password_param",SqlParseHelper.getColumnNameByRightCondition(sql, "password"));
 	}
 	
 
