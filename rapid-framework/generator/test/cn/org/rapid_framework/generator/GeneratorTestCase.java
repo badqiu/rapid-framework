@@ -9,6 +9,7 @@ import java.sql.Statement;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
+import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -53,16 +54,18 @@ public class GeneratorTestCase extends TestCase{
 	}
 
 	public static void runSqlScripts(String file) throws SQLException, IOException {
-		Connection conn = TableFactory.getInstance().getConnection();
-		Connection conn2 = TableFactory.getInstance().getConnection();
+		Connection conn = DataSourceProvider.getConnection();
+		Connection conn2 = DataSourceProvider.getConnection();
 		assertEquals(conn,conn2);
 		
-		System.out.println(conn.getCatalog());
+//		System.out.println(conn.getCatalog());
 		
 		Statement stat = conn.createStatement();
 		String sqlTables = IOHelper.readFile(new File(file));
 		System.out.println(sqlTables);
-		stat.execute(sqlTables.trim());
+		for(String t : sqlTables.trim().split(";")) {
+			stat.execute(t.trim());
+		}
 		stat.close();
 	}
 	

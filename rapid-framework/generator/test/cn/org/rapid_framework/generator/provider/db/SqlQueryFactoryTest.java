@@ -90,7 +90,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_delete_myisam_user_sql() throws Exception {
-		TableFactory.getInstance().getConnection().close();
+		DataSourceProvider.getConnection().close();
 		GeneratorProperties.reload();
 		Sql selectSql  = new SqlFactory().parseSql("delete from myisam_user ");
 		GeneratorModel gm = newFromQuery(selectSql);
