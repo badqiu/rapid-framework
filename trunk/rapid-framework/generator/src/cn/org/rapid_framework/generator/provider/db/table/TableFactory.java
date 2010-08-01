@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -40,19 +41,9 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 public class TableFactory {
 	
 	private DbHelper dbHelper = new DbHelper();
-	private Connection connection;
 	private static TableFactory instance = null;
 	
 	private TableFactory() {
-	}
-
-	private void loadJdbcDriver() {
-		String driver = GeneratorProperties.getRequiredProperty("jdbc.driver");
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException("not found jdbc driver class:["+driver+"]",e);
-		}
 	}
 	
 	public synchronized static TableFactory getInstance() {
@@ -69,15 +60,7 @@ public class TableFactory {
 	}
 
 	public Connection getConnection() {
-		try {
-			if(connection == null || connection.isClosed()) {
-				loadJdbcDriver();
-				connection = DriverManager.getConnection(GeneratorProperties.getRequiredProperty("jdbc.url"),GeneratorProperties.getRequiredProperty("jdbc.username"),GeneratorProperties.getProperty("jdbc.password"));
-			}
-			return connection;
-		}catch(SQLException e) {
-			throw new RuntimeException(e);
-		}
+		return DataSourceProvider.getConnection();
 	}
 
 	public List getAllTables() {
