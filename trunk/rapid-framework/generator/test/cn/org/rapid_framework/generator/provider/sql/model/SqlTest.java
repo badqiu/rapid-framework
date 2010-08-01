@@ -19,6 +19,8 @@ public class SqlTest extends TestCase {
 		
 		assertTrue(newSql(" \n\t\t\t\tINSERT INTO user_info (username,password) values (#username#,#password#)\n\t\t ").isInsertSql());
 		assertTrue(newSql("inSert InTO user_info values(:pwd)").isInsertSql());
+		assertTrue(newSql("INSERT INTO Store_Information (store_name, Sales, Date) SELECT store_name, Sales, Date FROM Sales_Information WHERE Year(Date) = 1998").isInsertSql());
+		assertFalse(newSql("INSERT INTO Store_Information (store_name, Sales, Date) SELECT store_name, Sales, Date FROM Sales_Information WHERE Year(Date) = 1998").isSelectSql());
 	}
 	
 	public void test_is_update() {

@@ -7,7 +7,7 @@ public class SqlTypeChecker {
 	 * @return
 	 */
 	public static boolean isSelectSql(String sourceSql) {
-		return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*from\\s+.*");
+		return sourceSql.trim().toLowerCase().matches("(?is)\\s*select\\s.*\\sfrom\\s+.*");
 	}
 	/**
 	 * 当前的sourceSql是否是update语句
