@@ -197,6 +197,7 @@ public class SqlFactory {
 		}
 		private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
 			LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
+			long start = System.currentTimeMillis();
 			for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
 				String paramName = parsedSql.getParameterNames().get(i);
 				Column column = findColumnByParamName(parsedSql, sql, paramName);
@@ -215,6 +216,7 @@ public class SqlFactory {
 				}
 				result.add(param);			
 			}
+			GLogger.perf("parseForSqlParameters() cost:"+(System.currentTimeMillis()- start));
 			return result;
 	    
 		}
