@@ -5,6 +5,8 @@
     <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>
+			<param name="notInTradeFroms" javatype="java.lang.String"/>
+			<param name="notInTradeStatuses" javatype="java.lang.String"/>
 		</extraparams>    
     	<sql>
     	<![CDATA[
@@ -212,6 +214,8 @@
     <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>
+			<param name="notInTradeFroms" javatype="java.lang.String"/>
+			<param name="notInTradeStatuses" javatype="java.lang.String"/>			
 		</extraparams>    
     	<sql>
     	<![CDATA[
