@@ -52,6 +52,12 @@ public class GLogger {
 		}
 	}
 	
+	public static boolean perf = false;
+    public static void perf(String s) {
+        if(perf)
+            out.println("[Generator Performance] " + s);
+    }
+	
 	public static void println(String s) {
 		if (logLevel <= INFO) {
 			out.println(s);
