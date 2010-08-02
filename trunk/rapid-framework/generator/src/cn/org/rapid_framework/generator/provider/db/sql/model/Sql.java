@@ -113,7 +113,7 @@ public class Sql {
 			return columns.iterator().next().getTable().getClassName();
 		}else {
 			if(operation == null) return null;
-			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+"Result";
+			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+System.getProperty("generator.sql.resultClass.suffix","Result");
 		}
 	}    
 	
