@@ -19,12 +19,25 @@ import com.iwallet.biz.common.util.money.Money;
 import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
 import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
 
+import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * 
  *
  */
-public class Ibatis${tableConfig.tableClassName}DAOTest {
+public class Ibatis${tableConfig.tableClassName}DAOTest extends BaseDaoTestCase {
+	@XAutoWire(XAutoWire.BY_NAME)
+	protected Ibatis${tableConfig.tableClassName}DAO ${tableConfig.tableClassName}DAO;
 
+    public void setUp() throws Exception {
+        super.setUp();
+    }
+
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+        	
 <#list tableConfig.sqls as sql>
 	public void test_${sql.operation}() {
 		
