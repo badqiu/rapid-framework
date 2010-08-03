@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 
@@ -17,7 +18,7 @@ public class SqlParameter extends Column {
     	public SqlParameter() {}
 
         public SqlParameter(Column param) {
-            super(param);
+            BeanHelper.copyProperties(this, param);
         }
         
     	public SqlParameter(SqlParameter param) {
