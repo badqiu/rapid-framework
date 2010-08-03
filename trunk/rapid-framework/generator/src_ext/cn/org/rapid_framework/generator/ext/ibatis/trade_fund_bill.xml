@@ -1,196 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table sqlname="trade_fund_bill" dummypk="bill_no" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false">
-	<column name="service_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="SERVICE_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="TOTAL_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="SERVICE_FEE_RATIO" javaType="double" />
-	<column name="amount" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="bank_amount" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="BANK_AMOUNT" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="return_fee" javaType="com.iwallet.biz.common.util.money.Money" />
-	<column name="RETURN_FEE" javaType="com.iwallet.biz.common.util.money.Money" />
-	
-	<!-- 新增一条交易资金单据记录 -->
-	<operation name="insert" paramtype="object">
-		<extraparams>
-		    <param name="startRow" javaType="int"/>
-		    <param name="pageSize" javaType="int"/>
-		    <param name="orderby" javaType="java.lang.String"/>
-			<param name="userId" javaType="java.lang.String"/>
-			<param name="partnerId" javaType="java.lang.String"/>
-			<param name="datasourceName" javaType="java.lang.String"/>
-			<param name="migrateStatus" javaType="java.lang.String"/>
-			<param name="gmtEnterTimeBegin" javaType="java.util.Date"/>
-			<param name="gmtEnterTimeEnd" javaType="java.util.Date"/>
-			<param name="gmtCreateBegin" javaType="java.util.Date"/>
-			<param name="gmtCreateEnd" javaType="java.util.Date"/>
-		</extraparams>	
-		<sql>
-			<![CDATA[
-				INSERT INTO trade_fund_bill(
-					bill_no, 
-					trade_no, 
-					out_order_no, 
-					pay_account_no, 
-					receive_account_no, 
-					currency, 
-					amount, 
-					type, 
-					status, 
-					channel, 
-					gmt_pay, 
-					iw_trans_log_id, 
-					gmt_trade_create, 
-					gmt_create, 
-					gmt_modified, 
-					memo, 
-					bank_pay_online_id, 
-					bank_amount, 
-					bank_type, 
-					freeze_type, 
-					partner_id, 
-					deposit_id,
-					owner,
-					gmt_mcenter_create, 
-					gmt_mcenter_modified)
-				VALUES(?, ?, ?, ?, ?, ?, ?,
-					?, ?, ?, ?, ?, ?, ?, ?,
-					?, ?, ?, ?, ?, ?, ?,
-					?, ?, ?);
-			]]>
-		</sql>
-		<sqlmap>
-			<![CDATA[
-				INSERT INTO trade_fund_bill(
-					bill_no, 
-					trade_no, 
-					out_order_no, 
-					pay_account_no, 
-					receive_account_no, 
-					currency, 
-					amount,					
-					type, 
-					status, 
-					channel, 
-					gmt_pay, 
-					iw_trans_log_id, 
-					gmt_trade_create, 
-					gmt_create, 
-					gmt_modified, 
-					memo, 
-					bank_pay_online_id, 
-					bank_amount, 
-					bank_type, 
-					freeze_type, 
-					partner_id, 
-					deposit_id,
-					owner,
-					gmt_mcenter_create, 
-					gmt_mcenter_modified)
-				VALUES(#billNo#, #tradeNo#, #outOrderNo#, #payAccountNo#, #receiveAccountNo#, #currency#, #amount.cent#,
-					#type#, #status#, #channel#, #gmtPay#, #iwTransLogId#, #gmtTradeCreate#, #gmtCreate#, #gmtModified#,
-					#memo#, #bankPayOnlineId#, #bankAmount.cent#, #bankType#, #freezeType#, #partnerId#, #depositId#,#owner#,
-					now(), now());
-			]]>
-		</sqlmap>
-	</operation>
-
-	<!-- 更新一条交易资金单据记录 -->
-	<operation name="update" paramtype="object">
-		<sql>
-			<![CDATA[
-				update trade_fund_bill set
-					bill_no=?, 
-					trade_no=?, 
-					out_order_no=?, 
-					pay_account_no=?, 
-					receive_account_no=?, 
-					currency=?, 
-					amount=?, 
-					type=?, 
-					status=?, 
-					channel=?, 
-					gmt_pay=?, 
-					iw_trans_log_id=?, 
-					gmt_modified=?, 
-					memo=?, 
-					bank_pay_online_id=?, 
-					bank_amount=?, 
-					bank_type=?, 
-					freeze_type=?, 
-					partner_id=?, 
-					deposit_id=?,
-					owner=?,
-					gmt_mcenter_modified=?
-				where trade_no=? and bill_no=? and owner=?
-			]]>
-		</sql>
-		<sqlmap>
-			<![CDATA[
-				update trade_fund_bill set
-					bill_no =#${billNo}#,
-					trade_no =#${tradeNo}#,
-					out_order_no =#${outOrderNo}#,
-					pay_account_no =#${payAccountNo}#,
-					receive_account_no =#${receiveAccountNo}#,
-					currency =#${currency}#,
-					amount =#${amount.cent}#,
-					type =#${type}#,
-					status =#${status}#,
-					channel =#${channel}#,
-					gmt_pay =#${gmtPay}#,
-					iw_trans_log_id =#${iwTransLogId}#,
-					gmt_modified =#${gmtModified}#,
-					memo =#${memo}#,
-					bank_pay_online_id =#${bankPayOnlineId}#,
-					bank_amount =#${bankAmount.cent}#,
-					bank_type =#${bankType}#,
-					freeze_type =#${freezeType}#,
-					partner_id =#${partnerId}#,
-					deposit_id=#${depositId}#,
-					owner=#${owner}#,
-					gmt_mcenter_modified=now()
-				where trade_no=#${tradeNo}# and bill_no=#${billNo}# and owner=#${owner}#
-			]]>
-		</sqlmap>
-	</operation>	
-	
-	<!-- 根据订单号查询订单 -->
-	<operation name="queryTradeFundBillByTradeNoAndBillNoAndOwner" paramtype="primitive" multiplicity="one">
-		<sql>
-			<![CDATA[
-				select 
-					bill_no, 
-					trade_no, 
-					out_order_no, 
-					pay_account_no, 
-					receive_account_no, 
-					currency, 
-					amount,					
-					type, 
-					status, 
-					channel, 
-					gmt_pay, 
-					iw_trans_log_id, 
-					gmt_trade_create, 
-					gmt_create, 
-					gmt_modified, 
-					memo, 
-					bank_pay_online_id, 
-					bank_amount, 
-					bank_type, 
-					freeze_type, 
-					partner_id, 
-					deposit_id,
-					owner,
-					gmt_mcenter_create, 
-					gmt_mcenter_modified
-				from trade_fund_bill
-				where trade_no=? and bill_no=? and  owner=?
+<table sqlname="trade_fund_bill"  remarks="用户信息表">
+    
+	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
+    	<sql>
+    	<![CDATA[
+    	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,currency,BTF.amount,type,status,channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
+    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
+    	from trade_fund_bill BTF
+			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+    	WHERE
+    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		
+			<isNotEmpty property="partnerIds">
+				<isEmpty prepend="and" property="account">
+					BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
+						BTF.gmt_trade_create &gt;= #gmtTradeCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
+						BTF.gmt_trade_create &lt;= #gmtTradeCreateEndTime#
+					</isNotEmpty>					
+				</isEmpty>
 				
+				 and BTF.partner_id IN
+				<iterate property="partnerIds" open="(" close=")" conjunction=",">
+					#partnerIds[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeNo">
+				BTF.trade_no = #tradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="outTradeNo">
+				BTF.out_order_no = #outTradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty property="account">
+				<isEqual prepend="and" property="direction" compareValue="PAY">
+					BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTF.pay_account_no = #account#
+					<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
+							BTF.gmt_trade_create &gt;= #gmtTradeCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
+							BTF.gmt_trade_create &lt;= #gmtTradeCreateEndTime#
+					</isNotEmpty>					
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="RECEIVE">
+					BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTF.receive_account_no = #account#
+					<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
+							BTF.gmt_trade_create &gt;= #gmtTradeCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
+							BTF.gmt_trade_create &lt;= #gmtTradeCreateEndTime#
+					</isNotEmpty>					
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="ALL">
+					(
+					(BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					 	and BTF.pay_account_no = #account#
+					 <isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
+						BTF.gmt_trade_create &gt;= #gmtTradeCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
+						BTF.gmt_trade_create &lt;= #gmtTradeCreateEndTime#
+					</isNotEmpty>
+					)
+					 OR 
+					(BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					 	and BTF.receive_account_no = #account#
+					<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
+							BTF.gmt_trade_create &gt;= #gmtTradeCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
+							BTF.gmt_trade_create &lt;= #gmtTradeCreateEndTime#
+					</isNotEmpty>
+					 ))
+				</isEqual>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="memo">
+				BTF.memo like #memo# 
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="fundFlowTypes">
+				 BTF.type IN
+				<iterate property="fundFlowTypes" open="(" close=")" conjunction=",">
+					#fundFlowTypes[]#
+				</iterate>
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="minAmount">
+				BTF.amount >= #minAmount#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="maxAmount">
+				BTF.amount &lt;= #maxAmount#
+			</isNotEmpty>
+									
+			<isNotEmpty prepend="and" property="fundBillStatuses">
+				 BTF.status IN
+				<iterate property="fundBillStatuses" open="(" close=")" conjunction=",">
+					#fundBillStatuses[]#
+				</iterate>
+			</isNotEmpty>
+						
+			<isNotEmpty prepend="and" property="gmtPayStartTime">
+					BTF.gmt_pay &gt;= #gmtPayStartTime#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="gmtPayEndTime">
+					BTF.gmt_pay &lt;= #gmtPayEndTime#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="pnr">
+					MAE.pnr = #pnr#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_END >= #ticketNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_START &lt;= #ticketNo#
+			</isNotEmpty>	
+			
+			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
+					MC.pay_success is null
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
+					MC.pay_success = 'Y'
+			</isEqual>						    		
 		]]>
 		</sql>
-	</operation>	
-	
+    </operation> 
+    
+	<operation name="findCreditpayRefundDetail" paging="true" remarks="信用支付退款明细分页查询">
+		<sql>
+			<![CDATA[
+	    	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,BTF.currency,BTF.amount,type,status,BTF.channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
+	    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+	    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
+	    	from trade_fund_bill BTF
+				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+	    	WHERE   
+	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+	    		 
+				<isNotEmpty prepend="and" property="billNo">
+						MC.bill_no = #billNo#
+				</isNotEmpty>		    
+		       <isNotEmpty prepend="AND" property="tradeNo">
+		             MC.TRADE_NO = #tradeNo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="amount">
+		             MC.AMOUNT = #amount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transDate">
+		             MC.TRANS_DATE = #transDate#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountOut">
+		             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountIn">
+		             MC.TRANS_ACCOUNT_IN = #transAccountIn#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="customerId">
+		             MC.CUSTOMER_ID = #customerId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bizName">
+		             MC.BIZ_NAME = #bizName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorId">
+		             MC.OPERATOR_ID = #operatorId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorName">
+		             MC.OPERATOR_NAME = #operatorName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="memo">
+		             MC.MEMO = #memo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="recordStamp">
+		             MC.RECORD_STAMP = #recordStamp#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="loanSuccess">
+		             MC.loan_success = #loanSuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paySuccess">
+		             MC.pay_success = #paySuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
+		             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
+		             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
+		       </isNotEmpty>
+		       
+		       <isNotEmpty prepend="AND" property="outTradeNo">
+		             BTF.out_order_no = #outTradeNo#
+		       </isNotEmpty>
+
+				<isNotEmpty prepend="and" property="pnr">
+					MAE.pnr = #pnr#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_END >= #ticketNo#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_START &lt;= #ticketNo#
+				</isNotEmpty>
+				
+	    		<isNotEmpty property="orderby">
+	    			ORDER BY #orderby#
+	    		</isNotEmpty>
+		    ]]>
+		</sql>		
+	</operation> 	         			
 </table>
