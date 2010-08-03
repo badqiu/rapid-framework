@@ -9,7 +9,7 @@
 <#list tableConfig.sqls as sql>	
 <#if sql.selectSql>
 	<#if (sql.columnsCount > 1 && !sql.columnsInSameTable)>
-	<resultMap id="RM-${sql.resultClassName}" class="${sql.resultClass}">
+	<resultMap id="RM.${sql.resultClassName}" class="${basepackage}.query.${sql.resultClass}">
     	<#list sql.columns as column>
 		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
     	</#list>
