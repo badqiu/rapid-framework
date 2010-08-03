@@ -143,7 +143,7 @@ public class SqlParseHelperTest extends TestCase{
 		
 		sql = "delete from user_Info where " +
 		" username_param = lower(#username#) and password_param >= substring(1,2,#password#) "+
-		" and partner_id in #partnerIds# and trade_from NOT IN #notInTradeFroms[]#";
+		" and partner_id in (#partnerIds[]#) and trade_from NOT IN (#notInTradeFroms[]#)";
 		assertEquals("username_param",SqlParseHelper.getColumnNameByRightCondition(sql, "username"));
 		assertEquals("password_param",SqlParseHelper.getColumnNameByRightCondition(sql, "password"));
 		assertEquals("partner_id",SqlParseHelper.getColumnNameByRightCondition(sql, "partnerIds"));
