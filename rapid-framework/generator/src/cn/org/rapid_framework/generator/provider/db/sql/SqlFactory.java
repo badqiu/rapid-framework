@@ -230,7 +230,6 @@ public class SqlFactory {
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
 		    for(SqlParameter customParam : customParameters) {
 		        if(customParam.getParamName().equals(paramName)) {
-		            System.out.println(paramName+" getPreferredParameterJavaType()"+customParam.getPreferredParameterJavaType());
 		            return customParam;
 		        }
 		    }
