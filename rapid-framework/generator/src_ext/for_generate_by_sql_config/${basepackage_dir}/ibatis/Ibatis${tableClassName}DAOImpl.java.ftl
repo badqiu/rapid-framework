@@ -47,25 +47,23 @@ public class ${tableConfig.tableClassName}DAOImpl extends SqlMapClientDaoSupport
 }
 
 <#macro generateOperationMethodBody sql>
+	<#local ibatisNamespace = sql.tableClassName+".">
 	<#if sql.selectSql>
 		<#if sql.paging || sql.multiplicity = 'paging'>
-		return (<@generateResultClassName sql/>)pageQuery(getSqlMapClientTemplate(),"${sql.tableClassName}.${sql.operation}",param);
+		return (<@generateResultClassName sql/>)pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",param);
 		<#elseif sql.multiplicity = 'one'>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${sql.tableClassName}.${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",param);
 		<#else>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${sql.tableClassName}.${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",param);
 		</#if>
 	</#if>
-	
 	<#if sql.deleteSql>
-		return getSqlMapClientTemplate().delete("${sql.tableClassName}.${sql.operation}", param);
+		return getSqlMapClientTemplate().delete("${ibatisNamespace}${sql.operation}", param);
 	</#if>
-	
 	<#if sql.insertSql>
-		return getSqlMapClientTemplate().insert("${sql.tableClassName}.${sql.operation}", param);    
+		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", param);    
 	</#if>
-	
 	<#if sql.updateSql>
-		return getSqlMapClientTemplate().update("${sql.tableClassName}.${sql.operation}", param);
+		return getSqlMapClientTemplate().update("${ibatisNamespace}${sql.operation}", param);
 	</#if>
 </#macro>
