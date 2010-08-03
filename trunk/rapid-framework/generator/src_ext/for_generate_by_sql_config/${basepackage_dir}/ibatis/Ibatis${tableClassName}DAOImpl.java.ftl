@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import org.springframework.dao.DataAccessException;
 
+import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
 import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
 import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
@@ -28,12 +29,12 @@ public class ${tableConfig.tableClassName}DAOImpl extends SqlMapClientDaoSupport
 	 * sql: ${sql.executeSql}
 	 */
 	<#if (sql.params?size > 4) >
-	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) {
+	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException {
 		<@generateOperationMethodBody sql/>
 	}
 	<#else>
 	@SuppressWarnings("unchecked")
-	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException {
 		Map<String,Object> param = new HashMap<String,Object>();
 		<#list sql.params as param>
 		param.put("${param.paramName}",${param.paramName});
