@@ -115,7 +115,9 @@
     	<![CDATA[
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
     	from mcenter_account_log MAL
+			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no 
 			inner join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
+			inner join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
     	WHERE
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
