@@ -5,8 +5,6 @@
     <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>
-			<param name="notInTradeFroms" javatype="java.lang.String"/>
-			<param name="notInTradeStatuses" javatype="java.lang.String"/>
 		</extraparams>    
     	<sql>
     	<![CDATA[
@@ -213,9 +211,7 @@
     <!-- 问题记录：少了一个payType参数 -->
     <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
 		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>
-			<param name="notInTradeFroms" javatype="java.lang.String"/>
-			<param name="notInTradeStatuses" javatype="java.lang.String"/>			
+			<param name="payType" javatype="java.lang.String"/>		
 		</extraparams>    
     	<sql>
     	<![CDATA[
@@ -224,7 +220,8 @@
     		FROM trade_base BTB 
 				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
     			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
-    		WHERE 1 = 1
+    		WHERE 
+    		BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
     		
 			<isNotEmpty property="partnerIds">
 				and BTB.trade_email IN
@@ -426,7 +423,9 @@
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
     		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
-    	WHERE 1 = 1    
+    	WHERE
+    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		
 			<isNotEmpty property="partnerIds">
 				<isEmpty prepend="and" property="account">
 					BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
@@ -561,8 +560,8 @@
 			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no 
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
 			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
-    	WHERE 1 = 1
-    		AND MAL.owner = #owner#
+    	WHERE 
+    		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 	    	<isNotEmpty prepend="and" property="iwAccountLogId">
 				MAL.IW_ACCOUNT_LOG_ID = ?
@@ -666,8 +665,8 @@
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
-    	WHERE 1 = 1
-    		AND MAL.owner = #owner#
+    	WHERE
+    		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
 				MAL.TRANS_AMOUNT > 0
@@ -757,8 +756,9 @@
 		    FROM mcenter_creditpay MC
 		    	inner join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
 		    	inner join trade_base BTB on MC.trade_no = BTB.trade_no
-		    WHERE 1 = 1
-		    	AND MC.owner = #owner#
+		    WHERE 
+		    	MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+		    	 
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    
@@ -838,8 +838,9 @@
 	    	from trade_fund_bill BTF
 				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
 	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
-	    	WHERE 1 = 1   
-	    		AND MC.owner = #owner# 
+	    	WHERE   
+	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+	    		 
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    
