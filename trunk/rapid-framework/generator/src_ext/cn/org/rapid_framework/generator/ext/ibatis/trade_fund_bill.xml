@@ -6,7 +6,7 @@
     	<![CDATA[
     	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,currency,BTF.amount,type,status,channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
+    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
     		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
@@ -142,7 +142,7 @@
 			<![CDATA[
 	    	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,BTF.currency,BTF.amount,type,status,BTF.channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
 	    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-	    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
+	    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success
 	    	from trade_fund_bill BTF
 				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
 	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
