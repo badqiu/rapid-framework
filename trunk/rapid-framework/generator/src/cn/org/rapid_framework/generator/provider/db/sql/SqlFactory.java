@@ -228,6 +228,12 @@ public class SqlFactory {
 		}
 	
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
+		    for(SqlParameter customParam : customParameters) {
+		        if(customParam.getParamName().equals(paramName)) {
+		            System.out.println(paramName+" getPreferredParameterJavaType()"+customParam.getPreferredParameterJavaType());
+		            return customParam;
+		        }
+		    }
 			Column column = sql.getColumnByName(paramName);
 			if(column == null) {
 				//FIXME 还未处理 t.username = :username的t前缀问题
