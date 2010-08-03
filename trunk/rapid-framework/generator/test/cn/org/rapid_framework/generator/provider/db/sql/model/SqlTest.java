@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 
 public class SqlTest extends GeneratorTestCase {
 	Sql sql = new Sql();
@@ -89,4 +90,23 @@ public class SqlTest extends GeneratorTestCase {
 		sql = new SqlFactory().parseSql("insert into user_info(username) values (:username)");
 		assertFalse(sql.isColumnsInSameTable());
 	}
+	
+	/** 测试聚集函数colum名称自动转换,示例转换 count(*) => count, max(age) => max_age, sum(income) => sum_income */
+	public void test_intergate_function_name_convert() {
+	    sql = new SqlFactory().parseSql("select count(*), count(username),max(password),min(password),avg(sex) from user_info");
+        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("Count"));
+        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("CountUsername"));
+        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("MaxPassword"));
+        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("MinPassword"));
+        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("AvgSex"));
+	}
+
+    private Column getColumnByColumnName(String name) {
+        for(Column c : sql.getColumns()) {
+            if(c.getColumnName().equals(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
 }
