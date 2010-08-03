@@ -23,7 +23,7 @@
 	</select>	
 
 	<#if sql.paging>
-	<select id="<@namespace/>${sql.operation}.count.for.paging" resultClass="long" >
+	<select id="<@namespace/>${sql.operation}.count" resultClass="long" >
     	${sql.ibatisCountSql?trim}
 	</select>
 	</#if>
