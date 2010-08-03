@@ -15,7 +15,7 @@
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
     		FROM trade_base BTB 
-				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
     			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
@@ -222,7 +222,7 @@
     		SELECT 
     			count(*) count,sum(amount) sum_amount
     		FROM trade_base BTB 
-				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
     			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
@@ -424,7 +424,7 @@
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
     	from trade_fund_bill BTF
-			inner join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
     		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
     	WHERE 1 = 1    
 			<isNotEmpty property="partnerIds">
@@ -551,46 +551,19 @@
 		</sql>
     </operation> 
     
-    
- 	<!-- 
-     private String       iwAccountLogId;     // 帐户明细userId
-    private String       tradeNo;
-    private String       outTradeNo; //还未使用
-
-    private String       accountNo;
-    private String       otherAccountNo;
-    private String       blanceAction; //还未使用
-    private List<String>       transCodes;
-    private List<String>       subTransCodes;
-    private List<String> excludeTransCodes;
-    private String       pnr;
-    private String       ticketNo;
-    private List<String> partnerIdList;
-    private Date         gmtCreateEndTime;
-    private Date         gmtCreateStartTime;
-    
-    private String orderNo;
-    private Money minAmount; 
-    private Money maxAmount;
-    private String bankName;
-    private String memo; //还未使用
-    
-    private PayTypeEnum payType; //还未使用
-    
-        <isNotEmpty prepend="and" property="outTradeNo">
-			MAL.out_trade_no = #outTradeNo#
-		</isNotEmpty>
- 	 -->
-       
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
     	<sql>
     	<![CDATA[
     	SELECT 
-    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,TRANS_DATE,OUT_DATE,TRANS_DT,TRANS_CODE,TRANS_AMOUNT,BALANCE,TRANS_CURRENCY,ACCOUNT_TYPE,TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,TRADE_NO,
-    	PNR,TICKET_NO_START,TICKET_NO_END,system_partner,gmt_trade_create  
+    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAE.TRADE_NO,
+    	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create  
     	from mcenter_account_log MAL
-			inner join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
+			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no 
+			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
+			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
     	WHERE 1 = 1
+    		AND MAL.owner = #owner#
+    		
 	    	<isNotEmpty prepend="and" property="iwAccountLogId">
 				MAL.IW_ACCOUNT_LOG_ID = ?
 			</isNotEmpty> 
@@ -632,7 +605,7 @@
 					MAL.trans_dt &gt;= #gmtCreateStartTime#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
-					MAL.trans_dt &lt;= #gmtCreateEndTime#
+					MAL.trans_dt &lt; #gmtCreateEndTime#
 			</isNotEmpty>	
 
 			<isNotEmpty prepend="and" property="minTransAmount">
@@ -645,7 +618,11 @@
 			<isNotEmpty prepend="and" property="bankName">
 					MAL.bank_name = #bankName#
 			</isNotEmpty>
-									
+			
+			<isNotEmpty prepend="and" property="transMemo">
+					MAL.trans_memo like #transMemo#
+			</isNotEmpty>
+												
 			<isNotEmpty prepend="and" property="pnr">
 					MAE.pnr = #pnr#
 			</isNotEmpty>
@@ -654,24 +631,49 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="ticketNo">
 					MAE.TICKET_NO_START &lt;= #ticketNo#
-			</isNotEmpty>														   
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="outTradeNo">
+					BTB.out_trade_no = #outTradeNo#
+			</isNotEmpty>	
+			
+			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
+					MC.pay_success is null
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
+					MC.pay_success = 'Y'
+			</isEqual>		
+					
+			/* 用于识别     CREDIT_LOAN("CL","信用支付借款"),CREDIT_RETURN_LOAN("CRL","信用支付还款"),CREDIT_REFUND("CF","信用支付退款"),*/
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_LOAN">
+				SUB_TRANS_CODE = '301118'  /* 信用支付放贷 */
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_RETURN_LOAN">
+				SUB_TRANS_CODE = '301119' /* 信用支付还贷 */
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_REFUND">
+				SUB_TRANS_CODE = '301101' AND MC.pay_success = 'Y' /* 退款给买家 */
+			</isEqual>		
 		]]>
 		</sql>
     </operation>    
     
-    <!-- 缺少isIncomeOrOutcome参数传递 -->
-	<operation name="countAndSumAccountInfo" paging="true" paramtype="primitive" remarks="退款明细汇总查询">
+    <!-- 需要与帐务查询同步 -->
+    <!-- 缺少isIncomeOrOutcome参数传递, owner一定是S开头 -->
+	<operation name="countAndSumAccountInfo" paging="true" paramtype="primitive" remarks="账务数据汇总查询">
 		<sql>
     	<![CDATA[
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
     	from mcenter_account_log MAL
-			inner join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
+			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
     	WHERE 1 = 1
+    		AND MAL.owner = #owner#
+    		
 	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
 				MAL.TRANS_AMOUNT > 0
 			</isEqual> 
 	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="OUTCOME">
-				MAL.TRANS_AMOUNT < 0
+				MAL.TRANS_AMOUNT &lt; 0
 			</isEqual>
 						    	
 	    	<isNotEmpty prepend="and" property="iwAccountLogId">
@@ -715,7 +717,7 @@
 					MAL.trans_dt &gt;= #gmtCreateStartTime#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
-					MAL.trans_dt &lt;= #gmtCreateEndTime#
+					MAL.trans_dt &lt; #gmtCreateEndTime#
 			</isNotEmpty>	
 
 			<isNotEmpty prepend="and" property="minTransAmount">
@@ -756,6 +758,7 @@
 		    	inner join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
 		    	inner join trade_base BTB on MC.trade_no = BTB.trade_no
 		    WHERE 1 = 1
+		    	AND MC.owner = #owner#
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    
@@ -827,19 +830,16 @@
 	</operation>  
 	
 	<operation name="findCreditpayRefundDetail" paging="true" remarks="信用支付退款明细分页查询">
-		<extraparams>
-			<param name="tradeNo" javatype="java.lang.String"/>
-		</extraparams>
 		<sql>
 			<![CDATA[
 	    	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,BTF.currency,BTF.amount,type,status,BTF.channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
 	    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
 	    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
 	    	from trade_fund_bill BTF
-				inner join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
 	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
-	    		inner join trade_base BTB on MC.trade_no = BTB.trade_no
-	    	WHERE 1 = 1    
+	    	WHERE 1 = 1   
+	    		AND MC.owner = #owner# 
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    
@@ -890,7 +890,7 @@
 		       </isNotEmpty>
 		       
 		       <isNotEmpty prepend="AND" property="outTradeNo">
-		             BTB.out_trade_no = #outTradeNo#
+		             BTF.out_order_no = #outTradeNo#
 		       </isNotEmpty>
 
 				<isNotEmpty prepend="and" property="pnr">
