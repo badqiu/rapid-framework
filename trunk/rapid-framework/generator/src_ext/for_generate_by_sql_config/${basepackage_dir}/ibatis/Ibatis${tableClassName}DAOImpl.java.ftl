@@ -4,11 +4,22 @@
  */
  
 
+import java.util.List;
+import java.util.Date;
+import java.util.Map;
+import java.util.HashMap;
+
+import org.springframework.dao.DataAccessException;
+
+import com.iwallet.biz.common.util.money.Money;
+import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
+import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
+
 /**
- * 
- 
+ * ${tableConfig.tableClassName}DAO
+ * database table: ${tableConfig.table.sqlName}
  */
-public class ${tableConfig.tableClassName}DAO {
+public class ${tableConfig.tableClassName}DAOImpl extends SqlMapClientDaoSupport implements ${tableConfig.tableClassName}DAO {
 
 <#list tableConfig.sqls as sql>
 
@@ -33,22 +44,6 @@ public class ${tableConfig.tableClassName}DAO {
 </#list>
 
 }
-
-<#macro generateResultClassName sql>
-	<#compress>
-	<#if sql.selectSql>
-		<#if sql.paging || sql.multiplicity = 'paging'>
-			PageList<${sql.resultClassName}>
-		<#elseif sql.multiplicity = 'one'>
-			${sql.resultClassName}
-		<#else>
-			List<${sql.resultClassName}>
-		</#if>
-	<#else>
-		int
-	</#if>
-	</#compress>
-</#macro>
 
 <#macro generateOperationMethodBody sql>
 	<#if sql.selectSql>

@@ -12,6 +12,7 @@ public class ${className}DO implements java.io.Serializable {
 	
 	//columns START
 	<#list table.columns as column>
+	/** ${column.columnAlias} */
 	<#if column.simpleJavaType?ends_with('Money')>
 	private Money ${column.columnNameLower} = new Money(0,0);
 	<#else>
