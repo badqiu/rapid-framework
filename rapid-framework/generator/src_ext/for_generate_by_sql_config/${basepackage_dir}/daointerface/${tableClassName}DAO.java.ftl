@@ -2,8 +2,9 @@
  * Alipay.com Inc.
  * Copyright (c) 2004 All Rights Reserved.
  */
- 
+package ${basepackage}.daointerface;
 import org.springframework.dao.DataAccessException;
+import ${basepackage}.query.*;
 
 import java.util.List;
 import java.util.Date;
