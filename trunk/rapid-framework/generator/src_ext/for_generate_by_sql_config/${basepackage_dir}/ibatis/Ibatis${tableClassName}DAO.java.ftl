@@ -3,6 +3,9 @@
  * Copyright (c) 2004 All Rights Reserved.
  */
  
+package ${basepackage}.ibatis;
+
+import ${basepackage}.query.*;
 
 import java.util.List;
 import java.util.Date;
@@ -10,6 +13,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
@@ -20,7 +24,7 @@ import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
  * ${tableConfig.tableClassName}DAO
  * database table: ${tableConfig.table.sqlName}
  */
-public class ${tableConfig.tableClassName}DAOImpl extends SqlMapClientDaoSupport implements ${tableConfig.tableClassName}DAO {
+public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSupport implements ${tableConfig.tableClassName}DAO {
 
 <#list tableConfig.sqls as sql>
 
@@ -50,7 +54,7 @@ public class ${tableConfig.tableClassName}DAOImpl extends SqlMapClientDaoSupport
 	<#local ibatisNamespace = sql.tableClassName+".">
 	<#if sql.selectSql>
 		<#if sql.paging || sql.multiplicity = 'paging'>
-		return (<@generateResultClassName sql/>)pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",param);
+		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",param);
 		<#elseif sql.multiplicity = 'one'>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",param);
 		<#else>
