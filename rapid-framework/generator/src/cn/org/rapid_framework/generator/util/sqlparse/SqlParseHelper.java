@@ -140,12 +140,12 @@ public class SqlParseHelper {
 		if(result == null) {
 			result = getColumnNameByRightCondition(sql, column, "\\s+between\\s.+\\sand\\s+");
 		}
+	    if(result == null) {
+	        result = getColumnNameByRightCondition(sql, column, "\\s+not\\s+in\\s*\\(");
+	    }
 		if(result == null) {
-			result = getColumnNameByRightCondition(sql, column, "\\s+in\\s+\\(");
+			result = getColumnNameByRightCondition(sql, column, "\\s+in\\s*\\(");
 		}
-		if(result == null) {
-            result = getColumnNameByRightCondition(sql, column, "\\s+not\\s+in\\s+\\(");
-        }
 		
 		if(result == null) {
 			result = getColumnNameByRightConditionWithFunction(sql, column, operator);
