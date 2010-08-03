@@ -1,4 +1,5 @@
 ${gg.setIgnoreOutput(sql.columnsCount <= 1 || sql.columnsInSameTable)}
+package ${basepackage}.query;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

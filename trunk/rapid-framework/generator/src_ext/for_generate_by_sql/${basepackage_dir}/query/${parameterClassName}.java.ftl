@@ -1,12 +1,16 @@
 
 ${gg.setIgnoreOutput(sql.params?size <= 4)}
+package ${basepackage}.query;
 
-public class ${sql.parameterClassName} extends BaseQuery implements java.io.Serializable {
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+public class ${sql.parameterClassName} extends PageQuery implements java.io.Serializable {
 	<#list sql.params as param>
 	private ${param.preferredParameterJavaType} ${param.paramName};
 	</#list>
 	
-	public ${sql.parameterClassName} {
+	public ${sql.parameterClassName}() {
 	}
 	
 	public ${sql.parameterClassName}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) {
