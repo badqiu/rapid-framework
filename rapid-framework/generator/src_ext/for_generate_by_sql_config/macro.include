@@ -2,7 +2,7 @@
 	<#compress>
 	<#if sql.selectSql>
 		<#if sql.paging || sql.multiplicity = 'paging'>
-			PageList<${sql.resultClassName}>
+			PageList
 		<#elseif sql.multiplicity = 'one'>
 			${sql.resultClassName}
 		<#else>
