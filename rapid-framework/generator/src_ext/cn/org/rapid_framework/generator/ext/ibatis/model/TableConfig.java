@@ -71,9 +71,11 @@ public class TableConfig {
     }
     public Table getTable() throws Exception {
         Table t = TableFactory.getInstance().getTable(getSqlname());
-        for(MetaColumn c : column) {
-        	Column tableColumn = t.getColumnByName(c.getName());
-        	tableColumn.setJavaType(c.getJavatype());
+        if(column != null) {
+            for(MetaColumn c : column) {
+                Column tableColumn = t.getColumnByName(c.getName());
+        	    tableColumn.setJavaType(c.getJavatype());
+            }
         }
         return t;
     }
@@ -90,6 +92,9 @@ public class TableConfig {
         this.sequence = sequence;
     }
     public List<MetaColumn> getColumn() {
+        if(column == null) {
+            column = new ArrayList();
+        }
 		return column;
 	}
 	public void setColumn(List<MetaColumn> column) {
@@ -133,7 +138,8 @@ public class TableConfig {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
-                String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
+                String unescapeSqlString = StringHelper.unescapeXml(sqlString);
+                String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
                 Sql sql = sqlFactory.parseSql(namedSql);
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
@@ -185,6 +191,7 @@ public class TableConfig {
                         }
                         SqlParameter sqlParam = new SqlParameter(c);
                         sqlParam.setJavaType(param.getJavatype());
+                        sqlParam.setParamName(param.getName());
                         sqlParam.setColumnAlias(param.getColumnAlias());
                         result.add(sqlParam);
                     }
