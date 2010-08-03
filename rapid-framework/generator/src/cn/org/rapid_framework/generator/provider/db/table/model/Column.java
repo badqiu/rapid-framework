@@ -609,6 +609,11 @@ public class Column {
 		setHibernateValidatorExprssion(ColumnHelper.getHibernateValidatorExpression(this));
 	}
 	
+	/** 删除聚集函数的相关char,示例转换 count(*) => count, max(age) => max_age, sum(income) => sum_income */
+    public static String removeAggregationColumnChars(String columSqlName) {
+        return columSqlName.replace('(', '_').replace(")", "").replace("*", "");
+    }
+	
 	private String enumString = "";
 	private String javaType;
 	private String columnAlias;
