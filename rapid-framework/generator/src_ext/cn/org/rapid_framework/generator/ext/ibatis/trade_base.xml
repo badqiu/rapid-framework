@@ -13,8 +13,8 @@
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
     		FROM trade_base BTB 
-				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
 			<isNotEmpty property="partnerIds">
@@ -218,8 +218,8 @@
     		SELECT 
     			count(*) count,sum(amount) sum_amount
     		FROM trade_base BTB 
-				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 
     		BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
     		
