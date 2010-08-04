@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import cn.org.rapid_framework.generator.Generator;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
@@ -26,16 +27,17 @@ public class AirTest extends GeneratorTestCase {
         GeneratorProperties.setProperty("jdbc.username", "merchant");
         GeneratorProperties.setProperty("jdbc.password", "merchant");
         GeneratorProperties.setProperty("basepackage", "com.alipay.mquery.common.dal.air");
-        
+        g = new Generator();
         g.setOutRootDir("./temp/generate_by_sql_config");
         GeneratorProperties.setProperty("appName", "rapid");
     }
     
     public void test_genereate_by_sql_config() throws Exception {
-        genereate_by_table_config("trade_base.xml");
+//        genereate_by_table_config("trade_base.xml");
+        genereate_by_table_config("mcenter_air_ext.xml");
         genereate_by_table_config("mcenter_creditpay.xml");
         genereate_by_table_config("mcenter_account_log.xml");
-        genereate_by_table_config("trade_fund_bill.xml");
+//        genereate_by_table_config("trade_fund_bill.xml");
 //        genereate_by_table_config("mcenter_air_ext.xml");
     }
 
