@@ -102,11 +102,22 @@ public class XMLHelper {
         public String toString() {
             return "nodeName="+nodeName+",attributes="+attributes+" nodeValue="+nodeValue+" child:\n"+childs;
         }
-        public Map getElementMap(String nodeNameKey) {
+        
+        public Map<String,String> nodeNameAsAttributes(String nodeNameKey) {
             Map map = new HashMap();
             map.putAll(attributes);
             map.put(nodeNameKey, nodeName);
             return map;
+        }
+        
+        public List<Map<String,String>> childsAsListMap() {
+        	List<Map<String,String>> result = new ArrayList();
+            for(NodeData c : childs) {
+            	Map map = new LinkedHashMap();
+            	map.put(c.nodeName, c.nodeValue);
+            	result.add(map);
+            }
+            return result;
         }
     }
     
@@ -155,7 +166,7 @@ public class XMLHelper {
         Pattern p = Pattern.compile("(\\w+?)=['\"](.*?)['\"]");
         Matcher m = p.matcher(attributes);
         while(m.find()) {
-            result.put(m.group(1), m.group(2));
+            result.put(m.group(1),StringHelper.unescapeXml(m.group(2)));
         }
         return result;
     }

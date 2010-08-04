@@ -41,6 +41,13 @@ public class XMLHelperTest extends TestCase {
     	assertEquals("UTF-8",XMLHelper.getXMLEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
     	assertEquals("UTF-8",XMLHelper.getXMLEncoding("<?xml version=\"1.0\" encoding='UTF-8'?>"));
     }
+    
+    public void test_parseAttributes() {
+    	Map map = XMLHelper.parse2Attributes("name='abc' sex='&amp;123' jj=\"123456\" ");
+    	assertEquals("abc",map.get("name"));
+    	assertEquals("&123",map.get("sex"));
+    	assertEquals("123456",map.get("jj"));
+    }
 
     public void test_removeXmlns() {
 //    	assertEquals("abc  dd ",XMLHelper.removeXmlns("abc xmlns=\"http://maven.apache.org/POM/4.0.0\" dd xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""));
@@ -50,7 +57,7 @@ public class XMLHelperTest extends TestCase {
     }
     
     public void verifyColumn(NodeData c, String expected) {
-        Map column = c.getElementMap("sqlName");
+        Map column = c.nodeNameAsAttributes("sqlName");
         assertEquals(expected,column.toString());
     }
     
