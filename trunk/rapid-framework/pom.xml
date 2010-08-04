@@ -28,7 +28,6 @@
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<mybatis.version>3.0.1</mybatis.version>
 		
-		<project.sourceEncoding>UTF-8</project.sourceEncoding>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -565,7 +564,6 @@
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
-					<encoding>${project.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
@@ -588,7 +586,7 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.4.2</version>
 				<configuration>
-					<encoding>${project.sourceEncoding}</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 			
@@ -651,10 +649,6 @@
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-javadoc-plugin</artifactId>
 			  <version>2.3</version>
-      		  <configuration>
-      				<encoding>${project.sourceEncoding}</encoding>
-        			<charset>${project.sourceEncoding}</charset>
-      		  </configuration>			  
 			  <executions>
 			    <execution>
 			      <id>attach-javadocs</id>
