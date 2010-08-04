@@ -31,6 +31,11 @@ public class TableConfig {
     public String remarks;
     public List<MetaColumn> column = new ArrayList();
     public List<MetaOperation> operation = new ArrayList<MetaOperation>();
+    
+    //for support 
+    //<sql id="columns"><![CDATA[ ]]></sql id="columns">
+    //<include refid="columns"/> 
+    public List<String> sql = new ArrayList<String>(); 
 
     public static TableConfig parseFromXML(InputStream reader) {
         XStream x = newXStream();
@@ -132,9 +137,10 @@ public class TableConfig {
     
     private static class Convert2SqlsProecssor {
         
-        public static List<Sql> toSqls(TableConfig table) throws SQLException, Exception {
+        public static List<Sql> toSqls(TableConfig table)  {
             List<Sql> sqls = new ArrayList<Sql>();
             for(MetaOperation op :table.getOperation()) {
+                try {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
@@ -156,6 +162,9 @@ public class TableConfig {
                 sql.setTableSqlName(table.getSqlname());
                 sql.setPaging(op.isPaging());
                 sqls.add(sql);
+                }catch(Exception e) {
+                    throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName(),e);
+                }
             }
             return sqls;
         }        
