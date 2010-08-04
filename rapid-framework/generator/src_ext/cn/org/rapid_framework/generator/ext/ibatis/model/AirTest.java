@@ -19,17 +19,20 @@ public class AirTest extends GeneratorTestCase {
     public void setUp() throws Exception {
         GLogger.perf = true;
         System.setProperty("gg.isOverride", "true");
-        System.setProperty("generator.outputEncoding", "GBK");
         System.setProperty("generator.sql.resultClass.suffix", "DO");
         
-        GeneratorProperties.setProperty("jdbc.url", "jdbc:mysql://mypay1.devdb.alipay.net:3306/mcenter?useUnicode=true&characterEncoding=GBK");
+        GeneratorProperties.setProperty("jdbc.url", "jdbc:mysql://mypay1.devdb.alipay.net:3306/mcenter?useUnicode=true&characterEncoding=UTF-8");
         GeneratorProperties.setProperty("jdbc.driver", "com.mysql.jdbc.Driver");
         GeneratorProperties.setProperty("jdbc.username", "merchant");
         GeneratorProperties.setProperty("jdbc.password", "merchant");
+        
         GeneratorProperties.setProperty("basepackage", "com.alipay.mquery.common.dal.air");
-        g = new Generator();
-        g.setOutRootDir("./temp/generate_by_sql_config");
         GeneratorProperties.setProperty("appName", "rapid");
+        
+        g = new Generator();
+        g.setSourceEncoding("GBK");
+        g.setOutputEncoding("GBK");
+        g.setOutRootDir("./temp/generate_by_sql_config");
     }
     
     public void test_genereate_by_sql_config() throws Exception {
@@ -59,8 +62,4 @@ public class AirTest extends GeneratorTestCase {
         }
     }
 
-    public void test_generate_by_sql() throws Exception {
-        
-    }
-    
 }

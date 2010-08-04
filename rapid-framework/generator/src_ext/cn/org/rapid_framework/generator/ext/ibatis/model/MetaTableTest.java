@@ -53,7 +53,7 @@ public class MetaTableTest extends GeneratorTestCase {
 	}
 	
     
-    private GeneratorModel newFromSql(Sql sql, TableConfig t) {
+	public static GeneratorModel newFromSql(Sql sql, TableConfig t) {
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
         templateModel.put("sql", sql);
@@ -69,7 +69,7 @@ public class MetaTableTest extends GeneratorTestCase {
         return gm;
     }
 
-    private GeneratorModel newFromTable(TableConfig t) {
+    public static GeneratorModel newFromTable(TableConfig t) {
         
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
