@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.xml.sax.SAXException;
 
 import cn.org.rapid_framework.generator.ext.ibatis.IbatisSqlMapConfigParser;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
@@ -18,6 +22,8 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.XMLHelper;
+import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
@@ -35,11 +41,49 @@ public class TableConfig {
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
     //<include refid="columns"/> 
-    public List<String> sql = new ArrayList<String>(); 
+    public List<MetaSql> sql = new ArrayList<MetaSql>(); 
 
-    public static TableConfig parseFromXML(InputStream reader) {
-        XStream x = newXStream();
-        return (TableConfig)x.fromXML(reader);
+    public static TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
+        NodeData nodeData = new XMLHelper().parseXML(reader);
+        TableConfig config = new TableConfig();
+        BeanHelper.copyProperties(config, nodeData.attributes);
+        
+        for(NodeData child : nodeData.childs) {
+            // table/operation
+            if("operation".equals(child.nodeName)) {
+                MetaOperation target = new MetaOperation();
+                BeanHelper.copyProperties(target, child.attributes);
+                for(NodeData opChild : child.childs) {
+                    // table/operation/extraparams/param
+                    if("extraparams".equals(opChild.nodeName)) {
+                        for(NodeData paramNode : opChild.childs) {
+                            MetaParam mp = new MetaParam();
+                            BeanHelper.copyProperties(mp, paramNode.attributes);
+                            target.extraparams.add(mp);
+                        }
+                    }else {
+                        BeanHelper.setProperty(target, opChild.nodeName, opChild.nodeValue);
+                    }
+                }
+                config.operation.add(target);
+            }
+            // table/column
+            if("column".equals(child.nodeName)) {
+                MetaColumn target = new MetaColumn();
+                BeanHelper.copyProperties(target, child.attributes);
+                config.column.add(target);
+            }
+            // table/sql
+            if("sql".equals(child.nodeName)) {
+                MetaSql target = new MetaSql();
+                BeanHelper.copyProperties(target, child.attributes);
+                target.sql = child.nodeValue;
+                config.sql.add(target);
+            }
+        }
+        return config;
+//        XStream x = newXStream();
+//        return (TableConfig)x.fromXML(reader);
     }
 
     private static XStream newXStream() {
@@ -48,8 +92,12 @@ public class TableConfig {
         x.alias("column", MetaColumn.class);
         x.alias("param", MetaParam.class);
         x.alias("operation", MetaOperation.class);
+        x.alias("sql", MetaSql.class);
+        
         x.addImplicitCollection(TableConfig.class,"column",MetaColumn.class);
+        x.addImplicitCollection(TableConfig.class,"sql",MetaSql.class);
         x.addImplicitCollection(TableConfig.class,"operation",MetaOperation.class);
+        
         x.useAttributeFor(int.class);
         x.useAttributeFor(long.class);
         x.useAttributeFor(boolean.class);
@@ -143,7 +191,7 @@ public class TableConfig {
                 try {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
-                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql());
+                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.sql));
                 String unescapeSqlString = StringHelper.unescapeXml(sqlString);
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
                 Sql sql = sqlFactory.parseSql(namedSql);
@@ -169,6 +217,14 @@ public class TableConfig {
             return sqls;
         }        
         
+        private static Map<String, String> toMap(List<MetaSql> sql) {
+            Map map = new HashMap();
+            for(MetaSql s : sql) {
+                map.put(s.id, s.sql);
+            }
+            return map;
+        }
+
         private static List<Column> getCustomColumns(TableConfig table) throws Exception {
             List<Column> result = new ArrayList<Column>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
@@ -210,7 +266,7 @@ public class TableConfig {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SAXException {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
         TableConfig metaTable = new TableConfig();
         metaTable.column.add(new MetaColumn());
@@ -220,6 +276,26 @@ public class TableConfig {
         System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
     }
     
+    public static class MetaSql {
+        String id;
+        String sql;
+        public String toString() {
+            return String.format("<sql id='%s'>%s</sql>",id,sql);
+        }
+        public String getId() {
+            return id;
+        }
+        public void setId(String id) {
+            this.id = id;
+        }
+        public String getSql() {
+            return sql;
+        }
+        public void setSql(String sql) {
+            this.sql = sql;
+        }
+        
+    }
     public static class MetaColumn {
         private String name;
         private String javatype;

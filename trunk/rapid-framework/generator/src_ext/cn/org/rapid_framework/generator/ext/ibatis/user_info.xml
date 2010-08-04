@@ -49,35 +49,38 @@
 		</sql>
 	</operation>
 
-	<operation name="insert" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+	<operation name="insertWithSelectKey" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
 	<sql>
-    <![CDATA[
-        INSERT INTO USER_INFO (
-        	USER_ID ,
-        	USERNAME ,
-        	PASSWORD ,
-        	BIRTH_DATE ,
-        	SEX ,
-        	AGE 
-        ) VALUES (
-        	#userId# ,
-        	#username# ,
-        	#password# ,
-        	#birthDate# ,
-        	#sex# ,
-        	#age# 
-        )
-    ]]>
-    <!--
-    mysql:		type="post" SELECT  select last_insert_id()
-    sqlserver:	type="post" SELECT  @@identity  AS  ID
-    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
-    DB2:		type="pre"	values nextval for sequenceName
-    -->
-        <selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
-            select last_insert_id()
-        </selectKey>     
+	    <![CDATA[
+	        INSERT INTO USER_INFO (
+	        	USER_ID ,
+	        	USERNAME ,
+	        	PASSWORD ,
+	        	BIRTH_DATE ,
+	        	SEX ,
+	        	AGE 
+	        ) VALUES (
+	        	#userId# ,
+	        	#username# ,
+	        	#password# ,
+	        	#birthDate# ,
+	        	#sex# ,
+	        	#age# 
+	        )
+	    ]]>
+	    	<!--
+		    mysql:		type="post" SELECT  select last_insert_id()
+		    sqlserver:	type="post" SELECT  @@identity  AS  ID
+		    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+		    DB2:		type="pre"	values nextval for sequenceName
+		    -->
+	    <!-- 
+	        <selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
+	            select last_insert_id()
+	        </selectKey>  
+	     -->
         </sql>
+        
     </operation>
 
 	<operation name="update" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
@@ -197,5 +200,15 @@
 	    ]]>
 	    </sql>
     </operation>
-    			
+
+    <operation name="testIncludeByRefid" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT <include refid="columns"/> 
+	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE 
+	    ]]>
+	    </sql>
+    </operation>
+    
+	<sql id="columns"><![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]></sql>            			
 </table>
