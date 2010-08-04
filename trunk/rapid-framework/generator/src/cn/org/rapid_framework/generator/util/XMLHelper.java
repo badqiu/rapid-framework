@@ -18,11 +18,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.CDATASection;
+import org.w3c.dom.CharacterData;
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -44,10 +48,10 @@ public class XMLHelper {
 	
     static Document getLoadingDoc(InputStream in) throws SAXException,IOException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringElementContentWhitespace(true);
+        dbf.setIgnoringElementContentWhitespace(false);
         dbf.setValidating(false);
-        dbf.setCoalescing(true);
-        dbf.setIgnoringComments(true);
+        dbf.setCoalescing(false);  //convert CDATA nodes to Text
+        dbf.setIgnoringComments(false);
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputSource is = new InputSource(in);
@@ -62,6 +66,7 @@ public class XMLHelper {
         nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
         nodeData.childs = new ArrayList<NodeData>();
+        nodeData.text = childsAsText(elm,new StringBuffer()).toString();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
@@ -74,7 +79,54 @@ public class XMLHelper {
         return nodeData;
     }
     
-    private static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
+    private StringBuffer childsAsText(Node elm,StringBuffer sb) {
+    	 if(elm.getNodeType() == Node.CDATA_SECTION_NODE) {
+    		 CDATASection cdata = (CDATASection)elm;
+    		 sb.append("<![CDATA[");
+    		 sb.append(cdata.getData());
+    		 sb.append("]]>");
+    		 return sb;
+    	 }
+    	 if(elm.getNodeType() == Node.COMMENT_NODE) {
+    		 Comment c = (Comment)elm;
+    		 sb.append("<!--");
+    		 sb.append(c.getData());
+    		 sb.append("-->");
+    		 return sb;
+    	 }
+    	 if(elm.getNodeType() == Node.TEXT_NODE) {
+    		 Text t = (Text)elm;
+    		 sb.append(t.getData());
+    		 return sb;
+    	 }
+    	 NodeList childs = elm.getChildNodes();
+    	 sb.append("<"+elm.getNodeName()+" ");
+    	 attributes2String(elm, sb);
+         sb.append(">");
+         for(int i = 0; i < childs.getLength() ; i++) {
+             Node child = childs.item(i);
+//             if(StringHelper.isNotEmpty(child.getNodeValue())) {
+//            	 sb.append(child.getNodeValue());
+//             }
+             childsAsText(child,sb);
+         }
+         sb.append("</"+elm.getNodeName()+">");
+         return sb;
+	}
+
+	private void attributes2String(Node elm, StringBuffer sb) {
+		NamedNodeMap attributes = elm.getAttributes();
+         if(attributes != null) {
+             for(int j = 0; j < attributes.getLength(); j++) {
+                 sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), attributes.item(j).getNodeValue()));
+                 if(j < attributes.getLength() - 1) {
+                	 sb.append(" ");
+                 }
+             }
+         }
+	}
+
+	private static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
         if(attributes == null) return new LinkedHashMap<String,String>();
         Map<String,String> result = new LinkedHashMap<String,String>();
         for(int i = 0; i < attributes.getLength(); i++) {
@@ -96,6 +148,7 @@ public class XMLHelper {
     public static class NodeData {
         public String nodeName;
         public String nodeValue;
+        public String text;
         public Map<String,String> attributes = new HashMap<String,String>();
         public List<NodeData> childs = new ArrayList<NodeData>();
         
