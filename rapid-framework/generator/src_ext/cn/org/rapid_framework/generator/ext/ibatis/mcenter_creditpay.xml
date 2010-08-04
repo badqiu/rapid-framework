@@ -8,13 +8,11 @@
 		<sql>
 			<![CDATA[
 	    	SELECT 
-		        BILL_NO ,MC.TRADE_NO ,AMOUNT ,TRANS_DATE ,TRANS_ACCOUNT_OUT ,TRANS_ACCOUNT_IN ,CUSTOMER_ID ,BIZ_NAME ,OPERATOR_ID ,OPERATOR_NAME ,MEMO ,loan_success ,pay_success ,MC.gmt_trade_create,
-    			PNR,TICKET_NO_START,TICKET_NO_END,system_partner,
-    			id,out_trade_no,seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,currency,seller_action,buyer_action,gmt_create,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,channel,product,pay_channel
+		        BILL_NO ,MC.out_trade_no,MC.TRADE_NO ,AMOUNT ,TRANS_DATE ,TRANS_ACCOUNT_OUT ,TRANS_ACCOUNT_IN ,CUSTOMER_ID ,BIZ_NAME ,OPERATOR_ID ,OPERATOR_NAME ,MEMO ,loan_success ,pay_success ,MC.gmt_trade_create,
+    			PNR,TICKET_NO_START,TICKET_NO_END,system_partner
 		    FROM mcenter_creditpay MC
 		    	inner join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
-		    	inner join trade_base BTB on MC.trade_no = BTB.trade_no
-		    WHERE 
+		    WHERE
 		    	MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
 		    	 
 				<isNotEmpty prepend="and" property="billNo">
@@ -67,7 +65,7 @@
 		       </isNotEmpty>
 		       
 		       <isNotEmpty prepend="AND" property="outTradeNo">
-		             BTB.out_trade_no = #outTradeNo#
+		             MC.out_trade_no = #outTradeNo#
 		       </isNotEmpty>
 
 				<isNotEmpty prepend="and" property="pnr">

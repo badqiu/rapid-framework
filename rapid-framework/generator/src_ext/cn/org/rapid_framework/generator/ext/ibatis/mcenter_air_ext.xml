@@ -9,8 +9,8 @@
     	<sql>
     	<![CDATA[
     		SELECT 
-    		BTB.id,BTB.trade_no,out_trade_no,seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,currency,seller_action,buyer_action,gmt_create,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,channel,product,pay_channel,
-    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+    		BTB.id,BTB.trade_no,BTB.out_trade_no,BTB.seller_account,BTB.seller_login_email,BTB.buyer_account,BTB.buyer_login_email,BTB.seller_type,BTB.buyer_type,BTB.trade_from,BTB.trade_email,BTB.operator_role,BTB.trade_status,BTB.total_fee,BTB.service_fee_ratio,BTB.service_fee,BTB.currency,BTB.seller_action,BTB.buyer_action,BTB.gmt_create,BTB.seller_user_id,BTB.buyer_user_id,BTB.additional_trd_status,BTB.trade_type,BTB.seller_fullname,BTB.buyer_fullname,BTB.seller_nick,BTB.buyer_nick,BTB.goods_title,BTB.gmt_last_modified_dt,BTB.stop_timeout,BTB.gathering_type,BTB.buyer_marker,BTB.seller_marker,BTB.buyer_marker_memo,BTB.seller_marker_memo,BTB.channel,BTB.product,BTB.pay_channel,
+    		MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
     		FROM trade_base BTB 
 				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
