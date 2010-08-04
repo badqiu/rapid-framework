@@ -118,7 +118,7 @@ public class XMLHelper {
 		NamedNodeMap attributes = elm.getAttributes();
          if(attributes != null) {
              for(int j = 0; j < attributes.getLength(); j++) {
-                 sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), attributes.item(j).getNodeValue()));
+                 sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), StringHelper.escapeXml(attributes.item(j).getNodeValue())));
                  if(j < attributes.getLength() - 1) {
                 	 sb.append(" ");
                  }

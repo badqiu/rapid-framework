@@ -40,7 +40,31 @@ public class StringHelper {
 		}
 		return str;
 	}
-		 
+
+	public static String escapeXml(String str) {
+		if(str == null) return null;
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < str.length(); i++) {
+			char c = str.charAt(i);
+			String escapedStr = getEscapedStringByChar(c);
+			if(escapedStr == null)
+				sb.append(c);
+			else
+				sb.append(escapedStr);
+		}
+		return sb.toString();
+	}
+
+	private static String getEscapedStringByChar(char c) {
+		String escapedStr = null;
+		for (String key : XML.keySet()) {
+			String value = XML.get(key);
+			if (c == value.charAt(0)) {
+				escapedStr = "&" + key + ";";
+			}
+		}
+		return escapedStr;
+	}
 
 	public static String removePrefix(String str,String prefix) {
 		return removePrefix(str,prefix,false);
