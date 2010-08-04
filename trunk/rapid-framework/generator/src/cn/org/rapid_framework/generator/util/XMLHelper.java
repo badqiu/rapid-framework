@@ -19,7 +19,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.CDATASection;
-import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,7 +49,7 @@ public class XMLHelper {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setIgnoringElementContentWhitespace(false);
         dbf.setValidating(false);
-        dbf.setCoalescing(false);  //convert CDATA nodes to Text
+        dbf.setCoalescing(true);  //convert CDATA nodes to Text FIXME 该节点与if(elm.getNodeType() == Node.CDATA_SECTION_NODE) 
         dbf.setIgnoringComments(false);
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -100,14 +99,11 @@ public class XMLHelper {
     		 return sb;
     	 }
     	 NodeList childs = elm.getChildNodes();
-    	 sb.append("<"+elm.getNodeName()+" ");
+    	 sb.append("<"+elm.getNodeName());
     	 attributes2String(elm, sb);
          sb.append(">");
          for(int i = 0; i < childs.getLength() ; i++) {
              Node child = childs.item(i);
-//             if(StringHelper.isNotEmpty(child.getNodeValue())) {
-//            	 sb.append(child.getNodeValue());
-//             }
              childsAsText(child,sb);
          }
          sb.append("</"+elm.getNodeName()+">");
@@ -117,6 +113,7 @@ public class XMLHelper {
 	private void attributes2String(Node elm, StringBuffer sb) {
 		NamedNodeMap attributes = elm.getAttributes();
          if(attributes != null) {
+        	 sb.append(" ");
              for(int j = 0; j < attributes.getLength(); j++) {
                  sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), StringHelper.escapeXml(attributes.item(j).getNodeValue())));
                  if(j < attributes.getLength() - 1) {
