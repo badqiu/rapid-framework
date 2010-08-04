@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.ext.ibatis;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,18 +29,37 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
 		return super.afterProcessedSql(sql);
 	}
 	
+
+	
+    public static String parse(String str) {
+        return parse(str,new HashMap());
+    }	
+
     //1. 处理  query not allowed
     //2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
-    public static String parse(String str) {
-        str = removeComments("<sql>"+str+"</sql>");
-        Pattern p =  Pattern.compile("</?\\w+(.*?)>");
+    // 同时支持 <include refid="otherSql"/> <sql id=""></sql>
+    public static String parse(String str,Map<String,String> includeSqls) {
+        str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
+        Pattern xmlTagRegex =  Pattern.compile("</?(\\w+)(.*?)>");
         StringBuffer sb = new StringBuffer();
-        Matcher m = p.matcher(str);
+        Matcher m = xmlTagRegex.matcher(str);
         
         String open = null;
         String close = null;
         while(m.find()) {
-            Map<String,String> attributes = XMLHelper.parse2Attributes(m.group(1));
+            String xmlTag = m.group(1);
+            String attributesString = m.group(2);
+            
+            Map<String,String> attributes = XMLHelper.parse2Attributes(attributesString);
+            //process <include refid="otherSql"/>
+            if(xmlTag.startsWith("include")) {
+                String refid = attributes.get("refid");
+                String includeValue = includeSqls.get(refid);
+                if(includeValue == null) throw new IllegalArgumentException("not found include sql <include refid='"+refid+"'/>");
+                m.appendReplacement(sb, includeValue);
+                continue;
+            }
+            
             String prepend = attributes.get("prepend");
             
             open = attributes.get("open");
@@ -54,6 +74,8 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             
             open = null;
             close = attributes.get("close");
+            
+            
         }
         return sb.toString().replaceAll("(?i)where\\s+and", "WHERE");
     }
