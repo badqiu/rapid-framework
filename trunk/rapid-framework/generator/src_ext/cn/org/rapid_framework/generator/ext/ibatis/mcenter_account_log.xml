@@ -51,11 +51,11 @@
 					</iterate>
 			</isNotEmpty>	
 
-			<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
-					MAL.trans_dt &gt;= #gmtCreateStartTime#
+			<isNotEmpty prepend="and" property="transDtBegin">
+					MAL.trans_dt &gt;= #transDtBegin#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
-					MAL.trans_dt &lt; #gmtCreateEndTime#
+			<isNotEmpty prepend="and" property="transDtEnd">
+					MAL.trans_dt &lt; #transDtEnd#
 			</isNotEmpty>	
 
 			<isNotEmpty prepend="and" property="minTransAmount">
@@ -165,11 +165,11 @@
 					</iterate>
 			</isNotEmpty>	
 
-			<isNotEmpty prepend="and" property="gmtTradeCreateStartTime">
-					MAL.trans_dt &gt;= #gmtCreateStartTime#
+			<isNotEmpty prepend="and" property="transDtBegin">
+					MAL.trans_dt &gt;= #transDtBegin#
 			</isNotEmpty>
-			<isNotEmpty prepend="and" property="gmtTradeCreateEndTime">
-					MAL.trans_dt &lt; #gmtCreateEndTime#
+			<isNotEmpty prepend="and" property="transDtEnd">
+					MAL.trans_dt &lt; #transDtEnd#
 			</isNotEmpty>	
 
 			<isNotEmpty prepend="and" property="minTransAmount">
