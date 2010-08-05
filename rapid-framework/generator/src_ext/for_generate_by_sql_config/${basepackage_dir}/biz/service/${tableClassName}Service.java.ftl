@@ -22,7 +22,7 @@ public interface ${tableConfig.tableClassName}Service {
 
 <#list tableConfig.sqls as sql>
 	/**
-	 * ${sql.remarks}
+	 * ${sql.remarks!}
 	 */
 	<#if (sql.params?size > 4) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException;

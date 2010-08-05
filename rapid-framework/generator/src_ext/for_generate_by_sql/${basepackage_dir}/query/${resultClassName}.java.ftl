@@ -7,6 +7,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public class ${sql.resultClassName} implements java.io.Serializable {
 
 	<#list sql.columns as column>
+	/** ${column.columnAlias} */
 	private ${column.simpleJavaType} ${column.columnNameLower};
 	</#list>
 
