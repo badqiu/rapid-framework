@@ -4,11 +4,11 @@ package cn.org.rapid_framework.lang.enums;
  * 
  * @author badqiu
  */
-public interface EnumBase<K,V> {
+public interface EnumBase<K> {
     
     public K getCode();
     
-    public V getDesc();
+    public String getDesc();
     
     public String name();
     
