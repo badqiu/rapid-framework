@@ -62,11 +62,11 @@ public class CollectionHelper {
 					result.add(value);
 				}
 			} catch (IllegalAccessException e) {
-				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on object:"+o,e);
+				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on class:"+o.getClass(),e);
 			} catch (InvocationTargetException e) {
-				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on object:"+o,e.getTargetException());
+				throw new IllegalArgumentException("Cannot get propertyValue by propertyName:"+propertyName+" on class:"+o.getClass(),e.getTargetException());
 			} catch (NoSuchMethodException e) {
-				throw new IllegalArgumentException("Unknown property:"+propertyName,e);
+				throw new IllegalArgumentException("no such property:"+propertyName+" on class:"+o.getClass(),e);
 			}
 		}
 		return result;
