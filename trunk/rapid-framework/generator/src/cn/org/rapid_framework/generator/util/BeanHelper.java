@@ -40,6 +40,15 @@ public class BeanHelper {
 		return map;
 	}
 
+   public static PropertyDescriptor getPropertyDescriptor(Class beanClass,String propertyName) {
+        for(PropertyDescriptor pd : getPropertyDescriptors(beanClass)) {
+            if(pd.getName().equals(propertyName)) {
+                return pd;
+            }
+        }
+        return null;
+   }
+	   
 	public static PropertyDescriptor[] getPropertyDescriptors(Class beanClass) {
 		BeanInfo beanInfo = null;
 		try {
@@ -110,13 +119,23 @@ public class BeanHelper {
         return value;
     }
 
-    private static void setProperty(Object target, PropertyDescriptor targetPd, Object value) throws IllegalAccessException,InvocationTargetException {
+    public static void setProperty(Object target, String propertyName, Object value)  {
+        PropertyDescriptor pd = getPropertyDescriptor(target.getClass(),propertyName);
+        if(pd == null) throw new IllegalArgumentException("not found property:"+propertyName+" on class:"+target.getClass());
+        setProperty(target, pd, value);
+    }
+    
+    private static void setProperty(Object target, PropertyDescriptor targetPd, Object value)  {
         Method writeMethod = targetPd.getWriteMethod();
         if (!Modifier.isPublic(writeMethod.getDeclaringClass()
             .getModifiers())) {
             writeMethod.setAccessible(true);
         }
-        writeMethod.invoke(target, new Object[] { convert(value,writeMethod.getParameterTypes()[0]) });
+        try {
+            writeMethod.invoke(target, new Object[] { convert(value,writeMethod.getParameterTypes()[0]) });
+        }catch(Exception e) {
+            throw new RuntimeException("error set property:"+targetPd.getName()+" on class:"+target.getClass(),e);
+        }
     }
 
     private static Object convert(Object value, Class<?> targetType) {
