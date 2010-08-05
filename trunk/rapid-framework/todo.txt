@@ -22,6 +22,8 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
+整合安全框架
+	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
 生成器generator.xml支持basedir,多个配置文件需要分开支持
 增加支持多开发环境: prod,dev,test,perf. 程序员的一定是开发环境，其它环境用于覆盖本地环境
 将所有的 className相关的属性整合在一个类中,如 constansName
@@ -35,6 +37,9 @@ app.name=projectName
 app.version=1.0
 app.mode=dev,prod,test,perf
 
+增加解析remark表达式用于column的metadata,如{enumListString=M(男);F(女),} ,增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
+将数据库的数据load出来,作为dbUnit的测试数据源
+generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 自动搜索xml数据并作为generator数据源,如pom.xml,引用变量名为${pom}
 完成SqlQueryFactory
 SafeSqlProcessor
@@ -49,7 +54,6 @@ springmvc的share变量需要使用request,不能使用ModelAndView
 
 dbunit自动加载 package.Class.method.xml下的数据
 
-SqlFactory.insert语句要为insert into user_info values(?,?,?,?,?,?) => insert into user_info(username,password,info) values(?,?,?,?,?,?)
 增加generate dao,service by sqlmap for ibatis2        
 增加generate dao,service by mapper for ibatis3        
 主从表需要指定那一张是主表，才可以进行页面操作
@@ -73,7 +77,6 @@ __#日期类型的dao sql生成 dateBegin,dateEnd输入
 			  Enum配置
 			  input type: select option,label
 #使用 httpInclude.include(value_from_http_request.ftl,'*/default_value.ftl')			  
-generator_insert_location增加判断生成的数据已经存在该文件,将不再插入数据
 增加DTO converter的测试框架
 	其它附加功能，可以生成source，为source自动设置属性值,以避免source没有初始化
 继续完成jdbc_all_crud_sql的基类
@@ -89,8 +92,7 @@ spring服务发布增加: spring/internal, spring/publish两个目录,internal�
 #Enum
 	#生成器增加 column的 enum数据生成,如生成 BizTypeEnum
 	#status and type关键字将自动生成Enum
-增加解析remark表达式用于column的metadata,如{enumListString=M(男);F(女),} ,增加从注释中抽取enumString:F(男);M(女),及增加使用逗号分隔F(男),M(女)
-将数据库的数据load出来,作为dbUnit的测试数据源
+
 #使用设计来避免生成器代码的重复生成问题: 如BaseDao为自动生成 而Dao则为空架子用于编写业务逻辑
 #支持一条sql语句生成操作，可以使用ZQL来解析sql
 #完成Flash Scope
@@ -206,17 +208,10 @@ pipeline中如果不能找到模板的异常处理
      
      3.支持从视图中生成数据,并增加视图的专有模板 template/view
      
-     4.支持从sql query中生成数据, sql query可以作为一个文件储存起来 template/query
-
-
-
 #flex权限控制
 #	参考: http://code.google.com/p/flexible-chimp/
 #	Enterprise security for Flex = http://www.adobe.com/devnet/flex/articles/flex_enterprise_security_03.html
 	
-
-生成器:
-	增加通过一个查询得到列表界面的sql
 
 	#实现模板引擎的pipeline处理模式:
 	#即有一个layout.flt
@@ -263,8 +258,6 @@ BlazeDS学习
 #	Ext2
 整合SiteMesh
 
-整合安全框架
-	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
 数据访问层
 	JPA
 整合RichEditor
