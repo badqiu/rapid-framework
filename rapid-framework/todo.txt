@@ -56,6 +56,8 @@ springmvc的share变量需要使用request,不能使用ModelAndView
 
 dbunit自动加载 package.Class.method.xml下的数据
 
+整合RichEditor
+    FckEditor KindEditor
 增加generate dao,service by sqlmap for ibatis2        
 增加generate dao,service by mapper for ibatis3        
 主从表需要指定那一张是主表，才可以进行页面操作
@@ -262,8 +264,6 @@ BlazeDS学习
 
 数据访问层
 	JPA
-整合RichEditor
-    FckEditor
 寻找Tree组件
 
 模板文件
