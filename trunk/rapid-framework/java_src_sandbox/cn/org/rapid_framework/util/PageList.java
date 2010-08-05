@@ -23,14 +23,14 @@ public class PageList<E> extends ArrayList<E> implements Page<E>,Serializable {
     private long              totalCount;
 
     public PageList() {}
-
-    public PageList(Collection<E> c,PageList pageList) {
-        super(c);
-        this.pageSize = pageList.getPageSize();
-        this.pageNo = pageList.getPageNo();
-        this.totalCount = pageList.getTotalCount();
-    }
     
+    public PageList(Collection<E> c,Page<E> page) {
+        super(c);
+        this.pageSize = page.getPageSize();
+        this.pageNo = page.getPageNo();
+        this.totalCount = page.getTotalCount();
+    }
+
     public PageList(Collection<E> c,int pageSize, int pageNo, long totalCount) {
         super(c);
         this.pageSize = pageSize;
