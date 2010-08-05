@@ -7,8 +7,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.springframework.util.Assert;
-
 import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
  * 用于提供生成器的数据源
@@ -92,7 +90,7 @@ public class DataSourceProvider {
 		}
 
 		public <T> T  unwrap(Class<T> iface) throws SQLException {
-			Assert.notNull(iface, "Interface argument must not be null");
+			if(iface == null) throw new IllegalArgumentException("Interface argument must not be null");
 			if (!DataSource.class.equals(iface)) {
 				throw new SQLException("DataSource of type [" + getClass().getName() +
 						"] can only be unwrapped as [javax.sql.DataSource], not as [" + iface.getName());
