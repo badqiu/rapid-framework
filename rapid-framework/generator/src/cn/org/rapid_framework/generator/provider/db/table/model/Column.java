@@ -604,8 +604,7 @@ public class Column {
 		columnName = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(getSqlName()));
 		enumClassName = getColumnName()+"Enum";		
 		asType = ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());	
-		columnAlias = StringHelper.defaultIfEmpty(getRemarks(), getColumnNameFirstLower());
-		columnAlias = StringHelper.removeCrlf(columnAlias);
+		columnAlias = StringHelper.removeCrlf(StringHelper.defaultIfEmpty(getRemarks(), getColumnNameFirstLower()));
 		setHibernateValidatorExprssion(ColumnHelper.getHibernateValidatorExpression(this));
 	}
 	
