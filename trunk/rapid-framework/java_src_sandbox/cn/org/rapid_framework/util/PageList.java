@@ -7,6 +7,7 @@ package cn.org.rapid_framework.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * 
@@ -14,7 +15,7 @@ import java.util.Collection;
  * 
  * @author badqiu
  */
-public class PageList<E> extends ArrayList<E> implements Serializable {
+public class PageList<E> extends ArrayList<E> implements Page<E>,Serializable {
 
     private static final long serialVersionUID = 1412759446332294208L;
     private int               pageSize;
@@ -60,5 +61,14 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
     public void setTotalCount(long totalCount) {
         this.totalCount = totalCount;
     }
+
+	public List<E> getItemList() {
+		return this;
+	}
+
+	public void setItemList(List<E> list) {
+		clear();
+		addAll(list);
+	}
 
 }
