@@ -740,12 +740,9 @@ public class Money implements Serializable, Comparable {
         return sb.toString();
     }
 
-    /**
-     * 设置货币的分值。
-     * 
-     * @param l
-     */
-    public void setCent(long l) {
-        cent = l;
+    public static Long getCent(Money m) {
+        if(m == null) return null;
+        return m.getCent();
     }
+    
 }
