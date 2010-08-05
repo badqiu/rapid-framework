@@ -22,7 +22,7 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
-拦截器用于支持 @Before(unless="login") @After(unless="login") @Finally, 方法或应该为私有的
+拦截器用于支持 @Before(unless="login") @After(unless="login") @Finally, @Before("*query")方法或应该为私有的
 
 整合安全框架
 	基于RBAC的SpringSecurity权限管理or 重复发明轮子rapid-security
