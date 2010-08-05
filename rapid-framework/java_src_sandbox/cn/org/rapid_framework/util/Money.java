@@ -416,7 +416,7 @@ public class Money implements Serializable, Comparable {
     }
 
     /**
-     * 货币比较。
+     * 货币大于比较。
      *
      * <p>
      * 判断本货币对象是否大于另一货币对象。
@@ -432,6 +432,23 @@ public class Money implements Serializable, Comparable {
         return compareTo(other) > 0;
     }
 
+    /**
+     * 货币小于比较。
+     *
+     * <p>
+     * 判断本货币对象是否小于另一货币对象。
+     * 如果待比较的两个货币对象的币种不同，则抛出<code>java.lang.IllegalArgumentException</code>。
+     * 如果本货币对象的金额小于待比较货币对象，则返回true，否则返回false。
+     *
+     * @param other 另一对象。
+     * @return true表示小于，false表示不小于（小于等于）。
+     *
+     * @exception IllegalArgumentException 待比较货币对象与本货币对象的币种不同。
+     */
+    public boolean lessThan(Money other) {
+        return compareTo(other) < 0;
+    }
+    
     // 货币算术 ==========================================
 
     /**
@@ -739,7 +756,11 @@ public class Money implements Serializable, Comparable {
 
         return sb.toString();
     }
-
+    
+    public Money negate() {
+    	return newMoneyWithSameCurrency(-cent);
+    }
+    
     public static Long getCent(Money m) {
         if(m == null) return null;
         return m.getCent();
