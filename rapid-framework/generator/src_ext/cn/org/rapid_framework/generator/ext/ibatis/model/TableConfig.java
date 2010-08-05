@@ -128,7 +128,8 @@ public class TableConfig {
         if(column != null) {
             for(MetaColumn c : column) {
                 Column tableColumn = t.getColumnByName(c.getName());
-        	    tableColumn.setJavaType(c.getJavatype());
+                if(tableColumn != null)
+                    tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
             }
         }
         return t;

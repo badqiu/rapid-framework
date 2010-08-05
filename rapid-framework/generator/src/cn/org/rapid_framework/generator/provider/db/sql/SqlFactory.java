@@ -123,7 +123,7 @@ public class SqlFactory {
 	        	Column c = convert2Column(sql,metadata, i);
 	        	Column custom = findByCustomColumnBySqlName(c.getSqlName());
 	        	if(custom != null) {
-	        	    c.setJavaType(custom.getJavaType());
+	        	    c.setJavaType(custom.getJavaType()); //FIXME 只能自定义javaType
 	        	}
 	        	if(c == null) throw new IllegalStateException("column must be not null");
 				columns.add(c);
