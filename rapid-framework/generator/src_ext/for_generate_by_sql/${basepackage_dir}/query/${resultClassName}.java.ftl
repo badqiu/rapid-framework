@@ -19,6 +19,7 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 	public ${column.simpleJavaType} get${column.columnName}() {
 		return this.${column.columnNameLower};
 	}
+	
 	</#list>
 
 	public String toString() {
