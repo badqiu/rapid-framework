@@ -88,7 +88,7 @@ public class ProjectTesterGenerator4Sofa {
             System.out.println("===========================================================");
             System.out.println("analysis project class path file:"+classPathFile);
             
-            URL clazzTargetPath = analysisProjectclazzTargetPath(classPathFile);
+            URL clazzTargetPath = getEclipseClasspathOutputPath(classPathFile);
             dependenciesUrls.add(clazzTargetPath);
 //            System.out.println("project class target path:"+clazzTargetPath);
             List<URL> dependencyFiles = analysisProjectDependencyJar(classPathFile);
@@ -105,7 +105,7 @@ public class ProjectTesterGenerator4Sofa {
                                                       List<String> classPathFiles) {
         List<File> projectClassOutputPaths = new ArrayList<File>();
         for(String classPathFile:classPathFiles){
-            URL clazzTargetPath = analysisProjectclazzTargetPath(classPathFile);
+            URL clazzTargetPath = getEclipseClasspathOutputPath(classPathFile);
             projectClassOutputPaths.add(new File(clazzTargetPath.getFile()));
         }
         return projectClassOutputPaths;
@@ -138,7 +138,7 @@ public class ProjectTesterGenerator4Sofa {
         }
     }
     
-    public static URL analysisProjectclazzTargetPath(String classPathFile){
+    public static URL getEclipseClasspathOutputPath(String classPathFile){
         String projectPath = classPathFile.substring(0, classPathFile.indexOf(".classpath"));
         SAXBuilder builder = new SAXBuilder();
         try {
