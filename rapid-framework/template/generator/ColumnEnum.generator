@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import cn.org.rapid_framework.lang.enums.EnumBase;
 import cn.org.rapid_framework.lang.enums.EnumBaseUtils;
 
-public enum ${column.enumClassName} implements EnumBase<${column.simpleJavaType},String>{
+public enum ${column.enumClassName} implements EnumBase<${column.simpleJavaType}>{
 	<#list column.enumList as item>
 	${item.enumAlias}(new ${column.simpleJavaType}("${item.enumKey}"),"${item.enumDesc}")<#if item_has_next>,</#if>
 	</#list>
