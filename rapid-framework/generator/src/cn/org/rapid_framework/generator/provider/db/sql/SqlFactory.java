@@ -121,13 +121,26 @@ public class SqlFactory {
 			LinkedHashSet<Column> columns = new LinkedHashSet();
 	        for(int i = 1; i <= metadata.getColumnCount(); i++) {
 	        	Column c = convert2Column(sql,metadata, i);
+	        	Column custom = findByCustomColumnBySqlName(c.getSqlName());
+	        	if(custom != null) {
+	        	    c.setJavaType(custom.getJavaType());
+	        	}
 	        	if(c == null) throw new IllegalStateException("column must be not null");
 				columns.add(c);
 	        }
 			return columns;
 		}
 	
-		private Column convert2Column(Sql sql,ResultSetMetaData metadata, int i) throws SQLException, Exception {
+		private Column findByCustomColumnBySqlName(String sqlName) {
+            for(Column custom : customColumns) {
+                if(custom.getSqlName().equalsIgnoreCase(sqlName)) {
+                    return custom;
+                }
+            }
+            return null;
+        }
+
+        private Column convert2Column(Sql sql,ResultSetMetaData metadata, int i) throws SQLException, Exception {
 			ResultSetMetaDataHolder m = new ResultSetMetaDataHolder(metadata, i);
 			if(StringHelper.isNotBlank(m.getTableName())) {
 				//FIXME 如果表有别名,将会找不到表,如 inner join user_info t1, tableName将为t1,应该转换为user_info
