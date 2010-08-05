@@ -82,7 +82,7 @@ public class SqlFactory {
 	        
 	        return afterProcessedSql(sql);
         }catch(Exception e) {
-        	throw new RuntimeException("sql parse error,\nsourceSql:"+sourceSql+"\nnamedSql:"+namedSql+"\nexecutedSql:"+executeSql,e);
+        	throw new RuntimeException("sql parse error,\nexecutedSql:"+executeSql,e);
         }finally {
         	try {
 	        	conn.rollback();
