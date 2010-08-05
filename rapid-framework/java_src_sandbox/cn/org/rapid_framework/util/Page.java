@@ -2,11 +2,11 @@ package cn.org.rapid_framework.util;
 
 import java.util.List;
 
-public interface Page<T> extends Iterable<T> {
+public interface Page<E> extends Iterable<E> {
 	
-	public List<T> getItemList();
+	public List<E> getItemList();
 	
-	public void setItemList(List<T> list);
+	public void setItemList(List<E> list);
 	
 	public long getTotalCount();
 	
