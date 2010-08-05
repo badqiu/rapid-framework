@@ -60,7 +60,36 @@ public class XMLHelper {
         }
     }
     
-    private NodeData treeWalk(Element elm) {
+    public static class NodeData {
+        public String nodeName;
+        public String nodeValue;
+        public String text;
+        public Map<String,String> attributes = new HashMap<String,String>();
+        public List<NodeData> childs = new ArrayList<NodeData>();
+        
+        public String toString() {
+            return "nodeName="+nodeName+",attributes="+attributes+" nodeValue="+nodeValue+" child:\n"+childs;
+        }
+        
+        public Map<String,String> nodeNameAsAttributes(String nodeNameKey) {
+            Map map = new HashMap();
+            map.putAll(attributes);
+            map.put(nodeNameKey, nodeName);
+            return map;
+        }
+        
+        public List<Map<String,String>> childsAsListMap() {
+        	List<Map<String,String>> result = new ArrayList();
+            for(NodeData c : childs) {
+            	Map map = new LinkedHashMap();
+            	map.put(c.nodeName, c.nodeValue);
+            	result.add(map);
+            }
+            return result;
+        }
+    }
+    
+    private static NodeData treeWalk(Element elm) {
         NodeData nodeData = new NodeData();
         nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
@@ -76,9 +105,9 @@ public class XMLHelper {
             }
         }
         return nodeData;
-    }
+    }    	
     
-    private StringBuffer childsAsText(Node elm,StringBuffer sb) {
+    private static StringBuffer childsAsText(Node elm,StringBuffer sb) {
     	 if(elm.getNodeType() == Node.CDATA_SECTION_NODE) {
     		 CDATASection cdata = (CDATASection)elm;
     		 sb.append("<![CDATA[");
@@ -110,7 +139,7 @@ public class XMLHelper {
          return sb;
 	}
 
-	private void attributes2String(Node elm, StringBuffer sb) {
+	private static void attributes2String(Node elm, StringBuffer sb) {
 		NamedNodeMap attributes = elm.getAttributes();
          if(attributes != null) {
         	 sb.append(" ");
@@ -123,7 +152,7 @@ public class XMLHelper {
          }
 	}
 
-	private static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
+	public static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
         if(attributes == null) return new LinkedHashMap<String,String>();
         Map<String,String> result = new LinkedHashMap<String,String>();
         for(int i = 0; i < attributes.getLength(); i++) {
@@ -134,41 +163,12 @@ public class XMLHelper {
     
     public NodeData parseXML(InputStream in) throws SAXException, IOException {
         Document doc = getLoadingDoc(in);
-        return new XMLHelper().treeWalk(doc.getDocumentElement());
+        return treeWalk(doc.getDocumentElement());
     }
 
     public NodeData parseXML(File file) throws SAXException, IOException {
         FileInputStream in = new FileInputStream(file);
 		try {return parseXML(in);}finally{in.close();}
-    }
-    
-    public static class NodeData {
-        public String nodeName;
-        public String nodeValue;
-        public String text;
-        public Map<String,String> attributes = new HashMap<String,String>();
-        public List<NodeData> childs = new ArrayList<NodeData>();
-        
-        public String toString() {
-            return "nodeName="+nodeName+",attributes="+attributes+" nodeValue="+nodeValue+" child:\n"+childs;
-        }
-        
-        public Map<String,String> nodeNameAsAttributes(String nodeNameKey) {
-            Map map = new HashMap();
-            map.putAll(attributes);
-            map.put(nodeNameKey, nodeName);
-            return map;
-        }
-        
-        public List<Map<String,String>> childsAsListMap() {
-        	List<Map<String,String>> result = new ArrayList();
-            for(NodeData c : childs) {
-            	Map map = new LinkedHashMap();
-            	map.put(c.nodeName, c.nodeValue);
-            	result.add(map);
-            }
-            return result;
-        }
     }
     
     public static String getXMLEncoding(InputStream inputStream) throws UnsupportedEncodingException, IOException {
