@@ -35,13 +35,13 @@ public class TableConfig {
     public String sequence;
     public String dummypk;
     public String remarks;
-    public List<MetaColumn> column = new ArrayList();
-    public List<MetaOperation> operation = new ArrayList<MetaOperation>();
+    public List<MetaColumn> columns = new ArrayList();
+    public List<MetaOperation> operations = new ArrayList<MetaOperation>();
     
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
     //<include refid="columns"/> 
-    public List<MetaSql> sql = new ArrayList<MetaSql>(); 
+    public List<MetaSql> includeSqls = new ArrayList<MetaSql>(); 
 
     public static TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
         NodeData nodeData = new XMLHelper().parseXML(reader);
@@ -66,20 +66,20 @@ public class TableConfig {
                         BeanHelper.setProperty(target, opChild.nodeName, opChild.nodeValue);
                     }
                 }
-                config.operation.add(target);
+                config.operations.add(target);
             }
             // table/column
             if("column".equals(child.nodeName)) {
                 MetaColumn target = new MetaColumn();
                 BeanHelper.copyProperties(target, child.attributes);
-                config.column.add(target);
+                config.columns.add(target);
             }
             // table/sql
             if("sql".equals(child.nodeName)) {
                 MetaSql target = new MetaSql();
                 BeanHelper.copyProperties(target, child.attributes);
                 target.sql = child.nodeValue;
-                config.sql.add(target);
+                config.includeSqls.add(target);
             }
         }
         return config;
@@ -125,8 +125,8 @@ public class TableConfig {
     }
     public Table getTable() throws Exception {
         Table t = TableFactory.getInstance().getTable(getSqlname());
-        if(column != null) {
-            for(MetaColumn c : column) {
+        if(columns != null) {
+            for(MetaColumn c : columns) {
                 Column tableColumn = t.getColumnByName(c.getName());
                 if(tableColumn != null)
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
@@ -146,20 +146,29 @@ public class TableConfig {
     public void setSequence(String sequence) {
         this.sequence = sequence;
     }
-    public List<MetaColumn> getColumn() {
-        if(column == null) {
-            column = new ArrayList();
+    public List<MetaColumn> getColumns() {
+        if(columns == null) {
+            columns = new ArrayList();
         }
-		return column;
+		return columns;
 	}
-	public void setColumn(List<MetaColumn> column) {
-		this.column = column;
+	public void setColumns(List<MetaColumn> column) {
+		this.columns = column;
 	}
-	public List<MetaOperation> getOperation() {
-        return operation;
+	
+	public List<MetaSql> getIncludeSqls() {
+		return includeSqls;
+	}
+
+	public void setIncludeSqls(List<MetaSql> includeSqls) {
+		this.includeSqls = includeSqls;
+	}
+
+	public List<MetaOperation> getOperations() {
+        return operations;
     }
-    public void setOperation(List<MetaOperation> operations) {
-        this.operation = operations;
+    public void setOperations(List<MetaOperation> operations) {
+        this.operations = operations;
     }
     public String getDummypk() {
         return dummypk;
@@ -189,11 +198,11 @@ public class TableConfig {
         
         public static List<Sql> toSqls(TableConfig table)  {
             List<Sql> sqls = new ArrayList<Sql>();
-            for(MetaOperation op :table.getOperation()) {
+            for(MetaOperation op :table.getOperations()) {
                 try {
                 SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
-                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.sql));
+                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
                 String unescapeSqlString = StringHelper.unescapeXml(sqlString);
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
                 Sql sql = sqlFactory.parseSql(namedSql);
@@ -213,7 +222,7 @@ public class TableConfig {
                 sql.setPaging(op.isPaging());
                 sqls.add(sql);
                 }catch(Exception e) {
-                    throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName(),e);
+                    throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
                 }
             }
             return sqls;
@@ -230,7 +239,7 @@ public class TableConfig {
         private static List<Column> getCustomColumns(TableConfig table) throws Exception {
             List<Column> result = new ArrayList<Column>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
-            for(MetaColumn mc : table.getColumn()) {
+            for(MetaColumn mc : table.getColumns()) {
                 Column c = t.getColumnByName(mc.getName());
                 if(c == null) {
                     c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
@@ -247,7 +256,7 @@ public class TableConfig {
         private static List<SqlParameter> getCustomSqlParameters(TableConfig table) throws Exception {
             List<SqlParameter> result = new ArrayList<SqlParameter>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
-            for(MetaOperation op : table.getOperation()) {
+            for(MetaOperation op : table.getOperations()) {
                 if(op.getExtraparams() != null) {
                     for(MetaParam param : op.getExtraparams()) {
                         Column c = t.getColumnByName(param.getName());
@@ -271,9 +280,9 @@ public class TableConfig {
     public static void main(String[] args) throws IOException, SAXException {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
         TableConfig metaTable = new TableConfig();
-        metaTable.column.add(new MetaColumn());
-        metaTable.column.add(new MetaColumn());
-        metaTable.column.add(new MetaColumn());
+        metaTable.columns.add(new MetaColumn());
+        metaTable.columns.add(new MetaColumn());
+        metaTable.columns.add(new MetaColumn());
         newXStream().toXML(TableConfig.parseFromXML(new FileInputStream(file)), System.out);
         System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
     }

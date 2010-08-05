@@ -50,7 +50,7 @@ public class XMLHelper {
         dbf.setIgnoringElementContentWhitespace(false);
         dbf.setValidating(false);
         dbf.setCoalescing(true);  //convert CDATA nodes to Text FIXME 该节点与if(elm.getNodeType() == Node.CDATA_SECTION_NODE) 
-        dbf.setIgnoringComments(false);
+        dbf.setIgnoringComments(true); //为false时与CDATA冲突
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputSource is = new InputSource(in);
