@@ -7,6 +7,16 @@ import java.util.LinkedHashMap;
  * @author badqiu
  */
 public class EnumBaseUtils {
+
+    /**
+     * 将EnumBase.getCode()作为Key,EnumBase.getDesc()作为value,存放在Map中并返回
+     * @param <T>
+     * @param values
+     * @return
+     */
+    public static  <T extends EnumBase> LinkedHashMap toMap(Class<? extends EnumBase> enumClass) {
+        return toMap(enumClass.getEnumConstants());
+    }
     
     /**
      * 将EnumBase.getCode()作为Key,EnumBase.getDesc()作为value,存放在Map中并返回
