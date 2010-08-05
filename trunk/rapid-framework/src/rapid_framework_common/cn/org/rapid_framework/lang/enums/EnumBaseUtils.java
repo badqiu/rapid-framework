@@ -25,6 +25,21 @@ public class EnumBaseUtils {
         return map;
     }
     
+   public static <T extends EnumBase> Object getCode(T kv) {
+       if(kv == null) return null;
+       return kv.getCode();
+   }
+   
+   public static <T extends EnumBase> String getDesc(T kv) {
+       if(kv == null) return null;
+       return kv.getDesc();
+   }
+
+   public static <T extends Enum> String getName(T kv) {
+       if(kv == null) return null;
+       return kv.name();
+   }
+
    /**
     * 根据code查找得到Enum
     * @param code
@@ -39,21 +54,6 @@ public class EnumBaseUtils {
             }
        }
        return null;
-   }
-   
-   public static <T extends EnumBase> Object getCode(T kv) {
-       if(kv == null) return null;
-       return kv.getCode();
-   }
-   
-   public static <T extends EnumBase> Object getDesc(T kv) {
-       if(kv == null) return null;
-       return kv.getDesc();
-   }
-
-   public static <T extends Enum> Object getName(T kv) {
-       if(kv == null) return null;
-       return kv.name();
    }
    
    /**
