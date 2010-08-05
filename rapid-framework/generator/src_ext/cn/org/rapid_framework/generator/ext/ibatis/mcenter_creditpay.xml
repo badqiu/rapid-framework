@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <table sqlname="mcenter_creditpay"  remarks="帐务信息表">
-
+	<column name="service_fee" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="TOTAL_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE_RATIO" javatype="double" />
+	
+	<column name="amount" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="bank_amount" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="BANK_AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	
 	<operation name="findCreditpayDetail" paging="true" remarks="信用支付明细分页查询">
 		<extraparams>
 			<param name="tradeNo" javatype="java.lang.String"/>
