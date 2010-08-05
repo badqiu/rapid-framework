@@ -55,7 +55,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             if(xmlTag.startsWith("include")) {
                 String refid = attributes.get("refid");
                 String includeValue = includeSqls.get(refid);
-                if(includeValue == null) throw new IllegalArgumentException("not found include sql <include refid='"+refid+"'/>");
+                if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
                 m.appendReplacement(sb, includeValue);
                 continue;
             }
@@ -80,9 +80,9 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         return sb.toString().replaceAll("(?i)where\\s+and", "WHERE");
     }
     
-    private static String removeComments(String str) {
+    public static String removeComments(String str) {
         if(str == null) return null;
-        return str.replaceAll("<!--.*?-->", "").replaceAll("/\\*.*?\\*/", "").replace("query not allowed", "");
+        return str.replaceAll("(?s)<!--.*?-->", "").replaceAll("(?s)/\\*.*?\\*/", "").replace("query not allowed", "");
     }
     
     public static void main(String[] args) throws IOException {
@@ -92,5 +92,8 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         System.out.println("parsed:"+parse("select * from user_info"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/test.xml");
 		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
+		System.out.println("".equals(removeComments("<!--1\n2\n3-->")));
+		System.out.println("".equals(removeComments("/*1\n2\n3*/")));
     }
+    
 }
