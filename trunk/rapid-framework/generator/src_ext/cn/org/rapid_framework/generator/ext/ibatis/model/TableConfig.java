@@ -56,6 +56,7 @@ public class TableConfig {
                 for(NodeData opChild : child.childs) {
                     // table/operation/extraparams/param
                     if("extraparams".equals(opChild.nodeName)) {
+                        // table/operation/extraparams/param
                         for(NodeData paramNode : opChild.childs) {
                             MetaParam mp = new MetaParam();
                             BeanHelper.copyProperties(mp, paramNode.attributes);
