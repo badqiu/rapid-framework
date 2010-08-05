@@ -1,22 +1,19 @@
 package cn.org.rapid_framework.lang.enums;
 
-import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
-
-import org.springframework.util.ReflectionUtils;
 /**
  * 枚举工具类
  * 
  * @author badqiu
  */
 public class EnumBaseUtils {
-	
-	/**
-	 * 将EnumBase.getCode()作为Key,EnumBase.getDesc()作为value,存放在Map中并返回
-	 * @param <T>
-	 * @param values
-	 * @return
-	 */
+    
+    /**
+     * 将EnumBase.getCode()作为Key,EnumBase.getDesc()作为value,存放在Map中并返回
+     * @param <T>
+     * @param values
+     * @return
+     */
     public static  <T extends EnumBase> LinkedHashMap toMap(T[] values) {
         LinkedHashMap map = new LinkedHashMap();
         for(EnumBase item : values) {
@@ -46,6 +43,16 @@ public class EnumBaseUtils {
     * @param values
     * @return
     */
+   public static <T extends EnumBase> T getByCode(Object code,Class<? extends EnumBase> enumClass) {
+       return (T)getByCode(code, enumClass.getEnumConstants());
+   }
+   
+   /**
+    * 根据code查找得到Enum
+    * @param code
+    * @param values
+    * @return
+    */
    public static <T extends EnumBase> T getByCode(Object code,T[] values) {
        if(code == null) return null;
        for (T item : values) {
@@ -54,6 +61,16 @@ public class EnumBaseUtils {
             }
        }
        return null;
+   }
+
+   /**
+    * 根据code查找得到Enum
+    * @param code
+    * @param values
+    * @return
+    */
+   public static <T extends EnumBase> T getRequiredByCode(Object code,Class<? extends EnumBase> enumClass) {
+       return (T)getRequiredByCode(code, enumClass.getEnumConstants());
    }
    
    /**
