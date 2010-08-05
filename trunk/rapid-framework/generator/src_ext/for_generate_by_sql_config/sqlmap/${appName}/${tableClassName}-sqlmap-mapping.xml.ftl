@@ -11,7 +11,11 @@
 	<#if (sql.columnsCount > 1 && !sql.columnsInSameTable)>
 	<resultMap id="RM.${sql.resultClassName}" class="${basepackage}.query.${sql.resultClass}">
     	<#list sql.columns as column>
+    	<#if column.javaType?ends_with('Money')>
+		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}"/>
+    	<#else>
 		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
+    	</#if>
     	</#list>
 	</resultMap>
 	</#if>
