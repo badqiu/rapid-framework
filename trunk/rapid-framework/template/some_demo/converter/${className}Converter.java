@@ -28,7 +28,7 @@ public class ${className}RepositoryConverter {
         return target;
     }
 
-    public static List<${targetClassName}> convert2${targetClassName}List(Iterator<${sourceClassName}> list) {
+    public static List<${targetClassName}> convert2${targetClassName}List(Iterable<${sourceClassName}> list) {
         List<${targetClassName}> results = new ArrayList();
         for(${sourceClassName} source : list) {
             results.add(convert2${targetClassName}(source));
