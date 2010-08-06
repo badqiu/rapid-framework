@@ -757,6 +757,15 @@ public class Money implements Serializable, Comparable {
         return sb.toString();
     }
     
+    /**
+     * 将Money根据汇率表转换成为另外一种货币Money
+     * @param currency 币种
+     * @return
+     */
+    public Money convertTo(Currency currency) {
+        throw new UnsupportedOperationException();
+    }
+    
     public Money negate() {
     	return newMoneyWithSameCurrency(-cent);
     }
