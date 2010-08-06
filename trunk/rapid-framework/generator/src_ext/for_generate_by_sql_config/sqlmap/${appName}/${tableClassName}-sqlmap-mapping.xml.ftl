@@ -49,52 +49,62 @@
 <#if sql.insertSql>
 	<insert id="<@namespace/>${sql.operation}">
 		${sql.ibatisSql?trim}
-        <@genSelectKeyOfInsertSql sql/>             
+        <@genSelectKeyForInsertSql sql/>             
 	</insert>
 </#if>
 </#list>
 
+<#list tableConfig.includeSqls as item>
+	<sql id="${item.id}">
+		${item.sql}
+	</sql>	
+</#list>
+
 </sqlMap>
 
-<#macro genSelectKeyOfInsertSql sql>
-	<#if sql.operation == 'insert'>
-        <#if databaseType == 'oracle'>
-        	<#if tableConfig.sequence??>
+<#macro genSelectKeyForInsertSql sql>
+	<#if sql.operation != 'insert'>
+		<#return>
+    </#if>
+    <#if databaseType == 'oracle'>
+        <#if tableConfig.sequence??>
 		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
             SELECT ${tableConfig.sequence}.nextval FROM DUAL
         </selectKey>
-        	</#if>         
-        </#if>
-        <#if databaseType == 'mysql'>
+        </#if>         
+    </#if>
+    <#if databaseType == 'mysql'>
 		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
             select last_insert_id()
-        </selectKey>        
-        </#if> 
-        <#if databaseType == 'sqlserver'>
+    	</selectKey>        
+    </#if> 
+    <#if databaseType == 'sqlserver'>
 		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
             SELECT  @@identity  AS  ID
         </selectKey>        
-        </#if>                     
-    </#if>
+    </#if>                     
 </#macro>
 
+<#-- for generate page query -->
 <#macro genPageQueryStart sql>
-	<#if sql.paging>
-		<#if databaseType == 'oracle'>
+	<#if !sql.paging>
+		<#return>
+	</#if>
+	<#if databaseType == 'oracle'>
 		select * from ( select row_.*, rownum rownum_ from (
-		</#if>
 	</#if>
 </#macro>
 <#macro genPageQueryEnd sql>
-	<#if sql.paging>
-		<#if databaseType == 'oracle'>
-		) row_ ) where rownum_ <= #endRow# and rownum_ > #startRow#
-		</#if>
-		<#if databaseType == 'mysql'>
-		limit #offset#,#limit#
-		</#if>
-		<#if databaseType == 'postgre_sql'>
-		offset #offset# limit #limit#
-		</#if>		
+	<#if !sql.paging>
+		<#return>
 	</#if>
+	<#if databaseType == 'oracle'>
+		) row_ ) where rownum_ &lt;= #endRow# and rownum_ > #startRow#
+	</#if>
+	<#if databaseType == 'mysql'>
+		limit #offset#,#limit#
+	</#if>
+	<#if databaseType == 'postgre_sql'>
+		offset #offset# limit #limit#
+	</#if>		
 </#macro>
