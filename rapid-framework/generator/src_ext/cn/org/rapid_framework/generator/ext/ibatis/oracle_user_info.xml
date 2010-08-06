@@ -193,7 +193,7 @@
     	<sql>
 	    <![CDATA[
 	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
-	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE 
+	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE NOWAIT
 	    ]]>
 	    </sql>
     </operation>
