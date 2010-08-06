@@ -52,8 +52,12 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             
             Map<String,String> attributes = XMLHelper.parse2Attributes(attributesString);
             //process <include refid="otherSql"/>
-            if(xmlTag.startsWith("include")) {
+            if("include".equals(xmlTag.trim())) {
                 String refid = attributes.get("refid");
+                if(refid == null) {
+                	 m.appendReplacement(sb, "");
+                	 continue;
+                }
                 String includeValue = includeSqls.get(refid);
                 if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
                 m.appendReplacement(sb, includeValue);
