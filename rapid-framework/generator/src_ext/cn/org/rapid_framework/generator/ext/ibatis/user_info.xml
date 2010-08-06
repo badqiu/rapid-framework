@@ -175,6 +175,17 @@
 		       <isNotEmpty prepend="AND" property="age">
 		             AGE = ?
 		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="includeAges">
+		     		age in	
+		    		<iterate open="(" close=")" conjunction="," property="includeAges">
+	    				#includeAges[]#
+	    			</iterate>
+			   </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orIncludeAges">
+		    		<iterate open="(" close=")" conjunction="OR" property="orIncludeAges">
+	    				age = #orIncludeAges[]#
+	    			</iterate>
+			   </isNotEmpty>			       
 	    </dynamic>
 	    <isNotEmpty prepend="ORDER BY" property="orderBy">
 		      #orderBy#
