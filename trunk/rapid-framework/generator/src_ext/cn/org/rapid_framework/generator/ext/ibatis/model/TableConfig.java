@@ -54,7 +54,7 @@ public class TableConfig {
                 MetaOperation target = new MetaOperation();
                 BeanHelper.copyProperties(target, child.attributes);
                 for(NodeData opChild : child.childs) {
-                    // table/operation/extraparams/param
+                    // table/operation/extraparams
                     if("extraparams".equals(opChild.nodeName)) {
                         // table/operation/extraparams/param
                         for(NodeData paramNode : opChild.childs) {
@@ -87,37 +87,6 @@ public class TableConfig {
 //        return (TableConfig)x.fromXML(reader);
     }
 
-    private static XStream newXStream() {
-        XStream x = new XStream(new DomDriver());
-        x.alias("table", TableConfig.class);
-        x.alias("column", MetaColumn.class);
-        x.alias("param", MetaParam.class);
-        x.alias("operation", MetaOperation.class);
-        x.alias("sql", MetaSql.class);
-        
-        x.addImplicitCollection(TableConfig.class,"column",MetaColumn.class);
-        x.addImplicitCollection(TableConfig.class,"sql",MetaSql.class);
-        x.addImplicitCollection(TableConfig.class,"operation",MetaOperation.class);
-        
-        x.useAttributeFor(int.class);
-        x.useAttributeFor(long.class);
-        x.useAttributeFor(boolean.class);
-        x.useAttributeFor(float.class);
-        x.useAttributeFor(double.class);
-        x.useAttributeFor(short.class);
-        x.useAttributeFor(byte.class);
-        x.useAttributeFor(char.class);
-        
-        x.useAttributeFor(String.class);
-        x.useAttributeFor(Integer.class);
-        x.useAttributeFor(Long.class);
-        x.useAttributeFor(Boolean.class);
-        x.useAttributeFor(Double.class);
-        x.useAttributeFor(Float.class);
-        x.useAttributeFor(Short.class);
-        x.useAttributeFor(Byte.class);
-        return x;
-    }
     public String getTableClassName() {
         if(StringHelper.isBlank(sqlname)) return null;
         String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
@@ -283,7 +252,7 @@ public class TableConfig {
         metaTable.columns.add(new MetaColumn());
         metaTable.columns.add(new MetaColumn());
         metaTable.columns.add(new MetaColumn());
-        newXStream().toXML(TableConfig.parseFromXML(new FileInputStream(file)), System.out);
+        TableConfig.parseFromXML(new FileInputStream(file));
         System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
     }
     
