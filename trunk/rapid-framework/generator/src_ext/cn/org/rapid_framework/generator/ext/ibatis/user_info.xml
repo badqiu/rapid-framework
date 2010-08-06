@@ -212,6 +212,28 @@
 	    </sql>
     </operation>
 
+    <operation name="subSelectNotOrderBy" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE 
+	        AGE in (select age from User_info where username = ?)
+	        AND sex in (select age from User_info where sex = ? and password = ? and BIRTH_DATE = ?)
+	    ]]>
+	    </sql>
+    </operation>
+    
+    <!-- 
+    <operation name="subSelectWithOrderByClouse" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE AGE in (select age from User_info order by age)
+	    ]]>
+	    </sql>
+    </operation>
+     -->
+    
     <operation name="testIncludeByRefid" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
