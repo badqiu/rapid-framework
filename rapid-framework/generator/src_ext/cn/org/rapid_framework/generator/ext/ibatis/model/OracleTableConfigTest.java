@@ -12,11 +12,14 @@ import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.GLogger;
 
 public class OracleTableConfigTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
 //        super.setUp();
+    	GLogger.perf = true;
+    	GLogger.logLevel = GLogger.DEBUG;
     	System.setProperty("gg.isOverride", "true");
 		GeneratorProperties.setProperty("jdbc.url", "jdbc:oracle:thin:@localhost:1521:xe");
 		GeneratorProperties.setProperty("jdbc.driver", "oracle.jdbc.driver.OracleDriver");
