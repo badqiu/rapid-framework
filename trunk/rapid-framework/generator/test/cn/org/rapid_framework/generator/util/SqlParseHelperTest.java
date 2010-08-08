@@ -39,6 +39,14 @@ public class SqlParseHelperTest extends TestCase{
 	    tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user as t1,user_role as t2,blog as t3");
 	    System.out.println(tableNames);
 	    verifyTableNames(tableNames,"user t1","user_role t2","blog t3");
+	    
+	    tableNames = SqlParseHelper.getTableNamesByQuery("select T.* from (select username,password from user_info ) as T");
+	    System.out.println(tableNames);
+	    verifyTableNames(tableNames,"user_info");
+	    
+	    tableNames = SqlParseHelper.getTableNamesByQuery("select * from (select username,password from user_info )");
+	    System.out.println(tableNames);
+	    verifyTableNames(tableNames,"user_info");
 	}
 
     public void test_getTableNamesByQuery_with_multi_table2() {
@@ -110,6 +118,8 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("user t inner join info b   order username",SqlParseHelper.getFromClauses("select * from user t inner join info b   order username"));
 		assertEquals("user t inner join info b",SqlParseHelper.getFromClauses("select * from user t inner join info b group     by username"));
 		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select * from user t inner join info b group  username"));
+		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select * from (select username,password from user_info )"));
+		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select T.* from (select username,password from user_info ) as T"));
 	}
 
 	public void test_from_closes_union() {
@@ -156,6 +166,15 @@ public class SqlParseHelperTest extends TestCase{
         String sql = " delete from user_Info where \n " +
                 " user_param>=? and blog_param=? and sex_param<=  ? and pwd_param!=? and content_param<>? and sex2like like ?";
         assertEquals(" delete from user_Info where \n  user_param>=#userParam# and blog_param=#blogParam# and sex_param<=  #sexParam# and pwd_param!=#pwdParam# and content_param<>#contentParam# and sex2like like #sex2like#",SqlParseHelper.convert2NamedParametersSql(sql, "#","#"));
+        
+        sql = " select * from user_Info where \n " +
+        " user_param>=? and blog_param=? and sex_param<=  ? and pwd_param!=? and content_param<>? and sex2like like ?";
+        assertEquals(" select * from user_Info where \n  user_param>=#{userParam# and blog_param=#{blogParam# and sex_param<=  #{sexParam# and pwd_param!=#{pwdParam# and content_param<>#{contentParam# and sex2like like #{sex2like#",SqlParseHelper.convert2NamedParametersSql(sql, "#{","#"));
+
+        sql = " select * from user_Info where \n " +
+        " in_param in (?) and not_in_param not in (?) and age between ? and ?";
+        assertEquals(" select * from user_Info where \n   in_param in (:includeInParam) and not_in_param not in (excludeNotInParam) and age between :minAge and :maxAge",SqlParseHelper.convert2NamedParametersSql(sql, ":",""));
+
     }
     
     public void test_convert2ParametersString_by_insert() {
