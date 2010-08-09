@@ -124,6 +124,9 @@
     <!-- 需要与帐务查询同步 -->
     <!-- 缺少isIncomeOrOutcome参数传递, owner一定是S开头 -->
 	<operation name="countAndSumAccountInfo" multiplicity="one" paramtype="primitive" remarks="账务数据汇总查询">
+		<extraparams>
+			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>	
+		</extraparams>	
 		<sql>
     	<![CDATA[
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
