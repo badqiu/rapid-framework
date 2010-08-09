@@ -125,6 +125,16 @@ public class BeanHelper {
         setProperty(target, pd, value);
     }
     
+    public static <T> T newInstance(Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     private static void setProperty(Object target, PropertyDescriptor targetPd, Object value)  {
         Method writeMethod = targetPd.getWriteMethod();
         if (!Modifier.isPublic(writeMethod.getDeclaringClass()
