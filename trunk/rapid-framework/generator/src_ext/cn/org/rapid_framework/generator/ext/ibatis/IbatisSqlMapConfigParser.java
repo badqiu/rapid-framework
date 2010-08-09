@@ -60,7 +60,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
                 }
                 String includeValue = includeSqls.get(refid);
                 if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
-                m.appendReplacement(sb, includeValue);
+                m.appendReplacement(sb, parse(includeValue,includeSqls));
                 continue;
             }
             
