@@ -7,6 +7,15 @@ import org.springframework.util.Assert;
 
 public class SqlRemoveUtils {
 
+    private static int indexOfByRegex(String input,String regex) {
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(input);
+        if(m.find()) {
+            return m.start();
+        }
+        return -1;
+    }
+    
 	/**
 	 * 去除select 子句，未考虑union的情况
 	 * @param sql
@@ -14,7 +23,7 @@ public class SqlRemoveUtils {
 	 */
     public static String removeSelect(String sql) {
         Assert.hasText(sql);
-        int beginPos = sql.toLowerCase().indexOf("from");
+        int beginPos = indexOfByRegex(sql.toLowerCase(),"\\sfrom\\s");
         Assert.isTrue(beginPos != -1, " sql : " + sql + " must has a keyword 'from'");
         return sql.substring(beginPos);
     }
