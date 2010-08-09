@@ -15,10 +15,203 @@
 	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
 	
+	<sql id="findTradeBaseForAir.where">
+	<![CDATA[
+			<isNotEmpty property="partnerIds">
+				and BTB.trade_email IN
+				<iterate property="partnerIds" open="(" close=")" conjunction=",">
+					#partnerIds[]#
+				</iterate>
+				<isEmpty prepend="and" property="account">
+					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					<isNotEmpty prepend="and" property="gmtCreateStartTime">
+						BTB.gmt_create &gt;= #gmtCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateEndTime">
+						BTB.gmt_create &lt;= #gmtCreateEndTime#
+					</isNotEmpty>				
+				</isEmpty>
+			</isNotEmpty>
+			
+			<isNotEmpty property="account">
+				<isEqual prepend="and" property="direction" compareValue="PAY">
+					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTB.buyer_account = #account#
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						BTB.seller_account = #oppositeAccount#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.seller_login_email LIKE #oppositeLoginName# 
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateStartTime">
+						BTB.gmt_create &gt;= #gmtCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateEndTime">
+						BTB.gmt_create &lt;= #gmtCreateEndTime#
+					</isNotEmpty>
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="RECEIVE">
+					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTB.seller_account = #account#
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						BTB.buyer_account = #oppositeAccount#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.buyer_login_email LIKE #oppositeLoginName# 
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateStartTime">
+						BTB.gmt_create &gt;= #gmtCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateEndTime">
+						BTB.gmt_create &lt;= #gmtCreateEndTime#
+					</isNotEmpty>
+				</isEqual>
+				<isEqual prepend="and" property="direction" compareValue="ALL">
+					((
+					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTB.buyer_account = #account# 
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						(BTB.seller_account = #oppositeAccount#)
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.seller_login_email LIKE #oppositeLoginName# 
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateStartTime">
+						BTB.gmt_create &gt;= #gmtCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateEndTime">
+						BTB.gmt_create &lt;= #gmtCreateEndTime#
+					</isNotEmpty>					
+					)
+					OR
+					(
+					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+					and BTB.seller_account = #account# 					
+					<isNotEmpty prepend="and" property="oppositeAccount">
+						BTB.buyer_account = #oppositeAccount#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeNick">
+						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeFullName">
+						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="oppositeLoginName">
+						BTB.buyer_login_email LIKE #oppositeLoginName# 
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateStartTime">
+						BTB.gmt_create &gt;= #gmtCreateStartTime#
+					</isNotEmpty>
+					<isNotEmpty prepend="and" property="gmtCreateEndTime">
+						BTB.gmt_create &lt;= #gmtCreateEndTime#
+					</isNotEmpty>
+					))					
+				</isEqual>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeNo">
+				BTB.trade_no = #tradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="outTradeNo">
+				BTB.out_trade_no = #outTradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeTypes">
+				BTB.trade_type IN
+				<iterate property="tradeTypes" open="(" close=")" conjunction=",">
+					#tradeTypes[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeStatuses">
+				 BTB.trade_status IN
+				<iterate property="tradeStatuses" open="(" close=")" conjunction=",">
+					#tradeStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="notInTradeStatuses">
+				 BTB.trade_status NOT IN
+				<iterate property="notInTradeStatuses" open="(" close=")" conjunction=",">
+					#notInTradeStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="goodsTitle">
+				BTB.goods_title LIKE #goodsTitle# 
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeFroms">
+				BTB.trade_from IN
+				<iterate property="tradeFroms" open="(" close=")" conjunction=",">
+					#tradeFroms[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="notInTradeFroms">
+				BTB.trade_from NOT IN
+				<iterate property="notInTradeFroms" open="(" close=")" conjunction=",">
+					#notInTradeFroms[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradePriceDown">
+					BTB.total_fee &gt;= #tradePriceDown#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradePriceUp">
+					BTB.total_fee &lt;= #tradePriceUp#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="gmtLastModifiedDtStartTime">
+					BTB.gmt_last_modified_dt &gt;= #gmtLastModifiedDtStartTime#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="gmtLastModifiedDtEndTime">
+					BTB.gmt_last_modified_dt &lt;= #gmtLastModifiedDtEndTime#
+			</isNotEmpty> 	
+			
+			<isNotEmpty prepend="and" property="pnr">
+					MAE.pnr = #pnr#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_END >= #ticketNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+					MAE.TICKET_NO_START &lt;= #ticketNo#
+			</isNotEmpty>
+			
+			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
+					MC.pay_success is null
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
+					MC.pay_success = 'Y'
+			</isEqual>		
+	]]>
+	</sql>
+	
     <!-- 问题记录：少了一个payType参数 -->
     <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
 		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
 		</extraparams>    
     	<sql>
     	<![CDATA[
@@ -31,193 +224,7 @@
     			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
-			<isNotEmpty property="partnerIds">
-				and BTB.trade_email IN
-				<iterate property="partnerIds" open="(" close=")" conjunction=",">
-					#partnerIds[]#
-				</iterate>
-				<isEmpty prepend="and" property="account">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>				
-				</isEmpty>
-			</isNotEmpty>
-			
-			<isNotEmpty property="account">
-				<isEqual prepend="and" property="direction" compareValue="PAY">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.buyer_account = #account#
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.seller_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.seller_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-				</isEqual>
-				<isEqual prepend="and" property="direction" compareValue="RECEIVE">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.seller_account = #account#
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.buyer_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.buyer_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-				</isEqual>
-				<isEqual prepend="and" property="direction" compareValue="ALL">
-					((
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.buyer_account = #account# 
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						(BTB.seller_account = #oppositeAccount#)
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.seller_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>					
-					)
-					OR
-					(
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.seller_account = #account# 					
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.buyer_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.buyer_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-					))					
-				</isEqual>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeNo">
-				BTB.trade_no = #tradeNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="outTradeNo">
-				BTB.out_trade_no = #outTradeNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeTypes">
-				BTB.trade_type IN
-				<iterate property="tradeTypes" open="(" close=")" conjunction=",">
-					#tradeTypes[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeStatuses">
-				 BTB.trade_status IN
-				<iterate property="tradeStatuses" open="(" close=")" conjunction=",">
-					#tradeStatuses[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="notInTradeStatuses">
-				 BTB.trade_status NOT IN
-				<iterate property="notInTradeStatuses" open="(" close=")" conjunction=",">
-					#notInTradeStatuses[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="goodsTitle">
-				BTB.goods_title LIKE #goodsTitle# 
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeFroms">
-				BTB.trade_from IN
-				<iterate property="tradeFroms" open="(" close=")" conjunction=",">
-					#tradeFroms[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="notInTradeFroms">
-				BTB.trade_from NOT IN
-				<iterate property="notInTradeFroms" open="(" close=")" conjunction=",">
-					#notInTradeFroms[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradePriceDown">
-					BTB.total_fee &gt;= #tradePriceDown#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="tradePriceUp">
-					BTB.total_fee &lt;= #tradePriceUp#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="gmtLastModifiedDtStartTime">
-					BTB.gmt_last_modified_dt &gt;= #gmtLastModifiedDtStartTime#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="gmtLastModifiedDtEndTime">
-					BTB.gmt_last_modified_dt &lt;= #gmtLastModifiedDtEndTime#
-			</isNotEmpty> 	
-			
-			<isNotEmpty prepend="and" property="pnr">
-					MAE.pnr = #pnr#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_END >= #ticketNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_START &lt;= #ticketNo#
-			</isNotEmpty>
-			
-			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-					MC.pay_success is null
-			</isEqual>
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-					MC.pay_success = 'Y'
-			</isEqual>			
+			<include refid='findTradeBaseForAir.where'/>
 		]]>
 		</sql>
     </operation>
@@ -225,7 +232,8 @@
     <!-- 问题记录：少了一个payType参数 -->
     <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
 		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>		
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
 		</extraparams>    
     	<sql>
     	<![CDATA[
@@ -236,198 +244,17 @@
     			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
-			<isNotEmpty property="partnerIds">
-				and BTB.trade_email IN
-				<iterate property="partnerIds" open="(" close=")" conjunction=",">
-					#partnerIds[]#
-				</iterate>
-				<isEmpty prepend="and" property="account">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>				
-				</isEmpty>
-			</isNotEmpty>
-			
-			<isNotEmpty property="account">
-				<isEqual prepend="and" property="direction" compareValue="PAY">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.buyer_account = #account#
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.seller_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.seller_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-				</isEqual>
-				<isEqual prepend="and" property="direction" compareValue="RECEIVE">
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.seller_account = #account#
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.buyer_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.buyer_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-				</isEqual>
-				<isEqual prepend="and" property="direction" compareValue="ALL">
-					((
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.buyer_account = #account# 
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						(BTB.seller_account = #oppositeAccount#)
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.seller_nick LIKE #oppositeNick#   OR BTB.seller_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.seller_nick LIKE #oppositeFullName#   OR BTB.seller_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.seller_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>					
-					)
-					OR
-					(
-					BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-					and BTB.seller_account = #account# 					
-					<isNotEmpty prepend="and" property="oppositeAccount">
-						BTB.buyer_account = #oppositeAccount#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeNick">
-						(BTB.buyer_nick LIKE #oppositeNick#  OR BTB.buyer_fullname LIKE #oppositeNick# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeFullName">
-						(BTB.buyer_nick LIKE #oppositeFullName#  OR BTB.buyer_fullname LIKE #oppositeFullName# )
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="oppositeLoginName">
-						BTB.buyer_login_email LIKE #oppositeLoginName# 
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateStartTime">
-						BTB.gmt_create &gt;= #gmtCreateStartTime#
-					</isNotEmpty>
-					<isNotEmpty prepend="and" property="gmtCreateEndTime">
-						BTB.gmt_create &lt;= #gmtCreateEndTime#
-					</isNotEmpty>
-					))					
-				</isEqual>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeNo">
-				BTB.trade_no = #tradeNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="outTradeNo">
-				BTB.out_trade_no = #outTradeNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeTypes">
-				BTB.trade_type IN
-				<iterate property="tradeTypes" open="(" close=")" conjunction=",">
-					#tradeTypes[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeStatuses">
-				 BTB.trade_status IN
-				<iterate property="tradeStatuses" open="(" close=")" conjunction=",">
-					#tradeStatuses[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="notInTradeStatuses">
-				 BTB.trade_status NOT IN
-				<iterate property="notInTradeStatuses" open="(" close=")" conjunction=",">
-					#notInTradeStatuses[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="goodsTitle">
-				BTB.goods_title LIKE #goodsTitle# 
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradeFroms">
-				BTB.trade_from IN
-				<iterate property="tradeFroms" open="(" close=")" conjunction=",">
-					#tradeFroms[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="notInTradeFroms">
-				BTB.trade_from NOT IN
-				<iterate property="notInTradeFroms" open="(" close=")" conjunction=",">
-					#notInTradeFroms[]#
-				</iterate>
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="tradePriceDown">
-					BTB.total_fee &gt;= #tradePriceDown#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="tradePriceUp">
-					BTB.total_fee &lt;= #tradePriceUp#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="gmtLastModifiedDtStartTime">
-					BTB.gmt_last_modified_dt &gt;= #gmtLastModifiedDtStartTime#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="gmtLastModifiedDtEndTime">
-					BTB.gmt_last_modified_dt &lt;= #gmtLastModifiedDtEndTime#
-			</isNotEmpty> 	
-			
-			<isNotEmpty prepend="and" property="pnr">
-					MAE.pnr = #pnr#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_END >= #ticketNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_START &lt;= #ticketNo#
-			</isNotEmpty>
-			
-			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-					MC.pay_success is null
-			</isEqual>
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-					MC.pay_success = 'Y'
-			</isEqual>			
+			<include refid='findTradeBaseForAir.where'/>			
 		]]>
 		</sql>
     </operation>
 
+	 <!-- 问题记录：少了一个payType参数 -->
 	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
+		<extraparams>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
+		</extraparams>	
     	<sql>
     	<![CDATA[
     	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,currency,BTF.amount,type,status,channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
