@@ -20,7 +20,7 @@
 	</resultMap>
 	</#if>
 		
-	<select id="<@namespace/>${sql.operation}" resultMap="<#if sql.columnsCount == 1>${sql.resultClassName}<#else>RM.${sql.resultClassName}</#if>" >
+	<select id="<@namespace/>${sql.operation}" <#if sql.columnsCount == 1>resultClass="${sql.resultClassName}"<#else>resultMap="RM.${sql.resultClassName}"</#if> >
     	<@genPageQueryStart sql/>
     	${sql.ibatisSql?trim}
     	<@genPageQueryEnd sql/>
