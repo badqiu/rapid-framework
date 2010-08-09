@@ -770,6 +770,12 @@ public class Money implements Serializable, Comparable {
     	return newMoneyWithSameCurrency(-cent);
     }
     
+    public static Money newMoneyWithCent(long cent) {
+        Money m = new Money();
+        m.cent = cent;
+        return m;
+    }
+    
     public static Long getCent(Money m) {
         if(m == null) return null;
         return m.getCent();
