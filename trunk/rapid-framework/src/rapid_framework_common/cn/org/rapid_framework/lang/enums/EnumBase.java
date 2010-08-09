@@ -4,7 +4,7 @@ package cn.org.rapid_framework.lang.enums;
  * 
  * @author badqiu
  */
-public interface EnumBase<K> {
+public interface EnumBase<K, V> {
     
     public K getCode();
     
