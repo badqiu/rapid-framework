@@ -20,6 +20,6 @@ public class PropertyUtilsTest extends TestCase {
     	assertEquals(role.getRoleId(), new Long(1));
     	
 		PropertyUtils.setProperty(role, "roleId", new Long(2));
-		assertEquals(role.getRoleId(),new Long(2));
+		assertEquals(role.getRoleId(),Long.valueOf(2));
     }
 }
