@@ -63,7 +63,10 @@ public class XMLHelper {
     public static class NodeData {
         public String nodeName;
         public String nodeValue;
-        public String text;
+        public String innerXML;
+        public String outerXML;
+        public String innerText;
+        public String outerText;
         public Map<String,String> attributes = new HashMap<String,String>();
         public List<NodeData> childs = new ArrayList<NodeData>();
         
@@ -94,7 +97,7 @@ public class XMLHelper {
         nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
         nodeData.childs = new ArrayList<NodeData>();
-        nodeData.text = childsAsText(elm,new StringBuffer()).toString();
+        nodeData.innerXML = childsAsText(elm,new StringBuffer()).toString();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);

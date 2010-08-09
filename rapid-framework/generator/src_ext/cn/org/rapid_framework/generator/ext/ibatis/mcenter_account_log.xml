@@ -234,5 +234,18 @@
 		</sql>
     </operation>
     
+   	<operation name="countByCondition" multiplicity="one" paramtype="primitive" remarks="count查询">
+	<sql>
+		<![CDATA[
+		select count(*) from mcenter_account_log 
+		where
+		owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		AND trans_dt >= #startDate# 
+		AND trans_dt &lt #endDate#
+		AND trans_account = #account#
+		]]>
+	</sql>
+	</operation>
+    
          			
 </table>

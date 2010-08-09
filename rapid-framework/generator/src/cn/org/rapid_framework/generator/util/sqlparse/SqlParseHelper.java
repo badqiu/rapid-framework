@@ -178,7 +178,7 @@ public class SqlParseHelper {
 
 	 /**
      * 将sql从占位符转换为命名参数,如 select * from user where id =? ,将返回: select * from user where id = #id#
-     * @param sql
+     * @param includeSqls
      * @param prefix 命名参数的前缀
      * @param suffix 命名参数的后缀
      * @return

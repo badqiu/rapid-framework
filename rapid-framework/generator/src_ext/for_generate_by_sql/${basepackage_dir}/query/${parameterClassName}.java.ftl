@@ -7,6 +7,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ${sql.parameterClassName} extends PageQuery implements java.io.Serializable {
 	<#list sql.params as param>
+	/** ${param.columnAlias!} */
 	private ${param.preferredParameterJavaType} ${param.paramName};
 	</#list>
 	
