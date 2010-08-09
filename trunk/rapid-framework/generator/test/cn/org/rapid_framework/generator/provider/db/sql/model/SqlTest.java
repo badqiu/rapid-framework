@@ -8,7 +8,11 @@ public class SqlTest extends GeneratorTestCase {
 	Sql sql = new Sql();
 	
 	public void setUp() {
-		
+		try {
+			super.setUp();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void test_getOperationResultClassName() {
