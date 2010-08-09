@@ -31,7 +31,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (rs.wasNull()) {
 			return null;
 		} else {
-			return new Money(d);
+			return newMoneyWithCent(d);
 		}
 	}
 
@@ -40,7 +40,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (rs.wasNull()) {
 			return null;
 		} else {
-			return new Money(d);
+			return newMoneyWithCent(d);
 		}
 	}
 
@@ -50,11 +50,16 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (cs.wasNull()) {
 			return null;
 		} else {
-			return new Money(d);
+			return newMoneyWithCent(d);
 		}
 	}
 
 	public Object valueOf(String s) {
 		return new Money(s);
 	}
+	
+    private Money newMoneyWithCent(long d) {
+        Money m = new Money(0,d); //FIXME 应该为分
+        return m;
+    }
 }
