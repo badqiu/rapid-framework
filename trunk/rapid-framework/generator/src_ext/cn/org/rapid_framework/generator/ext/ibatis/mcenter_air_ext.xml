@@ -220,8 +220,8 @@
     		MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
     		FROM trade_base BTB 
-				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
 			<include refid='findTradeBaseForAir.where'/>
@@ -240,8 +240,8 @@
     		SELECT 
     			count(*) count,sum(amount) sum_amount
     		FROM trade_base BTB 
-				inner join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			inner join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
     		WHERE 1 = 1
     		
 			<include refid='findTradeBaseForAir.where'/>			
@@ -261,8 +261,8 @@
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success
     	from trade_fund_bill BTF
-			inner join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
-    		inner join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
     	WHERE
     		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
@@ -399,8 +399,8 @@
 	    		BTB.total_fee amount
 	    	from trade_fund_bill BTF
 	    		inner join trade_base BTB on BTF.trade_no = BTB.trade_no
-				inner join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
-	    		inner join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
 	    	WHERE   
 	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
 	    		 
