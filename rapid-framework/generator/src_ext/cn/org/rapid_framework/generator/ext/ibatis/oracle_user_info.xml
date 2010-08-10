@@ -197,5 +197,14 @@
 	    ]]>
 	    </sql>
     </operation>
-    			
+
+    <operation name="getByAge" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT password
+	    FROM (select * from user_info where username = ?)
+	    ]]>
+	    </sql>
+    </operation>
+        			
 </table>
