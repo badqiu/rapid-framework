@@ -6,6 +6,12 @@
 
 <sqlMap>
 
+<#list tableConfig.includeSqls as item>
+	<sql id="${item.id}">
+		${item.sql}
+	</sql>	
+</#list>
+
 <#list tableConfig.sqls as sql>	
 <#if sql.selectSql>
 	<#if (sql.columnsCount > 1 && !sql.columnsInSameTable)>
@@ -52,12 +58,6 @@
         <@genSelectKeyForInsertSql sql/>             
 	</insert>
 </#if>
-</#list>
-
-<#list tableConfig.includeSqls as item>
-	<sql id="${item.id}">
-		${item.sql}
-	</sql>	
 </#list>
 
 </sqlMap>
