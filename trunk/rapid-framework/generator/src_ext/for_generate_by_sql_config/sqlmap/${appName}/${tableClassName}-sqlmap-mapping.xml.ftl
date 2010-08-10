@@ -8,7 +8,7 @@
 
 <#list tableConfig.includeSqls as item>
 	<sql id="${item.id}">
-		${item.sql}
+		${item.sql?trim}
 	</sql>	
 </#list>
 
