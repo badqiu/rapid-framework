@@ -207,7 +207,6 @@
 	]]>
 	</sql>
 	
-    <!-- 问题记录：少了一个payType参数 -->
     <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>	
@@ -229,7 +228,6 @@
 		</sql>
     </operation>
 
-    <!-- 问题记录：少了一个payType参数 -->
     <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>	
@@ -249,7 +247,6 @@
 		</sql>
     </operation>
 
-	 <!-- 问题记录：少了一个payType参数 -->
 	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>	
