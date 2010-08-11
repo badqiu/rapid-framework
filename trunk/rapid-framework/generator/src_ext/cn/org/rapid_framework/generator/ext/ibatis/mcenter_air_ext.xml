@@ -193,9 +193,7 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="ticketNo">
 					MAE.TICKET_NO_END >= #ticketNo#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_START &lt;= #ticketNo#
+					AND MAE.TICKET_NO_START &lt;= #ticketNo#
 			</isNotEmpty>
 			
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
@@ -226,7 +224,7 @@
 			<include refid='findTradeBaseForAir.where'/>
 			
 	    	<isNotEmpty property="orderby">
-	    		order by #orderby#
+	    		order by $orderby$
 	    	</isNotEmpty>			
 		]]>
 		</sql>
@@ -258,12 +256,14 @@
 		</extraparams>	
     	<sql>
     	<![CDATA[
-    	SELECT BTF.bill_no,BTF.trade_no,out_order_no,pay_account_no,receive_account_no,currency,BTF.amount,type,status,channel,gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
+    	SELECT BTF.bill_no,BTF.trade_no,BTF.out_order_no,BTF.pay_account_no,BTF.receive_account_no,BTF.currency,BTF.amount,BTF.type,BTF.status,BTF.channel,BTF.gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success
+    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success,
+    		seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,seller_action,buyer_action,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,product,pay_channel
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
     		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+    		inner join trade_base BTB on BTB.trade_no = BTF.trade_no
     	WHERE
     		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
@@ -389,7 +389,7 @@
 			</isEqual>
 			
 	    	<isNotEmpty property="orderby">
-	    		order by #orderby#
+	    		order by $orderby$
 	    	</isNotEmpty>									    		
 		]]>
 		</sql>
@@ -473,7 +473,7 @@
 				</isNotEmpty>
 				
 	    		<isNotEmpty property="orderby">
-	    			order by #orderby#
+	    			order by $orderby$
 	    		</isNotEmpty>
 		    ]]>
 		</sql>		
