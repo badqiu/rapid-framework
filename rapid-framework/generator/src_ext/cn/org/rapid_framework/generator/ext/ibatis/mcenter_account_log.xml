@@ -17,6 +17,19 @@
 	
 	<sql id="findAccountLog.where">
 		<![CDATA[
+		
+	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
+				MAL.TRANS_AMOUNT > 0
+			</isEqual> 
+			
+	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="OUTCOME">
+				MAL.TRANS_AMOUNT &lt; 0
+			</isEqual>
+					
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
+					MC.pay_success = 'Y'
+			</isEqual>
+			
 	    	<isNotEmpty prepend="and" property="iwAccountLogId">
 				MAL.IW_ACCOUNT_LOG_ID = #iwAccountLogId#
 			</isNotEmpty> 
@@ -89,22 +102,31 @@
 			<isNotEmpty prepend="and" property="outTradeNo">
 					MAL.real_out_trade_no = #outTradeNo#
 			</isNotEmpty>	
-			
+
+			<isNotEmpty prepend="and" property="payType">
+					MAL.pay_type = #payType#
+			</isNotEmpty>
+						
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
 					MC.pay_success is null
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
 					MC.pay_success = 'Y'
 			</isEqual>		
-								
-			<isNotEmpty prepend="and" property="payType">
-					MAL.pay_type = #payType#
-			</isNotEmpty>
 			
+			<isNotEmpty property="partnerIds">
+				and BTB.trade_email IN
+				<iterate property="partnerIds" open="(" close=")" conjunction=",">
+					#partnerIds[]#
+				</iterate>
+			</isNotEmpty>
 		]]>
 	</sql>
 	
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
+		<extraparams>
+			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>	
+		</extraparams>		
     	<sql>
     	<![CDATA[
     	SELECT 
@@ -138,15 +160,11 @@
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
 			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
+			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no
     	WHERE
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
-	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
-				MAL.TRANS_AMOUNT > 0
-			</isEqual> 
-	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="OUTCOME">
-				MAL.TRANS_AMOUNT &lt; 0
-			</isEqual>
+
 			
 			<include refid='findAccountLog.where'/>														   
 		]]>

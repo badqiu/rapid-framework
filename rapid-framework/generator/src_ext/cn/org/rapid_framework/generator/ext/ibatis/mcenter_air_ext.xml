@@ -283,7 +283,7 @@
 					#partnerIds[]#
 				</iterate>
 			</isNotEmpty>
-			
+
 			<isNotEmpty prepend="and" property="tradeNo">
 				BTF.trade_no = #tradeNo#
 			</isNotEmpty>
@@ -387,7 +387,11 @@
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
 					MC.pay_success = 'Y'
 			</isEqual>
-			
+
+			<isNotEmpty prepend="and" property="oppositeLoginName">
+				BTB.buyer_login_email = #oppositeLoginName# 
+			</isNotEmpty>
+						
 	    	<isNotEmpty property="orderby">
 	    		order by $orderby$
 	    	</isNotEmpty>									    		
