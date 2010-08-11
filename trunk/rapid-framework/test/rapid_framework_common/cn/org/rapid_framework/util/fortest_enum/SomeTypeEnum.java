@@ -3,7 +3,7 @@ package cn.org.rapid_framework.util.fortest_enum;
 import cn.org.rapid_framework.lang.enums.EnumBase;
 import cn.org.rapid_framework.lang.enums.EnumBaseUtils;
 
-public enum SomeTypeEnum implements EnumBase<String,String>{
+public enum SomeTypeEnum implements EnumBase<String>{
 	K1("K1","V1"),
 	K2("K2","V2")
 	;
