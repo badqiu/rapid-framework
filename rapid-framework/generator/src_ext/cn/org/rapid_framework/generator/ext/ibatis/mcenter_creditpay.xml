@@ -93,7 +93,7 @@
 				</isNotEmpty>
 				
 	    		<isNotEmpty property="orderby">
-	    			order by #orderby#
+	    			order by $orderby$
 	    		</isNotEmpty>
 		    ]]>
 		</sql>		
