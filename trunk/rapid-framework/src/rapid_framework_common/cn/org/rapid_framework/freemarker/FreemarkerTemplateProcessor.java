@@ -58,7 +58,7 @@ public class FreemarkerTemplateProcessor implements InitializingBean{
 	
 	public void processTemplate(String templateName, Object model,Writer out) throws FreemarkerTemplateException{
 		Template template = getTemplate(configuration,templateName);
-		processTemplate(templateName, model, out);
+		processTemplate(template, model, out);
 	}
 	
 	public String processTemplate(String templateName, Object model,String encoding) throws FreemarkerTemplateException {
