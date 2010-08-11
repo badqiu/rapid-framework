@@ -224,6 +224,10 @@
     		WHERE 1 = 1
     		
 			<include refid='findTradeBaseForAir.where'/>
+			
+	    	<isNotEmpty property="orderby">
+	    		order by #orderby#
+	    	</isNotEmpty>			
 		]]>
 		</sql>
     </operation>
@@ -382,7 +386,11 @@
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
 					MC.pay_success = 'Y'
-			</isEqual>						    		
+			</isEqual>
+			
+	    	<isNotEmpty property="orderby">
+	    		order by #orderby#
+	    	</isNotEmpty>									    		
 		]]>
 		</sql>
     </operation> 
@@ -465,7 +473,7 @@
 				</isNotEmpty>
 				
 	    		<isNotEmpty property="orderby">
-	    			ORDER BY #orderby#
+	    			order by #orderby#
 	    		</isNotEmpty>
 		    ]]>
 		</sql>		
