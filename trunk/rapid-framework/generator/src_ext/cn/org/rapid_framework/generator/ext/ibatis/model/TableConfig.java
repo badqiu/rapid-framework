@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -189,6 +190,21 @@ public class TableConfig {
                 sql.setRemarks(op.getRemarks());
                 sql.setTableSqlName(table.getSqlname());
                 sql.setPaging(op.isPaging());
+                
+                
+                LinkedHashSet<SqlParameter> finalParameters = new LinkedHashSet<SqlParameter>();
+                for(MetaParam mparam : op.extraparams) {
+                    if(sql.getParam(mparam.getName()) == null) {
+                        SqlParameter extraparam = new SqlParameter();
+                        extraparam.setParameterClass(mparam.getJavatype());
+                        extraparam.setColumnAlias(mparam.getColumnAlias()); // FIXME extraparam alias 有可能为空
+                        extraparam.setParamName(mparam.getName());
+                        finalParameters.add(extraparam);
+                    }
+                }
+                finalParameters.addAll(sql.getParams());
+                sql.setParams(finalParameters);
+                
                 sqls.add(sql);
                 }catch(Exception e) {
                     throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
@@ -237,7 +253,7 @@ public class TableConfig {
                         SqlParameter sqlParam = new SqlParameter(c);
                         sqlParam.setJavaType(param.getJavatype());
                         sqlParam.setParamName(param.getName());
-                        sqlParam.setColumnAlias(param.getColumnAlias());
+                        sqlParam.setColumnAlias(param.getColumnAlias()); //FIXME 有可能为空
                         result.add(sqlParam);
                     }
                 }
