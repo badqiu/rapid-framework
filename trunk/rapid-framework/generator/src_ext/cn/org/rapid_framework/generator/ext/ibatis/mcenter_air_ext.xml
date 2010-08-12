@@ -197,7 +197,7 @@
 			</isNotEmpty>
 			
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-					MC.pay_success is null
+					MC.pay_success = 'N'
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
 					MC.pay_success = 'Y'
@@ -336,7 +336,7 @@
 			</isNotEmpty>	
 			
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-					MC.pay_success is null
+					MC.pay_success = 'N'
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
 					MC.pay_success = 'Y'

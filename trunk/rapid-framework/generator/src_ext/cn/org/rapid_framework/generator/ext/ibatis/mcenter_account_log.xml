@@ -26,10 +26,6 @@
 				MAL.TRANS_AMOUNT &lt; 0
 			</isEqual>
 					
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-					MC.pay_success = 'Y'
-			</isEqual>
-			
 	    	<isNotEmpty prepend="and" property="iwAccountLogId">
 				MAL.IW_ACCOUNT_LOG_ID = #iwAccountLogId#
 			</isNotEmpty> 
@@ -103,17 +99,24 @@
 					MAL.real_out_trade_no = #outTradeNo#
 			</isNotEmpty>	
 
-			<isNotEmpty prepend="and" property="payType">
-					MAL.pay_type = #payType#
-			</isNotEmpty>
-						
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-					MC.pay_success is null
-			</isEqual>
+				MAL.pay_type is null  /* 余额支付 */
+			</isEqual>	
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-					MC.pay_success = 'Y'
-			</isEqual>		
-			
+				MAL.pay_type = 'CREDIT_PAY'  /* 信用支付 */
+			</isEqual>
+								
+			/* 用于识别     CREDIT_LOAN("信用支付借款"),CREDIT_RETURN_LOAN("信用支付还款"),CREDIT_REFUND("信用支付退款"),*/
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_LOAN">
+				SUB_TRANS_CODE = '301118'  /* 信用支付放贷 */
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_RETURN_LOAN">
+				SUB_TRANS_CODE = '301119' /* 信用支付还贷 */
+			</isEqual>
+			<isEqual prepend="and" property="payType" compareValue="CREDIT_REFUND">
+				SUB_TRANS_CODE = '301101' AND MAL.pay_type = 'CREDIT_PAY'  /* 信用支付退款 */
+			</isEqual>	
+												
 			<isNotEmpty property="partnerIds">
 				and BTB.trade_email IN
 				<iterate property="partnerIds" open="(" close=")" conjunction=",">
@@ -130,8 +133,8 @@
     	<sql>
     	<![CDATA[
     	SELECT 
-    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAE.TRADE_NO,
-    	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
+    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.real_out_trade_no,
+    	MAE.TRADE_NO,MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
     	BTB.goods_title,
     	MC.pay_success,MC.loan_success 
     	from mcenter_account_log MAL
