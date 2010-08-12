@@ -67,7 +67,7 @@ userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.ra
 }}}
 
 
-然后再初始化，即中使用自定义指令：
+然后再初始化，即可使用自定义指令：
  
 
 {{{ 
