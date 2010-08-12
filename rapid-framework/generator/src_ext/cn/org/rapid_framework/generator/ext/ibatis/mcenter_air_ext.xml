@@ -428,6 +428,80 @@
 		</sql>
     </operation> 
     
+	<sql id="findCreditpayRefundDetail.where">
+   	<![CDATA[
+			<isNotEmpty prepend="and" property="billNo">
+					MC.bill_no = #billNo#
+			</isNotEmpty>		    
+	       <isNotEmpty prepend="AND" property="tradeNo">
+	             MC.TRADE_NO = #tradeNo#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="amount">
+	             MC.AMOUNT = #amount#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="transDate">
+	             MC.TRANS_DATE = #transDate#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="transAccountOut">
+	             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="transAccountIn">
+	             MC.TRANS_ACCOUNT_IN = #transAccountIn#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="customerId">
+	             MC.CUSTOMER_ID = #customerId#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="bizName">
+	             MC.BIZ_NAME = #bizName#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="operatorId">
+	             MC.OPERATOR_ID = #operatorId#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="operatorName">
+	             MC.OPERATOR_NAME = #operatorName#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="memo">
+	             MC.MEMO = #memo#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="recordStamp">
+	             MC.RECORD_STAMP = #recordStamp#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="loanSuccess">
+	             MC.loan_success = #loanSuccess#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="paySuccess">
+	             MC.pay_success = #paySuccess#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
+	             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
+	       </isNotEmpty>
+	       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
+	             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
+	       </isNotEmpty>
+	       
+	       <isNotEmpty prepend="AND" property="outTradeNo">
+	             BTF.out_order_no = #outTradeNo#
+	       </isNotEmpty>
+
+			<isNotEmpty prepend="and" property="pnr">
+				MAE.pnr = #pnr#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+				MAE.TICKET_NO_END >= #ticketNo#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="ticketNo">
+				MAE.TICKET_NO_START &lt;= #ticketNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="fundFlowTypes">
+				 BTF.type IN
+				<iterate property="fundFlowTypes" open="(" close=")" conjunction=",">
+					#fundFlowTypes[]#
+				</iterate>
+			</isNotEmpty>												    		
+	]]>
+	</sql>
+		    
 	<operation name="findCreditpayRefundDetail" paging="true" remarks="信用支付退款明细分页查询">
 		<sql>
 			<![CDATA[
@@ -442,68 +516,7 @@
 	    	WHERE   
 	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
 	    		 
-				<isNotEmpty prepend="and" property="billNo">
-						MC.bill_no = #billNo#
-				</isNotEmpty>		    
-		       <isNotEmpty prepend="AND" property="tradeNo">
-		             MC.TRADE_NO = #tradeNo#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="amount">
-		             MC.AMOUNT = #amount#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="transDate">
-		             MC.TRANS_DATE = #transDate#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="transAccountOut">
-		             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="transAccountIn">
-		             MC.TRANS_ACCOUNT_IN = #transAccountIn#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="customerId">
-		             MC.CUSTOMER_ID = #customerId#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="bizName">
-		             MC.BIZ_NAME = #bizName#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="operatorId">
-		             MC.OPERATOR_ID = #operatorId#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="operatorName">
-		             MC.OPERATOR_NAME = #operatorName#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="memo">
-		             MC.MEMO = #memo#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="recordStamp">
-		             MC.RECORD_STAMP = #recordStamp#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="loanSuccess">
-		             MC.loan_success = #loanSuccess#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="paySuccess">
-		             MC.pay_success = #paySuccess#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
-		             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
-		             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
-		       </isNotEmpty>
-		       
-		       <isNotEmpty prepend="AND" property="outTradeNo">
-		             BTF.out_order_no = #outTradeNo#
-		       </isNotEmpty>
-
-				<isNotEmpty prepend="and" property="pnr">
-					MAE.pnr = #pnr#
-				</isNotEmpty>
-				<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_END >= #ticketNo#
-				</isNotEmpty>
-				<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_START &lt;= #ticketNo#
-				</isNotEmpty>
+				<include refid='findCreditpayRefundDetail.where'/>
 				
 	    		<isNotEmpty property="orderby">
 	    			order by $orderby$
