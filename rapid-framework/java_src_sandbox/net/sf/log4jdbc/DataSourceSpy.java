@@ -27,6 +27,8 @@ import net.sf.log4jdbc.ConnectionSpy;
  * log4j.logger.jdbc.connection=WARN
  * </pre>
  * 
+ * -Dlog4jdbc.enabled=true
+ * 
  * @author badqiu
  *
  */
