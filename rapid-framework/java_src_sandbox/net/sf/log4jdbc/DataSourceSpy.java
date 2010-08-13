@@ -8,6 +8,28 @@ import javax.sql.DataSource;
 
 import net.sf.log4jdbc.ConnectionSpy;
 
+/**
+ * 
+ * spring dataSource config:
+ * <pre>
+ * &lt;bean id="dataSource" class="net.sf.log4jdbc.DataSourceSpy">
+ *     &lt;property name="realDataSource" ref="realDataSource"/>
+ *     &lt;property name="enabled" value="true"/>
+ * &lt;/bean>
+ * </pre>
+ * 
+ * log4j.properties
+ * <pre>
+ * log4j.logger.jdbc.sqlonly=WARN
+ * log4j.logger.jdbc.sqltiming=DEBUG
+ * log4j.logger.jdbc.audit=WARN
+ * log4j.logger.jdbc.resultset=WARN
+ * log4j.logger.jdbc.connection=WARN
+ * </pre>
+ * 
+ * @author badqiu
+ *
+ */
 public class DataSourceSpy implements DataSource{
     private DataSource realDataSource;
     private RdbmsSpecifics rdbmsSpecifics = null;
@@ -19,8 +41,13 @@ public class DataSourceSpy implements DataSource{
     public DataSourceSpy(DataSource realDataSource) {
         setRealDataSource(realDataSource);
     }
+    
+    public DataSourceSpy(DataSource realDataSource, boolean enabled) {
+		this.realDataSource = realDataSource;
+		this.enabled = enabled;
+	}
 
-    public void setRealDataSource(DataSource realDataSource) {
+	public void setRealDataSource(DataSource realDataSource) {
         this.realDataSource = realDataSource;
     }    
     
