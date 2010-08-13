@@ -25,7 +25,7 @@
 		        BILL_NO ,MC.out_trade_no,MC.TRADE_NO ,AMOUNT ,TRANS_DATE ,TRANS_ACCOUNT_OUT ,TRANS_ACCOUNT_IN ,CUSTOMER_ID ,BIZ_NAME ,OPERATOR_ID ,OPERATOR_NAME ,MEMO ,loan_success ,pay_success ,MC.gmt_trade_create,
     			PNR,TICKET_NO_START,TICKET_NO_END,system_partner
 		    FROM mcenter_creditpay MC
-		    	inner join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
+		    	left join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
 		    WHERE
 		    	MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
 		    	 
