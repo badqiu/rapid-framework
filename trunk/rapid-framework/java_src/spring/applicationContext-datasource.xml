@@ -9,13 +9,23 @@
 	   default-autowire="byName" default-lazy-init="false">
 	   
 	<!-- 数据源定义 -->
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<bean id="realDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"/>
 		<property name="username" value="root"/>
 		<property name="password" value="123456"/>
 	</bean>
-	
+
+	<!-- log4jdbc可以将数据源执行的sql以占位符替换成字符,并以日志打印出来. log4j配置: log4j.logger.jdbc.sqltiming=DEBUG      详情请看:http://code.google.com/p/log4jdbc/
+	如oracle示例: 
+		原来的sql: select * from user where birth_date = ? and username = ? and age > ?
+		转换后sql: select * from user where birth_date = to_date('2010-08-13','yyyy-mm-dd') and username = 'badqiu' and age > 20
+	 -->
+    <bean id="dataSource" class="net.sf.log4jdbc.DataSourceSpy">
+        <property name="realDataSource" ref="realDataSource"/>
+        <property name="enabled" value="true"/>
+    </bean>
+    	
 	<!-- 
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
