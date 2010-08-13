@@ -11,7 +11,7 @@ import net.sf.log4jdbc.ConnectionSpy;
 public class DataSourceSpy implements DataSource{
     private DataSource realDataSource;
     private RdbmsSpecifics rdbmsSpecifics = null;
-    private boolean enabled = Boolean.parseBoolean(System.getProperty("log4jdbc.enabled","true"));
+    private boolean enabled = Boolean.parseBoolean(System.getProperty("log4jdbc.enabled","false"));
     
     public DataSourceSpy() {
     }
