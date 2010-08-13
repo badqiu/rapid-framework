@@ -27,7 +27,7 @@ import net.sf.log4jdbc.ConnectionSpy;
  * log4j.logger.jdbc.connection=WARN
  * </pre>
  * 
- * -Dlog4jdbc.enabled=true
+ * -java -Dlog4jdbc.enabled=true
  * 
  * @author badqiu
  *
@@ -98,6 +98,10 @@ public class DataSourceSpy implements DataSource{
         return realDataSource.getLogWriter();
     }
 
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return realDataSource.isWrapperFor(iface);
+    }
+
     public void setLoginTimeout(int seconds) throws SQLException {
         realDataSource.setLoginTimeout(seconds);
     }
@@ -105,5 +109,10 @@ public class DataSourceSpy implements DataSource{
     public void setLogWriter(PrintWriter out) throws SQLException {
         realDataSource.setLogWriter(out);
     }
+
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return realDataSource.unwrap(iface);
+    }
+   
 
 }
