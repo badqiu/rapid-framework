@@ -140,7 +140,7 @@
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
 			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
-			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
     	WHERE 
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
@@ -163,7 +163,7 @@
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
 			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
-			inner join trade_base BTB on MAL.real_trade_no = BTB.trade_no
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
     	WHERE
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
