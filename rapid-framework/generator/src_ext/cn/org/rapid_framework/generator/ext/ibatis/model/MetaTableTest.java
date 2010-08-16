@@ -13,6 +13,7 @@ import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.MetaSql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class MetaTableTest extends GeneratorTestCase {
     
@@ -100,5 +101,6 @@ public class MetaTableTest extends GeneratorTestCase {
     
     private static void setShareVars(Map templateModel) {
     	GeneratorModelUtils.setShareVars(templateModel);
+    	templateModel.put("StringHelper", new StringHelper());
     }
 }
