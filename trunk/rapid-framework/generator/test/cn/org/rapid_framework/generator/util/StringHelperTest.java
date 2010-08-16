@@ -172,6 +172,20 @@ public class StringHelperTest extends TestCase {
 		assertEquals(StringHelper.containsCount("kakabkakab", "kab"),2);
 	}
 	
+	public void test_removeIbatisOrderBy() {
+	    assertEquals(StringHelper.removeIbatisOrderBy("a  order by username"),"a");
+	    assertEquals(StringHelper.removeIbatisOrderBy("a  order by username bbb"),"a");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>order by username desc</isNotEmpty>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>\norder\nby username desc\n</isNotEmpty>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>\nOrder\tbY username desc\n</isNotEmpty>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend='order by' property='orderby' compareValue='PAY'>\nusername desc</isEqual>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend='order by' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend=' order  by ' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>"),"");
+	    
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend='order1 by' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>"),"<isEqual prepend='order1 by' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>");
+	    assertEquals(StringHelper.removeIbatisOrderBy("a  order1 by username"),"a  order1 by username");
+	}
+	
 	public void test_remove_crlf() {
 //		new StringTokenizer("\t\n\r\f")
 		String[] array = StringHelper.tokenizeToStringArray("abc \r\f\n\t123\nbb", "\t\n\r\f");
