@@ -25,6 +25,11 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
+			<dependency>
+			    <groupId>aopalliance</groupId>
+			    <artifactId>aopalliance</artifactId>
+			    <version>1.0</version>
+			</dependency>			
 	</dependencies>
 	<!-- 插件配置 -->
 	<build>
