@@ -34,7 +34,7 @@
 
 	<#if sql.paging>
 	<select id="<@namespace/>${sql.operation}.count" resultClass="long" >
-    	${sql.ibatisCountSql?trim}
+    	${StringHelper.removeIbatisOrderBy(sql.ibatisCountSql?trim)}
 	</select>
 	</#if>
 	    
