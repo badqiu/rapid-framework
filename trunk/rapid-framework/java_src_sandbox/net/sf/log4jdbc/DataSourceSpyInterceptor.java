@@ -7,7 +7,6 @@ import org.aopalliance.intercept.MethodInvocation;
 
 public class DataSourceSpyInterceptor implements MethodInterceptor {
 
-	private boolean enabled = Boolean.parseBoolean(System.getProperty("log4jdbc.enabled","false"));
 	private RdbmsSpecifics rdbmsSpecifics = null;
 	
     private RdbmsSpecifics getRdbmsSpecifics(Connection conn) {
@@ -25,9 +24,7 @@ public class DataSourceSpyInterceptor implements MethodInterceptor {
 		Object result = invocation.proceed();
 		if(result instanceof Connection) {
 			Connection conn = (Connection)result;
-			if(enabled) {
-				return new ConnectionSpy(conn,getRdbmsSpecifics(conn));
-			}
+			return new ConnectionSpy(conn,getRdbmsSpecifics(conn));
 		}
 		return result;
 	}
