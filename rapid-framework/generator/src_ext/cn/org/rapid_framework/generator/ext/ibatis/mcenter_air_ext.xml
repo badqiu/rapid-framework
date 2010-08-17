@@ -218,8 +218,80 @@
 	]]>
 	</sql>
 
-	<sql id="findTradeFundBillForAir.where">
-	<![CDATA[
+    <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
+		<extraparams>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
+		</extraparams>    
+    	<sql>
+    	<![CDATA[
+    		SELECT 
+    		BTB.id,BTB.trade_no,BTB.out_trade_no,BTB.seller_account,BTB.seller_login_email,BTB.buyer_account,BTB.buyer_login_email,BTB.seller_type,BTB.buyer_type,BTB.trade_from,BTB.trade_email,BTB.operator_role,BTB.trade_status,BTB.total_fee,BTB.service_fee_ratio,BTB.service_fee,BTB.currency,BTB.seller_action,BTB.buyer_action,BTB.gmt_create,BTB.seller_user_id,BTB.buyer_user_id,BTB.additional_trd_status,BTB.trade_type,BTB.seller_fullname,BTB.buyer_fullname,BTB.seller_nick,BTB.buyer_nick,BTB.goods_title,BTB.gmt_last_modified_dt,BTB.stop_timeout,BTB.gathering_type,BTB.buyer_marker,BTB.seller_marker,BTB.buyer_marker_memo,BTB.seller_marker_memo,BTB.channel,BTB.product,BTB.pay_channel,
+    		MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
+    		FROM trade_base BTB 
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+    		WHERE 1 = 1
+    		
+			<include refid='findTradeBaseForAir.where'/>
+			
+			<isEqual property="orderby" compareValue="GMT_CREATE_ASC">
+				order by BTB.GMT_CREATE ASC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_CREATE_DESC">
+				order by BTB.GMT_CREATE DESC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
+				order by BTB.GMT_LAST_MODIFIED_DT ASC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_DESC">
+				order by BTB.GMT_LAST_MODIFIED_DT DESC
+			</isEqual>		
+		]]>
+		</sql>
+    </operation>
+
+    <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
+		<extraparams>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
+		</extraparams>    
+    	<sql>
+    	<![CDATA[
+    		SELECT 
+    			count(*) count,sum(amount) sum_amount
+    		FROM trade_base BTB 
+				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
+    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
+    		WHERE 1 = 1
+    		
+			<include refid='findTradeBaseForAir.where'/>			
+		]]>
+		</sql>
+    </operation>
+
+	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
+		<extraparams>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="direction" javatype="java.lang.String"/>		
+		</extraparams>	
+    	<sql>
+    	<![CDATA[
+    	SELECT BTF.bill_no,BTF.trade_no,BTF.out_order_no,BTF.pay_account_no,BTF.receive_account_no,BTF.currency,BTF.amount,BTF.type,BTF.status,BTF.channel,BTF.gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
+    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success,
+    		seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,seller_action,buyer_action,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,product,pay_channel
+    	from trade_fund_bill BTF
+			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
+    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+    		inner join trade_base BTB on BTB.trade_no = BTF.trade_no
+    	WHERE
+    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		
 			<isEmpty property="direction">
 			  	<isEmpty property="account">
 					<isEmpty property="gmtTradeCreateStartTime">
@@ -376,85 +448,7 @@
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="buyerAccount">
 				BTB.buyer_account = #buyerAccount# 
-			</isNotEmpty>	
-	]]>
-	</sql>
-		
-    <operation name="findTradeBaseForAir" paging="true" paramtype="primitive" multiplicity="one" remarks="航旅交易数据查询">
-		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>	
-			<param name="direction" javatype="java.lang.String"/>		
-		</extraparams>    
-    	<sql>
-    	<![CDATA[
-    		SELECT 
-    		BTB.id,BTB.trade_no,BTB.out_trade_no,BTB.seller_account,BTB.seller_login_email,BTB.buyer_account,BTB.buyer_login_email,BTB.seller_type,BTB.buyer_type,BTB.trade_from,BTB.trade_email,BTB.operator_role,BTB.trade_status,BTB.total_fee,BTB.service_fee_ratio,BTB.service_fee,BTB.currency,BTB.seller_action,BTB.buyer_action,BTB.gmt_create,BTB.seller_user_id,BTB.buyer_user_id,BTB.additional_trd_status,BTB.trade_type,BTB.seller_fullname,BTB.buyer_fullname,BTB.seller_nick,BTB.buyer_nick,BTB.goods_title,BTB.gmt_last_modified_dt,BTB.stop_timeout,BTB.gathering_type,BTB.buyer_marker,BTB.seller_marker,BTB.buyer_marker_memo,BTB.seller_marker_memo,BTB.channel,BTB.product,BTB.pay_channel,
-    		MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-    		MC.BILL_NO,MC.AMOUNT,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.MEMO,MC.loan_success,MC.pay_success
-    		FROM trade_base BTB 
-				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
-    		WHERE 1 = 1
-    		
-			<include refid='findTradeBaseForAir.where'/>
-			
-			<isEqual property="orderby" compareValue="GMT_CREATE_ASC">
-				order by BTB.GMT_CREATE ASC
-			</isEqual>
-			
-			<isEqual property="orderby" compareValue="GMT_CREATE_DESC">
-				order by BTB.GMT_CREATE DESC
-			</isEqual>
-			
-			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
-				order by BTB.GMT_LAST_MODIFIED_DT ASC
-			</isEqual>
-			
-			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_DESC">
-				order by BTB.GMT_LAST_MODIFIED_DT DESC
-			</isEqual>		
-		]]>
-		</sql>
-    </operation>
-
-    <operation name="countAndSumTradeBaseForAir" paramtype="primitive" multiplicity="one" remarks="航旅交易数据汇总查询">
-		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>	
-			<param name="direction" javatype="java.lang.String"/>		
-		</extraparams>    
-    	<sql>
-    	<![CDATA[
-    		SELECT 
-    			count(*) count,sum(amount) sum_amount
-    		FROM trade_base BTB 
-				left join mcenter_air_ext MAE on BTB.trade_no = MAE.trade_no
-    			left join mcenter_creditpay MC on BTB.trade_no = MC.trade_no
-    		WHERE 1 = 1
-    		
-			<include refid='findTradeBaseForAir.where'/>			
-		]]>
-		</sql>
-    </operation>
-
-	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
-		<extraparams>
-			<param name="payType" javatype="java.lang.String"/>	
-			<param name="direction" javatype="java.lang.String"/>		
-		</extraparams>	
-    	<sql>
-    	<![CDATA[
-    	SELECT BTF.bill_no,BTF.trade_no,BTF.out_order_no,BTF.pay_account_no,BTF.receive_account_no,BTF.currency,BTF.amount,BTF.type,BTF.status,BTF.channel,BTF.gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
-    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success,
-    		seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,seller_action,buyer_action,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,product,pay_channel
-    	from trade_fund_bill BTF
-			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
-    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
-    		inner join trade_base BTB on BTB.trade_no = BTF.trade_no
-    	WHERE
-    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		
-			<include refid='findTradeFundBillForAir.where'/>		
+			</isNotEmpty>		
 
 			<isNotEmpty prepend="" property="orderby">
 				<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_ASC">
@@ -483,89 +477,7 @@
 		</sql>
     </operation> 
     
-	<sql id="findCreditpayRefundDetail.where">
-   	<![CDATA[
-   	
-		  	<isEmpty property="transAccountIn">
-				<isEmpty property="gmtTradeCreateBegin">
-			  		<isEmpty property="gmtTradeCreateEnd">
-			        	query not allowed
-			  		</isEmpty>
-				</isEmpty>
-	  	  	</isEmpty>
-		  	  	   	
-			<isNotEmpty prepend="and" property="billNo">
-					MC.bill_no = #billNo#
-			</isNotEmpty>		    
-	       <isNotEmpty prepend="AND" property="tradeNo">
-	             MC.TRADE_NO = #tradeNo#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="amount">
-	             MC.AMOUNT = #amount#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="transDate">
-	             MC.TRANS_DATE = #transDate#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="transAccountOut">
-	             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="transAccountIn">
-	             MC.TRANS_ACCOUNT_IN = #transAccountIn#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="customerId">
-	             MC.CUSTOMER_ID = #customerId#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="bizName">
-	             MC.BIZ_NAME = #bizName#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="operatorId">
-	             MC.OPERATOR_ID = #operatorId#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="operatorName">
-	             MC.OPERATOR_NAME = #operatorName#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="memo">
-	             MC.MEMO = #memo#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="recordStamp">
-	             MC.RECORD_STAMP = #recordStamp#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="loanSuccess">
-	             MC.loan_success = #loanSuccess#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="paySuccess">
-	             MC.pay_success = #paySuccess#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
-	             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
-	       </isNotEmpty>
-	       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
-	             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
-	       </isNotEmpty>
-	       
-	       <isNotEmpty prepend="AND" property="outTradeNo">
-	             BTF.out_order_no = #outTradeNo#
-	       </isNotEmpty>
-
-			<isNotEmpty prepend="and" property="pnr">
-				MAE.pnr = #pnr#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_END >= #ticketNo#
-					AND MAE.TICKET_NO_START &lt;= #ticketNo#
-					AND length(MAE.TICKET_NO_END) >= length(#ticketNo#)
-					AND length(MAE.TICKET_NO_START) &lt;= length(#ticketNo#)
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="fundFlowTypes">
-				 BTF.type IN
-				<iterate property="fundFlowTypes" open="(" close=")" conjunction=",">
-					#fundFlowTypes[]#
-				</iterate>
-			</isNotEmpty>												    		
-	]]>
-	</sql>
-		    
+   
 	<operation name="findCreditpayRefundDetail" paging="true" remarks="信用支付退款明细分页查询">
 		<sql>
 			<![CDATA[
@@ -580,7 +492,83 @@
 	    	WHERE   
 	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
 	    		 
-				<include refid='findCreditpayRefundDetail.where'/>
+			  	<isEmpty property="transAccountIn">
+					<isEmpty property="gmtTradeCreateBegin">
+				  		<isEmpty property="gmtTradeCreateEnd">
+				        	query not allowed
+				  		</isEmpty>
+					</isEmpty>
+		  	  	</isEmpty>
+			  	  	   	
+				<isNotEmpty prepend="and" property="billNo">
+						MC.bill_no = #billNo#
+				</isNotEmpty>		    
+		       <isNotEmpty prepend="AND" property="tradeNo">
+		             MC.TRADE_NO = #tradeNo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="amount">
+		             MC.AMOUNT = #amount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transDate">
+		             MC.TRANS_DATE = #transDate#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountOut">
+		             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountIn">
+		             MC.TRANS_ACCOUNT_IN = #transAccountIn#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="customerId">
+		             MC.CUSTOMER_ID = #customerId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bizName">
+		             MC.BIZ_NAME = #bizName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorId">
+		             MC.OPERATOR_ID = #operatorId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorName">
+		             MC.OPERATOR_NAME = #operatorName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="memo">
+		             MC.MEMO = #memo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="recordStamp">
+		             MC.RECORD_STAMP = #recordStamp#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="loanSuccess">
+		             MC.loan_success = #loanSuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paySuccess">
+		             MC.pay_success = #paySuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
+		             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
+		             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
+		       </isNotEmpty>
+		       
+		       <isNotEmpty prepend="AND" property="outTradeNo">
+		             BTF.out_order_no = #outTradeNo#
+		       </isNotEmpty>
+	
+				<isNotEmpty prepend="and" property="pnr">
+					MAE.pnr = #pnr#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="ticketNo">
+						MAE.TICKET_NO_END >= #ticketNo#
+						AND MAE.TICKET_NO_START &lt;= #ticketNo#
+						AND length(MAE.TICKET_NO_END) >= length(#ticketNo#)
+						AND length(MAE.TICKET_NO_START) &lt;= length(#ticketNo#)
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="fundFlowTypes">
+					 BTF.type IN
+					<iterate property="fundFlowTypes" open="(" close=")" conjunction=",">
+						#fundFlowTypes[]#
+					</iterate>
+				</isNotEmpty>
 				
 	    		order by gmt_trade_create DESC,gmt_pay DESC
 		    ]]>
