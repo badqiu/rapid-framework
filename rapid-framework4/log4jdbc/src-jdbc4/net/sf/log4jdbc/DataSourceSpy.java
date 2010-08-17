@@ -14,17 +14,16 @@ import net.sf.log4jdbc.ConnectionSpy;
  * <pre>
  * &lt;bean id="dataSource" class="net.sf.log4jdbc.DataSourceSpy">
  *     &lt;property name="realDataSource" ref="realDataSource"/>
- *     &lt;property name="enabled" value="true"/>
  * &lt;/bean>
  * </pre>
  * 
  * log4j.properties
  * <pre>
- * log4j.logger.jdbc.sqlonly=WARN
- * log4j.logger.jdbc.sqltiming=DEBUG
- * log4j.logger.jdbc.audit=WARN
- * log4j.logger.jdbc.resultset=WARN
- * log4j.logger.jdbc.connection=WARN
+ * log4j.logger.jdbc.sqlonly=OFF
+ * log4j.logger.jdbc.sqltiming=INFO
+ * log4j.logger.jdbc.audit=OFF
+ * log4j.logger.jdbc.resultset=OFF
+ * log4j.logger.jdbc.connection=OFF
  * </pre>
  * 
  * 
