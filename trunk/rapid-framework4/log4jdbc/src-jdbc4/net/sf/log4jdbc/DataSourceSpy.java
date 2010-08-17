@@ -47,15 +47,11 @@ public class DataSourceSpy implements DataSource{
         this.realDataSource = realDataSource;
     }    
     
-    private RdbmsSpecifics getRdbmsSpecifics() {
+    private RdbmsSpecifics getRdbmsSpecifics() throws SQLException {
         if(rdbmsSpecifics == null) {
-            try {
-                Connection conn = realDataSource.getConnection();
-                rdbmsSpecifics = DriverSpy.getRdbmsSpecifics(conn);
-                conn.close();
-            }catch(Exception e) {
-                System.err.println("error on getRdbmsSpecifics(Connection conn),caused:"+e.toString());
-            }
+            Connection conn = realDataSource.getConnection();
+            rdbmsSpecifics = DriverSpy.getRdbmsSpecifics(conn);
+            conn.close();
         }
         return rdbmsSpecifics;
     }
