@@ -155,9 +155,7 @@
     		
 			<include refid='findAccountLog.where'/>
 			
-			<isNotEmpty property="orderby">
-					order by $orderby$
-			</isNotEmpty>
+			order by TRANS_DATE DESC
 		]]>
 		</sql>
     </operation>    

@@ -398,9 +398,21 @@
     		
 			<include refid='findTradeBaseForAir.where'/>
 			
-	    	<isNotEmpty property="orderby">
-	    		order by $orderby$
-	    	</isNotEmpty>			
+			<isEqual property="orderby" compareValue="GMT_CREATE_ASC">
+				order by BTB.GMT_CREATE ASC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_CREATE_DESC">
+				order by BTB.GMT_CREATE DESC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
+				order by BTB.GMT_LAST_MODIFIED_DT ASC
+			</isEqual>
+			
+			<isEqual property="orderby" compareValue="GMT_LAST_MODIFIED_DT_DESC">
+				order by BTB.GMT_LAST_MODIFIED_DT DESC
+			</isEqual>		
 		]]>
 		</sql>
     </operation>
@@ -443,10 +455,30 @@
     		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 			<include refid='findTradeFundBillForAir.where'/>		
-									
-	    	<isNotEmpty property="orderby">
-	    		order by $orderby$
-	    	</isNotEmpty>									    		
+
+			<isNotEmpty prepend="" property="orderby">
+				<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_ASC">
+					order by BTF.GMT_CREATE ASC , BTF.bill_no desc
+				</isEqual>
+				<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_DESC">
+					order by BTF.GMT_CREATE DESC , BTF.bill_no desc
+				</isEqual>
+				<isEqual prepend="" property="orderby" compareValue="GMT_PAY_ASC">
+					order by BTF.GMT_PAY ASC , BTF.bill_no desc
+				</isEqual>
+				<isEqual prepend="" property="orderby" compareValue="GMT_PAY_DESC">
+					order by BTF.GMT_PAY DESC , BTF.bill_no desc
+				</isEqual>
+				<isEqual prepend="" property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
+					order by GMT_MODIFIED ASC
+				</isEqual>
+				<isEqual prepend="" property="orderby" compareValue="GMT_LAST_MODIFIED_DT_DESC">
+					order by GMT_MODIFIED DESC
+				</isEqual>								
+			</isNotEmpty>
+			<isEmpty prepend="" property="orderby">
+				order by BTF.bill_no desc
+			</isEmpty>
 		]]>
 		</sql>
     </operation> 
@@ -550,9 +582,7 @@
 	    		 
 				<include refid='findCreditpayRefundDetail.where'/>
 				
-	    		<isNotEmpty property="orderby">
-	    			order by $orderby$
-	    		</isNotEmpty>
+	    		order by gmt_trade_create DESC,gmt_pay DESC
 		    ]]>
 		</sql>		
 	</operation> 	    	         			
