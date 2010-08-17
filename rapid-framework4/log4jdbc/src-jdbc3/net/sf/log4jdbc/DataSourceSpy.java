@@ -27,7 +27,6 @@ import net.sf.log4jdbc.ConnectionSpy;
  * log4j.logger.jdbc.connection=WARN
  * </pre>
  * 
- * -java -Dlog4jdbc.enabled=true
  * 
  * @author badqiu
  *
@@ -35,7 +34,6 @@ import net.sf.log4jdbc.ConnectionSpy;
 public class DataSourceSpy implements DataSource{
     private DataSource realDataSource;
     private RdbmsSpecifics rdbmsSpecifics = null;
-    private boolean enabled = Boolean.parseBoolean(System.getProperty("log4jdbc.enabled","true"));
     
     public DataSourceSpy() {
     }
@@ -43,11 +41,7 @@ public class DataSourceSpy implements DataSource{
     public DataSourceSpy(DataSource realDataSource) {
         setRealDataSource(realDataSource);
     }
-    
-    public DataSourceSpy(DataSource realDataSource, boolean enabled) {
-        this.realDataSource = realDataSource;
-        this.enabled = enabled;
-    }
+
 
     public void setRealDataSource(DataSource realDataSource) {
         this.realDataSource = realDataSource;
@@ -65,17 +59,9 @@ public class DataSourceSpy implements DataSource{
         }
         return rdbmsSpecifics;
     }
-    
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     public Connection getConnection() throws SQLException {
-        if(enabled) {
+        if(SpyLogFactory.getSpyLogDelegator().isJdbcLoggingEnabled()) {
             return new ConnectionSpy(this.realDataSource.getConnection(),getRdbmsSpecifics());
         }else {
             return this.realDataSource.getConnection();
@@ -83,7 +69,7 @@ public class DataSourceSpy implements DataSource{
     }
 
     public Connection getConnection(String username, String password) throws SQLException {
-        if(enabled) {
+        if(SpyLogFactory.getSpyLogDelegator().isJdbcLoggingEnabled()) {
             return new ConnectionSpy(realDataSource.getConnection(username, password),getRdbmsSpecifics());
         }else {
             return realDataSource.getConnection(username, password);

@@ -22,9 +22,11 @@ public class DataSourceSpyInterceptor implements MethodInterceptor {
     
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Object result = invocation.proceed();
-		if(result instanceof Connection) {
-			Connection conn = (Connection)result;
-			return new ConnectionSpy(conn,getRdbmsSpecifics(conn));
+		if(SpyLogFactory.getSpyLogDelegator().isJdbcLoggingEnabled()) {
+    		if(result instanceof Connection) {
+    			Connection conn = (Connection)result;
+    			return new ConnectionSpy(conn,getRdbmsSpecifics(conn));
+    		}
 		}
 		return result;
 	}
