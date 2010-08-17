@@ -11,11 +11,7 @@ public class DataSourceSpyInterceptor implements MethodInterceptor {
 	
     private RdbmsSpecifics getRdbmsSpecifics(Connection conn) {
         if(rdbmsSpecifics == null) {
-            try {
-                rdbmsSpecifics = DriverSpy.getRdbmsSpecifics(conn);
-            }catch(Exception e) {
-                System.err.println("error on getRdbmsSpecifics(Connection conn),caused:"+e.toString());
-            }
+            rdbmsSpecifics = DriverSpy.getRdbmsSpecifics(conn);
         }
         return rdbmsSpecifics;
     }
