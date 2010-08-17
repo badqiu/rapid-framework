@@ -29,7 +29,15 @@
 		    	left join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no 
 		    WHERE
 		    	MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-		    	 
+
+			  	<isEmpty property="transAccountIn">
+					<isEmpty property="gmtTradeCreateBegin">
+				  		<isEmpty property="gmtTradeCreateEnd">
+				        	query not allowed
+				  		</isEmpty>
+					</isEmpty>
+		  	  	</isEmpty>
+	  	  			    	 
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    

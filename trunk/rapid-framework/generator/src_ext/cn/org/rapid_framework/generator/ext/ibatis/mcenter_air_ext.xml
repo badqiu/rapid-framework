@@ -17,6 +17,17 @@
 	
 	<sql id="findTradeBaseForAir.where">
 	<![CDATA[
+	
+			<isEmpty property="direction">
+			  	<isEmpty property="account">
+					<isEmpty property="gmtCreateStartTime">
+				  		<isEmpty property="gmtCreateEndTime">
+				        	query not allowed
+				  		</isEmpty>
+					</isEmpty>
+		  	  	</isEmpty>
+	  	  	</isEmpty>
+	  	  		
 			<isNotEmpty property="partnerIds">
 				and BTB.trade_email IN
 				<iterate property="partnerIds" open="(" close=")" conjunction=",">
@@ -209,6 +220,16 @@
 
 	<sql id="findTradeFundBillForAir.where">
 	<![CDATA[
+			<isEmpty property="direction">
+			  	<isEmpty property="account">
+					<isEmpty property="gmtTradeCreateStartTime">
+				  		<isEmpty property="gmtTradeCreateEndTime">
+				        	query not allowed
+				  		</isEmpty>
+					</isEmpty>
+		  	  	</isEmpty>
+	  	  	</isEmpty>
+	  	  		
 			<isNotEmpty property="partnerIds">
 				<isEmpty prepend="and" property="account">
 					BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
@@ -432,6 +453,15 @@
     
 	<sql id="findCreditpayRefundDetail.where">
    	<![CDATA[
+   	
+		  	<isEmpty property="transAccountIn">
+				<isEmpty property="gmtTradeCreateBegin">
+			  		<isEmpty property="gmtTradeCreateEnd">
+			        	query not allowed
+			  		</isEmpty>
+				</isEmpty>
+	  	  	</isEmpty>
+		  	  	   	
 			<isNotEmpty prepend="and" property="billNo">
 					MC.bill_no = #billNo#
 			</isNotEmpty>		    
