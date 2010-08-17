@@ -17,7 +17,14 @@
 	
 	<sql id="findAccountLog.where">
 		<![CDATA[
-		
+		  	<isEmpty property="accountNo">
+				<isEmpty property="transDtBegin">
+			  		<isEmpty property="transDtEnd">
+			        	query not allowed
+			  		</isEmpty>
+				</isEmpty>
+	  	  	</isEmpty>
+					
 	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
 				MAL.TRANS_AMOUNT > 0
 			</isEqual> 
