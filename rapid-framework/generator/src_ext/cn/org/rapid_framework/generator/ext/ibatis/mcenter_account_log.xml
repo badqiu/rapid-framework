@@ -71,10 +71,10 @@
 			</isNotEmpty>	
 
 			<isNotEmpty prepend="and" property="minTransAmount">
-					MAL.TRANS_AMOUNT >= #minTransAmount#
+					abs(MAL.TRANS_AMOUNT) >= #minTransAmount#
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="maxTransAmount">
-					MAL.TRANS_AMOUNT &lt;= #maxTransAmount#
+					abs(MAL.TRANS_AMOUNT) &lt;= #maxTransAmount#
 			</isNotEmpty>
 
 			<isNotEmpty prepend="and" property="bankName">
@@ -129,6 +129,8 @@
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
 		<extraparams>
 			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>	
+			<param name="minTransAmount" javatype="Long"/>	
+			<param name="maxTransAmount" javatype="Long"/>	
 		</extraparams>		
     	<sql>
     	<![CDATA[
@@ -155,7 +157,9 @@
     
 	<operation name="countAndSumAccountInfo" multiplicity="one" paramtype="primitive" remarks="账务数据汇总查询">
 		<extraparams>
-			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>	
+			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
+			<param name="minTransAmount" javatype="Long"/>	
+			<param name="maxTransAmount" javatype="Long"/>				
 		</extraparams>	
 		<sql>
     	<![CDATA[
