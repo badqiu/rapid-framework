@@ -281,9 +281,9 @@
 		</extraparams>	
     	<sql>
     	<![CDATA[
-    	SELECT BTF.bill_no,BTF.trade_no,BTF.out_order_no,BTF.pay_account_no,BTF.receive_account_no,BTF.currency,BTF.amount,BTF.type,BTF.status,BTF.channel,BTF.gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
+    	SELECT BTF.trade_no,BTF.out_order_no,BTF.pay_account_no,BTF.receive_account_no,BTF.currency,BTF.amount,BTF.type,BTF.status,BTF.channel,BTF.gmt_pay,iw_trans_log_id,BTF.gmt_trade_create,BTF.gmt_create,BTF.gmt_modified,BTF.memo,bank_pay_online_id,bank_amount,bank_type,freeze_type,partner_id,deposit_id,
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
-    		MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success,
+    		MC.bill_no,MC.TRANS_DATE,MC.TRANS_ACCOUNT_OUT,MC.TRANS_ACCOUNT_IN,MC.CUSTOMER_ID,MC.BIZ_NAME,MC.OPERATOR_ID,MC.OPERATOR_NAME,MC.loan_success,MC.pay_success,
     		seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,seller_action,buyer_action,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,product,pay_channel
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
@@ -452,16 +452,16 @@
 
 			<isNotEmpty prepend="" property="orderby">
 				<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_ASC">
-					order by BTF.GMT_CREATE ASC , BTF.bill_no desc
+					order by BTF.GMT_CREATE ASC , MC.bill_no desc
 				</isEqual>
 				<isEqual prepend="" property="orderby" compareValue="GMT_CREATE_DESC">
-					order by BTF.GMT_CREATE DESC , BTF.bill_no desc
+					order by BTF.GMT_CREATE DESC , MC.bill_no desc
 				</isEqual>
 				<isEqual prepend="" property="orderby" compareValue="GMT_PAY_ASC">
-					order by BTF.GMT_PAY ASC , BTF.bill_no desc
+					order by BTF.GMT_PAY ASC , MC.bill_no desc
 				</isEqual>
 				<isEqual prepend="" property="orderby" compareValue="GMT_PAY_DESC">
-					order by BTF.GMT_PAY DESC , BTF.bill_no desc
+					order by BTF.GMT_PAY DESC , MC.bill_no desc
 				</isEqual>
 				<isEqual prepend="" property="orderby" compareValue="GMT_LAST_MODIFIED_DT_ASC">
 					order by GMT_MODIFIED ASC
@@ -471,7 +471,7 @@
 				</isEqual>								
 			</isNotEmpty>
 			<isEmpty prepend="" property="orderby">
-				order by BTF.bill_no desc
+				order by MC.bill_no desc
 			</isEmpty>
 		]]>
 		</sql>
