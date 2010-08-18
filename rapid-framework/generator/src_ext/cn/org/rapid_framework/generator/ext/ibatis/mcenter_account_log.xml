@@ -155,7 +155,7 @@
     		
 			<include refid='findAccountLog.where'/>
 			
-			order by TRANS_DATE DESC
+			order by TRANS_DT DESC
 		]]>
 		</sql>
     </operation>    
