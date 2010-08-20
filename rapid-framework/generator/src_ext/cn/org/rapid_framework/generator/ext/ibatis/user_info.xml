@@ -233,7 +233,15 @@
 	    </sql>
     </operation>
      -->
-    
+
+    <operation name="testNotParameter" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT <include refid="columns"/> FROM USER_INFO 
+	    ]]>
+	    </sql>
+    </operation>
+        
     <operation name="testIncludeByRefid" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
