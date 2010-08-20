@@ -23,6 +23,7 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.BasicSqlFormatter;
 import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
@@ -60,7 +61,7 @@ public class SqlFactory {
 //    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
     	String namedSql = SqlParseHelper.convert2NamedParametersSql(beforeProcessedSql,":","");
         ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(namedSql);
-        String executeSql = NamedParameterUtils.substituteNamedParameters(parsedSql);
+        String executeSql = new BasicSqlFormatter().format(NamedParameterUtils.substituteNamedParameters(parsedSql));
         
         Sql sql = new Sql();
         sql.setSourceSql(sourceSql);
