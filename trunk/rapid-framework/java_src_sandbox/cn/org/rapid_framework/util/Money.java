@@ -2,9 +2,7 @@
 package cn.org.rapid_framework.util;
 
 import java.io.Serializable;
-
 import java.math.BigDecimal;
-
 import java.util.Currency;
 
 /**
@@ -44,12 +42,9 @@ import java.util.Currency;
  * @author badqiu
  *
  */
-public class Money implements Serializable, Comparable {
+public class Money implements Serializable, Comparable<Object> {
 
-    /**
-     * Comment for <code>serialVersionUID</code>
-     */
-    private static final long serialVersionUID = 6009335074727417445L;
+    private static final long  serialVersionUID      = -118437905184548616L;
 
     /**
      * 缺省的币种代码，为CNY（人民币）。
@@ -285,7 +280,7 @@ public class Money implements Serializable, Comparable {
     public BigDecimal getAmount() {
         return BigDecimal.valueOf(cent, currency.getDefaultFractionDigits());
     }
-    
+
     /**
      * 获取本货币对象代表的金额数。
      *
@@ -491,7 +486,6 @@ public class Money implements Serializable, Comparable {
         return newMoneyWithSameCurrency(cent - other.cent);
     }
 
-
     /**
      * 货币乘法。
      *
@@ -507,7 +501,6 @@ public class Money implements Serializable, Comparable {
         return newMoneyWithSameCurrency(cent * val);
     }
 
-
     /**
      * 货币乘法。
      *
@@ -522,8 +515,6 @@ public class Money implements Serializable, Comparable {
     public Money multiply(double val) {
         return newMoneyWithSameCurrency(Math.round(cent * val));
     }
-
-
 
     /**
      * 货币乘法。
@@ -560,8 +551,6 @@ public class Money implements Serializable, Comparable {
         return newMoneyWithSameCurrency(rounding(newCent, roundingMode));
     }
 
-
-
     /**
      * 货币除法。
      *
@@ -576,7 +565,6 @@ public class Money implements Serializable, Comparable {
     public Money divide(double val) {
         return newMoneyWithSameCurrency(Math.round(cent / val));
     }
-
 
     /**
      * 货币除法。
@@ -612,10 +600,6 @@ public class Money implements Serializable, Comparable {
 
         return newMoneyWithSameCurrency(newCent.longValue());
     }
-
-
-
-
 
     /**
      * 货币分配。
@@ -756,7 +740,7 @@ public class Money implements Serializable, Comparable {
 
         return sb.toString();
     }
-    
+
     /**
      * 将Money根据汇率表转换成为另外一种货币Money
      * @param currency 币种
