@@ -39,10 +39,12 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 	<#else>
 	@SuppressWarnings("unchecked")
 	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException {
+		<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
 		<#list sql.params as param>
 		param.put("${param.paramName}",${param.paramName});
 		</#list>
+		</#if>		
 		<@generateOperationMethodBody sql/>
 	}
 	</#if>
@@ -52,22 +54,29 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 
 <#macro generateOperationMethodBody sql>
 	<#local ibatisNamespace = sql.tableClassName+".">
+	<#if sql.params?size == 0>
+		<#local paramName = 'null'>
+	<#elseif sql.params?size == 1>
+		<#local paramName = sql.params?first.paramName>
+	<#else>
+		<#local paramName = "param">
+	</#if>
 	<#if sql.selectSql>
 		<#if sql.paging || sql.multiplicity = 'paging'>
-		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",param);
+		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName});
 		<#elseif sql.multiplicity = 'one'>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
 		<#else>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",param);
+		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",${paramName});
 		</#if>
 	</#if>
 	<#if sql.deleteSql>
-		return getSqlMapClientTemplate().delete("${ibatisNamespace}${sql.operation}", param);
+		return getSqlMapClientTemplate().delete("${ibatisNamespace}${sql.operation}", ${paramName});
 	</#if>
 	<#if sql.insertSql>
-		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", param);    
+		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});    
 	</#if>
 	<#if sql.updateSql>
-		return getSqlMapClientTemplate().update("${ibatisNamespace}${sql.operation}", param);
+		return getSqlMapClientTemplate().update("${ibatisNamespace}${sql.operation}", ${paramName});
 	</#if>
 </#macro>
