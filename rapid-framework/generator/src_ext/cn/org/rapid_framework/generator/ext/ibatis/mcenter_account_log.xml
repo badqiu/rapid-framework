@@ -118,10 +118,10 @@
 				SUB_TRANS_CODE = '301118'  /* 信用支付放贷 */
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_RETURN_LOAN">
-				SUB_TRANS_CODE = '301119' /* 信用支付还贷 */
+				SUB_TRANS_CODE IN ('301119','301120') /* 信用支付还贷 */
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_REFUND">
-				(SUB_TRANS_CODE = '301101' OR SUB_TRANS_CODE = '301120') AND MAL.pay_type = 'CREDIT_PAY'  /* 信用支付退款 */
+				SUB_TRANS_CODE = '301101' AND MAL.pay_type = 'CREDIT_PAY'  /* 信用支付退款 */
 			</isEqual>	
 												
 			<isNotEmpty property="partnerIds">
