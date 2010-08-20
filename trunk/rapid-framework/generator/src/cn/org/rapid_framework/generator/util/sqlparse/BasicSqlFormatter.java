@@ -35,6 +35,7 @@ import java.util.StringTokenizer;
  *
  * @author Gavin King
  * @author Steve Ebersole
+ * @author badqiu modify commaAfterByOrFromOrSelect() comments newline()
  */
 public class BasicSqlFormatter {
 
@@ -219,7 +220,7 @@ public class BasicSqlFormatter {
 
 		private void commaAfterByOrFromOrSelect() {
 			out();
-			newline();
+//			newline();
 		}
 
 		private void logical() {
