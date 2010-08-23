@@ -10,6 +10,8 @@ public class BasicSqlFormatterTest extends TestCase {
 		format("select username,password,blog from userinfo u inner join role r \n\n\n on u.id = r.id inner join blog b on u.id = b.id where a=123 and diy=234");
 		format("select username,\n\nabc,password,blog from userinfo u inner join role r \n\n\n on u.id = r.id inner join blog b on u.id = b.id where a=123 and diy=234");
 		format("create table user(username varchar(2) primary key,\ncontent bigint)");
+		format("insert into user(user,name,pwd,id) values (123,345,'123','bbb')");
+		format("update user set user='123',name=456 where user=1 and pwd=2");
 	}
 	
 	public String format(String sql) {
