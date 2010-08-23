@@ -499,7 +499,7 @@
 		  	  	</isEmpty>
 
 				BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-				and BTF.pay_account_no = #transAccountIn#
+				and BTF.receive_account_no = #transAccountIn#
 				<isNotEmpty prepend="and" property="gmtTradeCreateBegin">
 						BTF.gmt_trade_create &gt;= #gmtTradeCreateBegin#
 				</isNotEmpty>
