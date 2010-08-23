@@ -490,8 +490,6 @@
 				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
 	    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
 	    	WHERE   
-	    		MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
-	    		 
 			  	<isEmpty property="transAccountIn">
 					<isEmpty property="gmtTradeCreateBegin">
 				  		<isEmpty property="gmtTradeCreateEnd">
@@ -499,13 +497,22 @@
 				  		</isEmpty>
 					</isEmpty>
 		  	  	</isEmpty>
-			  	  	   	
+
+				BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+				and BTF.pay_account_no = #transAccountIn#
+				<isNotEmpty prepend="and" property="gmtTradeCreateBegin">
+						BTF.gmt_trade_create &gt;= #gmtTradeCreateBegin#
+				</isNotEmpty>
+				<isNotEmpty prepend="and" property="gmtTradeCreateEnd">
+						BTF.gmt_trade_create &lt;= #gmtTradeCreateEnd#
+				</isNotEmpty>	
+		       <isNotEmpty prepend="AND" property="tradeNo">
+		             BTF.TRADE_NO = #tradeNo#
+		       </isNotEmpty>
+		       								  	  	   	
 				<isNotEmpty prepend="and" property="billNo">
 						MC.bill_no = #billNo#
 				</isNotEmpty>		    
-		       <isNotEmpty prepend="AND" property="tradeNo">
-		             MC.TRADE_NO = #tradeNo#
-		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="amount">
 		             MC.AMOUNT = #amount#
 		       </isNotEmpty>
@@ -514,9 +521,6 @@
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="transAccountOut">
 		             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="transAccountIn">
-		             MC.TRANS_ACCOUNT_IN = #transAccountIn#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="customerId">
 		             MC.CUSTOMER_ID = #customerId#
@@ -542,17 +546,7 @@
 		       <isNotEmpty prepend="AND" property="paySuccess">
 		             MC.pay_success = #paySuccess#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
-		             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
-		             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
-		       </isNotEmpty>
-		       
-		       <isNotEmpty prepend="AND" property="outTradeNo">
-		             BTF.out_order_no = #outTradeNo#
-		       </isNotEmpty>
-	
+
 				<isNotEmpty prepend="and" property="pnr">
 					MAE.pnr = #pnr#
 				</isNotEmpty>
@@ -562,7 +556,10 @@
 						AND length(MAE.TICKET_NO_END) >= length(#ticketNo#)
 						AND length(MAE.TICKET_NO_START) &lt;= length(#ticketNo#)
 				</isNotEmpty>
-				
+
+		       <isNotEmpty prepend="AND" property="outTradeNo">
+		             BTF.out_order_no = #outTradeNo#
+		       </isNotEmpty>				
 				<isNotEmpty prepend="and" property="fundFlowTypes">
 					 BTF.type IN
 					<iterate property="fundFlowTypes" open="(" close=")" conjunction=",">

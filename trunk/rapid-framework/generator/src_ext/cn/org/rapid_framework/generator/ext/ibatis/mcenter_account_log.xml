@@ -110,7 +110,7 @@
 				MAL.pay_type is null  /* 余额支付 */
 			</isEqual>	
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-				MAL.pay_type = 'CREDIT_PAY' AND trans_code = '6001'  /* 信用支付 */
+				MAL.pay_type = 'CREDIT_PAY' AND trans_code = '6001' AND MAL.TRANS_AMOUNT &lt;= 0  /* 信用支付 */
 			</isEqual>
 								
 			/* 用于识别     CREDIT_LOAN("信用支付借款"),CREDIT_RETURN_LOAN("信用支付还款"),CREDIT_REFUND("信用支付退款"),*/
@@ -121,7 +121,7 @@
 				SUB_TRANS_CODE IN ('301119','301120') /* 信用支付还贷 */
 			</isEqual>
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_REFUND">
-				SUB_TRANS_CODE = '301101' AND MAL.pay_type = 'CREDIT_PAY'  /* 信用支付退款 */
+				SUB_TRANS_CODE = '301101' AND MAL.pay_type = 'CREDIT_PAY' AND MAL.TRANS_AMOUNT > 0  /* 信用支付退款 */
 			</isEqual>	
 												
 			<isNotEmpty property="partnerIds">
