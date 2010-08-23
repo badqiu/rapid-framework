@@ -135,7 +135,7 @@ public class SqlParseHelperTest extends TestCase{
 				" user_param =>  :user and blog_param=#{blog} and sex_param<=  ${sex} and pwd_param!=#pwd# and content_param<>$content$"+
 				" and Memoparam like #memo# and birth_date between #{min_birth_date} and #{max_birth_date}"+
 				" and java_param in (#java#) and injava_param in(#injava#) and  t.prifix_param=#{prefix} and net_param => substring(#net#)"+
-				" and not_in_param not in(#not_in#)";
+				" and not_in_param not in(#not_in#) AND trans_dt < to_date(#endDate#, 'yyyymmdd') AND length(pwd_len_param) = #pwd_len#";
 		assertEquals("user_param",SqlParseHelper.getColumnNameByRightCondition(sql, "user"));
 		assertEquals("blog_param",SqlParseHelper.getColumnNameByRightCondition(sql, "blog"));
 		assertEquals("sex_param",SqlParseHelper.getColumnNameByRightCondition(sql, "sex"));
@@ -149,6 +149,9 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("prifix_param",SqlParseHelper.getColumnNameByRightCondition(sql, "prefix"));
 		assertEquals("net_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
 		assertEquals("not_in_param",SqlParseHelper.getColumnNameByRightCondition(sql, "not_in"));
+		assertEquals("trans_dt",SqlParseHelper.getColumnNameByRightCondition(sql, "endDate"));
+		assertEquals("pwd_len_param", SqlParseHelper
+            .getColumnNameByRightCondition(sql, "pwd_len"));
 		
 		
 		sql = "delete from user_Info where " +
