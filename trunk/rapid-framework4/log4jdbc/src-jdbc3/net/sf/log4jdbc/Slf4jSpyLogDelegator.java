@@ -17,10 +17,8 @@ package net.sf.log4jdbc;
 
 import java.util.StringTokenizer;
 
-import net.sf.log4jdbc.DriverSpy;
-
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Delegates JDBC spy logging events to the the Simple Logging Facade for Java (slf4j).
@@ -29,7 +27,6 @@ import org.slf4j.Logger;
  */
 public class Slf4jSpyLogDelegator implements SpyLogDelegator
 {
-  public boolean formatSql = true;
 	
   /**
    * Create a SpyLogDelegator specific to the Simple Logging Facade for Java (slf4j).
@@ -282,7 +279,7 @@ public class Slf4jSpyLogDelegator implements SpyLogDelegator
       output.append(";");
     }
     
-    if(formatSql) {
+    if (DriverSpy.formatSql) {
     	return new BasicSqlFormatter().format(output.toString());
     }else {
     	return output.toString();
