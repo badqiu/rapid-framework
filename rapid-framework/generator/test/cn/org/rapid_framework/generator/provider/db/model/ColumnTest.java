@@ -62,6 +62,17 @@ public class ColumnTest  extends TestCase{
 		assertEquals("java.math.BigDecimal",newBigDecimal().getSimpleJavaType());
 	}
 	
+	public void test_getShortJavaType() {
+        Column c = new Column(new Table(), 1, "int", "user_name", 1, 2, true,
+            true, true, true, "", "remarks");
+        assertEquals("String", c.getShortJavaType());
+
+        GeneratorProperties.setProperty(
+            "java_typemapping.java.math.BigDecimal", "org.badqiu.UserInfo");
+        assertEquals("org.badqiu.UserInfo", newBigDecimal().getSimpleJavaType());
+        assertEquals("UserInfo", newBigDecimal().getShortJavaType());
+    }
+	
 	public void test_setForeignKey() {
 		ReferenceKey ref = ReferenceKey.fromString("role(role_id)");
 		assertEquals(ref.columnSqlName,"role_id");
