@@ -323,7 +323,7 @@ public class Sql {
         if(isSelectSql()) {
             return countQueryPrefix + SqlParseHelper.removeSelect(getSqlmap());
         }else {
-            return getIbatis3Sql();
+            return getSqlmap();
         }
     }
     
