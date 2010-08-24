@@ -20,7 +20,7 @@
     	<#if column.javaType?ends_with('Money')>
 		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}"/>
     	<#else>
-		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
+		<result property="${column.columnNameFirstLower}" column="${column.sqlName}" <#if (column.nullValue!?length > 0)> nullValue="${column.nullValue}" </#if> />
     	</#if>
     	</#list>
 	</resultMap>
