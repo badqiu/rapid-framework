@@ -5,7 +5,6 @@ package cn.org.rapid_framework.generator.provider.db.table.model;
 import java.util.List;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.ForeignKey.ReferenceKey;
 import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
@@ -15,6 +14,7 @@ import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUt
 import cn.org.rapid_framework.generator.util.typemapping.DatabaseDataTypesUtils;
 import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
+
 /**
  * 用于生成代码的Columb对象.对应数据库表column
  * @author badqiu
@@ -248,11 +248,11 @@ public class Column {
 	public  String getDefaultValue() {
 		return _defaultValue;
 	}
-	
-	/**
-	 * 列的数据库备注
-	 * @return
-	 */
+
+    /**
+     * 列的数据库备注
+     * @return
+     */
 	public  String getRemarks() {
 		return _remarks;
 	}
@@ -347,61 +347,61 @@ public class Column {
 	public String getUnderscoreName() {
 		return getSqlName().toLowerCase();
 	}
-	
-	/** 
-	 * 根据列名，根据sqlName计算得出，示例值： BirthDate
-	 **/
+
+    /** 
+     * 根据列名，根据sqlName计算得出，示例值： BirthDate
+     **/
 	public String getColumnName() {
 		return columnName;
 	}
 
-	/** 
-	 * 第一个字母小写的columName,等价于: StringHelper.uncapitalize(getColumnName()),示例值: birthDate
-	 **/
+    /** 
+     * 第一个字母小写的columName,等价于: StringHelper.uncapitalize(getColumnName()),示例值: birthDate
+     **/
 	public String getColumnNameFirstLower() {
 		return StringHelper.uncapitalize(getColumnName());
 	}
 
-	/** 
-	 * 全部小写的columName,等价于: getColumnName().toLowerCase(),示例值: birthdate
-	 **/
+    /** 
+     * 全部小写的columName,等价于: getColumnName().toLowerCase(),示例值: birthdate
+     **/
 	public String getColumnNameLowerCase() {
 		return getColumnName().toLowerCase();
 	}
-	
-	/**
-	 * 使用 getColumnNameFirstLower()替换
-	 * @deprecated use getColumnNameFirstLower() instead
-	 */
+
+    /**
+     * 使用 getColumnNameFirstLower()替换
+     * @deprecated use getColumnNameFirstLower() instead
+     */
 	public String getColumnNameLower() {
 		return getColumnNameFirstLower();
 	}
 
-	/**
-	 * 使用 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
-	 */
+    /**
+     * 使用 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
+     */
 	public String getJdbcSqlTypeName() {
 		String result = JdbcType.getJdbcSqlTypeName(getSqlType());
 		//if(result == null) throw new RuntimeException("jdbcSqlTypeName is null column:"+getSqlName()+" sqlType:"+getSqlType());
 		return result;
 	}
 
-	/**
-	 * 列的别名，等价于：getRemarks().isEmpty() ? getColumnNameFirstLower() : getRemarks()
-	 * 
-	 * <br />
-	 * 示例值: birthDate
-	 */
+    /**
+     * 列的别名，等价于：getRemarks().isEmpty() ? getColumnNameFirstLower() : getRemarks()
+     * 
+     * <br />
+     * 示例值: birthDate
+     */
 	public String getColumnAlias() {
 		return columnAlias;
 	}
 
-	/**
-	 * 列的常量名称
-	 * 
-	 * <br />
-	 * 示例值: BIRTH_DATE
-	 */
+    /**
+     * 列的常量名称
+     * 
+     * <br />
+     * 示例值: BIRTH_DATE
+     */
 	public String getConstantName() {
 		return StringHelper.toUnderscoreName(getColumnName()).toUpperCase();
 	}
@@ -463,27 +463,34 @@ public class Column {
 	public boolean isHtmlHidden() {
 		return isPk() && _table.isSingleId();
 	}
-	
-	/**
-	 * 得到对应的javaType,如java.lang.String,
-	 * @return
-	 */
+
+    /**
+     * 得到对应的javaType,如java.lang.String,
+     * @return
+     */
 	public String getJavaType() {
 		return javaType;
 	}
-	
-	/**
-	 * 得到简短的java.lang.javaType,如java.lang.String将返回String,而非java.lang包的,将直接返回getJavaType()
-	 * @return
-	 */
+
+    /**
+     * 得到简短的java.lang.javaType,如java.lang.String将返回String,而非java.lang包的,将直接返回getJavaType()
+     * @return
+     */
 	public String getSimpleJavaType() {
 		return StringHelper.removePrefix(getJavaType(), "java.lang.");
 	}
-	
 	/**
-	 * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型,将直接返回getSimpleJavaType()
-	 * @return
-	 */	
+     * 得到javaType的名称，如com.company.model.UserInfo,将返回 UserInfo
+     * @return
+     */
+	public String getShortJavaType() {
+        return getJavaType().substring(getJavaType().lastIndexOf('.') + 1);
+    }
+
+    /**
+     * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型,将直接返回getSimpleJavaType()
+     * @return
+     */	
 	public String getPrimitiveJavaType() {
 		return JavaPrimitiveTypeMapping.getPrimitiveType(getSimpleJavaType());
 	}
@@ -564,12 +571,12 @@ public class Column {
 	public String getHasOne() {
 		return ReferenceKey.toString(hasOne);
 	}
-	
-	/**
-	 * 设置many-to-one,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
-	 * @param foreignKey
-	 * @return
-	 */
+
+    /**
+     * 设置many-to-one,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
+     * @param foreignKey
+     * @return
+     */
 	public void setHasOne(String foreignKey) {
 		hasOne = ReferenceKey.fromString(foreignKey);
 		if(hasOne != null && _table != null) {
@@ -583,12 +590,12 @@ public class Column {
 	public String getHasMany() {
 		return ReferenceKey.toString(hasMany);
 	}
-	
-	/**
-	 * 设置one-to-many,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
-	 * @param foreignKey
-	 * @return
-	 */
+
+    /**
+     * 设置one-to-many,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
+     * @param foreignKey
+     * @return
+     */
 	public void setHasMany(String foreignKey) {
 		hasMany = ReferenceKey.fromString(foreignKey);
 		if(hasMany != null && _table != null) {
