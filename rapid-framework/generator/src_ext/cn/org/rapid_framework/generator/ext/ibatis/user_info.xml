@@ -234,6 +234,19 @@
     </operation>
      -->
 
+    <operation name="testSqlMap" paramtype="primitive" multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    select * from user_info where user_id = #userId#
+	    ]]>
+	    </sql>
+	    <sqlmap>
+	    <![CDATA[
+	    select * from user_info where user_id = 123 /* sqlmap value */
+	    ]]>	    	
+	    </sqlmap>
+    </operation>
+    
     <operation name="testNotParameter" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
