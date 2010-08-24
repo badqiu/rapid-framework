@@ -556,6 +556,8 @@ public class Column {
 	public void setEnumClassName(String enumClassName) {
 		this.enumClassName = enumClassName;
 	}
+	
+	
 
 //	public void setBelongsTo(String foreignKey) {
 //		ReferenceKey ref = ReferenceKey.fromString(foreignKey);
@@ -571,7 +573,16 @@ public class Column {
 	public String getHasOne() {
 		return ReferenceKey.toString(hasOne);
 	}
+	
+	/** nullValue for ibatis sqlmap: <result property="age" column="age" nullValue="0"  /> */
+	public String getNullValue() {
+		return nullValue;
+	}
 
+	public void setNullValue(String nullValue) {
+		this.nullValue = nullValue;
+	}
+	
     /**
      * 设置many-to-one,foreignKey格式: fk_table_name(fk_column) 或者 schema_name.fk_table_name(fk_column)
      * @param foreignKey
@@ -629,6 +640,7 @@ public class Column {
 	private boolean updatable = true;	
 	private boolean insertable = true;
 	private String hibernateValidatorExprssion;
+	private String nullValue;
 //	private String rapidValidation;
 	/**
 	 * public enum ${enumClassName} {
