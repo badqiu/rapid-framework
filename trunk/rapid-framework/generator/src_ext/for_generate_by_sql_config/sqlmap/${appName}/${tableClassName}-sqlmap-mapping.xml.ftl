@@ -27,14 +27,22 @@
 	</#if>
 		
 	<select id="<@namespace/>${sql.operation}" <#if sql.columnsCount == 1>resultClass="${sql.resultClassName}"<#else>resultMap="RM.${sql.resultClassName}"</#if> >
+    	<#if sql.hasSqlMap>
+    	${sql.sqlmap}
+    	<#else>
     	<@genPageQueryStart sql/>
     	${sql.ibatisSql?trim}
-    	<@genPageQueryEnd sql/>
+    	<@genPageQueryEnd sql/>    	
+    	</#if>
 	</select>	
 
 	<#if sql.paging>
 	<select id="<@namespace/>${sql.operation}.count" resultClass="long" >
+		<#if sql.hasSqlMap>
+    	${StringHelper.removeIbatisOrderBy(sql.sqlmapCountSql?trim)}
+    	<#else>
     	${StringHelper.removeIbatisOrderBy(sql.ibatisCountSql?trim)}
+    	</#if>
 	</select>
 	</#if>
 	    
@@ -42,20 +50,32 @@
 	
 <#if sql.updateSql>
 	<update id="<@namespace/>${sql.operation}">
+		<#if sql.hasSqlMap>
+		${sql.sqlmap}
+		<#else>
 		${sql.ibatisSql?trim}
+		</#if>
 	</update>
 </#if>
 	
 <#if sql.deleteSql>
 	<delete id="<@namespace/>${sql.operation}">
+		<#if sql.hasSqlMap>
+		${sql.sqlmap}
+		<#else>
 		${sql.ibatisSql?trim}
+		</#if>
     </delete>
 </#if>
     
 <#if sql.insertSql>
 	<insert id="<@namespace/>${sql.operation}">
+		<#if sql.hasSqlMap>
+		${sql.sqlmap}
+        <#else>             
 		${sql.ibatisSql?trim}
-        <@genSelectKeyForInsertSql sql/>             
+        <@genSelectKeyForInsertSql sql/>
+        </#if>
 	</insert>
 </#if>
 </#list>
@@ -91,7 +111,7 @@
 		<#return>
 	</#if>
 	<#if databaseType == 'oracle'>
-		select * from ( select row_.*, rownum rownum_ from (
+			select * from ( select row_.*, rownum rownum_ from (
 	</#if>
 </#macro>
 <#macro genPageQueryEnd sql>
@@ -99,12 +119,12 @@
 		<#return>
 	</#if>
 	<#if databaseType == 'oracle'>
-		) row_ ) where rownum_ &lt;= #endRow# and rownum_ > #startRow#
+			) row_ ) where rownum_ &lt;= #endRow# and rownum_ > #startRow#
 	</#if>
 	<#if databaseType == 'mysql'>
-		limit #offset#,#limit#
+			limit #offset#,#limit#
 	</#if>
-	<#if databaseType == 'postgre_sql'>
-		offset #offset# limit #limit#
+	<#if databaseType == 'postgresql'>
+			offset #offset# limit #limit#
 	</#if>		
 </#macro>
