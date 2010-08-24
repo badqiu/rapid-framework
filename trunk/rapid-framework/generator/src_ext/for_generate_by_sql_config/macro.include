@@ -8,8 +8,23 @@
 		<#else>
 			List<${sql.resultClassName}>
 		</#if>
+		
 	<#else>
-		int
+		<#if sql.deleteSql>
+			int
+		</#if>
+		
+		<#if sql.insertSql>
+			<#if sql.paramType = 'object'>
+				${tableConfig.table.pkColumn.javaType}
+			<#else>
+				int
+			</#if>    
+		</#if>
+		
+		<#if sql.updateSql>
+			int
+		</#if>
 	</#if>
 	</#compress>
 </#macro>
