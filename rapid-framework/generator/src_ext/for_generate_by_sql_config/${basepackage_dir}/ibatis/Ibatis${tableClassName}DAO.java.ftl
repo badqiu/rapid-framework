@@ -71,12 +71,30 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 		</#if>
 	</#if>
 	<#if sql.deleteSql>
+		<#if sql.paramType = 'object'>
+		if(${paramName} == null) {
+			throw new IllegalArgumentException("Can't delete by a null data object.");
+		}
+		</#if>	
 		return getSqlMapClientTemplate().delete("${ibatisNamespace}${sql.operation}", ${paramName});
 	</#if>
 	<#if sql.insertSql>
-		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});    
+		<#if sql.paramType = 'object'>
+		if(${paramName} == null) {
+			throw new IllegalArgumentException("Can't insert a null data object into db.");
+		}
+		getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
+		return ${paramName}.get${tableConfig.table.pkColumn.columnName}();
+		<#else>
+		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
+		</#if>    
 	</#if>
 	<#if sql.updateSql>
+		<#if sql.paramType = 'object'>
+		if(${paramName} == null) {
+			throw new IllegalArgumentException("Can't update by a null data object.");
+		}
+		</#if>
 		return getSqlMapClientTemplate().update("${ibatisNamespace}${sql.operation}", ${paramName});
 	</#if>
 </#macro>
