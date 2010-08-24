@@ -319,6 +319,7 @@ public class Sql {
     }
 
     public String getSqlmapCountSql() {
+    	if(getSqlmap() == null) return null;
         if(isSelectSql()) {
             return countQueryPrefix + SqlParseHelper.removeSelect(getSqlmap());
         }else {
