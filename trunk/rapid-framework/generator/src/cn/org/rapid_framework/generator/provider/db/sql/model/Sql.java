@@ -50,6 +50,7 @@ public class Sql {
 	
 	String sourceSql; // source sql
 	String executeSql;
+	private String paramType = "object";
 	
 	public Sql() {
 	}
@@ -249,6 +250,10 @@ public class Sql {
 	public void setSqlmap(String sqlmap) {
 		this.sqlmap = sqlmap;
 	}
+	
+	public boolean isHasSqlMap() {
+		return StringHelper.isNotBlank(sqlmap);
+	}
 
 	//	public String replaceParamsWith(String prefix,String suffix) {
 //		String sql = sourceSql;
@@ -313,6 +318,14 @@ public class Sql {
         }
     }
 
+    public String getSqlmapCountSql() {
+        if(isSelectSql()) {
+            return countQueryPrefix + SqlParseHelper.removeSelect(getSqlmap());
+        }else {
+            return getIbatis3Sql();
+        }
+    }
+    
 	public String getSql() {
 		return replaceWildcardWithColumnsSqlName(sourceSql);
 	}
@@ -405,6 +418,14 @@ public class Sql {
 	 */
 	public String getRemarks() {
 		return remarks;
+	}
+	
+	public String getParamType() {
+		return paramType;
+	}
+
+	public void setParamType(String paramType) {
+		this.paramType = paramType;
 	}
 
 	public void setRemarks(String comments) {
