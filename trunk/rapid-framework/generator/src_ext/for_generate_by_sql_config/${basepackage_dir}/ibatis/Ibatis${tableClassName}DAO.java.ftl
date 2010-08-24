@@ -30,7 +30,10 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 
 	/**
 	 * ${sql.remarks!}
-	 * sql: ${sql.executeSql}
+	 * sql: 
+	 * <pre>
+	 * ${sql.executeSql}
+	 * </pre>
 	 */
 	<#if (sql.params?size > 4) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException {
