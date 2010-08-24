@@ -425,6 +425,8 @@ public class DriverSpy implements Driver
     DumpSqlUpdate = getBooleanOption(props, "log4jdbc.dump.sql.update",true);
     DumpSqlDelete = getBooleanOption(props, "log4jdbc.dump.sql.delete",true);
     DumpSqlCreate = getBooleanOption(props, "log4jdbc.dump.sql.create",true);
+    
+    formatSql = getBooleanOption(props, "log4jdbc.format.sql", true);
 
     DumpSqlFilteringOn = !(DumpSqlSelect && DumpSqlInsert && DumpSqlUpdate &&
       DumpSqlDelete && DumpSqlCreate);
