@@ -234,6 +234,7 @@ public class TableConfig {
                 }
                 c.setJavaType(mc.getJavatype());
                 c.setColumnAlias(mc.getColumnAlias());
+                c.setNullValue(mc.getNullValue());
                 result.add(c);
             }
             return result;
@@ -297,6 +298,7 @@ public class TableConfig {
         private String name;
         private String javatype;
         private String columnAlias;
+        private String nullValue;
         public String getName() {
             return name;
         }
@@ -315,7 +317,13 @@ public class TableConfig {
         public void setColumnAlias(String columnAlias) {
             this.columnAlias = columnAlias;
         }
-        public String toString() {
+        public String getNullValue() {
+			return nullValue;
+		}
+		public void setNullValue(String nullValue) {
+			this.nullValue = nullValue;
+		}
+		public String toString() {
             return BeanHelper.describe(this).toString();
         }
     }
