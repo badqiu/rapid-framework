@@ -190,7 +190,8 @@ public class TableConfig {
                 sql.setRemarks(op.getRemarks());
                 sql.setTableSqlName(table.getSqlname());
                 sql.setPaging(op.isPaging());
-                
+                sql.setSqlmap(op.getSqlmap());
+                sql.setParamType(op.getParamtype());
                 
                 LinkedHashSet<SqlParameter> finalParameters = new LinkedHashSet<SqlParameter>();
                 for(MetaParam mparam : op.extraparams) {
