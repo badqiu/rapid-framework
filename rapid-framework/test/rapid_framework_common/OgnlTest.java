@@ -116,50 +116,50 @@ public class OgnlTest extends TestCase {
 	}
 	
 	public void test_checkOrderby() {
-		Ognl.checkOrderby(null, "");
-		Ognl.checkOrderby(null, null);
-		Ognl.checkOrderby("", null);
+		Ognl.checkOrderBy(null, "");
+		Ognl.checkOrderBy(null, null);
+		Ognl.checkOrderBy("", null);
 		
-		Ognl.checkOrderby(" username ", "username");
-		Ognl.checkOrderby("username", "username");
-		Ognl.checkOrderby("username asc", "username");
-		Ognl.checkOrderby("username  desc", "username");
-		Ognl.checkOrderby("username asc,password desc", "username,password");
-		Ognl.checkOrderby("username asc,password desc", "username,password");
+		Ognl.checkOrderBy(" username ", "username");
+		Ognl.checkOrderBy("username", "username");
+		Ognl.checkOrderBy("username asc", "username");
+		Ognl.checkOrderBy("username  desc", "username");
+		Ognl.checkOrderBy("username asc,password desc", "username,password");
+		Ognl.checkOrderBy("username asc,password desc", "username,password");
 		
 		
 		try {
-			Ognl.checkOrderby(" username ", "password");
+			Ognl.checkOrderBy(" username ", "password");
 			fail();
 		}catch(DataAccessException expected) {
 		}
 		
 		try {
-			Ognl.checkOrderby("username asc", "password");
+			Ognl.checkOrderBy("username asc", "password");
 			fail();
 		}catch(DataAccessException expected) {
 		}
 		
 		try {
-			Ognl.checkOrderby("username asc,password desc,blog", "password");
+			Ognl.checkOrderBy("username asc,password desc,blog", "password");
 			fail();
 		}catch(DataAccessException expected) {
 		}
 		
 		try {
-			Ognl.checkOrderby("username asc,password   desc", "password");
+			Ognl.checkOrderBy("username asc,password   desc", "password");
 			fail();
 		}catch(DataAccessException expected) {
 		}
 		
 		try {
-			Ognl.checkOrderby("username' asc,password   desc", "password");
+			Ognl.checkOrderBy("username' asc,password   desc", "password");
 			fail();
 		}catch(IllegalArgumentException expected) {
 		}
 		
 		try {
-			Ognl.checkOrderby("username\\ asc,password   desc", "password");
+			Ognl.checkOrderBy("username\\ asc,password   desc", "password");
 			fail();
 		}catch(IllegalArgumentException expected) {
 		}

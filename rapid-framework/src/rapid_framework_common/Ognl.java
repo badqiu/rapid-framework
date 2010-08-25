@@ -112,18 +112,30 @@ public class Ognl {
 		return true;
 	}
 	/**
-	 * 鐢ㄤ簬楠岃瘉閭ｄ簺鍒楀彲浠ユ帓搴�
+	 * 用于验证那些列可以排序
+	 * 
+	 * ibatis示列使用
+	 * &lt;if test="@Ognl@checkOrderBy(orderBy,'username,password')">
+	 *		ORDER BY ${orderBy}
+	 * &lt;/if>
 	 * 
 	 * <pre>
-	 * 绀轰緥: 
-	 * checkOrderby("user asc,pwd desc","user,pwd") 姝ｅ父
-	 * checkOrderby("user asc,pwd desc","user"),pwd涓嶈兘鎺掑簭,灏嗘姏鍑哄紓甯�
+	 * 返回示例: 
+	 * 返回false相关验证:
+	 * checkOrderBy(null,"user,pwd") 
+	 * checkOrderBy(" ","user,pwd") 
+	 * checkOrderBy("user asc,pwd desc","user") pwd不能排序
+	 * 
+	 * 返回true相关验证:
+	 * checkOrderBy("user asc,pwd desc",null) 
+	 * checkOrderBy("user asc,pwd desc","") 
+	 * checkOrderBy("user asc,pwd desc","user,pwd") 
 	 * </pre>
-	 * @param orderby 闇�瑕侀獙璇佺殑order by瀛楃涓�
-	 * @param validSortColumns 鍙互鎺掑簭鐨勫垪
+	 * @param orderBy 需要验证的order by字符串
+	 * @param validSortColumns 可以排序的列
 	 * @throws DataAccessException
 	 */
-	public static void checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
+	public static void checkOrderBy(String orderby,String validSortColumns) throws DataAccessException{
 		if(orderby == null) return;
 		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
 			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
