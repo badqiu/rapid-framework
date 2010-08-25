@@ -92,6 +92,7 @@ public class PageRequest<T> implements Serializable {
 	 * @return
 	 */
 	public void setSortColumns(String sortColumns) {
+		checkSortColumnsSqlInjection(sortColumns);
 		this.sortColumns = sortColumns;
 	}
 
@@ -103,4 +104,10 @@ public class PageRequest<T> implements Serializable {
 		return Collections.unmodifiableList(SortInfo.parseSortColumns(sortColumns));
 	}
 	
+	private void checkSortColumnsSqlInjection(String sortColumns) {
+		if(sortColumns == null) return;
+		if(sortColumns.indexOf("'") >= 0 || sortColumns.indexOf("\\") >= 0) {
+			throw new IllegalArgumentException("sortColumns:"+sortColumns+" has SQL Injection risk");
+		}
+	}
 }
