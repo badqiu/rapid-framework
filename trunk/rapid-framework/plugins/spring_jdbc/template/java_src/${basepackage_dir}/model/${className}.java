@@ -34,6 +34,9 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	//可以直接使用: @Length(max=50,message="用户名长度不能大于50")显示错误消息
 	//columns START
 	<#list table.columns as column>
+    /**
+     * ${column.columnAlias!}       db_column: ${column.sqlName} 
+     */ 	
 	${column.hibernateValidatorExprssion}
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
