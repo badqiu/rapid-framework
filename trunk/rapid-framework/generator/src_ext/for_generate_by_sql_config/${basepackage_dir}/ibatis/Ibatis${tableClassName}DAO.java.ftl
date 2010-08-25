@@ -1,6 +1,6 @@
 /*
  * Alipay.com Inc.
- * Copyright (c) 2004 All Rights Reserved.
+ * Copyright (c) 2010 All Rights Reserved.
  */
  
 package ${basepackage}.ibatis;
@@ -37,7 +37,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 	 */
 	@SuppressWarnings("unchecked")
 	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
-		<#if sql.paramType != "object" && !(sql.params?size > 4)>
+		<#if sql.paramType != "object" && !(sql.params?size > params2paramObjectLimit)>
 			<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
 				<#list sql.params as param>

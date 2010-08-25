@@ -1,3 +1,4 @@
+<#assign params2paramObjectLimit = 4/>
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
@@ -34,7 +35,7 @@
 	<#if sql.paramType = 'object'>
 		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
 	<#else>
-		<#if (sql.params?size > 4)>
+		<#if (sql.params?size > params2paramObjectLimit)>
 			${sql.parameterClassName} param
 		<#else>
 			<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>

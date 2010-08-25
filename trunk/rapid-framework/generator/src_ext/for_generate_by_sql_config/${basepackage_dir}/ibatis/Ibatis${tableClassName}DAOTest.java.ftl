@@ -1,6 +1,6 @@
 /*
  * Alipay.com Inc.
- * Copyright (c) 2004 All Rights Reserved.
+ * Copyright (c) 2010 All Rights Reserved.
  */
  
 package ${basepackage}.ibatis;
