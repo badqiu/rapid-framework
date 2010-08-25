@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
+
+import org.springframework.dao.DataAccessException;
+
 import flex.messaging.io.ArrayList;
 
 
@@ -112,5 +115,54 @@ public class OgnlTest extends TestCase {
 		}
 	}
 	
+	public void test_checkOrderby() {
+		Ognl.checkOrderby(null, "");
+		Ognl.checkOrderby(null, null);
+		Ognl.checkOrderby("", null);
+		
+		Ognl.checkOrderby(" username ", "username");
+		Ognl.checkOrderby("username", "username");
+		Ognl.checkOrderby("username asc", "username");
+		Ognl.checkOrderby("username  desc", "username");
+		Ognl.checkOrderby("username asc,password desc", "username,password");
+		Ognl.checkOrderby("username asc,password desc", "username,password");
+		
+		
+		try {
+			Ognl.checkOrderby(" username ", "password");
+			fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc", "password");
+			fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc,password desc,blog", "password");
+			fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username asc,password   desc", "password");
+			fail();
+		}catch(DataAccessException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username' asc,password   desc", "password");
+			fail();
+		}catch(IllegalArgumentException expected) {
+		}
+		
+		try {
+			Ognl.checkOrderby("username\\ asc,password   desc", "password");
+			fail();
+		}catch(IllegalArgumentException expected) {
+		}
+	}
 
 }
