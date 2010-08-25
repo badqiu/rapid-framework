@@ -32,17 +32,12 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 	 * ${sql.remarks!}
 	 * sql: 
 	 * <pre>
-	 * ${sql.executeSql}
+	 ${sql.executeSql?trim}
 	 * </pre>
 	 */
-	<#if (sql.params?size > 4) >
-	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException {
-		<@generateOperationMethodBody sql/>
-	}
-	<#else>
 	@SuppressWarnings("unchecked")
-	public <@generateResultClassName sql/> ${sql.operation}(<@generateArguments sql/>) throws DataAccessException {
-		<#if sql.paramType != "object" >
+	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
+		<#if sql.paramType != "object" && !(sql.params?size > 4)>
 			<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
 				<#list sql.params as param>
@@ -52,7 +47,6 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 		</#if>		
 		<@generateOperationMethodBody sql/>
 	}
-	</#if>
 </#list>
 
 }
