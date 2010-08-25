@@ -41,12 +41,14 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 	}
 	<#else>
 	@SuppressWarnings("unchecked")
-	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException {
-		<#if (sql.params?size > 1)>
+	public <@generateResultClassName sql/> ${sql.operation}(<@generateArguments sql/>) throws DataAccessException {
+		<#if sql.paramType != "object" >
+			<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
-		<#list sql.params as param>
+				<#list sql.params as param>
 		param.put("${param.paramName}",${param.paramName});
-		</#list>
+				</#list>
+			</#if>		
 		</#if>		
 		<@generateOperationMethodBody sql/>
 	}
@@ -61,6 +63,8 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>
 		<#local paramName = sql.params?first.paramName>
+	<#elseif sql.paramType = 'object'>
+		<#local paramName = tableConfig.table.classNameFirstLower>
 	<#else>
 		<#local paramName = "param">
 	</#if>

@@ -28,3 +28,13 @@
 	</#if>
 	</#compress>
 </#macro>
+
+<#macro generateArguments sql>
+<#compress>
+	<#if sql.paramType = 'object'>
+		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
+	<#else>
+		<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+	</#if>
+</#compress>
+</#macro>
