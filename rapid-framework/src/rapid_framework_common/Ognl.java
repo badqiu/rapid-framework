@@ -135,12 +135,13 @@ public class Ognl {
 	 * @param validSortColumns 可以排序的列
 	 * @throws DataAccessException
 	 */
-	public static void checkOrderBy(String orderby,String validSortColumns) throws DataAccessException{
-		if(orderby == null) return;
+	public static boolean checkOrderBy(String orderby,String validSortColumns) throws DataAccessException{
+		if(orderby == null) return false;
+		if(isBlank(orderby)) return false;
 		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
 			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
 		}
-		if(validSortColumns == null) return;
+		if(validSortColumns == null) return true;
 		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
 		String[] passColumns = validSortColumns.split(",");
 		for(SortInfo info : infos) {
@@ -149,6 +150,7 @@ public class Ognl {
 				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
 			}
 		}
+		return true;
 	}
 
 	private static boolean isPass(String[] passColumns, SortInfo info, String columnName) {
