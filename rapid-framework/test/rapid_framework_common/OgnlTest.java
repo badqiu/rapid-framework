@@ -164,5 +164,24 @@ public class OgnlTest extends TestCase {
 		}catch(IllegalArgumentException expected) {
 		}
 	}
+	
+	public void checkOrderby() {
+		assertFalse(Ognl.checkOrderBy(null, ""));
+		assertFalse(Ognl.checkOrderBy(null, null));
+		assertFalse(Ognl.checkOrderBy("", null));
+		assertFalse(Ognl.checkOrderBy(" ", null));
+		
+		assertFalse(Ognl.checkOrderBy(" username ", "password"));
+		assertFalse(Ognl.checkOrderBy("username asc", "password"));
+		assertFalse(Ognl.checkOrderBy("username asc,password desc,blog", "password"));
+		assertFalse(Ognl.checkOrderBy("username asc,password   desc", "password"));
+		
+		assertTrue(Ognl.checkOrderBy(" username ", "username"));
+		assertTrue(Ognl.checkOrderBy("username", "username"));
+		assertTrue(Ognl.checkOrderBy("username asc", "username"));
+		assertTrue(Ognl.checkOrderBy("username  desc", "username"));
+		assertTrue(Ognl.checkOrderBy("username asc,password desc", "username,password"));
+		assertTrue(Ognl.checkOrderBy("username asc,password desc", "username,password"));
+	}
 
 }
