@@ -50,7 +50,7 @@ public class Sql {
 	String sourceSql; // source sql
 	String executeSql;
 	/** primitive or object */
-	private String paramType = "object";
+	private String              paramType           = "primitive";
 	
 	public Sql() {
 	}
