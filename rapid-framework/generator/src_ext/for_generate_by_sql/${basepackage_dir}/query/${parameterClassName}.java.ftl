@@ -6,6 +6,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ${sql.parameterClassName} extends PageQuery implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
 	<#list sql.params as param>
 	/** ${param.columnAlias!} */
 	private ${param.preferredParameterJavaType} ${param.paramName};
