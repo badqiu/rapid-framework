@@ -29,7 +29,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 			throws SQLException {
 		long d = rs.getLong(columnName);
 		if (rs.wasNull()) {
-			return null;
+			return new Money(0, 0);
 		} else {
 			return Money.newMoneyWithCent(d);
 		}
@@ -38,7 +38,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 	public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
 		long d = rs.getLong(columnIndex);
 		if (rs.wasNull()) {
-			return null;
+		    return new Money(0, 0);
 		} else {
 			return Money.newMoneyWithCent(d);
 		}
@@ -48,7 +48,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 			throws SQLException {
 		long d = cs.getLong(columnIndex);
 		if (cs.wasNull()) {
-			return null;
+		    return new Money(0, 0);
 		} else {
 			return Money.newMoneyWithCent(d);
 		}
