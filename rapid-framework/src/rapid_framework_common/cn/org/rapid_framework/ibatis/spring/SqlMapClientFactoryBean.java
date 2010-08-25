@@ -38,7 +38,7 @@ public class SqlMapClientFactoryBean extends org.springframework.orm.ibatis.SqlM
 				ReflectUtil.setFieldValue(delegate, "sqlExecutor", SqlExecutor.class, sqlExecutor);
 				System.out.println("[iBATIS] success set ibatis SqlMapClient.sqlExecutor = "+sqlExecutor.getClass().getName());
 			}catch(Exception e) {
-				System.out.println("[iBATIS] error,cannot set ibatis SqlMapClient.sqlExecutor = "+sqlExecutor.getClass().getName()+" cause:"+e);
+				System.err.println("[iBATIS] error,cannot set ibatis SqlMapClient.sqlExecutor = "+sqlExecutor.getClass().getName()+" cause:"+e);
 			}
 		}
 	}
