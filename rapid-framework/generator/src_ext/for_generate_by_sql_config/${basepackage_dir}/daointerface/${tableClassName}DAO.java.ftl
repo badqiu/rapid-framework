@@ -32,7 +32,7 @@ public interface ${tableConfig.tableClassName}DAO {
 	<#if (sql.params?size > 4) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException;
 	<#else>
-	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException;
+	public <@generateResultClassName sql/> ${sql.operation}(<@generateArguments sql/>) throws DataAccessException;
 	</#if>
 </#list>
 
