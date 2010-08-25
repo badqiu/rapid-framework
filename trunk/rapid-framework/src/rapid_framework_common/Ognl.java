@@ -136,7 +136,6 @@ public class Ognl {
 	 * @throws DataAccessException
 	 */
 	public static boolean checkOrderBy(String orderby,String validSortColumns) throws DataAccessException{
-		if(orderby == null) return false;
 		if(isBlank(orderby)) return false;
 		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
 			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
