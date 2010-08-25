@@ -10,16 +10,16 @@ import com.iwallet.biz.common.util.money.Money;
 
 public class ${className}DO implements java.io.Serializable {
 	
-	//columns START
 	<#list table.columns as column>
-	/** ${column.columnAlias!} */
+	/**
+	 * ${column.columnAlias!} 		db_column: ${column.sqlName} 
+	 */
 	<#if column.simpleJavaType?ends_with('Money')>
 	private Money ${column.columnNameLower} = new Money(0,0);
 	<#else>
 	private ${column.simpleJavaType} ${column.columnNameLower};
 	</#if>
 	</#list>
-	//columns END
 
 <@generateJavaColumns/>
 
