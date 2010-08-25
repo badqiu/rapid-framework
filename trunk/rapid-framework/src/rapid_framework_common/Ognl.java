@@ -1,6 +1,12 @@
 import java.lang.reflect.Array;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+
+import cn.org.rapid_framework.page.SortInfo;
 
 
 /**
@@ -104,6 +110,42 @@ public class Ognl {
 			}
 		}
 		return true;
+	}
+	/**
+	 * 鐢ㄤ簬楠岃瘉閭ｄ簺鍒楀彲浠ユ帓搴�
+	 * 
+	 * <pre>
+	 * 绀轰緥: 
+	 * checkOrderby("user asc,pwd desc","user,pwd") 姝ｅ父
+	 * checkOrderby("user asc,pwd desc","user"),pwd涓嶈兘鎺掑簭,灏嗘姏鍑哄紓甯�
+	 * </pre>
+	 * @param orderby 闇�瑕侀獙璇佺殑order by瀛楃涓�
+	 * @param validSortColumns 鍙互鎺掑簭鐨勫垪
+	 * @throws DataAccessException
+	 */
+	public static void checkOrderby(String orderby,String validSortColumns) throws DataAccessException{
+		if(orderby == null) return;
+		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
+			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
+		}
+		if(validSortColumns == null) return;
+		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
+		String[] passColumns = validSortColumns.split(",");
+		for(SortInfo info : infos) {
+			String columnName = info.getColumnName();
+			if(!isPass(passColumns, info, columnName)) {
+				throw new InvalidDataAccessApiUsageException("orderby:["+orderby+"] is invalid, only can orderby:"+validSortColumns);
+			}
+		}
+	}
+
+	private static boolean isPass(String[] passColumns, SortInfo info, String columnName) {
+		for(String column : passColumns) {
+			if(column.equalsIgnoreCase(info.getColumnName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
