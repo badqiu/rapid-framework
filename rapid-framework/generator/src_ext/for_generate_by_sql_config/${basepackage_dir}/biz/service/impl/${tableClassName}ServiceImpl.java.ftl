@@ -1,6 +1,6 @@
 /*
  * Alipay.com Inc.
- * Copyright (c) 2004 All Rights Reserved.
+ * Copyright (c) 2010 All Rights Reserved.
  */
 package ${basepackage}.biz.service.impl;
 
@@ -28,7 +28,7 @@ public class ${tableConfig.tableClassName}ServiceImpl implements  ${tableConfig.
 	
 <#list tableConfig.sqls as sql>
 
-	<#if (sql.params?size > 4) >
+	<#if (sql.params?size > params2paramObjectLimit) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException{
 		return ${tableConfig.tableClassName?uncap_first}DAO.${sql.operation}(param);
 	}
