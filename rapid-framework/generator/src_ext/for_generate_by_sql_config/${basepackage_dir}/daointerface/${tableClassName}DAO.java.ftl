@@ -26,14 +26,10 @@ public interface ${tableConfig.tableClassName}DAO {
 	 * ${sql.remarks!}
 	 * sql:
 	 * <pre>
-	 * ${sql.executeSql}
+	 ${sql.executeSql}
 	 * </pre>	 
 	 */
-	<#if (sql.params?size > 4) >
-	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException;
-	<#else>
-	public <@generateResultClassName sql/> ${sql.operation}(<@generateArguments sql/>) throws DataAccessException;
-	</#if>
+	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException;
 </#list>
 
 }

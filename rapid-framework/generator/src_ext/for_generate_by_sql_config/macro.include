@@ -29,12 +29,16 @@
 	</#compress>
 </#macro>
 
-<#macro generateArguments sql>
+<#macro generateOperationArguments sql>
 <#compress>
 	<#if sql.paramType = 'object'>
 		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
 	<#else>
-		<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+		<#if (sql.params?size > 4)>
+			${sql.parameterClassName} param
+		<#else>
+			<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+		</#if>
 	</#if>
 </#compress>
 </#macro>
