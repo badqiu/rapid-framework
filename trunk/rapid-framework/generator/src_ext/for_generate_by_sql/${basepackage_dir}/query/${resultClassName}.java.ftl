@@ -5,7 +5,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 public class ${sql.resultClassName} implements java.io.Serializable {
-
+	private static final long serialVersionUID = -5216457518046898601L;
+	
 	<#list sql.columns as column>
 	/** ${column.columnAlias!} */
 	<#if column.simpleJavaType?ends_with('Money')>
