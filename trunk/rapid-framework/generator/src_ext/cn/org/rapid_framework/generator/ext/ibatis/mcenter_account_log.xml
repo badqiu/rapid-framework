@@ -91,7 +91,11 @@
 			<isNotEmpty prepend="and" property="transMemo">
 					MAL.trans_memo like #transMemo#
 			</isNotEmpty>
-												
+
+			<isNotEmpty prepend="and" property="transOutOrderNo">
+					MAL.trans_out_order_no = #transOutOrderNo#
+			</isNotEmpty>
+															
 			<isNotEmpty prepend="and" property="pnr">
 					MAE.pnr = #pnr#
 			</isNotEmpty>
