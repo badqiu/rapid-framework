@@ -19,11 +19,11 @@ public class SqlParseHelper {
 	public static class NameWithAlias {
 		private String name;
 		private String alias;
-		public NameWithAlias(String tableName, String tableAlias) {
-			if(tableName.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error name:"+tableName);
-			if(tableAlias != null && tableAlias.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error alias:"+tableAlias);
-			this.name = tableName.trim();
-			this.alias = tableAlias == null ? null : tableAlias.trim();
+		public NameWithAlias(String name, String alias) {
+			if(name.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error name:"+name);
+			if(alias != null && alias.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error alias:"+alias);
+			this.name = name.trim();
+			this.alias = alias == null ? null : alias.trim();
 		} 
 		public String getName() {
 			return name;
@@ -58,7 +58,7 @@ public class SqlParseHelper {
 		}
 	}
 	
-	static Pattern from = Pattern.compile("(from\\s+)([,\\w]+)",
+	static Pattern fromRegex = Pattern.compile("(\\sfrom\\s+)([,\\w]+)",
 			Pattern.CASE_INSENSITIVE);
 	static Pattern join = Pattern.compile("(join\\s+)(\\w+)(as)?(\\w*)",
 			Pattern.CASE_INSENSITIVE);
@@ -70,25 +70,28 @@ public class SqlParseHelper {
 	public static Set<NameWithAlias> getTableNamesByQuery(String sql) {
 		sql = sql.trim();
 		Set<NameWithAlias> result = new LinkedHashSet();
-		Matcher m = from.matcher(sql);
+		Matcher m = fromRegex.matcher(sql);
 		if (m.find()) {
 			String from = getFromClauses(sql);
+			if(from.matches("(?i).*\\sfrom\\s.*")) {
+				return getTableNamesByQuery(from);
+			}
 			if(from.indexOf(',') >= 0) {
 				//逗号分隔的多表
 				String[] array = StringHelper.tokenizeToStringArray(from, ",");
 				for(String s : array) {
-					result.add(parseSqlAlias(s));
+					result.add(parseTableSqlAlias(s));
 				}
 			}else if(from.indexOf("join") >= 0) {
 				//join的多表
 				String removedFrom = StringHelper.removeMany(from.toLowerCase(),"inner","full","left","right","outer");
 				String[] joins = removedFrom.split("join");
 				for(String s : joins) {
-					result.add(parseSqlAlias(s));
+					result.add(parseTableSqlAlias(s));
 				}
 			}else {
 				//单表
-				result.add(parseSqlAlias(from));
+				result.add(parseTableSqlAlias(from));
 			}
 		}
 
@@ -105,16 +108,17 @@ public class SqlParseHelper {
 	}
 		
 	/** 解析sql的别名,如 user as u,将返回 user及u */
-	public static NameWithAlias parseSqlAlias(String str) {
+	public static NameWithAlias parseTableSqlAlias(String str) {
+		str = str.trim();
 		String[] array = str.split("\\sas\\s");
-		if(array.length >= 2) {
+		if(array.length >= 2 && str.matches("^[\\w_]+\\s+as\\s+[_\\w]+.*")) {
 			return new NameWithAlias(array[0],StringHelper.tokenizeToStringArray(array[1], " \n\t")[0]);
 		}
 		array = StringHelper.tokenizeToStringArray(str, " \n\t");
-		if(array.length >= 2) {
+		if(array.length >= 2 && str.matches("^[\\w_]+\\s+[_\\w]+.*")) {
 			return new NameWithAlias(array[0], array[1]);
 		}
-		return new NameWithAlias(str.trim(),null);
+		return new NameWithAlias(StringHelper.getByRegex(str.trim(),"^[\\w_]+"),StringHelper.getByRegex(str.trim(),"^[\\w_]+\\s+([\\w_]+)",1));
 	}
 
 
