@@ -97,8 +97,10 @@ public class XMLHelper {
         nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
         nodeData.childs = new ArrayList<NodeData>();
-        nodeData.innerXML = childsAsText(elm, new StringBuffer()).toString();
-        nodeData.outerXML = nodeAsText(elm,new StringBuffer()).toString();
+        nodeData.innerXML = childsAsText(elm, new StringBuffer(),true).toString();
+        nodeData.outerXML = nodeAsText(elm,new StringBuffer(),true).toString();
+        nodeData.innerText = childsAsText(elm, new StringBuffer(),false).toString();
+        nodeData.outerText = nodeAsText(elm,new StringBuffer(),false).toString();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
@@ -111,16 +113,16 @@ public class XMLHelper {
         return nodeData;
     }
 
-	private static StringBuffer childsAsText(Element elm, StringBuffer sb) {
+	private static StringBuffer childsAsText(Element elm, StringBuffer sb,boolean ignoreComments) {
 		NodeList childs = elm.getChildNodes();
         for(int i = 0; i < childs.getLength() ; i++) {
             Node child = childs.item(i);
-            nodeAsText(child,sb);
+            nodeAsText(child,sb,ignoreComments);
         }
         return sb;
 	}    	
     
-    private static StringBuffer nodeAsText(Node elm,StringBuffer sb) {
+    private static StringBuffer nodeAsText(Node elm,StringBuffer sb,boolean ignoreComments) {
     	 if(elm.getNodeType() == Node.CDATA_SECTION_NODE) {
     		 CDATASection cdata = (CDATASection)elm;
     		 sb.append("<![CDATA[");
@@ -129,6 +131,9 @@ public class XMLHelper {
     		 return sb;
     	 }
     	 if(elm.getNodeType() == Node.COMMENT_NODE) {
+    		 if(ignoreComments) {
+    			 return sb;
+    		 }
     		 Comment c = (Comment)elm;
     		 sb.append("<!--");
     		 sb.append(c.getData());
@@ -146,7 +151,7 @@ public class XMLHelper {
          sb.append(">");
          for(int i = 0; i < childs.getLength() ; i++) {
              Node child = childs.item(i);
-             nodeAsText(child,sb);
+             nodeAsText(child,sb,ignoreComments);
          }
          sb.append("</"+elm.getNodeName()+">");
          return sb;
