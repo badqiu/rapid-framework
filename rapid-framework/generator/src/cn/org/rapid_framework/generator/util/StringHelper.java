@@ -476,6 +476,7 @@ public class StringHelper {
 	
 	public static String getByRegex(String str,String regex,int group) {
 		if(regex == null) throw new NullPointerException();
+		if(group < 0) throw new IllegalArgumentException();
 		if(str == null) return null;
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(str);
