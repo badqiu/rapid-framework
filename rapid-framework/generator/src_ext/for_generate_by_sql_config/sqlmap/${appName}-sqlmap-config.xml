@@ -8,7 +8,8 @@
 		lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000"
 		maxTransactions="3000" useStatementNamespaces="false" />
 
-
+	<typeHandler jdbcType="NUMERIC" javaType="cn.org.rapid_framework.util.Money" callback="cn.org.rapid_framework.ibatis.typehandler.MoneyTypeHandler"/>
+ 
 	<sqlMap resource="sqlmap/${appName}/common-sqlmap-mapping.xml" />
 	<sqlMap resource="sqlmap/${appName}/${tableConfig.tableClassName}-sqlmap-mapping.xml" />
 </sqlMapConfig>
