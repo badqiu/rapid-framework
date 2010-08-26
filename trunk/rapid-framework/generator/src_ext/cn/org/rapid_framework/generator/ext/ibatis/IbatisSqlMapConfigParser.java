@@ -14,6 +14,7 @@ import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+
 /**
  * 解析sql map文件，生成Sql对象
  */
@@ -35,8 +36,8 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         return parse(str,new HashMap());
     }	
 
-    //1. 处理  query not allowed
-    //2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
+    // 1. 处理 query not allowed
+    // 2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
     // 同时支持 <include refid="otherSql"/> <sql id=""></sql>
     public static String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
@@ -70,7 +71,11 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             if(prepend != null) {
                 m.appendReplacement(sb, " "+prepend+" "+StringHelper.defaultString(open));
             }else {
-                m.appendReplacement(sb, " "+StringHelper.defaultString(open));
+                if (StringHelper.isEmpty(open)) {
+                    m.appendReplacement(sb, "");
+                } else {
+                    m.appendReplacement(sb, " " + open);
+                }
             }
             if(close != null) {
                 sb.append(close);
@@ -81,7 +86,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             
             
         }
-        return sb.toString().replaceAll("(?i)where\\s+and", "WHERE");
+        return sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE");
     }
     
     public static String removeComments(String str) {
