@@ -31,4 +31,10 @@ public class OracleDialectTest {
 		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= :offset+:limit and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET,0,LIMIT));
 		Assert.assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= :offset+:limit and rownum_ > :offset", dialect.getLimitString("select * from user", 12, OFFSET, 34,LIMIT));
 	}
+	
+	@Test
+	public void getLimitString() {
+		String sql = new OracleDialect().getLimitString("select * from user", 10, 100);
+		assertEquals("select * from ( select row_.*, rownum rownum_ from ( select * from user ) row_ ) where rownum_ <= 10+100 and rownum_ > 10",sql);
+	}
 }
