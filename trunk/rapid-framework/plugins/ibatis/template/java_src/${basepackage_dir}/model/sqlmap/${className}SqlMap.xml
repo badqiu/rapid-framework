@@ -109,9 +109,9 @@
     <select id="<@namespace/>findPage" resultMap="RM.${className}">
     	SELECT <include refid="<@namespace/>columns"/> FROM ${table.sqlName} 
 		<include refid="<@namespace/>findPage.where"/>
-		<dynamic prepend="ORDER BY">
-			<isNotEmpty property="sortColumns">$sortColumns$</isNotEmpty>
-		</dynamic>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
     </select>
 
     <#list table.columns as column>
