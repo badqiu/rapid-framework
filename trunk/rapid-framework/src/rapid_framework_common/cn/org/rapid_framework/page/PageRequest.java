@@ -93,6 +93,9 @@ public class PageRequest<T> implements Serializable {
 	 */
 	public void setSortColumns(String sortColumns) {
 		checkSortColumnsSqlInjection(sortColumns);
+		if(sortColumns != null && sortColumns.length() > 50) {
+			throw new IllegalArgumentException("sortColumns.length() <= 50 must be true");
+		}
 		this.sortColumns = sortColumns;
 	}
 
