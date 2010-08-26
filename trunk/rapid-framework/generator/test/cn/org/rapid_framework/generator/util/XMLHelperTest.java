@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +37,18 @@ public class XMLHelperTest extends TestCase {
         System.out.println(table);
         System.out.println(columns);
     }
+    
+    public void test_get_NodeData() throws SAXException, IOException {
+    	NodeData nd = parseXML("<?xml version='1.0' encoding='UTF-8'?> <root><!--comment--><name age='123'>bad</name><sex>F</sex></root>");
+    	assertEquals("<root><name age='123'>bad</name><sex>F</sex></root>",nd.outerXML);
+    	assertEquals("<name age='123'>bad</name><sex>F</sex>",nd.innerXML);
+    	assertEquals("<!--comment--><name age='123'>bad</name><sex>F</sex>",nd.innerText);
+    	assertEquals("<root><!--comment--><name age='123'>bad</name><sex>F</sex></root>",nd.outerText);
+    }
+
+	private NodeData parseXML(String str) throws SAXException, IOException {
+		return new XMLHelper().parseXML(new ByteArrayInputStream(str.getBytes()));
+	}
     
     public void test_getXMLEncoding() {
     	assertEquals("UTF-8",XMLHelper.getXMLEncoding("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"));
