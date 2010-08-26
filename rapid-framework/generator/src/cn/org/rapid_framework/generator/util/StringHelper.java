@@ -469,6 +469,20 @@ public class StringHelper {
 		}
 		return count;
 	}
+
+	public static String getByRegex(String str,String regex) {
+		return getByRegex(str, regex, 0);
+	}
+	
+	public static String getByRegex(String str,String regex,int group) {
+		if(str == null) return null;
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(str);
+		if(m.find()) {
+			return m.group(group);
+		}
+		return null;
+	}
 	
 	public static String removeIbatisOrderBy(String sql) {
 //	    Pattern p = Pattern.compile("<is\\w+\\s+[\\w\\s='\"]+>\\s*order\\s+by.*?</\\w+>");
