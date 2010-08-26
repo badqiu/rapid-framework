@@ -40,7 +40,11 @@ public class SqlParseHelperTest extends TestCase{
 	    System.out.println(tableNames);
 	    verifyTableNames(tableNames,"user t1","user_role t2","blog t3");
 	    
-	    tableNames = SqlParseHelper.getTableNamesByQuery("select T.* from (select username,password from user_info ) as T");
+
+	}
+
+	public void test_getTableNamesByQuery_with_multi_table_by_subquery() {
+		Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery("select T.* from (select username,password from user_info ) as T");
 	    System.out.println(tableNames);
 	    verifyTableNames(tableNames,"user_info");
 	    
@@ -48,7 +52,7 @@ public class SqlParseHelperTest extends TestCase{
 	    System.out.println(tableNames);
 	    verifyTableNames(tableNames,"user_info");
 	}
-
+	
     public void test_getTableNamesByQuery_with_multi_table2() {
         Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u,role r where abc=123");
         System.out.println(tableNames);
@@ -96,10 +100,10 @@ public class SqlParseHelperTest extends TestCase{
 	private void verifyTableNames(Set<NameWithAlias> tableNames,String... expectedTableNames) {
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			String expectedTableName = expectedTableNames[i];
-			NameWithAlias expectedTable = SqlParseHelper.parseSqlAlias(expectedTableName);
+			NameWithAlias expectedTable = SqlParseHelper.parseTableSqlAlias(expectedTableName);
 			for(NameWithAlias s : tableNames) {
 				if(s.getName().equalsIgnoreCase(expectedTable.getName())) {
-					assertEquals(s.getName(),s.getAlias(),expectedTable.getAlias());
+					assertEquals("name:"+s.getName()+" alias:"+s.getAlias(),s.getAlias(),expectedTable.getAlias());
 				}
 			}
 //			assertTrue("actual tableNames:"+tableNames.toString(),expected);
@@ -118,8 +122,8 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("user t inner join info b   order username",SqlParseHelper.getFromClauses("select * from user t inner join info b   order username"));
 		assertEquals("user t inner join info b",SqlParseHelper.getFromClauses("select * from user t inner join info b group     by username"));
 		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select * from user t inner join info b group  username"));
-		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select * from (select username,password from user_info )"));
-		assertEquals("user t inner join info b group  username",SqlParseHelper.getFromClauses("select T.* from (select username,password from user_info ) as T"));
+		assertEquals("(select username,password from user_info )",SqlParseHelper.getFromClauses("select * from (select username,password from user_info )"));
+		assertEquals("(select username,password from user_info ) as T",SqlParseHelper.getFromClauses("select T.* from (select username,password from user_info ) as T"));
 	}
 
 	public void test_from_closes_union() {
