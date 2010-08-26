@@ -15,6 +15,10 @@
         <result property="cent" columnIndex="1" jdbcType="NUMBER" nullValue="0"/>
     </resultMap>
 
+    <resultMap id="RM.MONEY" class="com.iwallet.biz.common.util.money.Money">
+        <result property="cent" columnIndex="1" jdbcType="NUMBER" nullValue="0"/>
+    </resultMap>
+    
     <!-- result map for Money class -->
     <resultMap id="paygw.RM-MONEY" class="com.iwallet.biz.common.util.money.Money">
         <result property="cent" columnIndex="1" jdbcType="NUMBER" nullValue="0"/>
