@@ -97,7 +97,8 @@ public class XMLHelper {
         nodeData.attributes = attrbiuteToMap(elm.getAttributes());
         nodeData.nodeName = elm.getNodeName();
         nodeData.childs = new ArrayList<NodeData>();
-        nodeData.innerXML = childsAsText(elm,new StringBuffer()).toString();
+        nodeData.innerXML = childsAsText(elm, new StringBuffer()).toString();
+        nodeData.outerXML = nodeAsText(elm,new StringBuffer()).toString();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
@@ -108,9 +109,18 @@ public class XMLHelper {
             }
         }
         return nodeData;
-    }    	
+    }
+
+	private static StringBuffer childsAsText(Element elm, StringBuffer sb) {
+		NodeList childs = elm.getChildNodes();
+        for(int i = 0; i < childs.getLength() ; i++) {
+            Node child = childs.item(i);
+            nodeAsText(child,sb);
+        }
+        return sb;
+	}    	
     
-    private static StringBuffer childsAsText(Node elm,StringBuffer sb) {
+    private static StringBuffer nodeAsText(Node elm,StringBuffer sb) {
     	 if(elm.getNodeType() == Node.CDATA_SECTION_NODE) {
     		 CDATASection cdata = (CDATASection)elm;
     		 sb.append("<![CDATA[");
@@ -136,7 +146,7 @@ public class XMLHelper {
          sb.append(">");
          for(int i = 0; i < childs.getLength() ; i++) {
              Node child = childs.item(i);
-             childsAsText(child,sb);
+             nodeAsText(child,sb);
          }
          sb.append("</"+elm.getNodeName()+">");
          return sb;
@@ -144,7 +154,7 @@ public class XMLHelper {
 
 	private static void attributes2String(Node elm, StringBuffer sb) {
 		NamedNodeMap attributes = elm.getAttributes();
-         if(attributes != null) {
+         if(attributes != null && attributes.getLength() > 0) {
         	 sb.append(" ");
              for(int j = 0; j < attributes.getLength(); j++) {
                  sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), StringHelper.escapeXml(attributes.item(j).getNodeValue())));
