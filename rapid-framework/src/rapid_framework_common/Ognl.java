@@ -140,6 +140,9 @@ public class Ognl {
 		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
 			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
 		}
+		if(orderby != null && orderby.length() > 50) {
+			throw new IllegalArgumentException("orderby.length() <= 50 must be true");
+		}
 		if(validSortColumns == null) return true;
 		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
 		String[] passColumns = validSortColumns.split(",");
