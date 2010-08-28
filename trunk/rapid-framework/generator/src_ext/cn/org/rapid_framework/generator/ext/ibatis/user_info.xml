@@ -222,7 +222,16 @@
 	    ]]>
 	    </sql>
     </operation>
-    
+ 
+    <operation name="fromSubQuery" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    <![CDATA[
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM (select * from user_info)
+	    ]]>
+	    </sql>
+    </operation>
+       
     <!-- 
     <operation name="subSelectWithOrderByClouse" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
