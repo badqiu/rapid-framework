@@ -20,6 +20,7 @@ public class SqlParseHelper {
 		private String name;
 		private String alias;
 		public NameWithAlias(String name, String alias) {
+			if(name == null) throw new IllegalArgumentException("name must be not null");
 			if(name.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error name:"+name);
 			if(alias != null && alias.trim().indexOf(' ') >= 0) throw new IllegalArgumentException("error alias:"+alias);
 			this.name = name.trim();
@@ -73,7 +74,7 @@ public class SqlParseHelper {
 		Matcher m = fromRegex.matcher(sql);
 		if (m.find()) {
 			String from = getFromClauses(sql);
-			if(from.matches("(?i).*\\sfrom\\s.*")) {
+			if(from.matches("(?ims).*\\sfrom\\s.*")) {
 				return getTableNamesByQuery(from);
 			}
 			if(from.indexOf(',') >= 0) {
@@ -109,16 +110,20 @@ public class SqlParseHelper {
 		
 	/** 解析sql的别名,如 user as u,将返回 user及u */
 	public static NameWithAlias parseTableSqlAlias(String str) {
-		str = str.trim();
-		String[] array = str.split("\\sas\\s");
-		if(array.length >= 2 && str.matches("^[\\w_]+\\s+as\\s+[_\\w]+.*")) {
-			return new NameWithAlias(array[0],StringHelper.tokenizeToStringArray(array[1], " \n\t")[0]);
+		try {
+			str = str.trim();
+			String[] array = str.split("\\sas\\s");
+			if(array.length >= 2 && str.matches("^[\\w_]+\\s+as\\s+[_\\w]+.*")) {
+				return new NameWithAlias(array[0],StringHelper.tokenizeToStringArray(array[1], " \n\t")[0]);
+			}
+			array = StringHelper.tokenizeToStringArray(str, " \n\t");
+			if(array.length >= 2 && str.matches("^[\\w_]+\\s+[_\\w]+.*")) {
+				return new NameWithAlias(array[0], array[1]);
+			}
+			return new NameWithAlias(StringHelper.getByRegex(str.trim(),"^[\\w_]+"),StringHelper.getByRegex(str.trim(),"^[\\w_]+\\s+([\\w_]+)",1));
+		}catch(Exception e) {
+			throw new IllegalArgumentException("parseTableSqlAlias error,str:"+str,e);
 		}
-		array = StringHelper.tokenizeToStringArray(str, " \n\t");
-		if(array.length >= 2 && str.matches("^[\\w_]+\\s+[_\\w]+.*")) {
-			return new NameWithAlias(array[0], array[1]);
-		}
-		return new NameWithAlias(StringHelper.getByRegex(str.trim(),"^[\\w_]+"),StringHelper.getByRegex(str.trim(),"^[\\w_]+\\s+([\\w_]+)",1));
 	}
 
 
