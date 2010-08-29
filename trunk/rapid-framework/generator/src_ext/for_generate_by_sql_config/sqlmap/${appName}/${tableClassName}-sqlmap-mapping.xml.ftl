@@ -18,9 +18,9 @@
 	<resultMap id="RM.${sql.resultClassName}" class="${basepackage}.query.${sql.resultClass}">
     	<#list sql.columns as column>
     	<#if column.javaType?ends_with('Money')>
-		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}"/>
+		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}" javaType="${column.javaType}" jdbcType="${column.jdbcSqlTypeName}"/>
     	<#else>
-		<result property="${column.columnNameFirstLower}" column="${column.sqlName}" <#if (column.nullValue!?length > 0)> nullValue="${column.nullValue}" </#if> />
+		<result property="${column.columnNameFirstLower}" column="${column.sqlName}" javaType="${column.javaType}" jdbcType="${column.jdbcSqlTypeName}" <#if column.hasNullValue> nullValue="${column.nullValue}" </#if> />
     	</#if>
     	</#list>
 	</resultMap>
