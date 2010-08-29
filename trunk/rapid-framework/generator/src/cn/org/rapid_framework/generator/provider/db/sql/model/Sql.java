@@ -40,35 +40,34 @@ public class Sql {
 	String parameterClass;
 	String remarks;
 	
-	String multiplicity = "many"; // many or one or paging
+	String                      multiplicity        = MULTIPLICITY_ONE;                 /* many or one or paging */
     boolean                     paging              = false;                            // 是否分页查询
-	String sqlmap; //for ibatis and ibatis3
+    String                      sqlmap;                                                 /* for ibatis and ibatis3 */
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
 	
 	String sourceSql; // source sql
 	String executeSql;
-	/** primitive or object */
-	private String              paramType           = "primitive";
+	private String              paramType           = "primitive";                      /* primitive or object */
 	
 	public Sql() {
 	}
 	
 	public Sql(Sql sql) {
-		this.tableSqlName = sql.tableSqlName;
-		
-		this.operation = sql.operation;
-		this.parameterClass = sql.parameterClass;
-		this.resultClass = sql.resultClass;
-		this.multiplicity = sql.multiplicity;
-		
-		this.columns = sql.columns;
-		this.params = sql.params;
-		this.sourceSql = sql.sourceSql;
-		this.executeSql = sql.executeSql;
-		this.remarks = sql.remarks;
-	}
+        this.tableSqlName = sql.tableSqlName;
+
+        this.operation = sql.operation;
+        this.parameterClass = sql.parameterClass;
+        this.resultClass = sql.resultClass;
+        this.multiplicity = sql.multiplicity;
+
+        this.columns = sql.columns;
+        this.params = sql.params;
+        this.sourceSql = sql.sourceSql;
+        this.executeSql = sql.executeSql;
+        this.remarks = sql.remarks;
+    }
 	
 	public boolean isColumnsInSameTable() {
 		// FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
