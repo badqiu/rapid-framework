@@ -273,5 +273,13 @@
 	    </sql>
     </operation>
     
+    <operation name="testSelectColumnsWithQuery" paramtype="primitive" multiplicity="one" remarks="测试select中还有select">
+		<sql>
+			select USER_ID,USERNAME,(select password from user_info where password = #pwd_in_select_query# ) pwd_from_select_query
+			from user_info
+			where user_id = #userId#
+		</sql>
+	</operation>
+	
 	<sql id="columns"><![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]></sql>            			
 </table>
