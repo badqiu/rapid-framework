@@ -28,9 +28,6 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
 public class TableConfig {
     public String sqlname;
     public String sequence;
@@ -234,7 +231,6 @@ public class TableConfig {
                 }
                 c.setJavaType(mc.getJavatype());
                 c.setColumnAlias(mc.getColumnAlias());
-                c.setNullValue(mc.getNullValue());
                 result.add(c);
             }
             return result;
