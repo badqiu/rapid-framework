@@ -37,8 +37,11 @@
 				MAL.IW_ACCOUNT_LOG_ID = #iwAccountLogId#
 			</isNotEmpty> 
 			
-	    	<isNotEmpty prepend="and" property="tradeNo">
-				MAL.real_trade_no = #tradeNo#
+	    	<isNotEmpty prepend="and" property="tradeNos">
+				MAL.real_trade_no in
+				<iterate property="tradeNos" open="(" close=")" conjunction=",">
+					#tradeNos[]#
+				</iterate>
 			</isNotEmpty>
 			
 	    	<isNotEmpty prepend="and" property="accountNo">
@@ -95,6 +98,11 @@
 			<isNotEmpty prepend="and" property="transOutOrderNo">
 					MAL.trans_out_order_no = #transOutOrderNo#
 			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="specialOutTradeNo">
+					MAL.VAR2 = #specialOutTradeNo#
+			</isNotEmpty>
+			
 															
 			<isNotEmpty prepend="and" property="pnr">
 					MAE.pnr = #pnr#
@@ -139,14 +147,15 @@
 	
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
 		<extraparams>
-			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>	
+			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
+			<param name="payType" javatype="java.lang.String"/>	
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>	
 		</extraparams>		
     	<sql>
     	<![CDATA[
     	SELECT 
-    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,
+    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
     	BTB.goods_title,BTB.out_trade_no,
     	MC.pay_success,MC.loan_success 
