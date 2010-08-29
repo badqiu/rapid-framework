@@ -10,7 +10,7 @@ public class SqlFactoryTest extends TestCase {
 	SqlFactory parser = new SqlFactory();
 
 	public void test_isMatchListParam() {
-	    String sql = "length(#username#) and in (#pwd#) and not in (#user#) and blog = #blog[]# and sex = #sex[].value#";
+	    String sql = "length(#username#) and in \n (#pwd#) and not \n in \n (#user#) and blog = #blog[]# and sex = #sex[].value#";
         assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "username"));
         assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "notexist"));
         assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "in"));
