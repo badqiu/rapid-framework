@@ -30,9 +30,33 @@ public class JavaPrimitiveTypeMapping {
 		return result == null ? clazz : result;
 	}
 
+    public static String getWrapperTypeOrNull(String clazz) {
+        String result = primitive2wraper.get(clazz);
+        return result;
+    }
+	   
 	public static String getWrapperType(String clazz) {
 		String result = primitive2wraper.get(clazz);
 		return result == null ? clazz : result;
 	}
+	
+    public static String getDefaultValue(String type) {
+        if (StringHelper.isBlank(type)) {
+            return "null";
+        } else if (type.endsWith("Money")) {
+            // special case
+            return "0";
+        } else if (type.lastIndexOf(".") > 0) {
+            return "null";
+        } else if (Character.isUpperCase(type.charAt(0))) {
+            return "null";
+        } else if ("boolean".equals(type)) {
+            return "false";
+        } else if(getWrapperTypeOrNull(type) != null) {
+            return "0";
+        } else {
+            return "null";
+        }
+    }
 	
 }
