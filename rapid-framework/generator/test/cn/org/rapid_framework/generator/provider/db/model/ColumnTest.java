@@ -109,4 +109,20 @@ public class ColumnTest  extends TestCase{
 		System.out.println(str.getHibernateValidatorExprssion());
 		assertEquals("@NotBlank @Email @Length(max=1)",str.getHibernateValidatorExprssion());
 	}
+	
+	public void test_getNullValue() {
+	    GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "Long");
+	    assertEquals("Long",newBigDecimal().getSimpleJavaType());
+        assertEquals("null",newBigDecimal().getNullValue());
+        assertEquals(false,newBigDecimal().isHasNullValue());
+        
+	    Column num = newBigDecimal();
+	    GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "int");
+        assertEquals("int",newBigDecimal().getSimpleJavaType());
+        assertEquals("0",newBigDecimal().getNullValue());
+        assertEquals(true,newBigDecimal().isHasNullValue());
+        System.out.println(newBigDecimal().getJavaType());
+	    System.out.println(newBigDecimal().getNullValue());
+	    System.out.println(newBigDecimal().isHasNullValue());
+	}
 }
