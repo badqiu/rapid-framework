@@ -576,11 +576,11 @@ public class Column {
 	
 	/** nullValue for ibatis sqlmap: <result property="age" column="age" nullValue="0"  /> */
 	public String getNullValue() {
-		return nullValue;
+		return JavaPrimitiveTypeMapping.getDefaultValue(getJavaType());
 	}
 
-	public void setNullValue(String nullValue) {
-		this.nullValue = nullValue;
+	public boolean isHasNullValue() {
+		return JavaPrimitiveTypeMapping.getWrapperTypeOrNull(getJavaType()) != null;
 	}
 	
     /**
@@ -640,7 +640,6 @@ public class Column {
 	private boolean updatable = true;	
 	private boolean insertable = true;
 	private String hibernateValidatorExprssion;
-	private String nullValue;
 //	private String rapidValidation;
 	/**
 	 * public enum ${enumClassName} {
