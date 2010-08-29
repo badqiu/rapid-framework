@@ -237,7 +237,7 @@ public class SqlFactory {
 
 		public boolean isMatchListParam(String sql, String paramName) {
 			return 
-			    sql.matches("(?s).*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") // match (:username) (#username#)
+			    sql.matches("(?s).*\\sin\\s*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") // match in (:username) ,not in (#username#)
 			    || sql.matches("(?s).*[#$]"+paramName+"\\[]\\.?\\w*[#$].*"); //match #user[]# $user[]$ #user[].age#
 		}
 	

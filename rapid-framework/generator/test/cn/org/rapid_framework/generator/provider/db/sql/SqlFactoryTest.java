@@ -9,6 +9,18 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 public class SqlFactoryTest extends TestCase {
 	SqlFactory parser = new SqlFactory();
 
+	public void test_isMatchListParam() {
+	    String sql = "length(#username#) and in (#pwd#) and not in (#user#) and blog = #blog[]# and sex = #sex[].value#";
+        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "username"));
+        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "notexist"));
+        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "in"));
+        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "not in"));
+        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "pwd"));
+        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "user"));
+        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "blog"));
+        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "sex"));
+	}
+	
 	public void test_union() throws SQLException, Exception {
 		String query = "select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) ";
 		String orderByQuery = "select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?) order by :orderby ";
