@@ -63,8 +63,12 @@ public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSuppo
 		<#local paramName = "param">
 	</#if>
 	<#if sql.selectSql>
-		<#if sql.paging || sql.multiplicity = 'paging'>
+		<#if sql.paging>
+			<#if (sql.params?size > params2paramObjectLimit)>
 		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName});
+			<#else>
+		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",pageNo,pageSize,${paramName});
+			</#if>
 		<#elseif sql.multiplicity = 'one'>
 		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
 		<#else>
