@@ -3,6 +3,10 @@
 <!ELEMENT table (column* | operation* | sql*)+>
 <!ATTLIST table
 namespace CDATA #IMPLIED
+sqlname CDATA #IMPLIED
+remarks CDATA #IMPLIED
+dumpypk CDATA #IMPLIED
+sequence CDATA #IMPLIED
 >
 
 <!ELEMENT column EMPTY>
