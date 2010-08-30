@@ -2,7 +2,7 @@
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
-		<#if sql.paging || sql.multiplicity = 'paging'>
+		<#if sql.paging>
 			PageList
 		<#elseif sql.multiplicity = 'one'>
 			${sql.resultClassName}
@@ -38,7 +38,11 @@
 		<#if (sql.params?size > params2paramObjectLimit)>
 			${sql.parameterClassName} param
 		<#else>
-			<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+			<#if sql.paging>
+				int pageNo,int pageSize,<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+			<#else>
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+			</#if>
 		</#if>
 	</#if>
 </#compress>
