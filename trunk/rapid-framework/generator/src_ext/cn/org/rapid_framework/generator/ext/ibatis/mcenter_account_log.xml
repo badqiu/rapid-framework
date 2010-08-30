@@ -106,17 +106,6 @@
 					MAL.VAR2 = #specialOutTradeNo#
 			</isNotEmpty>
 			
-															
-			<isNotEmpty prepend="and" property="pnr">
-					MAE.pnr = #pnr#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="ticketNo">
-					MAE.TICKET_NO_END >= #ticketNo#
-					AND MAE.TICKET_NO_START &lt;= #ticketNo#
-					AND length(MAE.TICKET_NO_END) >= length(#ticketNo#)
-					AND length(MAE.TICKET_NO_START) &lt;= length(#ticketNo#)
-			</isNotEmpty>
-			
 			<isNotEmpty prepend="and" property="outTradeNo">
 					BTB.out_trade_no = #outTradeNo#
 			</isNotEmpty>	
