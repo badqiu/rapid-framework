@@ -19,9 +19,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.CDATASection;
+import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.EntityReference;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -49,8 +51,8 @@ public class XMLHelper {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         dbf.setIgnoringElementContentWhitespace(false);
         dbf.setValidating(false);
-        dbf.setCoalescing(true);  //convert CDATA nodes to Text FIXME 该节点与if(elm.getNodeType() == Node.CDATA_SECTION_NODE) 
-        dbf.setIgnoringComments(true); //为false时与CDATA冲突
+        dbf.setCoalescing(false);  //convert CDATA nodes to Text FIXME 该节点与if(elm.getNodeType() == Node.CDATA_SECTION_NODE) 
+        dbf.setIgnoringComments(false); //为false时与CDATA冲突
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
             InputSource is = new InputSource(in);
@@ -65,8 +67,8 @@ public class XMLHelper {
         public String nodeValue;
         public String innerXML;
         public String outerXML;
-        public String innerText;
-        public String outerText;
+//        public String innerText;
+//        public String outerText;
         public Map<String,String> attributes = new HashMap<String,String>();
         public List<NodeData> childs = new ArrayList<NodeData>();
         
@@ -99,15 +101,17 @@ public class XMLHelper {
         nodeData.childs = new ArrayList<NodeData>();
         nodeData.innerXML = childsAsText(elm, new StringBuffer(),true).toString();
         nodeData.outerXML = nodeAsText(elm,new StringBuffer(),true).toString();
-        nodeData.innerText = childsAsText(elm, new StringBuffer(),false).toString();
-        nodeData.outerText = nodeAsText(elm,new StringBuffer(),false).toString();
+//        nodeData.innerText = childsAsText(elm, new StringBuffer(),false).toString();
+//        nodeData.outerText = nodeAsText(elm,new StringBuffer(),false).toString();
         NodeList list = elm.getChildNodes();
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
-            nodeData.nodeValue = node.getNodeValue();
+            if(node.getNodeType() == Node.COMMENT_NODE) {
+                continue;
+            }
+            nodeData.nodeValue = getNodeValue(node);
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 nodeData.childs.add(treeWalk((Element)node));
-            }else {
             }
         }
         return nodeData;
@@ -177,6 +181,42 @@ public class XMLHelper {
             result.put(attributes.item(i).getNodeName(), attributes.item(i).getNodeValue());
         }
         return result;
+    }
+    
+	   /**
+     * Extract the text value from the given DOM element, ignoring XML comments. <p>Appends all CharacterData nodes and
+     * EntityReference nodes into a single String value, excluding Comment nodes.
+     *
+     * @see CharacterData
+     * @see EntityReference
+     * @see Comment
+     */
+    public static String getTextValue(Element valueEle) {
+        if(valueEle == null) throw new IllegalArgumentException("Element must not be null");
+        StringBuilder sb = new StringBuilder();
+        NodeList nl = valueEle.getChildNodes();
+        for (int i = 0; i < nl.getLength(); i++) {
+            Node item = nl.item(i);
+            if ((item instanceof CharacterData && !(item instanceof Comment)) || item instanceof EntityReference) {
+                sb.append(item.getNodeValue());
+            }else if(item instanceof Element) {
+                sb.append(getTextValue((Element)item));
+            }
+        }
+        return sb.toString();
+    }
+    
+    public static String getNodeValue(Node node) {
+        if(node instanceof Comment){
+            return null;
+        }
+        if ((node instanceof CharacterData && !(node instanceof Comment)) || node instanceof EntityReference) {
+            return node.getNodeValue();
+        }else if(node instanceof Element) {
+            return getTextValue((Element)node);
+        }else {
+            return node.getNodeValue();
+        }
     }
     
     public NodeData parseXML(InputStream in) throws SAXException, IOException {

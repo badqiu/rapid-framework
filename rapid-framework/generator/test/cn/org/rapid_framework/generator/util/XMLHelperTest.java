@@ -40,7 +40,7 @@ public class XMLHelperTest extends TestCase {
     
     public void test_get_NodeData() throws SAXException, IOException {
     	NodeData nd = parseXML("<?xml version='1.0' encoding='UTF-8'?> <root><!--comment--><name age='123'>bad</name><sex>F</sex></root>");
-    	assertEquals(null,nd.nodeValue);
+    	assertEquals("F",nd.nodeValue);
     	assertEquals("bad",nd.childs.get(0).nodeValue);
     	assertEquals("F",nd.childs.get(1).nodeValue);
     	
@@ -57,9 +57,8 @@ public class XMLHelperTest extends TestCase {
 		assertEquals("bad",nd.childs.get(0).nodeValue);
 		assertEquals("F",nd.childs.get(1).nodeValue);
 		assertEquals("&gt;=123<>",nd.childs.get(2).nodeValue);
-		
-//    	assertEquals("<root><name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias></root>",nd.outerXML);
-//    	assertEquals("<name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias>",nd.innerXML);
+    	assertEquals("<root><name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias></root>",nd.outerXML);
+    	assertEquals("<name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias>",nd.innerXML);
 //    	assertEquals("<!--comment--><name age='123'>bad</name><sex>F</sex>",nd.innerText);
 //    	assertEquals("<root><!--comment--><name age='123'>bad</name><sex>F</sex></root>",nd.outerText);
 	}
@@ -72,7 +71,7 @@ public class XMLHelperTest extends TestCase {
 		assertEquals("&gt;=123<>",nd.childs.get(2).nodeValue);
 		
 		nd = parseXML("<?xml version='1.0' encoding='UTF-8'?> <root>AAA<!--comment--><name age='123'>bad</name><sex>F<!--123--></sex><alias><![CDATA[&gt;=123<>]]></alias></root>");
-		assertEquals(null,nd.nodeValue);
+		assertEquals("&gt;=123<>",nd.nodeValue);
 	}
     
 	private NodeData parseXML(String str) throws SAXException, IOException {
