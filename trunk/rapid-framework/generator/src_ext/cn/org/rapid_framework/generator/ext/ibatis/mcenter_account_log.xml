@@ -165,6 +165,7 @@
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
     	WHERE 
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		AND (BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> OR BTB.owner is null) 
     		
 			<include refid='findAccountLog.where'/>
 			
@@ -188,7 +189,7 @@
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
     	WHERE
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		
+    		AND (BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> OR BTB.owner is null) 
 
 			
 			<include refid='findAccountLog.where'/>														   
