@@ -104,12 +104,9 @@ public class XMLHelper {
 //        nodeData.innerText = childsAsText(elm, new StringBuffer(),false).toString();
 //        nodeData.outerText = nodeAsText(elm,new StringBuffer(),false).toString();
         NodeList list = elm.getChildNodes();
+        nodeData.nodeValue = getNodeValue(elm);
         for(int i = 0; i < list.getLength() ; i++) {
             Node node = list.item(i);
-            if(node.getNodeType() == Node.COMMENT_NODE) {
-                continue;
-            }
-            nodeData.nodeValue = getNodeValue(node);
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 nodeData.childs.add(treeWalk((Element)node));
             }
@@ -210,13 +207,16 @@ public class XMLHelper {
         if(node instanceof Comment){
             return null;
         }
-        if ((node instanceof CharacterData && !(node instanceof Comment)) || node instanceof EntityReference) {
-            return node.getNodeValue();
-        }else if(node instanceof Element) {
-            return getTextValue((Element)node);
-        }else {
+        if(node instanceof CharacterData) {
+            return ((CharacterData)node).getData();
+        }
+        if(node instanceof EntityReference) {
             return node.getNodeValue();
         }
+        if(node instanceof Element) {
+            return getTextValue((Element)node);
+        }
+        return node.getNodeValue();
     }
     
     public NodeData parseXML(InputStream in) throws SAXException, IOException {
