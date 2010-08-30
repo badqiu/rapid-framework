@@ -17,9 +17,8 @@
 	
 	<sql id="findAccountLog.where">
 		<![CDATA[
+		
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		AND (BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> OR BTB.owner is null) 
-    		AND (MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> OR MAE.owner is null) 
     				
 		  	<isEmpty property="accountNo">
 				<isEmpty property="transDtBegin">
@@ -164,9 +163,9 @@
     	BTB.goods_title,BTB.out_trade_no,
     	MC.pay_success,MC.loan_success 
     	from mcenter_account_log MAL
-			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
+			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
 			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
-			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     	WHERE 
 			<include refid='findAccountLog.where'/>
 			order by TRANS_DT DESC
