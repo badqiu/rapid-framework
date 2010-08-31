@@ -149,7 +149,7 @@
     	MC.pay_success,MC.loan_success 
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no
+			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no AND MC.pay_success = 'Y'
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     	WHERE 
 			<include refid='findAccountLog.where'/>
