@@ -15,7 +15,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
-public class Table {
+public class Table implements java.io.Serializable,Cloneable {
 
 	String sqlName;
 	String remarks;
@@ -335,6 +335,15 @@ public class Table {
 	
 	public String toString() {
 		return "Database Table:"+getSqlName()+" to ClassName:"+getClassName();
+	}
+	
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			//ignore
+			return null;
+		}
 	}
 	
 	String catalog = TableFactory.getInstance().getCatalog();
