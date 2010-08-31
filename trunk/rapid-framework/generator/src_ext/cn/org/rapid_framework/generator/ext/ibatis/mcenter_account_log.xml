@@ -103,7 +103,7 @@
 			</isNotEmpty>
 			
 			<isNotEmpty prepend="and" property="outTradeNo">
-					(MAL.VAR2 = #outTradeNo# or BTB.out_trade_no = #outTradeNo#)
+					MAL.VAR2 = #outTradeNo#
 			</isNotEmpty>	
 
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
