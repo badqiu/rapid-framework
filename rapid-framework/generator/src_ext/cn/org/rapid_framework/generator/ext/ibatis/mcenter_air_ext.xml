@@ -490,7 +490,7 @@
 	]]>
 	</sql>
 	
-	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询">
+	<operation name="findTradeFundBillForAir" paging="true" paramtype="primitive" remarks="退款明细查询(全部，信用支付）">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>	
 			<param name="direction" javatype="java.lang.String"/>		
@@ -503,7 +503,7 @@
     		seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,seller_action,buyer_action,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,product,pay_channel
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
-    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+    		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no AND MC.pay_success = 'Y'
     		inner join trade_base BTB on BTB.trade_no = BTF.trade_no
     	WHERE
     		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
@@ -538,7 +538,7 @@
 		</sql>
     </operation> 
     
-	<operation name="findTradeFundBillForAirByBalance" paging="true" paramtype="primitive" remarks="退款明细查询(退款)">
+	<operation name="findTradeFundBillForAirByBalance" paging="true" paramtype="primitive" remarks="退款明细查询(余额支付)">
 		<extraparams>
 			<param name="payType" javatype="java.lang.String"/>	
 			<param name="direction" javatype="java.lang.String"/>		
@@ -591,7 +591,7 @@
 	    	from trade_fund_bill BTF
 	    		inner join trade_base BTB on BTF.trade_no = BTB.trade_no
 				left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no
-	    		inner join mcenter_creditpay MC on BTF.trade_no = MC.trade_no
+	    		inner join mcenter_creditpay MC on BTF.trade_no = MC.trade_no AND MC.pay_success = 'Y'
 	    	WHERE   
 			  	<isEmpty property="transAccountIn">
 					<isEmpty property="gmtTradeCreateBegin">
