@@ -20,7 +20,7 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
-public class Column {
+public class Column implements java.io.Serializable,Cloneable{
 	/**
 	 * Reference to the containing table
 	 */
@@ -323,6 +323,15 @@ public class Column {
 		return getSqlName();
 	}
 
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			//ignore
+			return null;
+		}
+	}
+	
 	/**
 	 * Describe what the method does
 	 * 
