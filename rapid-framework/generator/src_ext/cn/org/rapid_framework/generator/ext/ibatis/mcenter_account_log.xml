@@ -19,7 +19,8 @@
 		<![CDATA[
 		
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    				
+    		AND MAL.DELETE_FLAG <> 'T'
+    		 		
 		  	<isEmpty property="accountNo">
 				<isEmpty property="transDtBegin">
 			  		<isEmpty property="transDtEnd">
@@ -103,14 +104,14 @@
 			</isNotEmpty>
 			
 			<isNotEmpty prepend="and" property="outTradeNo">
-					(MAL.VAR2 = #outTradeNo# or MAL.out_biz_no = #outTradeNo#)
+					MAL.VAR2 = #outTradeNo#
 			</isNotEmpty>	
 
 			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
 				MAL.pay_type is null  /* 余额支付 */
 			</isEqual>	
 			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-				MAL.pay_type = 'CREDIT_PAY' AND trans_code = '6001' AND MAL.TRANS_AMOUNT &lt;= 0  /* 信用支付 */
+				MAL.pay_type = 'CREDIT_PAY' AND trans_code = '6001' AND MAL.TRANS_AMOUNT &lt; 0  /* 信用支付 */
 			</isEqual>
 								
 			/* 用于识别     CREDIT_LOAN("信用支付借款"),CREDIT_RETURN_LOAN("信用支付还款"),CREDIT_REFUND("信用支付退款"),*/
@@ -145,11 +146,9 @@
     	SELECT 
     	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
-    	BTB.goods_title,BTB.out_trade_no,
-    	MC.pay_success,MC.loan_success 
+    	BTB.goods_title,BTB.out_trade_no
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no AND MC.pay_success = 'Y'
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     	WHERE 
 			<include refid='findAccountLog.where'/>
@@ -168,9 +167,8 @@
     	<![CDATA[
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
     	from mcenter_account_log MAL
-			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no
-			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no AND MC.pay_success = 'Y'
-			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no
+			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     	WHERE		
 			<include refid='findAccountLog.where'/>														   
 		]]>
