@@ -19,7 +19,7 @@
 		<![CDATA[
 		
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		AND MAL.DELETE_FLAG <> 'T'
+    		AND MAL.DELETE_FLAG != 'T'
     		 		
 		  	<isEmpty property="accountNo">
 				<isEmpty property="transDtBegin">
