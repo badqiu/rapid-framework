@@ -162,7 +162,6 @@ public class MethodParameter {
 
         public String[] parseJavaFileForParamNames(Method method,String content) {
             Pattern methodPattern = Pattern.compile("(?s)"+method.getName()+"\\s*\\("+getParamsPattern(method)+"\\)\\s*\\{");
-    	    List<String> methodParams = new ArrayList();
     	    Matcher m = methodPattern.matcher(content);
     	    List paramNames = new ArrayList();
     	    while(m.find()) {
