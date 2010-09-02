@@ -387,14 +387,19 @@ public class Column implements java.io.Serializable,Cloneable{
 	}
 
     /**
-     * 使用 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
+     * 得到 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
      */
 	public String getJdbcSqlTypeName() {
-		String result = JdbcType.getJdbcSqlTypeName(getSqlType());
-		//if(result == null) throw new RuntimeException("jdbcSqlTypeName is null column:"+getSqlName()+" sqlType:"+getSqlType());
-		return result;
+		return getJdbcType();
 	}
-
+	
+	/**
+     * 得到 jdbcSqlType类型名称，示例值:VARCHAR,DECIMAL, 现Ibatis3使用该属性
+     */
+    public String getJdbcType() {
+        String result = JdbcType.getJdbcSqlTypeName(getSqlType());
+        return result;
+    }
     /**
      * 列的别名，等价于：getRemarks().isEmpty() ? getColumnNameFirstLower() : getRemarks()
      * 
