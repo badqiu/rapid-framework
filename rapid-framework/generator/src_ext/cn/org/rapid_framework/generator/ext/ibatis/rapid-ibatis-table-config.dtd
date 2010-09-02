@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!ELEMENT table (column* | operation* | sql*)+>
+<!ELEMENT table (column* | resultMap* | operation* | sql*)+>
 <!ATTLIST table
 namespace CDATA #IMPLIED
 sqlname CDATA #IMPLIED
@@ -13,6 +13,11 @@ sequence CDATA #IMPLIED
 <!ATTLIST column
 name CDATA #REQUIRED
 javatype CDATA #REQUIRED
+>
+
+<!ELEMENT resultMap (column)*>
+<!ATTLIST resultMap
+name CDATA #REQUIRED
 >
 
 <!ELEMENT operation (extraparams | sql | sqlmap)*>
