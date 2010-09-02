@@ -38,7 +38,7 @@ public class JavaImport {
         	return false;
         }
         
-        if ((type.indexOf(".") < 0) && Character.isLowerCase(type.charAt(0))) {
+        if ((type.indexOf(".") < 0) || Character.isLowerCase(StringHelper.getJavaClassSimpleName(type).charAt(0))) {
             return false;
         }
 
