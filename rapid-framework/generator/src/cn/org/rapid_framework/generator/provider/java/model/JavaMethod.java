@@ -10,7 +10,9 @@ package cn.org.rapid_framework.generator.provider.java.model;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
 
@@ -57,6 +59,14 @@ public class JavaMethod {
 		return method.isVarArgs();
 	}
 
+	public Set<JavaClass> getImportClasses() {
+		Set<JavaClass> set = new LinkedHashSet<JavaClass>();
+        JavaClass.addImportClass(set, method.getParameterTypes());
+        JavaClass.addImportClass(set, method.getExceptionTypes());
+        JavaClass.addImportClass(set,method.getReturnType());
+        return set;
+	}
+	
 	public List<MethodParameter> getParameters() {
 		Class[] parameters  = method.getParameterTypes();
 		List<MethodParameter> results = new ArrayList<MethodParameter>();
