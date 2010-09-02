@@ -88,6 +88,7 @@ public class JavaClass {
 		Method[] methods = clazz.getDeclaredMethods();
 		return toJavaMethods(filterByModifiers(methods,Modifier.PUBLIC,Modifier.STATIC));
 	}
+	
 
 	public JavaMethod[] getPublicNotStaticMethods() {
 		Method[] staticMethods = filterByModifiers(clazz.getDeclaredMethods(),Modifier.STATIC);
@@ -146,7 +147,7 @@ public class JavaClass {
     }
 	
 	public String getAsType() {
-		return ActionScriptDataTypesUtils.getPreferredAsType(clazz.getName());
+		return ActionScriptDataTypesUtils.getPreferredAsType(getJavaType());
 	}
 	
 	public String getJavaType() {
@@ -156,9 +157,22 @@ public class JavaClass {
 	        return clazz.getName();
 	    }
 	}
+	
 
 	public String getPrimitiveJavaType() {
 	    return JavaPrimitiveTypeMapping.getPrimitiveType(getJavaType());
+	}
+	
+	public String getSimpleJavaType() {
+	    if(isArray()) {
+            return clazz.getComponentType().getSimpleName();
+        }else {
+            return clazz.getSimpleName();
+        }
+	}
+	
+	public String getNullValue () {
+	    return JavaPrimitiveTypeMapping.getDefaultValue(getJavaType());
 	}
 	
 	public String getCanonicalName() {
