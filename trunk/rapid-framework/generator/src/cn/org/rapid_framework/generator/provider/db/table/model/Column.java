@@ -496,6 +496,9 @@ public class Column implements java.io.Serializable,Cloneable{
         return getJavaType().substring(getJavaType().lastIndexOf('.') + 1);
     }
 
+	public boolean isPrimitive() {
+	    return JavaPrimitiveTypeMapping.getWrapperTypeOrNull(getJavaType()) != null;
+	}
     /**
      * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型,将直接返回getSimpleJavaType()
      * @return
