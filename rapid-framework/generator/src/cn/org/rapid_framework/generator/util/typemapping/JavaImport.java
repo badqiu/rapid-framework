@@ -33,7 +33,11 @@ public class JavaImport {
         if (type.startsWith("java.lang.")) {
             return false;
         }
-
+        
+        if(JavaPrimitiveTypeMapping.getPrimitiveTypeOrNull(type) != null) {
+        	return false;
+        }
+        
         if ((type.indexOf(".") < 0) && Character.isLowerCase(type.charAt(0))) {
             return false;
         }
