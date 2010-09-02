@@ -102,7 +102,7 @@ public class JavaClass {
 		BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
 		PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
 		for(PropertyDescriptor pd : pds) {
-		    if(!"class".equals(pd.getName())) {
+		    if(!"class".equalsIgnoreCase(pd.getName())) {
 		        result.add(new JavaProperty(pd,this));
 		    }
 		}
