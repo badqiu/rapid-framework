@@ -26,6 +26,9 @@ public class JavaImport {
         if (StringHelper.isBlank(type)) {
             return false;
         }
+        if("void".equals(type)) {
+        	return false;
+        }
 
         if (type.startsWith("java.lang.")) {
             return false;
