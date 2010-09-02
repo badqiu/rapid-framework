@@ -14,7 +14,10 @@ public class JavaImportTest extends TestCase {
 		assertFalse(j.isNeedImport("long"));
 		assertFalse(j.isNeedImport("double"));
 		
-		assertTrue(j.isNeedImport("Blog"));
-		assertTrue(j.isNeedImport("Hibernate"));
+		assertFalse(j.isNeedImport("Blog"));
+		assertFalse(j.isNeedImport("Hibernate"));
+		
+		assertTrue(j.isNeedImport("xxxx.blog.User"));
+		assertTrue(j.isNeedImport("aaa.hibern.Blog"));
 	}
 }
