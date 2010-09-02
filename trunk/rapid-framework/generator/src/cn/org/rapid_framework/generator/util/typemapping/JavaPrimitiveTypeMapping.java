@@ -25,12 +25,12 @@ public class JavaPrimitiveTypeMapping {
 	}
 
 	public static String getPrimitiveTypeOrNull(String clazz) {
-		String className = StringHelper.getExtension(clazz);
+		String className = StringHelper.getJavaClassSimpleName(clazz);
 		return wraper2primitive.get(className);
 	}
 	
 	public static String getPrimitiveType(String clazz) {
-		String className = StringHelper.getExtension(clazz);
+		String className = StringHelper.getJavaClassSimpleName(clazz);
 		String result = wraper2primitive.get(className);
 		return result == null ? clazz : result;
 	}

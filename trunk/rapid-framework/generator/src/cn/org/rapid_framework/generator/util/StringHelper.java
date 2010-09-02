@@ -186,6 +186,14 @@ public class StringHelper {
 	public static String toJavaClassName(String str) {
 		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(str));
 	}
+	
+	public static String getJavaClassSimpleName(String clazz) {
+		if(clazz == null) return null;
+		if(clazz.lastIndexOf(".") >= 0) {
+			return clazz.substring(clazz.lastIndexOf(".")+1);
+		}
+		return clazz;
+	}
 
 	public static String removeMany(String inString, String... keywords) {
 		if (inString == null) {
