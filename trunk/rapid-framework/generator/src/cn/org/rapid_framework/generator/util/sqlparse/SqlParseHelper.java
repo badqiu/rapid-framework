@@ -213,7 +213,10 @@ public class SqlParseHelper {
 
         private String replace2NamedParameters(String sql) {
             String replacedSql = replace2NamedParametersByOperator(sql,"[=<>!]{1,2}");
-            return replace2NamedParametersByOperator(replacedSql,"\\s+like\\s+");
+            replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+like\\s+"); // like
+//            replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+not\\s+in\\s+\\("); // not in
+//            replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+in\\s+\\("); // in
+            return replacedSql;
         }
 
         private String replaceInsertSql2NamedParameters(String sql) {
