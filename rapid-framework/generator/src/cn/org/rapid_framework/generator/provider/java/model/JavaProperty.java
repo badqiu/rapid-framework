@@ -41,7 +41,15 @@ public class JavaProperty {
 	public JavaMethod getWriteMethod() {
 		return new JavaMethod(propertyDescriptor.getWriteMethod(),clazz);
 	}
+	
+	public boolean isHasReadMethod() {
+	    return propertyDescriptor.getReadMethod() != null;
+	}
 
+	public boolean isHasWriteMethod() {
+        return propertyDescriptor.getWriteMethod() != null;
+    }
+	
 	public String getAsType() {
 		return ActionScriptDataTypesUtils.getPreferredAsType(propertyDescriptor.getPropertyType().getName());
 	}
