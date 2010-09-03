@@ -19,7 +19,19 @@ public class JavaField {
 		return field.getName();
 	}
 
-	public JavaClass getClazz() {
+	public boolean isAccessible() {
+        return field.isAccessible();
+    }
+
+    public boolean isEnumConstant() {
+        return field.isEnumConstant();
+    }
+
+    public String toGenericString() {
+        return field.toGenericString();
+    }
+
+    public JavaClass getClazz() {
 		return clazz;
 	}
 
