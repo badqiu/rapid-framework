@@ -16,6 +16,10 @@ add groupId=basepackage:com.company.project=com-company-project
 
 add Table.operations properties for ibatis and ibatis3
 
+dalgen table config支持
+	1.<property name="" value=""/>
+	2. 支持 <content></content> content中的内容将直接显示在 sqlmap中
+
 SecurityManagerHolder.checkPermission()
 ConfigHolder
 MailerHolder
