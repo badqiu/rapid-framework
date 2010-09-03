@@ -40,6 +40,8 @@ public class JavaClass {
 	}
 	
 	public boolean isHasDefaultConstructor() {
+	    if(clazz.isInterface() || clazz.isAnnotation() || clazz.isEnum() || Modifier.isAbstract(clazz.getModifiers()))
+	        return false;
 	    for(Constructor c : clazz.getConstructors()) {
 	        if(c.isAccessible() && Modifier.isPublic(c.getModifiers())) {
 	            if(c.getParameterTypes().length == 0) {
@@ -210,6 +212,10 @@ public class JavaClass {
 
 	public boolean isArray() {
 		return clazz.isArray();
+	}
+	
+	public boolean isBooleanType() {
+	    return "boolean".equals(clazz.getName()) || "Boolean".equals(clazz.getSimpleName());
 	}
 
 	public boolean isEnum() {
