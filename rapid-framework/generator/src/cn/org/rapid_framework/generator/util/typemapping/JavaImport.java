@@ -9,7 +9,7 @@ public class JavaImport {
 
     public void addImport(String javaType) {
         if (isNeedImport(javaType)) {
-            imports.add(javaType);
+            imports.add(javaType.replace("$", "."));
         }
     }
     
