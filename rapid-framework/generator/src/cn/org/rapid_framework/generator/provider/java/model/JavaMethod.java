@@ -53,7 +53,15 @@ public class JavaMethod {
 		return method.isBridge();
 	}
 
-	public boolean isSynthetic() {
+    public List<JavaClass> getExceptionTypes() {
+        List<JavaClass> result = new ArrayList();
+        for(Class c : method.getExceptionTypes()) {
+            result.add(new JavaClass(c));
+        }
+        return result;
+    }
+
+    public boolean isSynthetic() {
 		return method.isSynthetic();
 	}
 
