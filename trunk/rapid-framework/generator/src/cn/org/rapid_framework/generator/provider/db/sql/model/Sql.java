@@ -292,49 +292,35 @@ public class Sql {
 	}
 	
     public String getCountHql() {
-        if(isSelectSql()) {
-            return countQueryPrefix + SqlParseHelper.removeSelect(getHql());
-        }else {
-            return getHql();
-        }
+        return toCountSqlForPaging(getHql());
     }
 	   
-	private String countQueryPrefix = "select count(*) ";
 	public String getCountSql() {
-	    if(isSelectSql()) {
-	        return countQueryPrefix + SqlParseHelper.removeSelect(getSql());
-	    }else {
-	        return getSql();
-	    }
+	    return toCountSqlForPaging(getSql());
 	}
 
     public String getIbatisCountSql() {
-        if(isSelectSql()) {
-            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatisSql());
-        }else {
-            return getIbatisSql();
-        }
+        return toCountSqlForPaging(getIbatisSql());
     }
     
     public String getIbatis3CountSql() {
-        if(isSelectSql()) {
-            return countQueryPrefix + SqlParseHelper.removeSelect(getIbatis3Sql());
-        }else {
-            return getIbatis3Sql();
-        }
+        return toCountSqlForPaging(getIbatis3Sql());
     }
 
     public String getSqlmapCountSql() {
-    	if(getSqlmap() == null) return null;
-        if(isSelectSql()) {
-            return countQueryPrefix + SqlParseHelper.removeSelect(getSqlmap());
-        }else {
-            return getSqlmap();
-        }
+        return toCountSqlForPaging(getSqlmap());
     }
     
 	public String getSql() {
 		return replaceWildcardWithColumnsSqlName(sourceSql);
+	}
+	
+	public String toCountSqlForPaging(String sql) {
+	    if(sql == null) return null;
+	    if(isSelectSql()) {
+            return SqlParseHelper.toCountSqlForPaging(sql, "select count(*) ");
+	    }
+	    return sql;
 	}
 	
 	public String getSpringJdbcSql() {
