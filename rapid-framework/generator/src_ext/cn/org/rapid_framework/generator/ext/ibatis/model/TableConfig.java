@@ -61,7 +61,7 @@ public class TableConfig {
                             target.extraparams.add(mp);
                         }
                     }else {
-                        BeanHelper.setProperty(target, opChild.nodeName, opChild.nodeValue);
+                        BeanHelper.setProperty(target, opChild.nodeName, opChild.innerXML);
                     }
                 }
                 config.operations.add(target);
@@ -76,7 +76,7 @@ public class TableConfig {
             if("sql".equals(child.nodeName)) {
                 MetaSql target = new MetaSql();
                 BeanHelper.copyProperties(target, child.attributes);
-                target.sql = child.nodeValue;
+                target.sql = child.innerXML;
                 config.includeSqls.add(target);
             }
         }

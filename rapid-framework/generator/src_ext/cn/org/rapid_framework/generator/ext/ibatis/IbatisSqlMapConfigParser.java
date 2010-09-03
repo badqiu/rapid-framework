@@ -86,12 +86,19 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             
             
         }
-        return sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE");
+        return removeXMLCdata(sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE"));
     }
     
     public static String removeComments(String str) {
         if(str == null) return null;
-        return str.replaceAll("(?s)<!--.*?-->", "").replaceAll("(?s)/\\*.*?\\*/", "").replace("query not allowed", "");
+        str = str.replaceAll("(?s)<!--.*?-->", "").replaceAll("(?s)/\\*.*?\\*/", "").replace("query not allowed", "");
+        return str;
+    }
+
+    private static String removeXMLCdata(String str) {
+        str = StringHelper.replace(str, "<![CDATA[", "");
+        str = StringHelper.replace(str, "]]>", "");
+        return str;
     }
     
     public static void main(String[] args) throws IOException {
