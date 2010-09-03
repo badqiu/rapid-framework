@@ -182,6 +182,9 @@ public class SqlParseHelperTest extends TestCase{
         " in_param in (?) and not_in_param not in (?) and age between ? and ?";
         assertEquals(" select * from user_Info where \n   in_param in (:includeInParam) and not_in_param not in (excludeNotInParam) and age between :minAge and :maxAge",SqlParseHelper.convert2NamedParametersSql(sql, ":",""));
 
+        sql = " select * from user_Info where \n " +
+        " length(user_param)>=? and substring(blog_param,1,2)=? and to_date(sex_param,'yyyy')<=  ? and pwd_param!=? and content_param<>? and sex2like like ?";
+        assertEquals(" select * from user_Info where \n  user_param>=#{userParam# and blog_param=#{blogParam# and sex_param<=  #{sexParam# and pwd_param!=#{pwdParam# and content_param<>#{contentParam# and sex2like like #{sex2like#",SqlParseHelper.convert2NamedParametersSql(sql, "#{","#"));
     }
     
     public void test_convert2ParametersString_by_insert() {
@@ -207,6 +210,11 @@ public class SqlParseHelperTest extends TestCase{
 	    
 	    t = SqlParseHelper.getParameterClassName("select * from user where username = :username|Integer and pwd = :pwd|SexEnum", "pwd");
 	    assertEquals(t,"SexEnum");
+	}
+	
+	public void test_to() {
+	    assertEquals("  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("  select user from info", "select count(*) "));
+	    assertEquals("<!--  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("<!--  select user from info", "select count(*) "));
 	}
 	
 }
