@@ -110,6 +110,26 @@ public class StringHelper {
     	return null;
     }
 
+    public static String insertBefore(String content,String compareToken,String insertString) {
+        if(content.indexOf(insertString) >= 0) return content;
+        int index = content.indexOf(compareToken);
+        if(index >= 0) {
+            return new StringBuffer(content).insert(index,insertString).toString();
+        }else {
+            throw new IllegalArgumentException("not found insert location by compareToken:"+compareToken+" content:"+content);
+        }
+    }
+    
+    public static String insertAfter(String content,String compareToken,String insertString) {
+        if(content.indexOf(insertString) >= 0) return content;
+        int index = content.indexOf(compareToken);
+        if(index >= 0) {
+            return new StringBuffer(content).insert(index+compareToken.length(),insertString).toString();
+        }else {
+            throw new IllegalArgumentException("not found insert location by compareToken:"+compareToken+" content:"+content);
+        }
+    }
+    
 	/**
 	 * Count the occurrences of the substring in string s.
 	 * @param str string to search in. Return 0 if this is null.
