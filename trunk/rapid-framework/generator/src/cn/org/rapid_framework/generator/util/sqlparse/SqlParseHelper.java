@@ -292,6 +292,14 @@ public class SqlParseHelper {
 		if(beginPos == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
 		return sql.substring(beginPos);
 	}
+	
+    public static String toCountSqlForPaging(String sql,String countQueryPrefix) {
+        if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
+        int selectBeginOps = StringHelper.indexOfByRegex(sql.toLowerCase(), "select\\s");
+        int fromBeingOps = StringHelper.indexOfByRegex(sql.toLowerCase(), "\\sfrom\\s");
+        if(fromBeingOps == -1) throw new IllegalArgumentException(" sql : " + sql + " must has a keyword 'from'");
+        return sql.substring(0,selectBeginOps) + countQueryPrefix + sql.substring(fromBeingOps);
+    }
 
 	public static String getSelect(String sql) {
 		if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
