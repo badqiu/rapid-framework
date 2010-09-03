@@ -210,7 +210,7 @@ public class Generator {
             try {
                 outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
                 
-                initGeneratorControlProperties(srcFile);
+                initGeneratorControlProperties(srcFile,outputFilepath);
                 processTemplateForGeneratorControl(templateModel, templateFile);
                 
                 if(gg.isIgnoreOutput()) {
@@ -231,15 +231,15 @@ public class Generator {
             if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile,includes,excludes)) {
                 return;
             }
-	        initGeneratorControlProperties(srcFile);
+            String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
+	        initGeneratorControlProperties(srcFile,outputFilepath);
 	        gg.deleteGeneratedFile = true;
 	        processTemplateForGeneratorControl(templateModel, templateFile);
-	        String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
 	        GLogger.println("[delete file] file:"+new File(gg.getOutRoot(),outputFilepath).getAbsolutePath());
 	        new File(gg.getOutRoot(),outputFilepath).delete();
 	    }
 	    
-		private void initGeneratorControlProperties(File srcFile) throws SQLException {
+		private void initGeneratorControlProperties(File srcFile,String outputFile) throws SQLException {
 			gg.setSourceFile(srcFile.getAbsolutePath());
 			gg.setSourceFileName(srcFile.getName());
 			gg.setSourceDir(srcFile.getParent());
@@ -247,7 +247,7 @@ public class Generator {
 			gg.setOutputEncoding(outputEncoding);
 			gg.setSourceEncoding(sourceEncoding);
 			gg.setMergeLocation(GENERATOR_INSERT_LOCATION);
-			
+			gg.setOutputFile(outputFile);
 		}
 	
 		private void processTemplateForGeneratorControl(Map templateModel,String templateFile) throws IOException, TemplateException {
