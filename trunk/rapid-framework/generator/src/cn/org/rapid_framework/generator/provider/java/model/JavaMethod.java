@@ -27,6 +27,8 @@ public class JavaMethod {
 	
 	public JavaMethod(Method method, JavaClass clazz) {
 		super();
+		if(method == null) throw new IllegalArgumentException("method must be not null");
+		if(clazz == null) throw new IllegalArgumentException("clazz must be not null");
 		this.method = method;
 		this.clazz = clazz;
 	}
