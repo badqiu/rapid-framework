@@ -1,3 +1,4 @@
+${gg.setOverride(false)}
 ${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
 
 package ${clazz.packageName};
@@ -7,8 +8,6 @@ import ${clazz.packageName}.*;
 import java.util.*;
 
 import static org.junit.Assert.*;
-
-import java.util.Date;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -86,7 +85,11 @@ public class ${clazz.className}Test{
         ${method.returnType.simpleJavaType}[] result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
         <#else>
         ${method.returnType.simpleJavaType?replace("$", ".")} result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
+        <#if method.returnType.booleanType>
+        assertTrue(result);
+        <#else>
         assertNotNull(result);
+        </#if>
         </#if>
     }
     
@@ -99,9 +102,21 @@ public class ${clazz.className}Test{
     <#local result>
         <#compress>
             <#if (clazz.interface)>
+                <#if clazz?ends_with("java.util.List")>
+                List ${varName} = new ArrayList();
+                <#elseif clazz?ends_with("java.util.Map")>
+                Map ${varName} = new HashMap();
+                <#elseif clazz?ends_with("java.util.Set")>
+                Set ${varName} = new HashSet();
+                <#elseif clazz?ends_with("java.util.Queue")>
+                Queue ${varName} = new LinkedList();
+                <#else>
                 ${clazz.simpleJavaType} ${varName} = new ${clazz.simpleJavaType}();
+                </#if>
+            <#elseif (clazz.booleanType)>
+                boolean ${varName} = true;
             <#elseif (clazz.array)>
-                ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}()[];
+                ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}[]{};
             <#elseif (clazz.primitive)>
                 ${clazz.simpleJavaType} ${varName} = 1;        
             <#elseif (clazz.hasDefaultConstructor)>
