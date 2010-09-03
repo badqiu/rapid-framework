@@ -186,6 +186,14 @@ public class StringHelperTest extends TestCase {
 	    assertEquals(StringHelper.removeIbatisOrderBy("a  order1 by username"),"a  order1 by username");
 	}
 	
+	public void test_insertAfter() {
+	    assertEquals("1 2 3 \n 4 5abc 6",StringHelper.insertAfter("1 2 3 \n 4 5 6", "5", "abc"));
+	}
+	
+	public void test_insertBefore() {
+	    assertEquals("1 2 3 \n 4 abc5 6",StringHelper.insertBefore("1 2 3 \n 4 5 6", "5", "abc"));
+	}
+	
 	public void test_remove_crlf() {
 //		new StringTokenizer("\t\n\r\f")
 		String[] array = StringHelper.tokenizeToStringArray("abc \r\f\n\t123\nbb", "\t\n\r\f");
