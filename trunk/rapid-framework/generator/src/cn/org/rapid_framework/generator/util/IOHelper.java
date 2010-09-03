@@ -55,12 +55,17 @@ public class IOHelper {
 		Reader in = new FileReader(file);
 		StringWriter out = new StringWriter();
 		copy(in,out);
+		in.close();
 		return out.toString();
 	}
 	
 	public static String readFile(File file,String encoding) throws IOException {
 		InputStream inputStream = new FileInputStream(file);
-		return toString(encoding, inputStream);
+		try {
+		    return toString(encoding, inputStream);
+		}finally{
+		    inputStream.close();
+		}
 	}
 
 	public static String toString(InputStream inputStream) throws UnsupportedEncodingException, IOException {
