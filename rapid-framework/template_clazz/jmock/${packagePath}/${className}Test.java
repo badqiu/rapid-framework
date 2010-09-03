@@ -30,7 +30,7 @@ public class ${clazz.className}Test{
 
     private Mockery  context = new JUnit4Mockery();
     
-    protected ${clazz.simpleJavaType} ${clazz.className?uncap_first} = new ${clazz.javaType}();
+    protected ${clazz.simpleJavaType} ${clazz.className?uncap_first} = new ${clazz.simpleJavaType}();
     
     @Before
     public void setUp() throws Exception {
@@ -38,9 +38,9 @@ public class ${clazz.className}Test{
             <#if prop.propertyType.interface>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
             <#else>
-        final ${prop.propertyType.className} ${prop.name?uncap_first} = new ${prop.propertyType.className}();
+        final ${prop.propertyType.className} ${prop.name?uncap_first} = null;
             </#if>
-        ${classVar}.set${prop.propertyType.className}(${prop.name?uncap_first});
+        ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
         
         </#list>
         
@@ -107,7 +107,7 @@ public class ${clazz.className}Test{
             <#elseif (clazz.hasDefaultConstructor)>
                 ${clazz.simpleJavaType} ${varName} <#if !clazz.primitive>= new ${clazz.simpleJavaType}()</#if>;
             <#else>
-                ${clazz.simpleJavaType?replace("$", ".")} ${varName} = new ${clazz.simpleJavaType}();
+                ${clazz.simpleJavaType?replace("$", ".")} ${varName} = null;
             </#if>
         </#compress>
     </#local>
