@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 <#list clazz.importClasses as importClass>
-import ${importClass.javaType};
+import ${importClass.javaType?replace("$", ".")};
 </#list>
 
 <#assign classVar = clazz.className?uncap_first>
@@ -29,18 +29,19 @@ public class ${clazz.className}Test{
 
     private Mockery  context = new JUnit4Mockery();
     
-    protected ${clazz.simpleJavaType} ${clazz.className?uncap_first} = new ${clazz.simpleJavaType}();
+    protected ${genNewJavaTypeExpr(clazz,clazz.className?uncap_first)};
     
     @Before
     public void setUp() throws Exception {
         <#list clazz.properties as prop>
+        <#if prop.hasWriteMethod>
             <#if prop.propertyType.interface>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
             <#else>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = null;
             </#if>
         ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
-        
+        </#if>
         </#list>
         
         <#list clazz.properties as prop>
@@ -111,7 +112,7 @@ public class ${clazz.className}Test{
                 <#elseif clazz?ends_with("java.util.Queue")>
                 Queue ${varName} = new LinkedList();
                 <#else>
-                ${clazz.simpleJavaType} ${varName} = new ${clazz.simpleJavaType}();
+                ${clazz.simpleJavaType} ${varName} = null;
                 </#if>
             <#elseif (clazz.booleanType)>
                 boolean ${varName} = true;
