@@ -7,12 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -22,7 +17,6 @@ import javax.swing.JOptionPane;
 import org.xml.sax.InputSource;
 
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -60,6 +54,7 @@ public class GeneratorControl {
 	private String sourceDir; 
 	private String sourceFileName; 
 	private String sourceEncoding; //no pass //? 难道process两次确定sourceEncoding
+	private String outputFile;
 	
 	/** load xml data */
 	public NodeModel loadXml(String file) {
@@ -219,7 +214,19 @@ public class GeneratorControl {
 		this.sourceEncoding = sourceEncoding;
 	}
 	
-	/** 得到property,查到不到则使用defaultValue */
+	public String getOutputFile() {
+        return outputFile;
+    }
+	
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+    
+    public boolean isExistsOutputFile() {
+        return new File(outRoot,outputFile).exists();
+    }
+    
+    /** 得到property,查到不到则使用defaultValue */
 	public String getProperty(String key,String defaultValue){
 		return GeneratorProperties.getProperty(key, defaultValue);
 	}
@@ -253,4 +260,8 @@ public class GeneratorControl {
 	}
 	
 	boolean deleteGeneratedFile = false;
+
+    
+    
+    
 }
