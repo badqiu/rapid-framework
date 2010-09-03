@@ -20,4 +20,10 @@ public class JavaImportTest extends TestCase {
 		assertTrue(j.isNeedImport("xxxx.blog.User"));
 		assertTrue(j.isNeedImport("aaa.hibern.Blog"));
 	}
+	
+	public void test2() {
+	    JavaImport javaImport = new JavaImport();
+        javaImport.addImport("abc.diy.User$Info");
+        assertEquals(javaImport.getImports().iterator().next(),"abc.diy.User.Info");
+	}
 }
