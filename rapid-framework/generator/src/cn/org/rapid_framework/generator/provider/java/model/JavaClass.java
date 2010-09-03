@@ -167,9 +167,9 @@ public class JavaClass {
 	
 	public String getJavaType() {
 	    if(isArray()) {
-	        return clazz.getComponentType().getName();
+	        return clazz.getComponentType().getName().replace("$", ".");
 	    }else {
-	        return clazz.getName();
+	        return clazz.getName().replace("$", ".");
 	    }
 	}
 	
