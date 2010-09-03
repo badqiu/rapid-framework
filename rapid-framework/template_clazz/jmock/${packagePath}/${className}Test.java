@@ -34,11 +34,11 @@ public class ${clazz.className}Test{
     @Before
     public void setUp() throws Exception {
         <#list clazz.properties as prop>
-        <#if prop.hasWriteMethod>
+        <#if prop.hasWriteMethod && !prop.propertyType.primitive>
             <#if prop.propertyType.interface>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
             <#else>
-        final ${prop.propertyType.className} ${prop.name?uncap_first} = null;
+        final ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)};
             </#if>
         ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
         </#if>
