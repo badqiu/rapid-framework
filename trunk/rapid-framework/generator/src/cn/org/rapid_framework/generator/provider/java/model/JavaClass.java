@@ -59,6 +59,9 @@ public class JavaClass {
 	        addImportClass(set, m.getParameterTypes());
 	        addImportClass(set, m.getExceptionTypes());
 	    }
+	    if(clazz.isMemberClass()) {
+	        addImportClass(set, clazz);
+	    }
 	    for(Field f :clazz.getFields()) {
             addImportClass(set, f.getType());
         }
