@@ -38,7 +38,7 @@ public class ${clazz.className}Test{
             <#if prop.propertyType.interface>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
             <#else>
-        final ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)};
+        final ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)}
             </#if>
         ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
         </#if>
