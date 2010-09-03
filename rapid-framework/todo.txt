@@ -21,6 +21,13 @@ dalgen table config支持
 	2. 支持 <content></content> content中的内容将直接显示在 sqlmap中
 	3. 通过 include where支持 Query extends IncludeSql,以便重用条件
 
+模板文件中可以通过
+	if(outputFile.exists()) {
+		generateNewContent();
+	}else {
+		insertInto();
+	}
+
 SecurityManagerHolder.checkPermission()
 ConfigHolder
 MailerHolder
