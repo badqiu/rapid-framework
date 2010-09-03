@@ -5,8 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
+import org.hsqldb.lib.HsqlTimer.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
@@ -52,10 +51,7 @@ public class GeneratorTask extends Task {
 
 	private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
-		for(Object key : properties.keySet()) {
-			Object value = properties.get(key);
-			props.put(key, value);
-		}
+		props.putAll(properties);
 		return props;
 	}
 	
