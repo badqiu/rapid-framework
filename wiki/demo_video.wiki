@@ -1,5 +1,4 @@
 = 项目搭建视频 =
 
-*[http://rapid-framework.googlecode.com/files/rapid-framework_quickstart_movie_for_v1.0.x.zip v1.0.x快速演示视频下载]* 需要使用flashplayer9播放
-
-v2.5以上视频*暂无*,可以查看以上视频*大概了解*一下项目搭建过程,或是查看[quick_start_guild]
+3.9.0版本，flex_cairngorm框架搭建视频请参考
+优酷视频教程http://v.youku.com/v_show/id_XMTk5NTYwODcy.html 
