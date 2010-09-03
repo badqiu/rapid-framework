@@ -3,10 +3,9 @@ ${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts
 
 package ${clazz.packageName};
 
-import junit.framework.*;
 import ${clazz.packageName}.*;
-import java.util.*;
 
+import java.util.*;
 import static org.junit.Assert.*;
 
 import org.jmock.Expectations;
