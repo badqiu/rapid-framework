@@ -14,6 +14,7 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
+import org.apache.commons.io.FileUtils;
 import org.xml.sax.InputSource;
 
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
@@ -21,6 +22,7 @@ import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.SqlExecutorHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
@@ -226,9 +228,51 @@ public class GeneratorControl {
         return new File(outRoot,outputFile).exists();
     }
     
+    public boolean outputFileMatchs(String regex) throws IOException {
+        if(isExistsOutputFile()) {
+            String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+            if(StringHelper.indexOfByRegex(content, regex) >= 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean outputFileContains(String s) throws IOException {
+        if(isExistsOutputFile()) {
+            String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+            return content.contains(s);
+        }
+        return false;
+    }
+    
     /** 得到property,查到不到则使用defaultValue */
 	public String getProperty(String key,String defaultValue){
 		return GeneratorProperties.getProperty(key, defaultValue);
+	}
+	
+	public String insertAfter(String compareToken,String str) throws IOException {
+	    String content = FileUtils.readFileToString(new File(outRoot,outputFile).getAbsoluteFile(), sourceEncoding);
+	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
+        return StringHelper.insertAfter(content, compareToken, str);
+	}
+	
+	public String insertBefore(String compareToken,String str) throws IOException {
+	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
+        return StringHelper.insertBefore(content, compareToken, str);
+	}
+	
+	public String append(String str) throws IOException {
+	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
+	    return new StringBuffer(content).append(str).toString();
+	}
+	
+	public String prepend(String str) throws IOException {
+	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
+	    return new StringBuffer(content).insert(0,str).toString();
 	}
 
 //	public String getRequiredProperty(String key){
