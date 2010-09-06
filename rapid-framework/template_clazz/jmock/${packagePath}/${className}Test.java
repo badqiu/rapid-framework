@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-<#list clazz.importClasses as importClass>
+<#list clazz.propertiesImportClasses as importClass>
 import ${importClass.javaType?replace("$", ".")};
 </#list>
 
@@ -83,6 +83,11 @@ public class ${clazz.className}Test{
         ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name}<#if param_has_next>, </#if></#list>);
         <#elseif (method.returnType.clazz.array)>
         ${method.returnType.simpleJavaType}[] result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
+        <#if method.returnType.booleanType>
+        assertTrue(result);
+        <#else>
+        assertNotNull(result);
+        </#if>
         <#else>
         ${method.returnType.simpleJavaType?replace("$", ".")} result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
         <#if method.returnType.booleanType>
@@ -91,6 +96,7 @@ public class ${clazz.className}Test{
         assertNotNull(result);
         </#if>
         </#if>
+        
     }
     
     </#if>
