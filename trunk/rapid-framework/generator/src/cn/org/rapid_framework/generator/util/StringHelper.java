@@ -55,6 +55,24 @@ public class StringHelper {
 		return sb.toString();
 	}
 
+   public static String escapeXml(String str,String escapeChars) {
+        if(str == null) return null;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if(escapeChars.indexOf(c) < 0) {
+                sb.append(c);
+                continue;
+            }
+            String escapedStr = getEscapedStringByChar(c);
+            if(escapedStr == null)
+                sb.append(c);
+            else
+                sb.append(escapedStr);
+        }
+        return sb.toString();
+    }
+	   
 	private static String getEscapedStringByChar(char c) {
 		String escapedStr = null;
 		for (String key : XML.keySet()) {
