@@ -37,6 +37,17 @@ public class XMLHelperTest extends TestCase {
         System.out.println(table);
         System.out.println(columns);
     }
+
+    public void test_parseXML_by_innerXML() throws SAXException, IOException {
+        NodeData nd = parseXML("<?xml version='1.0' encoding='UTF-8'?> <root><!--comment--><name age='123'>bad&gt;&lt;</name><sex>F<!--123--></sex><alias><![CDATA[&gt;=123<>]]></alias></root>");
+        assertEquals("bad>&lt;",nd.childs.get(0).innerXML);
+        assertEquals("F",nd.childs.get(1).innerXML);
+        assertEquals("<![CDATA[&gt;=123<>]]>",nd.childs.get(2).innerXML);
+//        assertEquals("<root><name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias></root>",nd.innerXML);
+//        assertEquals("<name age='123'>bad</name><sex>F</sex><alias><![CDATA[&gt;=123<>]]></alias>",nd.innerXML);
+//      assertEquals("<!--comment--><name age='123'>bad</name><sex>F</sex>",nd.innerText);
+//      assertEquals("<root><!--comment--><name age='123'>bad</name><sex>F</sex></root>",nd.outerText);
+    }
     
     public void test_get_NodeData() throws SAXException, IOException {
     	NodeData nd = parseXML("<?xml version='1.0' encoding='UTF-8'?> <root><!--comment--><name age='123'>bad</name><sex>F</sex></root>");
