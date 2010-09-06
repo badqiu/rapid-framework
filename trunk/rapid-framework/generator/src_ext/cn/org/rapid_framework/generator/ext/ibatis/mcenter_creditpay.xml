@@ -21,7 +21,6 @@
 			<param name="tradeNo" javatype="java.lang.String"/>
 		</extraparams>
 		<sql>
-			<![CDATA[
 	    	SELECT 
 		        BILL_NO ,MC.out_trade_no,MC.TRADE_NO ,AMOUNT ,TRANS_DATE ,TRANS_ACCOUNT_OUT ,TRANS_ACCOUNT_IN ,CUSTOMER_ID ,BIZ_NAME ,OPERATOR_ID ,OPERATOR_NAME ,MEMO ,loan_success ,pay_success ,MC.gmt_trade_create,credit_available_amount,
     			PNR,TICKET_NO_START,TICKET_NO_END,system_partner
@@ -103,7 +102,6 @@
 				</isNotEmpty>
 				
 	    		order by MC.gmt_trade_create DESC
-		    ]]>
 		</sql>		
 	</operation>  
 	  			
