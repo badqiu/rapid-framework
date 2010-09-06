@@ -24,7 +24,7 @@ public class ScanClassUtils {
 	 * @return List包含className
 	 */
 	@SuppressWarnings("all")
-	public static List<String> scanPackages(String basePackages){
+	public static List<String> scanPackages(String basePackages) throws IllegalArgumentException{
 		Assert.notNull(basePackages,"'basePakcages' must be not null");
 		ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();
 		MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory(rl); 
