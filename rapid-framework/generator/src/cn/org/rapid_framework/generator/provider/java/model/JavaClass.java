@@ -24,7 +24,7 @@ public class JavaClass {
 	}
 	
 	public String getClassName() {
-		return this.clazz.getSimpleName();
+		return getSimpleJavaType();
 	}
 	
 	public String getPackageName() {
