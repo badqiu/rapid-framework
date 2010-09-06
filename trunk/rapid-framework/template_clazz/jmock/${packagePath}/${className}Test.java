@@ -34,7 +34,7 @@ public class ${clazz.className}Test{
     public void setUp() throws Exception {
         <#list clazz.properties as prop>
         <#if prop.hasWriteMethod && !prop.propertyType.primitive>
-            <#if prop.propertyType.interface>
+            <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
         final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
             <#else>
         final ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)}
@@ -44,7 +44,7 @@ public class ${clazz.className}Test{
         </#list>
         
         <#list clazz.properties as prop>
-            <#if prop.propertyType.interface>
+            <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
                 <#list prop.propertyType.publicMethods as method>
                     
         context.checking(new Expectations() {
