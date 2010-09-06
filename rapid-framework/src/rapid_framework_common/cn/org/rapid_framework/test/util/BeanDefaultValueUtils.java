@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
 /**
  * 用于为Bean设置属性设置默认值的工具类.
  * 
@@ -133,8 +132,7 @@ public class BeanDefaultValueUtils {
 			return calendar;
         }
         if(targetType.isEnum()) {
-            Method m = ClassUtils.getStaticMethod(targetType, "values", new Class[]{});
-            Enum[] enums = (Enum[])m.invoke(null);
+            Enum[] enums = (Enum[])targetType.getEnumConstants();;
 			return enums != null && enums.length > 0 ? enums[0] : null;
         }
         
