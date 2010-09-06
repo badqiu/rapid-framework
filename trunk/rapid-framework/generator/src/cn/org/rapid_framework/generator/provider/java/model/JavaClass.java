@@ -52,6 +52,7 @@ public class JavaClass {
 	    return false;
 	}
 	
+	
 	public Set<JavaClass> getImportClasses() {
 	    Set<JavaClass> set = new LinkedHashSet<JavaClass>();
 	    for(Method m :clazz.getMethods()) {
@@ -72,6 +73,13 @@ public class JavaClass {
 	    return set;
 	}
 
+   public Set<JavaClass> getPropertiesImportClasses() throws Exception {
+       Set<JavaClass> set = getImportClasses();
+       for(JavaProperty prop : getProperties()) {
+           set.addAll(prop.getPropertyType().getImportClasses());
+       }
+       return set;
+   }
 	
     public static void addImportClass(Set<JavaClass> set, Class<?>... clazzes) {
     	for(Class c : clazzes) {
