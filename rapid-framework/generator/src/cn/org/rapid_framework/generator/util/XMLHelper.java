@@ -101,12 +101,12 @@ public class XMLHelper {
         nodeData.childs = new ArrayList<NodeData>();
         nodeData.innerXML = childsAsText(elm, new StringBuffer(),true).toString();
         nodeData.outerXML = nodeAsText(elm,new StringBuffer(),true).toString();
+        nodeData.nodeValue = getNodeValue(elm);
 //        nodeData.innerText = childsAsText(elm, new StringBuffer(),false).toString();
 //        nodeData.outerText = nodeAsText(elm,new StringBuffer(),false).toString();
-        NodeList list = elm.getChildNodes();
-        nodeData.nodeValue = getNodeValue(elm);
-        for(int i = 0; i < list.getLength() ; i++) {
-            Node node = list.item(i);
+        NodeList childs = elm.getChildNodes();
+        for(int i = 0; i < childs.getLength() ; i++) {
+            Node node = childs.item(i);
             if(node.getNodeType() == Node.ELEMENT_NODE) {
                 nodeData.childs.add(treeWalk((Element)node));
             }
@@ -143,7 +143,7 @@ public class XMLHelper {
     	 }
     	 if(elm.getNodeType() == Node.TEXT_NODE) {
     		 Text t = (Text)elm;
-    		 sb.append(t.getData());
+    		 sb.append(StringHelper.escapeXml(t.getData(),"<&"));
     		 return sb;
     	 }
     	 NodeList childs = elm.getChildNodes();
