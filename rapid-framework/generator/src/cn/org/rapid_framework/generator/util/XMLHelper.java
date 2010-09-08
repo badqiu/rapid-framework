@@ -149,13 +149,17 @@ public class XMLHelper {
     	 NodeList childs = elm.getChildNodes();
     	 sb.append("<"+elm.getNodeName());
     	 attributes2String(elm, sb);
-         sb.append(">");
-         for(int i = 0; i < childs.getLength() ; i++) {
-             Node child = childs.item(i);
-             nodeAsText(child,sb,ignoreComments);
-         }
-         sb.append("</"+elm.getNodeName()+">");
-         return sb;
+    	 if(childs.getLength() > 0) {
+    	     sb.append(">");
+             for(int i = 0; i < childs.getLength() ; i++) {
+                 Node child = childs.item(i);
+                 nodeAsText(child,sb,ignoreComments);
+             }
+             sb.append("</"+elm.getNodeName()+">");
+    	 }else {
+    	     sb.append("/>");
+    	 }
+    	 return sb; 
 	}
 
 	private static void attributes2String(Node elm, StringBuffer sb) {
@@ -163,7 +167,7 @@ public class XMLHelper {
          if(attributes != null && attributes.getLength() > 0) {
         	 sb.append(" ");
              for(int j = 0; j < attributes.getLength(); j++) {
-                 sb.append(String.format("%s='%s'", attributes.item(j).getNodeName(), StringHelper.escapeXml(attributes.item(j).getNodeValue())));
+                 sb.append(String.format("%s=\"%s\"", attributes.item(j).getNodeName(), StringHelper.escapeXml(attributes.item(j).getNodeValue(),"<&\"")));
                  if(j < attributes.getLength() - 1) {
                 	 sb.append(" ");
                  }
