@@ -498,8 +498,7 @@
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no  AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
     		left join mcenter_creditpay MC on BTF.trade_no = MC.trade_no AND MC.pay_success = 'Y'
     		inner join trade_base BTB on BTB.trade_no = BTF.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    	WHERE
-    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    	WHERE 1=1
     		
 			<include refid='findTradeFundBillForAir.where'/>
 				
@@ -542,8 +541,7 @@
     	from trade_fund_bill BTF
 			left join mcenter_air_ext MAE on BTF.trade_no = MAE.trade_no  AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
     		inner join trade_base BTB on BTB.trade_no = BTF.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    	WHERE
-    		BTF.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    	WHERE 1=1
     		
 			<include refid='findTradeFundBillForAir.where'/>
 			and not exists (select 1 from mcenter_creditpay MC where MC.trade_no = BTF.trade_no and MC.pay_success = 'Y')
