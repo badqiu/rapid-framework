@@ -19,6 +19,7 @@ public class GeneratorTestCase extends TestCase{
 	protected Generator g = new Generator();;
 	private static boolean notRunCreatedTabled = true;
 	public void setUp()throws Exception {
+	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty("gg.isOverride", "true");
 		

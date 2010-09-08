@@ -20,6 +20,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 		sql.setOperation("findByUsernameAndPassword");
 		sql.setRemarks("根据用户名及密码进行查询");
 		generatorFacade.generateBySql(sql, "generator/test/for_test_select_sql");
+		
 	}
 	
 }
