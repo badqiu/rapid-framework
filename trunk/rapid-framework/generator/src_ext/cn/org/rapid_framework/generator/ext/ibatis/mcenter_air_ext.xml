@@ -15,6 +15,12 @@
 	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
 	
+	<column name="count" javatype="long" />
+	<column name="bank_pay_online_id" javatype="long" />
+	<column name="iw_trans_log_id" javatype="long" />
+	<column name="buyer_type" javatype="int" />
+	<column name="seller_type" javatype="int" />
+	
 	<sql id="findTradeBaseForAir.where">
 	
 			<isEmpty property="direction">

@@ -15,6 +15,8 @@
 	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
 	
+	<column name="count" javatype="long" />
+	
 	<sql id="findAccountLog.where">
 		
     		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
