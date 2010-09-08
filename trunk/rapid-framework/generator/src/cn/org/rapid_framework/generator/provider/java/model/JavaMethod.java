@@ -73,7 +73,7 @@ public class JavaMethod {
 		Set<JavaClass> set = new LinkedHashSet<JavaClass>();
         JavaClass.addImportClass(set, method.getParameterTypes());
         JavaClass.addImportClass(set, method.getExceptionTypes());
-        JavaClass.addImportClass(set,method.getReturnType());
+        JavaClass.addImportClass(set, method.getReturnType());
         return set;
 	}
 	
