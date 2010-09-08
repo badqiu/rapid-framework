@@ -14,7 +14,6 @@ import java.util.Properties;
 
 import javax.swing.JOptionPane;
 
-import org.apache.commons.io.FileUtils;
 import org.xml.sax.InputSource;
 
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
@@ -230,7 +229,7 @@ public class GeneratorControl {
     
     public boolean outputFileMatchs(String regex) throws IOException {
         if(isExistsOutputFile()) {
-            String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+            String content = IOHelper.readFile(new File(outRoot,outputFile), sourceEncoding);
             if(StringHelper.indexOfByRegex(content, regex) >= 0) {
                 return true;
             }
@@ -240,7 +239,7 @@ public class GeneratorControl {
     
     public boolean outputFileContains(String s) throws IOException {
         if(isExistsOutputFile()) {
-            String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+            String content = IOHelper.readFile(new File(outRoot,outputFile), sourceEncoding);
             return content.contains(s);
         }
         return false;
@@ -252,25 +251,25 @@ public class GeneratorControl {
 	}
 	
 	public String insertAfter(String compareToken,String str) throws IOException {
-	    String content = FileUtils.readFileToString(new File(outRoot,outputFile).getAbsoluteFile(), sourceEncoding);
+	    String content = IOHelper.readFile(new File(outRoot,outputFile).getAbsoluteFile(), sourceEncoding);
 	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
         return StringHelper.insertAfter(content, compareToken, str);
 	}
 	
 	public String insertBefore(String compareToken,String str) throws IOException {
-	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    String content = IOHelper.readFile(new File(outRoot,outputFile), sourceEncoding);
 	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
         return StringHelper.insertBefore(content, compareToken, str);
 	}
 	
 	public String append(String str) throws IOException {
-	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    String content = IOHelper.readFile(new File(outRoot,outputFile), sourceEncoding);
 	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
 	    return new StringBuffer(content).append(str).toString();
 	}
 	
 	public String prepend(String str) throws IOException {
-	    String content = FileUtils.readFileToString(new File(outRoot,outputFile), sourceEncoding);
+	    String content = IOHelper.readFile(new File(outRoot,outputFile), sourceEncoding);
 	    if(StringHelper.isBlank(content)) throw new IllegalArgumentException(new File(outRoot,outputFile).getAbsolutePath()+" is blank");
 	    return new StringBuffer(content).insert(0,str).toString();
 	}
