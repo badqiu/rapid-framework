@@ -81,20 +81,17 @@ public class JavaClass {
        return set;
    }
 	
-    public static void addImportClass(Set<JavaClass> set, Class<?>... clazzes) {
+    public static void addImportClass(Set<JavaClass> set, Class... clazzes) {
+        if(clazzes == null) return;
     	for(Class c : clazzes) {
+    	    if(c == null) continue;
+    	    if(c.getName().startsWith("java.lang.")) continue;
+    	    if(c.isPrimitive()) continue;
+    	    if("void".equals(c.getName())) continue;
 	    	if(JavaImport.isNeedImport(c.getName())) {
 	    		set.add(new JavaClass(c));
 	    	}
     	}
-    }
-
-    private boolean addImportClass(Set<JavaClass> set, Class<?> clazz) {
-        if(clazz == null) return false;
-        if(clazz.getName().startsWith("java.lang.")) return false;
-        if(clazz.isPrimitive()) return false;
-        if("void".equals(clazz.getName())) return false;
-        return set.add(new JavaClass(clazz));
     }
 	
 	public String getSuperclassName() {
