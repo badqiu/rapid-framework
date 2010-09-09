@@ -29,16 +29,23 @@ public class ${clazz.className}Test{
     private Mockery  context = new JUnit4Mockery();
     
     protected ${genNewJavaTypeExpr(clazz,clazz.className?uncap_first)};
+
+    
+    //dependence class
+    <#list clazz.properties as prop>
+    <#if prop.hasWriteMethod && !prop.propertyType.primitive>
+        <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
+    ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
+        <#else>
+    ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)}
+        </#if>
+    </#if>
+    </#list>
     
     @Before
     public void setUp() throws Exception {
         <#list clazz.properties as prop>
         <#if prop.hasWriteMethod && !prop.propertyType.primitive>
-            <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
-        final ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
-            <#else>
-        final ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)}
-            </#if>
         ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
         </#if>
         </#list>
