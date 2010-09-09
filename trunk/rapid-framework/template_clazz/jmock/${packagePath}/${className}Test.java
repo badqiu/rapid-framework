@@ -68,7 +68,6 @@ public class ${clazz.className}Test{
             }
         });
                </#list>
-            
            </#if>
         </#list>
         
