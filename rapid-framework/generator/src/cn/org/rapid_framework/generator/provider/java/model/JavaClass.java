@@ -43,7 +43,7 @@ public class JavaClass {
 	    if(clazz.isInterface() || clazz.isAnnotation() || clazz.isEnum() || Modifier.isAbstract(clazz.getModifiers()))
 	        return false;
 	    for(Constructor c : clazz.getConstructors()) {
-	        if(c.isAccessible() && Modifier.isPublic(c.getModifiers())) {
+	        if(Modifier.isPublic(c.getModifiers())) {
 	            if(c.getParameterTypes().length == 0) {
 	                return true;
 	            }
