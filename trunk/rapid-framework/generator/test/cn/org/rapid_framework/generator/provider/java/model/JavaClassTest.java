@@ -19,6 +19,7 @@ public class JavaClassTest extends TestCase {
         assertFalse(c.isHasDefaultConstructor());
         
         assertFalse(c.isHasDefaultConstructor());
+        assertTrue(new JavaClass(Object.class).isHasDefaultConstructor());
     }
 	
 }
