@@ -1,0 +1,16 @@
+
+1. 在eclipse中增加avatar-gen要依赖的项目以便生成代码
+2. 修改生成器要生成package，直接修改代码: cn.org.rapid_framework.generator.GeneratorMain
+3. 以application方式运行GeneratorMain
+4. 为项目增加jmock的maven依赖
+	<dependency>
+	    <groupId>org.jmock</groupId>
+  		<artifactId>jmock</artifactId>
+  		<version>2.5.1</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.jmock</groupId>
+  		<artifactId>jmock-junit4</artifactId>
+  		<version>2.5.1</version>  		
+  	</dependency>
