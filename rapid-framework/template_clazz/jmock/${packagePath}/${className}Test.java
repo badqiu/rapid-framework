@@ -87,28 +87,44 @@ public class ${clazz.className}Test{
         
         <#if (method.returnType.className=="void")>
         ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name}<#if param_has_next>, </#if></#list>);
-        <#elseif (method.returnType.clazz.array)>
+        <#elseif (method.returnType.array)>
         ${method.returnType.simpleJavaType}[] result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
-        <#if method.returnType.booleanType>
-        assertTrue(result);
-        <#else>
-        assertNotNull(result);
-        </#if>
         <#else>
         ${method.returnType.simpleJavaType?replace("$", ".")} result = ${clazz.className?uncap_first}.${method.methodName}(<#list method.parameters as param>${param.name} <#if param_has_next>,</#if></#list>);
-        <#if method.returnType.booleanType>
-        assertTrue(result);
-        <#else>
-        assertNotNull(result);
-        </#if>
         </#if>
         
+        <@genJunitAssert method.returnType />
     }
     
     </#if>
     </#list>
     
 }
+<#macro genJunitAssert returnType>
+	<#if (returnType.className=="void")>
+		<#return>
+	</#if>
+	<#if returnType.booleanType>
+	assertTrue(result);
+	<#return>
+	</#if>
+	assertNotNull(result);
+	<#if (returnType.array)>
+	assertTrue("must be not empty",result.length > 0);
+	<#return>
+	</#if>
+	<#if (returnType.interface)>
+		<#if returnType?ends_with("java.util.List")>
+	assertFalse("must be not empty",result.isEmpty());
+		<#elseif returnType?ends_with("java.util.Map")>
+	assertFalse("must be not empty",result.isEmpty());
+		<#elseif returnType?ends_with("java.util.Queue")>
+	assertFalse("must be not empty",result.isEmpty());		
+		<#elseif returnType?ends_with("java.util.Set")>
+	assertFalse("must be not empty",result.isEmpty());		
+		</#if>
+	</#if>
+</#macro>
 
 <#function genNewJavaTypeExpr clazz varName>
     <#local result>
