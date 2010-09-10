@@ -28,7 +28,7 @@ public class ${clazz.className}Test{
 
     private Mockery  context = new JUnit4Mockery();
     
-    protected ${genNewJavaTypeExpr(clazz,clazz.className?uncap_first)};
+    protected ${genNewJavaTypeExpr(clazz,clazz.className?uncap_first)}
 
     
     //dependence class
