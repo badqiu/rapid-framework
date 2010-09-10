@@ -112,6 +112,13 @@ public class JavaMethod {
             return false;
         return true;
     }
+    
+    public boolean isPropertyMethod() {
+    	if(getMethodName().startsWith("set") || getMethodName().startsWith("get") || (getMethodName().startsWith("is") && getReturnType().isBooleanType())) {
+    		return true;
+    	}
+    	return false;
+    }
 
     public String toString() {
 		return "JavaClass:"+clazz+" JavaMethod:"+getMethodName();
