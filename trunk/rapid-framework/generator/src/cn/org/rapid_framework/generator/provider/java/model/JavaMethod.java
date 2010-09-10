@@ -45,6 +45,10 @@ public class JavaMethod {
 		return new JavaClass(method.getReturnType());
 	}
 
+	public boolean isArrayReturnType() {
+		return method.getReturnType().isArray();
+	}
+	
 	public Annotation[] getAnnotations() {
 		return method.getAnnotations();
 	}
