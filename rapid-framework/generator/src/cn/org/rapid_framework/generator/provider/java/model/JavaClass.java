@@ -119,6 +119,26 @@ public class JavaClass {
 		Method[] filtered = exclude(publicMethods,staticMethods).toArray(new Method[0]);
 		return toJavaMethods(filtered);
 	}
+
+	public JavaProperty[] getReadProperties() throws Exception {
+		List result = new ArrayList();
+		for(JavaProperty p : getProperties()) {
+			if(p.isHasReadMethod()) {
+				result.add(p);
+			}
+		}
+		return (JavaProperty[])result.toArray(new JavaProperty[0]);
+	}
+
+	public JavaProperty[] getWriteProperties() throws Exception {
+		List result = new ArrayList();
+		for(JavaProperty p : getProperties()) {
+			if(p.isHasWriteMethod()) {
+				result.add(p);
+			}
+		}
+		return (JavaProperty[])result.toArray(new JavaProperty[0]);
+	}
 	
 	public JavaProperty[] getProperties() throws Exception {
 		List<JavaProperty> result = new ArrayList<JavaProperty>();
