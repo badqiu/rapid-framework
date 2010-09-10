@@ -10,5 +10,25 @@ public class JavaMethodTest extends TestCase {
 		Method method = String.class.getMethod("valueOf",Object.class);
 		JavaMethod m = new JavaMethod(method,new JavaClass(String.class));
 		System.out.println(m.getParameters());
+		
+		assertFalse(m.isPropertyMethod());
+	}
+	
+	public void test_isPropertyMethod() throws Exception{
+		Method method = JavaMethod.class.getMethod("isSynthetic");
+		JavaMethod m = new JavaMethod(method,new JavaClass(JavaMethod.class));
+		System.out.println(m.getParameters());
+		
+		assertTrue(m.isPropertyMethod());
+		
+		method = JavaMethodTest.class.getMethod("isVoidMethod");
+		m = new JavaMethod(method,new JavaClass(JavaMethodTest.class));
+		System.out.println(m.getParameters());
+		
+		assertFalse(m.isPropertyMethod());
+	}
+	
+	public void isVoidMethod() {
+		
 	}
 }
