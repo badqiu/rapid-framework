@@ -1,6 +1,10 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Queue;
 
 import junit.framework.TestCase;
 
@@ -10,7 +14,6 @@ public class JavaMethodTest extends TestCase {
 		Method method = String.class.getMethod("valueOf",Object.class);
 		JavaMethod m = new JavaMethod(method,new JavaClass(String.class));
 		System.out.println(m.getParameters());
-		
 		assertFalse(m.isPropertyMethod());
 	}
 	
