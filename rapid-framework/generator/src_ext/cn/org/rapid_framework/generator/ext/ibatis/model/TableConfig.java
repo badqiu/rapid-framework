@@ -172,6 +172,7 @@ public class TableConfig {
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
                 String unescapeSqlString = StringHelper.unescapeXml(sqlString);
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
+                
                 Sql sql = sqlFactory.parseSql(namedSql);
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
                 sql.setParams(finalParameters);
