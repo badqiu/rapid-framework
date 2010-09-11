@@ -41,6 +41,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
     // 同时支持 <include refid="otherSql"/> <sql id=""></sql>
     public static String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
+        str = removeSelectKeyXmlForInsertSql(str);
         Pattern xmlTagRegex =  Pattern.compile("</?(\\w+)(.*?)>");
         StringBuffer sb = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
@@ -89,7 +90,12 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         return removeXMLCdata(sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE"));
     }
     
-    public static String removeComments(String str) {
+    private static String removeSelectKeyXmlForInsertSql(String str) {
+    	if(str == null) return null;
+    	return str.replaceAll("(?s)<selectKey.*?>.*</selectKey>","");
+	}
+
+	public static String removeComments(String str) {
         if(str == null) return null;
         str = str.replaceAll("(?s)<!--.*?-->", "").replaceAll("(?s)/\\*.*?\\*/", "").replace("query not allowed", "");
         return str;
