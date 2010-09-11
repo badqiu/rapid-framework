@@ -205,18 +205,25 @@ public class TableConfig {
         }
 
 		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<MetaParam> extraParams, Sql sql) {
-			LinkedHashSet<SqlParameter> finalParameters = new LinkedHashSet<SqlParameter>();
+			LinkedHashSet<SqlParameter> filterdExtraParameters = new LinkedHashSet<SqlParameter>();
 			for(MetaParam mparam : extraParams) {
 			    if(sql.getParam(mparam.getName()) == null) {
 			        SqlParameter extraparam = new SqlParameter();
 			        extraparam.setParameterClass(mparam.getJavatype());
 			        extraparam.setColumnAlias(mparam.getColumnAlias()); // FIXME extraparam alias 有可能为空
 			        extraparam.setParamName(mparam.getName());
-			        finalParameters.add(extraparam);
+			        filterdExtraParameters.add(extraparam);
 			    }
 			}
-			finalParameters.addAll(sql.getParams());
-			return finalParameters;
+			boolean append = false; //FIXME append = false config by system property: generator.extraParams.append = false;
+			if(append) {
+				LinkedHashSet result = new LinkedHashSet(sql.getParams());
+				result.addAll(filterdExtraParameters);
+				return result;
+			}else {
+				filterdExtraParameters.addAll(sql.getParams());
+				return filterdExtraParameters;
+			}
 		}        
 
 		private static String processSqlForMoneyParam(String ibatisSql,LinkedHashSet<SqlParameter> params) {
