@@ -9,8 +9,7 @@
   * 数据库: Mysql 5
   * JDK: 1.6
   * flash builder4 eclipse插件版本
-  * flex sdk 4.0
-  * author：随变混混 (qq:104104702) 
+  * flex sdk 4.0 
 =flex4+hibernate详细搭建介绍=
 优酷视频教程http://v.youku.com/v_show/id_XMTk5NTYwODcy.html 
 
