@@ -173,11 +173,16 @@ public class TableConfig {
                 String unescapeSqlString = StringHelper.unescapeXml(sqlString);
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
                 Sql sql = sqlFactory.parseSql(namedSql);
+                LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
+                sql.setParams(finalParameters);
+                
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
                     sql.setIbatis3Sql(op.getSqlmap());
                 }else {
-                    sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
+                    String ibatisSql = sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#"));
+                    ibatisSql = processSqlForMoneyParam(ibatisSql,sql.getParams());
+                    sql.setIbatisSql(ibatisSql);
                     sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
                 }
                 sql.setOperation(op.getName());
@@ -190,27 +195,38 @@ public class TableConfig {
                 sql.setSqlmap(op.getSqlmap());
                 sql.setParamType(op.getParamtype());
                 
-                LinkedHashSet<SqlParameter> finalParameters = new LinkedHashSet<SqlParameter>();
-                for(MetaParam mparam : op.extraparams) {
-                    if(sql.getParam(mparam.getName()) == null) {
-                        SqlParameter extraparam = new SqlParameter();
-                        extraparam.setParameterClass(mparam.getJavatype());
-                        extraparam.setColumnAlias(mparam.getColumnAlias()); // FIXME extraparam alias 有可能为空
-                        extraparam.setParamName(mparam.getName());
-                        finalParameters.add(extraparam);
-                    }
-                }
-                finalParameters.addAll(sql.getParams());
-                sql.setParams(finalParameters);
-                
                 sqls.add(sql);
                 }catch(Exception e) {
                     throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
                 }
             }
             return sqls;
-        }        
-        
+        }
+
+		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<MetaParam> extraParams, Sql sql) {
+			LinkedHashSet<SqlParameter> finalParameters = new LinkedHashSet<SqlParameter>();
+			for(MetaParam mparam : extraParams) {
+			    if(sql.getParam(mparam.getName()) == null) {
+			        SqlParameter extraparam = new SqlParameter();
+			        extraparam.setParameterClass(mparam.getJavatype());
+			        extraparam.setColumnAlias(mparam.getColumnAlias()); // FIXME extraparam alias 有可能为空
+			        extraparam.setParamName(mparam.getName());
+			        finalParameters.add(extraparam);
+			    }
+			}
+			finalParameters.addAll(sql.getParams());
+			return finalParameters;
+		}        
+
+		private static String processSqlForMoneyParam(String ibatisSql,LinkedHashSet<SqlParameter> params) {
+			for(SqlParameter p : params) {
+				if(p.getParameterClass().endsWith("Money")) {
+					ibatisSql = StringHelper.replace(ibatisSql, "#"+p.getParamName()+"#", "#"+p.getParamName()+".cent"+"#");
+				}
+			}
+			return ibatisSql;
+		}
+		
         private static Map<String, String> toMap(List<MetaSql> sql) {
             Map map = new HashMap();
             for(MetaSql s : sql) {
