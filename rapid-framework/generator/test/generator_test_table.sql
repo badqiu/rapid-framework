@@ -29,8 +29,8 @@ CREATE TABLE role (
 CREATE TABLE permission (
   permissoin_id bigint NOT NULL PRIMARY KEY,
   permision_name varchar(50) default NULL,
-  permision_desc bigint default NULL,
-  permision_string bigint default NULL,
+  permision_desc varchar(200) default NULL,
+  permision_string varchar(200) default NULL,
   created date NOT NULL,
   modified date NOT NULL
 );
