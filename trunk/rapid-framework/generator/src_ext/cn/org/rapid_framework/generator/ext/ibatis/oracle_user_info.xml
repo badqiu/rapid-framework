@@ -8,6 +8,8 @@
 		<extraparams>
 		    <param name="startRow" javatype="int"/>
 		    <param name="pageSize" javatype="int"/>
+		    <param name="userId" javatype="Money"/>
+		    <param name="username" javatype="Money"/>
 		</extraparams>	
 		<sql>
 				INSERT INTO user_info (user_id,username,password) values (?,#username#,#password#)
