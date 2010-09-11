@@ -181,9 +181,8 @@ public class TableConfig {
                     sql.setIbatisSql(op.getSqlmap());
                     sql.setIbatis3Sql(op.getSqlmap());
                 }else {
-                    String ibatisSql = sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#"));
-                    ibatisSql = processSqlForMoneyParam(ibatisSql,sql.getParams());
-                    sql.setIbatisSql(ibatisSql);
+                    sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
+                    sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
                     sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
                 }
                 sql.setOperation(op.getName());
