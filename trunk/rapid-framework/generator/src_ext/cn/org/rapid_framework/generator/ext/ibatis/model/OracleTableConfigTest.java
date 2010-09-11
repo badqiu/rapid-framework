@@ -13,6 +13,7 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class OracleTableConfigTest extends GeneratorTestCase {
     
@@ -52,6 +53,16 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     public void test_generate_by_sql() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/oracle_user_info.xml");
+        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        for(Sql sql : t.getSqls()) {
+            GeneratorModel gm = newFromSql(sql,t);
+            g.generateBy(gm.templateModel, gm.filePathModel);
+        }
+    }
+
+    public void test_generate_by_sql2() throws Exception {
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
@@ -105,5 +116,6 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     
     private static void setShareVars(Map templateModel) {
     	GeneratorModelUtils.setShareVars(templateModel);
+    	templateModel.put("StringHelper", new StringHelper());
     }
 }
