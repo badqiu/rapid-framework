@@ -151,7 +151,7 @@
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     	WHERE 
 			<include refid='findAccountLog.where'/>
-			order by TRANS_DT DESC
+			order by TRANS_DT DESC,IW_ACCOUNT_LOG_ID DESC
 		</sql>
     </operation>    
     
