@@ -6,8 +6,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import net.sf.log4jdbc.ConnectionSpy;
-
 /**
  * 
  * spring dataSource config:
@@ -85,6 +83,14 @@ public class DataSourceSpy implements DataSource{
 
     public void setLogWriter(PrintWriter out) throws SQLException {
         realDataSource.setLogWriter(out);
+    }
+
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return realDataSource.isWrapperFor(iface);
+    }
+
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return realDataSource.unwrap(iface);
     }
 
 }
