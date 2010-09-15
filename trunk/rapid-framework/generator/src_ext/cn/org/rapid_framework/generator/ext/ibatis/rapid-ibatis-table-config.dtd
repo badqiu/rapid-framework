@@ -3,11 +3,14 @@
 <!ELEMENT table (column* | resultmap* | operation* | sql*)+>
 <!ATTLIST table
 namespace CDATA #IMPLIED
-sqlname CDATA #IMPLIED
 remarks CDATA #IMPLIED
+sqlname CDATA #IMPLIED
 dummypk CDATA #IMPLIED
+package CDATA #IMPLIED
+subpackage CDATA #IMPLIED
 sequence CDATA #IMPLIED
 autoswitchdatasrc CDATA #IMPLIED
+doname CDATA #IMPLIED
 >
 
 <!ELEMENT column EMPTY>
