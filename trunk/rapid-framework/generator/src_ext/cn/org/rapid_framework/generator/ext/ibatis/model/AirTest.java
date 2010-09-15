@@ -13,12 +13,12 @@ import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
-import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class AirTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         GLogger.perf = true;
+        GLogger.logLevel = GLogger.DEBUG;
         System.setProperty("gg.isOverride", "true");
         System.setProperty("generator.sql.resultClass.suffix", "DO");
         
