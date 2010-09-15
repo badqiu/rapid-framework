@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
@@ -260,6 +261,24 @@ public class Sql {
 	    }
 	    this.sqlmap = sqlmap;
 	}
+	
+    public String getSqlmap(List<String> params) {
+        if (params == null || params.size() == 0) {
+            return sqlmap;
+        }
+
+        String result = sqlmap;
+
+        if (params.size() == 1) {
+            return StringHelper.replace(result, "${param1}", "value");
+        } else {
+            for (int i = 0; i < params.size(); i++) {
+                result = StringHelper.replace(result, "${param" + (i + 1) + "}", params.get(i));
+            }
+        }
+
+        return result;
+    }
 	
 	public boolean isHasSqlMap() {
 		return StringHelper.isNotBlank(sqlmap);
