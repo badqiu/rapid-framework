@@ -35,6 +35,7 @@ public class TableConfig {
     public String remarks;
     public List<MetaColumn> columns = new ArrayList();
     public List<MetaOperation> operations = new ArrayList<MetaOperation>();
+    public List<MetaResultMap> resultmaps = new ArrayList<MetaResultMap>();
     
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
@@ -78,6 +79,20 @@ public class TableConfig {
                 BeanHelper.copyProperties(target, child.attributes);
                 target.sql = child.innerXML;
                 config.includeSqls.add(target);
+            }
+            // table/resultmap
+            if("resultmap".equals(child.nodeName)) {
+                MetaResultMap target = new MetaResultMap();
+                BeanHelper.copyProperties(target, child.attributes);
+                // table/resultmap/column
+                for(NodeData c : child.childs) {
+                    if("column".equals(child.nodeName)) {
+                        MetaColumn column = new MetaColumn();
+                        BeanHelper.copyProperties(column, child.attributes);
+                        target.columns.add(column);
+                    }
+                }
+                config.resultmaps.add(target);
             }
         }
         return config;
@@ -348,6 +363,23 @@ public class TableConfig {
     }
 
     public static class MetaParam extends MetaColumn {
+    }
+
+    public static class MetaResultMap {
+        private String name;
+        private List<MetaColumn> columns = new ArrayList();
+        public String getName() {
+            return name;
+        }
+        public void setName(String name) {
+            this.name = name;
+        }
+        public List<MetaColumn> getColumns() {
+            return columns;
+        }
+        public void setColumns(List<MetaColumn> columns) {
+            this.columns = columns;
+        }
     }
     
     public static class MetaOperation {
