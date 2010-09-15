@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
 <table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
 	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<resultmap name="RM.BLOG">
+		<column javatype="int" name="rage"/>
+		<column javatype="long" name="rsex"/>
+		<column javatype="Long" name="rdiy"/>
+		<column javatype="String" name="abc_content"/>
+	</resultmap>
 	
 	<!-- 新增一条交易资金单据记录 -->
 	<operation name="insert" paramtype="object" >
@@ -281,5 +289,33 @@
 		</sql>
 	</operation>
 	
-	<sql id="columns"><![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]></sql>            			
+	<sql id="columns"><![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]></sql>    
+	
+	
+	<operation name="testRoleJoinRolePermissionJoinBlog" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    select * from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    </sql>
+    </operation>  
+    
+	<operation name="testRoleJoinRolePermissionJoinBlogWithCustomParam" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	group by role_id
+	    </sql>
+    </operation>        
+    
+       			
 </table>
