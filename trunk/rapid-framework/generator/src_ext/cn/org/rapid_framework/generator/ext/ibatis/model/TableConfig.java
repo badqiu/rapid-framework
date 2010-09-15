@@ -26,6 +26,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
 public class TableConfig {
@@ -351,12 +352,19 @@ public class TableConfig {
         public void setColumnAlias(String columnAlias) {
             this.columnAlias = columnAlias;
         }
-        public String getNullValue() {
-			return nullValue;
-		}
 		public void setNullValue(String nullValue) {
 			this.nullValue = nullValue;
 		}
+	    public String getNullValue() {
+	        if(StringHelper.isBlank(nullValue)) {
+	            return JavaPrimitiveTypeMapping.getDefaultValue(javatype);
+	        }else {
+	            return nullValue;
+	        }
+	    }
+	    public boolean isHasNullValue() {
+	        return JavaPrimitiveTypeMapping.getWrapperTypeOrNull(javatype) != null;
+	    }
 		public String toString() {
             return BeanHelper.describe(this).toString();
         }
