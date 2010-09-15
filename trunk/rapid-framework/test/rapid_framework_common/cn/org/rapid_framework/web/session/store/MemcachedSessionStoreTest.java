@@ -2,17 +2,20 @@ package cn.org.rapid_framework.web.session.store;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.util.ResourceUtils;
+
+import com.thimbleware.jmemcached.Cache;
+import com.thimbleware.jmemcached.MemCacheDaemon;
+import com.thimbleware.jmemcached.storage.hash.LRUCacheStorageDelegate;
 
 
 public class MemcachedSessionStoreTest {
@@ -23,9 +26,9 @@ public class MemcachedSessionStoreTest {
 	List<Process> process = new ArrayList();
 	@Before
 	public void setUp() throws Exception {
-		startMemcachedServer(11633);
-		startMemcachedServer(11933);
-		Thread.sleep(1000);
+        startMemcachedServer(11633);
+        startMemcachedServer(11933);
+        Thread.sleep(1000);
 		System.out.println("memcached started");
 		
 		sessionData.put("empty", "");
@@ -45,15 +48,28 @@ public class MemcachedSessionStoreTest {
 			System.out.println(" exit:"+p.exitValue());
 		}
 		Thread.sleep(1000);
+		for(MemCacheDaemon d : daemons) {
+		    d.stop();
+		}
 	}
-	
-	private void startMemcachedServer(int port) {
+
+
+	List<MemCacheDaemon> daemons = new ArrayList();
+	private void startMemcachedServer(int port) throws IOException {
 		try {
-			File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
-			String cmd = file.getAbsolutePath()+" -p "+port;
-			System.out.println("exec:"+cmd);
-			process.add(Runtime.getRuntime().exec(cmd));
-		}catch(Exception e) {
+	        LRUCacheStorageDelegate cacheStorage = new LRUCacheStorageDelegate(Integer.MAX_VALUE, Integer.MAX_VALUE, 1024000);
+	        MemCacheDaemon daemon = new MemCacheDaemon();
+	        daemon.setCache(new Cache(cacheStorage));
+	        daemon.setAddr(new InetSocketAddress(port));
+	        daemon.setIdleTime(1000 * 600);
+	        daemon.setVerbose(true);
+	        daemon.start();
+	        daemons.add(daemon);
+//			File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
+//			String cmd = file.getAbsolutePath()+" -p "+port;
+//			System.out.println("exec:"+cmd);
+//			process.add(Runtime.getRuntime().exec(cmd));
+		}catch(Error e) {
 			throw new IllegalStateException("start memcached error",e);
 		}
 	}
@@ -64,7 +80,7 @@ public class MemcachedSessionStoreTest {
 		Map map = store.getSession("123",100);
 		assertEquals(map.size(), 0);
 		
-		store.saveSession("123", sessionData,100);
+		store.saveSession("123", sessionData,1000);
 		
 		//test get
 		map = store.getSession("123",5);
