@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.typemapping.JavaImport;
 
 /**
  * 
@@ -71,9 +72,9 @@ public class JavaMethod {
 
 	public Set<JavaClass> getImportClasses() {
 		Set<JavaClass> set = new LinkedHashSet<JavaClass>();
-        JavaClass.addImportClass(set, method.getParameterTypes());
-        JavaClass.addImportClass(set, method.getExceptionTypes());
-//        JavaClass.addImportClass(set, method.getReturnType());
+        JavaImport.addImportClass(set,method.getParameterTypes());
+        JavaImport.addImportClass(set,method.getExceptionTypes());
+        JavaImport.addImportClass(set, method.getReturnType());
         return set;
 	}
 	

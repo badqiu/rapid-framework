@@ -56,19 +56,22 @@ public class JavaClass {
 	public Set<JavaClass> getImportClasses() {
 	    Set<JavaClass> set = new LinkedHashSet<JavaClass>();
 	    for(Method m :clazz.getMethods()) {
-	        addImportClass(set, m.getReturnType());
-	        addImportClass(set, m.getParameterTypes());
-	        addImportClass(set, m.getExceptionTypes());
+	        Class[] clazzes = { m.getReturnType() };
+            JavaImport.addImportClass(set,clazzes);
+	        JavaImport.addImportClass(set,m.getParameterTypes());
+	        JavaImport.addImportClass(set,m.getExceptionTypes());
 	    }
 	    if(clazz.isMemberClass()) {
-	        addImportClass(set, clazz);
+	        Class[] clazzes = { clazz };
+            JavaImport.addImportClass(set,clazzes);
 	    }
 	    for(Field f :clazz.getFields()) {
-            addImportClass(set, f.getType());
+            Class[] clazzes = { f.getType() };
+            JavaImport.addImportClass(set,clazzes);
         }
 	    for(Constructor c : clazz.getConstructors()) {
-	    	addImportClass(set, c.getExceptionTypes());
-	    	addImportClass(set, c.getParameterTypes());
+	    	JavaImport.addImportClass(set,c.getExceptionTypes());
+	    	JavaImport.addImportClass(set,c.getParameterTypes());
 	    }
 	    return set;
 	}
@@ -81,20 +84,7 @@ public class JavaClass {
        return set;
    }
 	
-    public static void addImportClass(Set<JavaClass> set, Class... clazzes) {
-        if(clazzes == null) return;
-    	for(Class c : clazzes) {
-    	    if(c == null) continue;
-    	    if(c.getName().startsWith("java.lang.")) continue;
-    	    if(c.isPrimitive()) continue;
-    	    if("void".equals(c.getName())) continue;
-	    	if(JavaImport.isNeedImport(c.getName())) {
-	    		set.add(new JavaClass(c));
-	    	}
-    	}
-    }
-	
-	public String getSuperclassName() {
+    public String getSuperclassName() {
 		return clazz.getSuperclass() != null ? clazz.getSuperclass().getName() : null;
 	}
 	
