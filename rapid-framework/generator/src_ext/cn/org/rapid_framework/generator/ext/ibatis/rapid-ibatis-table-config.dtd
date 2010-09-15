@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!ELEMENT table (column* | resultMap* | operation* | sql*)+>
+<!ELEMENT table (column* | resultmap* | operation* | sql*)+>
 <!ATTLIST table
 namespace CDATA #IMPLIED
 sqlname CDATA #IMPLIED
 remarks CDATA #IMPLIED
-dumpypk CDATA #IMPLIED
+dummypk CDATA #IMPLIED
 sequence CDATA #IMPLIED
+autoswitchdatasrc CDATA #IMPLIED
 >
 
 <!ELEMENT column EMPTY>
@@ -15,8 +16,8 @@ name CDATA #REQUIRED
 javatype CDATA #REQUIRED
 >
 
-<!ELEMENT resultMap (column)*>
-<!ATTLIST resultMap
+<!ELEMENT resultmap (column)*>
+<!ATTLIST resultmap
 name CDATA #REQUIRED
 >
 
