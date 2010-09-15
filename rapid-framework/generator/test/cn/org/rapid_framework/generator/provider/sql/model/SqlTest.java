@@ -30,6 +30,12 @@ public class SqlTest extends TestCase {
 	    assertTrue(newSql("update user_info set username = #username#,password = #password#").isUpdateSql());
 	}
 	
+	public void test_setSqlMap_and_replase_cdata() {
+	    Sql s = new Sql();
+	    s.setSqlmap("${cdata-start} 123 ${cdata-end}");
+	    assertEquals(s.getSqlmap(),"<![CDATA[ 123 ]]>");
+	}
+	
 	public void test_remove_table_prefix() {
 		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
 		Sql sql = new Sql();

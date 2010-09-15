@@ -254,7 +254,11 @@ public class Sql {
 	}
 
 	public void setSqlmap(String sqlmap) {
-		this.sqlmap = sqlmap;
+	    if(StringHelper.isNotBlank(sqlmap)) {
+	        sqlmap = StringHelper.replace(sqlmap, "${cdata-start}", "<![CDATA[");
+	        sqlmap = StringHelper.replace(sqlmap, "${cdata-end}", "]]>");
+	    }
+	    this.sqlmap = sqlmap;
 	}
 	
 	public boolean isHasSqlMap() {
