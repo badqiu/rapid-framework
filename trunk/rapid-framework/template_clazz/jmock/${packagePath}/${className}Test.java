@@ -1,5 +1,8 @@
 ${gg.setOverride(false)}
 ${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
+<#if clazz.mavenJavaTestSourceFile??>
+${gg.setOutputPath(clazz.mavenJavaTestSourceFile)}
+</#if>
 
 package ${clazz.packageName};
 
