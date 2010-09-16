@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -7,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import flex.messaging.io.ArrayList;
 
 
 public class ObjectUtilsTest {
