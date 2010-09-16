@@ -50,16 +50,16 @@ public class ColumnTest  extends TestCase{
 		assertEquals("Integer",newBigDecimal().getSimpleJavaType());
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "abc.badqiu.testJavaLongType");
-		assertEquals("abc.badqiu.testJavaLongType",newBigDecimal().getSimpleJavaType());
+		assertEquals("testJavaLongType",newBigDecimal().getSimpleJavaType());
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "org.badqiu.UserInfo");
-		assertEquals("org.badqiu.UserInfo",newBigDecimal().getSimpleJavaType());
+		assertEquals("UserInfo",newBigDecimal().getSimpleJavaType());
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "badboy");
 		assertEquals("badboy",newBigDecimal().getSimpleJavaType());
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "java.math.BigDecimal");
-		assertEquals("java.math.BigDecimal",newBigDecimal().getSimpleJavaType());
+		assertEquals("BigDecimal",newBigDecimal().getSimpleJavaType());
 	}
 	
 	public void test_getShortJavaType() {
@@ -69,7 +69,7 @@ public class ColumnTest  extends TestCase{
 
         GeneratorProperties.setProperty(
             "java_typemapping.java.math.BigDecimal", "org.badqiu.UserInfo");
-        assertEquals("org.badqiu.UserInfo", newBigDecimal().getSimpleJavaType());
+        assertEquals("UserInfo", newBigDecimal().getSimpleJavaType());
         assertEquals("UserInfo", newBigDecimal().getShortJavaType());
     }
 	

@@ -487,14 +487,14 @@ public class Column implements java.io.Serializable,Cloneable{
 	}
 
     /**
-     * 得到简短的java.lang.javaType,如java.lang.String将返回String,而非java.lang包的,将直接返回getJavaType()
+     * 得到简短的javaType的名称，如com.company.model.UserInfo,将返回 UserInfo
      * @return
      */
 	public String getSimpleJavaType() {
-		return StringHelper.removePrefix(getJavaType(), "java.lang.");
+		return StringHelper.getJavaClassSimpleName(getJavaType());
 	}
 	/**
-     * 得到javaType的名称，如com.company.model.UserInfo,将返回 UserInfo
+     * 得到简短的javaType的名称，如com.company.model.UserInfo,将返回 UserInfo
      * @return
      */
 	public String getShortJavaType() {
