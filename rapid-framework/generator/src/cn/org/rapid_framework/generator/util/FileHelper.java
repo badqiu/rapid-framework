@@ -71,6 +71,13 @@ public class FileHelper {
 		return result;
 	}
 
+    public static File parentMkdir(String file) {
+        if(file == null) throw new IllegalArgumentException("file must be not null");
+        File result = new File(file);
+        parnetMkdir(result);
+        return result;
+    }
+	   
 	public static void parnetMkdir(File outputFile) {
 		if(outputFile.getParentFile() != null) {
 			outputFile.getParentFile().mkdirs();
