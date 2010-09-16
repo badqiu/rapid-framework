@@ -22,4 +22,9 @@ public class JavaClassTest extends TestCase {
         assertTrue(new JavaClass(Object.class).isHasDefaultConstructor());
     }
 	
+	public void test_getMavenJavaTestSourceFile() {
+	    assertEquals("src/test/java/abc.java",JavaClass.getMavenJavaTestSourceFile("target/classes/abc.class"));
+	    assertEquals("c:/src/test/java/abc.java",JavaClass.getMavenJavaTestSourceFile("c:/target\\classes/abc.class"));
+	    assertEquals("c:/rapid/src/test/java/abc.java",JavaClass.getMavenJavaTestSourceFile("c:/rapid/target\\classes/abc.class"));
+	}
 }
