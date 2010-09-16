@@ -1,5 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,6 @@ import junit.framework.TestCase;
 
 import org.springframework.dao.DataAccessException;
 
-import flex.messaging.io.ArrayList;
 
 
 
