@@ -8,10 +8,14 @@
 
 =一.简单介绍=
 ==1.没有使用log4jdbc前sql显示:==
-{{{ select username,password from bitth_date > ? and age < ? and username = ?  }}}
+{{{ 
+select username,password from bitth_date > ? and age < ? and username = ?  
+}}}
 
 ==2.使用log4jdbc后sql显示:==
-{{{ select username,password from bitth_date > to_date(‘2010-11-11’,’yyyy-mm-dd’) and age < 20 and username = ‘qq2008’ {executed in 2 msec}  }}}
+{{{ 
+select username,password from bitth_date > to_date(‘2010-11-11’,’yyyy-mm-dd’) and age < 20 and username = ‘qq2008’ {executed in 2 msec} 
+}}}
 
 这样就可以直接拷贝上面的sql在PLSQL直接执行. 最后的 {executed in 2 msec} 为SQL执行时间.而如果mysql,日志信息将不会出现 to_date()
 
