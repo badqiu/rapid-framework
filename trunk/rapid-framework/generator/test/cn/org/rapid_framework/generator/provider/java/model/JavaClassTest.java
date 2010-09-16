@@ -8,6 +8,7 @@ public class JavaClassTest extends TestCase {
 
 	public void test() {
 		JavaClass c = new JavaClass(JavaClass.class);
+		System.out.println(c.getClassFile());
 		assertEquals(c.getClassName(),"JavaClass");
 		for(Method m : JavaClass.class.getMethods()) {
 			System.out.println(m.getDeclaringClass().getName());
@@ -20,6 +21,7 @@ public class JavaClassTest extends TestCase {
         
         assertFalse(c.isHasDefaultConstructor());
         assertTrue(new JavaClass(Object.class).isHasDefaultConstructor());
+        
     }
 	
 	public void test_getMavenJavaTestSourceFile() {
