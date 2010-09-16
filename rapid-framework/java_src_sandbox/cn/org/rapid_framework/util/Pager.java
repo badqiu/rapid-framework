@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class Pager<E> implements Page<E>{
+public class Pager<E> implements IPage<E>{
 	
     private int               pageSize;
     private int               pageNo;

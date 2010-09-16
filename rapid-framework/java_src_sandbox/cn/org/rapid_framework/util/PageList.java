@@ -15,7 +15,7 @@ import java.util.List;
  * 
  * @author badqiu
  */
-public class PageList<E> extends ArrayList<E> implements Page<E>,Serializable {
+public class PageList<E> extends ArrayList<E> implements IPage<E>,Serializable {
 
     private static final long serialVersionUID = 1412759446332294208L;
     private int               pageSize;
@@ -24,7 +24,7 @@ public class PageList<E> extends ArrayList<E> implements Page<E>,Serializable {
 
     public PageList() {}
     
-    public PageList(Collection<E> c,Page<E> page) {
+    public PageList(Collection<E> c,IPage<E> page) {
         super(c);
         this.pageSize = page.getPageSize();
         this.pageNo = page.getPageNo();
