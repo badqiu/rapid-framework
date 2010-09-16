@@ -168,9 +168,26 @@ public class JavaClass {
 	}
 
 	public String getJavaSourceFile() {
-	        return clazz.getName().replace('.', '/')+".java";
+        return clazz.getName().replace('.', '/')+".java";
 	}
-	
+
+	public String getMavenJavaTestSourceFile() {
+	    clazz.getResource("");
+	    String f = getClassFile();
+	    return getMavenJavaTestSourceFile(f);
+    }
+
+    public static String getMavenJavaTestSourceFile(String clazzFile) {
+        if(clazzFile == null) return null;
+        clazzFile = clazzFile.replace('\\', '/');
+        if(clazzFile.indexOf("target/classes") >= 0) {
+            String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
+    	    return StringHelper.replace(result, ".class", "Test.java");
+        }else {
+            return null;
+        }
+    }
+    
 	/**
 	 * 得到class是在那个classpath路径装载
 	 * @return
