@@ -30,6 +30,8 @@
     * 测试/项目构建
       * [rapid_junit 单元测试]
       * [cruisecontrol 持续集成]
+    * 日志
+      * [log4jdbc log4jdbc日志框架]
     * rapid工具类介绍(new)
       * [rapid_async_io 异步的IO]
       * [rapid_async_token AsyncToken替换Listener设计模式]
