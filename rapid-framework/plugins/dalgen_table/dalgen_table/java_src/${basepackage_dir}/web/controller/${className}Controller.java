@@ -25,99 +25,98 @@ import cn.org.rapid_framework.web.scope.Flash;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
-<#include "/java_imports.include">
 @Controller
 @RequestMapping("/${classNameLowerCase}")
 public class ${className}Controller {
-	//é»˜è®¤å¤šåˆ—æ’åº,example: username desc,createTime asc
-	protected static final String DEFAULT_SORT_COLUMNS = null; 
-	
-	private ${className}Manager ${classNameFirstLower}Manager;
-	
-	private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
-		
-	/** 
-	 * å¢åŠ setXXXX()æ–¹æ³•,springå°±å¯ä»¥é€šè¿‡autowireè‡ªåŠ¨è®¾ç½®å¯¹è±¡å±æ€§,æ³¨æ„å¤§å°å†™
-	 **/
-	public void set${className}Manager(${className}Manager manager) {
-		this.${classNameFirstLower}Manager = manager;
-	}
+    //Ä¬ÈÏ¶àÁĞÅÅĞò,example: username desc,createTime asc
+    protected static final String DEFAULT_SORT_COLUMNS = null; 
+    
+    private ${className}Manager ${classNameFirstLower}Manager;
+    
+    private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
+        
+    /** 
+     * Ôö¼ÓsetXXXX()·½·¨,spring¾Í¿ÉÒÔÍ¨¹ıautowire×Ô¶¯ÉèÖÃ¶ÔÏóÊôĞÔ,×¢Òâ´óĞ¡Ğ´
+     **/
+    public void set${className}Manager(${className}Manager manager) {
+        this.${classNameFirstLower}Manager = manager;
+    }
 
-	/**
-	 * å¢åŠ äº†@ModelAttributeçš„æ–¹æ³•å¯ä»¥åœ¨æœ¬controllerçš„æ–¹æ³•è°ƒç”¨å‰æ‰§è¡Œ,å¯ä»¥å­˜æ”¾ä¸€äº›å…±äº«å˜é‡,å¦‚æšä¸¾å€¼
-	 */
-	@ModelAttribute
-	public void init(ModelMap model) {
-		model.put("now", new java.sql.Timestamp(System.currentTimeMillis()));
-	}
-	
-	/** åˆ—è¡¨ */
-	@RequestMapping
-	public String index(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
-		Page page = this.${classNameFirstLower}Manager.findPage(query);
-		
-		model.addAllAttributes(toModelMap(page, query));
-		return "/${className?lower_case}/index";
-	}
-	
-	/** è¿›å…¥æ–°å¢ */
-	@RequestMapping(value="/new")
-	public String _new(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
-		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
-		return "/${classNameLowerCase}/new";
-	}
-	
-	/** æ˜¾ç¤º */
-	@RequestMapping(value="/{id}")
-	public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
-		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
-		return "/${classNameLowerCase}/show";
-	}
-	
-	/** ç¼–è¾‘ */
-	@RequestMapping(value="/{id}/edit")
-	public String edit(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
-		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
-		return "/${classNameLowerCase}/edit";
-	}
-	
-	/** ä¿å­˜æ–°å¢ */
-	@RequestMapping(method=RequestMethod.POST)
-	public String create(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
-		${classNameFirstLower}Manager.save(${classNameFirstLower});
-		Flash.current().success("åˆ›å»ºæˆåŠŸ"); //å­˜æ”¾åœ¨Flashä¸­çš„æ•°æ®,åœ¨ä¸‹ä¸€æ¬¡httpè¯·æ±‚ä¸­ä»ç„¶å¯ä»¥è¯»å–æ•°æ®,error()ç”¨äºæ˜¾ç¤ºé”™è¯¯æ¶ˆæ¯
-		return LIST_ACTION;
-	}
-	
-	/** ä¿å­˜æ›´æ–° */
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public String update(ModelMap model,@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
-		${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
-		bind(request,${classNameFirstLower});
-		${classNameFirstLower}Manager.update(${classNameFirstLower});
-		Flash.current().success("æ›´æ–°æˆåŠŸ");
-		return LIST_ACTION;
-	}
-	
-	/** åˆ é™¤ */
-	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
-	public String delete(ModelMap model,@PathVariable ${pkJavaType} id) {
-		${classNameFirstLower}Manager.removeById(id);
-		Flash.current().success("åˆ é™¤æˆåŠŸ");
-		return LIST_ACTION;
-	}
+    /**
+     * Ôö¼ÓÁË@ModelAttributeµÄ·½·¨¿ÉÒÔÔÚ±¾controllerµÄ·½·¨µ÷ÓÃÇ°Ö´ĞĞ,¿ÉÒÔ´æ·ÅÒ»Ğ©¹²Ïí±äÁ¿,ÈçÃ¶¾ÙÖµ
+     */
+    @ModelAttribute
+    public void init(ModelMap model) {
+        model.put("now", new java.sql.Timestamp(System.currentTimeMillis()));
+    }
+    
+    /** ÁĞ±í */
+    @RequestMapping
+    public String index(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
+        Page page = this.${classNameFirstLower}Manager.findPage(query);
+        
+        model.addAllAttributes(toModelMap(page, query));
+        return "/${className?lower_case}/index";
+    }
+    
+    /** ½øÈëĞÂÔö */
+    @RequestMapping(value="/new")
+    public String _new(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
+        model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+        return "/${classNameLowerCase}/new";
+    }
+    
+    /** ÏÔÊ¾ */
+    @RequestMapping(value="/{id}")
+    public String show(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
+        ${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
+        model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+        return "/${classNameLowerCase}/show";
+    }
+    
+    /** ±à¼­ */
+    @RequestMapping(value="/{id}/edit")
+    public String edit(ModelMap model,@PathVariable ${pkJavaType} id) throws Exception {
+        ${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
+        model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
+        return "/${classNameLowerCase}/edit";
+    }
+    
+    /** ±£´æĞÂÔö */
+    @RequestMapping(method=RequestMethod.POST)
+    public String create(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
+        ${classNameFirstLower}Manager.save(${classNameFirstLower});
+        Flash.current().success("´´½¨³É¹¦"); //´æ·ÅÔÚFlashÖĞµÄÊı¾İ,ÔÚÏÂÒ»´ÎhttpÇëÇóÖĞÈÔÈ»¿ÉÒÔ¶ÁÈ¡Êı¾İ,error()ÓÃÓÚÏÔÊ¾´íÎóÏûÏ¢
+        return LIST_ACTION;
+    }
+    
+    /** ±£´æ¸üĞÂ */
+    @RequestMapping(value="/{id}",method=RequestMethod.PUT)
+    public String update(ModelMap model,@PathVariable ${pkJavaType} id,HttpServletRequest request,HttpServletResponse response) throws Exception {
+        ${className} ${classNameFirstLower} = (${className})${classNameFirstLower}Manager.getById(id);
+        bind(request,${classNameFirstLower});
+        ${classNameFirstLower}Manager.update(${classNameFirstLower});
+        Flash.current().success("¸üĞÂ³É¹¦");
+        return LIST_ACTION;
+    }
+    
+    /** É¾³ı */
+    @RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+    public String delete(ModelMap model,@PathVariable ${pkJavaType} id) {
+        ${classNameFirstLower}Manager.removeById(id);
+        Flash.current().success("É¾³ı³É¹¦");
+        return LIST_ACTION;
+    }
 
-	/** æ‰¹é‡åˆ é™¤ */
-	@RequestMapping(method=RequestMethod.DELETE)
-	public String batchDelete(ModelMap model,@RequestParam("items") ${pkJavaType}[] items) {
-		for(int i = 0; i < items.length; i++) {
-			${classNameFirstLower}Manager.removeById(items[i]);
-		}
-		Flash.current().success("åˆ é™¤æˆåŠŸ");
-		return LIST_ACTION;
-	}
-	
+    /** ÅúÁ¿É¾³ı */
+    @RequestMapping(method=RequestMethod.DELETE)
+    public String batchDelete(ModelMap model,@RequestParam("items") ${pkJavaType}[] items) {
+        for(int i = 0; i < items.length; i++) {
+            ${classNameFirstLower}Manager.removeById(items[i]);
+        }
+        Flash.current().success("É¾³ı³É¹¦");
+        return LIST_ACTION;
+    }
+    
 }
 
