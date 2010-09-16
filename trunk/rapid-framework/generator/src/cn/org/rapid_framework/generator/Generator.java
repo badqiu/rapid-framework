@@ -206,9 +206,8 @@ public class Generator {
 				return;
 			}
 			
-            String outputFilepath = null;
             try {
-                outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
+                String outputFilepath = proceeForOutputFilepath(filePathModel,templateFile);
                 
                 initGeneratorControlProperties(srcFile,outputFilepath);
                 processTemplateForGeneratorControl(templateModel, templateFile);
@@ -218,11 +217,11 @@ public class Generator {
                     return;
                 }
                 
-                if(outputFilepath != null ) {
-                    generateNewFileOrInsertIntoFile(templateFile,outputFilepath, templateModel);
+                if(StringHelper.isNotBlank(gg.getOutputFile())) {
+                    generateNewFileOrInsertIntoFile(templateFile,gg.getOutputFile(), templateModel);
                 }
 			}catch(Exception e) {
-			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ outputFilepath+" cause:"+e, e);
+			    throw new RuntimeException("generate oucur error,templateFile is:" + templateFile+" => "+ gg.getOutputFile()+" cause:"+e, e);
 			}
 		}
 
@@ -235,8 +234,8 @@ public class Generator {
 	        initGeneratorControlProperties(srcFile,outputFilepath);
 	        gg.deleteGeneratedFile = true;
 	        processTemplateForGeneratorControl(templateModel, templateFile);
-	        GLogger.println("[delete file] file:"+new File(gg.getOutRoot(),outputFilepath).getAbsolutePath());
-	        new File(gg.getOutRoot(),outputFilepath).delete();
+	        GLogger.println("[delete file] file:"+new File(gg.getOutputFile()).getAbsolutePath());
+	        new File(gg.getOutputFile()).delete();
 	    }
 	    
 		private void initGeneratorControlProperties(File srcFile,String outputFile) throws SQLException {
@@ -294,7 +293,7 @@ public class Generator {
 			Template template = getFreeMarkerTemplate(templateFile);
 			template.setOutputEncoding(gg.getOutputEncoding());
 			
-			File absoluteOutputFilePath = FileHelper.mkdir(gg.getOutRoot(),outputFilepath);
+			File absoluteOutputFilePath = FileHelper.parentMkdir(outputFilepath);
 			if(absoluteOutputFilePath.exists()) {
 				StringWriter newFileContentCollector = new StringWriter();
 				if(GeneratorHelper.isFoundInsertLocation(gg,template, templateModel, absoluteOutputFilePath, newFileContentCollector)) {

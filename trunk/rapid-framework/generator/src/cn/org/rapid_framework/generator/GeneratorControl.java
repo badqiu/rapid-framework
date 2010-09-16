@@ -216,7 +216,11 @@ public class GeneratorControl {
 	}
 	
 	public String getOutputFile() {
-        return outputFile;
+	    if(outputFile != null && new File(outputFile).isAbsolute()) {
+	        return outputFile;
+	    }else {
+	        return new File(getOutRoot(),outputFile).getAbsolutePath();
+	    }
     }
 	
     public void setOutputFile(String outputFile) {
