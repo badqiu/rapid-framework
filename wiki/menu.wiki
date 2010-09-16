@@ -14,13 +14,13 @@
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
     * [rapid_ant ant脚本]
     * [rapid_generator 代码生成器rapid-generator(new)]
-    * view层(new)
+    * view层
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
       * [rapid_freemarker_extends freemarker实现模板继承]
       * [rapid_velocity_extends velocity实现模板继承]
       * [rapid_pipeline freemarker,velocity模板管道操作]
-      * [rapid_http_include 为velocity,freemarker提供jsp:include功能(new)]
+      * [rapid_http_include 为velocity,freemarker提供jsp:include功能]
     * dao层介绍
       * [rapid_transaction spring事务]
       * [rapid_dialect jdbc分页方言]
@@ -30,13 +30,13 @@
     * 测试/项目构建
       * [rapid_junit 单元测试]
       * [cruisecontrol 持续集成]
-    * 日志
-      * [log4jdbc log4jdbc日志框架]
-    * rapid工具类介绍(new)
+    * 日志(new)
+      * [log4jdbc log4jdbc日志框架(new)]
+    * rapid工具类介绍
       * [rapid_async_io 异步的IO]
       * [rapid_async_token AsyncToken替换Listener设计模式]
       * [rapid_utils 其它工具类介绍]
-      * [rapid_utils_holders holder模式(new)]
+      * [rapid_utils_holders holder模式]
     * flex
       * [flex_cairngorm_overview Flex概述]
       * [rapid_flex_blazeds Flex BlazeDs与spring集成]
