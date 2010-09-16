@@ -1,3 +1,5 @@
+<wiki:toc max_depth="2" />
+
 = log4jdbc日志框架介绍=
 
  
