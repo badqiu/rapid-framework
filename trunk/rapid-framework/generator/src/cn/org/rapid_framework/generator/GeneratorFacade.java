@@ -20,7 +20,6 @@ import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
-import cn.org.rapid_framework.generator.util.typemapping.DatabaseTypeUtils;
 /**
  * 
  * @author badqiu
@@ -108,39 +107,33 @@ public class GeneratorFacade {
     }
     
     public class ProcessUtils {
+        
     	public void processByMap(Map params, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
 			Generator g = getGenerator(templateRootDir);
 			GeneratorModel m = GeneratorModelUtils.newFromMap(params);
-			try {
-				if(isDelete)
-					g.deleteBy(m.templateModel, m.filePathModel);
-				else
-					g.generateBy(m.templateModel, m.filePathModel);
-			}catch(GeneratorException ge) {
-				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
-			}
+			processByGeneratorModel(templateRootDir, isDelete, g, m);
     	}
     	
     	public void processBySql(Sql sql,String templateRootDir,boolean isDelete) throws Exception {
     		Generator g = getGenerator(templateRootDir);
     		GeneratorModel m = GeneratorModelUtils.newFromSql(sql);
     		PrintUtils.printBeginProcess("sql:"+sql.getSourceSql(),isDelete);
-    		try {
-    			if(isDelete) {
-    				g.deleteBy(m.templateModel, m.filePathModel);
-    			}else {
-    				g.generateBy(m.templateModel, m.filePathModel);
-    			}
-    		}catch(GeneratorException ge) {
-    			PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
-    		}
+    		processByGeneratorModel(templateRootDir,isDelete,g,m);
     	}   
     	
     	public void processByClass(Class clazz, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
 			Generator g = getGenerator(templateRootDir);
 			GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
 			PrintUtils.printBeginProcess("JavaClass:"+clazz.getSimpleName(),isDelete);
-			try {
+			processByGeneratorModel(templateRootDir, isDelete, g, m);
+    	}
+
+        private void processByGeneratorModel(String templateRootDir,
+                                             boolean isDelete, Generator g,
+                                             GeneratorModel m)
+                                                              throws Exception,
+                                                              FileNotFoundException {
+            try {
 				if(isDelete)
 					g.deleteBy(m.templateModel, m.filePathModel);
 				else
@@ -148,7 +141,7 @@ public class GeneratorFacade {
 			}catch(GeneratorException ge) {
 				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
 			}
-    	}
+        }
     	
         public void processByTable(String tableName,String templateRootDir,boolean isDelete) throws Exception {
         	if("*".equals(tableName)) {
