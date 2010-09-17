@@ -20,10 +20,15 @@ public class Table implements java.io.Serializable,Cloneable {
 	String sqlName;
 	String remarks;
 	String className;
+	
 	/** the name of the owner of the synonym if this table is a synonym */
 	private String ownerSynonymName = null;
+	/** real table name for oracle SYNONYM */
+	private String tableSynonymName = null; 
+	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	List<Column> primaryKeyColumns = new ArrayList<Column>();
+	
 	
 	public Table() {}
 	
@@ -51,7 +56,13 @@ public class Table implements java.io.Serializable,Cloneable {
 	public void setOwnerSynonymName(String ownerSynonymName) {
 		this.ownerSynonymName = ownerSynonymName;
 	}
-	
+	public String getTableSynonymName() {
+		return tableSynonymName;
+	}
+	public void setTableSynonymName(String tableSynonymName) {
+		this.tableSynonymName = tableSynonymName;
+	}
+
 	/** 使用 getPkColumns() 替换*/
 	@Deprecated
 	public List<Column> getPrimaryKeyColumns() {
