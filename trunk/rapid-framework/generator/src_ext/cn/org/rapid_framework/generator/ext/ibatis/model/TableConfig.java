@@ -183,7 +183,7 @@ public class TableConfig {
             List<Sql> sqls = new ArrayList<Sql>();
             for(MetaOperation op :table.getOperations()) {
                 try {
-                SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table),getCustomColumns(table));
+                SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table));
 //                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
                 String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
                 String unescapeSqlString = StringHelper.unescapeXml(sqlString);
@@ -192,6 +192,7 @@ public class TableConfig {
                 Sql sql = sqlFactory.parseSql(namedSql);
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
                 sql.setParams(finalParameters);
+                sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
                 
                 if(StringHelper.isNotBlank(op.getSqlmap())) {
                     sql.setIbatisSql(op.getSqlmap());
@@ -217,6 +218,25 @@ public class TableConfig {
                 }
             }
             return sqls;
+        }
+
+		private static LinkedHashSet<Column> processWithCustomColumns(List<Column> customColumns,LinkedHashSet<Column> columns) {
+			for(Column c : columns) {
+				Column custom = findByCustomColumnBySqlName(customColumns,c.getSqlName());
+				if(custom != null) {
+					c.setJavaType(custom.getJavaType());
+				}
+			}
+			return columns;
+		}
+		
+		private static Column findByCustomColumnBySqlName(List<Column> customColumns,String sqlName) {
+            for(Column custom : customColumns) {
+                if(custom.getSqlName().equalsIgnoreCase(sqlName)) {
+                    return custom;
+                }
+            }
+            return null;
         }
 
 		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<MetaParam> extraParams, Sql sql) {
