@@ -181,7 +181,39 @@
 		]]>
 		</sql>
     </operation>
-	
+
+    <operation name="findPageWithNoCdata" paging="true" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    	<sql>
+    	SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = ?
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = ?
+		       </isNotEmpty>
+	    </dynamic>
+	    <isNotEmpty prepend="ORDER BY" property="orderBy">
+		      #orderBy#
+		</isNotEmpty>
+		</sql>
+    </operation>
+    	
 	<operation name="getByUsername" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
 		<sql>
 	    <![CDATA[

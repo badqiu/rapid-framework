@@ -317,5 +317,17 @@
 	    </sql>
     </operation>        
     
-       			
+	<operation name="testGroupByPaging"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	group by role_id
+	    </sql>
+    </operation>       			
 </table>
