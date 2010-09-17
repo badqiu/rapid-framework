@@ -212,9 +212,10 @@ public class SqlParseHelperTest extends TestCase{
 	    assertEquals(t,"SexEnum");
 	}
 	
-	public void test_to() {
+	public void test_toCountSqlForPaging() {
 	    assertEquals("  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("  select user from info", "select count(*) "));
 	    assertEquals("<!--  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("<!--  select user from info", "select count(*) "));
+	    assertEquals("select count(*)  from (select user,max(user),min(user),count(user) from info group by user having count(user) > 0 ) forGroupByCountTable",SqlParseHelper.toCountSqlForPaging("select user,max(user),min(user),count(user) from info group by user having count(user) > 0", "select count(*) "));
 	}
 	
 }
