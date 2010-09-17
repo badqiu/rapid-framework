@@ -294,7 +294,8 @@ public class SqlParseHelper {
 	}
 	
     public static String toCountSqlForPaging(String sql,String countQueryPrefix) {
-        if(StringHelper.indexOfByRegex(sql, "\\sgroup\\s+by\\s") >= 0) {
+        if(StringHelper.isBlank(sql)) throw new IllegalArgumentException("sql must be not empty");
+        if(StringHelper.indexOfByRegex(sql.toLowerCase(), "\\sgroup\\s+by\\s") >= 0) {
             return "select count(*) from (" +toNoramlCountSqlForPaging(sql, countQueryPrefix) + " ) forGroupCountTable";
         }else {
             return toNoramlCountSqlForPaging(sql, countQueryPrefix);
