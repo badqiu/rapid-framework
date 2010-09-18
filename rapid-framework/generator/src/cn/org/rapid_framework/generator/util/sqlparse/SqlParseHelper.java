@@ -355,6 +355,10 @@ public class SqlParseHelper {
 		return sql.substring(fromBegin+" from ".length(),fromEnd);
 	}
 
+	public static String removeSqlComments(String sql) {
+		if(sql == null) return null;
+		return sql.replaceAll("(?s)/\\*.*?\\*/", "").replaceAll("--.*", "");
+	}
 	
     /**
      * 去除orderby 子句

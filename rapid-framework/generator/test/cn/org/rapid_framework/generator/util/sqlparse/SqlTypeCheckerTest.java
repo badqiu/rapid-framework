@@ -37,6 +37,18 @@ public class SqlTypeCheckerTest{
         
         result = sqlTypeChecker.isSelectSql("/** abc 123 */ select * from hibernate" );
         assertTrue(result);
+        
+        result = sqlTypeChecker.isSelectSql("/** abc 123 */ select * from hibernate /* abc */" );
+        assertTrue(result);
+        
+        result = sqlTypeChecker.isSelectSql("select * from hibernate --hibernate" );
+        assertTrue(result);
+        
+        result = sqlTypeChecker.isSelectSql("--select * from hibernate --hibernate" );
+        assertFalse(result);
+        
+        result = sqlTypeChecker.isSelectSql("/*select * from hibernate */" );
+        assertFalse(result);
     }
     
     @Test
