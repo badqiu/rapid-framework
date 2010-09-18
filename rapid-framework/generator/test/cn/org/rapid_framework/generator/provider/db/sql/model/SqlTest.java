@@ -97,16 +97,18 @@ public class SqlTest extends GeneratorTestCase {
 	
 	/** 测试聚集函数colum名称自动转换,示例转换 count(*) => count, max(age) => max_age, sum(income) => sum_income */
 	public void test_intergate_function_name_convert() {
-	    sql = new SqlFactory().parseSql("select count(*), count(username),max(password),min(password),avg(sex) from user_info");
-        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("Count"));
-        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("CountUsername"));
-        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("MaxPassword"));
-        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("MinPassword"));
-        assertNotNull(sql.getColumns().toString(),getColumnByColumnName("AvgSex"));
+	    sql = new SqlFactory().parseSql("select count(*) cnt, count(username),max(password),min(password),avg(sex) from user_info");
+        String msg = sql.getColumns().toString();
+		assertNotNull(msg,getColumnByColumnName("Cnt"));
+        assertNotNull(msg,getColumnByColumnName("C2"));
+        assertNotNull(msg,getColumnByColumnName("C3"));
+        assertNotNull(msg,getColumnByColumnName("C4"));
+        assertNotNull(msg,getColumnByColumnName("C5"));
 	}
 
     private Column getColumnByColumnName(String name) {
         for(Column c : sql.getColumns()) {
+        	System.out.println(c.getColumnName());
             if(c.getColumnName().equals(name)) {
                 return c;
             }
