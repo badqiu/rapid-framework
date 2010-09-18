@@ -18,6 +18,7 @@ public class SqlParameter extends Column {
     	public SqlParameter() {}
 
         public SqlParameter(Column param) {
+        	super(param);
             BeanHelper.copyProperties(this, param);
         }
         
