@@ -7,7 +7,7 @@ public class JavaPrimitiveTypeMappingTest extends TestCase {
 	public void test_getPrimitiveType_getWrapperType() {
 		assertEquals("int",JavaPrimitiveTypeMapping.getPrimitiveType("java.lang.Integer"));
 		assertEquals("short",JavaPrimitiveTypeMapping.getPrimitiveType("java.lang.Short"));
-		assertEquals("Integer",JavaPrimitiveTypeMapping.getPrimitiveType("Integer"));
+		assertEquals("int",JavaPrimitiveTypeMapping.getPrimitiveType("Integer"));
 		
 		assertEquals(null,JavaPrimitiveTypeMapping.getPrimitiveType(null));
 		assertEquals("int",JavaPrimitiveTypeMapping.getPrimitiveType("int"));
