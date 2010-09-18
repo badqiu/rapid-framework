@@ -104,6 +104,7 @@ public class Column implements java.io.Serializable,Cloneable{
 			String sqlName, int size, int decimalDigits, boolean isPk,
 			boolean isNullable, boolean isIndexed, boolean isUnique,
 			String defaultValue,String remarks) {
+		if(sqlName == null) throw new NullPointerException();
 		_table = table;
 		_sqlType = sqlType;
 		_sqlName = sqlName;
@@ -126,7 +127,7 @@ public class Column implements java.io.Serializable,Cloneable{
         this(c.getTable(),
            c.getSqlType(),
            c.getSqlTypeName(),
-           c.getColumnName(),
+           c.getSqlName(),
            c.getSize(),
            c.getDecimalDigits(),
            c.isPk(),
@@ -191,6 +192,7 @@ public class Column implements java.io.Serializable,Cloneable{
 	 * @return The SqlName value
 	 */
 	public String getSqlName() {
+		if(_sqlName == null) throw new NullPointerException();
 		return _sqlName;
 	}
 
