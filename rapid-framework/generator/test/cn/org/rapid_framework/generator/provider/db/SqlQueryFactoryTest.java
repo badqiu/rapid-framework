@@ -90,9 +90,9 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_delete_myisam_user_sql() throws Exception {
-		DataSourceProvider.getConnection().close();
-		GeneratorProperties.reload();
-		Sql selectSql  = new SqlFactory().parseSql("delete from myisam_user ");
+//		DataSourceProvider.getConnection().close();
+//		GeneratorProperties.reload();
+		Sql selectSql  = new SqlFactory().parseSql("delete from user_info ");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
 	}
@@ -152,12 +152,20 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	
 	public void test_isMatchListParam() {
 		SqlParametersParser sqlParametersParser = new SqlFactory().new SqlParametersParser();
-        assertTrue(sqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
-		assertTrue(sqlParametersParser.isMatchListParam("  (&username) ", "username"));
-		assertTrue(sqlParametersParser.isMatchListParam("  (#username#) ", "username"));
-		assertTrue(sqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
-		assertTrue(sqlParametersParser.isMatchListParam("  ($username$) ", "username"));
-		assertTrue(sqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  (&username) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  (#username#) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  ($username$) ", "username"));
+        assertFalse(sqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+        
+        assertTrue(sqlParametersParser.isMatchListParam(" in \n (:username) ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam(" not in (&username) ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam(" not in (#username#) ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam(" in \n (#{username}) ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  not \n in ($username$) ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam(" not \n in \n (${username}) ", "username"));
+        
 		assertTrue(sqlParametersParser.isMatchListParam("  #username[]# ", "username"));
 		assertTrue(sqlParametersParser.isMatchListParam("  $username[]$ ", "username"));
 		assertTrue(sqlParametersParser.isMatchListParam("  #user[].age# ", "user"));
