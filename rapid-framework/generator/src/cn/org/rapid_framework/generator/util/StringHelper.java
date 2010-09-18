@@ -243,6 +243,11 @@ public class StringHelper {
 		return inString;
 	}
 	
+	public static void appendReplacement(Matcher m,StringBuffer sb, String replacement) {
+		replacement = StringHelper.replace(replacement, "$", "\\$");
+		m.appendReplacement(sb, replacement);
+	}
+	
 	public static String replace(String inString, String oldPattern, String newPattern) {
 		if (inString == null) {
 			return null;

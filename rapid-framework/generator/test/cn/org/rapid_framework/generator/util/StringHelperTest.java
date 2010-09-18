@@ -1,5 +1,8 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import junit.framework.TestCase;
 /**
  * @author badqiu
@@ -192,6 +195,24 @@ public class StringHelperTest extends TestCase {
 	
 	public void test_insertBefore() {
 	    assertEquals("1 2 3 \n 4 abc5 6",StringHelper.insertBefore("1 2 3 \n 4 5 6", "5", "abc"));
+	}
+	
+	public void test_appendReplacement() {
+		Pattern p = Pattern.compile("(\\d+)(\\w+)");
+		Matcher m = p.matcher("jjj123www");
+		m.find();
+		StringBuffer sb = new StringBuffer();
+		m.appendReplacement(sb, "|$2|");
+		assertEquals("jjj|www|",sb.toString());
+	}
+
+	public void test_appendReplacement_with_escape_doler_char() {
+		Pattern p = Pattern.compile("(\\d+)(\\w+)");
+		Matcher m = p.matcher("jjj123www");
+		m.find();
+		StringBuffer sb = new StringBuffer();
+		StringHelper.appendReplacement(m,sb, "|$2|");
+		assertEquals("jjj|$2|",sb.toString());
 	}
 	
 	public void test_remove_crlf() {
