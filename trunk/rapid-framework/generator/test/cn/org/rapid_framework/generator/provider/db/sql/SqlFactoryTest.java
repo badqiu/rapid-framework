@@ -68,7 +68,7 @@ public class SqlFactoryTest extends TestCase {
 	}
 
 	public void test_join() throws SQLException, Exception {
-		Sql sql = parser.parseSql("select DISTINCT t1.username from user_info t1 inner join user_info t2 on t1.user_id=t2.user_id where t1.user_id = ? and t1.age = ? and t1.password = ? and t1.username like ? or (t1.sex >= ?) group by username");
+		Sql sql = parser.parseSql("select DISTINCT t1.username from user_info t1 inner join user_info t2 on t1.user_id=t2.user_id where t1.user_id = ? and t1.age = ? and t1.password = ? and t1.username like ? or (t1.sex >= ?) group by t1.username");
 		verifyParameters(sql,"userId","username","password","age","sex");
 		verifyColumns(sql,"username");
 	}
