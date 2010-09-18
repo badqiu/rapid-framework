@@ -35,7 +35,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	public Table(Table t) {
 		setSqlName(t.getSqlName());
 		this.remarks = t.getRemarks();
-		this.className = t.getSqlName();
+		this.className = t.getClassName();
 		this.ownerSynonymName = t.getOwnerSynonymName();
 		this.columns = t.getColumns();
 		this.primaryKeyColumns = t.getPrimaryKeyColumns();
@@ -113,9 +113,10 @@ public class Table implements java.io.Serializable,Cloneable {
 	public String getClassName() {
 	    if(StringHelper.isBlank(className)) {
 	        String removedPrefixSqlName = removeTableSqlNamePrefix(sqlName);
-	        className = StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
+	        return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
+	    }else {
+	    	return className;
 	    }
-		return className;
 	}
 	/** 数据库中表的别名，等价于:  getRemarks().isEmpty() ? getClassName() : getRemarks() */
 	public String getTableAlias() {
