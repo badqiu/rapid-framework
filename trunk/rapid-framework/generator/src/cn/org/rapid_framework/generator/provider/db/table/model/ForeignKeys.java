@@ -13,7 +13,7 @@ import cn.org.rapid_framework.generator.util.ListHashtable;
  * and also a Hashtable of foreign keys for each table 
  * 
  */
-public class ForeignKeys  {
+public class ForeignKeys  implements java.io.Serializable{
 	
 	protected Table parentTable;  //宿主表
 	protected ListHashtable associatedTables;

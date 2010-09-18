@@ -15,7 +15,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  * @author chris
  *
  */
-public class ForeignKey {
+public class ForeignKey implements java.io.Serializable{
 
 	
 	protected String   relationShip   = null;
@@ -213,7 +213,7 @@ public class ForeignKey {
 	 * @author badqiu
 	 *
 	 */
-	public static class ReferenceKey {
+	public static class ReferenceKey implements java.io.Serializable{
 		public String schemaName;
 		public String tableName;
 		public String columnSqlName;
