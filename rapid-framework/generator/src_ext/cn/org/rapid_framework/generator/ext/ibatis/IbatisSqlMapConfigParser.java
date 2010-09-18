@@ -42,7 +42,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
     public static String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
         str = removeSelectKeyXmlForInsertSql(str);
-        Pattern xmlTagRegex =  Pattern.compile("</?(\\w+)(.*?)>");
+        Pattern xmlTagRegex =  Pattern.compile("<(/?\\w+)(.*?)>");
         StringBuffer sb = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
         
@@ -53,29 +53,40 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             String attributesString = m.group(2);
             
             Map<String,String> attributes = XMLHelper.parse2Attributes(attributesString);
-            //process <include refid="otherSql"/>
+            
             if("include".equals(xmlTag.trim())) {
-                String refid = attributes.get("refid");
-                if(refid == null) {
-                	 m.appendReplacement(sb, "");
-                	 continue;
-                }
-                String includeValue = includeSqls.get(refid);
-                if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
-                m.appendReplacement(sb, parse(includeValue,includeSqls));
+                processIncludeByRefid(includeSqls, sb, m, attributes);
                 continue;
+            }
+            
+            // mybatis <where>
+            if("where".equals(xmlTag.trim())) {
+            	sb.append("where");
+            }
+            // mybatis <set>
+            if("set".equals(xmlTag.trim())) {
+            	sb.append("set");
+            }
+            // mybatis <foreach>
+            if("foreach".equals(xmlTag.trim())) {
+//            	m.appendReplacement(sb, "set"); //FIXME for foreach
+            }
+            // mybatis <trim prefix="" suffix="" prefixOverrides="" suffixOverrides=""></trim>
+            if("trim".equals(xmlTag.trim())) {
+            	attributes.put("open", attributes.get("prefix"));
+            	attributes.put("close", attributes.get("suffix")); //FIXME for prefixOverrides,suffixOverrides
             }
             
             String prepend = attributes.get("prepend");
             
             open = attributes.get("open");
             if(prepend != null) {
-                m.appendReplacement(sb, " "+prepend+" "+StringHelper.defaultString(open));
+            	StringHelper.appendReplacement(m, sb, (" "+prepend+" "+StringHelper.defaultString(open)));
             }else {
                 if (StringHelper.isEmpty(open)) {
                     m.appendReplacement(sb, "");
                 } else {
-                    m.appendReplacement(sb, " " + open);
+                	StringHelper.appendReplacement(m, sb, (" " + open));
                 }
             }
             if(close != null) {
@@ -85,12 +96,24 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             open = null;
             close = attributes.get("close");
             
-            
         }
         return removeXMLCdata(sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE"));
     }
     
-    private static String removeSelectKeyXmlForInsertSql(String str) {
+    //process <include refid="otherSql"/>
+	private static void processIncludeByRefid(Map<String, String> includeSqls,
+			StringBuffer sb, Matcher m, Map<String, String> attributes) {
+		String refid = attributes.get("refid");
+		if(refid == null) {
+			 m.appendReplacement(sb, "");
+		}else {
+		    String includeValue = includeSqls.get(refid);
+		    if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
+		    StringHelper.appendReplacement(m, sb, parse(includeValue,includeSqls));
+		}
+	}
+	
+	private static String removeSelectKeyXmlForInsertSql(String str) {
     	if(str == null) return null;
     	return str.replaceAll("(?s)<selectKey.*?>.*</selectKey>","");
 	}
