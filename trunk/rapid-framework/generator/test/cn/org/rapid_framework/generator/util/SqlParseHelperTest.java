@@ -218,4 +218,8 @@ public class SqlParseHelperTest extends TestCase{
 	    assertEquals("select count(*)  from (select user,max(user),min(user),count(user) from info group by user having count(user) > 0 ) forGroupByCountTable",SqlParseHelper.toCountSqlForPaging("select user,max(user),min(user),count(user) from info group by user having count(user) > 0", "select count(*) "));
 	}
 	
+	public void test_removeSqlComments() {
+		assertEquals("select * from user ",SqlParseHelper.removeSqlComments("/*123*/select * from user /*diy\nabc*/"));
+		assertEquals("select * from user \n;abc",SqlParseHelper.removeSqlComments("/*123*/select * from user --diy\n;abc"));
+	}
 }
