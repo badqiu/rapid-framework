@@ -46,12 +46,10 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         StringBuffer sb = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
         
-        String open = null;
         String close = null;
         while(m.find()) {
             String xmlTag = m.group(1);
             String attributesString = m.group(2);
-            
             Map<String,String> attributes = XMLHelper.parse2Attributes(attributesString);
             
             if("include".equals(xmlTag.trim())) {
@@ -59,46 +57,53 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
                 continue;
             }
             
-            // mybatis <where>
-            if("where".equals(xmlTag.trim())) {
-            	sb.append("where");
-            }
-            // mybatis <set>
-            if("set".equals(xmlTag.trim())) {
-            	sb.append("set");
-            }
-            // mybatis <foreach>
-            if("foreach".equals(xmlTag.trim())) {
-//            	m.appendReplacement(sb, "set"); //FIXME for foreach
-            }
-            // mybatis <trim prefix="" suffix="" prefixOverrides="" suffixOverrides=""></trim>
-            if("trim".equals(xmlTag.trim())) {
-            	attributes.put("open", attributes.get("prefix"));
-            	attributes.put("close", attributes.get("suffix")); //FIXME for prefixOverrides,suffixOverrides
-            }
+            processForMybatis(sb, xmlTag, attributes);
             
-            String prepend = attributes.get("prepend");
+            String replacement = getReplacement(attributes.get("open"), attributes.get("prepend"));
+            StringHelper.appendReplacement(m, sb, replacement);
             
-            open = attributes.get("open");
-            if(prepend != null) {
-            	StringHelper.appendReplacement(m, sb, (" "+prepend+" "+StringHelper.defaultString(open)));
-            }else {
-                if (StringHelper.isEmpty(open)) {
-                    m.appendReplacement(sb, "");
-                } else {
-                	StringHelper.appendReplacement(m, sb, (" " + open));
-                }
-            }
             if(close != null) {
                 sb.append(close);
             }
-            
-            open = null;
             close = attributes.get("close");
-            
         }
         return removeXMLCdata(sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE"));
     }
+
+	private static void processForMybatis(StringBuffer sb, String xmlTag,
+			Map<String, String> attributes) {
+		// mybatis <where>
+		if("where".equals(xmlTag.trim())) {
+			sb.append("where");
+		}
+		// mybatis <set>
+		if("set".equals(xmlTag.trim())) {
+			sb.append("set");
+		}
+		// mybatis <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")"> 
+		if("foreach".equals(xmlTag.trim())) {
+//            	m.appendReplacement(sb, "set"); //FIXME for foreach
+		}
+		// mybatis <trim prefix="" suffix="" prefixOverrides="" suffixOverrides=""></trim>
+		if("trim".equals(xmlTag.trim())) {
+			attributes.put("open", attributes.get("prefix"));
+			attributes.put("close", attributes.get("suffix")); //FIXME for prefixOverrides,suffixOverrides
+		}
+	}
+
+	private static String getReplacement(String open, String prepend) {
+		String replacement = null;
+		if(prepend != null) {
+			replacement = " "+prepend+" "+StringHelper.defaultString(open);
+		}else {
+		    if (StringHelper.isEmpty(open)) {
+		    	replacement = "";
+		    } else {
+		    	replacement = (" " + open);
+		    }
+		}
+		return replacement;
+	}
     
     //process <include refid="otherSql"/>
 	private static void processIncludeByRefid(Map<String, String> includeSqls,
