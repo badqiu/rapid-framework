@@ -19,7 +19,7 @@ public class MetaTableTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        g.setOutRootDir("./temp/"+getClass().getSimpleName());
+        g.setOutRootDir("./temp/"+getClass().getSimpleName()+"/"+getName());
         GeneratorProperties.setProperty("appName", "rapid");
     }
     
@@ -48,7 +48,17 @@ public class MetaTableTest extends GeneratorTestCase {
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         System.out.println(t.includeSqls);
         MetaSql metaSql = t.includeSqls.get(0);
-        assertTrue(metaSql.sql.trim().equals("USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE"));
+        assertEquals(metaSql.sql.trim(),"<![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]>");
+        for(Sql sql : t.getSqls()) {
+            GeneratorModel gm = newFromSql(sql,t);
+            g.generateBy(gm.templateModel, gm.filePathModel);
+        }
+    }
+
+    public void test_include_sql_by_mybatis() throws Exception {
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/mybatis_user_info.xml");
+        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
             g.generateBy(gm.templateModel, gm.filePathModel);
