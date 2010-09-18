@@ -153,8 +153,10 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("prifix_param",SqlParseHelper.getColumnNameByRightCondition(sql, "prefix"));
 		assertEquals("net_param",SqlParseHelper.getColumnNameByRightCondition(sql, "net"));
 		assertEquals("not_in_param",SqlParseHelper.getColumnNameByRightCondition(sql, "not_in"));
-		assertEquals("trans_dt",SqlParseHelper.getColumnNameByRightCondition(sql, "endDate"));
-		assertEquals("pwd_len_param", SqlParseHelper
+		
+		//不准备支持函数
+		assertEquals(null,SqlParseHelper.getColumnNameByRightCondition(sql, "endDate"));
+		assertEquals(null, SqlParseHelper
             .getColumnNameByRightCondition(sql, "pwd_len"));
 		
 		
