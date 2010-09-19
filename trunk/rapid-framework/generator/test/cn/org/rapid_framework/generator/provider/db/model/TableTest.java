@@ -10,7 +10,6 @@ import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
-import cn.org.rapid_framework.generator.util.ObjectHelper;
 
 
 
@@ -21,7 +20,7 @@ public class TableTest extends TestCase{
 		
 		Table t = TableFactory.getInstance().getTable("USER_INFO");
 		t.getColumnByName("username").setHasOne("user_info(username)");
-		Table t2 = ObjectHelper.deepClone(t);
+		//Table t2 = ObjectHelper.deepClone(t);
 		print(t);
 		
 		System.out.println("\n\n column: \n");
