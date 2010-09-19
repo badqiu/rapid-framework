@@ -1,4 +1,4 @@
-<#assign params2paramObjectLimit = 4/>
+<#assign params2paramObjectLimit = 6/>
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
