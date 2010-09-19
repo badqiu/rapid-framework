@@ -16,7 +16,7 @@
 		<property name="password" value="123456"/>
 	</bean>
 
-	<!-- log4jdbc可以将数据源执行的sql以占位符替换成字符,并以日志打印出来. log4j配置: log4j.logger.jdbc.sqltiming=INFO      详情请看:http://code.google.com/p/log4jdbc/
+	<!-- log4jdbc可以将数据源执行的sql将占位符?替换成字符,并以日志打印出来. log4j配置: log4j.logger.jdbc.sqltiming=INFO    详情请看: http://code.google.com/p/rapid-framework/wiki/log4jdbc
 	如oracle示例: 
 		原来的sql: select * from user where birth_date = ? and username = ? and age > ?
 		转换后sql: select * from user where birth_date = to_date('2010-08-13','yyyy-mm-dd') and username = 'badqiu' and age > 20
