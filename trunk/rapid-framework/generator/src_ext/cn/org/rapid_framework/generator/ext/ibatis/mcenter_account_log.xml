@@ -289,6 +289,32 @@
 			</isNotEmpty>
 	</sql>
 
+	<operation name="findAccountLogWithAirExtWithCreditpay" paging="true" paramtype="primitive" remarks="帐务明细查询(增加信用支付)">
+		<extraparams>
+			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
+			<param name="payType" javatype="java.lang.String"/>	
+			<param name="minTransAmount" javatype="Long"/>	
+			<param name="maxTransAmount" javatype="Long"/>	
+			<param name="airBizType" javatype="String"/>	
+		</extraparams>		
+    	<sql>
+    	SELECT 
+    	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
+    	<include refid="airBizType"/>,
+    	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
+		MC.BILL_NO ,MC.AMOUNT ,MC.TRANS_ACCOUNT_OUT ,MC.TRANS_ACCOUNT_IN ,MC.CUSTOMER_ID ,MC.BIZ_NAME ,MC.OPERATOR_ID ,MC.OPERATOR_NAME ,MC.MEMO ,MC.credit_available_amount,
+    	BTB.goods_title,BTB.out_trade_no
+    	
+    	from mcenter_account_log MAL
+			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no AND MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    	WHERE 
+			<include refid='findAccountLog.where'/>
+			order by TRANS_DT DESC,IW_ACCOUNT_LOG_ID DESC
+		</sql>
+    </operation>
+    
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
 		<extraparams>
 			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
@@ -296,28 +322,18 @@
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>	
 			<param name="airBizType" javatype="String"/>	
-			<param name="needCreditpayData" javatype="Boolean"/>	
 		</extraparams>		
     	<sql>
-    	
-    	/* needCreditpayData: 用于动态控制是否需要mcenter_creditpay表的数据  */
     	
     	SELECT 
     	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
     	<include refid="airBizType"/>,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
-		<isEqual property="needCreditpayData" compareValue="true">
-		MC.BILL_NO ,MC.AMOUNT ,MC.TRANS_ACCOUNT_OUT ,MC.TRANS_ACCOUNT_IN ,MC.CUSTOMER_ID ,MC.BIZ_NAME ,MC.OPERATOR_ID ,MC.OPERATOR_NAME ,MC.MEMO ,MC.credit_available_amount,
-		</isEqual>     	
     	BTB.goods_title,BTB.out_trade_no
     	
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-			<isEqual property="needCreditpayData" compareValue="true">
-			left join mcenter_creditpay MC on MAL.real_trade_no = MC.trade_no AND MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-			</isEqual>
-			
     	WHERE 
 			<include refid='findAccountLog.where'/>
 			order by TRANS_DT DESC,IW_ACCOUNT_LOG_ID DESC
