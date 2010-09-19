@@ -366,6 +366,9 @@
 		   and trans_dt &lt; #transDtEnd#
 		   and sub_trans_code != '301118'
 		 group by trans_date, air_biz_type
+		 <isNotEmpty property="airBizTypeList">
+		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
+		 </isNotEmpty>		 
 		 order by trans_date desc , air_biz_type asc
 		</sql>
 	</operation> 
@@ -383,6 +386,9 @@
 		   and trans_dt &lt; #transDtEnd#
 		   and sub_trans_code != '301118'
 		 group by air_biz_type
+		 <isNotEmpty property="airBizTypeList">
+		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
+		 </isNotEmpty>		 
 		 order by air_biz_type asc
 		</sql>
 	</operation>	
@@ -425,6 +431,9 @@
 		   and trans_dt &lt; #transDtEnd#
 		   and sub_trans_code != '301118'
 		 group by trans_date,BTB.trade_email,air_biz_type 
+		 <isNotEmpty property="airBizTypeList">
+		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
+		 </isNotEmpty>		 
 		 order by trans_date desc
 		</sql>
 	</operation>
@@ -444,6 +453,9 @@
 		   and trans_dt &lt; #transDtEnd#
 		   and sub_trans_code != '301118'
 		 group by BTB.trade_email, air_biz_type
+		 <isNotEmpty property="airBizTypeList">
+		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
+		 </isNotEmpty>		 
 		 order by air_biz_type asc
 		</sql>
 	</operation>
