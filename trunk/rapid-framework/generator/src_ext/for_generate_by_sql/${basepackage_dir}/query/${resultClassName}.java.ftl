@@ -9,16 +9,16 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 	
 	<#list sql.columns as column>
 	/** ${column.columnAlias!} */
-	<#if column.simpleJavaType?ends_with('Money')>
+	<#if column.possibleShortJavaType?ends_with('Money')>
 	private Money ${column.columnNameLower} = new Money(0,0);
 	<#else>
-	private ${column.simpleJavaType} ${column.columnNameLower};
+	private ${column.possibleShortJavaType} ${column.columnNameLower};
 	</#if>
 	</#list>
 
 	<#list sql.columns as column>
-	public void set${column.columnName}(${column.simpleJavaType} ${column.columnNameLower}) {
-		<#if column.simpleJavaType?ends_with('Money')>
+	public void set${column.columnName}(${column.possibleShortJavaType} ${column.columnNameLower}) {
+		<#if column.possibleShortJavaType?ends_with('Money')>
 		if(${column.columnNameLower} == null) {
 			this.${column.columnNameLower} = new Money(0,0);
 		}else {
@@ -29,7 +29,7 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 		</#if>
 	}
 	
-	public ${column.simpleJavaType} get${column.columnName}() {
+	public ${column.possibleShortJavaType} get${column.columnName}() {
 		return this.${column.columnNameLower};
 	}
 	
