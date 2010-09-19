@@ -496,11 +496,15 @@ public class Column implements java.io.Serializable,Cloneable{
 		return StringHelper.getJavaClassSimpleName(getJavaType());
 	}
 	/**
-     * 得到简短的javaType的名称，如com.company.model.UserInfo,将返回 UserInfo
+     * 得到尽可能简短的javaType的名称，如果是java.lang.String,将返回String, 如com.company.model.UserInfo,将返回 com.company.model.UserInfo
      * @return
      */
-	public String getShortJavaType() {
-        return getJavaType().substring(getJavaType().lastIndexOf('.') + 1);
+	public String getPossibleShortJavaType() {
+	    if(getJavaType().startsWith("java.lang.")) {
+	        return getSimpleJavaType();
+	    }else {
+	        return getJavaType();
+	    }
     }
 
 	public boolean isPrimitive() {
