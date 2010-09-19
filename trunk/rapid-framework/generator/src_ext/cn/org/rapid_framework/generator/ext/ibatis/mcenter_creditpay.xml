@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+
 <table sqlname="mcenter_creditpay"  remarks="帐务信息表">
 	<column name="service_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="SERVICE_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
