@@ -82,7 +82,7 @@ public class DataSourceSpyInterceptor implements MethodInterceptor {
 }  
 }}}
 
-四.相关下载：
+=四.相关下载：=
  
   * log4jdbc:   [http://code.google.com/p/log4jdbc/]
   * 另外一个对log4jdbc的扩展:  [http://code.google.com/p/log4jdbc-remix/]
