@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+
 <table sqlname="mcenter_account_log"  remarks="帐务信息表">
 	<column name="service_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="SERVICE_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
@@ -16,6 +18,63 @@
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
 	
 	<column name="count" javatype="long" />
+	
+	<sql id="airBizType">
+		<![CDATA[
+	       
+	        (case
+	        /*余额购票*/
+	        when (sub_trans_code='601101' and pay_type is null and trans_amount <0 ) then 'A001'
+	        /*信用购票*/
+	        when (sub_trans_code='601101' and pay_type='CREDIT_PAY' and trans_amount <0 ) then 'A002'
+	        
+	        /*余额退款*/        
+	        when (sub_trans_code='301101' and pay_type is null and trans_amount >0 ) then 'A101'
+	        /*信用退款*/
+	        when (sub_trans_code='301101' and pay_type='CREDIT_PAY' and trans_amount >0 ) then 'A102'
+	
+	        /*售票收入*/
+	        when (sub_trans_code='601101' and trans_amount >0 ) then 'A201'
+	        /*售票退款*/
+	        when (sub_trans_code='301101' and trans_amount <0 ) then 'A202'
+	
+	        /*分润*/
+	        when (sub_trans_code='301148') then 'A301'
+	        /*退分润*/
+	        when (sub_trans_code='301149') then 'A302'
+	        /*收费*/
+	        when (sub_trans_code IN ('301201', '301202')) then 'A303'
+	        /*退收费*/
+	        when (sub_trans_code='301203') then 'A304'
+	        /*对内付款*/
+	        when (sub_trans_code='301143') then 'A305'
+	        /*对外付款*/
+	        when (sub_trans_code='301144') then 'A306'
+	        /*批量付款到账户*/
+	        when (sub_trans_code='301105') then 'A307'
+	        /*信用还款*/
+	        when (sub_trans_code in ('301119','301120')) then 'A308'
+	
+	        /*余额充值*/
+	        when (trans_code='4003') then 'A401'
+	        /*预存卡充值*/
+	        when (sub_trans_code='301154') then 'A402'
+	
+	        /*批量付款到卡*/
+	        when (sub_trans_code='500405') then 'A501'
+	        /*BSP还款*/
+	        when (sub_trans_code='500410') then 'A502'
+	        /*普通提现*/
+	        when (sub_trans_code in ('500414','500415','500418')) then 'A503'
+	
+	        /*其它*/
+	        when (sub_trans_code in ('100101','100102','104101','302101','402201','402301','410201','410401','410402','410403','410404','410405','410406','410407','410408','500201','500202','500203','501101','501201','501301','510301','510302','510303','520101','700101','700102','700103','700104','700105','700106','700107','700108','700109','700201','700202','701101','701102','701103','701104','701105','800101','800201','800301','800401','800402','800501','888801')) then 'A600'
+	
+	        /*不可能出现的情况*/
+	        ELSE 'ERROR' end) as air_biz_type
+
+		 ]]>
+	</sql>
 	
 	<sql id="findAccountLog.where">
 		
@@ -107,25 +166,120 @@
 			<isNotEmpty prepend="and" property="outTradeNo">
 					MAL.VAR2 = #outTradeNo#
 			</isNotEmpty>	
-
-			<isEqual prepend="and" property="payType" compareValue="BALANCE_PAY">
-				MAL.pay_type is null  /* 余额支付 */
+			
+			/*  购票支出  */
+			<isEqual prepend="and" property="airBizType" compareValue="TICKET_PAY">
+				sub_trans_code='601101' and trans_amount &lt; 0
+			</isEqual> 
+			/* 余额购票 */   	        
+			<isEqual prepend="and" property="airBizType" compareValue="BALANCE_PAY">
+				sub_trans_code='601101' and pay_type is null and trans_amount &lt; 0
 			</isEqual>	
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_PAY">
-				MAL.pay_type = 'CREDIT_PAY' AND trans_code = '6001' AND MAL.TRANS_AMOUNT &lt; 0  /* 信用支付 */
+			/*信用购票*/
+			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_PAY">
+				sub_trans_code='601101' and pay_type='CREDIT_PAY' and trans_amount &lt; 0
 			</isEqual>
-								
-			/* 用于识别     CREDIT_LOAN("信用支付借款"),CREDIT_RETURN_LOAN("信用支付还款"),CREDIT_REFUND("信用支付退款"),*/
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_LOAN">
-				SUB_TRANS_CODE = '301118'  /* 信用支付放贷 */
+			
+			/* 购票退款 */
+			<isEqual prepend="and" property="airBizType" compareValue="TICKET_REFUND">
+				sub_trans_code='301101' and trans_amount > 0
 			</isEqual>
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_RETURN_LOAN">
-				SUB_TRANS_CODE IN ('301119','301120') /* 信用支付还贷 */
+			/*余额退款*/			
+			<isEqual prepend="and" property="airBizType" compareValue="BALANCE_REFUND">
+				sub_trans_code='301101' and pay_type is null and trans_amount > 0
 			</isEqual>
-			<isEqual prepend="and" property="payType" compareValue="CREDIT_REFUND">
-				SUB_TRANS_CODE = '301101' AND MAL.pay_type = 'CREDIT_PAY' AND MAL.TRANS_AMOUNT > 0  /* 信用支付退款 */
-			</isEqual>	
-												
+			/*信用退款*/
+			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_REFUND">
+				sub_trans_code='301101' and pay_type='CREDIT_PAY' and trans_amount > 0
+			</isEqual>
+			
+			/* 售票  */
+			<isEqual prepend="and" property="airBizType" compareValue="SALE">
+				((sub_trans_code='601101' and trans_amount > 0)  or (sub_trans_code='301101' and trans_amount &lt; 0 ))
+			</isEqual>
+			/*售票收入*/
+			<isEqual prepend="and" property="airBizType" compareValue="SALE_INCOME">
+				sub_trans_code='601101' and trans_amount > 0 
+			</isEqual>
+			/*售票退款*/
+			<isEqual prepend="and" property="airBizType" compareValue="SALE_REFUND">
+				sub_trans_code='301101' and trans_amount &lt; 0
+			</isEqual>
+			
+			/* 转帐 */
+			<isEqual prepend="and" property="airBizType" compareValue="TRANSFER">
+				sub_trans_code in ('301148','301149','301201','301202','301203','301143','301144','301105','301119','301120')
+			</isEqual>
+			/*分润*/
+			<isEqual prepend="and" property="airBizType" compareValue="ROYALTY">
+				sub_trans_code='301148'
+			</isEqual>
+			/*退分润*/
+			<isEqual prepend="and" property="airBizType" compareValue="ROYALTY_RETURN">
+				sub_trans_code='301149'
+			</isEqual>
+			/*收费*/
+			<isEqual prepend="and" property="airBizType" compareValue="CHARGE">
+				sub_trans_code IN ('301201', '301202')
+			</isEqual>
+			/*退收费*/
+			<isEqual prepend="and" property="airBizType" compareValue="CHARGE_RETURN">
+				sub_trans_code='301203'
+			</isEqual>
+			/*对内付款*/
+			<isEqual prepend="and" property="airBizType" compareValue="INNER_PAY">
+				sub_trans_code='301143'
+			</isEqual>
+			/*对外付款*/
+			<isEqual prepend="and" property="airBizType" compareValue="OUTER_PAY">
+				sub_trans_code='301144'  
+			</isEqual>
+			/*批量付款到账户*/
+			<isEqual prepend="and" property="airBizType" compareValue="BATCH_PAY">
+				sub_trans_code='301105'  
+			</isEqual>
+			 /*信用还款*/
+			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_REPAY">
+				sub_trans_code in ('301119','301120')
+			</isEqual>
+			
+			/* 充值 */
+			<isEqual prepend="and" property="airBizType" compareValue="DEPOSIT">
+				(trans_code = '4003' or sub_trans_code='301154')
+			</isEqual>
+			/*余额充值*/
+			<isEqual prepend="and" property="airBizType" compareValue="BALANCE_DEPOSIT">
+				trans_code='4003'
+			</isEqual>
+			/*预存卡充值*/
+			<isEqual prepend="and" property="airBizType" compareValue="PRESTORE_DEPOSIT">
+				sub_trans_code='301154'
+			</isEqual>
+			
+			/* 提现 */
+			<isEqual prepend="and" property="airBizType" compareValue="CASH">
+				sub_trans_code in ('500405','500410','500414','500415','500418')
+			</isEqual>
+			/*批量付款到卡*/
+			<isEqual prepend="and" property="airBizType" compareValue="BATCH_CASH">
+				sub_trans_code='500405'
+			</isEqual>
+			 /*BSP还款*/
+			<isEqual prepend="and" property="airBizType" compareValue="BSP_CASH">
+				sub_trans_code='500410'
+			</isEqual>
+			/*普通提现*/
+			<isEqual prepend="and" property="airBizType" compareValue="NORMAL_CASH">
+				sub_trans_code in ('500414','500415','500418')
+			</isEqual>
+			
+			/*其它*/
+			<isEqual prepend="and" property="airBizType" compareValue="OTHER">
+				sub_trans_code in ('100101','100102','104101','302101','402201','402301','410201','410401','410402','410403','410404','410405','410406','410407','410408','500201','500202','500203','501101','501201','501301','510301','510302','510303','520101','700101','700102','700103','700104','700105','700106','700107','700108','700109','700201','700202','701101','701102','701103','701104','701105','800101','800201','800301','800401','800402','800501','888801')
+			</isEqual>
+			
+			and sub_trans_code != '301118'
+																																										
 			<isNotEmpty property="partnerIds">
 				and BTB.trade_email IN
 				<iterate property="partnerIds" open="(" close=")" conjunction=",">
@@ -133,17 +287,19 @@
 				</iterate>
 			</isNotEmpty>
 	</sql>
-	
+
 	<operation name="findAccountLogWithAirExt" paging="true" paramtype="primitive" remarks="帐务明细查询">
 		<extraparams>
 			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
 			<param name="payType" javatype="java.lang.String"/>	
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>	
+			<param name="airBizType" javatype="String"/>	
 		</extraparams>		
     	<sql>
     	SELECT 
     	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
+    	<include refid="airBizType"/>,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
     	BTB.goods_title,BTB.out_trade_no
     	from mcenter_account_log MAL
@@ -159,7 +315,8 @@
 		<extraparams>
 			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
 			<param name="minTransAmount" javatype="Long"/>	
-			<param name="maxTransAmount" javatype="Long"/>				
+			<param name="maxTransAmount" javatype="Long"/>
+			<param name="airBizType" javatype="String"/>				
 		</extraparams>	
 		<sql>
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
@@ -182,5 +339,100 @@
 	</sql>
 	</operation>
     
-         			
+	<operation name="summaryAcccountLogByDay" paramtype="primitive" remarks="账务汇总查询(按天)" paging="true">
+		<sql>
+		select
+	       trans_date,
+	       count(trans_account) as total_count,
+	       <include refid="airBizType"/>,
+	       sum(case when (trans_amount > 0) then trans_amount end) as income,
+	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
+		 from mcenter_account_log 
+		 where owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'
+		 group by trans_date, air_biz_type
+		 order by trans_date desc , air_biz_type asc
+		</sql>
+	</operation> 
+	
+	<operation name="summaryAcccountLogByRange" paramtype="primitive" remarks="账务汇总查询(按时间段)">
+		<sql>
+		select 
+	       count(trans_account) as total_count,
+	       <include refid="airBizType"/>,
+	       sum(case when (trans_amount > 0) then trans_amount end) as income,
+	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
+		 from mcenter_account_log 
+		 where owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'
+		 group by air_biz_type
+		 order by air_biz_type asc
+		</sql>
+	</operation>	
+	
+	<operation name="summaryAcccountLogByPartner" paramtype="primitive" remarks="平台商汇总明细">
+		<extraparams>
+			<param javatype="java.lang.String" name="airBizTypeList"/>
+		</extraparams>
+		<sql>
+		select trade_email,
+	       count(trans_account) as total_count,
+	       <include refid="airBizType"/>,
+	       sum(case when (trans_amount > 0) then trans_amount end) as income,
+	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
+		 from mcenter_account_log MAL 
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'
+		 group by BTB.trade_email
+		 <isNotEmpty property="airBizTypeList">
+		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
+		 </isNotEmpty>
+		 order by air_biz_type asc
+		</sql>
+	</operation>   
+	
+	<operation name="summaryAcccountLogByPartnerAndDay" paramtype="primitive" remarks="平台商汇总明细查询(按天)">
+		<sql>
+		select trans_date,BTB.trade_email,
+	       count(trans_account) as total_count,
+	       <include refid="airBizType"/>,
+	       sum(case when (trans_amount > 0) then trans_amount end) as income,
+	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
+		 from mcenter_account_log MAL
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 		 
+		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'
+		 group by trans_date,BTB.trade_email,air_biz_type 
+		 order by trans_date desc
+		</sql>
+	</operation>
+	
+	<operation name="summaryAcccountLogByPartnerAndRange" paramtype="primitive" remarks="平台商汇总明细查询(按时间段)">
+		<sql>
+		select 
+	       BTB.trade_email,
+	       count(trans_account) as total_count,
+	       <include refid="airBizType"/>,
+	       sum(case when (trans_amount > 0) then trans_amount end) as income,
+	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
+		 from mcenter_account_log MAL
+			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 		 
+		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'
+		 group by BTB.trade_email, air_biz_type
+		 order by air_biz_type asc
+		</sql>
+	</operation>
+			     			
 </table>
