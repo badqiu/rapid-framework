@@ -152,7 +152,7 @@
 				sub_trans_code='301105'  
 			</isEqual>
 			 /*信用还款*/
-			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_REPAY">
+			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_PAY_RETURN_LOAN">
 				sub_trans_code in ('301119','301120')
 			</isEqual>
 			
@@ -310,7 +310,7 @@
     	<include refid="airBizType"/>,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
 		MC.BILL_NO ,MC.AMOUNT ,MC.TRANS_ACCOUNT_OUT ,MC.TRANS_ACCOUNT_IN ,MC.CUSTOMER_ID ,MC.BIZ_NAME ,MC.OPERATOR_ID ,MC.OPERATOR_NAME ,MC.MEMO ,MC.credit_available_amount,
-    	BTB.goods_title,BTB.out_trade_no
+    	BTB.goods_title,BTB.out_trade_no,BTB.trade_email
     	
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
@@ -336,7 +336,7 @@
     	IW_ACCOUNT_LOG_ID,TRANS_LOG_ID,MAL.TRANS_DATE,MAL.OUT_DATE,MAL.TRANS_DT,MAL.TRANS_CODE,MAL.TRANS_AMOUNT,MAL.BALANCE,MAL.TRANS_CURRENCY,MAL.ACCOUNT_TYPE,MAL.TRANS_ACCOUNT,OTHER_ACCOUNT_TYPE,OTHER_ACCOUNT,TRANS_INSTITUTION,TRANS_OUT_ORDER_NO,BANK_NAME,TRANS_MEMO,SUB_TRANS_CODE,OUT_BIZ_NO,MODEL,SUITE_ID,IS_WRITE_OFF,IS_RED,OTHER_ACCOUNT_LOG,DELETE_FLAG,VOUCHER_ID,ORGI_VOUCHER_ID,TRANS_OPERATOR,INST_CHANNEL_API,REAL_TRADE_NO,PAY_TYPE,MAL.VAR2 specialOutTradeNo,
     	<include refid="airBizType"/>,
     	MAE.PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,MAE.gmt_trade_create,
-    	BTB.goods_title,BTB.out_trade_no
+    	BTB.goods_title,BTB.out_trade_no,BTB.trade_email
     	
     	from mcenter_account_log MAL
 			left join mcenter_air_ext MAE on MAL.real_trade_no = MAE.trade_no AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
