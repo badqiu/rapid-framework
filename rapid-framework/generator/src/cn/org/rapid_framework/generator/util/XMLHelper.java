@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -55,6 +57,19 @@ public class XMLHelper {
         dbf.setIgnoringComments(false); //为false时与CDATA冲突
         try {
             DocumentBuilder db = dbf.newDocumentBuilder();
+            
+            //ignore entity resolver
+            db.setEntityResolver(new EntityResolver() {
+                public InputSource resolveEntity(String publicId,
+                                                 String systemId)
+                                                                 throws SAXException,
+                                                                 IOException {
+                    InputSource is = new InputSource(new StringReader(""));
+                    is.setSystemId(systemId);
+                    return is;
+                }
+            });
+            
             InputSource is = new InputSource(in);
             return db.parse(is);
         } catch (ParserConfigurationException x) {
