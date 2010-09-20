@@ -368,6 +368,10 @@ public class SqlParseHelper {
     public static String removeOrders(String sql) {
     	return sql.replaceAll("(?is)order\\s+by[\\w|\\W|\\s|\\S]*", "");
     }
+    
+    public static String replaceWhere(String sql) {
+        return sql.toString().replaceAll("(?i)\\swhere\\s+(and|or)", " WHERE");
+    }
 	
 	public static long startTimes = System.currentTimeMillis();
 	public static void setRandomParamsValueForPreparedStatement(String sql,
