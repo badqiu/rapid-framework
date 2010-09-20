@@ -100,8 +100,13 @@
         		#{item} 
    			</foreach> 
    			and username in 
-   			<foreach collection="usernamesByIndex" item="item" index="index" open="(" separator="," close=")">  
+   			<foreach collection="usernamesByIndexDollar" item="item" index="index" open="(" separator="," close=")">  
        		#{usernamesByIndex[${index}]}
+  			</foreach> 	
+  			
+  			and username in 
+   			<foreach collection="usernamesByIndex" item="item" index="index" open="(" separator="," close=")">  
+       		#{usernamesByIndex[index]}
   			</foreach> 			
 		</where>
 	</sql>
