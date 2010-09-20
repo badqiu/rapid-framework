@@ -79,7 +79,6 @@
 
 
 	<sql id="airBizType.where">
-		<![CDATA[
 			/*  购票支出  */
 			<isEqual prepend="and" property="airBizType" compareValue="TICKET_PAY">
 				sub_trans_code='601101' and trans_amount &lt; 0
@@ -190,7 +189,6 @@
 			<isEqual prepend="and" property="airBizType" compareValue="OTHER">
 				(trans_code != '4003' or sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418'))
 			</isEqual>	       
-		 ]]>
 	</sql>
 		
 	<sql id="findAccountLog.where">
@@ -432,7 +430,7 @@
 		   and trans_dt >= #transDtBegin#
 		   and trans_dt &lt; #transDtEnd#
 		   and sub_trans_code != '301118'
-		 group by BTB.trade_email
+		 group by BTB.trade_email,air_biz_type
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
 		 </isNotEmpty>
