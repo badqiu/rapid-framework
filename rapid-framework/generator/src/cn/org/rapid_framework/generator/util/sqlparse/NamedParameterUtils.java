@@ -142,7 +142,8 @@ public abstract class NamedParameterUtils {
 			}else {
 				throw new IllegalArgumentException("parameter error:"+parameter+",must wrap with {param},sql:"+sql);
 			}
-			return parameter;
+			//for foreach usernames[index] and usernames[${index}]
+			return parameter.replaceAll("\\[.*?\\]", ""); 
 		}
 
 		//for ibatis2
