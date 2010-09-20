@@ -72,7 +72,7 @@
 	        when (trans_code != '4003' or sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418')) then 'A600'
 	
 	        /*不可能出现的情况*/
-	        ELSE  concat( sub_trans_code,'  ',ifnull(pay_type,''),' trans_amount:',trans_amount) end) as air_biz_type
+	        ELSE  concat('ERROR_AIR_BIZ_TYPE:',sub_trans_code,' ',ifnull(pay_type,''),' trans_amount:',trans_amount) end) as air_biz_type
 
 		 ]]>
 	</sql>
