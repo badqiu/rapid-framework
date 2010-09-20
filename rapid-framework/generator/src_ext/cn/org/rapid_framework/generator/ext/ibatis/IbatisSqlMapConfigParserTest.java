@@ -146,5 +146,7 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 		assertEquals("多了前后空格是错误的", "sex = #equals_sex# and password = #pwd#",
             parser.parse("<include refid='placeholder'/>", hashMap));
 	}
+    
+
 	
 }
