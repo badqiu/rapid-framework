@@ -225,4 +225,10 @@ public class SqlParseHelperTest extends TestCase{
 		assertEquals("select * from user ",SqlParseHelper.removeSqlComments("/*123*/select * from user /*diy\nabc*/"));
 		assertEquals("select * from user \n;abc",SqlParseHelper.removeSqlComments("/*123*/select * from user --diy\n;abc"));
 	}
+	
+    public void test_replaceWhere() {
+        assertEquals("from user WHERE 123",SqlParseHelper.replaceWhere("from user where \n and 123"));
+        assertEquals("from user WHERE 123",SqlParseHelper.replaceWhere("from user where \n or 123"));
+        assertEquals("from user where 123=1",SqlParseHelper.replaceWhere("from user where 123=1"));
+    }
 }
