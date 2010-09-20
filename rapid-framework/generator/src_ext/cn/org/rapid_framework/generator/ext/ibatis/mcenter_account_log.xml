@@ -11,13 +11,13 @@
 	<column name="amount" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="credit_available_amount" javatype="com.iwallet.biz.common.util.money.Money" />
-	
+
 	<column name="bank_amount" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="BANK_AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
 	
 	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
-	
+
 	<column name="count" javatype="long" />
 	
 	<sql id="airBizType">
@@ -76,98 +76,10 @@
 
 		 ]]>
 	</sql>
-	
-	<sql id="findAccountLog.where">
-		
-    		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		AND (MAL.DELETE_FLAG != 'T' OR MAL.DELETE_FLAG is null)
-    		 		
-		  	<isEmpty property="accountNo">
-				<isEmpty property="transDtBegin">
-			  		<isEmpty property="transDtEnd">
-			        	query not allowed
-			  		</isEmpty>
-				</isEmpty>
-	  	  	</isEmpty>
-					
-	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
-				MAL.TRANS_AMOUNT > 0
-			</isEqual> 
-			
-	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="OUTCOME">
-				MAL.TRANS_AMOUNT &lt; 0
-			</isEqual>
-					
-	    	<isNotEmpty prepend="and" property="iwAccountLogId">
-				MAL.IW_ACCOUNT_LOG_ID = #iwAccountLogId#
-			</isNotEmpty> 
-			
-	    	<isNotEmpty prepend="and" property="tradeNos">
-				MAL.real_trade_no in
-				<iterate property="tradeNos" open="(" close=")" conjunction=",">
-					#tradeNos[]#
-				</iterate>
-			</isNotEmpty>
-			
-	    	<isNotEmpty prepend="and" property="accountNo">
-				MAL.trans_account = #accountNo#
-			</isNotEmpty>
-			
-	    	<isNotEmpty prepend="and" property="otherAccountNo">
-				MAL.other_account = #otherAccountNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="transCodes">
-					 MAL.trans_code IN
-					<iterate property="transCodes" open="(" close=")" conjunction=",">
-						#transCodes[]#
-					</iterate>
-			</isNotEmpty>
-	
-			<isNotEmpty prepend="and" property="excludeTransCodes">
-					 MAL.trans_code NOT IN
-					<iterate property="excludeTransCodes" open="(" close=")" conjunction=",">
-						#excludeTransCodes[]#
-					</iterate>
-			</isNotEmpty>
-					
-			<isNotEmpty prepend="and" property="subTransCodes">
-					 MAL.sub_trans_code IN
-					<iterate property="subTransCodes" open="(" close=")" conjunction=",">
-						#subTransCodes[]#
-					</iterate>
-			</isNotEmpty>	
 
-			<isNotEmpty prepend="and" property="transDtBegin">
-					MAL.trans_dt &gt;= #transDtBegin#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="transDtEnd">
-					MAL.trans_dt &lt; #transDtEnd#
-			</isNotEmpty>	
 
-			<isNotEmpty prepend="and" property="minTransAmount">
-					abs(MAL.TRANS_AMOUNT) >= #minTransAmount#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="maxTransAmount">
-					abs(MAL.TRANS_AMOUNT) &lt;= #maxTransAmount#
-			</isNotEmpty>
-
-			<isNotEmpty prepend="and" property="bankName">
-					MAL.bank_name = #bankName#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="transMemo">
-					MAL.trans_memo like #transMemo#
-			</isNotEmpty>
-
-			<isNotEmpty prepend="and" property="transOutOrderNo">
-					MAL.trans_out_order_no = #transOutOrderNo#
-			</isNotEmpty>
-			
-			<isNotEmpty prepend="and" property="outTradeNo">
-					MAL.VAR2 = #outTradeNo#
-			</isNotEmpty>	
-			
+	<sql id="airBizType.where">
+		<![CDATA[
 			/*  购票支出  */
 			<isEqual prepend="and" property="airBizType" compareValue="TICKET_PAY">
 				sub_trans_code='601101' and trans_amount &lt; 0
@@ -277,7 +189,102 @@
 			/*其它*/
 			<isEqual prepend="and" property="airBizType" compareValue="OTHER">
 				(trans_code != '4003' or sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418'))
+			</isEqual>	       
+		 ]]>
+	</sql>
+		
+	<sql id="findAccountLog.where">
+		
+    		MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		AND (MAL.DELETE_FLAG != 'T' OR MAL.DELETE_FLAG is null)
+    		 		
+		  	<isEmpty property="accountNo">
+				<isEmpty property="transDtBegin">
+			  		<isEmpty property="transDtEnd">
+			        	query not allowed
+			  		</isEmpty>
+				</isEmpty>
+	  	  	</isEmpty>
+					
+	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="INCOME">
+				MAL.TRANS_AMOUNT > 0
+			</isEqual> 
+			
+	    	<isEqual prepend="and" property="isIncomeOrOutcome" compareValue="OUTCOME">
+				MAL.TRANS_AMOUNT &lt; 0
 			</isEqual>
+					
+	    	<isNotEmpty prepend="and" property="iwAccountLogId">
+				MAL.IW_ACCOUNT_LOG_ID = #iwAccountLogId#
+			</isNotEmpty> 
+			
+	    	<isNotEmpty prepend="and" property="tradeNos">
+				MAL.real_trade_no in
+				<iterate property="tradeNos" open="(" close=")" conjunction=",">
+					#tradeNos[]#
+				</iterate>
+			</isNotEmpty>
+			
+	    	<isNotEmpty prepend="and" property="accountNo">
+				MAL.trans_account = #accountNo#
+			</isNotEmpty>
+			
+	    	<isNotEmpty prepend="and" property="otherAccountNo">
+				MAL.other_account = #otherAccountNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="transCodes">
+					 MAL.trans_code IN
+					<iterate property="transCodes" open="(" close=")" conjunction=",">
+						#transCodes[]#
+					</iterate>
+			</isNotEmpty>
+	
+			<isNotEmpty prepend="and" property="excludeTransCodes">
+					 MAL.trans_code NOT IN
+					<iterate property="excludeTransCodes" open="(" close=")" conjunction=",">
+						#excludeTransCodes[]#
+					</iterate>
+			</isNotEmpty>
+					
+			<isNotEmpty prepend="and" property="subTransCodes">
+					 MAL.sub_trans_code IN
+					<iterate property="subTransCodes" open="(" close=")" conjunction=",">
+						#subTransCodes[]#
+					</iterate>
+			</isNotEmpty>	
+
+			<isNotEmpty prepend="and" property="transDtBegin">
+					MAL.trans_dt &gt;= #transDtBegin#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="transDtEnd">
+					MAL.trans_dt &lt; #transDtEnd#
+			</isNotEmpty>	
+
+			<isNotEmpty prepend="and" property="minTransAmount">
+					abs(MAL.TRANS_AMOUNT) >= #minTransAmount#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="maxTransAmount">
+					abs(MAL.TRANS_AMOUNT) &lt;= #maxTransAmount#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="bankName">
+					MAL.bank_name = #bankName#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="transMemo">
+					MAL.trans_memo like #transMemo#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="transOutOrderNo">
+					MAL.trans_out_order_no = #transOutOrderNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="outTradeNo">
+					MAL.VAR2 = #outTradeNo#
+			</isNotEmpty>	
+			
+			<include refid="airBizType.where"/>
 			
 			and sub_trans_code != '301118'
 																																										
