@@ -67,7 +67,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             }
             close = attributes.get("close");
         }
-        return removeXMLCdata(sb.toString().replaceAll("(?i)\\swhere\\s+and", " WHERE"));
+        return removeXMLCdata(SqlParseHelper.replaceWhere(sb.toString()));
     }
 
 	private static void processForMybatis(StringBuffer sb, String xmlTag,
