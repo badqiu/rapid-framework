@@ -296,6 +296,14 @@
 				</iterate>
 			</isNotEmpty>
 	</sql>
+	
+	<sql id="summaryAccountLog.where">
+		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+		   and (DELETE_FLAG != 'T' OR DELETE_FLAG is null) 
+		   and trans_dt >= #transDtBegin#
+		   and trans_dt &lt; #transDtEnd#
+		   and sub_trans_code != '301118'	
+	</sql>
 
 	<operation name="findAccountLogWithAirExtWithCreditpay" paging="true" paramtype="primitive" remarks="帐务明细查询(增加信用支付)">
 		<extraparams>
@@ -384,11 +392,8 @@
 	       <include refid="airBizType"/>,
 	       sum(case when (trans_amount > 0) then trans_amount end) as income,
 	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
-		 from mcenter_account_log 
-		 where owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		   and trans_dt >= #transDtBegin#
-		   and trans_dt &lt; #transDtEnd#
-		   and sub_trans_code != '301118'
+		 from mcenter_account_log MAL
+		 <include refid="summaryAccountLog.where"/>
 		 group by trans_date, air_biz_type
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
@@ -404,11 +409,8 @@
 	       <include refid="airBizType"/>,
 	       sum(case when (trans_amount > 0) then trans_amount end) as income,
 	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
-		 from mcenter_account_log 
-		 where owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		   and trans_dt >= #transDtBegin#
-		   and trans_dt &lt; #transDtEnd#
-		   and sub_trans_code != '301118'
+		 from mcenter_account_log MAL
+		 <include refid="summaryAccountLog.where"/>
 		 group by air_biz_type
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
@@ -429,10 +431,7 @@
 	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
 		 from mcenter_account_log MAL 
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		   and trans_dt >= #transDtBegin#
-		   and trans_dt &lt; #transDtEnd#
-		   and sub_trans_code != '301118'
+		 <include refid="summaryAccountLog.where"/>
 		 group by BTB.trade_email,air_biz_type
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
@@ -450,10 +449,7 @@
 	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
 		 from mcenter_account_log MAL
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 		 
-		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		   and trans_dt >= #transDtBegin#
-		   and trans_dt &lt; #transDtEnd#
-		   and sub_trans_code != '301118'
+		 <include refid="summaryAccountLog.where"/>
 		 group by trans_date,BTB.trade_email,air_biz_type 
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
@@ -472,10 +468,7 @@
 	       sum(case when (trans_amount &lt; 0) then trans_amount end) as outcome
 		 from mcenter_account_log MAL
 			left join trade_base BTB on MAL.real_trade_no = BTB.trade_no AND BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 		 
-		 where MAL.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-		   and trans_dt >= #transDtBegin#
-		   and trans_dt &lt; #transDtEnd#
-		   and sub_trans_code != '301118'
+		 <include refid="summaryAccountLog.where"/>
 		 group by BTB.trade_email, air_biz_type
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
