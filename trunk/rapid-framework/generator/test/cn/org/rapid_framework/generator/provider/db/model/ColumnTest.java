@@ -65,12 +65,12 @@ public class ColumnTest  extends TestCase{
 	public void test_getShortJavaType() {
         Column c = new Column(new Table(), 1, "int", "user_name", 1, 2, true,
             true, true, true, "", "remarks");
-        assertEquals("String", c.getShortJavaType());
+        assertEquals("String", c.getPossibleShortJavaType());
 
         GeneratorProperties.setProperty(
             "java_typemapping.java.math.BigDecimal", "org.badqiu.UserInfo");
         assertEquals("UserInfo", newBigDecimal().getSimpleJavaType());
-        assertEquals("UserInfo", newBigDecimal().getShortJavaType());
+        assertEquals("org.badqiu.UserInfo", newBigDecimal().getPossibleShortJavaType());
     }
 	
 	public void test_setForeignKey() {
