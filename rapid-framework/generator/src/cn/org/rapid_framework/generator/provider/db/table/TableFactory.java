@@ -483,6 +483,16 @@ public class TableFactory {
 //				throw new RuntimeException(s);
 			}
 		}
-		
+		public static boolean isHsqlDataBase(DatabaseMetaData metadata) {
+			try {
+				boolean ret = false;
+				ret = (metadata.getDatabaseProductName().toLowerCase()
+							.indexOf("hsql") != -1);
+				return ret;
+			}catch(SQLException s) {
+				return false;
+//				throw new RuntimeException(s);
+			}
+		}		
 	}
 }
