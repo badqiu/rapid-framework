@@ -17,6 +17,9 @@
 	
 	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="income" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="outcome" javatype="com.iwallet.biz.common.util.money.Money" />
 
 	<column name="count" javatype="long" />
 	
