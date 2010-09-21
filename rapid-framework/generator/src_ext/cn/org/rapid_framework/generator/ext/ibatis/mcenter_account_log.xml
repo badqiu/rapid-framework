@@ -72,7 +72,7 @@
 	        when (sub_trans_code in ('500414','500415','500418')) then 'A503'
 	
 	        /*其它*/
-	        when (trans_code != '4003' or sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418')) then 'A600'
+	        when (trans_code != '4003' and sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418')) then 'A600'
 	
 	        /*不可能出现的情况*/
 	        ELSE  concat('ERROR_AIR_BIZ_TYPE:',sub_trans_code,' ',ifnull(pay_type,''),' trans_amount:',trans_amount) end) as air_biz_type
@@ -84,15 +84,15 @@
 	<sql id="airBizType.where">
 			/*  购票支出  */
 			<isEqual prepend="and" property="airBizType" compareValue="TICKET_PAY">
-				sub_trans_code='601101' and trans_amount &lt; 0
+				sub_trans_code='600101' and trans_amount &lt; 0
 			</isEqual> 
 			/* 余额购票 */   	        
 			<isEqual prepend="and" property="airBizType" compareValue="BALANCE_PAY">
-				sub_trans_code='601101' and pay_type is null and trans_amount &lt; 0
+				sub_trans_code='600101' and pay_type is null and trans_amount &lt; 0
 			</isEqual>	
 			/*信用购票*/
 			<isEqual prepend="and" property="airBizType" compareValue="CREDIT_PAY">
-				sub_trans_code='601101' and pay_type='CREDIT_PAY' and trans_amount &lt; 0
+				sub_trans_code='600101' and pay_type='CREDIT_PAY' and trans_amount &lt; 0
 			</isEqual>
 			
 			/* 购票退款 */
@@ -110,11 +110,11 @@
 			
 			/* 售票  */
 			<isEqual prepend="and" property="airBizType" compareValue="SALE">
-				((sub_trans_code='601101' and trans_amount > 0)  or (sub_trans_code='301101' and trans_amount &lt; 0 ))
+				((sub_trans_code='600101' and trans_amount > 0)  or (sub_trans_code='301101' and trans_amount &lt; 0 ))
 			</isEqual>
 			/*售票收入*/
 			<isEqual prepend="and" property="airBizType" compareValue="SALE_INCOME">
-				sub_trans_code='601101' and trans_amount > 0 
+				sub_trans_code='600101' and trans_amount > 0 
 			</isEqual>
 			/*售票退款*/
 			<isEqual prepend="and" property="airBizType" compareValue="SALE_REFUND">
@@ -190,7 +190,7 @@
 			
 			/*其它*/
 			<isEqual prepend="and" property="airBizType" compareValue="OTHER">
-				(trans_code != '4003' or sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418'))
+				(trans_code != '4003' and sub_trans_code not in ('600101','301101','301148','301149','301201','301202','301203','301143','301144','301105','301119','301120','301154','500405','500410','500414','500415','500418'))
 			</isEqual>	       
 	</sql>
 		
