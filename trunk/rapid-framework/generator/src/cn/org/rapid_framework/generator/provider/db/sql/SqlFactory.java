@@ -17,6 +17,7 @@ import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory.DatabaseMetaDataUtils;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory.NotFoundTableException;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -73,7 +74,9 @@ public class SqlFactory {
         
         Connection conn = DataSourceProvider.getConnection();
         try {
-        	conn.setReadOnly(true);
+        	if(!DatabaseMetaDataUtils.isHsqlDataBase(conn.getMetaData())){
+        		conn.setReadOnly(true);
+        	}
         	conn.setAutoCommit(false);
 	        PreparedStatement ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
@@ -81,6 +84,8 @@ public class SqlFactory {
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
 	        
 	        return afterProcessedSql(sql);
+        }catch(SQLException e) {
+        	throw new RuntimeException("execute sql occer error,\nexecutedSql:"+SqlParseHelper.removeOrders(executeSql),e);
         }catch(Exception e) {
         	throw new RuntimeException("sql parse error,\nexecutedSql:"+SqlParseHelper.removeOrders(executeSql),e);
         }finally {
