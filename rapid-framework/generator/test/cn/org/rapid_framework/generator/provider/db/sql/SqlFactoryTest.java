@@ -42,6 +42,14 @@ public class SqlFactoryTest extends TestCase {
 		}catch(RuntimeException e) {
 		}
 	}
+
+	public void test_ListParam() throws SQLException, Exception {
+		Sql sql = parser.parseSql("select * from user_info where user_id = #nameList[]# and password = #{pwdList[index]} and age = ${ageList[${index}]} ");
+		verifyParameters(sql,"nameList","pwdList","ageList");
+		assertTrue(sql.getParam("nameList").isListParam());
+		assertTrue(sql.getParam("pwdList").isListParam());
+		assertTrue(sql.getParam("ageList").isListParam());
+	}
 	
 	public void test_select() throws SQLException, Exception {
 		Sql sql = parser.parseSql("select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");

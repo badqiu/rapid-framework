@@ -54,6 +54,7 @@ public class SqlFactory {
     }
 
     public Sql parseSql(String sourceSql) {
+    	if(StringHelper.isBlank(sourceSql)) throw new IllegalArgumentException("sourceSql must be not empty");
     	String beforeProcessedSql = beforeParseSql(sourceSql);
     	
 //    	String unscapedSourceSql = StringHelper.unescapeXml(beforeProcessedSql);
@@ -223,7 +224,8 @@ public class SqlFactory {
 		public boolean isMatchListParam(String sql, String paramName) {
 			return 
 			    sql.matches("(?s).*\\sin\\s*\\([:#\\$&]\\{?"+paramName+"\\}?[$#}]?\\).*") // match in (:username) ,not in (#username#)
-			    || sql.matches("(?s).*[#$]"+paramName+"\\[]\\.?\\w*[#$].*"); //match #user[]# $user[]$ #user[].age#
+			    || sql.matches("(?s).*[#$]"+paramName+"\\[]\\.?\\w*[#$].*") //match #user[]# $user[]$ #user[].age# for ibatis
+			   || sql.matches("(?s).*[#$]\\{"+paramName+"\\[[$\\{\\}\\w]+]\\}*.*"); //match #{user[index]}# ${user[${index}]}  for mybatis
 		}
 	
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
