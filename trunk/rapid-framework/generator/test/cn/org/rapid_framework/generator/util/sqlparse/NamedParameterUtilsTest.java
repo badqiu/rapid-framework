@@ -97,6 +97,23 @@ public class NamedParameterUtilsTest extends TestCase {
 		}catch(Exception e) {
 		}		
 	}
+
+	public void testMybatis_for_foreach() {
+		verifyParams("select * from username in #{userList[index]}","userList");
+		verifyParams("select * from username in #{userList[${index}]}","userList");
+		verifyParams("select * from username in ${userList[index]}","userList");
+		verifyParams("select * from username in ${userList[${index}]}","userList");
+		verifyParams("select * from username in #userList[]#","userList");
+		
+		verifyParams("select * from username in :userList and pwd = #pwd# and blog = $blog$ and content <> #{content} and sex in ${sex}","userList","pwd","blog","content","sex");
+	}
+	
+	public void verifyParams(String sqlString,String... params) {
+		ParsedSql sql =  NamedParameterUtils.parseSqlStatement(sqlString);
+		for(int i = 0; i < params.length; i++) {
+			assertEquals(sql.getParameterNames().get(i),params[i]);
+		}
+	}
 	
 	public void verify(String sourceSql,String expected) {
 		ParsedSql sql = NamedParameterUtils.parseSqlStatement(sourceSql);
