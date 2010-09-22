@@ -166,7 +166,14 @@ public abstract class BaseIbatis3Dao<E,PK extends Serializable> extends DaoSuppo
 				}
 			});
 		}
-		
+
+		public List selectList(final String statement,final Object parameter) {
+			return (List)execute(new SqlSessionCallback() {
+				public Object doInSession(SqlSession session) {
+					return session.selectList(statement, parameter);
+				}
+			});
+		}
 		
 		public int delete(final String statement,final Object parameter) {
 			return (Integer)execute(new SqlSessionCallback() {
