@@ -59,7 +59,7 @@ public class Generator {
 		setTemplateRootDirs(new File[]{templateRootDir});
 	}
 
-	public void setTemplateRootDirs(File[] templateRootDirs) {
+	public void setTemplateRootDirs(File... templateRootDirs) {
 		this.templateRootDirs = Arrays.asList(templateRootDirs);
 	}
 	
