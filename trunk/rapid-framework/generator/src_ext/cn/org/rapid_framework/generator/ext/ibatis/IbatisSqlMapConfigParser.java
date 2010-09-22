@@ -67,7 +67,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
                 openClose = null;
             }
             if(attributes.get("close") != null) {
-	        	openClose = new OpenCloseTag();
+	        	openClose = new OpenCloseTag(); // FIXME 未处理多个open close问题
 	        	openClose.xmlTag = xmlTag;
 	        	openClose.close = attributes.get("close");
             }
