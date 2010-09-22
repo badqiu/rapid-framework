@@ -3,7 +3,7 @@
  * Copyright (c) 2010 All Rights Reserved.
  */
  
-package ${basepackage}.ibatis;
+package ${basepackage}.mybatis;
 
 import ${basepackage}.query.*;
 
@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
@@ -24,7 +23,7 @@ import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
  * ${tableConfig.tableClassName}DAO
  * database table: ${tableConfig.table.sqlName}
  */
-public class Mybatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSupport implements ${tableConfig.tableClassName}DAO {
+public class Mybatis${tableConfig.tableClassName}DAO extends BaseIbatis3Dao implements ${tableConfig.tableClassName}DAO {
 
 <#list tableConfig.sqls as sql>
 
