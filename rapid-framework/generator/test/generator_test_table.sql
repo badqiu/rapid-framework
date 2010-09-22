@@ -50,3 +50,10 @@ CREATE TABLE topic (
   modified date NOT NULL,
   PRIMARY KEY(topic_id,topic_type)
 );
+COMMENT ON TABLE user_info IS '用户信息表';
+COMMENT ON COLUMN user_info.username IS '用户名';
+COMMENT ON COLUMN user_info.password IS '用户密码';
+COMMENT ON COLUMN user_info.user_id IS '用户ID';
+COMMENT ON COLUMN user_info.birth_date IS '生日';
+COMMENT ON COLUMN user_info.sex IS '性别';
+COMMENT ON COLUMN user_info.age IS '年龄';
