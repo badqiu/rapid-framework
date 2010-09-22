@@ -114,8 +114,12 @@ public class SqlFactory {
         try {
 			ResultSet rs = ps.executeQuery();
 			return rs.getMetaData(); 
-		} catch (Exception e) {
-			return ps.getMetaData();
+		} catch (SQLException e) {
+			try {
+				return ps.getMetaData();
+			}catch(SQLException ee) {
+				throw e;
+			}
 		}
 	}
 	
