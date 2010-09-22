@@ -181,6 +181,8 @@ public class StringHelperTest extends TestCase {
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>order by username desc</isNotEmpty>"),"");
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>\norder\nby username desc\n</isNotEmpty>"),"");
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>\nOrder\tbY username desc\n</isNotEmpty>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>\nOrder\tbY\nusername desc\n</isNotEmpty>"),"");
+	    assertEquals(StringHelper.removeIbatisOrderBy("<isNotEmpty property='orderby'>Order bYusername desc\n</isNotEmpty>"),"<isNotEmpty property='orderby'>Order bYusername desc\n</isNotEmpty>");
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend='order by' property='orderby' compareValue='PAY'>\nusername desc</isEqual>"),"");
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend='order by' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>"),"");
 	    assertEquals(StringHelper.removeIbatisOrderBy("<isEqual prepend=' order  by ' property='orderby' compareValue='PAY'>\nusername desc\n</isEqual>"),"");
