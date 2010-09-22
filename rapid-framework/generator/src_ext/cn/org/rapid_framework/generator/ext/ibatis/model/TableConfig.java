@@ -153,6 +153,17 @@ public class TableConfig {
     public void setOperations(List<MetaOperation> operations) {
         this.operations = operations;
     }
+    
+    public MetaOperation findOperation(String operationName) {
+    	MetaOperation operation = null;
+        for(MetaOperation item : getOperations()){
+        	if(item.getName().equals(operationName)) {
+        		return item;
+        	}
+        }
+        return null;
+    }
+    
     public String getDummypk() {
         return dummypk;
     }
@@ -177,47 +188,55 @@ public class TableConfig {
         return Convert2SqlsProecssor.toSqls(table);
     }
     
-    private static class Convert2SqlsProecssor {
+    static class Convert2SqlsProecssor {
         
         public static List<Sql> toSqls(TableConfig table)  {
             List<Sql> sqls = new ArrayList<Sql>();
             for(MetaOperation op :table.getOperations()) {
-                try {
-                SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table));
-//                System.out.println("process operation:"+op.getName()+" sql:"+op.getSql());
-                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
-                String unescapeSqlString = StringHelper.unescapeXml(sqlString);
-                String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
-                
-                Sql sql = sqlFactory.parseSql(namedSql);
-                LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
-                sql.setParams(finalParameters);
-                sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
-                
-                if(StringHelper.isNotBlank(op.getSqlmap())) {
-                    sql.setIbatisSql(op.getSqlmap());
-                    sql.setIbatis3Sql(op.getSqlmap());
-                }else {
-                    sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
-                    sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
-                    sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
-                }
-                sql.setOperation(op.getName());
-                sql.setMultiplicity(op.getMultiplicity());
-                sql.setParameterClass(op.getParameterClass());
-                sql.setResultClass(op.getResultClass());
-                sql.setRemarks(op.getRemarks());
-                sql.setTableSqlName(table.getSqlname());
-                sql.setPaging(op.isPaging());
-                sql.setSqlmap(op.getSqlmap());
-                sql.setParamType(op.getParamtype());
-                
-                sqls.add(sql);
-                }catch(Exception e) {
-                    throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
-                }
+                sqls.add(processOperation(op,table));
             }
             return sqls;
+        }
+        
+        public static Sql toSql(TableConfig table,String operationName)  {
+        	MetaOperation operation = table.findOperation(operationName);
+            if(operation == null) throw new IllegalArgumentException("not found operation with name:"+operationName);
+            return processOperation(operation, table);
+        }
+        
+        private static Sql processOperation(MetaOperation op,TableConfig table) {
+        	try {
+            SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table));
+            String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
+            String unescapeSqlString = StringHelper.unescapeXml(sqlString);
+            String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
+            
+            Sql sql = sqlFactory.parseSql(namedSql);
+            LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
+            sql.setParams(finalParameters);
+            sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
+            
+            if(StringHelper.isNotBlank(op.getSqlmap())) {
+                sql.setIbatisSql(op.getSqlmap());
+                sql.setIbatis3Sql(op.getSqlmap());
+            }else {
+                sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
+                sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
+                sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
+            }
+            sql.setOperation(op.getName());
+            sql.setMultiplicity(op.getMultiplicity());
+            sql.setParameterClass(op.getParameterClass());
+            sql.setResultClass(op.getResultClass());
+            sql.setRemarks(op.getRemarks());
+            sql.setTableSqlName(table.getSqlname());
+            sql.setPaging(op.isPaging());
+            sql.setSqlmap(op.getSqlmap());
+            sql.setParamType(op.getParamtype());      
+            return sql;
+        	}catch(Exception e) {
+                throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
+            }
         }
 
 		private static LinkedHashSet<Column> processWithCustomColumns(List<Column> customColumns,LinkedHashSet<Column> columns) {
