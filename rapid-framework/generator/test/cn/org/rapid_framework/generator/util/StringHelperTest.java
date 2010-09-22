@@ -225,6 +225,7 @@ public class StringHelperTest extends TestCase {
 	public void test_remove_order_by() {
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user order by username").trim());
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <if test=''>\norder by username\n</if>").trim());
+		assertEquals("select * from user \n <if test='abc <> 123'>\n</if>",StringHelper.removeIbatisOrderBy("select * from user \n <if test='abc <> 123'>\norder by username\n</if>").trim());
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <isNotEmpty prepend='order by'>\nusername\n</isNotEmpty>").trim());
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <isNotEmpty prepend='order by'>username</isNotEmpty>").trim());
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <if test=''>order by username</if>").trim());
