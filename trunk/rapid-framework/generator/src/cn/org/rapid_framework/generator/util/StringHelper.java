@@ -540,8 +540,13 @@ public class StringHelper {
 	public static String removeIbatisOrderBy(String sql) {
 //	    Pattern p = Pattern.compile("<is\\w+\\s+[\\w\\s='\"]+>\\s*order\\s+by.*?</\\w+>");
 	    //<is\w+\s+[\w\s='"]+>\s*order\s+by.*?</\w+>
-	    return sql.replaceAll("(?si)<is\\w+\\s+[\\w\\s='\"]+>\\s*order\\s+by.*?</\\w+>", "")
+	    String orderByRemovedSql = sql.replaceAll("(?si)<is\\w+\\s+[\\w\\s='\"]+>\\s*order\\s+by.*?</\\w+>", "")
 	            .replaceAll("(?i)<is\\w+[\\w\\s='\"]+prepend[\\w\\s='\"]*?order\\s+by[\\w\\s='\"]*?>[\\s\\w\\W]*?</\\w+>", "")
 	            .replaceAll("(?i)\\s*order\\s+by\\s+.*", "");
+	    return removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(orderByRemovedSql))));
+	}
+	
+	public static String removeXmlTagIfBodyEmpty(String sql) {
+		return sql.replaceAll("<\\w+[^>]*?>\\s+</\\w+>", "");
 	}
 }
