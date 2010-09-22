@@ -46,7 +46,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         StringBuffer sb = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
         
-        String close = null;
+        OpenCloseTag openClose = null;
         while(m.find()) {
             String xmlTag = m.group(1);
             String attributesString = m.group(2);
@@ -62,12 +62,22 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
             String replacement = getReplacement(attributes.get("open"), attributes.get("prepend"));
             StringHelper.appendReplacement(m, sb, replacement);
             
-            if(close != null) {
-                sb.append(close);
+            if(openClose != null && openClose.close != null && xmlTag.equals("/"+openClose.xmlTag)) {
+                sb.append(openClose.close);
+                openClose = null;
             }
-            close = attributes.get("close");
+            if(attributes.get("close") != null) {
+	        	openClose = new OpenCloseTag();
+	        	openClose.xmlTag = xmlTag;
+	        	openClose.close = attributes.get("close");
+            }
         }
         return removeXMLCdata(SqlParseHelper.replaceWhere(sb.toString()));
+    }
+    
+    private static class OpenCloseTag {
+    	public String close;
+    	public String xmlTag;
     }
 
 	private static void processForMybatis(StringBuffer sb, String xmlTag,
