@@ -42,6 +42,13 @@ MailerHolder
 MessageSourceHolder
 MessagePublisherHodler
 
+支持procedure
+	<insert id="" parameterClass="" parameterMap="" timeout=""></insert>	
+	<delete id="" parameterClass="" parameterMap="" timeout=""></delete>
+	<update id="" parameterClass="" parameterMap="" timeout=""></update>
+	<select id="" parameterClass="" parameterMap="" timeout="" remapResults="true" resultClass="" resultMap="" cacheModel="" fetchSize="" resultSetType="FORWARD_ONLY" xmlResultName=""></select>
+	<procedure id="" remapResults="true" resultClass="" resultMap="" cacheModel="" fetchSize="" resultSetType="FORWARD_ONLY" xmlResultName=""></procedure>
+
 拦截器用于支持 @Before(unless="login") @After(unless="login") @Finally,@Catch @Before("*query") 方法或应该为私有的
 
 <#--ibatis分页查询需要  remove order by clause -->
