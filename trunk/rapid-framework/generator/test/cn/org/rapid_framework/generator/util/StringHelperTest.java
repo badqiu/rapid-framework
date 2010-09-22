@@ -221,4 +221,12 @@ public class StringHelperTest extends TestCase {
 		assertEquals("abc  123 bb",StringHelper.join(array," "));
 //		assertEquals("abc 123","abc \n\t123".replace('\n', ' '));
 	}
+	
+	public void test_remove_order_by() {
+		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user order by username").trim());
+		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <if test=''>\norder by username\n</if>").trim());
+		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <isNotEmpty prepend='order by'>\nusername\n</isNotEmpty>").trim());
+		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <isNotEmpty prepend='order by'>username</isNotEmpty>").trim());
+		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <if test=''>order by username</if>").trim());
+	}
 }
