@@ -1,6 +1,8 @@
 <wiki:toc max_depth="2" />
 
-为velocity新增加三个指令：block,override,extends
+为velocity新增加四个指令：block,override,extends,super
+
+<font color=red>super为v3.9.3新增加指令</font>
 
 =一.目的：=
 
@@ -29,7 +31,8 @@
 #override("body")  
     <div class='content'>  
         Powered By rapid-framework  
-    </div>   
+    </div>
+    #super   
 #end  
 #extends("base.vm") 
 }}}
@@ -44,26 +47,28 @@
 <body>   
     <div class='content'>  
         Powered By rapid-framework  
-    </div>   
+    </div>
+    base_body_content   
 </body>  
 </html>  
 }}}
 
 
-可以看到，输出中body部分被子模板重定义(override)了，而head部分则还是显示父模板(block)中的内容。
+可以看到，输出中body部分被子模板重定义(override)了，而head部分则还是显示父模板(block)中的内容。#super指令用于显示父模板的内容
  
  
 =三.指令介绍:=
 
   * *#block :* 定义块，可以被子模板用#override指令覆盖显示
   * *#override :*  覆盖#block指令显示的内容
+  * *#super :* 用于在override中显示父模板的内容,与java的super关键字功能类似.<font color=red>super为v3.9.3新增加指令</font>
   * *#extends :* 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#parse指令，只是为了提供统一的语义，即extends比parse更好理解）
 
 =四.使用说明:=
 
 在velocity的properties中可以设置:
 {{{
-userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective  
+userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective,cn.org.rapid_framework.velocity.directive.SuperDirective
 }}}
 
 
@@ -82,6 +87,6 @@ file.resource.loader.cache = true
 }}}
 
 =五.源代码=
-只用主要的两个类即实现整个功能.
+只用主要的三个类即实现整个功能.
 
 [http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/velocity/directive/]
