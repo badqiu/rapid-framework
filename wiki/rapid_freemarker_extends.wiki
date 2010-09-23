@@ -87,6 +87,29 @@ configuration.setSharedVariable("extends", new ExtendsDirective());
 configuration.setSharedVariable("super", new SuperDirective())
 }}}
 
+如果你是使用springmvc,那么可以使用如下配置:
+{{{
+<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.directive.BlockDirective"/>
+<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.directive.ExtendsDirective"/>
+<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.directive.OverrideDirective"/>
+<bean id="superDirective" class="cn.org.rapid_framework.freemarker.directive.SuperDirective"/>
+
+<!-- freemarker config for FreeMarkerViewResolver -->
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	<property name="templateLoaderPath" value="/freemarker/"/>
+	<property name="defaultEncoding" value="UTF-8"/>
+	<property name="freemarkerVariables">
+		<map>
+			<entry key="extends" value-ref="extendsDirective"></entry>
+			<entry key="override" value-ref="overrideDirective"></entry>
+			<entry key="block" value-ref="blockDirective"></entry>
+			<entry key="super" value-ref="superDirective"></entry>
+		</map>
+	</property>
+</bean>
+}}}
+
+
 =五.源代码=
 
 [http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/freemarker/directive/]
