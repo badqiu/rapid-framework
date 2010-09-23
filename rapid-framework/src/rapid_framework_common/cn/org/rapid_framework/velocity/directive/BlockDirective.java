@@ -9,6 +9,10 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.parser.node.Node;
 
+import cn.org.rapid_framework.velocity.directive.OverrideDirective.OverrideNodeWrapper;
+import freemarker.core.Environment;
+import freemarker.template.TemplateDirectiveBody;
+
 /**
  * @author badqiu
  */
@@ -29,17 +33,29 @@ public class BlockDirective extends org.apache.velocity.runtime.directive.Direct
 			throws IOException, ResourceNotFoundException, ParseErrorException,MethodInvocationException {
 		String name = Utils.getRequiredArgument(context, node, 0,getName());
 		
-		Node outputNode = getOverrideNode(context,name);
-        if(outputNode == null) {
-        	outputNode = node.jjtGetChild(1);
+		Node overrideNode = getOverrideNode(context,name);
+		Node topNode = node.jjtGetChild(1);
+        if(overrideNode == null) {
+        	return topNode.render(context, writer);
+        }else {
+        	OverrideNodeWrapper wrapper = (OverrideNodeWrapper)overrideNode;
+        	setTopBodyForParentBody(topNode,wrapper);
+        	return wrapper.render(context, writer);
         }
-        outputNode.render(context, writer);
-        
-        return true;
 	}
 
 	private Node getOverrideNode(InternalContextAdapter context,String name) {
 		return (Node)context.get(Utils.getOverrideVariableName(name));
+	}
+
+	private void setTopBodyForParentBody(
+			Node topNode,
+			OverrideNodeWrapper overrideNode) {
+		OverrideNodeWrapper parent = overrideNode;
+		while(parent.parentNode != null) {
+			parent = parent.parentNode;
+		}
+		parent.parentNode = new OverrideNodeWrapper(topNode);
 	}
 	
 }
