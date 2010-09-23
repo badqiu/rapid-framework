@@ -22,12 +22,12 @@ public class SuperDirective implements TemplateDirectiveModel{
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		Node current = OverrideContext.currentNode.get();
 		if(current == null) {
-			throw new TemplateException("super direction must be child of override", env);
+			throw new TemplateException("<@super/> direction must be child of override", env);
 		}
 		
 		Node parent = current.parent;
 		if(parent == null) {
-			throw new TemplateException("not found super block", env);
+			throw new TemplateException("not parent found for <@super/>", env);
 		}
 		try {
 			OverrideContext.currentNode.set(parent);
