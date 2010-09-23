@@ -32,13 +32,13 @@ public class OverrideDirectiveTest {
 		engine = new VelocityEngine();
 		Properties p = new Properties();   
 		p.setProperty(Velocity.FILE_RESOURCE_LOADER_PATH, path);
-		p.setProperty("userdirective","cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective");
+		p.setProperty("userdirective","cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective,cn.org.rapid_framework.velocity.directive.SuperDirective");
 		p.setProperty(Velocity.FILE_RESOURCE_LOADER_CACHE, "true");
 		engine.init(p);
 	}
 
 	@Test
-	public void test() throws Exception {
+	public void test_override() throws Exception {
 		
 		System.out.println(VelocityEngineUtils.mergeTemplateIntoString(engine,"base.vm",new HashMap()));
 		System.out.println(VelocityEngineUtils.mergeTemplateIntoString(engine,"child.vm",new HashMap()));
@@ -47,6 +47,17 @@ public class OverrideDirectiveTest {
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base.vm"));
 		assertEquals("<html><head>base_head_content</head><body><divclass='content'>PoweredByrapid-framework</div></body></html>",processTemplate("child.vm"));
 		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processTemplate("grandchild.vm"));
+		
+//		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
+
+	}
+
+	@Test
+	public void test_override_by_super() throws Exception {
+		
+		assertEquals("<html><head>base_head_content</head><body><super>base_body_content<super></body></html>",processTemplate("super.vm"));
+		assertEquals("<html><head><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersuper.vm"));
+		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersupersuper.vm"));
 		
 //		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
 

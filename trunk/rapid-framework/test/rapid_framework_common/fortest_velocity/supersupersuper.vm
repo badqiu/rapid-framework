@@ -1,0 +1,6 @@
+#override("head")
+	#super
+	<supersupersuper>
+	#super
+#end
+#extends("supersuper.vm")

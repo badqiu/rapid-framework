@@ -11,6 +11,7 @@ import org.apache.velocity.runtime.parser.node.SimpleNode;
 class Utils {
 	
 	static String BLOCK = "__vm_override__";
+	static String OVERRIDE_CURRENT_NODE = "__vm_current_override_node__";
 	
 	static String getOverrideVariableName(String name) {
 		return BLOCK + name;
