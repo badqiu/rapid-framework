@@ -26,19 +26,9 @@ public class BlockDirective implements TemplateDirectiveModel{
 				body.render(env.getOut());
 			}
 		}else {
-			setTopBodyForParentBody(env, body, overrideBody);
+			DirectiveUtils.setTopBodyForParentBody(env, new TemplateDirectiveBodyOverrideWraper(body,env), overrideBody);
 			overrideBody.render(env.getOut());
 		}
-	}
-
-	private void setTopBodyForParentBody(Environment env,
-			TemplateDirectiveBody topBody,
-			TemplateDirectiveBodyOverrideWraper overrideBody) {
-		TemplateDirectiveBodyOverrideWraper parent = overrideBody;
-		while(parent.parentBody != null) {
-			parent = parent.parentBody;
-		}
-		parent.parentBody = new TemplateDirectiveBodyOverrideWraper(topBody,env);
 	}
 		
 }

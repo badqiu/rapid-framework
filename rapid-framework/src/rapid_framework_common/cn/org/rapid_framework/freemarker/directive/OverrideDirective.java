@@ -26,10 +26,11 @@ public class OverrideDirective implements TemplateDirectiveModel {
 		String overrideVariableName = DirectiveUtils.getOverrideVariableName(name);
 		
 		TemplateDirectiveBodyOverrideWraper override = DirectiveUtils.getOverrideBody(env, name);
+		TemplateDirectiveBodyOverrideWraper current = new TemplateDirectiveBodyOverrideWraper(body,env);
 		if(override == null) {
-			env.setVariable(overrideVariableName, new TemplateDirectiveBodyOverrideWraper(body,env));
+			env.setVariable(overrideVariableName, current);
 		}else {
-			override.parentBody = new TemplateDirectiveBodyOverrideWraper(body,env);
+			DirectiveUtils.setTopBodyForParentBody(env, current, override);
 		}
 	}
 	

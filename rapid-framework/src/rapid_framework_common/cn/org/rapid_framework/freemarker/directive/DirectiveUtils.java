@@ -47,4 +47,13 @@ public class DirectiveUtils {
 		return value;
 	}
 	
+	static void setTopBodyForParentBody(Environment env,
+			TemplateDirectiveBodyOverrideWraper topBody,
+			TemplateDirectiveBodyOverrideWraper overrideBody) {
+		TemplateDirectiveBodyOverrideWraper parent = overrideBody;
+		while(parent.parentBody != null) {
+			parent = parent.parentBody;
+		}
+		parent.parentBody = topBody;
+	}
 }

@@ -35,7 +35,8 @@ public class OverrideDirective extends org.apache.velocity.runtime.directive.Dir
     		Node body = node.jjtGetChild(1);
         	context.put(Utils.getOverrideVariableName(name), new OverrideNodeWrapper(body));
         }else {
-        	override.parentNode = new OverrideNodeWrapper(node.jjtGetChild(1));
+        	OverrideNodeWrapper current = new OverrideNodeWrapper(node.jjtGetChild(1));
+        	Utils.setParentForTop(current,override);
         }
         return true;
 	}

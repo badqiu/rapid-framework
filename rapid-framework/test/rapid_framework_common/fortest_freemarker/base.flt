@@ -4,5 +4,6 @@
 	</head>
 	<body>
 		<@block name="body">base_body_content</@block>
+		<@block name="empty"/>
 	</body>
 </html>
