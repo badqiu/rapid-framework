@@ -1,6 +1,6 @@
 <wiki:toc max_depth="2" />
 
-现扩展freemarker，新增加三个指令： @extends,@block,@override
+现扩展freemarker，新增加三个指令： @extends,@block,@override,@super
  
 =一.目的=
   # 父模板页面定义好布局,子模板可以重定义布局中的部分内容
@@ -27,7 +27,8 @@
 <@override name="body">  
     <div class='content'>  
         Powered By rapid-framework  
-    </div>  
+    </div>
+    <@super/>  
 </@override>  
 <@extends name="base.flt"/>  
 }}}
@@ -42,7 +43,8 @@
     <body>  
         <div class='content'>  
             Powered By rapid-framework  
-        </div>  
+        </div> 
+        base_body_content 
     </body>  
 </html>  
 }}}
@@ -53,6 +55,7 @@
  
   * @block : 定义块，可以被子模板用@override指令覆盖显示,没有被override则显示自身的内容
   * @override :  重定义@block指令显示的内容
+  * @super : 在override中显示 super block的内容,类似java的 super关键字
   * @extends : 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#include指令，只是为了提供统一的语义，即extends比include更好理解） 
 
 *@extends使用通配符*
@@ -79,6 +82,7 @@ freemarker模板引擎将自动查找:
 configuration.setSharedVariable("block", new BlockDirective());  
 configuration.setSharedVariable("override", new OverrideDirective());  
 configuration.setSharedVariable("extends", new ExtendsDirective());  
+configuration.setSharedVariable("super", new SuperDirective())
 }}}
 
 =五.源代码=
