@@ -8,5 +8,6 @@
 	#block("body") 
 		base_body_content 
 	#end
+    #block("empty")#end
 </body>
 </html>
