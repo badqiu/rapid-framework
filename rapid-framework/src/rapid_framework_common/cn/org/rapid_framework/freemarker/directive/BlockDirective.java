@@ -3,14 +3,12 @@ package cn.org.rapid_framework.freemarker.directive;
 import java.io.IOException;
 import java.util.Map;
 
-import cn.org.rapid_framework.freemarker.directive.OverrideDirective.TemplateDirectiveBodyModel;
+import cn.org.rapid_framework.freemarker.directive.OverrideDirective.TemplateDirectiveBodyOverrideWraper;
 import freemarker.core.Environment;
 import freemarker.template.TemplateDirectiveBody;
 import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
-import freemarker.template.TemplateModelException;
-import freemarker.template.TemplateScalarModel;
 
 /**
  * @author badqiu
@@ -22,16 +20,23 @@ public class BlockDirective implements TemplateDirectiveModel{
             Map params, TemplateModel[] loopVars,
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
-		TemplateDirectiveBodyModel overrideBody = getOverrideBody(env, name);
-		TemplateDirectiveBody outputBody = overrideBody == null ? body : overrideBody.body;
-		if(outputBody != null) {
-			outputBody.render(env.getOut());
+		TemplateDirectiveBodyOverrideWraper overrideBody = DirectiveUtils.getOverrideBody(env, name);
+		if(overrideBody == null && body != null) {
+			body.render(env.getOut());
+		}else {
+			setTopBodyForParentBody(env, body, overrideBody);
+			overrideBody.render(env.getOut());
 		}
 	}
 
-	private TemplateDirectiveBodyModel getOverrideBody(Environment env, String name) throws TemplateModelException {
-		TemplateDirectiveBodyModel value = (TemplateDirectiveBodyModel)env.getVariable(DirectiveUtils.getOverrideVariableName(name));
-		return value;
+	private void setTopBodyForParentBody(Environment env,
+			TemplateDirectiveBody topBody,
+			TemplateDirectiveBodyOverrideWraper overrideBody) {
+		TemplateDirectiveBodyOverrideWraper parent = overrideBody;
+		while(parent.parentBody != null) {
+			parent = parent.parentBody;
+		}
+		parent.parentBody = new TemplateDirectiveBodyOverrideWraper(topBody,env);
 	}
-
+		
 }

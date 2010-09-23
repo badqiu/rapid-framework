@@ -34,6 +34,7 @@ public class BlockDirectiveTest {
 		conf.setSharedVariable("block", new BlockDirective());
 		conf.setSharedVariable("override", new OverrideDirective());
 		conf.setSharedVariable("extends", new ExtendsDirective());
+		conf.setSharedVariable("super", new SuperDirective());
 		File dir = ResourceUtils.getFile("classpath:fortest_freemarker");
 		conf.setDirectoryForTemplateLoading(dir);
 		System.out.println(dir.getAbsolutePath());
@@ -47,6 +48,15 @@ public class BlockDirectiveTest {
 		assertEquals("<html><head>base_head_content</head><body><divclass='content'>PoweredByrapid-framework</div></body></html>",processTemplate("child.flt").trim());
 		assertEquals("<html><head>grandchild_head_content</head><body>grandchild_body_content</body></html>",processTemplate("grandchild.flt").trim());
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.flt"));
+	}
+
+	@Test
+	public void testOverride_with_super() throws FileNotFoundException, IOException {
+
+		System.out.println(processor.processTemplate("super.flt",new HashMap()));
+		assertEquals("<html><head>base_head_content</head><body><super>base_body_content<super></body></html>",processTemplate("super.flt"));
+		assertEquals("<html><head><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersuper.flt"));
+		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersupersuper.flt"));
 	}
 	
 	@Test(timeout=8000) // performance cost: time:4328.0 second/process:23105.36 count:100000
@@ -66,7 +76,7 @@ public class BlockDirectiveTest {
 			}
 		}
 		float cost = System.currentTimeMillis() - start;
-		System.out.println(cost+" "+ (count/(cost/1000))+" ");
+		System.out.println("cost:"+cost+" TPS:"+ (count/(cost/1000))+" ");
 		
 	}
 
