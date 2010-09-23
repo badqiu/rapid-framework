@@ -5,6 +5,8 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.runtime.parser.node.Node;
 import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+import cn.org.rapid_framework.velocity.directive.OverrideDirective.OverrideNodeWrapper;
+
 /**
  * @author badqiu
  */
@@ -28,6 +30,16 @@ class Utils {
 			throw new ParseErrorException("required argument is null with directive:#"+directive+"(),argumentIndex="+argumentIndex);
         }
 		return value;
+	}
+	
+	public static void setParentForTop(
+			OverrideNodeWrapper topParentNode,
+			OverrideNodeWrapper node) {
+		OverrideNodeWrapper top = node;
+		while(top.parentNode != null) {
+			top = top.parentNode;
+		}
+		top.parentNode = topParentNode;
 	}
 	
 }

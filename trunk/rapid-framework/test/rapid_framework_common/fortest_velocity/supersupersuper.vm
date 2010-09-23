@@ -3,4 +3,8 @@
 	<supersupersuper>
 	#super
 #end
+#override("body")
+	#super
+	<supersupersuper_body>
+#end
 #extends("supersuper.vm")
