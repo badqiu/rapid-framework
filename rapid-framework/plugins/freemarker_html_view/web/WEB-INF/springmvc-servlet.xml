@@ -32,6 +32,7 @@
 	<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.directive.BlockDirective"/>
 	<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.directive.ExtendsDirective"/>
 	<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.directive.OverrideDirective"/>
+	<bean id="superDirective" class="cn.org.rapid_framework.freemarker.directive.SuperDirective"/>
 	
 	<!-- freemarker config for FreeMarkerViewResolver -->
 	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -42,6 +43,7 @@
 				<entry key="extends" value-ref="extendsDirective"></entry>
 				<entry key="override" value-ref="overrideDirective"></entry>
 				<entry key="block" value-ref="blockDirective"></entry>
+				<entry key="super" value-ref="superDirective"></entry>
 			</map>
 		</property>
 	</bean>
