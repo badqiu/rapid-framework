@@ -14,7 +14,7 @@
     * [rapid_plugin_switch_desc dao及web插件切换及使用]
     * [rapid_ant ant脚本]
     * [rapid_generator 代码生成器rapid-generator(new)]
-    * view层
+    * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
       * [rapid_freemarker_extends freemarker实现模板继承(new)]
