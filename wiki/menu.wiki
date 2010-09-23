@@ -17,7 +17,7 @@
     * view层
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
-      * [rapid_freemarker_extends freemarker实现模板继承]
+      * [rapid_freemarker_extends freemarker实现模板继承(new)]
       * [rapid_velocity_extends velocity实现模板继承]
       * [rapid_pipeline freemarker,velocity模板管道操作]
       * [rapid_http_include 为velocity,freemarker提供jsp:include功能]
