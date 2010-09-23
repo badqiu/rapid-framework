@@ -1,6 +1,6 @@
 <wiki:toc max_depth="2" />
 
-现扩展freemarker，新增加三个指令： @extends,@block,@override,@super
+现扩展freemarker，新增加四个指令： @extends,@block,@override,@super
 
 <font color=red>@super为v3.9.3新增加指令</font>
  
@@ -77,7 +77,7 @@ freemarker模板引擎将自动查找:
 
 =四.使用说明=
 
-要使用如上三个自定义指令，必须在freeemarker的Configuration中注册。
+要使用如上自定义指令，必须在freeemarker的Configuration中注册。
 使用如下代码：
  
 {{{
