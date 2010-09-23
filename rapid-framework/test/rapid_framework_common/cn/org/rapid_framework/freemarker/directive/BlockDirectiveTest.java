@@ -61,7 +61,7 @@ public class BlockDirectiveTest {
 
 	@Test
 	public void testOverride_super_with_not_exists_parent() throws FileNotFoundException, IOException {
-		processTemplate("super_not_found_parent.flt");
+		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("super_not_found_parent.flt"));
 	}
 	
 	@Test(timeout=8000) // performance cost: time:4328.0 second/process:23105.36 count:100000
