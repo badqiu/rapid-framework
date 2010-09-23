@@ -58,6 +58,11 @@ public class BlockDirectiveTest {
 		assertEquals("<html><head><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersuper.flt"));
 		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersupersuper.flt"));
 	}
+
+	@Test
+	public void testOverride_super_with_not_exists_parent() throws FileNotFoundException, IOException {
+		processTemplate("super_not_found_parent.flt");
+	}
 	
 	@Test(timeout=8000) // performance cost: time:4328.0 second/process:23105.36 count:100000
 	public void testPerformance() throws TemplateException, IOException {
