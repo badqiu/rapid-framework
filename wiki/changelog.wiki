@@ -7,7 +7,7 @@
   * 实现gg.setOutputFile()功能
   * 增加无框架版flex4插件，(由随变混混贡献)
 *其它:*
-  * velocity及freemarker模板继承增加 @super指令用于显示父页面的内容.  
+  * velocity及freemarker模板继承增加 [rapid_freemarker_extends @super]指令用于显示父页面的内容.  
   * 模板中小的bug fixed
 
 == rapid-framework v3.9.2 20100720 ==
