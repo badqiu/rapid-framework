@@ -40,10 +40,10 @@
 		<property name="defaultEncoding" value="UTF-8"/>
 		<property name="freemarkerVariables">
 			<map>
-				<entry key="extends" value-ref="extendsDirective"></entry>
-				<entry key="override" value-ref="overrideDirective"></entry>
-				<entry key="block" value-ref="blockDirective"></entry>
-				<entry key="super" value-ref="superDirective"></entry>
+				<entry key="extends" value-ref="extendsDirective"/>
+				<entry key="override" value-ref="overrideDirective"/>
+				<entry key="block" value-ref="blockDirective"/>
+				<entry key="super" value-ref="superDirective"/>
 			</map>
 		</property>
 	</bean>
