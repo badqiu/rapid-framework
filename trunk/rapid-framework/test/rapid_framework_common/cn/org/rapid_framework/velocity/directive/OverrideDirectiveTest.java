@@ -62,6 +62,15 @@ public class OverrideDirectiveTest {
 //		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
 
 	}
+
+	@Test
+	public void test_override_by_super_by_not_found_parent() throws Exception {
+		
+		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("super_not_found_parent.vm"));
+		
+//		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
+
+	}
 	
 	@Test(expected=ParseErrorException.class)
 	public void testArgumentWithOverride() throws ParseErrorException, MethodInvocationException, ResourceNotFoundException, IOException {

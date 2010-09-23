@@ -21,8 +21,10 @@ public class BlockDirective implements TemplateDirectiveModel{
             TemplateDirectiveBody body) throws TemplateException, IOException {
 		String name = DirectiveUtils.getRequiredParam(params, "name");
 		TemplateDirectiveBodyOverrideWraper overrideBody = DirectiveUtils.getOverrideBody(env, name);
-		if(overrideBody == null && body != null) {
-			body.render(env.getOut());
+		if(overrideBody == null) {
+			if(body != null) {
+				body.render(env.getOut());
+			}
 		}else {
 			setTopBodyForParentBody(env, body, overrideBody);
 			overrideBody.render(env.getOut());
