@@ -1,12 +1,12 @@
 #labels changelog
 #修改日志
 == rapid-framework v3.9.2 20100923 ==
-主要是生成器必进:
+*主要是生成器改进:*
   * generateBySql()语法解析能力加强.
   * generateByClass()完善JavaClass相关属性.
   * 实现gg.setOutputFile()功能
   * 增加无框架版flex4插件，(由随变混混贡献)
-其它:
+*其它:*
   * velocity及freemarker模板继承增加 @super指令用于显示父页面的内容.  
   * 模板中小的bug fixed
 
