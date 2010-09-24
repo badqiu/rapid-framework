@@ -21,6 +21,8 @@ dalgen table config支持
 	2. 支持 <content></content> content中的内容将直接显示在 sqlmap中
 	3. 通过 include where支持 Query extends IncludeSql,以便重用条件
 
+集成dbcrawler: http://code.google.com/p/dbcrawler/
+
 在freemarker,velocity,jsp中支持 <rapid:super/> 标签.或者 <rapid:override name="body" showSuper="none|append|prepend">
 如: 
 	<rapid:override name="body">
