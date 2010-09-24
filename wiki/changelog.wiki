@@ -1,11 +1,12 @@
 #labels changelog
 #修改日志
 == rapid-framework v3.9.2 20100923 ==
-*主要是生成器改进:*
+*生成器改进:*
   * generateBySql()语法解析能力加强.
   * generateByClass()完善JavaClass相关属性.
   * 实现gg.setOutputFile()功能
 *其它:*
+  * 集成[log4jdbc log4jdbc日志框架],可以替换现在的hibernate,ibatis,mybatis,spring jdbc日志
   * velocity及freemarker模板继承增加 [rapid_freemarker_extends @super]指令用于显示父页面的内容.  
   * 模板中小的bug fixed
 
