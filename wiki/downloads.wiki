@@ -1,5 +1,5 @@
-== rapid-framework v3.9.2 发布 ==
-  本次新版本发布最主要的更新内容是生成器的加强,并且之前已经发布了rapid-generator独立版.此次升级保证模板的兼容性.后续rapid-framework的发行版将不直接提供rapid-generator的源码在项目中,以便以后大家编写的模板都可以在一个生成器引擎中运行. 还有现生成页面布局使用rapid的模板继承,目标是替换现在的sitemesh布局框架.
+== rapid-framework v3.9.3 20100923 发布 ==
+  BugFixed版本,请查看changelog
 
 [http://code.google.com/p/rapid-framework/downloads/list Download] | [changelog Changelog] | [menu Documentation] | [http://groups.google.hk/group/rapid-framework Forum]
 
