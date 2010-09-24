@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-mybatis-table-config.dtd">
 <table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
 	
 	<!-- 用于select查询公用抽取的列 -->
