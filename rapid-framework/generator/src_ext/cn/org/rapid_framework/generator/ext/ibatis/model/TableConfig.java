@@ -1,7 +1,5 @@
 package cn.org.rapid_framework.generator.ext.ibatis.model;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -21,7 +19,6 @@ import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
-import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
@@ -36,7 +33,7 @@ public class TableConfig {
     public String remarks;
     public List<MetaColumn> columns = new ArrayList();
     public List<MetaOperation> operations = new ArrayList<MetaOperation>();
-    public List<MetaResultMap> resultmaps = new ArrayList<MetaResultMap>();
+    public List<MetaResultMap> resultMaps = new ArrayList<MetaResultMap>();
     
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
@@ -93,7 +90,7 @@ public class TableConfig {
                         target.columns.add(column);
                     }
                 }
-                config.resultmaps.add(target);
+                config.resultMaps.add(target);
             }
         }
         return config;
@@ -335,13 +332,22 @@ public class TableConfig {
     }
 
     public static void main(String[] args) throws IOException, SAXException {
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
-        TableConfig metaTable = new TableConfig();
-        metaTable.columns.add(new MetaColumn());
-        metaTable.columns.add(new MetaColumn());
-        metaTable.columns.add(new MetaColumn());
-        TableConfig.parseFromXML(new FileInputStream(file));
-        System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
+//        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
+//        TableConfig metaTable = new TableConfig();
+//        metaTable.columns.add(new MetaColumn());
+//        metaTable.columns.add(new MetaColumn());
+//        metaTable.columns.add(new MetaColumn());
+//        TableConfig.parseFromXML(new FileInputStream(file));
+//        System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
+    }
+    
+    static class SimpleObject{
+        int v1;
+        int v2;
+        public SimpleObject(int v1, int v2){
+            this.v1 = v1;
+            this.v2 = v2;
+        }
     }
     
     public static class MetaSql {
