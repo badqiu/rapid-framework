@@ -38,8 +38,8 @@ public class AirTest extends GeneratorTestCase {
     
     public void test_genereate_by_sql_config() throws Exception {
 //        genereate_by_table_config("trade_base.xml");
-        genereate_by_table_config("mcenter_air_ext.xml");
-        genereate_by_table_config("mcenter_creditpay.xml");
+//        genereate_by_table_config("mcenter_air_ext.xml");
+//        genereate_by_table_config("mcenter_creditpay.xml");
         genereate_by_table_config("mcenter_account_log.xml");
 //        genereate_by_table_config("trade_fund_bill.xml");
 //        genereate_by_table_config("mcenter_air_ext.xml");
