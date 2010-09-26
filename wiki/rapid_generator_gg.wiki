@@ -9,7 +9,7 @@ ${gg.setIgnoreOutput(true)}
 
 == 相关控制方法,示例使用:${gg.setIgnoreOutput(true)} ==
   * boolean ignoreOutput : 不生成输出文件
-  * String outputFile : 
+  * String outputFile : 控制文件生成的地方,没有指定则根据模板位置自动计算.
   * String outputFiles : 同时生成几份拷贝在在几个地方
   * String sourceEncoding : 指定模板文件的编码
   * String outputEncoding : 控制模板生成的文件编码
