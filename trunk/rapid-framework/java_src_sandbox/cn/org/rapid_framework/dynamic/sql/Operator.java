@@ -19,7 +19,10 @@ public enum Operator {
     }
     
     public String getColumnExpression(String column) {
-        String placeholder = ":"+column;
+        return getColumnExpression(column, ":"+column);
+    }
+
+    public String getColumnExpression(String column, String placeholder) {
         if(this == IN || this == NOT_IN) {
             return column + " " + operator +" ("+placeholder+")";
         }
