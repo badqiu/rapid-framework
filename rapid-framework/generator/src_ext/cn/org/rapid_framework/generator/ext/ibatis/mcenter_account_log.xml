@@ -167,24 +167,24 @@
 				trans_code='4003'
 			</isEqual>
 			/*预存卡充值*/
-			<isEqual prepend="and" property="airBizType" compareValue="PRESTORE_DEPOSIT">
+			<isEqual prepend="and" property="airBizType" compareValue="PREPAID_DEPOSIT">
 				sub_trans_code='301154'
 			</isEqual>
 			
 			/* 提现 */
-			<isEqual prepend="and" property="airBizType" compareValue="CASH">
+			<isEqual prepend="and" property="airBizType" compareValue="WITHDRAW">
 				sub_trans_code in ('500405','500410','500414','500415','500418')
 			</isEqual>
 			/*批量付款到卡*/
-			<isEqual prepend="and" property="airBizType" compareValue="BATCH_CASH">
+			<isEqual prepend="and" property="airBizType" compareValue="BATCH_WITHDRAW">
 				sub_trans_code='500405'
 			</isEqual>
 			 /*BSP还款*/
-			<isEqual prepend="and" property="airBizType" compareValue="BSP_CASH">
+			<isEqual prepend="and" property="airBizType" compareValue="BSP_WITHDRAW">
 				sub_trans_code='500410'
 			</isEqual>
 			/*普通提现*/
-			<isEqual prepend="and" property="airBizType" compareValue="NORMAL_CASH">
+			<isEqual prepend="and" property="airBizType" compareValue="NORMAL_WITHDRAW">
 				sub_trans_code in ('500414','500415','500418')
 			</isEqual>
 			
