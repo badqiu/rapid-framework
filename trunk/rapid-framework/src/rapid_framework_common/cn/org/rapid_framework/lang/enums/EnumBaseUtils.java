@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
  * 
  * @author badqiu
  */
+@SuppressWarnings("all")
 public class EnumBaseUtils {
 
     /**
@@ -92,6 +93,7 @@ public class EnumBaseUtils {
     * @throws IllegalArgumentException 根据code得到Enum,找不到则抛异常
     */
    public static <T extends EnumBase> T getRequiredByCode(Object code,T[] values) throws IllegalArgumentException {
+       if(code == null) return null;
        EnumBase v = getByCode(code,values);
        if(v == null) {
            if(values.length > 0) {
