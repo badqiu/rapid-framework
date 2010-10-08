@@ -64,7 +64,7 @@ public class ${clazz.className}Test{
                 ${genNewJavaTypeExpr(method.returnType,'second'+method.returnType.className)}
                 </#if>
                 
-                allowing(${prop.name?uncap_first}).${method.methodName}(<#list method.parameters as param>with(any(${param.paramClass.simpleJavaType}.class))<#if param_has_next>,</#if></#list>);
+                allowing(${prop.name?uncap_first}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
                 <#if (method.returnType.className!="void")>
                 will(onConsecutiveCalls(returnValue(first${method.returnType.className}), returnValue(second${method.returnType.className})));
                 </#if>
