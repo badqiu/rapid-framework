@@ -47,6 +47,8 @@ public class ${clazz.className}Test{
     
     @Before
     public void setUp() throws Exception {
+        //请将 context.checking(new Expectations(){ }) 相关方法迁移至具体的各个测试方法中.
+        
         <#list clazz.properties as prop>
         <#if prop.hasWriteMethod && !prop.propertyType.primitive>
         ${classVar}.set${prop.name?cap_first}(${prop.name?uncap_first});
