@@ -69,7 +69,7 @@ public abstract class NamedParameterUtils {
 	 * @return the parsed statement, represented as ParsedSql instance
 	 */
 	public static ParsedSql parseSqlStatement(String sql) throws IllegalArgumentException {
-		if(sql == null ) new IllegalArgumentException("SQL must not be null");
+		if(sql == null ) throw new IllegalArgumentException("SQL must not be null");
 
 		Set<String> namedParameters = new HashSet<String>();
 		ParsedSql parsedSql = new ParsedSql(sql);
