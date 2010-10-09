@@ -60,7 +60,7 @@ public class BeanDefaultValueUtils {
         return obj;
     }
    
-    private static Object getDefaultValue(Class<?> targetType) {
+    public static Object getDefaultValue(Class<?> targetType) {
     	return getDefaultValue(targetType,DEFAULT_VALUE);
     }
     
