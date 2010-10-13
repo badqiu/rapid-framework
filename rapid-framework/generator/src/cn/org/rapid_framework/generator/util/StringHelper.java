@@ -546,6 +546,18 @@ public class StringHelper {
 	    return removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(orderByRemovedSql))));
 	}
 	
+	/**
+	 * 为 查询sql中的关键字 select后面插入一段值 
+	 **/
+	public static String insertTokenIntoSelectSql(String str,String insertValue) {
+	    String token = "select\\s";
+	    int selectBeginPos = indexOfByRegex(str, "(?si)"+token);
+	    if(selectBeginPos == -1)  {
+	        return str;
+	    }
+        return new StringBuffer(str).insert(selectBeginPos+"select ".length(), insertValue).toString();
+	}
+	
 	public static String removeXmlTagIfBodyEmpty(String sql) {
 		return sql.replaceAll("<\\w+[^>]*?>\\s+</\\w+>", "");
 	}

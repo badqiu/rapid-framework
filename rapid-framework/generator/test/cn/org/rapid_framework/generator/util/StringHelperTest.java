@@ -233,4 +233,11 @@ public class StringHelperTest extends TestCase {
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <isNotEmpty prepend='order by'>username</isNotEmpty>").trim());
 		assertEquals("select * from user",StringHelper.removeIbatisOrderBy("select * from user \n <if test=''>order by username</if>").trim());
 	}
+	
+	public void test_insertTokenIntoSelectSql() {
+	    assertEquals("select  /* SELECT-FROM-USER */ * from user",StringHelper.insertTokenIntoSelectSql("select * from user", " /* SELECT-FROM-USER */ "));
+	    assertEquals("select  /* SELECT-FROM-USER */ * from user",StringHelper.insertTokenIntoSelectSql("select * from user", " /* SELECT-FROM-USER */ "));
+	    assertEquals("select  /* SELECT-FROM-USER */ count(*) from user where 1=$123$",StringHelper.insertTokenIntoSelectSql("select count(*) from user where 1=$123$", " /* SELECT-FROM-USER */ "));
+	    assertEquals("delete from count(*) from user where 1=$123$",StringHelper.insertTokenIntoSelectSql("delete from count(*) from user where 1=$123$", " /* SELECT-FROM-USER */ "));
+	}
 }
