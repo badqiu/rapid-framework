@@ -6,6 +6,17 @@
 
 <sqlMap>
 
+	<!-- todo: 还没有修正自定义javaType的问题 -->
+    <resultMap id="RM.${tableConfig.tableClassName}" class="${basepackage}.model.${tableConfig.tableClassName}">
+        <#list tableConfig.table.columns as column>
+    	<#if column.javaType?ends_with('Money')>
+		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}" javaType="long" jdbcType="${column.jdbcSqlTypeName}" nullValue="0" />
+    	<#else>
+		<result property="${column.columnNameFirstLower}" column="${column.sqlName}" javaType="${column.javaType}" jdbcType="${column.jdbcSqlTypeName}" <#if column.hasNullValue> nullValue="${column.nullValue}" </#if> />
+    	</#if>
+		</#list>
+    </resultMap>
+    
 <#list tableConfig.includeSqls as item>
 	<sql id="${item.id}">
 		${item.sql?trim}
