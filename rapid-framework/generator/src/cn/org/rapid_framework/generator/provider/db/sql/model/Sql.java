@@ -338,9 +338,9 @@ public class Sql {
 		return replaceWildcardWithColumnsSqlName(sourceSql);
 	}
 	
-	public String toCountSqlForPaging(String sql) {
+	public static String toCountSqlForPaging(String sql) {
 	    if(sql == null) return null;
-	    if(isSelectSql()) {
+	    if(SqlTypeChecker.isSelectSql(sql)) {
             return SqlParseHelper.toCountSqlForPaging(sql, "select count(*) ");
 	    }
 	    return sql;
