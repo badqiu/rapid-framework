@@ -26,23 +26,25 @@
     	</#list>
 	</resultMap>
 	</#if>
-		
+	
+	<#assign selectSqlId> /* <@namespace/>${sql.operation} */ </#assign>	
 	<select id="<@namespace/>${sql.operation}" <#if sql.columnsCount == 1>resultClass="${sql.resultClassName}"<#else>resultMap="RM.${sql.resultClassName}"</#if> >
     	<#if sql.hasSqlMap>
-    	${sql.sqlmap}
+    	${StringHelper.insertTokenIntoSelectSql(sql.sqlmap,selectSqlId)}
     	<#else>
     	<@genPageQueryStart sql/>
-    	${sql.ibatisSql?trim}
+    	${StringHelper.insertTokenIntoSelectSql(sql.ibatisSql?trim,selectSqlId)}
     	<@genPageQueryEnd sql/>    	
     	</#if>
 	</select>	
 
+	<#assign selectSqlIdForPaging> /* <@namespace/>${sql.operation}.count */ </#assign>	
 	<#if sql.paging>
 	<select id="<@namespace/>${sql.operation}.count" resultClass="long" >
 		<#if sql.hasSqlMap>
-    	${StringHelper.removeIbatisOrderBy(sql.sqlmapCountSql?trim)}
+    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(sql.sqlmapCountSql?trim),selectSqlIdForPaging)}
     	<#else>
-    	${StringHelper.removeIbatisOrderBy(sql.ibatisCountSql?trim)}
+    	${StringHelper.insertTokenIntoSelectSql(StringHelper.removeIbatisOrderBy(sql.ibatisCountSql?trim),selectSqlIdForPaging)}
     	</#if>
 	</select>
 	</#if>
