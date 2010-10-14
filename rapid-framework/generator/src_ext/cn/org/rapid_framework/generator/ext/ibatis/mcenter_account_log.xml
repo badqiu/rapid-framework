@@ -295,6 +295,10 @@
 					#partnerIds[]#
 				</iterate>
 			</isNotEmpty>
+			
+			<isEqual property="includeNullPartnerId" compareValue="true">
+				and BTB.trade_email is null
+			</isEqual>	
 	</sql>
 	
 	<sql id="summaryAccountLog.where">
@@ -312,6 +316,7 @@
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>	
 			<param name="airBizType" javatype="String"/>	
+			<param name="includeNullPartnerId" javatype="Boolean"/>	
 		</extraparams>		
     	<sql>
     	SELECT 
@@ -337,7 +342,8 @@
 			<param name="payType" javatype="java.lang.String"/>	
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>	
-			<param name="airBizType" javatype="String"/>	
+			<param name="airBizType" javatype="String"/>
+			<param name="includeNullPartnerId" javatype="Boolean"/>	
 		</extraparams>		
     	<sql>
     	
@@ -361,7 +367,8 @@
 			<param name="isIncomeOrOutcome" javatype="java.lang.String"/>
 			<param name="minTransAmount" javatype="Long"/>	
 			<param name="maxTransAmount" javatype="Long"/>
-			<param name="airBizType" javatype="String"/>				
+			<param name="airBizType" javatype="String"/>
+			<param name="includeNullPartnerId" javatype="Boolean"/>				
 		</extraparams>	
 		<sql>
     	SELECT count(*) count,sum(TRANS_AMOUNT) sumTransAmount
@@ -454,7 +461,7 @@
 		 <isNotEmpty property="airBizTypeList">
 		 having air_biz_type in <iterate property="airBizTypeList" open="(" close=")" conjunction=",">#airBizTypeList[]#</iterate> 
 		 </isNotEmpty>		 
-		 order by trans_date desc
+		 order by trans_date desc, air_biz_type asc
 		</sql>
 	</operation>
 	
