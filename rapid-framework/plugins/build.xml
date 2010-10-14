@@ -27,7 +27,7 @@ author:badqiu
 	<target name="install_extjs+struts2+hibernate" description="安装extjs+struts2+hibernate">
 		<antcall target="install_dao_hibernate"></antcall>
 		<antcall target="install_web_struts2"></antcall>
-		<antcall target="install_web_ext"></antcall>
+		<antcall target="install_extjs"></antcall>
     </target>
 	
 	<target name="install_dao_hibernate" description="安装orm框架hibernate">
