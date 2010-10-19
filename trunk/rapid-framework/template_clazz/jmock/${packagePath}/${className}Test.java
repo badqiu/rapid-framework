@@ -62,13 +62,13 @@ public class ${clazz.className}Test{
         context.checking(new Expectations() {
             {
                 <#if (method.returnType.className!="void")>
-                ${genNewJavaTypeExpr(method.returnType,'first'+method.returnType.className)}
-                ${genNewJavaTypeExpr(method.returnType,'second'+method.returnType.className)}
+                ${genNewJavaTypeExpr(method.returnType,'first')}
+                ${genNewJavaTypeExpr(method.returnType,'second')}
                 </#if>
                 
                 allowing(${prop.name?uncap_first}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
                 <#if (method.returnType.className!="void")>
-                will(onConsecutiveCalls(returnValue(first${method.returnType.className}), returnValue(second${method.returnType.className})));
+                will(onConsecutiveCalls(returnValue(first), returnValue(second)));
                 </#if>
             }
         });
