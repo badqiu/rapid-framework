@@ -80,6 +80,7 @@ public class ${clazz.className}Test{
     
     @After
     public void tearDown() throws Throwable{
+        context.assertIsSatisfied();
     }
     
     <#list clazz.publicMethods as method>
