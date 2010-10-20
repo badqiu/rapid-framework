@@ -1,17 +1,12 @@
-#######################################
-# JMock测试类生成使用说明
-#######################################
  1. 将avatar-gen项目导入eclipse
 
  2. 为avatar-gen增加项目依赖（用于生成代码）
  	在eclipse中增加avatar-gen要依赖的项目以便生成代码
 	添加位置: 项目Properties ==> Java Build Path ==> Projects
 	
- 3. 修改生成器要生成package，直接修改代码: cn.org.rapid_framework.generator.ClassGeneratorMain
+ 3. 以application方式运行 cn.org.rapid_framework.generator.ClassGeneratorMain,并输入要生成的package
 
- 4. 以application方式运行ClassGeneratorMain
-
- 5. 为项目增加jmock的maven依赖
+ 4. 为项目增加jmock的maven依赖
 	<dependency>
 	    <groupId>org.jmock</groupId>
   		<artifactId>jmock</artifactId>
@@ -30,4 +25,3 @@
   		<version>2.5.1</version>
   		<scope>test</scope>  		
   	</dependency>
-  	  	
