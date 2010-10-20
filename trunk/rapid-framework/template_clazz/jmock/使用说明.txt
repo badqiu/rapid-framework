@@ -1,16 +1,33 @@
+#######################################
+# JMockæµ‹è¯•ç±»ç”Ÿæˆä½¿ç”¨è¯´æ˜
+#######################################
+ 1. å°†avatar-gené¡¹ç›®å¯¼å…¥eclipse
 
-1. ÔÚeclipseÖĞÔö¼Óavatar-genÒªÒÀÀµµÄÏîÄ¿ÒÔ±ãÉú³É´úÂë
-2. ĞŞ¸ÄÉú³ÉÆ÷ÒªÉú³Épackage£¬Ö±½ÓĞŞ¸Ä´úÂë: cn.org.rapid_framework.generator.GeneratorMain
-3. ÒÔapplication·½Ê½ÔËĞĞGeneratorMain
-4. ÎªÏîÄ¿Ôö¼ÓjmockµÄmavenÒÀÀµ
+ 2. ä¸ºavatar-genå¢åŠ é¡¹ç›®ä¾èµ–ï¼ˆç”¨äºç”Ÿæˆä»£ç ï¼‰
+ 	åœ¨eclipseä¸­å¢åŠ avatar-genè¦ä¾èµ–çš„é¡¹ç›®ä»¥ä¾¿ç”Ÿæˆä»£ç 
+	æ·»åŠ ä½ç½®: é¡¹ç›®Properties ==> Java Build Path ==> Projects
+	
+ 3. ä¿®æ”¹ç”Ÿæˆå™¨è¦ç”Ÿæˆpackageï¼Œç›´æ¥ä¿®æ”¹ä»£ç : cn.org.rapid_framework.generator.ClassGeneratorMain
+
+ 4. ä»¥applicationæ–¹å¼è¿è¡ŒClassGeneratorMain
+
+ 5. ä¸ºé¡¹ç›®å¢åŠ jmockçš„mavenä¾èµ–
 	<dependency>
 	    <groupId>org.jmock</groupId>
   		<artifactId>jmock</artifactId>
   		<version>2.5.1</version>
+  		<scope>test</scope>
 	</dependency>
-	
 	<dependency>
 	    <groupId>org.jmock</groupId>
   		<artifactId>jmock-junit4</artifactId>
-  		<version>2.5.1</version>  		
+  		<version>2.5.1</version>
+  		<scope>test</scope>  		
   	</dependency>
+	<dependency>
+	    <groupId>org.jmock</groupId>
+  		<artifactId>jmock-legacy</artifactId>
+  		<version>2.5.1</version>
+  		<scope>test</scope>  		
+  	</dependency>
+  	  	
