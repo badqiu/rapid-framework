@@ -117,7 +117,7 @@ public class ${clazz.className}Test{
     </#if>
     <#if returnType.booleanType>
         assertTrue(result);
-    <#return>
+        <#return>
     </#if>
         assertNotNull(result);
     <#if (returnType.array)>
