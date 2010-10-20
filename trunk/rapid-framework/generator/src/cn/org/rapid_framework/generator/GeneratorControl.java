@@ -32,7 +32,7 @@ import freemarker.ext.dom.NodeModel;
  * 
  * <pre>
  * 使用方式:
- * 可以在freemarker或是veloctiy中直接控制模板的生成
+ * 可以在freemarker或是velocity中直接控制模板的生成
  * 
  * ${gg.generateFile('d:/g_temp.log','info_from_generator')}
  * ${gg.setIgnoreOutput(true)}
