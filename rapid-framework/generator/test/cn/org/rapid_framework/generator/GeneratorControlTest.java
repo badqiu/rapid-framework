@@ -11,7 +11,7 @@ public class GeneratorControlTest extends GeneratorTestCase {
 		super.setUp();
 	}
 	//
-	public void test_loadXML() throws Exception {
+	public void testLoadXML() throws Exception {
 		g.generateBy(new HashMap(), new HashMap());
 	}
 }
