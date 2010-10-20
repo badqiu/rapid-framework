@@ -15,6 +15,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +30,11 @@ import ${importClass.javaType?replace("$", ".")};
 @RunWith(JMock.class)
 public class ${clazz.className}Test{
 
-    private Mockery  context = new JUnit4Mockery();
+    private Mockery  context = new JUnit4Mockery(){
+        {
+            setImposteriser(ClassImposteriser.INSTANCE);
+        }
+    };
     
     protected ${genNewJavaTypeExpr(clazz,clazz.className?uncap_first)}
 
@@ -37,7 +42,7 @@ public class ${clazz.className}Test{
     //dependence class
     <#list clazz.properties as prop>
     <#if prop.hasWriteMethod && !prop.propertyType.primitive>
-        <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
+        <#if !prop.propertyType.javaType?starts_with("java")>
     ${prop.propertyType.className} ${prop.name?uncap_first} = context.mock(${prop.propertyType.className}.class);
         <#else>
     ${genNewJavaTypeExpr(prop.propertyType, prop.name?uncap_first)}
