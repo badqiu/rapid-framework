@@ -14,7 +14,7 @@
 == service层及dao层为何不使用接口? ==
 一般项目，service层及dao一般只有一个实现，为此多些接口类实在是累赘。所以生成的代码不是基于接口的。
 当然接口的好处是可以一目也然的查看接口拥有的方法列表,所以
-可以根据自己需要对生成器模板进行修改。
+可以根据自己需要对生成器模板进行修改。 这里还有我写的一篇文章: [http://badqiu.javaeye.com/blog/781626 接口滥用问题]
 
 ==struts2为何报`setParameters : Unexpected Exception caught setting 'property' on class com.company.action.UserAction` ==
 在struts.xml将开发模式改为false即可
