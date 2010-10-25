@@ -31,6 +31,12 @@ public class TableConfig {
     public String sequence;
     public String dummypk;
     public String remarks;
+    
+    public String subpackage;
+    public String _package;
+    public String autoswitchdatasrc;
+    public String doName;
+    
     public List<MetaColumn> columns = new ArrayList();
     public List<MetaOperation> operations = new ArrayList<MetaOperation>();
     public List<MetaResultMap> resultMaps = new ArrayList<MetaResultMap>();
@@ -84,9 +90,9 @@ public class TableConfig {
                 BeanHelper.copyProperties(target, child.attributes);
                 // table/resultmap/column
                 for(NodeData c : child.childs) {
-                    if("column".equals(child.nodeName)) {
+                    if("column".equals(c.nodeName)) {
                         MetaColumn column = new MetaColumn();
-                        BeanHelper.copyProperties(column, child.attributes);
+                        BeanHelper.copyProperties(column, c.attributes);
                         target.columns.add(column);
                     }
                 }
@@ -96,6 +102,13 @@ public class TableConfig {
         return config;
 //        XStream x = newXStream();
 //        return (TableConfig)x.fromXML(reader);
+    }
+
+    public List<MetaResultMap> getResultMaps() {
+        return resultMaps;
+    }
+    public void setResultMaps(List<MetaResultMap> resultMaps) {
+        this.resultMaps = resultMaps;
     }
 
     public String getTableClassName() {
@@ -445,6 +458,9 @@ public class TableConfig {
         public boolean paging = false;
         
         public String tableSqlName = null; //是否需要
+        
+        public String append;
+        public String appendXmlAttributes = "";
         
         public List<MetaParam> getExtraparams() {
             return extraparams;
