@@ -6,7 +6,19 @@
 
 <sqlMap>
 
-	<!-- todo: 还没有修正自定义javaType的问题 -->
+	<#-- add jdbcType for resultMap -->
+    <#list tableConfig.resultMaps as resultMap>
+    <resultMap id="${resultMap.name}" class="${basepackage}.model.${tableConfig.tableClassName}">
+    <#list resultMap.columns as column>
+    	<#if column.javatype?ends_with('Money')>
+		<result property="${column.name}.cent" column="${column.name}" javaType="long" nullValue="0" />
+    	<#else>
+		<result property="${column.name}" column="${column.name}" javaType="${column.javatype}"  <#if column.hasNullValue> nullValue="${column.nullValue}" </#if> />
+    	</#if>
+	</#list>
+    </resultMap>
+	</#list>
+    
     <resultMap id="RM.${tableConfig.tableClassName}" class="${basepackage}.model.${tableConfig.tableClassName}">
         <#list tableConfig.table.columns as column>
     	<#if column.javaType?ends_with('Money')>
