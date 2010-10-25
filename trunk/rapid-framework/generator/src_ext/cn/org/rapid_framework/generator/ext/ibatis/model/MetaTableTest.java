@@ -48,6 +48,20 @@ public class MetaTableTest extends GeneratorTestCase {
         }
     }
 
+    public void test_generate_by_user_info_freemarker() throws Exception {
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info_freemarker.xml");
+        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        GeneratorModel gm = newFromTable(t);
+        g.generateBy(gm.templateModel, gm.filePathModel);
+        
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
+        for(Sql sql : t.getSqls()) {
+            GeneratorModel sqlGM = MetaTableTest.newFromSql(sql,t);
+            g.generateBy(sqlGM.templateModel, sqlGM.filePathModel);
+        }
+    }
+    
     public void testSetOperations() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
