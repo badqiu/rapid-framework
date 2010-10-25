@@ -12,6 +12,11 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 		hashMap.put("question", "username = ? and password = ?");
 		hashMap.put("placeholder", "sex = #equals_sex# and password = #pwd#");
 	}
+
+	public void test_freemarker_xml() {
+		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
+		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
+	}
 	
 	@SuppressWarnings("static-access")
 	public void test_iterate_open_and_close() {
@@ -24,7 +29,7 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
             IbatisSqlMapConfigParser
                 .parse("<iterate open='(' close=')' conjunction=',' property='orIncludeAges'>#abc123[]# </iterate>"));
 		stringEquals(
-            "  (#abc123[]# )",
+            "  (#abc123[]# ",
             parser
                 .parse("<iterate open='(' close=')' conjunction='OR' property='orIncludeAges'>#abc123[]#"));
 	}
