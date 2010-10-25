@@ -24,9 +24,9 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     	System.setProperty("gg.isOverride", "true");
 		GeneratorProperties.setProperty("jdbc.url", "jdbc:oracle:thin:@localhost:1521:xe");
 		GeneratorProperties.setProperty("jdbc.driver", "oracle.jdbc.driver.OracleDriver");
-		GeneratorProperties.setProperty("jdbc.username", "sys as sysdba");
+		GeneratorProperties.setProperty("jdbc.username", "test");
 		GeneratorProperties.setProperty("jdbc.password", "123456");
-		GeneratorProperties.setProperty("jdbc.schema", "SYS");
+		GeneratorProperties.setProperty("jdbc.schema", "TEST");
 		GeneratorProperties.setProperty("jdbc.catalog", "");
 		try {
 			runSqlScripts("generator/test/oracle_generator_test_table.sql");
@@ -50,7 +50,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
         
     }
 
-    public void test_generate_by_sql() throws Exception {
+    public void test_generate_by_oracle_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/oracle_user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
@@ -60,7 +60,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
         }
     }
 
-    public void test_generate_by_sql2() throws Exception {
+    public void test_generate_by_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
@@ -69,7 +69,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
             g.generateBy(gm.templateModel, gm.filePathModel);
         }
     }
-    
+
 	public void test_remove_table_prefix() {
 		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
 		TableConfig sql = new TableConfig();
