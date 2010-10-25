@@ -16,6 +16,7 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 	public void test_freemarker_xml() {
 		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
 		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
+		stringEquals("#abc123[]# ",parser.parse("<@if databaseType?is_empty>#abc123[]# </@if>"));
 	}
 	
 	@SuppressWarnings("static-access")

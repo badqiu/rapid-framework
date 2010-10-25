@@ -42,7 +42,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
     public static String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
         str = removeSelectKeyXmlForInsertSql(str);
-        Pattern xmlTagRegex =  Pattern.compile("<(/?[\\w#]+)(.*?)>");
+        Pattern xmlTagRegex =  Pattern.compile("<(/?[\\w#@]+)(.*?)>");
         StringBuffer sb = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
         
