@@ -1,3 +1,9 @@
+DROP TABLE IF EXISTS user_info;
+DROP TABLE IF EXISTS blog;
+DROP TABLE IF EXISTS role_permission;
+DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS permission;
+DROP TABLE IF EXISTS topic;
 CREATE TABLE USER_INFO (
   user_id bigint PRIMARY KEY,
   username varchar(50) NOT NULL UNIQUE,
