@@ -17,19 +17,7 @@
 	        	<#list table.columns as column>? <#if column_has_next>,</#if></#list>        
 	        )
 			]]>
-		</sql>
-		<sqlmap>
-			<![CDATA[
-			INSERT INTO ${table.sqlName} (
-	        	<#list table.columns as column>${column.sqlName} <#if column_has_next>,</#if></#list>
-	        ) VALUES (
-	        	<#list table.columns as column>#${column.columnNameFirstLower}# <#if column_has_next>,</#if></#list>        
-	        )
-	        <selectKey resultClass="${table.idColumn.javaType}" type="post" keyProperty="${table.idColumn.columnNameFirstLower}" >
-            	select last_insert_id()
-        	</selectKey>
-			]]>
-		</sqlmap>		
+		</sql>		
 	</operation>
 
 	<operation name="delete">
@@ -55,19 +43,7 @@
 			        ${column.sqlName} = ? <#if column_has_next> AND </#if>
 			        </#list>
 		    ]]>
-		</sql>
-		<sqlmap>
-		    <![CDATA[
-		        UPDATE ${table.sqlName} SET
-			        <#list table.notPkColumns as column>
-			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next>,</#if>
-			        </#list>
-		        WHERE 
-		        	<#list table.pkColumns as column>
-			        ${column.sqlName} = #${column.columnNameFirstLower}# <#if column_has_next> AND </#if>
-			        </#list>
-		    ]]>
-		</sqlmap>					
+		</sql>					
 	</operation>
 
 	<operation name="queryById" multiplicity="one">
