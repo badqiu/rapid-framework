@@ -24,7 +24,7 @@ import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
  * ${tableConfig.tableClassName}DAO
  * database table: ${tableConfig.table.sqlName}
  */
-public class Ibatis${tableConfig.tableClassName}DAO extends SqlMapClientDaoSupport implements ${tableConfig.tableClassName}DAO {
+public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.autoSwitchDataSrc)>com.iwallet.biz.dal.common.AutoSwitchDataSrcSqlMapClientDaoSupport<#else>SqlMapClientDaoSupport</#if> implements ${tableConfig.tableClassName}DAO {
 
 <#list tableConfig.sqls as sql>
 
