@@ -152,6 +152,19 @@ public class TableConfig {
 		this.columns = column;
 	}
 	
+	public boolean isAutoSwitchDataSrc() {
+		if(StringHelper.isBlank(autoswitchdatasrc)) return false;
+		return Boolean.parseBoolean(autoswitchdatasrc);
+	}
+	
+	public String getAutoswitchdatasrc() {
+		return autoswitchdatasrc;
+	}
+
+	public void setAutoswitchdatasrc(String autoswitchdatasrc) {
+		this.autoswitchdatasrc = autoswitchdatasrc;
+	}
+
 	public List<MetaSql> getIncludeSqls() {
 		return includeSqls;
 	}
