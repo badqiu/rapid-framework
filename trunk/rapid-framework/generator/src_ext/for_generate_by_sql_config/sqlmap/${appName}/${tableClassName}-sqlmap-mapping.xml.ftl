@@ -8,7 +8,7 @@
 
 	<#-- add jdbcType for resultMap -->
     <#list tableConfig.resultMaps as resultMap>
-    <resultMap id="${resultMap.name}" class="${basepackage}.model.${tableConfig.tableClassName}">
+    <resultMap id="${resultMap.name}" class="${basepackage}.dataobject.${tableConfig.tableClassName}">
     <#list resultMap.columns as column>
     	<#if column.javatype?ends_with('Money')>
 		<result property="${column.name}.cent" column="${column.name}" javaType="long" nullValue="0" />
