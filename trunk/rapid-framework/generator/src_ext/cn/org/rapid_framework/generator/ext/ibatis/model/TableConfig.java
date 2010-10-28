@@ -475,7 +475,7 @@ public class TableConfig {
         public String parameterClass;
         public String remarks;
         public String multiplicity = "many";
-        public String paramtype = "object"; //object or primitive
+        public String paramtype = "object"; //object or primitive // FIXME insert update默认是object,delete select默认是primitive
         public String sql;
         public String sqlmap;
         public Sql parsedSql;
@@ -483,7 +483,7 @@ public class TableConfig {
         
         public String tableSqlName = null; //是否需要
         
-        public String append;
+        public String append = ""; // FIXME 还没有实现
         public String appendXmlAttributes = "";
         
         public List<MetaParam> getExtraparams() {
