@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
+	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<resultmap name="RM.BLOG">
+		<column javatype="int" name="rage"/>
+		<column javatype="long" name="rsex"/>
+		<column javatype="Long" name="rdiy"/>
+		<column javatype="String" name="abc_content"/>
+	</resultmap>
+
+	<operation name="update" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+	<sql>
+    <![CDATA[
+        UPDATE USER_INFO SET
+	        USERNAME = #username# ,
+	        PASSWORD = #password# ,
+	        BIRTH_DATE = #birthDate# ,
+	        SEX = #sex# ,
+	        AGE = #age# 
+        WHERE 
+	        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+
+	<operation name="delete" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    <sql>
+    <![CDATA[
+        DELETE FROM USER_INFO WHERE
+        USER_ID = #userId# 
+    ]]>
+    </sql>
+    </operation>
+    
+    <operation name="getById" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
+    <sql>
+	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO 
+	        WHERE 
+		        USER_ID = #userId# 
+	    ]]>
+    </sql>
+    </operation>
+
+	<operation name="testGroupByPaging"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	group by role_id
+	    </sql>
+    </operation>  
+    
+    <sql id="forSetOperationSql">
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	group by role_id    
+    </sql>
+    
+	<operation name="testSetOperations"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+    	select role_id,sum(user_id) sum_user_id from role r 
+		<include refid="forSetOperationSql"/>
+	    UNION 
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    UNION ALL
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    MINUS 
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    EXCEPT  
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    EXCEPT ALL  
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT   
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT ALL  
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    </sql>
+    </operation>          		
+
+	  
+
+	<operation name="testOpenClose"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+    	<![CDATA[
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+	   	    <#if databaseType?is_empty>
+	   	    and r.role_name in (${role_name})
+	   	    </#if>
+	   	    <#if databaseType?is_empty>
+	   	    and r.role_name in (${in_role_name})
+	   	    <#else>
+	   	    and r.role_name not in (${not_in_role_name})
+	   	    </#if>
+	   	    <#if rolename?is_empty>
+	   	    and r.role_name = :rolename
+	   	    <#elseif rolename == '123'>
+	   	    and r.role_name = :rolenameArray
+	   	    <#else>
+	   	    and r.role_name = :rolenameList
+	   	    </#if>
+	   	    
+	   	    <#switch being.size>
+			  <#case "small">
+			     and r.role_id = :roleId
+			     <#break>
+			  <#case "medium">
+			     and r.role_id = :roleId
+			     <#break>
+			  <#default>
+			     and r.role_id = :roleId
+			</#switch>  
+
+	    	group by role_id
+	    ]]>
+	    </sql>
+    </operation>   
+</table>
