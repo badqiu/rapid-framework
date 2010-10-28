@@ -121,6 +121,9 @@ public class TableConfig {
         if(columns != null) {
             for(MetaColumn c : columns) {
                 Column tableColumn = t.getColumnByName(c.getName());
+                if(tableColumn.getSqlName().equalsIgnoreCase(getDummypk())) {
+                	tableColumn.setPk(true);
+                }
                 if(tableColumn != null)
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
             }
@@ -182,6 +185,14 @@ public class TableConfig {
         this.dummypk = dummypk;
     }
 
+    public String getBasepackage() {
+    	if(StringHelper.isBlank(subpackage)) {
+    		return _package;
+    	}else {
+    		return _package+"."+subpackage;
+    	}
+    }
+    
     public String toString() {
 //        return BeanHelper.describe(this).toString();
         return "sqlname:"+sqlname;
