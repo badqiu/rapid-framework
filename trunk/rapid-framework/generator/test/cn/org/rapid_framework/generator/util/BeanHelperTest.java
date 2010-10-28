@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 public class BeanHelperTest extends TestCase {
 
-    public void test_copyProperties() {
+    public void testCopyProperties() {
         BeanHelper.copyProperties(new Bean1(), new Bean2());
         BeanHelper.copyProperties(new Bean2(), new Bean1());
         BeanHelper.copyProperties(new Bean2(), new HashMap());
