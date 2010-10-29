@@ -12,7 +12,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 <#include "/java_imports.include">
 
 public class ${className} implements java.io.Serializable {
-	
+    private static final long serialVersionUID = -2068875613726748764L;
+    
 	<#list table.columns as column>
 	<#if column.enumColumn>
 	private ${column.enumClassName} ${column.columnNameLower};

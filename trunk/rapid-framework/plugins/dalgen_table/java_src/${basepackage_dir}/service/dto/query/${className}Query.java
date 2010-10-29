@@ -14,7 +14,8 @@ import java.io.Serializable;
 <#include "/java_imports.include">
 
 public class ${className}Query implements Serializable {
-	
+    private static final long serialVersionUID = -2068875613726748764L;
+    
 	<@generateFields/>
 	<@generateProperties/>
 
