@@ -35,7 +35,7 @@ public class TableConfig {
     public String subpackage;
     public String _package;
     public String autoswitchdatasrc;
-    public String doName;
+    public String doname;
     
     public List<MetaColumn> columns = new ArrayList();
     public List<MetaOperation> operations = new ArrayList<MetaOperation>();
@@ -49,6 +49,8 @@ public class TableConfig {
     public static TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
         NodeData nodeData = new XMLHelper().parseXML(reader);
         TableConfig config = new TableConfig();
+        
+        // table
         BeanHelper.copyProperties(config, nodeData.attributes);
         
         for(NodeData child : nodeData.childs) {
@@ -104,6 +106,7 @@ public class TableConfig {
 //        return (TableConfig)x.fromXML(reader);
     }
 
+    
     public List<MetaResultMap> getResultMaps() {
         return resultMaps;
     }
@@ -112,6 +115,7 @@ public class TableConfig {
     }
 
     public String getTableClassName() {
+        if(StringHelper.isNotBlank(doname)) return doname;
         if(StringHelper.isBlank(sqlname)) return null;
         String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
         return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
@@ -127,6 +131,10 @@ public class TableConfig {
                 if(tableColumn != null)
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
             }
+        }
+        t.setClassName(getTableClassName());
+        if(StringHelper.isNotBlank(remarks)) {
+            t.setTableAlias(remarks);
         }
         return t;
     }
@@ -157,14 +165,6 @@ public class TableConfig {
 		return Boolean.parseBoolean(autoswitchdatasrc);
 	}
 	
-	public String getAutoswitchdatasrc() {
-		return autoswitchdatasrc;
-	}
-
-	public void setAutoswitchdatasrc(String autoswitchdatasrc) {
-		this.autoswitchdatasrc = autoswitchdatasrc;
-	}
-
 	public List<MetaSql> getIncludeSqls() {
 		return includeSqls;
 	}
@@ -196,6 +196,43 @@ public class TableConfig {
 
     public void setDummypk(String dummypk) {
         this.dummypk = dummypk;
+    }
+    
+    public String getRemarks() {
+        return remarks;
+    }
+
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+
+    public String getSubpackage() {
+        return subpackage;
+    }
+
+
+    public void setSubpackage(String subpackage) {
+        this.subpackage = subpackage;
+    }
+
+
+    public String getAutoswitchdatasrc() {
+        return autoswitchdatasrc;
+    }
+
+
+    public void setAutoswitchdatasrc(String autoswitchdatasrc) {
+        this.autoswitchdatasrc = autoswitchdatasrc;
+    }
+
+
+    public String getDoname() {
+        return doname;
+    }
+    public void setDoname(String doname) {
+        this.doname = doname;
     }
 
     public String getBasepackage() {
