@@ -11,9 +11,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 <#include "/java_imports.include">
 
 public class ${className}DO implements java.io.Serializable {
-	
+    private static final long serialVersionUID = -2068875613726748764L;
+    
 	//columns START
 	<#list table.columns as column>
+	/** ${column.columnAlias} */
 	private ${column.javaType} ${column.columnNameLower};
 	</#list>
 	//columns END
