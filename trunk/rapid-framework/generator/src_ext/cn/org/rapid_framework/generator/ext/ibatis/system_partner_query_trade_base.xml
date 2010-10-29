@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+
+<table sqlname="trade_base"  remarks="交易信息表" doname="AirTradeBase">
+
+	<column name="TOTAL_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE_RATIO" javatype="double" />
+	
+	<column name="buyer_type" javatype="int" />
+	<column name="seller_type" javatype="int" />
+	<column name="id" javatype="long" />
+	    
+    <sql id="findTradeBySystemParnter.where">
+    		<isNotEmpty prepend="and" property="gmtCreateBeing">
+    		BTB.gmt_create >= #gmtCreateBeing#
+    		</isNotEmpty>
+    		
+    		<isNotEmpty prepend="and" property="gmtCreateEnd">
+    		BTB.gmt_create &lt; #gmtCreateEnd#
+    		</isNotEmpty>
+    		
+    		<isNotEmpty prepend="and" property="gmtPayBegin">
+    		BTF.gmt_pay >= #gmtPayBegin# 
+    		</isNotEmpty>
+    		
+    		<isNotEmpty prepend="and" property="gmtPayEnd">
+    		BTF.gmt_pay  &lt; #gmtPayEnd# 
+    		</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeNo">
+				BTB.trade_no = #tradeNo#
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="buyyerLoginEmail">
+				BTB.buyer_login_email = ?
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="sellerLoginEmail">
+				BTB.seller_login_email = ?
+			</isNotEmpty>
+									
+			<isNotEmpty prepend="and" property="outTradeNo">
+				BTB.out_trade_no = #outTradeNo#
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeTypes">
+				BTB.trade_type IN
+				<iterate property="tradeTypes" open="(" close=")" conjunction=",">
+					#tradeTypes[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="tradeStatuses">
+				 BTB.trade_status IN
+				<iterate property="tradeStatuses" open="(" close=")" conjunction=",">
+					#tradeStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="notInTradeStatuses">
+				 BTB.trade_status NOT IN
+				<iterate property="notInTradeStatuses" open="(" close=")" conjunction=",">
+					#notInTradeStatuses[]#
+				</iterate>
+			</isNotEmpty>
+			
+			<isNotEmpty prepend="and" property="goodsTitle">
+				BTB.goods_title LIKE #goodsTitle# 
+			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="tradePriceDown">
+					BTB.total_fee &gt;= #tradePriceDown#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="tradePriceUp">
+					BTB.total_fee &lt;= #tradePriceUp#
+			</isNotEmpty>
+	
+			<isEqual prepend="and" property="partnerTradeFrom" compareValue="FEEYO">
+					system_partner in ('FEEYO')
+			</isEqual>
+			<isEqual prepend="and" property="partnerTradeFrom" compareValue="AIRCHINA">
+					system_partner in ('AIR_CHINA')
+			</isEqual>	
+			<isEqual prepend="and" property="partnerTradeFrom" compareValue="OTHER">
+					system_partner not in ('FEEYO','AIR_CHINA')
+			</isEqual>	
+    </sql>
+    
+    <operation name="findTradeBySystemParnter" paramtype="primitive" multiplicity="paging" remarks="系统平台商交易查询">
+		<extraparams>
+			<param name="partnerTradeFrom" javatype="java.lang.String"/>
+		</extraparams>    
+    	<sql>
+    		SELECT 
+    		BTB.id,BTB.trade_no,out_trade_no,seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,BTB.currency,seller_action,buyer_action,BTB.gmt_create,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,BTB.channel,product,pay_channel,
+    		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
+    		BTF.gmt_pay,
+    		
+    		(case
+	        when (MAE.system_partner = '易商旅' ) then 'FEEYO'
+	        when (MAE.system_partner = '国航' ) then 'AIR_CHINA'
+	        else
+	        	'OTHER'
+	        end) as partnerTradeFrom,
+	        
+    		(case
+	        when (BTB.channel = '70' ) then 'CREDIT_PAY'
+	        else
+	        	'BALANCE_PAY'
+	        end) as systemPartnerPayType
+	        	        
+    		FROM trade_base BTB 
+				left join mcenter_air_ext MAE on 
+					BTB.trade_no = MAE.trade_no and BTB.owner = MAE.owner
+    			left join trade_fund_bill BTF on 
+    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '10'
+    		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		
+			<include refid="findTradeBySystemParnter.where"/>
+		</sql>
+    </operation>
+
+
+    	         			
+</table>
