@@ -40,7 +40,8 @@ public class AirTest extends GeneratorTestCase {
 //        genereate_by_table_config("trade_base.xml");
 //        genereate_by_table_config("mcenter_air_ext.xml");
 //        genereate_by_table_config("mcenter_creditpay.xml");
-        genereate_by_table_config("mcenter_account_log.xml");
+//        genereate_by_table_config("mcenter_account_log.xml");
+        genereate_by_table_config("system_partner_query_trade_base.xml");
 //        genereate_by_table_config("trade_fund_bill.xml");
 //        genereate_by_table_config("mcenter_air_ext.xml");
     }
