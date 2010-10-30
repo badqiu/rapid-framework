@@ -11,6 +11,10 @@ rapid-framework路线图
 将dalgen中的params2paramObjectLimit=6修改为 isUsingParamObject()及getParamObjectClass()实现
 generateByClass() 增加: 1.根据method args生成输入页面，根据 return type生成结果页面. 特殊:可以生成分页查询及列表语句
 
+maven:
+	命令行直接运行applicatin: mvn exec:java -Dexec.mainClass="cn.org.rapid_framework.generator.ext.CommandLine"
+	命令行直接运行jetty: mvn jetty:run -Djetty.port=8080
+
 add groupId=basepackage:com.company.project=com-company-project
 	Define value for groupId: : com.badqiu.sfmvc
 	Define value for artifactId: : sfmvc
