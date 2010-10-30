@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.SqlSource;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.apache.ibatis.plugin.Interceptor;
@@ -16,7 +17,6 @@ import org.apache.ibatis.plugin.Plugin;
 import org.apache.ibatis.plugin.Signature;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
-import org.springframework.util.ReflectionUtils;
 
 import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.util.PropertiesHelper;
@@ -76,10 +76,24 @@ public class OffsetLimitInterceptor implements Interceptor{
 			limit = RowBounds.NO_ROW_LIMIT;
 			
 			queryArgs[ROWBOUNDS_INDEX] = new RowBounds(offset,limit);
-			BoundSql newBoundSql = new BoundSql(ms.getConfiguration(),sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
+			
+			BoundSql newBoundSql = copyFromBoundSql(ms, boundSql, sql);
+			
 			MappedStatement newMs = copyFromMappedStatement(ms, new BoundSqlSqlSource(newBoundSql));
 			queryArgs[MAPPED_STATEMENT_INDEX] = newMs;
 		}
+	}
+
+	private BoundSql copyFromBoundSql(MappedStatement ms, BoundSql boundSql,
+			String sql) {
+		BoundSql newBoundSql = new BoundSql(ms.getConfiguration(),sql, boundSql.getParameterMappings(), boundSql.getParameterObject());
+		for (ParameterMapping mapping : boundSql.getParameterMappings()) {
+		    String prop = mapping.getProperty();
+		    if (boundSql.hasAdditionalParameter(prop)) {
+		        newBoundSql.setAdditionalParameter(prop, boundSql.getAdditionalParameter(prop));
+		    }
+		}
+		return newBoundSql;
 	}
 	
 	//see: MapperBuilderAssistant
