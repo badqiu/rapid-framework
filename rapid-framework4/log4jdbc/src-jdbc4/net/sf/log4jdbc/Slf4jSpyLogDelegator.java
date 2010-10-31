@@ -29,8 +29,6 @@ import org.slf4j.Logger;
  */
 public class Slf4jSpyLogDelegator implements SpyLogDelegator
 {
-  public boolean formatSql = true;
-	
   /**
    * Create a SpyLogDelegator specific to the Simple Logging Facade for Java (slf4j).
    */
@@ -282,7 +280,7 @@ public class Slf4jSpyLogDelegator implements SpyLogDelegator
       output.append(";");
     }
     
-    if(formatSql) {
+    if(DriverSpy.formatSql) {
     	return new BasicSqlFormatter().format(output.toString());
     }else {
     	return output.toString();
