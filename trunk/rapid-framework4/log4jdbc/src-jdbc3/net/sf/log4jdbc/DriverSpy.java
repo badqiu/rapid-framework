@@ -216,7 +216,7 @@ public class DriverSpy implements Driver
    */
   static boolean SuppressGetGeneratedKeysException;
   
-  static boolean               formatSql = true;
+  static boolean               formatSql = false;
 
   /**
    * Get a Long option from a property and
