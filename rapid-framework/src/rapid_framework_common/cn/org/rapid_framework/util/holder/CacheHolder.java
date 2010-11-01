@@ -28,10 +28,10 @@ public class CacheHolder implements InitializingBean{
 	}
 	
     public void setCache(Cache c) {
-    	if(this.cache != null) {
+    	if(this.getCache() != null) {
 			throw new IllegalStateException("CacheHolder already holded 'cache'");
 		}
-    	cache = c;
+    	this.cache = c;
     }
     
     /**
@@ -42,7 +42,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void add(String key, Object value, String expiration) {
         checkSerializable(value);
-        cache.add(key, value, parseDuration(expiration));
+        getCache().add(key, value, parseDuration(expiration));
     }
 
     /**
@@ -55,7 +55,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static boolean safeAdd(String key, Object value, String expiration) {
         checkSerializable(value);
-        return cache.safeAdd(key, value, parseDuration(expiration));
+        return getCache().safeAdd(key, value, parseDuration(expiration));
     }
 
     /**
@@ -65,7 +65,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void add(String key, Object value) {
         checkSerializable(value);
-        cache.add(key, value, parseDuration(null));
+        getCache().add(key, value, parseDuration(null));
     }
 
     /**
@@ -76,7 +76,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void set(String key, Object value, String expiration) {
         checkSerializable(value);
-        cache.set(key, value, parseDuration(expiration));
+        getCache().set(key, value, parseDuration(expiration));
     }
 
     /**
@@ -88,7 +88,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static boolean safeSet(String key, Object value, String expiration) {
         checkSerializable(value);
-        return cache.safeSet(key, value, parseDuration(expiration));
+        return getCache().safeSet(key, value, parseDuration(expiration));
     }
 
     /**
@@ -98,7 +98,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void set(String key, Object value) {
         checkSerializable(value);
-        cache.set(key, value, parseDuration(null));
+        getCache().set(key, value, parseDuration(null));
     }
 
     /**
@@ -109,7 +109,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void replace(String key, Object value, String expiration) {
         checkSerializable(value);
-        cache.replace(key, value, parseDuration(expiration));
+        getCache().replace(key, value, parseDuration(expiration));
     }
 
     /**
@@ -122,7 +122,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static boolean safeReplace(String key, Object value, String expiration) {
         checkSerializable(value);
-        return cache.safeReplace(key, value, parseDuration(expiration));
+        return getCache().safeReplace(key, value, parseDuration(expiration));
     }
 
     /**
@@ -132,7 +132,7 @@ public class CacheHolder implements InitializingBean{
      */
     public static void replace(String key, Object value) {
         checkSerializable(value);
-        cache.replace(key, value, parseDuration(null));
+        getCache().replace(key, value, parseDuration(null));
     }
 
     /**
@@ -142,7 +142,7 @@ public class CacheHolder implements InitializingBean{
      * @return The new value
      */
     public static long incr(String key, int by) {
-        return cache.incr(key, by);
+        return getCache().incr(key, by);
     }
 
     /**
@@ -151,7 +151,7 @@ public class CacheHolder implements InitializingBean{
      * @return The new value
      */
     public static long incr(String key) {
-        return cache.incr(key, 1);
+        return getCache().incr(key, 1);
     }
 
     /**
@@ -161,7 +161,7 @@ public class CacheHolder implements InitializingBean{
      * @return The new value
      */
     public static long decr(String key, int by) {
-        return cache.decr(key, by);
+        return getCache().decr(key, by);
     }
 
     /**
@@ -170,7 +170,7 @@ public class CacheHolder implements InitializingBean{
      * @return The new value
      */
     public static long decr(String key) {
-        return cache.decr(key, 1);
+        return getCache().decr(key, 1);
     }
 
     /**
@@ -179,7 +179,7 @@ public class CacheHolder implements InitializingBean{
      * @return The element value or null
      */
     public static Object get(String key) {
-        return cache.get(key);
+        return getCache().get(key);
     }
 
     /**
@@ -188,7 +188,7 @@ public class CacheHolder implements InitializingBean{
      * @return Map of keys & values
      */
     public static Map<String, Object> get(String... key) {
-        return cache.get(key);
+        return getCache().get(key);
     }
 
     /**
@@ -196,7 +196,7 @@ public class CacheHolder implements InitializingBean{
      * @param key The element key     * 
      */
     public static void delete(String key) {
-        cache.delete(key);
+        getCache().delete(key);
     }
 
     /**
@@ -206,14 +206,14 @@ public class CacheHolder implements InitializingBean{
      * @return If the element an eventually been deleted
      */
     public static boolean safeDelete(String key) {
-        return cache.safeDelete(key);
+        return getCache().safeDelete(key);
     }
 
     /**
      * Clear all data from cache.
      */
     public static void clear() {
-        cache.clear();
+        getCache().clear();
     }
 
     /**
@@ -224,22 +224,27 @@ public class CacheHolder implements InitializingBean{
      * @return The element value or null
      */
     public static <T> T get(String key, Class<T> clazz) {
-        return (T) cache.get(key);
+        return (T) getCache().get(key);
     }
 
     /**
      * Stop the cache system.
      */
     public static void stop() {
-        cache.stop();
+        getCache().stop();
     }
     
     
 	public static void cleanHolder() {
-		cache = null;
+		CacheHolder.cache = null;
 	}
 	
-    /**
+	private static Cache getCache() {
+		if(cache == null) throw new IllegalStateException("not found 'cache' for CacheHolder ");
+		return cache;
+	}
+
+	/**
      * Utility that check that an object is serializable.
      */
     static void checkSerializable(Object value) {
