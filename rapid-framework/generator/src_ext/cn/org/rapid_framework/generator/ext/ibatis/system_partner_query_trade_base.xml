@@ -76,14 +76,14 @@
 					BTB.total_fee &lt;= #tradePriceUp#
 			</isNotEmpty>
 	
-			<isEqual prepend="and" property="partnerTradeFrom" compareValue="FEEYO">
-					system_partner in ('FEEYO')
+			<isEqual prepend="and" property="partnerTradeFrom" compareValue="ETRIP8">
+					system_partner in ('ETRIP8')
 			</isEqual>
 			<isEqual prepend="and" property="partnerTradeFrom" compareValue="AIRCHINA">
-					system_partner in ('AIR_CHINA')
+					system_partner in ('AIRCHINA')
 			</isEqual>	
 			<isEqual prepend="and" property="partnerTradeFrom" compareValue="OTHER">
-					system_partner not in ('FEEYO','AIR_CHINA')
+					system_partner not in ('ETRIP8','AIRCHINA')
 			</isEqual>	
     </sql>
     
@@ -98,8 +98,8 @@
     		BTF.gmt_pay,
     		
     		(case
-	        when (MAE.system_partner = '易商旅' ) then 'FEEYO'
-	        when (MAE.system_partner = '国航' ) then 'AIR_CHINA'
+	        when (MAE.system_partner = '易商旅' ) then 'ETRIP8'
+	        when (MAE.system_partner = '国航' ) then 'AIRCHINA'
 	        else
 	        	'OTHER'
 	        end) as partnerTradeFrom,
