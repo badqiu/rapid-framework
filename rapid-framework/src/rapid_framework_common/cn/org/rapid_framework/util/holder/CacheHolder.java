@@ -262,7 +262,7 @@ public class CacheHolder implements InitializingBean{
      * @param duration 3h, 2mn, 7s, 1d
      * @return The number of seconds
      */
-    public static int parseDuration(String duration) {
+    private static int parseDuration(String duration) {
         if (duration == null) {
             return 60 * 60 * 24 * 30;
         }
