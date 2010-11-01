@@ -59,4 +59,13 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 		this.totalItems = totalItems;
 	}
 
+	public Paginator<E> toPaginator() {
+		Paginator<E> p = new Paginator<E>();
+		p.setPageNo(pageNo);
+		p.setPageSize(pageSize);
+		p.setTotalItems(totalItems);
+		p.setItemList(this);
+		return p;
+	}
+	
 }
