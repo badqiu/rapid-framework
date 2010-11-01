@@ -11,6 +11,23 @@ public class Paginator<T> implements java.io.Serializable,Iterable<T>{
 	private int pageSize;
 	private long totalItems;
 	
+	public Paginator() {}
+	
+	public Paginator(List<T> itemList, int pageNo, int pageSize, long totalItems) {
+		super();
+		this.itemList = itemList;
+		this.pageNo = pageNo;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+	}
+
+	public Paginator(int pageNo, int pageSize, long totalItems) {
+		super();
+		this.pageNo = pageNo;
+		this.pageSize = pageSize;
+		this.totalItems = totalItems;
+	}
+
 	public List<T> getItemList() {
 		return itemList;
 	}
