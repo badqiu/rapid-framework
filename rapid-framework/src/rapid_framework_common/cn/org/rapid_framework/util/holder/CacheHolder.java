@@ -38,7 +38,7 @@ public class CacheHolder implements InitializingBean{
      * Add an element only if it doesn't exist.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      */
     public static void add(String key, Object value, String expiration) {
         checkSerializable(value);
@@ -50,7 +50,7 @@ public class CacheHolder implements InitializingBean{
      * the element is effectivly cached.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      * @return If the element an eventually been cached
      */
     public static boolean safeAdd(String key, Object value, String expiration) {
@@ -72,7 +72,7 @@ public class CacheHolder implements InitializingBean{
      * Set an element.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      */
     public static void set(String key, Object value, String expiration) {
         checkSerializable(value);
@@ -83,7 +83,7 @@ public class CacheHolder implements InitializingBean{
      * Set an element and return only when the element is effectivly cached.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      * @return If the element an eventually been cached
      */
     public static boolean safeSet(String key, Object value, String expiration) {
@@ -105,7 +105,7 @@ public class CacheHolder implements InitializingBean{
      * Replace an element only if it already exists.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      */
     public static void replace(String key, Object value, String expiration) {
         checkSerializable(value);
@@ -117,7 +117,7 @@ public class CacheHolder implements InitializingBean{
      * element is effectivly cached.
      * @param key Element key
      * @param value Element value
-     * @param expiration Ex: 10s, 3mn, 8h
+     * @param expiration Ex: 10s, 3mn, 8h, 1d
      * @return If the element an eventually been cached
      */
     public static boolean safeReplace(String key, Object value, String expiration) {
@@ -254,7 +254,7 @@ public class CacheHolder implements InitializingBean{
     static Pattern seconds = Pattern.compile("^([0-9]+)s$");
     /**
      * Parse a duration
-     * @param duration 3h, 2mn, 7s
+     * @param duration 3h, 2mn, 7s, 1d
      * @return The number of seconds
      */
     public static int parseDuration(String duration) {
