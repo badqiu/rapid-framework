@@ -7,35 +7,32 @@ package cn.org.rapid_framework.util;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 
- * 包含“分页”信息的List,实现了序列化，支持泛型
+ * 包含“分页”信息的List
  * 
  * @author badqiu
  */
-public class PageList<E> extends ArrayList<E> implements IPage<E>,Serializable {
+public class PageList<E> extends ArrayList<E> implements Serializable {
 
     private static final long serialVersionUID = 1412759446332294208L;
+    
     private int               pageSize;
     private int               pageNo;
-    private long              totalCount;
+    private long              totalItems;
 
     public PageList() {}
     
-    public PageList(Collection<E> c,IPage<E> page) {
-        super(c);
-        this.pageSize = page.getPageSize();
-        this.pageNo = page.getPageNo();
-        this.totalCount = page.getTotalCount();
-    }
+	public PageList(Collection<? extends E> c) {
+		super(c);
+	}
 
-    public PageList(Collection<E> c,int pageSize, int pageNo, long totalCount) {
+	public PageList(Collection<? extends E> c,int pageNo, int pageSize, long totalItems) {
         super(c);
-        this.pageSize = pageSize;
         this.pageNo = pageNo;
-        this.totalCount = totalCount;
+        this.pageSize = pageSize;
+        this.totalItems = totalItems;
     }
 
     public int getPageSize() {
@@ -54,21 +51,12 @@ public class PageList<E> extends ArrayList<E> implements IPage<E>,Serializable {
         this.pageNo = pageNo;
     }
 
-    public long getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(long totalCount) {
-        this.totalCount = totalCount;
-    }
-
-	public List<E> getItemList() {
-		return this;
+	public long getTotalItems() {
+		return totalItems;
 	}
 
-	public void setItemList(List<E> list) {
-		clear();
-		addAll(list);
+	public void setTotalItems(long totalItems) {
+		this.totalItems = totalItems;
 	}
 
 }
