@@ -239,7 +239,7 @@ public class PropertiesHelper {
 		if(v == null) {
 			return new String[0];
 		}else {
-			return StringTokenizerUtils.split(v, ",");
+		    return org.springframework.util.StringUtils.tokenizeToStringArray(v, ", \t\n\r\f");
 		}
 	}
 
