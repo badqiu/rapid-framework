@@ -22,6 +22,16 @@ public class PropertiesHelperTest extends TestCase {
 		
 	}
 	
+	public void testGetStringArray() {
+	    p.setProperty("array", "1,2 3\t4\n5");
+	    String[] array = p.getStringArray("array");
+	    assertEquals(array[0],"1");
+	    assertEquals(array[1],"2");
+	    assertEquals(array[2],"3");
+	    assertEquals(array[3],"4");
+	    assertEquals(array[4],"5");
+	}
+	
 	public void testOverrideNever() {
 		assertEquals(null,p.getProperty("user.home"));
 	}
