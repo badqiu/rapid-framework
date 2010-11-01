@@ -235,7 +235,7 @@ public class PropertiesHelper {
 	}
 
 	public String[] getStringArray(String key) {
-		String v = p.getProperty(key);
+		String v = getProperty(key);
 		if(v == null) {
 			return new String[0];
 		}else {
