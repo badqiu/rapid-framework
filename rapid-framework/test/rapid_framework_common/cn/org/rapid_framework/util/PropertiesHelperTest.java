@@ -22,16 +22,6 @@ public class PropertiesHelperTest extends TestCase {
 		
 	}
 	
-	public void testGetStringArray() {
-	    p.setProperty("array", "1,2 3\t4\n5");
-	    String[] array = p.getStringArray("array");
-	    assertEquals(array[0],"1");
-	    assertEquals(array[1],"2");
-	    assertEquals(array[2],"3");
-	    assertEquals(array[3],"4");
-	    assertEquals(array[4],"5");
-	}
-	
 	public void testOverrideNever() {
 		assertEquals(null,p.getProperty("user.home"));
 	}
@@ -48,5 +38,24 @@ public class PropertiesHelperTest extends TestCase {
 	public void testFallbackMode() {
 		p = new PropertiesHelper(p.getProperties(),PropertiesHelper.SYSTEM_PROPERTIES_MODE_FALLBACK);
 		assertNotNull(p.getProperty("user.home"));
+	}
+	
+	public void testStartsWithProperties() {
+		p.setProperty("mm.user", "badqiu");
+		p.setProperty("mm.sex", "f");
+		Properties result = p.getStartsWithProperties("mm.");
+		assertEquals("{user=badqiu, sex=f}",result.toString());
+		
+		result = p.getStartsWithProperties("mm");
+		assertEquals("{.sex=f, .user=badqiu}",result.toString());
+		
+		result = p.getStartsWithProperties("");
+		assertEquals("{1=1, mm.user=badqiu, empty=, mm.sex=f, blank=   }",result.toString());
+		
+		try {
+		result = p.getStartsWithProperties(null);
+		fail();
+		}catch(IllegalArgumentException e) {
+		}
 	}
 }
