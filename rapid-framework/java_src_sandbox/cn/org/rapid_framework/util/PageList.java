@@ -28,6 +28,12 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 		super(c);
 	}
 
+	public PageList(int pageNo, int pageSize, long totalItems) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.totalItems = totalItems;
+    }
+	
 	public PageList(Collection<? extends E> c,int pageNo, int pageSize, long totalItems) {
         super(c);
         this.pageNo = pageNo;
