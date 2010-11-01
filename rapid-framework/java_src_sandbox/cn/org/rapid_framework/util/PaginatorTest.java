@@ -80,7 +80,7 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getTotalItems(),101);
 		
 		for(int i = 1; i <= p.getTotalPages(); i++) {
-			findPage(i,p.getPageSize(),"query");
+			PageList<String> pageList = findPage(i,p.getPageSize(),"query");
 		}
 	}
 
