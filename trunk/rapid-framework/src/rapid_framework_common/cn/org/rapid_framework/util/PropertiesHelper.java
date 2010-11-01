@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 import java.util.Properties;
@@ -248,6 +249,20 @@ public class PropertiesHelper {
 		int[] result = new int[array.length];
 		for(int i = 0; i < array.length; i++) {
 			result[i] = Integer.parseInt(array[i]);
+		}
+		return result;
+	}
+
+	public Properties getStartsWithProperties(String prefix) {
+		if(prefix == null) throw new IllegalArgumentException("'prefix' must be not null");
+		
+		Properties props = getProperties();
+		Properties result = new Properties();
+		for(Map.Entry<Object, Object> entry : props.entrySet()) {
+			String key = (String)entry.getKey();
+			if(key != null && key.startsWith(prefix)) {
+				result.put(key.substring(prefix.length()), entry.getValue());
+			}
 		}
 		return result;
 	}
