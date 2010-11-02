@@ -28,7 +28,7 @@ public class ${tableConfig.tableClassName}FacadeImpl implements  ${tableConfig.t
 	
 <#list tableConfig.sqls as sql>
 
-	<#if (sql.params?size > params2paramObjectLimit) >
+	<#if isUseParamObject(sql) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException{
 		return ${tableConfig.tableClassName?uncap_first}Service.${sql.operation}(param);
 	}

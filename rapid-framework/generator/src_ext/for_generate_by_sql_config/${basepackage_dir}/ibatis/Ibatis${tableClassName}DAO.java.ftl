@@ -37,7 +37,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.au
 	 */
 	@SuppressWarnings("unchecked")
 	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
-		<#if sql.paramType != "object" && !(sql.params?size > params2paramObjectLimit)>
+		<#if sql.paramType != "object" && !isUseParamObject(sql)>
 			<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
 				<#list sql.params as param>
@@ -64,7 +64,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.au
 	</#if>
 	<#if sql.selectSql>
 		<#if sql.paging>
-			<#if (sql.params?size > params2paramObjectLimit)>
+			<#if isUseParamObject(sql)>
 		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName});
 			<#else>
 		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName},pageNo,pageSize);

@@ -1,4 +1,11 @@
-<#assign params2paramObjectLimit = 6/>
+<#function isUseParamObject sql>
+	<#if (sql.params?size > 6) >
+		<#return true/>
+	<#else>
+		<#return false/>
+	</#if>
+</#function>
+
 <#macro generateResultClassName sql>
 	<#compress>
 	<#if sql.selectSql>
@@ -35,7 +42,7 @@
 	<#if sql.paramType = 'object'>
 		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
 	<#else>
-		<#if (sql.params?size > params2paramObjectLimit)>
+		<#if isUseParamObject(sql)>
 			${sql.parameterClassName} param
 		<#else>
 			<#if sql.paging>
