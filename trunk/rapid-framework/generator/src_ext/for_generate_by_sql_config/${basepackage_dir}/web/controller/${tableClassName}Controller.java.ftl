@@ -122,7 +122,7 @@ public class ${className}Controller {
 	/**
 	 * ${sql.remarks!}
 	 */
-	<#if (sql.params?size > params2paramObjectLimit) >
+	<#if isUseParamObject(sql) >
 	@RequestMapping(value="/${sql.operation}",method=<@getRequestMethod sql/>)
 	public <@generateResultClassName sql/> ${sql.operation}(ModelMap model,${sql.parameterClassName} param) throws DataAccessException {
 		Result result = ${className}Facade.${sql.operation}(param);

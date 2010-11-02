@@ -24,7 +24,7 @@ public interface ${tableConfig.tableClassName}Facade {
 	/**
 	 * ${sql.remarks!}
 	 */
-	<#if (sql.params?size > params2paramObjectLimit) >
+	<#if isUseParamObject(sql) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException;
 	<#else>
 	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException;

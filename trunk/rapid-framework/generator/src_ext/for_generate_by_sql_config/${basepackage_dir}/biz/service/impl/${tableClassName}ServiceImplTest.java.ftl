@@ -38,7 +38,7 @@ public class ${tableConfig.tableClassName}ServiceImplTest extends BaseBizTestCas
     	
 <#list tableConfig.sqls as sql>
 
-	<#if (sql.params?size > params2paramObjectLimit) >
+	<#if isUseParamObject(sql) >
 	public void test_${sql.operation}() throws DataAccessException{
 		
 		//${tableConfig.tableClassName?uncap_first}Service.${sql.operation}(param);
