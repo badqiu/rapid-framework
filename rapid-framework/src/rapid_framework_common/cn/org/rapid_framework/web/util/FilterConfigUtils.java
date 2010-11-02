@@ -16,9 +16,22 @@ public class FilterConfigUtils {
 		return StringUtils.isEmpty(v) ? defaultValue : v;
 	}
 
+   public static boolean getBooleanParameter(FilterConfig config,String key,boolean defaultValue) {
+        String v = getParameter(config,key,Boolean.toString(defaultValue));
+        try {
+            return Boolean.parseBoolean(v);
+        }catch(Exception e) {
+            throw new IllegalArgumentException("cannot parse value:"+v+" for boolean by key:"+key);
+        }
+    }
+	   
 	public static int getIntParameter(FilterConfig config,String key,int defaultValue) {
 		String v = getParameter(config,key,Integer.toString(defaultValue));
-		return Integer.parseInt(v);
+		try {
+		    return Integer.parseInt(v);
+		}catch(Exception e) {
+		    throw new IllegalArgumentException("cannot parse value:"+v+" for int by key:"+key);
+		}
 	}
 
 	public static int getIntegerParameter(FilterConfig config,String key,Integer defaultValue) {
