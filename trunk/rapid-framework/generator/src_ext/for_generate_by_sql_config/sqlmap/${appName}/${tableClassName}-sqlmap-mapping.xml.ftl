@@ -19,7 +19,7 @@
     </resultMap>
 	</#list>
     
-    <resultMap id="RM.${tableConfig.tableClassName}" class="${basepackage}.model.${tableConfig.tableClassName}">
+    <resultMap id="RM.${tableConfig.tableClassName}" class="${basepackage}.dataobject.${tableConfig.tableClassName}">
         <#list tableConfig.table.columns as column>
     	<#if column.javaType?ends_with('Money')>
 		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}" javaType="long" jdbcType="${column.jdbcSqlTypeName}" nullValue="0" />
