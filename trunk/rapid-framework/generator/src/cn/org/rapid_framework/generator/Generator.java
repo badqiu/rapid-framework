@@ -109,9 +109,9 @@ public class Generator {
 		this.excludes = excludes;
 	}
 
-	public void setOutRootDir(String v) {
-		if(v == null) throw new IllegalArgumentException("outRootDir must be not null");
-		this.outRootDir = v;
+	public void setOutRootDir(String outRootDir) {
+		if(outRootDir == null) throw new IllegalArgumentException("outRootDir must be not null");
+		this.outRootDir = outRootDir;
 	}
 	
 	public String getOutRootDir() {
