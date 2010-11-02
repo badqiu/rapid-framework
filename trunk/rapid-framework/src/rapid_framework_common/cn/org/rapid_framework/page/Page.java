@@ -159,6 +159,14 @@ public class Page<T> implements Serializable,Iterable<T>
 	public List<Integer> getLinkPageNumbers() {
 		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),10);
 	}
+
+    /**
+     * 得到用于多页跳转的页码
+     * @return
+     */
+	public List<Integer> getLinkPageNumbers(int count) {
+		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),count);
+	}
 	
 	/**
 	 * 得到数据库的第一条记录号
