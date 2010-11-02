@@ -1,8 +1,14 @@
 package cn.org.rapid_framework.util;
 
+import java.util.List;
+
+import cn.org.rapid_framework.page.PageUtils;
+
 
 public class Paginator implements java.io.Serializable{
 	private static final long serialVersionUID = 6089482156906595931L;
+	
+	private static final int DEFAULT_SLIDERS_COUNT = 7;
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	
 	private int pageNo;
@@ -125,7 +131,15 @@ public class Paginator implements java.io.Serializable{
         return computePageNumber(page,pageSize,totalItems);
     }
     
-    public static int computeLastPageNumber(long totalItems,int pageSize) {
+    public List<Integer> getSliders() {
+    	return PageUtils.generateLinkPageNumbers(getPageNo(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
+    }
+    
+    public List<Integer> getSliders(int slidersCount) {
+    	return PageUtils.generateLinkPageNumbers(getPageNo(),(int)getTotalPages(), slidersCount);
+    }
+    
+    private static int computeLastPageNumber(long totalItems,int pageSize) {
         int result = (int)(totalItems % pageSize == 0 ? 
                 totalItems / pageSize 
                 : totalItems / pageSize + 1);
@@ -134,7 +148,7 @@ public class Paginator implements java.io.Serializable{
         return result;
     }
     
-    public static int computePageNumber(int pageNo, int pageSize,long totalItems) {
+    private static int computePageNumber(int pageNo, int pageSize,long totalItems) {
         if(pageNo <= 1) {
             return 1;
         }

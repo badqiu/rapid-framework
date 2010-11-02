@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 public class PaginatorTest extends TestCase {
 	
-	Paginator<String> p = new Paginator<String>();
+	Paginator p = new Paginator();
 	
 	public void setUp() {
 		p.setPageNo(10);
