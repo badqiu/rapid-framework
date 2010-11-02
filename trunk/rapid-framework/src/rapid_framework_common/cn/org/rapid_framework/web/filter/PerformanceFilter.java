@@ -10,10 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.web.util.FilterConfigUtils;
 /**
@@ -40,7 +42,7 @@ import cn.org.rapid_framework.web.util.FilterConfigUtils;
  * @author badqiu
  *
  */
-public class PerformanceFilter implements Filter {
+public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
     private int threshold = 3000;
     private boolean includeQueryString = false;
     private static final Log log = LogFactory.getLog(PerformanceFilter.class);
@@ -48,9 +50,11 @@ public class PerformanceFilter implements Filter {
     public void destroy() {
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-                                                                                             throws IOException,
-                                                                                             ServletException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request,
+			HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
+		
         String requestString = dumpRequest(request);
 
         Throwable failed = null;
@@ -59,6 +63,7 @@ public class PerformanceFilter implements Filter {
             chain.doFilter(request, response);
         } catch (Throwable e) {
             failed = e;
+            rethrowThrowable(failed);
         } finally {
             long duration = System.currentTimeMillis() - start;
             if (failed != null) {
@@ -70,7 +75,6 @@ public class PerformanceFilter implements Filter {
             }
         }
 
-        rethrowThrowable(failed);
     }
 
     private static void rethrowThrowable(Throwable failed) throws Error, IOException, ServletException {
@@ -87,9 +91,10 @@ public class PerformanceFilter implements Filter {
         }
     }
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.threshold = FilterConfigUtils.getIntParameter(filterConfig, "threshold", threshold);
-        this.includeQueryString = FilterConfigUtils.getBooleanParameter(filterConfig, "includeQueryString", includeQueryString);
+    @Override
+    public void initFilterBean() throws ServletException {
+        this.threshold = FilterConfigUtils.getIntParameter(getFilterConfig(), "threshold", threshold);
+        this.includeQueryString = FilterConfigUtils.getBooleanParameter(getFilterConfig(), "includeQueryString", includeQueryString);
         log.info("PerformanceFilter started with threshold:"+threshold+"ms includeQueryString:"+includeQueryString);
     }
     
@@ -115,5 +120,7 @@ public class PerformanceFilter implements Filter {
         
         return buffer.toString();
     }
+
+
 
 }
