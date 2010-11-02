@@ -1,39 +1,20 @@
 package cn.org.rapid_framework.util;
 
-import java.util.Iterator;
-import java.util.List;
 
-public class Paginator<T> implements java.io.Serializable,Iterable<T>{
+public class Paginator implements java.io.Serializable{
 	private static final long serialVersionUID = 6089482156906595931L;
 	
-	private List<T> itemList;
 	private int pageNo;
 	private int pageSize;
 	private long totalItems;
 	
 	public Paginator() {}
-	
-	public Paginator(List<T> itemList, int pageNo, int pageSize, long totalItems) {
-		super();
-		this.itemList = itemList;
-		this.pageNo = pageNo;
-		this.pageSize = pageSize;
-		this.totalItems = totalItems;
-	}
 
 	public Paginator(int pageNo, int pageSize, long totalItems) {
 		super();
-		this.pageNo = pageNo;
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
-	}
-
-	public List<T> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<T> itemList) {
-		this.itemList = itemList;
+		this.pageNo = computePageNo(pageNo);
 	}
 
 	public int getPageNo() {
@@ -41,7 +22,7 @@ public class Paginator<T> implements java.io.Serializable,Iterable<T>{
 	}
 
 	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
+		this.pageNo = computePageNo(pageNo);
 	}
 
 	public int getPageSize() {
@@ -58,6 +39,7 @@ public class Paginator<T> implements java.io.Serializable,Iterable<T>{
 
 	public void setTotalItems(long totalItems) {
 		this.totalItems = totalItems;
+		computePageNo(pageNo);
 	}
 	
     /**
@@ -111,16 +93,15 @@ public class Paginator<T> implements java.io.Serializable,Iterable<T>{
 	}
 	
 	public long getBeginIndex() {
-		return (pageNo - 1) * getPageSize() + 1;
+		return pageNo > 0 ? (pageNo - 1) * getPageSize() + 1 : 0;
 	}
 
 	public long getEndIndex() {
-		long fullPage = getBeginIndex() + getPageSize() - 1;
-		return getTotalItems() < fullPage ? getTotalItems() : fullPage;
+	    return pageNo > 0 ? Math.min(pageSize * pageNo, getTotalItems()) : 0; 
 	}
 	
 	public long getOffset() {
-		return (pageNo - 1) * getPageSize();
+		return pageNo > 0 ? (pageNo - 1) * getPageSize() : 0;
 	}
 	
 	public long getTotalPages() {
@@ -135,23 +116,27 @@ public class Paginator<T> implements java.io.Serializable,Iterable<T>{
 		return count;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Iterator<T> iterator() {
-		if(itemList == null) return EMPTY_ITERATOR;
-		return itemList.iterator();
-	}
-	
-	@SuppressWarnings("unchecked")
-	private static Iterator EMPTY_ITERATOR = new Iterator() {
-		public boolean hasNext() {
-			return false;
-		}
-		public Object next() {
-			throw new IllegalStateException();
-		}
-		public void remove() {
-			throw new IllegalStateException();
-		}
-	};
-	
+    protected int computePageNo(int page) {
+        return computePageNumber(page,pageSize,totalItems);
+    }
+    
+    public static int computeLastPageNumber(long totalItems,int pageSize) {
+        int result = (int)(totalItems % pageSize == 0 ? 
+                totalItems / pageSize 
+                : totalItems / pageSize + 1);
+        if(result <= 1)
+            result = 1;
+        return result;
+    }
+    
+    public static int computePageNumber(int pageNo, int pageSize,long totalItems) {
+        if(pageNo <= 1) {
+            return 1;
+        }
+        if (Integer.MAX_VALUE == pageNo
+                || pageNo > computeLastPageNumber(totalItems,pageSize)) { //last page
+            return computeLastPageNumber(totalItems,pageSize);
+        }
+        return pageNo;
+    }
 }
