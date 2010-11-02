@@ -104,7 +104,7 @@ public class PerformanceFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest)request;
         StringBuffer buffer = new StringBuffer(req.getMethod());
 
-        buffer.append(" ").append(req.getRequestURI());
+        buffer.append("__").append(req.getRequestURI());
 
         if(includeQueryString) {
             String queryString = req.getQueryString();
