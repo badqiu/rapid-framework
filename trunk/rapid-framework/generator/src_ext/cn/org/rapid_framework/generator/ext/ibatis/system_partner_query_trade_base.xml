@@ -75,35 +75,22 @@
 			<isNotEmpty prepend="and" property="tradePriceUp">
 					BTB.total_fee &lt;= #tradePriceUp#
 			</isNotEmpty>
-	
-			<isEqual prepend="and" property="partnerTradeFrom" compareValue="ETRIP8">
-					system_partner in ('ETRIP8')
-			</isEqual>
-			<isEqual prepend="and" property="partnerTradeFrom" compareValue="AIRCHINA">
-					system_partner in ('AIRCHINA')
-			</isEqual>	
-			<isEqual prepend="and" property="partnerTradeFrom" compareValue="OTHER">
-					system_partner not in ('ETRIP8','AIRCHINA')
-			</isEqual>	
+
+			<isNotEmpty prepend="and" property="includeSystemPartners">
+					system_partner in <iterate property="includeSystemPartners" open="(" close=")" conjunction=",">#includeSystemPartners[]#</iterate> 
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="excludeSystemPartners">
+					system_partner not in <iterate property="excludeSystemPartners" open="(" close=")" conjunction=",">#excludeSystemPartners[]#</iterate> 
+			</isNotEmpty>
     </sql>
     
     <operation name="findTradeBySystemParnter" paramtype="primitive" multiplicity="paging" remarks="系统平台商交易查询">
-		<extraparams>
-			<param name="partnerTradeFrom" javatype="java.lang.String"/>
-		</extraparams>    
     	<sql>
     		SELECT 
     		BTB.id,BTB.trade_no,out_trade_no,seller_account,seller_login_email,buyer_account,buyer_login_email,seller_type,buyer_type,trade_from,trade_email,operator_role,trade_status,total_fee,service_fee_ratio,service_fee,BTB.currency,seller_action,buyer_action,BTB.gmt_create,seller_user_id,buyer_user_id,additional_trd_status,trade_type,seller_fullname,buyer_fullname,seller_nick,buyer_nick,goods_title,gmt_last_modified_dt,stop_timeout,gathering_type,buyer_marker,seller_marker,buyer_marker_memo,seller_marker_memo,BTB.channel,product,pay_channel,
     		PNR,MAE.TICKET_NO_START,MAE.TICKET_NO_END,MAE.system_partner,
     		BTF.gmt_pay,
-    		
-    		(case
-	        when (MAE.system_partner = '易商旅' ) then 'ETRIP8'
-	        when (MAE.system_partner = '国航' ) then 'AIRCHINA'
-	        else
-	        	'OTHER'
-	        end) as partnerTradeFrom,
-	        
+    			        
     		(case
 	        when (BTB.channel = '70' ) then 'CREDIT_PAY'
 	        else
@@ -118,6 +105,13 @@
     		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 			<include refid="findTradeBySystemParnter.where"/>
+			
+			<isNotEmpty prepend="and" property="gmtPayBegin">
+			order by BTF.gmt_pay desc
+			</isNotEmpty>
+			<isEmpty prepend="and" property="gmtPayBegin">
+			order by BTB.gmt_create desc
+			</isEmpty>
 		</sql>
     </operation>
 
