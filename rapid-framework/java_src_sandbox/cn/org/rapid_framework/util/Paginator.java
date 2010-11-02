@@ -3,12 +3,15 @@ package cn.org.rapid_framework.util;
 
 public class Paginator implements java.io.Serializable{
 	private static final long serialVersionUID = 6089482156906595931L;
+	private static final int DEFAULT_PAGE_SIZE = 10;
 	
 	private int pageNo;
-	private int pageSize;
+	private int pageSize = DEFAULT_PAGE_SIZE;
 	private long totalItems;
 	
-	public Paginator() {}
+	public Paginator() {
+	    this(0,DEFAULT_PAGE_SIZE,0);
+	}
 
 	public Paginator(int pageNo, int pageSize, long totalItems) {
 		super();
@@ -22,7 +25,8 @@ public class Paginator implements java.io.Serializable{
 	}
 
 	public void setPageNo(int pageNo) {
-		this.pageNo = computePageNo(pageNo);
+		this.pageNo = pageNo;
+		computePageNo(pageNo);
 	}
 
 	public int getPageSize() {
@@ -31,6 +35,7 @@ public class Paginator implements java.io.Serializable{
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+		computePageNo(pageNo);
 	}
 
 	public long getTotalItems() {
