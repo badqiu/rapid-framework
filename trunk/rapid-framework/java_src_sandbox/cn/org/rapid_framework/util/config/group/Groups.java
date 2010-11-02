@@ -118,6 +118,6 @@ public class Groups implements java.io.Serializable{
 //	public String toString() {
 //	}
 	//TODO 增加groups config的变量引用,如 group1.username=${group2.password}/diy
-
+	//TODO 是否考虑支持 <property name="key">value</property> => <key>value</key> 的方式
 
 }
