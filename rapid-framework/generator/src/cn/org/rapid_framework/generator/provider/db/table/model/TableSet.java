@@ -1,9 +1,12 @@
 package cn.org.rapid_framework.generator.provider.db.table.model;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 
+/**
+ * 包含持有一组 Table对象
+ * @author badqiu
+ *
+ */
 public class TableSet {
 	private LinkedHashSet<Table> tables = new LinkedHashSet<Table>();
 
