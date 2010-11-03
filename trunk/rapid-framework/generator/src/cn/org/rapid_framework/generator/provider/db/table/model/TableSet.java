@@ -7,7 +7,9 @@ import java.util.LinkedHashSet;
  * @author badqiu
  *
  */
-public class TableSet {
+public class TableSet implements java.io.Serializable{
+	private static final long serialVersionUID = -6500047411657968878L;
+	
 	private LinkedHashSet<Table> tables = new LinkedHashSet<Table>();
 
 	public LinkedHashSet<Table> getTables() {
