@@ -10,7 +10,9 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  * @author badqiu
  *
  */
-public class ColumnSet {
+public class ColumnSet implements java.io.Serializable{
+	private static final long serialVersionUID = -6500047411657968878L;
+	
 	private LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 
 	public LinkedHashSet<Column> getColumns() {
