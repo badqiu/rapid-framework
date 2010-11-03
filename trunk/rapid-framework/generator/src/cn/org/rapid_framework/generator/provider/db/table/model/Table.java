@@ -26,7 +26,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	/** real table name for oracle SYNONYM */
 	private String tableSynonymName = null; 
 	
-	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
+	ColumnSet columns = new ColumnSet();
 	List<Column> primaryKeyColumns = new ArrayList<Column>();
 	
 	
@@ -37,7 +37,7 @@ public class Table implements java.io.Serializable,Cloneable {
 		this.remarks = t.getRemarks();
 		this.className = t.getClassName();
 		this.ownerSynonymName = t.getOwnerSynonymName();
-		this.columns = t.getColumns();
+		setColumns(t.getColumns());
 		this.primaryKeyColumns = t.getPrimaryKeyColumns();
 		this.tableAlias = t.getTableAlias();
 		this.exportedKeys = t.exportedKeys;
@@ -45,10 +45,10 @@ public class Table implements java.io.Serializable,Cloneable {
 	}
 	
 	public LinkedHashSet<Column> getColumns() {
-		return columns;
+		return columns.getColumns();
 	}
 	public void setColumns(LinkedHashSet<Column> columns) {
-		this.columns = columns;
+		this.columns.setColumns(columns);
 	}
 	public String getOwnerSynonymName() {
 		return ownerSynonymName;
@@ -100,7 +100,7 @@ public class Table implements java.io.Serializable,Cloneable {
 		this.remarks = remarks;
 	}
 	public void addColumn(Column column) {
-		columns.add(column);
+		columns.addColumn(column);
 	}
 	
 	public void setClassName(String customClassName) {
@@ -180,13 +180,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	 * @return
 	 */
 	public int getPkCount() {
-		int pkCount = 0;
-		for(Column c : columns){
-			if(c.isPk()) {
-				pkCount ++;
-			}
-		}
-		return pkCount;
+		return columns.getPkCount();
 	}
 	/**
 	 * use getPkColumns()
@@ -201,12 +195,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	 * @return
 	 */	
 	public List<Column> getPkColumns() {
-		List results = new ArrayList();
-		for(Column c : getColumns()) {
-			if(c.isPk())
-				results.add(c);
-		}
-		return results;
+		return columns.getPkColumns();
 	}
 	
 	/**
@@ -214,19 +203,16 @@ public class Table implements java.io.Serializable,Cloneable {
 	 * @return
 	 */
 	public List<Column> getNotPkColumns() {
-		List results = new ArrayList();
-		for(Column c : getColumns()) {
-			if(!c.isPk())
-				results.add(c);
-		}
-		return results;
+		return columns.getNotPkColumns();
 	}
+	
 	/** 得到单主键，等价于getPkColumns().get(0)  */
 	public Column getPkColumn() {
-		if(getPkColumns().isEmpty()) {
+		Column c = columns.getPkColumn();
+		if(c == null) {
 			throw new IllegalStateException("not found primary key on table:"+getSqlName());
 		}
-		return getPkColumns().get(0);
+		return c;
 	}
 	
 	/**使用 getPkColumn()替换 */
@@ -253,12 +239,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	}
 	
 	public Column getColumnBySqlName(String sqlName) {
-	    for(Column c : getColumns()) {
-	        if(c.getSqlName().equalsIgnoreCase(sqlName)) {
-	            return c;
-	        }
-	    }
-	    return null;
+	    return columns.getBySqlName(sqlName);
 	}
 	
    public Column getRequiredColumnBySqlName(String sqlName) {
