@@ -222,20 +222,11 @@ public class Table implements java.io.Serializable,Cloneable {
 	}
 	
 	public List<Column> getEnumColumns() {
-        List results = new ArrayList();
-        for(Column c : getColumns()) {
-            if(!c.isEnumColumn())
-                results.add(c);
-        }
-        return results;	    
+        return columns.getEnumColumns();   
 	}
 	
 	public Column getColumnByName(String name) {
-	    Column c = getColumnBySqlName(name);
-	    if(c == null) {
-	    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
-	    }
-	    return c;
+	    return columns.getByName(name);
 	}
 	
 	public Column getColumnBySqlName(String sqlName) {

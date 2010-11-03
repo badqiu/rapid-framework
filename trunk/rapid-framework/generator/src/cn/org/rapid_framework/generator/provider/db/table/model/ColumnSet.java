@@ -3,6 +3,8 @@ package cn.org.rapid_framework.generator.provider.db.table.model;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+
+import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * 包含持有一组 Column对象
  * @author badqiu
@@ -23,6 +25,14 @@ public class ColumnSet {
 		columns.add(c);
 	}
 
+	public Column getColumnByName(String name) {
+	    Column c = getBySqlName(name);
+	    if(c == null) {
+	    	c = getBySqlName(StringHelper.toUnderscoreName(name));
+	    }
+	    return c;
+	}
+	
 	public Column getBySqlName(String name) {
 		for(Column c : columns) {
 			if(name.equalsIgnoreCase(c.getSqlName())) {
@@ -32,7 +42,7 @@ public class ColumnSet {
 		return null;
 	}
 	
-	public Column getByColumnName(String name) {
+	public Column getByName(String name) {
 		for(Column c : columns) {
 			if(name.equals(c.getColumnName())) {
 				return c;
@@ -87,5 +97,14 @@ public class ColumnSet {
 			return null;
 		}
 		return getPkColumns().get(0);
+	}
+	
+	public List<Column> getEnumColumns() {
+        List results = new ArrayList();
+        for(Column c : getColumns()) {
+            if(!c.isEnumColumn())
+                results.add(c);
+        }
+        return results;	    
 	}
 }
