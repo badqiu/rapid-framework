@@ -103,14 +103,21 @@ public class Paginator implements java.io.Serializable{
 		return (pageNo + 1 <= getTotalPages());
 	}
 	
-	public long getBeginIndex() {
+	/**
+	 * 开始行，可以用于oracle分页使用
+	 **/
+	public long getStartRow() {
 		return pageNo > 0 ? (pageNo - 1) * getPageSize() + 1 : 0;
 	}
-
-	public long getEndIndex() {
+	/**
+     * 结束行，可以用于oracle分页使用
+     **/
+	public long getEndRow() {
 	    return pageNo > 0 ? Math.min(pageSize * pageNo, getTotalItems()) : 0; 
 	}
-	
+    /**
+     * offset，可以用于mysql分页使用
+     **/	
 	public long getOffset() {
 		return pageNo > 0 ? (pageNo - 1) * getPageSize() : 0;
 	}
