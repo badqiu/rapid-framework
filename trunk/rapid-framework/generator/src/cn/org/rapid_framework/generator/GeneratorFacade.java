@@ -18,6 +18,7 @@ import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.ClassHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
 /**
@@ -25,7 +26,7 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
  * @author badqiu
  *
  */
-public class GeneratorFacade {
+public class GeneratorFacade implements GeneratorConstants {
 	public Generator g = new Generator();
 	public GeneratorFacade(){
 		g.setOutRootDir(GeneratorProperties.getProperty("outRoot"));
@@ -236,9 +237,17 @@ public class GeneratorFacade {
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
 			templateModel.putAll(GeneratorContext.getContext());
+			String[] tools = GeneratorProperties.getStringArray(GENERATOR_TOOLS_CLASS);
+			for(String className : tools) {
+				try {
+					Object instance = ClassHelper.newInstance(className);
+					templateModel.put(Class.forName(className).getSimpleName(), instance);
+					GLogger.debug("put tools class:"+className+" with key:"+Class.forName(className).getSimpleName());
+				}catch(Exception e) {
+					GLogger.error("cannot load tools by className:"+className);
+				}
+			}
 		}
-
-
 
 	}
 	
