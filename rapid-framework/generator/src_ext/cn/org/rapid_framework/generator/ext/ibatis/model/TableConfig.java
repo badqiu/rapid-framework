@@ -120,6 +120,15 @@ public class TableConfig {
         String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
         return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
     }
+    
+    public Column getPkColumn() throws Exception {
+    	if(StringHelper.isBlank(dummypk)) {
+    		return getTable().getPkColumn();
+    	}else {
+    		return getTable().getColumnByName(dummypk);
+    	}
+    }
+    
     public Table getTable() throws Exception {
         Table t = TableFactory.getInstance().getTable(getSqlname());
         if(columns != null) {
