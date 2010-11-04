@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -82,7 +83,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	}
 
 	public static String removeTableSqlNamePrefix(String sqlName) {
-		String prefixs = GeneratorProperties.getProperty("tableRemovePrefixes", "");
+		String prefixs = GeneratorProperties.getProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "");
 		for(String prefix : prefixs.split(",")) {
 			String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
 			if(!removedPrefixSqlName.equals(sqlName)) {
