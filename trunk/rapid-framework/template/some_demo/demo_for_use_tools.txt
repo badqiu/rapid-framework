@@ -1,0 +1,5 @@
+<#if StringHelper.isBlank('123')>
+	blank: demo for user StringHelper
+<#else>
+	not blank: demo for user StringHelper
+</#if>
