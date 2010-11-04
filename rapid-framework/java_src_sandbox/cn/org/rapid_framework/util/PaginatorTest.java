@@ -9,7 +9,7 @@ public class PaginatorTest extends TestCase {
 	Paginator p = new Paginator();
 	
 	public void setUp() {
-		p.setPageNo(10);
+		p.setPage(10);
 		p.setPageSize(10);
 		p.setTotalItems(101);		
 	}
@@ -24,19 +24,19 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.isHasNextPage(),true);
 		assertEquals(p.isHasPrePage(),true);
 		
-		p.setPageNo(1);
+		p.setPage(1);
 		assertEquals(p.isFirstPage(),true);
 		assertEquals(p.isLastPage(),false);
 		assertEquals(p.isHasPrePage(),false);
 		assertEquals(p.isHasNextPage(),true);
 		
-		p.setPageNo(11);
+		p.setPage(11);
 		assertEquals(p.isFirstPage(),false);
 		assertEquals(p.isLastPage(),true);
 		assertEquals(p.isHasPrePage(),true);
 		assertEquals(p.isHasNextPage(),false);
 		
-		p.setPageNo(5);
+		p.setPage(5);
 		assertEquals(p.isFirstPage(),false);
 		assertEquals(p.isLastPage(),false);
 		assertEquals(p.isHasPrePage(),true);
@@ -47,7 +47,7 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getStartRow(),91);
 		assertEquals(p.getEndRow(),100);
 		assertEquals(p.getOffset(),90);
-		assertEquals(p.getPageNo(),10);
+		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),10);
 		assertEquals(p.getPrePage(),9);
 		assertEquals(p.getNextPage(),11);
@@ -61,7 +61,7 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getStartRow(),46);
 		assertEquals(p.getEndRow(),50);
 		assertEquals(p.getOffset(),45);
-		assertEquals(p.getPageNo(),10);
+		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),5);
 		assertEquals(p.getPrePage(),9);
 		assertEquals(p.getNextPage(),11);
@@ -72,7 +72,7 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getStartRow(),1801);
 		assertEquals(p.getEndRow(),101);
 		assertEquals(p.getOffset(),1800);
-		assertEquals(p.getPageNo(),10);
+		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),200);
 		assertEquals(p.getPrePage(),9);
 		assertEquals(p.getNextPage(),10);
@@ -84,8 +84,8 @@ public class PaginatorTest extends TestCase {
 		}
 	}
 
-	private PageList findPage(int pageNo, int pageSize, String string) {
-		return new PageList(new ArrayList(),pageNo,pageSize,101);
+	private PageList findPage(int page, int pageSize, String string) {
+		return new PageList(new ArrayList(),page,pageSize,101);
 	}
 	
 }
