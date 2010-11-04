@@ -11,7 +11,7 @@ public class Paginator implements java.io.Serializable{
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
 	private static final int DEFAULT_PAGE_SIZE = 10;
 	
-	private int pageNo;
+	private int page;
 	private int pageSize = DEFAULT_PAGE_SIZE;
 	private long totalItems;
 	
@@ -19,20 +19,20 @@ public class Paginator implements java.io.Serializable{
 	    this(0,DEFAULT_PAGE_SIZE,0);
 	}
 
-	public Paginator(int pageNo, int pageSize, long totalItems) {
+	public Paginator(int page, int pageSize, long totalItems) {
 		super();
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
-		this.pageNo = computePageNo(pageNo);
+		this.page = computePageNo(page);
 	}
 
-	public int getPageNo() {
-		return pageNo;
+	public int getPage() {
+		return page;
 	}
 
-	public void setPageNo(int pageNo) {
-		this.pageNo = pageNo;
-		computePageNo(pageNo);
+	public void setPage(int page) {
+		this.page = page;
+		computePageNo(page);
 	}
 
 	public int getPageSize() {
@@ -41,7 +41,7 @@ public class Paginator implements java.io.Serializable{
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
-		computePageNo(pageNo);
+		computePageNo(page);
 	}
 
 	public long getTotalItems() {
@@ -50,7 +50,7 @@ public class Paginator implements java.io.Serializable{
 
 	public void setTotalItems(long totalItems) {
 		this.totalItems = totalItems;
-		computePageNo(pageNo);
+		computePageNo(page);
 	}
 	
     /**
@@ -59,7 +59,7 @@ public class Paginator implements java.io.Serializable{
      * @return 首页标识
      */
 	public boolean isFirstPage() {
-		return pageNo <= 1;
+		return page <= 1;
 	}
 
     /**
@@ -68,22 +68,22 @@ public class Paginator implements java.io.Serializable{
      * @return 末页标识
      */
 	public boolean isLastPage() {
-		return pageNo >= getTotalPages();
+		return page >= getTotalPages();
 	}
 	
 	public int getPrePage() {
 		if (isHasPrePage()) {
-			return pageNo - 1;
+			return page - 1;
 		} else {
-			return pageNo;
+			return page;
 		}
 	}
 	
 	public int getNextPage() {
 		if (isHasNextPage()) {
-			return pageNo + 1;
+			return page + 1;
 		} else {
-			return pageNo;
+			return page;
 		}
 	}
     /**
@@ -92,7 +92,7 @@ public class Paginator implements java.io.Serializable{
      * @return 上一页标识
      */
 	public boolean isHasPrePage() {
-		return (pageNo - 1 >= 1);
+		return (page - 1 >= 1);
 	}	
     /**
      * 是否有下一页
@@ -100,26 +100,26 @@ public class Paginator implements java.io.Serializable{
      * @return 下一页标识
      */
 	public boolean isHasNextPage() {
-		return (pageNo + 1 <= getTotalPages());
+		return (page + 1 <= getTotalPages());
 	}
 	
 	/**
 	 * 开始行，可以用于oracle分页使用
 	 **/
 	public long getStartRow() {
-		return pageNo > 0 ? (pageNo - 1) * getPageSize() + 1 : 0;
+		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
 	/**
      * 结束行，可以用于oracle分页使用
      **/
 	public long getEndRow() {
-	    return pageNo > 0 ? Math.min(pageSize * pageNo, getTotalItems()) : 0; 
+	    return page > 0 ? Math.min(pageSize * page, getTotalItems()) : 0; 
 	}
     /**
      * offset，可以用于mysql分页使用
      **/	
 	public long getOffset() {
-		return pageNo > 0 ? (pageNo - 1) * getPageSize() : 0;
+		return page > 0 ? (page - 1) * getPageSize() : 0;
 	}
 	
 	public long getTotalPages() {
@@ -139,11 +139,11 @@ public class Paginator implements java.io.Serializable{
     }
     
     public List<Integer> getSliders() {
-    	return PageUtils.generateLinkPageNumbers(getPageNo(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
+    	return PageUtils.generateLinkPageNumbers(getPage(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
     }
     
     public List<Integer> getSliders(int slidersCount) {
-    	return PageUtils.generateLinkPageNumbers(getPageNo(),(int)getTotalPages(), slidersCount);
+    	return PageUtils.generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
     private static int computeLastPageNumber(long totalItems,int pageSize) {
@@ -155,14 +155,14 @@ public class Paginator implements java.io.Serializable{
         return result;
     }
     
-    private static int computePageNumber(int pageNo, int pageSize,long totalItems) {
-        if(pageNo <= 1) {
+    private static int computePageNumber(int page, int pageSize,long totalItems) {
+        if(page <= 1) {
             return 1;
         }
-        if (Integer.MAX_VALUE == pageNo
-                || pageNo > computeLastPageNumber(totalItems,pageSize)) { //last page
+        if (Integer.MAX_VALUE == page
+                || page > computeLastPageNumber(totalItems,pageSize)) { //last page
             return computeLastPageNumber(totalItems,pageSize);
         }
-        return pageNo;
+        return page;
     }
 }

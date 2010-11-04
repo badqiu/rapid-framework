@@ -19,7 +19,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
     private static final long serialVersionUID = 1412759446332294208L;
     
     private int               pageSize;
-    private int               pageNo;
+    private int               page;
     private long              totalItems;
 
     public PageList() {}
@@ -28,28 +28,28 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 		super(c);
 	}
 
-	public PageList(int pageNo, int pageSize, long totalItems) {
-        this.pageNo = pageNo;
+	public PageList(int page, int pageSize, long totalItems) {
+        this.page = page;
         this.pageSize = pageSize;
         this.totalItems = totalItems;
     }
 	
-	public PageList(Collection<? extends E> c,int pageNo, int pageSize, long totalItems) {
+	public PageList(Collection<? extends E> c,int page, int pageSize, long totalItems) {
         super(c);
-        this.pageNo = pageNo;
+        this.page = page;
         this.pageSize = pageSize;
         this.totalItems = totalItems;
     }
 
     public PageList(Paginator p) {
-        this.pageNo = p.getPageNo();
+        this.page = p.getPage();
         this.pageSize = p.getPageSize();
         this.totalItems = p.getTotalItems();
     }
     
     public PageList(Collection<? extends E> c,Paginator p) {
         super(c);
-        this.pageNo = p.getPageNo();
+        this.page = p.getPage();
         this.pageSize = p.getPageSize();
         this.totalItems = p.getTotalItems();
     }
@@ -62,12 +62,12 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
         this.pageSize = pageSize;
     }
 
-    public int getPageNo() {
-        return pageNo;
+    public int getPage() {
+        return page;
     }
 
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+    public void setPage(int page) {
+        this.page = page;
     }
 
 	public long getTotalItems() {
@@ -80,7 +80,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 
 	public Paginator toPaginator() {
 		Paginator p = new Paginator();
-		p.setPageNo(pageNo);
+		p.setPage(page);
 		p.setPageSize(pageSize);
 		p.setTotalItems(totalItems);
 		return p;
