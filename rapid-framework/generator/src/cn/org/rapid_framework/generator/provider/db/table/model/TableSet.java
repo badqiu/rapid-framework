@@ -1,23 +1,24 @@
 package cn.org.rapid_framework.generator.provider.db.table.model;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 包含持有一组 Table对象
+ * 包含一组 Table对象的容器类
  * @author badqiu
  *
  */
 public class TableSet implements java.io.Serializable{
 	private static final long serialVersionUID = -6500047411657968878L;
 	
-	private LinkedHashSet<Table> tables = new LinkedHashSet<Table>();
+	private List<Table> tables = new ArrayList<Table>();
 
-	public LinkedHashSet<Table> getTables() {
+	public List<Table> getTables() {
 		return tables;
 	}
 
-	public void setTables(LinkedHashSet<Table> columns) {
-		this.tables = columns;
+	public void setTables(List<Table> tables) {
+		this.tables = tables;
 	}
 	
 	public void addTable(Table c) {
