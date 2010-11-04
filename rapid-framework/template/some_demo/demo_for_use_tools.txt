@@ -3,3 +3,5 @@
 <#else>
 	not blank: demo for user StringHelper
 </#if>
+
+${StringHelper.isNotBlank('  ')?string}
