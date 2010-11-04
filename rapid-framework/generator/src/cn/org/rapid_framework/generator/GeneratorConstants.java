@@ -11,4 +11,7 @@ public interface GeneratorConstants {
 	public String GENERATOR_OUTPUT_ENCODING = "generator.outputEncoding";
 	public String GENERATOR_REMOVE_EXTENSIONS = "generator.removeExtensions";
 	
+	/** 需要移除的表名前缀,示例值: t_,v_ */
+	public String TABLE_REMOVE_PREFIXES = "tableRemovePrefixes";
+	
 }
