@@ -89,7 +89,7 @@
 	
 	<!-- 
 		generator.tools.class是一些工具类,这些类可以在模板中当工具方法使用,如: ${StringUtils.isBlank(something)}
-	 	这里写完整的类名称即可
+	 	这里写完整的类名称即可,用(逗号,空格,换行符)分隔都可以
 	 -->
 	<entry key="generator.tools.class">
 		cn.org.rapid_framework.generator.util.StringHelper,
