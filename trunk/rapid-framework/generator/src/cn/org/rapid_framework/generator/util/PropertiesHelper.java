@@ -71,6 +71,24 @@ public class PropertiesHelper {
 		return Integer.parseInt(getRequiredProperty(key));
 	}
 	
+	public String[] getStringArray(String key) {
+		String v = getProperty(key);
+		if(v == null) {
+			return new String[0];
+		}else {
+		    return StringHelper.tokenizeToStringArray(v, ", \t\n\r\f");
+		}
+	}
+
+	public int[] getIntArray(String key) {
+		String[] array = getStringArray(key);
+		int[] result = new int[array.length];
+		for(int i = 0; i < array.length; i++) {
+			result[i] = Integer.parseInt(array[i]);
+		}
+		return result;
+	}
+	
 	public Boolean getBoolean(String key) {
 		if(getProperty(key) == null) {
 			return null;
