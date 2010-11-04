@@ -83,8 +83,8 @@ public class Table implements java.io.Serializable,Cloneable {
 	}
 
 	public static String removeTableSqlNamePrefix(String sqlName) {
-		String prefixs = GeneratorProperties.getProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "");
-		for(String prefix : prefixs.split(",")) {
+		String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES);
+		for(String prefix : prefixs) {
 			String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
 			if(!removedPrefixSqlName.equals(sqlName)) {
 				return removedPrefixSqlName;
