@@ -237,16 +237,24 @@ public class GeneratorFacade implements GeneratorConstants {
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
 			templateModel.putAll(GeneratorContext.getContext());
+			Map toolsMap = getToolsMap();
+			templateModel.putAll(toolsMap);
+		}
+		
+		/** 得到模板可以引用的工具类  */
+		public static Map getToolsMap() {
+			Map toolsMap = new HashMap();
 			String[] tools = GeneratorProperties.getStringArray(GENERATOR_TOOLS_CLASS);
 			for(String className : tools) {
 				try {
 					Object instance = ClassHelper.newInstance(className);
-					templateModel.put(Class.forName(className).getSimpleName(), instance);
+					toolsMap.put(Class.forName(className).getSimpleName(), instance);
 					GLogger.debug("put tools class:"+className+" with key:"+Class.forName(className).getSimpleName());
 				}catch(Exception e) {
 					GLogger.error("cannot load tools by className:"+className);
 				}
 			}
+			return toolsMap;
 		}
 
 	}
