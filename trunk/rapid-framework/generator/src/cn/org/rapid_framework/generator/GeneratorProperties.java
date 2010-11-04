@@ -108,6 +108,14 @@ public class GeneratorProperties {
 		return getHelper().getNullIfBlank(key);
 	}
 	
+	public static String[] getStringArray(String key) {
+		return getHelper().getStringArray(key);
+	}
+	
+	public static int[] getIntArray(String key) {
+		return getHelper().getIntArray(key);
+	}
+	
 	public static void setProperty(String key,String value) {
 		value = resolveProperty(value,getProperties());
 		key = resolveProperty(key,getProperties());
