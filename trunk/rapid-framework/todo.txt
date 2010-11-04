@@ -17,6 +17,7 @@ maven:
 	
 增加ThreadLocal cache的设计,同一个线程上下文的cache,放在本地缓存中,ThreadLocal使用完再清理
 
+实现spring.xml及其它任何文件的 resource filter功能
 add groupId=basepackage:com.company.project=com-company-project
 	Define value for groupId: : com.badqiu.sfmvc
 	Define value for artifactId: : sfmvc
