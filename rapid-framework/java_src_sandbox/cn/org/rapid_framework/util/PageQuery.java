@@ -3,7 +3,7 @@ package cn.org.rapid_framework.util;
 public class PageQuery implements java.io.Serializable{
     private static final long serialVersionUID = -8000900575354501298L;
 
-    private int    pageNo;
+    private int    page;
     private int    pageSize;
     private String orderBy;
 
@@ -11,23 +11,23 @@ public class PageQuery implements java.io.Serializable{
     }
 
     public PageQuery(PageQuery query) {
-        this.pageNo = query.pageNo;
+        this.page = query.page;
         this.orderBy = query.orderBy;
         this.pageSize = query.pageSize;
     }
     
     public PageQuery(int pageNo, int pageSize, String orderBy) {
-        this.pageNo = pageNo;
+        this.page = pageNo;
         this.pageSize = pageSize;
         this.orderBy = orderBy;
     }
 
-    public int getPageNo() {
-        return pageNo;
+    public int getPage() {
+        return page;
     }
 
-    public void setPageNo(int pageNo) {
-        this.pageNo = pageNo;
+    public void setPage(int pageNo) {
+        this.page = pageNo;
     }
 
     public int getPageSize() {
