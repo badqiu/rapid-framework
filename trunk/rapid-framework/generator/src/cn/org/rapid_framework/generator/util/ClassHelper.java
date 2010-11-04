@@ -2,7 +2,7 @@ package cn.org.rapid_framework.generator.util;
 
 public class ClassHelper {
 
-	public Object newInstance(Class<?> c) {
+	public static Object newInstance(Class<?> c) {
 		try {
 			return c.newInstance();
 		} catch (Exception e) {
@@ -11,7 +11,7 @@ public class ClassHelper {
 		}
 	}
 
-	public Object newInstance(String className) {
+	public static Object newInstance(String className) {
 		try {
 			return newInstance(Class.forName(className));
 		} catch (Exception e) {
