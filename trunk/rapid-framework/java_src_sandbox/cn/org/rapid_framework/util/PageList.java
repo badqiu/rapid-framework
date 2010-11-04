@@ -41,6 +41,19 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
         this.totalItems = totalItems;
     }
 
+    public PageList(Paginator p) {
+        this.pageNo = p.getPageNo();
+        this.pageSize = p.getPageSize();
+        this.totalItems = p.getTotalItems();
+    }
+    
+    public PageList(Collection<? extends E> c,Paginator p) {
+        super(c);
+        this.pageNo = p.getPageNo();
+        this.pageSize = p.getPageSize();
+        this.totalItems = p.getTotalItems();
+    }
+    
     public int getPageSize() {
         return pageSize;
     }
