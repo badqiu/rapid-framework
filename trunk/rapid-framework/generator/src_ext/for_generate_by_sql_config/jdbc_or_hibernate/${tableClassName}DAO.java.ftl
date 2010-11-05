@@ -59,7 +59,7 @@ public class ${tableConfig.tableClassName}DAO {
 }
 
 <#macro generateOperationMethodBody sql>
-	<#local ibatisNamespace = sql.tableClassName+".">
+	<#local ibatisNamespace = tableConfig.tableClassName+".">
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>
