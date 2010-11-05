@@ -134,11 +134,12 @@ public class TableConfig {
         if(columns != null) {
             for(MetaColumn c : columns) {
                 Column tableColumn = t.getColumnByName(c.getName());
-                if(tableColumn.getSqlName().equalsIgnoreCase(getDummypk())) {
-                	tableColumn.setPk(true);
-                }
-                if(tableColumn != null)
+                if(tableColumn != null) {
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
+                    if(tableColumn.getSqlName().equalsIgnoreCase(getDummypk())) {
+                        tableColumn.setPk(true);
+                    }
+                }
             }
         }
         t.setClassName(getTableClassName());
