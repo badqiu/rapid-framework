@@ -116,6 +116,10 @@ public class GeneratorProperties {
 		return getHelper().getIntArray(key);
 	}
 	
+	public static boolean getBoolean(String key,boolean defaultValue) {
+	    return getHelper().getBoolean(key, defaultValue);
+	}
+	
 	public static void setProperty(String key,String value) {
 		value = resolveProperty(value,getProperties());
 		key = resolveProperty(key,getProperties());
