@@ -46,7 +46,7 @@
 			${sql.parameterClassName} param
 		<#else>
 			<#if sql.paging>
-				int pageNo,int pageSize,<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageNo,int pageSize
 			<#else>
 				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
 			</#if>
