@@ -246,7 +246,10 @@ public class SqlFactory {
 			Column column = sql.getColumnByName(paramName);
 			if(column == null) {
 				//FIXME 还未处理 t.username = :username的t前缀问题
-				column = findColumnByParseSql(parsedSql, SqlParseHelper.getColumnNameByRightCondition(parsedSql.toString(), paramName) );
+				String leftColumn = SqlParseHelper.getColumnNameByRightCondition(parsedSql.toString(), paramName);
+				if(leftColumn != null) {
+					column = findColumnByParseSql(parsedSql, leftColumn );
+				}
 			}
 			if(column == null) {
 				column = findColumnByParseSql(parsedSql, paramName);
@@ -255,6 +258,8 @@ public class SqlFactory {
 		}
 	
 		private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
+			if(paramName == null) throw new NullPointerException("'paramName' must be not null");
+			
 			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
 			for(NameWithAlias tableName : tableNames) {
 				Table t = TableFactory.getInstance().getTable(tableName.getName());
