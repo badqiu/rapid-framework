@@ -12,13 +12,8 @@
 	<column name="id" javatype="long" />
 	    
     <sql id="findTradeBySystemParnter.where">
-    		<isNotEmpty prepend="and" property="gmtCreateBeing">
-    		BTB.gmt_create >= #gmtCreateBeing#
-    		</isNotEmpty>
-    		
-    		<isNotEmpty prepend="and" property="gmtCreateEnd">
-    		BTB.gmt_create &lt; #gmtCreateEnd#
-    		</isNotEmpty>
+    		/* 不需要timeout的交易 */
+    		and (BTB.trade_status != 'TRADE_CLOSED' and BTF.trade_no is not null)
     		
     		<isNotEmpty prepend="and" property="gmtPayBegin">
     		BTF.gmt_pay >= #gmtPayBegin# 
@@ -27,7 +22,15 @@
     		<isNotEmpty prepend="and" property="gmtPayEnd">
     		BTF.gmt_pay  &lt; #gmtPayEnd# 
     		</isNotEmpty>
-			
+    		    
+    		<isNotEmpty prepend="and" property="gmtCreateBeing">
+    		BTB.gmt_create >= #gmtCreateBeing#
+    		</isNotEmpty>
+    		
+    		<isNotEmpty prepend="and" property="gmtCreateEnd">
+    		BTB.gmt_create &lt; #gmtCreateEnd#
+    		</isNotEmpty>
+    		
 			<isNotEmpty prepend="and" property="tradeNo">
 				BTB.trade_no = #tradeNo#
 			</isNotEmpty>
@@ -126,8 +129,9 @@
 				left join mcenter_air_ext MAE on 
 					BTF.trade_no = MAE.trade_no and BTF.owner = MAE.owner
     			inner join trade_base BTB on 
-    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '10'
+    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner 
     		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
+    		and BTF.type = '10'
     		
 			<include refid="findTradeBySystemParnter.where"/>
 			
