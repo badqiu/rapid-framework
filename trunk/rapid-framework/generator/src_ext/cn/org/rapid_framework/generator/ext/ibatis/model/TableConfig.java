@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.xml.sax.SAXException;
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.ext.ibatis.IbatisSqlMapConfigParser;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -306,10 +307,9 @@ public class TableConfig {
             sql.setParameterClass(op.getParameterClass());
             sql.setResultClass(op.getResultClass());
             sql.setRemarks(op.getRemarks());
-            sql.setTableSqlName(table.getSqlname());
             sql.setPaging(op.isPaging());
             sql.setSqlmap(op.getSqlmap());
-            sql.setParamType(op.getParamtype());      
+            sql.setParamType(op.getParamtype());     
             return sql;
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
@@ -346,8 +346,7 @@ public class TableConfig {
 			        filterdExtraParameters.add(extraparam);
 			    }
 			}
-			boolean append = false; //FIXME append = false config by system property: generator.extraParams.append = false;
-			if(append) {
+			if(GeneratorProperties.getBoolean("generator.extraParams.append", true)) {
 				LinkedHashSet result = new LinkedHashSet(sql.getParams());
 				result.addAll(filterdExtraParameters);
 				return result;
