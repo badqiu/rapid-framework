@@ -51,7 +51,7 @@ public class Mybatis${tableConfig.tableClassName}DAO extends BaseIbatis3Dao impl
 }
 
 <#macro generateOperationMethodBody sql>
-	<#local ibatisNamespace = sql.tableClassName+".">
+	<#local ibatisNamespace = tableConfig.tableClassName+".">
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>
