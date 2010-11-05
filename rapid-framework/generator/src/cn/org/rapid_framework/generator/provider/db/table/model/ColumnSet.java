@@ -26,14 +26,6 @@ public class ColumnSet implements java.io.Serializable{
 	public void addColumn(Column c) {
 		columns.add(c);
 	}
-
-	public Column getColumnByName(String name) {
-	    Column c = getBySqlName(name);
-	    if(c == null) {
-	    	c = getBySqlName(StringHelper.toUnderscoreName(name));
-	    }
-	    return c;
-	}
 	
 	public Column getBySqlName(String name) {
 		for(Column c : columns) {
@@ -45,14 +37,21 @@ public class ColumnSet implements java.io.Serializable{
 	}
 	
 	public Column getByName(String name) {
-		for(Column c : columns) {
-			if(name.equals(c.getColumnName())) {
-				return c;
-			}
-		}
-		return null;
+        Column c = getBySqlName(name);
+        if(c == null) {
+            c = getBySqlName(StringHelper.toUnderscoreName(name));
+        }
+        return c;
 	}
-	
+
+    public Column getByColumnName(String name) {
+        for(Column c : columns) {
+            if(name.equals(c.getColumnName())) {
+                return c;
+            }
+        }
+        return null;
+    }
 	/**
 	 * 得到是主键的全部column
 	 * @return
