@@ -32,12 +32,12 @@
 				BTB.trade_no = #tradeNo#
 			</isNotEmpty>
 
-			<isNotEmpty prepend="and" property="buyyerLoginEmail">
-				BTB.buyer_login_email = ?
+			<isNotEmpty prepend="and" property="buyerLoginEmail">
+				BTB.buyer_login_email = #buyerLoginEmail#
 			</isNotEmpty>
 
 			<isNotEmpty prepend="and" property="sellerLoginEmail">
-				BTB.seller_login_email = ?
+				BTB.seller_login_email = #sellerLoginEmail#
 			</isNotEmpty>
 									
 			<isNotEmpty prepend="and" property="outTradeNo">
@@ -77,10 +77,10 @@
 			</isNotEmpty>
 
 			<isNotEmpty prepend="and" property="includeSystemPartners">
-					system_partner in <iterate property="includeSystemPartners" open="(" close=")" conjunction=",">#includeSystemPartners[]#</iterate> 
+					MAE.system_partner in <iterate property="includeSystemPartners" open="(" close=")" conjunction=",">#includeSystemPartners[]#</iterate> 
 			</isNotEmpty>
 			<isNotEmpty prepend="and" property="excludeSystemPartners">
-					system_partner not in <iterate property="excludeSystemPartners" open="(" close=")" conjunction=",">#excludeSystemPartners[]#</iterate> 
+					MAE.system_partner not in <iterate property="excludeSystemPartners" open="(" close=")" conjunction=",">#excludeSystemPartners[]#</iterate> 
 			</isNotEmpty>
     </sql>
     
@@ -106,10 +106,10 @@
     		
 			<include refid="findTradeBySystemParnter.where"/>
 			
-			<isNotEmpty prepend="and" property="gmtPayBegin">
+			<isNotEmpty property="gmtPayBegin">
 			order by BTF.gmt_pay desc
 			</isNotEmpty>
-			<isEmpty prepend="and" property="gmtPayBegin">
+			<isEmpty property="gmtPayBegin">
 			order by BTB.gmt_create desc
 			</isEmpty>
 		</sql>
