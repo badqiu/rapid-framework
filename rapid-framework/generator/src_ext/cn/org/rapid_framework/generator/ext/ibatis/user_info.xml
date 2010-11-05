@@ -263,7 +263,23 @@
 	    ]]>	    	
 	    </sqlmap>
     </operation>
-    
+
+    <operation name="testSqlMapWithParamsReplace" paramtype="primitive" multiplicity="paging" remarks="根据订单号查询订单">
+    	<extraparams>
+    		<param javatype="String" name="sexinsex"/>
+    	</extraparams>
+    	<sql>
+	    <![CDATA[
+	    select * from user_info where user_id = ? and password = ?
+	    ]]>
+	    </sql>
+	    <sqlmap>
+	    <![CDATA[
+	    select * from user_info where user_id = #${param1}# and password = #${param2}# or sex = '${param3}'
+	    ]]>	    	
+	    </sqlmap>
+    </operation>
+        
     <operation name="testNotParameter" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
