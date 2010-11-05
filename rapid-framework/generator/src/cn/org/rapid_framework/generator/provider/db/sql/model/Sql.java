@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -35,7 +36,6 @@ public class Sql {
 	public static String MULTIPLICITY_MANY = "many";
 	public static String MULTIPLICITY_PAGING = "paging";
 	
-	String                      tableSqlName        = null;                             // 是否需要
 	String operation = null;
 	String resultClass;
 	String parameterClass;
@@ -54,21 +54,6 @@ public class Sql {
 	
 	public Sql() {
 	}
-	
-	public Sql(Sql sql) {
-        this.tableSqlName = sql.tableSqlName;
-
-        this.operation = sql.operation;
-        this.parameterClass = sql.parameterClass;
-        this.resultClass = sql.resultClass;
-        this.multiplicity = sql.multiplicity;
-
-        this.columns = sql.columns;
-        this.params = sql.params;
-        this.sourceSql = sql.sourceSql;
-        this.executeSql = sql.executeSql;
-        this.remarks = sql.remarks;
-    }
 	
 	public boolean isColumnsInSameTable() {
 		// FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
@@ -251,9 +236,9 @@ public class Sql {
 	}
 	
 	public String getSqlmap() {
-		return sqlmap;
+		return getSqlmap(getParamNames());
 	}
-
+	
 	public void setSqlmap(String sqlmap) {
 	    if(StringHelper.isNotBlank(sqlmap)) {
 	        sqlmap = StringHelper.replace(sqlmap, "${cdata-start}", "<![CDATA[");
@@ -261,8 +246,16 @@ public class Sql {
 	    }
 	    this.sqlmap = sqlmap;
 	}
-	
-    public String getSqlmap(List<String> params) {
+
+    private List<String> getParamNames() {
+        List<String> paramNames = new ArrayList<String>();
+        for(SqlParameter p : params) {
+            paramNames.add(p.getParamName());
+        }
+        return paramNames;
+    }
+	   
+    private String getSqlmap(List<String> params) {
         if (params == null || params.size() == 0) {
             return sqlmap;
         }
@@ -422,18 +415,6 @@ public class Sql {
 	}
 
     /**
-     * 得到表相对应的sqlName,主要用途为生成文件时的分组.
-     * @return
-     */
-	public String getTableSqlName() {
-		return tableSqlName;
-	}
-
-	public void setTableSqlName(String tableName) {
-		this.tableSqlName = tableName;
-	}
-
-    /**
      * 得到备注
      * @return
      */
@@ -463,16 +444,6 @@ public class Sql {
     public void setPaging(boolean paging) {
         this.paging = paging;
     }
-
-    /**
-     * 根据tableSqlName和成相对应的tableClassName,主要用途路径变量引用.如${tableClassName}Dao.java
-     * @return
-     */
-	public String getTableClassName() {
-		if(StringHelper.isBlank(tableSqlName)) return null;
-		String removedPrefixSqlName = Table.removeTableSqlNamePrefix(tableSqlName);
-		return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
-	}
 
 	public Column getColumnBySqlName(String sqlName) {
 		for(Column c : getColumns()) {
