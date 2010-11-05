@@ -52,7 +52,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.au
 }
 
 <#macro generateOperationMethodBody sql>
-	<#local ibatisNamespace = sql.tableClassName+".">
+	<#local ibatisNamespace = tableConfig.tableClassName+".">
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>
