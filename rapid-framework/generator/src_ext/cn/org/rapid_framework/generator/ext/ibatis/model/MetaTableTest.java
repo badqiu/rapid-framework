@@ -137,7 +137,7 @@ public class MetaTableTest extends GeneratorTestCase {
         return gm;
     }
     
-    private static void setShareVars(Map templateModel) {
+    public static void setShareVars(Map templateModel) {
     	GeneratorModelUtils.setShareVars(templateModel);
     	templateModel.put("StringHelper", new StringHelper());
     }
