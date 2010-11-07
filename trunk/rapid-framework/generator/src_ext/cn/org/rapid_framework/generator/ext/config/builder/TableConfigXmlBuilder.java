@@ -35,7 +35,7 @@ public class TableConfigXmlBuilder {
 		InputStream in = null;
 		try {
 			in = new FileInputStream(file);
-			return new TableConfigXmlBuilder().parseFromXML(in);
+			return parseFromXML(in);
 		}catch(Exception e) {
 			throw new RuntimeException("parse file:"+file.getAbsolutePath()+" occer error",e);
 		}finally {
