@@ -130,9 +130,9 @@ public class MetaTableTest extends GeneratorTestCase {
         setShareVars(templateModel);
         
         Map filePathModel = new HashMap();
+        setShareVars(filePathModel);
         filePathModel.putAll(GeneratorProperties.getProperties());
         filePathModel.putAll(BeanHelper.describe(t));
-        setShareVars(filePathModel);
         GeneratorModel gm = new GeneratorModel(templateModel,filePathModel);
         return gm;
     }
