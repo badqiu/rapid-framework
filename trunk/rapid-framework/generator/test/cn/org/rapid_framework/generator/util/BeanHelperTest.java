@@ -21,6 +21,30 @@ public class BeanHelperTest extends TestCase {
         }
     }
 
+    public void testCopyProperties_ignoreCase_by_source_map() {
+    	Bean2 target = new Bean2();
+    	
+        HashMap source = new HashMap();
+        source.put("kEY1", "ignore case value");
+		BeanHelper.copyProperties(target, source);
+		
+		assertEquals(target.key1,"1");
+		
+		BeanHelper.copyProperties(target, source,true);
+		assertEquals(target.key1,"ignore case value");
+    }
+
+    public void testCopyProperties_ignoreCase_by_source_object() {
+    	Bean2 target = new Bean2();
+    	Bean1 source = new Bean1();
+		BeanHelper.copyProperties(target, source);
+		
+		assertEquals(target.getIgnoreCaseProperty(),"Bean2.ignoreCase");
+		
+		BeanHelper.copyProperties(target, source,true);
+		assertEquals(target.getIgnoreCaseProperty(),"Bean1.ignoreCase");
+    }
+    
     public static class Bean1 {
         String  key1 = "99";
         Boolean key2 = false;
@@ -40,6 +64,8 @@ public class BeanHelperTest extends TestCase {
         Date d5 = null;
         Date d6 = null;
 
+        String igNOreCASEProperty = "Bean1.ignoreCase";
+        
         public String getKey1() {
             return key1;
         }
@@ -136,6 +162,12 @@ public class BeanHelperTest extends TestCase {
         public void setD6(Date d6) {
             this.d6 = d6;
         }
+		public String getIgNOreCASEProperty() {
+			return igNOreCASEProperty;
+		}
+		public void setIgNOreCASEProperty(String igNOreCASEProperty) {
+			this.igNOreCASEProperty = igNOreCASEProperty;
+		}
 
     }
 
@@ -157,6 +189,8 @@ public class BeanHelperTest extends TestCase {
         String d4 = "2010-10-01 10:10:10";
         String d5 = "2010-01-01 10:10:10.983";
         String d6 = "Tue Jun 01 17:25:05 CST 2010";
+        
+        String ignoreCaseProperty = "Bean2.ignoreCase";
         
         public String getKey1() {
             return key1;
@@ -254,6 +288,12 @@ public class BeanHelperTest extends TestCase {
         public void setD6(String d6) {
             this.d6 = d6;
         }
+		public String getIgnoreCaseProperty() {
+			return ignoreCaseProperty;
+		}
+		public void setIgnoreCaseProperty(String ignoreCaseProperty) {
+			this.ignoreCaseProperty = ignoreCaseProperty;
+		}
         
     }
 
