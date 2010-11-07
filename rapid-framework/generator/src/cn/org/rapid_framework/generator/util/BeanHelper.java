@@ -40,11 +40,17 @@ public class BeanHelper {
 		return map;
 	}
 
-   public static PropertyDescriptor getPropertyDescriptor(Class beanClass,String propertyName) {
+   public static PropertyDescriptor getPropertyDescriptor(Class beanClass,String propertyName,boolean ignoreCase) {
         for(PropertyDescriptor pd : getPropertyDescriptors(beanClass)) {
-            if(pd.getName().equals(propertyName)) {
-                return pd;
-            }
+        	if(ignoreCase) {
+        		if(pd.getName().equalsIgnoreCase(propertyName)) {
+        			return pd;
+        		}
+        	}else {
+	            if(pd.getName().equals(propertyName)) {
+	                return pd;
+	            }
+        	}
         }
         return null;
    }
@@ -98,8 +104,8 @@ public class BeanHelper {
                     }else {
                         PropertyDescriptor sourcePd = getPropertyDescriptors(source.getClass(), targetPd.getName());
                         if (sourcePd != null && sourcePd.getReadMethod() != null) {
-                            Object value = getProperty(source, sourcePd);
-                             setProperty(target, targetPd, value);
+                            Object value = getPropertyValue(source, sourcePd);
+                            setProperty(target, targetPd, value);
                         }
                     }
                 } catch (Throwable ex) {
@@ -109,7 +115,7 @@ public class BeanHelper {
         }
     }
 
-    private static Object getProperty(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
+    private static Object getPropertyValue(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
         Method readMethod = sourcePd.getReadMethod();
         if (!Modifier.isPublic(readMethod.getDeclaringClass()
             .getModifiers())) {
@@ -120,7 +126,13 @@ public class BeanHelper {
     }
 
     public static void setProperty(Object target, String propertyName, Object value)  {
-        PropertyDescriptor pd = getPropertyDescriptor(target.getClass(),propertyName);
+        PropertyDescriptor pd = getPropertyDescriptor(target.getClass(),propertyName,false);
+        if(pd == null) throw new IllegalArgumentException("not found property:"+propertyName+" on class:"+target.getClass());
+        setProperty(target, pd, value);
+    }
+
+    public static void setProperty(Object target, String propertyName, Object value,boolean ignoreCase)  {
+        PropertyDescriptor pd = getPropertyDescriptor(target.getClass(),propertyName,ignoreCase);
         if(pd == null) throw new IllegalArgumentException("not found property:"+propertyName+" on class:"+target.getClass());
         setProperty(target, pd, value);
     }
