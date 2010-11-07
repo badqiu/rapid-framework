@@ -12,6 +12,7 @@ import java.util.Map;
 import org.xml.sax.SAXException;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.ibatis.IbatisSqlMapConfigParser;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -38,80 +39,23 @@ public class TableConfig {
     public String autoswitchdatasrc;
     public String doname;
     
-    public List<MetaColumn> columns = new ArrayList();
-    public List<MetaOperation> operations = new ArrayList<MetaOperation>();
-    public List<MetaResultMap> resultMaps = new ArrayList<MetaResultMap>();
+    public List<ColumnConfig> columns = new ArrayList();
+    public List<OperationConfig> operations = new ArrayList<OperationConfig>();
+    public List<ResultMapConfig> resultMaps = new ArrayList<ResultMapConfig>();
     
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
     //<include refid="columns"/> 
-    public List<MetaSql> includeSqls = new ArrayList<MetaSql>(); 
+    public List<SqlConfig> includeSqls = new ArrayList<SqlConfig>(); 
 
     public static TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
-        NodeData nodeData = new XMLHelper().parseXML(reader);
-        TableConfig config = new TableConfig();
-        
-        // table
-        BeanHelper.copyProperties(config, nodeData.attributes);
-        
-        for(NodeData child : nodeData.childs) {
-            // table/operation
-            if("operation".equals(child.nodeName)) {
-                MetaOperation target = new MetaOperation();
-                BeanHelper.copyProperties(target, child.attributes);
-                for(NodeData opChild : child.childs) {
-                    // table/operation/extraparams
-                    if("extraparams".equals(opChild.nodeName)) {
-                        // table/operation/extraparams/param
-                        for(NodeData paramNode : opChild.childs) {
-                            MetaParam mp = new MetaParam();
-                            BeanHelper.copyProperties(mp, paramNode.attributes);
-                            target.extraparams.add(mp);
-                        }
-                    }else {
-                        BeanHelper.setProperty(target, opChild.nodeName, opChild.innerXML);
-                    }
-                }
-                config.operations.add(target);
-            }
-            // table/column
-            if("column".equals(child.nodeName)) {
-                MetaColumn target = new MetaColumn();
-                BeanHelper.copyProperties(target, child.attributes);
-                config.columns.add(target);
-            }
-            // table/sql
-            if("sql".equals(child.nodeName)) {
-                MetaSql target = new MetaSql();
-                BeanHelper.copyProperties(target, child.attributes);
-                target.sql = child.innerXML;
-                config.includeSqls.add(target);
-            }
-            // table/resultmap
-            if("resultmap".equals(child.nodeName)) {
-                MetaResultMap target = new MetaResultMap();
-                BeanHelper.copyProperties(target, child.attributes);
-                // table/resultmap/column
-                for(NodeData c : child.childs) {
-                    if("column".equals(c.nodeName)) {
-                        MetaColumn column = new MetaColumn();
-                        BeanHelper.copyProperties(column, c.attributes);
-                        target.columns.add(column);
-                    }
-                }
-                config.resultMaps.add(target);
-            }
-        }
-        return config;
-//        XStream x = newXStream();
-//        return (TableConfig)x.fromXML(reader);
+        return new TableConfigXmlBuilder().parseFromXML(reader);
     }
-
     
-    public List<MetaResultMap> getResultMaps() {
+    public List<ResultMapConfig> getResultMaps() {
         return resultMaps;
     }
-    public void setResultMaps(List<MetaResultMap> resultMaps) {
+    public void setResultMaps(List<ResultMapConfig> resultMaps) {
         this.resultMaps = resultMaps;
     }
 
@@ -133,7 +77,7 @@ public class TableConfig {
     public Table getTable() throws Exception {
         Table t = TableFactory.getInstance().getTable(getSqlname());
         if(columns != null) {
-            for(MetaColumn c : columns) {
+            for(ColumnConfig c : columns) {
                 Column tableColumn = t.getColumnByName(c.getName());
                 if(tableColumn != null) {
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
@@ -161,13 +105,13 @@ public class TableConfig {
     public void setSequence(String sequence) {
         this.sequence = sequence;
     }
-    public List<MetaColumn> getColumns() {
+    public List<ColumnConfig> getColumns() {
         if(columns == null) {
             columns = new ArrayList();
         }
 		return columns;
 	}
-	public void setColumns(List<MetaColumn> column) {
+	public void setColumns(List<ColumnConfig> column) {
 		this.columns = column;
 	}
 	
@@ -176,24 +120,24 @@ public class TableConfig {
 		return Boolean.parseBoolean(autoswitchdatasrc);
 	}
 	
-	public List<MetaSql> getIncludeSqls() {
+	public List<SqlConfig> getIncludeSqls() {
 		return includeSqls;
 	}
 
-	public void setIncludeSqls(List<MetaSql> includeSqls) {
+	public void setIncludeSqls(List<SqlConfig> includeSqls) {
 		this.includeSqls = includeSqls;
 	}
 
-	public List<MetaOperation> getOperations() {
+	public List<OperationConfig> getOperations() {
         return operations;
     }
-    public void setOperations(List<MetaOperation> operations) {
+    public void setOperations(List<OperationConfig> operations) {
         this.operations = operations;
     }
     
-    public MetaOperation findOperation(String operationName) {
-    	MetaOperation operation = null;
-        for(MetaOperation item : getOperations()){
+    public OperationConfig findOperation(String operationName) {
+    	OperationConfig operation = null;
+        for(OperationConfig item : getOperations()){
         	if(item.getName().equals(operationName)) {
         		return item;
         	}
@@ -223,21 +167,17 @@ public class TableConfig {
         return subpackage;
     }
 
-
     public void setSubpackage(String subpackage) {
         this.subpackage = subpackage;
     }
-
 
     public String getAutoswitchdatasrc() {
         return autoswitchdatasrc;
     }
 
-
     public void setAutoswitchdatasrc(String autoswitchdatasrc) {
         this.autoswitchdatasrc = autoswitchdatasrc;
     }
-
 
     public String getDoname() {
         return doname;
@@ -255,10 +195,10 @@ public class TableConfig {
     }
     
     public String toString() {
-//        return BeanHelper.describe(this).toString();
         return "sqlname:"+sqlname;
     }
-    List<Sql> sqls;
+    
+    private List<Sql> sqls;
     public List<Sql> getSqls() throws SQLException, Exception {
         if(sqls == null) {
             sqls = toSqls(this);
@@ -274,19 +214,19 @@ public class TableConfig {
         
         public static List<Sql> toSqls(TableConfig table)  {
             List<Sql> sqls = new ArrayList<Sql>();
-            for(MetaOperation op :table.getOperations()) {
+            for(OperationConfig op :table.getOperations()) {
                 sqls.add(processOperation(op,table));
             }
             return sqls;
         }
         
         public static Sql toSql(TableConfig table,String operationName)  {
-        	MetaOperation operation = table.findOperation(operationName);
+        	OperationConfig operation = table.findOperation(operationName);
             if(operation == null) throw new IllegalArgumentException("not found operation with name:"+operationName);
             return processOperation(operation, table);
         }
         
-        private static Sql processOperation(MetaOperation op,TableConfig table) {
+        private static Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
             SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table));
             String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
@@ -335,9 +275,9 @@ public class TableConfig {
             return null;
         }
 
-		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<MetaParam> extraParams, Sql sql) {
+		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<ParamConfig> extraParams, Sql sql) {
 			LinkedHashSet<SqlParameter> filterdExtraParameters = new LinkedHashSet<SqlParameter>();
-			for(MetaParam mparam : extraParams) {
+			for(ParamConfig mparam : extraParams) {
 			    if(sql.getParam(mparam.getName()) == null) {
 			        SqlParameter extraparam = new SqlParameter();
 			        extraparam.setParameterClass(mparam.getJavatype());
@@ -365,9 +305,9 @@ public class TableConfig {
 			return ibatisSql;
 		}
 		
-        private static Map<String, String> toMap(List<MetaSql> sql) {
+        private static Map<String, String> toMap(List<SqlConfig> sql) {
             Map map = new HashMap();
-            for(MetaSql s : sql) {
+            for(SqlConfig s : sql) {
                 map.put(s.id, s.sql);
             }
             return map;
@@ -376,7 +316,7 @@ public class TableConfig {
         private static List<Column> getCustomColumns(TableConfig table) throws Exception {
             List<Column> result = new ArrayList<Column>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
-            for(MetaColumn mc : table.getColumns()) {
+            for(ColumnConfig mc : table.getColumns()) {
                 Column c = t.getColumnByName(mc.getName());
                 if(c == null) {
                     c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
@@ -393,9 +333,9 @@ public class TableConfig {
         private static List<SqlParameter> getCustomSqlParameters(TableConfig table) throws Exception {
             List<SqlParameter> result = new ArrayList<SqlParameter>();
             Table t = TableFactory.getInstance().getTable(table.getSqlname());
-            for(MetaOperation op : table.getOperations()) {
+            for(OperationConfig op : table.getOperations()) {
                 if(op.getExtraparams() != null) {
-                    for(MetaParam param : op.getExtraparams()) {
+                    for(ParamConfig param : op.getExtraparams()) {
                         Column c = t.getColumnByName(param.getName());
                         if(c == null) {
                             c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
@@ -413,27 +353,8 @@ public class TableConfig {
             return result;
         }
     }
-
-    public static void main(String[] args) throws IOException, SAXException {
-//        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/trade_fund_bill.xml");
-//        TableConfig metaTable = new TableConfig();
-//        metaTable.columns.add(new MetaColumn());
-//        metaTable.columns.add(new MetaColumn());
-//        metaTable.columns.add(new MetaColumn());
-//        TableConfig.parseFromXML(new FileInputStream(file));
-//        System.out.println("\n"+TableConfig.parseFromXML(new FileInputStream(file)));
-    }
     
-    static class SimpleObject{
-        int v1;
-        int v2;
-        public SimpleObject(int v1, int v2){
-            this.v1 = v1;
-            this.v2 = v2;
-        }
-    }
-    
-    public static class MetaSql {
+    public static class SqlConfig {
         String id;
         String sql;
         public String toString() {
@@ -453,7 +374,7 @@ public class TableConfig {
         }
         
     }
-    public static class MetaColumn {
+    public static class ColumnConfig {
         private String name;
         private String javatype;
         private String columnAlias;
@@ -494,28 +415,28 @@ public class TableConfig {
         }
     }
 
-    public static class MetaParam extends MetaColumn {
+    public static class ParamConfig extends ColumnConfig {
     }
 
-    public static class MetaResultMap {
+    public static class ResultMapConfig {
         private String name;
-        private List<MetaColumn> columns = new ArrayList();
+        private List<ColumnConfig> columns = new ArrayList();
         public String getName() {
             return name;
         }
         public void setName(String name) {
             this.name = name;
         }
-        public List<MetaColumn> getColumns() {
+        public List<ColumnConfig> getColumns() {
             return columns;
         }
-        public void setColumns(List<MetaColumn> columns) {
+        public void setColumns(List<ColumnConfig> columns) {
             this.columns = columns;
         }
     }
     
-    public static class MetaOperation {
-        public List<MetaParam> extraparams = new ArrayList<MetaParam>();
+    public static class OperationConfig {
+        public List<ParamConfig> extraparams = new ArrayList<ParamConfig>();
         public String name;
         public String resultClass;
         public String parameterClass;
@@ -532,11 +453,11 @@ public class TableConfig {
         public String append = ""; // FIXME 还没有实现
         public String appendXmlAttributes = "";
         
-        public List<MetaParam> getExtraparams() {
+        public List<ParamConfig> getExtraparams() {
             return extraparams;
         }
 
-        public void setExtraparams(List<MetaParam> extraparams) {
+        public void setExtraparams(List<ParamConfig> extraparams) {
             this.extraparams = extraparams;
         }
 

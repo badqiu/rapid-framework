@@ -10,7 +10,7 @@ import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.Convert2SqlsProecssor;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.MetaSql;
+import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.SqlConfig;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
@@ -75,7 +75,7 @@ public class MetaTableTest extends GeneratorTestCase {
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         System.out.println(t.includeSqls);
-        MetaSql metaSql = t.includeSqls.get(0);
+        SqlConfig metaSql = t.includeSqls.get(0);
         assertEquals(metaSql.sql.trim(),"<![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]>");
     }
 

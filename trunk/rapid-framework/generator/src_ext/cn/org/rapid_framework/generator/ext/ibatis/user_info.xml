@@ -279,7 +279,7 @@
 	    ]]>	    	
 	    </sqlmap>
     </operation>
-        
+
     <operation name="testNotParameter" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
 	    <![CDATA[
