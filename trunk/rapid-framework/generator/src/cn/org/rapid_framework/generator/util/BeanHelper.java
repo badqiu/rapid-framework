@@ -89,7 +89,7 @@ public class BeanHelper {
         }
         
         PropertyDescriptor[] targetPds = getPropertyDescriptors(target.getClass());
-        List ignoreList = (ignoreProperties != null) ? Arrays.asList(ignoreProperties) : null;
+        List<String> ignoreList = (ignoreProperties != null) ? Arrays.asList(ignoreProperties) : null;
 
         for (int i = 0; i < targetPds.length; i++) {
             PropertyDescriptor targetPd = targetPds[i];
@@ -104,7 +104,7 @@ public class BeanHelper {
                     }else {
                         PropertyDescriptor sourcePd = getPropertyDescriptors(source.getClass(), targetPd.getName());
                         if (sourcePd != null && sourcePd.getReadMethod() != null) {
-                            Object value = getPropertyValue(source, sourcePd);
+                            Object value = getProperty(source, sourcePd);
                             setProperty(target, targetPd, value);
                         }
                     }
@@ -115,7 +115,7 @@ public class BeanHelper {
         }
     }
 
-    private static Object getPropertyValue(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
+    private static Object getProperty(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
         Method readMethod = sourcePd.getReadMethod();
         if (!Modifier.isPublic(readMethod.getDeclaringClass()
             .getModifiers())) {
