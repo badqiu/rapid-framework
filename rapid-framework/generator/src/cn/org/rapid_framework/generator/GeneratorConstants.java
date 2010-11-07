@@ -7,8 +7,12 @@ public interface GeneratorConstants {
 	
 	public String GENERATOR_INCLUDES = "generator.includes";
 	public String GENERATOR_EXCLUDES = "generator.excludes";
+	
+	/** 生成器模板的输入编码,默认UTF-8 */
 	public String GENERATOR_SOURCE_ENCODING = "generator.sourceEncoding";
+	/** 生成器模板生成的文件编码,默认UTF-8 */
 	public String GENERATOR_OUTPUT_ENCODING = "generator.outputEncoding";
+	/** 生成器模板自动删除的模板后缀,默认值为: .ftl,.vm */
 	public String GENERATOR_REMOVE_EXTENSIONS = "generator.removeExtensions";
 	
 	/** 需要移除的表名前缀,示例值: t_,v_ */
