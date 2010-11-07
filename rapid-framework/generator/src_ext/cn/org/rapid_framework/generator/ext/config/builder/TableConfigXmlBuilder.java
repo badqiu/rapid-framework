@@ -1,24 +1,50 @@
 package cn.org.rapid_framework.generator.ext.config.builder;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.xml.sax.SAXException;
 
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig;
+import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfigSet;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ColumnConfig;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.OperationConfig;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ParamConfig;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ResultMapConfig;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.SqlConfig;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 
 public class TableConfigXmlBuilder {
 	
-    public TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
-        NodeData nodeData = new XMLHelper().parseXML(reader);
+	public TableConfigSet parseFromXML(String basedir,List<String> tableConfigFiles) {
+		TableConfigSet result = new TableConfigSet();
+		for(String filepath : tableConfigFiles ) {
+			File file = new File(basedir,filepath);
+			result.addTableConfig(parseFromXML(file));
+		}
+		return result;
+	}
+
+	public TableConfig parseFromXML(File file) {
+		InputStream in = null;
+		try {
+			in = new FileInputStream(file);
+			return new TableConfigXmlBuilder().parseFromXML(in);
+		}catch(Exception e) {
+			throw new RuntimeException("parse file:"+file.getAbsolutePath()+" occer error",e);
+		}finally {
+			IOHelper.close(in, null);
+		}
+	}
+	
+    public TableConfig parseFromXML(InputStream inputStream) throws SAXException, IOException {
+        NodeData nodeData = new XMLHelper().parseXML(inputStream);
         TableConfig config = new TableConfig();
         
         // table
