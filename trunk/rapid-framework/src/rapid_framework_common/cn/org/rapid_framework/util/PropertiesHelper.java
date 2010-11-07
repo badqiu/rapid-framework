@@ -5,13 +5,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.InvalidPropertiesFormatException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.StringTokenizer;
 import java.util.Map.Entry;
 
 /**
@@ -240,20 +243,12 @@ public class PropertiesHelper {
 		if(v == null) {
 			return new String[0];
 		}else {
-		    return org.springframework.util.StringUtils.tokenizeToStringArray(v, ", \t\n\r\f");
+		    return tokenizeToStringArray(v, ", \t\n\r\f");
 		}
 	}
 
 	public int[] getIntArray(String key) {
 		return toIntArray(getStringArray(key));
-	}
-
-	private static int[] toIntArray(String[] array) {
-		int[] result = new int[array.length];
-		for(int i = 0; i < array.length; i++) {
-			result[i] = Integer.parseInt(array[i]);
-		}
-		return result;
 	}
 
 	public Properties getStartsWithProperties(String prefix) {
@@ -399,5 +394,24 @@ public class PropertiesHelper {
 
 	private static boolean isBlankString(String value) {
 		return value == null || "".equals(value.trim());
+	}
+	
+	private static String[] tokenizeToStringArray(String str,String seperators) {
+		StringTokenizer tokenlizer = new StringTokenizer(str,seperators);
+		List result = new ArrayList();
+		
+		while(tokenlizer.hasMoreElements()) {
+			Object s = tokenlizer.nextElement();
+			result.add(s);
+		}
+		return (String[])result.toArray(new String[result.size()]);
+	}
+	
+	private static int[] toIntArray(String[] array) {
+		int[] result = new int[array.length];
+		for(int i = 0; i < array.length; i++) {
+			result[i] = Integer.parseInt(array[i]);
+		}
+		return result;
 	}
 }
