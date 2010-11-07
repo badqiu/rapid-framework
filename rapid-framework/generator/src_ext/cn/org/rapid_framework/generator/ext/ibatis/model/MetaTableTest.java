@@ -80,11 +80,15 @@ public class MetaTableTest extends GeneratorTestCase {
     }
 
     public void test_generate_by_mybatis_user_info() throws Exception {
-        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
+    	g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/mybatis_user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        GeneratorModel gm = newFromTable(t);
+        g.generateBy(gm.templateModel, gm.filePathModel);
+        
+        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         for(Sql sql : t.getSqls()) {
-            GeneratorModel gm = newFromSql(sql,t);
+            gm = newFromSql(sql,t);
             g.generateBy(gm.templateModel, gm.filePathModel);
         }
     }
