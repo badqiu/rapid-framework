@@ -7,7 +7,11 @@
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	   default-autowire="byName" default-lazy-init="false">
-	   
+
+	<description>
+		存放数据源相关配置
+	</description>
+		   
 	<!-- 数据源定义 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>

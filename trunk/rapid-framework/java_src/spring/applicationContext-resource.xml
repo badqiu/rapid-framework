@@ -9,6 +9,10 @@
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
 	   default-autowire="byName" default-lazy-init="false">
+	   
+	<description>
+		存放相关资源配置
+	</description>
 
     <!-- 国际化,并且可以批定文件编码,可以使用classpath: 或者WEB-INF/ 前缀 -->
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
