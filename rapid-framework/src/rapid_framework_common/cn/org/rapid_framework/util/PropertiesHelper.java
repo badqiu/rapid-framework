@@ -245,7 +245,10 @@ public class PropertiesHelper {
 	}
 
 	public int[] getIntArray(String key) {
-		String[] array = getStringArray(key);
+		return toIntArray(getStringArray(key));
+	}
+
+	private static int[] toIntArray(String[] array) {
 		int[] result = new int[array.length];
 		for(int i = 0; i < array.length; i++) {
 			result[i] = Integer.parseInt(array[i]);
