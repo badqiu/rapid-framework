@@ -69,25 +69,15 @@ public class BeanHelper {
 		return descriptors;
 	}
 	
-
-    public static PropertyDescriptor getPropertyDescriptors(Class beanClass,String name) {
-        for(PropertyDescriptor pd : getPropertyDescriptors(beanClass)) {
-            if(pd.getName().equals(name)) {
-                return pd;
-            }
-        }
-        return null;
+    public static void copyProperties(Object target, Object source)  {
+        copyProperties(target,source,false,null);
     }
 
-    public static void copyProperties(Object target, Map<String,Object> source)  {
-        copyProperties(target,source,null);
+    public static void copyProperties(Object target, Object source,boolean ignoreCase)  {
+        copyProperties(target,source,ignoreCase,null);
     }
     
-    public static void copyProperties(Object target, Object source)  {
-        copyProperties(target,source,null);
-    }
-
-    public static void copyProperties(Object target, Object source,String[] ignoreProperties)  {
+    public static void copyProperties(Object target, Object source,boolean ignoreCase,String[] ignoreProperties)  {
         if(target instanceof Map) {
             throw new UnsupportedOperationException("target is Map unsuported");
         }
@@ -101,12 +91,12 @@ public class BeanHelper {
                 try {
                     if(source instanceof Map) {
                         Map map = (Map)source;
-                        if(map.containsKey(targetPd.getName())) {
-                            Object value = map.get(targetPd.getName());
-                            setProperty(target, targetPd, value);
+                        if(MapHelper.containsKey(map, targetPd.getName(), ignoreCase)) {
+                        	Object value = MapHelper.getValue(map, targetPd.getName(), ignoreCase);
+                        	setProperty(target, targetPd, value);
                         }
                     }else {
-                        PropertyDescriptor sourcePd = getPropertyDescriptors(source.getClass(), targetPd.getName());
+                        PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName(),ignoreCase);
                         if (sourcePd != null && sourcePd.getReadMethod() != null) {
                             Object value = getProperty(source, sourcePd);
                             setProperty(target, targetPd, value);
@@ -118,8 +108,36 @@ public class BeanHelper {
             }
         }
     }
+    
+    static class MapHelper {
+	    public static Object getValue(Map map,String property, boolean ignoreCase) {
+	    	if(ignoreCase) {
+				for(Object key : map.keySet()) {
+						if(property.equalsIgnoreCase(key.toString())) {
+							return map.get(key);
+						}
+				}
+				return null;
+	    	}else {
+	    		return map.get(property);
+	    	}
+		}
+	    
+	    public static boolean containsKey(Map map,String property, boolean ignoreCase) {
+	    	if(ignoreCase) {
+				for(Object key : map.keySet()) {
+						if(property.equalsIgnoreCase(key.toString())) {
+							return true;
+						}
+				}
+				return false;
+	    	}else {
+	    		return map.containsKey(property);
+	    	}
+		}
+    }
 
-    private static Object getProperty(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
+	private static Object getProperty(Object source, PropertyDescriptor sourcePd)throws IllegalAccessException,InvocationTargetException {
         Method readMethod = sourcePd.getReadMethod();
         if (!Modifier.isPublic(readMethod.getDeclaringClass()
             .getModifiers())) {
