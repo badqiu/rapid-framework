@@ -15,6 +15,9 @@ public interface GeneratorConstants {
 	/** 生成器模板自动删除的模板后缀,默认值为: .ftl,.vm */
 	public String GENERATOR_REMOVE_EXTENSIONS = "generator.removeExtensions";
 	
+	/** 用于控制模板默认是否覆盖输出文件,默认值是false */
+	public String GG_IS_OVERRIDE = "gg.isOverride";
+	
 	/** 需要移除的表名前缀,示例值: t_,v_ */
 	public String TABLE_REMOVE_PREFIXES = "tableRemovePrefixes";
 	

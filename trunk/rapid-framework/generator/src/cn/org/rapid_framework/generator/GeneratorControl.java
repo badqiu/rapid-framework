@@ -43,8 +43,8 @@ import freemarker.ext.dom.NodeModel;
  * @author badqiu
  *
  */
-public class GeneratorControl {
-	private boolean isOverride = Boolean.parseBoolean(System.getProperty("gg.isOverride","false")); 
+public class GeneratorControl implements GeneratorConstants{
+	private boolean isOverride = Boolean.parseBoolean(System.getProperty(GG_IS_OVERRIDE,"false")); 
 	private boolean isAppend = false; //no pass
 	private boolean ignoreOutput = false; 
 	private boolean isMergeIfExists = true; //no pass
