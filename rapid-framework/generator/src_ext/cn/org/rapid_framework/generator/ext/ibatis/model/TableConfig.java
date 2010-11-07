@@ -74,6 +74,20 @@ public class TableConfig {
     	}
     }
     
+    public String getPackage() {
+    	if(StringHelper.isBlank(_package)) {
+    		throw new IllegalStateException("package must be not null");
+    	}
+    	if(StringHelper.isBlank(subpackage)) {
+    		return _package;
+    	}else {
+    		return _package+"."+subpackage;
+    	}
+    }
+    public void setPackage(String pkg) {
+    	this._package = pkg;
+    }
+    
     public Table getTable() throws Exception {
         Table t = TableFactory.getInstance().getTable(getSqlname());
         if(columns != null) {
@@ -187,11 +201,10 @@ public class TableConfig {
     }
 
     public String getBasepackage() {
-    	if(StringHelper.isBlank(subpackage)) {
-    		return _package;
-    	}else {
-    		return _package+"."+subpackage;
-    	}
+    	return getPackage();
+    }
+    public String getBasepackage_dir() {
+    	return getBasepackage().replace('.', '\\');
     }
     
     public String toString() {
