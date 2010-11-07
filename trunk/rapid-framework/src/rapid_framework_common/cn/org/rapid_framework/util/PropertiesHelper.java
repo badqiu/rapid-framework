@@ -55,8 +55,8 @@ public class PropertiesHelper {
 	 */
 	public static final int SYSTEM_PROPERTIES_MODE_OVERRIDE = 2;
 	
-	Properties p;
 	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_NEVER;
+	private Properties p;
 
 	public PropertiesHelper(Properties p) {
 		setProperties(p);
