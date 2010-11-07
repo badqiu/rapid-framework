@@ -189,8 +189,8 @@ public class GeneratorFacade implements GeneratorConstants {
 		
 		public static GeneratorModel newFromTable(Table table) {
 			Map templateModel = new HashMap();
-			templateModel.put("table", table);
 			setShareVars(templateModel);
+			templateModel.put("table", table);
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
@@ -200,8 +200,8 @@ public class GeneratorFacade implements GeneratorConstants {
 
 		public static GeneratorModel newFromSql(Sql sql) throws Exception {
 			Map templateModel = new HashMap();
-			templateModel.put("sql", sql);
 			setShareVars(templateModel);
+			templateModel.put("sql", sql);
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
@@ -211,8 +211,8 @@ public class GeneratorFacade implements GeneratorConstants {
 
 		public static GeneratorModel newFromClass(Class clazz) {
 			Map templateModel = new HashMap();
-			templateModel.put("clazz", new JavaClass(clazz));
 			setShareVars(templateModel);
+			templateModel.put("clazz", new JavaClass(clazz));
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
@@ -222,8 +222,8 @@ public class GeneratorFacade implements GeneratorConstants {
 		
 		public static GeneratorModel newFromMap(Map params) {
 			Map templateModel = new HashMap();
-			templateModel.putAll(params);
 			setShareVars(templateModel);
+			templateModel.putAll(params);
 			
 			Map filePathModel = new HashMap();
 			setShareVars(filePathModel);
