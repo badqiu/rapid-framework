@@ -1,9 +1,10 @@
 package cn.org.rapid_framework.generator.ext.ibatis.model;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class TableConfigSet {
+public class TableConfigSet implements Iterable<TableConfig>{
 	private Set<TableConfig> tableConfigs = new LinkedHashSet<TableConfig>();
 	
 	public Set<String> getSequences() {
@@ -18,6 +19,14 @@ public class TableConfigSet {
 		tableConfigs.add(t);
 	}
 	
+	public Set<TableConfig> getTableConfigs() {
+		return tableConfigs;
+	}
+
+	public void setTableConfigs(Set<TableConfig> tableConfigs) {
+		this.tableConfigs = tableConfigs;
+	}
+
 	public TableConfig getBySqlName(String sqlName) {
 		for(TableConfig c : tableConfigs) {
 			if(sqlName.equalsIgnoreCase(c.getSqlname())) {
@@ -34,5 +43,9 @@ public class TableConfigSet {
 			}
 		}
 		return null;
+	}
+
+	public Iterator<TableConfig> iterator() {
+		return tableConfigs.iterator();
 	}
 }
