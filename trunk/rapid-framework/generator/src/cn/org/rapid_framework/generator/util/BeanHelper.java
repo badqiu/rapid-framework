@@ -78,6 +78,10 @@ public class BeanHelper {
         }
         return null;
     }
+
+    public static void copyProperties(Object target, Map<String,Object> source)  {
+        copyProperties(target,source,null);
+    }
     
     public static void copyProperties(Object target, Object source)  {
         copyProperties(target,source,null);
