@@ -22,7 +22,7 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 
 public class TableConfigXmlBuilder {
 	
-	public TableConfigSet parseFromXML(String basedir,List<String> tableConfigFiles) {
+	public TableConfigSet parseFromXML(File basedir,List<String> tableConfigFiles) {
 		TableConfigSet result = new TableConfigSet();
 		for(String filepath : tableConfigFiles ) {
 			File file = new File(basedir,filepath);

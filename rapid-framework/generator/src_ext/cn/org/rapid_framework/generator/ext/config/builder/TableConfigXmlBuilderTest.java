@@ -29,7 +29,7 @@ public class TableConfigXmlBuilderTest extends TestCase {
 		list.add("mybatis_user_info.xml");
 		list.add("user_info.xml");
 		
-		TableConfigSet configs = new TableConfigXmlBuilder().parseFromXML(basedir.getAbsolutePath(), list);
+		TableConfigSet configs = new TableConfigXmlBuilder().parseFromXML(basedir, list);
 		GeneratorFacade gf = new GeneratorFacade();
 		Map map = new HashMap();
 		map.put("tableConfigs", configs.getTableConfigs());
