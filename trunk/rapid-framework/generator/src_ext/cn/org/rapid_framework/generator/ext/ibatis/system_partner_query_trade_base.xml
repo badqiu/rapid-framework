@@ -12,9 +12,14 @@
 	<column name="id" javatype="long" />
 	    
     <sql id="findTradeBySystemParnter.where">
-    		/* 不需要timeout的交易 */
-    		and (BTB.trade_status != 'TRADE_CLOSED' and BTF.trade_no is not null)
     		
+    		<isEqual property="systemPartnerTradeStatus" compareValue="WAIT_PAY" >
+    			and BTB.trade_status in ('WAIT_BUYER_PAY','TRADE_CLOSED') and BTF.trade_no is null
+    		</isEqual>
+    		<isEqual property="systemPartnerTradeStatus" compareValue="PAID" >
+    			and BTF.type = '10'
+    		</isEqual>
+    		    		
     		<isNotEmpty prepend="and" property="gmtPayBegin">
     		BTF.gmt_pay >= #gmtPayBegin# 
     		</isNotEmpty>
@@ -72,13 +77,6 @@
 				BTB.goods_title LIKE #goodsTitle# 
 			</isNotEmpty>
 
-			<isNotEmpty prepend="and" property="tradePriceDown">
-					BTB.total_fee &gt;= #tradePriceDown#
-			</isNotEmpty>
-			<isNotEmpty prepend="and" property="tradePriceUp">
-					BTB.total_fee &lt;= #tradePriceUp#
-			</isNotEmpty>
-
 			<isNotEmpty prepend="and" property="includeSystemPartners">
 					MAE.system_partner in <iterate property="includeSystemPartners" open="(" close=")" conjunction=",">#includeSystemPartners[]#</iterate> 
 			</isNotEmpty>
@@ -96,10 +94,13 @@
 	        when (BTF.channel = '70' ) then 'CREDIT_PAY'
 	        else
 	        	'BALANCE_PAY'
-	        end) as systemPartnerPayType    
+	        end) as systemPartnerPayType
     </sql>
     
     <operation name="findTradeBySystemParnterWithTradeBase" paramtype="primitive" multiplicity="paging" remarks="系统平台商交易查询(按创建时间查)">
+    	<extraparams>
+    		<param javatype="String" name="systemPartnerTradeStatus"/>
+    	</extraparams>    
     	<sql>
     		SELECT 
 			<include refid="findTradeBySystemParnter.columns"/>
@@ -122,16 +123,18 @@
     </operation>
 
     <operation name="findTradeBySystemParnterWithTradeFundBill" paramtype="primitive" multiplicity="paging" remarks="系统平台商交易查询(按支付时间查)">
+    	<extraparams>
+    		<param javatype="String" name="systemPartnerTradeStatus"/>
+    	</extraparams>
     	<sql>
     		SELECT 
 			<include refid="findTradeBySystemParnter.columns"/>
-    		FROM trade_fund_bill BTF 
+    		FROM trade_base BTB 
 				left join mcenter_air_ext MAE on 
-					BTF.trade_no = MAE.trade_no and BTF.owner = MAE.owner
-    			inner join trade_base BTB on 
-    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner 
+					BTB.trade_no = MAE.trade_no and BTB.owner = MAE.owner
+    			inner join trade_fund_bill BTF on 
+    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '10'
     		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
-    		and BTF.type = '10'
     		
 			<include refid="findTradeBySystemParnter.where"/>
 			
