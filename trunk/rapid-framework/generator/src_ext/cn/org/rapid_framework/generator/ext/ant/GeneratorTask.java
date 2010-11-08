@@ -1,11 +1,13 @@
 package cn.org.rapid_framework.generator.ext.ant;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Properties;
 
-import org.hsqldb.lib.HsqlTimer.Task;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
@@ -31,6 +33,7 @@ public class GeneratorTask extends Task {
 		properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
 		GeneratorProperties.setProperties(properties);
 		
+		gf.g.addTemplateRootDir(new File(templateRootDir));
 		gf.g.setOutRootDir(outRoot);
 		for(String table : tables) {
 			gf.generateByTable(table, templateRootDir);
