@@ -89,7 +89,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.au
 			throw new IllegalArgumentException("Can't insert a null data object into db.");
 		}
 		getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
-		return ${paramName}.get${tableConfig.table.pkColumn.columnName}();
+		return ${paramName}.get${tableConfig.pkColumn.columnName}();
 		<#else>
 		return getSqlMapClientTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
 		</#if>    
