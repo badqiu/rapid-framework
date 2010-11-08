@@ -96,6 +96,7 @@
     			        
     		(case
 	        when (BTF.channel = '70' ) then 'CREDIT_PAY'
+	        when (BTF.channel is null ) then null
 	        else
 	        	'BALANCE_PAY'
 	        end) as systemPartnerPayType
