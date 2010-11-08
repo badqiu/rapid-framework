@@ -561,4 +561,14 @@ public class StringHelper {
 	public static String removeXmlTagIfBodyEmpty(String sql) {
 		return sql.replaceAll("<\\w+[^>]*?>\\s+</\\w+>", "");
 	}
+	
+	public static String columnNameToClassName(String dbName) {
+	    throw new UnsupportedOperationException();
+//	    return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(dbName));
+	}
+	
+	public static String tableNameToClassName(String dbName) {
+        return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(dbName));
+    }
+	
 }
