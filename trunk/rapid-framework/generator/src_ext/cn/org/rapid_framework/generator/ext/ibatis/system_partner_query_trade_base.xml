@@ -17,7 +17,7 @@
     			and BTB.trade_status in ('WAIT_BUYER_PAY','TRADE_CLOSED') and BTF.trade_no is null
     		</isEqual>
     		<isEqual property="systemPartnerTradeStatus" compareValue="PAID" >
-    			and BTF.type = '10'
+    			and BTF.type = '01'
     		</isEqual>
     		    		
     		<isNotEmpty prepend="and" property="gmtPayBegin">
@@ -51,6 +51,10 @@
 			<isNotEmpty prepend="and" property="outTradeNo">
 				BTB.out_trade_no = #outTradeNo#
 			</isNotEmpty>
+
+			<isNotEmpty prepend="and" property="tradeEmail">
+				BTB.trade_email = #tradeEmail#
+			</isNotEmpty>			
 			
 			<isNotEmpty prepend="and" property="tradeTypes">
 				BTB.trade_type IN
@@ -108,7 +112,7 @@
 				left join mcenter_air_ext MAE on 
 					BTB.trade_no = MAE.trade_no and BTB.owner = MAE.owner
     			left join trade_fund_bill BTF on 
-    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '10'
+    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '01'
     		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 			<include refid="findTradeBySystemParnter.where"/>
@@ -133,7 +137,7 @@
 				left join mcenter_air_ext MAE on 
 					BTB.trade_no = MAE.trade_no and BTB.owner = MAE.owner
     			inner join trade_fund_bill BTF on 
-    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '10'
+    				BTB.trade_no = BTF.trade_no and BTB.owner = BTF.owner and BTF.type = '01'
     		WHERE BTB.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate> 
     		
 			<include refid="findTradeBySystemParnter.where"/>
