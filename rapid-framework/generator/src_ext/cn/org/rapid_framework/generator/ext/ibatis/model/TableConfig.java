@@ -22,8 +22,6 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
-import cn.org.rapid_framework.generator.util.XMLHelper;
-import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
@@ -76,7 +74,7 @@ public class TableConfig {
     
     public String getPackage() {
     	if(StringHelper.isBlank(_package)) {
-    		throw new IllegalStateException("package must be not null");
+    		_package = GeneratorProperties.getProperty("basepackage");
     	}
     	if(StringHelper.isBlank(subpackage)) {
     		return _package;
