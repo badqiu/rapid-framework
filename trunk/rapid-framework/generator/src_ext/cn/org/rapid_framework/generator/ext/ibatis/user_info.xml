@@ -25,6 +25,19 @@
 		</sql>
 	</operation>
 
+	<operation name="insertWithFunction" paramtype="object" >
+		<extraparams>
+		    <param name="startRow" javatype="int"/>
+		    <param name="pageSize" javatype="int"/>
+		</extraparams>	
+		<sql>
+			INSERT INTO user_info (age,username,password,birth_date,sex) values (curdate(),#username#,?,curtime(),curdate())
+			<selectKey resultClass="java.lang.Long" type="post" keyProperty="user_id" >
+            select last_insert_id() from any
+    		</selectKey>
+		</sql>
+	</operation>
+	
 	<operation name="update" paramtype="object" remarks="更新一条交易资金单据记录 ">
 		<sql>
 			UPDATE user_info SET username = #username#,password = #password#
