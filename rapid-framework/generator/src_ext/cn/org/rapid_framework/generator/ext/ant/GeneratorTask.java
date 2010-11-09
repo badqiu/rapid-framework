@@ -19,6 +19,7 @@ import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfigSet;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class GeneratorTask extends Task {
@@ -34,6 +35,7 @@ public class GeneratorTask extends Task {
 	
 	@Override
 	public void execute() throws BuildException {
+	    super.execute();
 		try {
 			execute0();
 		} catch (Exception e) {
@@ -49,6 +51,7 @@ public class GeneratorTask extends Task {
     }
 
 	private void execute0() throws Exception {
+	    System.out.println(BeanHelper.describe(this));
 		if("*".equals(genInputCmd)) {
 		    generateByAllTable();
 		}else if("seq".equals(genInputCmd)) {
@@ -59,7 +62,11 @@ public class GeneratorTask extends Task {
 		}
 	}
 
-    private GeneratorFacade createGeneratorFacade(String input,String output) {
+    GeneratorFacade createGeneratorFacade(String input,String output) {
+        System.out.println("createGeneratorFacade() input:"+input+" output:"+output);
+        if(input == null) throw new IllegalArgumentException("input must be not null");
+        if(output == null) throw new IllegalArgumentException("output must be not null");
+        
         GeneratorFacade gf = new GeneratorFacade();
 		GeneratorProperties.setProperties(new Properties());
 		Properties properties = toProperties(getProject().getProperties());
@@ -71,6 +78,7 @@ public class GeneratorTask extends Task {
     }
 	
 	private void generateByTable(TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
+	    if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
 	    
         //1. 得到table 输入目录
         //2. 得到table 输出目录
@@ -121,15 +129,15 @@ public class GeneratorTask extends Task {
         }
     }
 
-    public String[] getTableConfigFilesArray() {
+    private String[] getTableConfigFilesArray() {
         return StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
     }
 
-    public void setTableConfigFiles(String tables) {
-        this.tableConfigFiles = tables;
+    public void setTableConfigFiles(String tableConfigFiles) {
+        this.tableConfigFiles = tableConfigFiles;
     }
-    
-	public void setGenInputCmd(String genInputCmd) {
+
+    public void setGenInputCmd(String genInputCmd) {
         this.genInputCmd = genInputCmd;
     }
 
@@ -156,8 +164,6 @@ public class GeneratorTask extends Task {
     public void setSequenceOutput(String sequenceOutput) {
         this.sequenceOutput = sequenceOutput;
     }
-    
-    
 
     private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
