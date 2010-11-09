@@ -24,7 +24,7 @@
 		
 		<#if sql.insertSql>
 			<#if sql.paramType = 'object'>
-				${tableConfig.table.pkColumn.javaType}
+				${tableConfig.pkColumn.javaType}
 			<#else>
 				int
 			</#if>    
