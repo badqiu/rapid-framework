@@ -3,6 +3,7 @@
  */
 package cn.org.rapid_framework.generator.ext.ant;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -65,11 +66,11 @@ public class GeneratorTaskTest extends GeneratorTestCase {
         task.execute();
     }
 
-    public String toInput(String path) throws IOException {
-        return FileHelper.getFileByClassLoader(path).getAbsolutePath();
+    public File toInput(String path) throws IOException {
+        return FileHelper.getFileByClassLoader(path);
     }
     
-    public String toOutput(String path) throws IOException {
-        return  path;
+    public File toOutput(String path) throws IOException {
+        return  new File(path);
     }
 }

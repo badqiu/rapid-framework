@@ -26,12 +26,14 @@ public class GeneratorTask extends Task {
 	private String tableConfigFiles; 
 	private String genInputCmd;
 	
-	private String tableInput;
-	private String tableOutput;
-	private String operationInput;
-	private String operationOutput;
-	private String sequenceInput;
-	private String sequenceOutput;
+	private File tableInput;
+	private File tableOutput;
+	private File operationInput;
+	private File operationOutput;
+	private File sequenceInput;
+	private File sequenceOutput;
+	
+	private File shareInput;
 	
 	@Override
 	public void execute() throws BuildException {
@@ -62,7 +64,7 @@ public class GeneratorTask extends Task {
 		}
 	}
 
-    GeneratorFacade createGeneratorFacade(String input,String output) {
+    GeneratorFacade createGeneratorFacade(File input,File output) {
         System.out.println("createGeneratorFacade() input:"+input+" output:"+output);
         if(input == null) throw new IllegalArgumentException("input must be not null");
         if(output == null) throw new IllegalArgumentException("output must be not null");
@@ -72,8 +74,11 @@ public class GeneratorTask extends Task {
 		Properties properties = toProperties(getProject().getProperties());
 		properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
 		GeneratorProperties.setProperties(properties);
-		gf.g.addTemplateRootDir(new File(input));
-        gf.g.setOutRootDir(output);
+		gf.g.addTemplateRootDir(input);
+		if(shareInput != null) {
+			gf.g.addTemplateRootDir(shareInput);
+		}
+        gf.g.setOutRootDir(output.getAbsolutePath());
         return gf;
     }
 	
@@ -95,7 +100,7 @@ public class GeneratorTask extends Task {
         tableMap.put("tableConfig", tableConfig);
         tableMap.put("basepackage", tableConfig.getBasepackage());
         tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
-        tableGenerator.generateByMap(tableMap, tableInput);
+        tableGenerator.generateByMap(tableMap, tableInput.getAbsolutePath());
         
         //1. 得到 operation 输入目录
         //2. 得到 operation 输出目录
@@ -107,7 +112,7 @@ public class GeneratorTask extends Task {
             operationMap.put("sql", sql);
             operationMap.put("basepackage", tableConfig.getBasepackage());
             operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
-            operationGenerator.generateByMap(operationMap, operationInput);
+            operationGenerator.generateByMap(operationMap, operationInput.getAbsolutePath());
         }
         log("生成成功.table:"+tableSqlName,Project.MSG_INFO);
     }
@@ -121,7 +126,7 @@ public class GeneratorTask extends Task {
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfigSet));
         map.put("tableConfigSet", tableConfigSet);
-        generator.generateByMap(map, sequenceInput);
+        generator.generateByMap(map, sequenceInput.getAbsolutePath());
         log("根据sequence生成代码成功.",Project.MSG_INFO);
     }
 
@@ -144,31 +149,35 @@ public class GeneratorTask extends Task {
         this.genInputCmd = genInputCmd;
     }
 
-    public void setTableInput(String tableInput) {
-        this.tableInput = tableInput;
-    }
+	public void setTableInput(File tableInput) {
+		this.tableInput = tableInput;
+	}
 
-    public void setTableOutput(String tableOutput) {
-        this.tableOutput = tableOutput;
-    }
+	public void setTableOutput(File tableOutput) {
+		this.tableOutput = tableOutput;
+	}
 
-    public void setOperationInput(String operationInput) {
-        this.operationInput = operationInput;
-    }
+	public void setOperationInput(File operationInput) {
+		this.operationInput = operationInput;
+	}
 
-    public void setOperationOutput(String operationOutput) {
-        this.operationOutput = operationOutput;
-    }
+	public void setOperationOutput(File operationOutput) {
+		this.operationOutput = operationOutput;
+	}
 
-    public void setSequenceInput(String sequenceInput) {
-        this.sequenceInput = sequenceInput;
-    }
+	public void setSequenceInput(File sequenceInput) {
+		this.sequenceInput = sequenceInput;
+	}
 
-    public void setSequenceOutput(String sequenceOutput) {
-        this.sequenceOutput = sequenceOutput;
-    }
+	public void setSequenceOutput(File sequenceOutput) {
+		this.sequenceOutput = sequenceOutput;
+	}
 
-    private static Properties toProperties(Hashtable properties) {
+	public void setShareInput(File shareInput) {
+		this.shareInput = shareInput;
+	}
+
+	private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
 		props.putAll(properties);
 		return props;
