@@ -54,6 +54,10 @@ public class GeneratorProperties {
 			}
 		}
 	}
+
+	public static String getDatabaseType(String key) {
+		return getDatabaseType(getProperties(),key);
+	}
 	
 	public static String getDatabaseType(Map p,String key) {
 		if(p.containsKey(key)) {
