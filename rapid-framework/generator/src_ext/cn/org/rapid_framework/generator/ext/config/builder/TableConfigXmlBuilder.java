@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.ext.config.builder;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class TableConfigXmlBuilder {
 	public TableConfig parseFromXML(File file) {
 		InputStream in = null;
 		try {
-			in = new FileInputStream(file);
+			in = new BufferedInputStream(new FileInputStream(file));
 			return parseFromXML(in);
 		}catch(Exception e) {
 			throw new RuntimeException("parse file:"+file.getAbsolutePath()+" occer error",e);
