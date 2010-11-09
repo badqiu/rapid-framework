@@ -265,6 +265,7 @@ public class GeneratorFacade implements GeneratorConstants {
 			File errorFile = new File(outRoot,"generator_error.log");
 			if(exceptions != null && exceptions.size() > 0) {
 				System.err.println("[Generate Error Summary] : "+msg);
+				errorFile.getParentFile().mkdirs();
 				PrintStream output = new PrintStream(new FileOutputStream(errorFile));
 				for(int i = 0; i < exceptions.size(); i++) {
 					Exception e = exceptions.get(i);
