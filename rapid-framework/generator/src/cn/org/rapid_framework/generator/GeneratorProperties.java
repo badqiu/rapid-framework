@@ -47,7 +47,6 @@ public class GeneratorProperties {
 	}
 
 	private static void setSepicalProperties(Properties p, String[] loadedFiles) {
-		p.put("databaseType", getDatabaseType(p,"databaseType"));
 		if(loadedFiles != null && loadedFiles.length > 0) {
 			String basedir = p.getProperty("basedir");
 			if(basedir != null && basedir.startsWith(".")) {
@@ -56,9 +55,12 @@ public class GeneratorProperties {
 		}
 	}
 	
-	private static String getDatabaseType(Properties p,String key) {
-		String databaseType = DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(p.getProperty("jdbc.driver"));
-		return p.getProperty(key,databaseType == null ? "" : databaseType);
+	public static String getDatabaseType(Map p,String key) {
+		if(p.containsKey(key)) {
+			return (String)p.get(key);
+		}
+		String databaseType = DatabaseTypeUtils.getDatabaseTypeByJdbcDriver((String)p.get("jdbc.driver"));
+		return databaseType;
 	}
 	
 	// 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀

@@ -240,6 +240,7 @@ public class GeneratorFacade implements GeneratorConstants {
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
+			templateModel.put("databaseType", GeneratorProperties.getDatabaseType(GeneratorProperties.getProperties(), "databaseType"));
 			templateModel.putAll(GeneratorContext.getContext());
 			Map toolsMap = getToolsMap();
 			templateModel.putAll(toolsMap);
