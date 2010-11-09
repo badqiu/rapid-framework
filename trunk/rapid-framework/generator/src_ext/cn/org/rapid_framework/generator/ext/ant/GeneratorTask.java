@@ -22,8 +22,8 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class GeneratorTask extends Task {
-	private String tableConfigFiles = ""; //表xml的文件，使用
-	private String genInputCmd = "";
+	private String tableConfigFiles; 
+	private String genInputCmd;
 	
 	private String tableInput;
 	private String tableOutput;
@@ -54,7 +54,7 @@ public class GeneratorTask extends Task {
 		}else if("seq".equals(genInputCmd)) {
 		    generateBySequence();
 		}else {
-		    TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
+		    TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
             generateByTable(tableConfigSet,genInputCmd);
 		}
 	}
@@ -106,7 +106,7 @@ public class GeneratorTask extends Task {
         //1. 得到seq 输入目录
         //2. 得到seq 输出目录
         //3. 创建tableConfigSet并运行
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
         GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
         Map tableMap = new HashMap();
         tableMap.put("tableConfigSet", tableConfigSet);
@@ -115,13 +115,13 @@ public class GeneratorTask extends Task {
     }
 
     private void generateByAllTable() throws Exception {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
         for(TableConfig t : tableConfigSet) {
             generateByTable(tableConfigSet,t.getSqlname());
         }
     }
 
-    public String[] getTableConfigFiles() {
+    public String[] getTableConfigFilesArray() {
         return StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
     }
 
@@ -156,6 +156,8 @@ public class GeneratorTask extends Task {
     public void setSequenceOutput(String sequenceOutput) {
         this.sequenceOutput = sequenceOutput;
     }
+    
+    
 
     private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
