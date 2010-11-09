@@ -139,6 +139,13 @@
 			     and r.role_id = :roleId
 			</#switch>  
 
+			<#if databaseType?is_empty>
+			and r.role_name in (
+			<#list rolenameSet as r>
+				${r} <#if r_has_next>,</#if>
+			</#list>
+			)
+			</#if>
 	    	group by role_id
 	    ]]>
 	    </sql>
