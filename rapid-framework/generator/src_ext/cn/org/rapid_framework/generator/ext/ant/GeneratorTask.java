@@ -118,9 +118,10 @@ public class GeneratorTask extends Task {
         //3. 创建tableConfigSet并运行
         TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
         GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
-        Map tableMap = new HashMap();
-        tableMap.put("tableConfigSet", tableConfigSet);
-        generator.generateByMap(tableMap, sequenceInput);
+        Map map = new HashMap();
+        map.putAll(BeanHelper.describe(tableConfigSet));
+        map.put("tableConfigSet", tableConfigSet);
+        generator.generateByMap(map, sequenceInput);
         log("根据sequence生成代码成功.",Project.MSG_INFO);
     }
 
