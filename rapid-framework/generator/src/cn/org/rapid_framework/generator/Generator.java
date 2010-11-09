@@ -44,13 +44,13 @@ public class Generator implements GeneratorConstants {
 	private List templateRootDirs = new ArrayList();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
-	private String removeExtensions = System.getProperty(GENERATOR_REMOVE_EXTENSIONS,".ftl,.vm");
+	private String removeExtensions = GeneratorProperties.getProperty(GENERATOR_REMOVE_EXTENSIONS,".ftl,.vm");
 	private boolean isCopyBinaryFile = true;
 	
-	private String includes = System.getProperty(GENERATOR_INCLUDES); // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	private String excludes = System.getProperty(GENERATOR_EXCLUDES); // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	private String sourceEncoding =  System.getProperty(GENERATOR_SOURCE_ENCODING,"UTF-8");
-	private String outputEncoding =  System.getProperty(GENERATOR_OUTPUT_ENCODING,"UTF-8");
+	private String includes = GeneratorProperties.getProperty(GENERATOR_INCLUDES); // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
+	private String excludes = GeneratorProperties.getProperty(GENERATOR_EXCLUDES); // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
+	private String sourceEncoding =  GeneratorProperties.getProperty(GENERATOR_SOURCE_ENCODING,"UTF-8");
+	private String outputEncoding =  GeneratorProperties.getProperty(GENERATOR_OUTPUT_ENCODING,"UTF-8");
 	
 	public Generator() {
 	}
@@ -109,9 +109,9 @@ public class Generator implements GeneratorConstants {
 		this.excludes = excludes;
 	}
 
-	public void setOutRootDir(String outRootDir) {
-		if(outRootDir == null) throw new IllegalArgumentException("outRootDir must be not null");
-		this.outRootDir = outRootDir;
+	public void setOutRootDir(String rootDir) {
+		if(rootDir == null) throw new IllegalArgumentException("outRootDir must be not null");
+		this.outRootDir = rootDir;
 	}
 	
 	public String getOutRootDir() {
