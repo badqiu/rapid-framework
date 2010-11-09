@@ -267,7 +267,11 @@ public class PropertiesHelper {
 	/** delegate method start */
 	
 	public String getProperty(String key, String defaultValue) {
-		return p.getProperty(key, defaultValue);
+	    String value = getProperty(key);
+	    if(isBlankString(value)) {
+	        return defaultValue;
+	    }
+		return value;
 	}
 
 	public String getProperty(String key) {
