@@ -59,9 +59,13 @@ public class GeneratorTask extends Task {
 		}else if("seq".equals(genInputCmd)) {
 		    generateBySequence();
 		}else {
-		    TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
-            generateByTable(tableConfigSet,genInputCmd);
+		    generateByTable(parseForTableConfigSet(),genInputCmd);
 		}
+	}
+
+	private TableConfigSet parseForTableConfigSet() {
+		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
+		return tableConfigSet;
 	}
 
     GeneratorFacade createGeneratorFacade(File input,File output) {
@@ -118,10 +122,7 @@ public class GeneratorTask extends Task {
     }
 
     private void generateBySequence() throws Exception {
-        //1. 得到seq 输入目录
-        //2. 得到seq 输出目录
-        //3. 创建tableConfigSet并运行
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
+        TableConfigSet tableConfigSet = parseForTableConfigSet();
         GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfigSet));
@@ -131,7 +132,7 @@ public class GeneratorTask extends Task {
     }
 
     private void generateByAllTable() throws Exception {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
+        TableConfigSet tableConfigSet = parseForTableConfigSet();
         for(TableConfig t : tableConfigSet) {
             generateByTable(tableConfigSet,t.getSqlname());
         }
