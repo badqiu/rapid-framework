@@ -88,7 +88,7 @@ public class Mybatis${tableConfig.tableClassName}DAO extends BaseIbatis3Dao impl
 			throw new IllegalArgumentException("Can't insert a null data object into db.");
 		}
 		getSqlSessionTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
-		return ${paramName}.get${tableConfig.table.pkColumn.columnName}();
+		return ${paramName}.get${tableConfig.pkColumn.columnName}();
 		<#else>
 		return getSqlSessionTemplate().insert("${ibatisNamespace}${sql.operation}", ${paramName});
 		</#if>    
