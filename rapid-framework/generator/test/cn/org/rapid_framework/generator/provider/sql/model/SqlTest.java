@@ -1,7 +1,6 @@
 package cn.org.rapid_framework.generator.provider.sql.model;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 public class SqlTest extends TestCase {
@@ -36,17 +35,17 @@ public class SqlTest extends TestCase {
 	    assertEquals(s.getSqlmap(),"<![CDATA[ 123 ]]>");
 	}
 	
-	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
-		Sql sql = new Sql();
-		sql.setTableSqlName("t_user_info");
-		assertEquals("UserInfo",sql.getTableClassName());
-		sql.setTableSqlName("v_user");
-		assertEquals("User",sql.getTableClassName());
-		
-		sql.setTableSqlName("diy_user");
-		assertEquals("DiyUser",sql.getTableClassName());
-	}
+//	public void test_remove_table_prefix() {
+//		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
+//		Sql sql = new Sql();
+//		sql.setTableSqlName("t_user_info");
+//		assertEquals("UserInfo",sql.getTableClassName());
+//		sql.setTableSqlName("v_user");
+//		assertEquals("User",sql.getTableClassName());
+//		
+//		sql.setTableSqlName("diy_user");
+//		assertEquals("DiyUser",sql.getTableClassName());
+//	}
 
 	private Sql newSql(String string) {
 		Sql sql = new Sql();
