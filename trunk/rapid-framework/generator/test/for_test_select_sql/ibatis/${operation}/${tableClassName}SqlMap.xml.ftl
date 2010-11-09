@@ -1,5 +1,5 @@
 
-<#macro namespace>${sql.tableClassName}.</#macro>
+<#macro namespace>${tableClassName}.</#macro>
 	
 <#if sql.selectSql>
 	<#if sql.columnsCount == 1>
