@@ -265,6 +265,7 @@ public class Sql {
         String result = sqlmap;
 
         if (params.size() == 1) {
+        	//FIXME: 与dalgen相比,修正是否将 ${param1} 的替换值是: value
             return StringHelper.replace(result, "${param1}", "value");
         } else {
             for (int i = 0; i < params.size(); i++) {
