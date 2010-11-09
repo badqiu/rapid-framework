@@ -236,14 +236,20 @@ public class GeneratorFacade implements GeneratorConstants {
 		}
 		
 		public static void setShareVars(Map templateModel) {
+			templateModel.putAll(getShareVars());
+		}
+
+		public static Map getShareVars() {
+			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
-			templateModel.put("databaseType", GeneratorProperties.getDatabaseType(GeneratorProperties.getProperties(), "databaseType"));
+			templateModel.put("databaseType", GeneratorProperties.getDatabaseType("databaseType"));
 			templateModel.putAll(GeneratorContext.getContext());
 			Map toolsMap = getToolsMap();
 			templateModel.putAll(toolsMap);
+			return templateModel;
 		}
 		
 		/** 得到模板可以引用的工具类  */
