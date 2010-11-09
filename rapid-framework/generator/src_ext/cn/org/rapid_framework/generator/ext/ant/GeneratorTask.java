@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
@@ -19,8 +20,8 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class GeneratorTask extends Task {
-	String tables = "";
-	String genInputCmd = "";
+	private String tableConfigFiles = ""; //表xml的文件，使用
+	private String genInputCmd = "";
 	
 	private String tableInput;
 	private String tableOutput;
@@ -44,7 +45,8 @@ public class GeneratorTask extends Task {
 		}else if("seq".equals(genInputCmd)) {
 		    generateBySequence();
 		}else {
-		    generateByTable(genInputCmd);
+		    TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
+            generateByTable(tableConfigSet,genInputCmd);
 		}
 	}
 
@@ -59,22 +61,24 @@ public class GeneratorTask extends Task {
         return gf;
     }
 	
-	private void generateByTable(String tableSqlName) throws Exception {
-	    TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTables()));
+	private void generateByTable(TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
 	    
         //1. 得到table 输入目录
         //2. 得到table 输出目录
         //3. 创建tableConfig并运行	    
 	    TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
+	    if(tableConfig == null) {
+	        log("指定的表没有找到,请重新操作.table:"+tableSqlName,Project.MSG_INFO);
+	        return;
+	    }
+	    
         GeneratorFacade tableGenerator = createGeneratorFacade(tableInput,tableOutput);
-        
         Map tableMap = new HashMap();
         tableMap.put("tableConfig", tableConfig);
         tableMap.put("basepackage", tableConfig.getBasepackage());
         tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
         tableGenerator.generateByMap(tableMap, tableInput);
         
-
         //1. 得到 operation 输入目录
         //2. 得到 operation 输出目录
         //3. 创建 sql for operation 并运行	    
@@ -86,33 +90,34 @@ public class GeneratorTask extends Task {
             operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
             operationGenerator.generateByMap(operationMap, operationInput);
         }
-
+        log("生成成功.table:"+tableSqlName,Project.MSG_INFO);
     }
 
     private void generateBySequence() throws Exception {
         //1. 得到seq 输入目录
         //2. 得到seq 输出目录
         //3. 创建tableConfigSet并运行
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTables()));
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
         GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
         Map tableMap = new HashMap();
         tableMap.put("tableConfigSet", tableConfigSet);
         generator.generateByMap(tableMap, sequenceInput);
+        log("根据sequence生成代码成功.",Project.MSG_INFO);
     }
 
     private void generateByAllTable() throws Exception {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTables()));
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFiles()));
         for(TableConfig t : tableConfigSet) {
-            generateByTable(t.getSqlname());
+            generateByTable(tableConfigSet,t.getSqlname());
         }
     }
 
-    public String[] getTables() {
-        return StringHelper.tokenizeToStringArray(tables, ", \t\n\r\f");
+    public String[] getTableConfigFiles() {
+        return StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
     }
 
-    public void setTables(String tables) {
-        this.tables = tables;
+    public void setTableConfigFiles(String tables) {
+        this.tableConfigFiles = tables;
     }
 
 	private static Properties toProperties(Hashtable properties) {
