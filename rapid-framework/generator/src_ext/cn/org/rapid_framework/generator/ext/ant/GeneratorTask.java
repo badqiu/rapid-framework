@@ -1,6 +1,8 @@
 package cn.org.rapid_framework.generator.ext.ant;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -35,9 +37,16 @@ public class GeneratorTask extends Task {
 		try {
 			execute0();
 		} catch (Exception e) {
+		    error(e);
 			throw new BuildException(e);
 		}
 	}
+
+    private void error(Exception e) {
+        StringWriter out = new StringWriter();
+        e.printStackTrace(new PrintWriter(out));
+        log(out.toString(),Project.MSG_ERR);
+    }
 
 	private void execute0() throws Exception {
 		if("*".equals(genInputCmd)) {
@@ -119,8 +128,36 @@ public class GeneratorTask extends Task {
     public void setTableConfigFiles(String tables) {
         this.tableConfigFiles = tables;
     }
+    
+	public void setGenInputCmd(String genInputCmd) {
+        this.genInputCmd = genInputCmd;
+    }
 
-	private static Properties toProperties(Hashtable properties) {
+    public void setTableInput(String tableInput) {
+        this.tableInput = tableInput;
+    }
+
+    public void setTableOutput(String tableOutput) {
+        this.tableOutput = tableOutput;
+    }
+
+    public void setOperationInput(String operationInput) {
+        this.operationInput = operationInput;
+    }
+
+    public void setOperationOutput(String operationOutput) {
+        this.operationOutput = operationOutput;
+    }
+
+    public void setSequenceInput(String sequenceInput) {
+        this.sequenceInput = sequenceInput;
+    }
+
+    public void setSequenceOutput(String sequenceOutput) {
+        this.sequenceOutput = sequenceOutput;
+    }
+
+    private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
 		props.putAll(properties);
 		return props;
