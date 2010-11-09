@@ -228,7 +228,8 @@ public class SqlParseHelper {
         		}
         	}
         	//FIXME: insert into user_info(user,pwd) values (length(?),?); 将没有办法解析,因为正则表达式由于length()函数匹配错误.
-            Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*?)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
+        	//需要处理 <selectKey>问题
+            Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(sql);
             if(m.find()) {
                 String[] columns = StringHelper.tokenizeToStringArray(m.group(1),", \t\n\r\f");
