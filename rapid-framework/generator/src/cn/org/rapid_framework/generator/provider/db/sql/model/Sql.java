@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -99,7 +100,7 @@ public class Sql {
 			return columns.iterator().next().getTable().getClassName();
 		}else {
 			if(operation == null) return null;
-			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+System.getProperty("generator.sql.resultClass.suffix","Result");
+			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+System.getProperty(GeneratorConstants.GENERATOR_SQL_RESULTCLASS_SUFFIX,"Result");
 		}
 	}    
 	
