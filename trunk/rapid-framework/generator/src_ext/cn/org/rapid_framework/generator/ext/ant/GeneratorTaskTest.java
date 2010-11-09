@@ -24,7 +24,17 @@ public class GeneratorTaskTest extends GeneratorTestCase {
         super.setUp();
         project.setBaseDir(FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis"));
         putAllProperties(project,GeneratorProperties.getProperties());
+        project.setProperty("appName", "projectName");
         task.setProject(project);
+        
+        task.setTableInput(toInput("for_generate_by_sql_config"));
+        task.setTableOutput(toOutput("/temp/table"));
+        
+        task.setSequenceInput(toInput("for_generate_by_table_config_set"));
+        task.setSequenceOutput(toOutput("/temp/sequence"));
+        
+        task.setOperationInput(toInput("for_generate_by_sql"));
+        task.setOperationOutput(toOutput("/temp/operation"));
     }
 
     private void putAllProperties(Project project,Properties properties) {
@@ -37,27 +47,29 @@ public class GeneratorTaskTest extends GeneratorTestCase {
         super.tearDown();
     }
     
-    public void test() throws IOException {
-        task.setTableInput(getDir("for_generate_by_sql"));
-        task.setTableOutput(getDir2("/temp/table"));
-        
-        task.setSequenceInput(getDir("for_generate_by_sql_config"));
-        task.setSequenceOutput(getDir2("/temp/sequence"));
-        
-        task.setOperationInput(getDir("for_generate_by_table_config_set"));
-        task.setOperationOutput(getDir2("/temp/operation"));
-        
+    public void testGenSingleTable() {
         task.setTableConfigFiles("user_info.xml");
         task.setGenInputCmd("user_info");
         task.execute();
-        
     }
 
-    public String getDir(String path) throws IOException {
+    public void testGenAllTable() {
+        task.setTableConfigFiles("user_info.xml");
+        task.setGenInputCmd("*");
+        task.execute();
+    }
+
+    public void testGenBySeq() {
+        task.setTableConfigFiles("user_info.xml");
+        task.setGenInputCmd("seq");
+        task.execute();
+    }
+
+    public String toInput(String path) throws IOException {
         return FileHelper.getFileByClassLoader(path).getAbsolutePath();
     }
     
-    public String getDir2(String path) throws IOException {
+    public String toOutput(String path) throws IOException {
         return  path;
     }
 }

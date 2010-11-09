@@ -91,6 +91,7 @@ public class GeneratorTask extends Task {
 	    
         GeneratorFacade tableGenerator = createGeneratorFacade(tableInput,tableOutput);
         Map tableMap = new HashMap();
+        tableMap.putAll(BeanHelper.describe(tableConfig));
         tableMap.put("tableConfig", tableConfig);
         tableMap.put("basepackage", tableConfig.getBasepackage());
         tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
@@ -102,6 +103,7 @@ public class GeneratorTask extends Task {
         GeneratorFacade operationGenerator = createGeneratorFacade(operationInput,operationOutput);
         for(Sql sql : tableConfig.getSqls()) {
             Map operationMap = new HashMap();
+            operationMap.putAll(BeanHelper.describe(sql));
             operationMap.put("sql", sql);
             operationMap.put("basepackage", tableConfig.getBasepackage());
             operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
