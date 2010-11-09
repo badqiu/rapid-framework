@@ -21,4 +21,7 @@ public interface GeneratorConstants {
 	/** 需要移除的表名前缀,示例值: t_,v_ */
 	public String TABLE_REMOVE_PREFIXES = "tableRemovePrefixes";
 	
+	/** generate by sql中查询结果使用的后缀，默认值为: Result */
+	public String GENERATOR_SQL_RESULTCLASS_SUFFIX = "generator.sql.resultClass.suffix";
+	
 }
