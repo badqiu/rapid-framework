@@ -12,7 +12,6 @@ public class PropertiesLoadTask extends Property {
 
     @Override
     public void execute() throws BuildException {
-        
         super.execute();
     }
     
