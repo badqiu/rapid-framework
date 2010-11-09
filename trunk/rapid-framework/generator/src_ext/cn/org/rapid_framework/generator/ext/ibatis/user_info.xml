@@ -19,6 +19,9 @@
 		</extraparams>	
 		<sql>
 				INSERT INTO user_info (username,password) values (#username#,#password#)
+			<selectKey resultClass="java.lang.Long" type="post" keyProperty="user_id" >
+            select last_insert_id() from any
+    		</selectKey>
 		</sql>
 	</operation>
 
