@@ -21,6 +21,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.ClassHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
+import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * 
  * @author badqiu
@@ -29,7 +30,10 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
 public class GeneratorFacade implements GeneratorConstants {
 	public Generator g = new Generator();
 	public GeneratorFacade(){
-		g.setOutRootDir(GeneratorProperties.getProperty("outRoot"));
+	    String outRoot = GeneratorProperties.getProperty("outRoot");
+	    if(StringHelper.isNotBlank(outRoot)) {
+	        g.setOutRootDir(outRoot);
+	    }
 	}
 	
 	public static void printAllTableNames() throws Exception {
