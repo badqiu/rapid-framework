@@ -26,6 +26,15 @@ public class ColumnSet implements java.io.Serializable{
 	public void addColumn(Column c) {
 		columns.add(c);
 	}
+
+	public Column getBySqlName(String name,int sqlType) {
+		for(Column c : columns) {
+			if(name.equalsIgnoreCase(c.getSqlName()) && c.getSqlType() == sqlType) {
+				return c;
+			}
+		}
+		return null;
+	}
 	
 	public Column getBySqlName(String name) {
 		for(Column c : columns) {
@@ -44,6 +53,14 @@ public class ColumnSet implements java.io.Serializable{
         return c;
 	}
 
+	public Column getByName(String name,int sqlType) {
+        Column c = getBySqlName(name,sqlType);
+        if(c == null) {
+            c = getBySqlName(StringHelper.toUnderscoreName(name),sqlType);
+        }
+        return c;
+	}
+	
     public Column getByColumnName(String name) {
         for(Column c : columns) {
             if(name.equals(c.getColumnName())) {
