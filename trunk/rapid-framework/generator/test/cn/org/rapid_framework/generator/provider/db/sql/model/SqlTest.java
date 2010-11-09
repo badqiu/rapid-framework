@@ -68,15 +68,15 @@ public class SqlTest extends GeneratorTestCase {
 		assertEquals(null,sql.getParameterClass());
 	}
 	
-	public void test_getTableName() {
-		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
-		assertNull(sql.getTableSqlName());
-		
-		sql.setTableSqlName("t1_abc_blog_123");
-		assertEquals("t1_abc_blog_123",sql.getTableSqlName());
-		
-		assertEquals("T1AbcBlog123",sql.getTableClassName());
-	}
+//	public void test_getTableName() {
+//		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
+//		assertNull(sql.getTableSqlName());
+//		
+//		sql.setTableSqlName("t1_abc_blog_123");
+//		assertEquals("t1_abc_blog_123",sql.getTableSqlName());
+//		
+//		assertEquals("T1AbcBlog123",sql.getTableClassName());
+//	}
 	
 	public void test_isColumnsInSameTable() {
 		sql = new SqlFactory().parseSql("select username from user_info");
