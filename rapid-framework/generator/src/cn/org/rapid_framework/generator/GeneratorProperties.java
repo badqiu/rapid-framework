@@ -63,7 +63,7 @@ public class GeneratorProperties {
 		if(p.containsKey(key)) {
 			return (String)p.get(key);
 		}
-		String databaseType = DatabaseTypeUtils.getDatabaseTypeByJdbcDriver((String)p.get("jdbc.driver"));
+		String databaseType = DatabaseTypeUtils.getDatabaseTypeByJdbcDriver((String)p.get(GeneratorConstants.JDBC_DRIVER));
 		return databaseType;
 	}
 	
@@ -127,6 +127,7 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
+//	    assertPropertyKey(key);
 		value = resolveProperty(value,getProperties());
 		key = resolveProperty(key,getProperties());
 	    GLogger.println("[setProperty()] "+key+"="+value);
@@ -135,7 +136,13 @@ public class GeneratorProperties {
 		getHelper().getProperties().put(key+"_dir", dir_value);
 	}
 
-	private static Properties resolveProperties(Properties props) {
+	private static void assertPropertyKey(String key) {
+	    if(key.indexOf(".") >= 0) {
+	        throw new IllegalArgumentException("property的key不能包含句号'.'，使用下划线'_'代替. key="+key);
+	    }
+    }
+
+    private static Properties resolveProperties(Properties props) {
 		Properties result = new Properties();
 		for(Object s : props.keySet()) {
 			String sourceKey = s.toString();
@@ -155,6 +162,7 @@ public class GeneratorProperties {
 		props = new PropertiesHelper(resolveProperties(inputProps),true);
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
+//            assertPropertyKey(entry.getKey().toString());
             GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
         }
         GLogger.println("");
