@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
  * 用于提供生成器的数据源
@@ -35,10 +36,10 @@ public class DataSourceProvider {
 
 	public synchronized static DataSource getDataSource() {
 		if(dataSource == null) {
-			dataSource = new DriverManagerDataSource(GeneratorProperties.getRequiredProperty("jdbc.url"), 
-					GeneratorProperties.getRequiredProperty("jdbc.username"), 
-					GeneratorProperties.getProperty("jdbc.password"), 
-					GeneratorProperties.getRequiredProperty("jdbc.driver"));
+			dataSource = new DriverManagerDataSource(GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_URL), 
+					GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_USERNAME), 
+					GeneratorProperties.getProperty(GeneratorConstants.JDBC_PASSWORD), 
+					GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_DRIVER));
 		}
 		return dataSource;
 	}
