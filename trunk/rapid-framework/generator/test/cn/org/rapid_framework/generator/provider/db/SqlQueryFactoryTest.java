@@ -9,7 +9,6 @@ import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory.SqlParametersParser;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -177,7 +176,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public static int count;
 	public GeneratorModel newFromQuery(Sql sql) {
 		sql.setOperation(StringHelper.uncapitalize(StringHelper.makeAllWordFirstLetterUpperCase(getName())));
-		sql.setTableSqlName("user_blog_info");
+//		sql.setTableSqlName("user_blog_info");
 		if(count++ % 2 == 0) sql.setRemarks("Blog操作");
 		
 		Map templateModel = new HashMap();
@@ -195,5 +194,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	private static void setShareVars(Map templateModel) {
 		templateModel.putAll(System.getProperties());
 		templateModel.put("env", System.getenv());
+		templateModel.put("className", "UserInfoBlog");
+		templateModel.put("tableClassName", "UserInfoBlog");
 	}
 }
