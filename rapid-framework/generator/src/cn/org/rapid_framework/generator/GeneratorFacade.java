@@ -9,8 +9,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -29,8 +31,10 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  */
 public class GeneratorFacade implements GeneratorConstants {
 	public Generator g = new Generator();
+	private String outRoot = GeneratorProperties.getProperty("outRoot");
+	private Set<File> templateRootDirs = new LinkedHashSet<File>();
+	
 	public GeneratorFacade(){
-	    String outRoot = GeneratorProperties.getProperty("outRoot");
 	    if(StringHelper.isNotBlank(outRoot)) {
 	        g.setOutRootDir(outRoot);
 	    }
@@ -84,8 +88,11 @@ public class GeneratorFacade implements GeneratorConstants {
 		new ProcessUtils().processBySql(sql,templateRootDir,true);
 	}
 	
-    private Generator getGenerator(String templateRootDir) {
+    protected Generator getGenerator(String templateRootDir) {
         g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
+        for(File f : templateRootDirs) {
+            g.addTemplateRootDir(f);
+        }
         return g;
     }
     
