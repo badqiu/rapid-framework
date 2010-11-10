@@ -26,14 +26,14 @@ public class GeneratorTask extends Task {
 	private String tableConfigFiles; 
 	private String genInputCmd;
 	
-	private File tableInput;
-	private File tableOutput;
+	private File tableConfigInput;
+	private File tableConfigOutput;
 	private File operationInput;
 	private File operationOutput;
 	private File sequenceInput;
 	private File sequenceOutput;
-	private File tableSetInput;
-	private File tableSetOutput;
+	private File tableInput;
+	private File tableOutput;
 	
 	private File shareInput;
 	
@@ -56,29 +56,43 @@ public class GeneratorTask extends Task {
 
 	private void execute0() throws Exception {
 		if("*".equals(genInputCmd)) {
-		    generateByAllTable();
+		    generateByAllTableConfig();
 		}else if("seq".equals(genInputCmd)) {
 		    generateBySequence();
-		}else if("tableSet".equals(genInputCmd)) {
-		    generateByTableSet();
+		}else if("tableConfigSet".equals(genInputCmd)) {
+		    generateByTableConfigSet();
+        }else if("table".equals(genInputCmd)) {
+            generateByTable(genInputCmd);		    
 		}else {
-		    generateByTables(parseForTableConfigSet(),genInputCmd);
+		    generateByTableConfigs(parseForTableConfigSet(),genInputCmd);
 		}
 	}
 
-	private void generateByTables(TableConfigSet tableConfigSet, String genInputCmd) throws Exception {
-	    for(String tableSqlName : genInputCmd.split(",")) {
-	        generateByTable(tableConfigSet,tableSqlName);
+	private void generateByTable(String genInputCmd) throws Exception {
+	    if(tableInput != null) {
+    	    GeneratorFacade gf = createGeneratorFacade(tableInput, tableOutput);
+    	    String[] args = genInputCmd.split("\\s");
+    	    if(args.length <= 1) {
+    	        log("请输入要生成的表名");
+    	        return;
+    	    }
+            gf.generateByTable(args[1], tableInput.getAbsolutePath());
 	    }
     }
 
-    private void generateByTableSet() throws Exception {
+    private void generateByTableConfigs(TableConfigSet tableConfigSet, String genInputCmd) throws Exception {
+	    for(String tableSqlName : genInputCmd.split(",")) {
+	        generateByTableConfig(tableConfigSet,tableSqlName);
+	    }
+    }
+
+    private void generateByTableConfigSet() throws Exception {
         TableConfigSet tableConfigSet = parseForTableConfigSet();
-        GeneratorFacade generator = createGeneratorFacade(tableSetInput,tableSetOutput);
+        GeneratorFacade generator = createGeneratorFacade(tableInput,tableOutput);
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfigSet));
         map.put("tableConfigSet", tableConfigSet);
-        generator.generateByMap(map, tableSetInput.getAbsolutePath());
+        generator.generateByMap(map, tableInput.getAbsolutePath());
     }
 
     private TableConfigSet parseForTableConfigSet() {
@@ -86,75 +100,75 @@ public class GeneratorTask extends Task {
 		return tableConfigSet;
 	}
 
-    GeneratorFacade createGeneratorFacade(File input,File output) {
-        if(input == null) throw new IllegalArgumentException("input must be not null");
-        if(output == null) throw new IllegalArgumentException("output must be not null");
-        
-        GeneratorFacade gf = new GeneratorFacade();
-		GeneratorProperties.setProperties(new Properties());
-		Properties properties = toProperties(getProject().getProperties());
-		properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
-		GeneratorProperties.setProperties(properties);
-		gf.g.addTemplateRootDir(input);
-		if(shareInput != null) {
-			gf.g.addTemplateRootDir(shareInput);
-		}
-        gf.g.setOutRootDir(output.getAbsolutePath());
-        return gf;
-    }
-	
-	private void generateByTable(TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
+	private void generateByTableConfig(TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
 	    if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
-	    
-        //1. 得到table 输入目录
-        //2. 得到table 输出目录
-        //3. 创建tableConfig并运行	    
+	      
 	    TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
 	    if(tableConfig == null) {
 	        log("指定的表没有找到,请重新操作.table:"+tableSqlName,Project.MSG_INFO);
 	        return;
 	    }
 	    
-        GeneratorFacade tableGenerator = createGeneratorFacade(tableInput,tableOutput);
-        Map tableMap = new HashMap();
-        tableMap.putAll(BeanHelper.describe(tableConfig));
-        tableMap.put("tableConfig", tableConfig);
-        tableMap.put("basepackage", tableConfig.getBasepackage());
-        tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
-        tableGenerator.generateByMap(tableMap, tableInput.getAbsolutePath());
-        
-        //1. 得到 operation 输入目录
-        //2. 得到 operation 输出目录
-        //3. 创建 sql for operation 并运行	    
-        GeneratorFacade operationGenerator = createGeneratorFacade(operationInput,operationOutput);
-        for(Sql sql : tableConfig.getSqls()) {
-            Map operationMap = new HashMap();
-            operationMap.putAll(BeanHelper.describe(sql));
-            operationMap.put("sql", sql);
-            operationMap.put("basepackage", tableConfig.getBasepackage());
-            operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
-            operationGenerator.generateByMap(operationMap, operationInput.getAbsolutePath());
+	    if(tableConfigInput != null) {
+            GeneratorFacade tableGenerator = createGeneratorFacade(tableConfigInput,tableConfigOutput);
+            Map tableMap = new HashMap();
+            tableMap.putAll(BeanHelper.describe(tableConfig));
+            tableMap.put("tableConfig", tableConfig);
+            tableMap.put("basepackage", tableConfig.getBasepackage());
+            tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
+            tableGenerator.generateByMap(tableMap, tableConfigInput.getAbsolutePath());
+	    }
+	    
+        if(operationInput != null) {
+            GeneratorFacade operationGenerator = createGeneratorFacade(operationInput,operationOutput);
+            for(Sql sql : tableConfig.getSqls()) {
+                Map operationMap = new HashMap();
+                operationMap.putAll(BeanHelper.describe(sql));
+                operationMap.put("sql", sql);
+                operationMap.put("basepackage", tableConfig.getBasepackage());
+                operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
+                operationGenerator.generateByMap(operationMap, operationInput.getAbsolutePath());
+            }
         }
         log("生成成功.table:"+tableSqlName,Project.MSG_INFO);
     }
 
     private void generateBySequence() throws Exception {
-        TableConfigSet tableConfigSet = parseForTableConfigSet();
-        GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
-        Map map = new HashMap();
-        map.putAll(BeanHelper.describe(tableConfigSet));
-        map.put("tableConfigSet", tableConfigSet);
-        generator.generateByMap(map, sequenceInput.getAbsolutePath());
-        log("根据sequence生成代码成功.",Project.MSG_INFO);
-    }
-
-    private void generateByAllTable() throws Exception {
-        TableConfigSet tableConfigSet = parseForTableConfigSet();
-        for(TableConfig t : tableConfigSet) {
-            generateByTable(tableConfigSet,t.getSqlname());
+        if(sequenceInput != null) {
+            TableConfigSet tableConfigSet = parseForTableConfigSet();
+            GeneratorFacade generator = createGeneratorFacade(sequenceInput,sequenceOutput);
+            Map map = new HashMap();
+            map.putAll(BeanHelper.describe(tableConfigSet));
+            map.put("tableConfigSet", tableConfigSet);
+            generator.generateByMap(map, sequenceInput.getAbsolutePath());
+            log("根据sequence生成代码成功.",Project.MSG_INFO);
         }
     }
 
+    private void generateByAllTableConfig() throws Exception {
+        TableConfigSet tableConfigSet = parseForTableConfigSet();
+        for(TableConfig t : tableConfigSet) {
+            generateByTableConfig(tableConfigSet,t.getSqlname());
+        }
+    }
+
+    GeneratorFacade createGeneratorFacade(File input,File output) {
+        if(input == null) throw new IllegalArgumentException("input must be not null");
+        if(output == null) throw new IllegalArgumentException("output must be not null");
+        
+        GeneratorFacade gf = new GeneratorFacade();
+        GeneratorProperties.setProperties(new Properties());
+        Properties properties = toProperties(getProject().getProperties());
+        properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
+        GeneratorProperties.setProperties(properties);
+        gf.g.addTemplateRootDir(input);
+        if(shareInput != null) {
+            gf.g.addTemplateRootDir(shareInput);
+        }
+        gf.g.setOutRootDir(output.getAbsolutePath());
+        return gf;
+    }
+    
     private String[] getTableConfigFilesArray() {
         return StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
     }
@@ -167,12 +181,12 @@ public class GeneratorTask extends Task {
         this.genInputCmd = genInputCmd;
     }
 
-	public void setTableInput(File tableInput) {
-		this.tableInput = tableInput;
+	public void setTableConfigInput(File tableInput) {
+		this.tableConfigInput = tableInput;
 	}
 
-	public void setTableOutput(File tableOutput) {
-		this.tableOutput = tableOutput;
+	public void setTableConfigOutput(File tableOutput) {
+		this.tableConfigOutput = tableOutput;
 	}
 
 	public void setOperationInput(File operationInput) {
@@ -195,12 +209,12 @@ public class GeneratorTask extends Task {
 		this.shareInput = shareInput;
 	}
 	
-	public void setTableSetInput(File tableSetInput) {
-        this.tableSetInput = tableSetInput;
+	public void setTableInput(File tableSetInput) {
+        this.tableInput = tableSetInput;
     }
 
-    public void setTableSetOutput(File tableSetOutput) {
-        this.tableSetOutput = tableSetOutput;
+    public void setTableOutput(File tableSetOutput) {
+        this.tableOutput = tableSetOutput;
     }
 
     private static Properties toProperties(Hashtable properties) {

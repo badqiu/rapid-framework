@@ -28,8 +28,8 @@ public class GeneratorTaskTest extends GeneratorTestCase {
         project.setProperty("appName", "projectName");
         task.setProject(project);
         
-        task.setTableInput(toInput("for_generate_by_sql_config"));
-        task.setTableOutput(toOutput("/temp/table"));
+        task.setTableConfigInput(toInput("for_generate_by_sql_config"));
+        task.setTableConfigOutput(toOutput("/temp/table"));
         
         task.setSequenceInput(toInput("for_generate_by_table_config_set"));
         task.setSequenceOutput(toOutput("/temp/sequence"));
