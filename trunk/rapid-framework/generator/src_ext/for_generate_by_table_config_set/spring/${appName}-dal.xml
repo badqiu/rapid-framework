@@ -10,7 +10,7 @@
     <!--  DAO configs: auto generate by dalgen                                    -->
     <!-- ======================================================================== -->
 
-<#list tableConfigs as tableConfig>
+<#list tableConfigSet.tableConfigs as tableConfig>
     <bean id="${tableConfig.tableClassName?uncap_first}DAO" class="${basepackage}.ibatis.Ibatis${tableConfig.tableClassName}DAO" parent="<#if (tableConfig.autoSwitchDataSrc)>autoSwitchDataSrcBaseSqlMapClientDAO<#else>${appName}SqlMapClientDAO</#if>"/>
 </#list>
 	
