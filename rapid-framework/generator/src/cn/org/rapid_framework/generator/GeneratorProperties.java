@@ -130,7 +130,7 @@ public class GeneratorProperties {
 //	    assertPropertyKey(key);
 		value = resolveProperty(value,getProperties());
 		key = resolveProperty(key,getProperties());
-	    GLogger.println("[setProperty()] "+key+"="+value);
+	    GLogger.debug("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
 		String dir_value = value.toString().replace('.', '/');
 		getHelper().getProperties().put(key+"_dir", dir_value);
@@ -163,7 +163,7 @@ public class GeneratorProperties {
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
 //            assertPropertyKey(entry.getKey().toString());
-            GLogger.println("[Property] "+entry.getKey()+"="+entry.getValue());
+            GLogger.debug("[Property] "+entry.getKey()+"="+entry.getValue());
         }
         GLogger.println("");
         
