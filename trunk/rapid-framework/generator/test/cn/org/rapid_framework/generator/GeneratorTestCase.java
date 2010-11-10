@@ -10,7 +10,6 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -43,12 +42,12 @@ public class GeneratorTestCase extends TestCase{
 	}
 
 	public static void runSqlScripts() throws SQLException, IOException {
-		GeneratorProperties.setProperty("jdbc.url", "jdbc:hsqldb:mem:generatorDB");
-		GeneratorProperties.setProperty("jdbc.driver", "org.hsqldb.jdbcDriver");
-		GeneratorProperties.setProperty("jdbc.username", "sa");
-		GeneratorProperties.setProperty("jdbc.password", "");
-		GeneratorProperties.setProperty("jdbc.schema", "");
-		GeneratorProperties.setProperty("jdbc.catalog", "");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_CATALOG, "");
 		
 		runSqlScripts("generator/test/generator_test_table.sql");
 		
