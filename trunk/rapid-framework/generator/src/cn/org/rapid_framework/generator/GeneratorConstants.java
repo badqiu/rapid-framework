@@ -24,4 +24,13 @@ public interface GeneratorConstants {
 	/** generate by sql中查询结果使用的后缀，默认值为: Result */
 	public String GENERATOR_SQL_RESULTCLASS_SUFFIX = "generator.sql.resultClass.suffix";
 	
+	/** jdbc相关keys */
+	public String JDBC_USERNAME = "jdbc_username";
+	public String JDBC_PASSWORD = "jdbc_password";
+	public String JDBC_DRIVER = "jdbc_driver";
+	public String JDBC_URL = "jdbc_url";
+	public String JDBC_SCHEMA = "jdbc_schema";
+	public String JDBC_CATALOG = "jdbc_catalog";
+	
+	public String DATABASE_TYPE = "databaseType";
 }
