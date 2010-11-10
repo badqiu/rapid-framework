@@ -12,4 +12,11 @@ public class IbatisSeqDAO extends SqlMapClientDaoSupport implements SeqDAO {
         return ((Number) getSqlMapClientTemplate().queryForObject("SEQ.${seq}", null)).longValue();
     }    
 </#list>
+
+<#list sequencesList?word_list as seq>
+    
+    public long getNext${StringHelper.tableNameToClassName(seq)}() throws DataAccessException {
+        return ((Number) getSqlMapClientTemplate().queryForObject("SEQ.${seq}", null)).longValue();
+    }    
+</#list>
 }
