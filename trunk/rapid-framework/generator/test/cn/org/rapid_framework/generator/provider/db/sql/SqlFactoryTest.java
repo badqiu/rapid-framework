@@ -92,7 +92,21 @@ public class SqlFactoryTest extends TestCase {
 		verifyParameters(sql,"userId","username","password","age","sex","havingUsername");
 		verifyColumns(sql,"sum_age");
 	}
-	
+
+    public void test_select_for_mybatis_foreach() throws SQLException, Exception {
+        Sql sql = parser.parseSql("select * from user_info where user_id = ? and username = #{usernamesByIndex[index]}");
+        verifyParameters(sql,"userId","usernamesByIndex");
+        
+        sql = parser.parseSql("select * from user_info where user_id = ? and username = #{usernamesByIndex[${index}]}");
+        verifyParameters(sql,"userId","usernamesByIndex");
+        
+    }
+
+   public void test_select_for_ibatis_foreach() throws SQLException, Exception {
+       Sql sql = parser.parseSql("select * from user_info where user_id = ? and username = #usernamesByIndex[]#");
+       verifyParameters(sql,"userId","usernamesByIndex");
+   }
+   
 	public void test_select_willcard() throws SQLException, Exception {
 		Sql sql = parser.parseSql("select * from user_info where user_id = ? and username = :username");
 		verifyParameters(sql,"userId","username");
@@ -149,7 +163,7 @@ public class SqlFactoryTest extends TestCase {
 	}
 	private void verifyParameters(Sql sql, String... expectedParameters) {
 		for(String param : expectedParameters) {
-			assertNotNull("not found param:"+param+" on sql:"+sql.getSourceSql(),sql.getParam(param));
+			assertNotNull("not found param:"+param+" on sql:"+sql.getSourceSql()+" actual params:"+sql.getParams(),sql.getParam(param));
 		}
 	}
 	private void verifyNoParameters(Sql sql, String... expectedParameters) {
