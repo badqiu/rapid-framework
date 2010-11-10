@@ -11,8 +11,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import cn.org.rapid_framework.generator.GeneratorProperties;
-
 public class PropertiesHelper {
 	boolean isSearchSystemProperty = false;
 	Properties p;
@@ -136,7 +134,7 @@ public class PropertiesHelper {
 	public static String[] loadAllPropertiesFromClassLoader(Properties properties,String... resourceNames) throws IOException {
 		List successLoadProperties = new ArrayList();
 		for(String resourceName : resourceNames) {
-			Enumeration urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
+			Enumeration urls = PropertiesHelper.class.getClassLoader().getResources(resourceName);
 			while (urls.hasMoreElements()) {
 				URL url = (URL) urls.nextElement();
 				successLoadProperties.add(url.getFile());
