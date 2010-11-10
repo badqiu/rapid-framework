@@ -23,19 +23,23 @@ public class GeneratorTaskTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
+        GeneratorProperties.setProperty("sequencesList","seq_user_id");
         project.setBaseDir(FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis"));
         putAllProperties(project,GeneratorProperties.getProperties());
         project.setProperty("appName", "projectName");
         task.setProject(project);
         
         task.setTableConfigInput(toInput("for_generate_by_sql_config"));
-        task.setTableConfigOutput(toOutput("/temp/table"));
+        task.setTableConfigOutput(toOutput("/temp/tableConfig"));
         
         task.setSequenceInput(toInput("for_generate_by_table_config_set"));
         task.setSequenceOutput(toOutput("/temp/sequence"));
         
         task.setOperationInput(toInput("for_generate_by_sql"));
         task.setOperationOutput(toOutput("/temp/operation"));
+        
+        task.setTableInput(toInput("for_generate_by_table"));
+        task.setTableOutput(toOutput("/temp/table"));
     }
 
     private void putAllProperties(Project project,Properties properties) {
@@ -66,8 +70,15 @@ public class GeneratorTaskTest extends GeneratorTestCase {
         task.execute();
     }
 
+    public void testGenByTable() throws IOException {
+        task.setGenInputCmd("table user_info");
+        task.execute();
+    }
+    
     public File toInput(String path) throws IOException {
-        return FileHelper.getFileByClassLoader(path);
+        File file =  FileHelper.getFileByClassLoader(path);
+        assertNotNull(file);
+        return file;
     }
     
     public File toOutput(String path) throws IOException {

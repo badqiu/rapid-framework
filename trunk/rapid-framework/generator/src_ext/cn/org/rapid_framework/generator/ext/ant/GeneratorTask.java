@@ -61,7 +61,7 @@ public class GeneratorTask extends Task {
 		    generateBySequence();
 		}else if("tableConfigSet".equals(genInputCmd)) {
 		    generateByTableConfigSet();
-        }else if("table".equals(genInputCmd)) {
+        }else if(genInputCmd.startsWith("table ")) {
             generateByTable(genInputCmd);		    
 		}else {
 		    generateByTableConfigs(parseForTableConfigSet(),genInputCmd);
@@ -209,14 +209,19 @@ public class GeneratorTask extends Task {
 		this.shareInput = shareInput;
 	}
 	
-	public void setTableInput(File tableSetInput) {
-        this.tableInput = tableSetInput;
+	public void setTableInput(File v) {
+	    assertNotNull(v);
+        this.tableInput = v;
     }
 
-    public void setTableOutput(File tableSetOutput) {
-        this.tableOutput = tableSetOutput;
+    public void setTableOutput(File v) {
+        this.tableOutput = v;
     }
 
+    private static void assertNotNull(File v) {
+        if(v == null) throw new IllegalArgumentException("dir must be not null");
+    }
+    
     private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
 		props.putAll(properties);
