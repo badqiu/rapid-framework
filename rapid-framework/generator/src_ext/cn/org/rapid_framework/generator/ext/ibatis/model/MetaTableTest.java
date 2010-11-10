@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
@@ -94,7 +95,7 @@ public class MetaTableTest extends GeneratorTestCase {
     }
     
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
+		GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
 		TableConfig sql = new TableConfig();
 		sql.setSqlname("t_user_info");
 		assertEquals("UserInfo",sql.getTableClassName());

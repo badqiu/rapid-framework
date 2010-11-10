@@ -72,7 +72,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     }
 
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
+		GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
 		TableConfig sql = new TableConfig();
 		sql.setSqlname("t_user_info");
 		assertEquals("UserInfo",sql.getTableClassName());
