@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
@@ -50,7 +51,7 @@ public class TableTest extends TestCase{
 	}
 	
 	public void test_remove_table_prefix() {
-		GeneratorProperties.setProperty("tableRemovePrefixes", "t_,v_");
+		GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
 		Table sql = new Table();
 		sql.setSqlName("t_user_info");
 		assertEquals("UserInfo",sql.getClassName());
