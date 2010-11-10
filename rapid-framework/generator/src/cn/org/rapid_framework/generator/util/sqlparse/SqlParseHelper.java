@@ -229,13 +229,14 @@ public class SqlParseHelper {
         	}
         	//FIXME: insert into user_info(user,pwd) values (length(?),?); 将没有办法解析,因为正则表达式由于length()函数匹配错误.
         	//需要处理 <selectKey>问题
-            Pattern p = Pattern.compile("\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*",Pattern.DOTALL|Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(sql);
-            if(m.find()) {
+        	String selectKeyPattern = "<selectKey.*";
+        	String insertPattern = "\\s*insert\\s+into.*\\((.*?)\\).*values.*?\\((.*)\\).*";
+        	Matcher m = matcher(sql,Pattern.DOTALL|Pattern.CASE_INSENSITIVE,insertPattern+selectKeyPattern,insertPattern);
+        	if(m != null) {
                 String[] columns = StringHelper.tokenizeToStringArray(m.group(1),", \t\n\r\f");
                 String[] values = StringHelper.tokenizeToStringArray(m.group(2),", \t\n\r\f");
                 if(columns.length != values.length) {
-                    throw new IllegalArgumentException("insert 语句的插入列与值列数目不相等,sql:"+sql+" columns:"+StringHelper.join(columns,",")+" values:"+StringHelper.join(values,","));
+                    throw new IllegalArgumentException("insert 语句的插入列与值列数目不相等,sql:"+sql+" \ncolumns:"+StringHelper.join(columns,",")+" \nvalues:"+StringHelper.join(values,","));
                 }
                 for(int i = 0; i < columns.length; i++) {
                     String column = columns[i];
@@ -243,8 +244,19 @@ public class SqlParseHelper {
                     values[i] = values[i].replace("?", prefix + paranName + suffix);;
                 }
                 return StringHelper.replace(m.start(2), m.end(2), sql, StringHelper.join(values,","));
+        	}
+            throw new IllegalArgumentException("无法解析的sql:"+sql+",不匹配正则表达式:"+insertPattern);
+        }
+
+        private static Matcher matcher(String input,int flags,String... regexArray) {
+            for(String regex : regexArray) {
+                Pattern p = Pattern.compile(regex,flags);
+                Matcher m = p.matcher(input);
+                if(m.find()) {
+                    return m;
+                }
             }
-            throw new IllegalArgumentException("无法解析的sql:"+sql+",不匹配正则表达式:"+p.pattern());
+            return null;
         }
 	    
         private String replace2NamedParametersByOperator(String sql,String operator) {
