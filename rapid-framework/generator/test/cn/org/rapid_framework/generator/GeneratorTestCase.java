@@ -20,7 +20,7 @@ public class GeneratorTestCase extends TestCase{
 	public void setUp()throws Exception {
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
-	    System.setProperty("gg.isOverride", "true");
+	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
 		
 	    if(notRunCreatedTabled) {
 	    	runSqlScripts();
