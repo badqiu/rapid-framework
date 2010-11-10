@@ -203,6 +203,7 @@ public class TableConfig {
     	return getPackage();
     }
     public String getBasepackage_dir() {
+        if(getBasepackage() == null) return null;
     	return getBasepackage().replace('.', '\\');
     }
     
