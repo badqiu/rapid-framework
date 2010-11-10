@@ -14,8 +14,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import cn.org.rapid_framework.generator.GeneratorProperties;
 /**
  * 
  * @author badqiu
@@ -123,7 +121,7 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName,boolean ignoreException) {
 	    try {
-	        InputStream input  = GeneratorProperties.class.getClassLoader().getResourceAsStream(resourceName);
+	        InputStream input  = FileHelper.class.getClassLoader().getResourceAsStream(resourceName);
 			binaryExtentionsList.addAll(IOHelper.readLines(new InputStreamReader(input)));
 			input.close();
 	    }catch(Exception e) {
