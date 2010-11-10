@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
@@ -22,12 +23,12 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     	GLogger.perf = true;
     	GLogger.logLevel = GLogger.DEBUG;
     	System.setProperty("gg.isOverride", "true");
-		GeneratorProperties.setProperty("jdbc.url", "jdbc:oracle:thin:@localhost:1521:xe");
-		GeneratorProperties.setProperty("jdbc.driver", "oracle.jdbc.driver.OracleDriver");
-		GeneratorProperties.setProperty("jdbc.username", "test");
-		GeneratorProperties.setProperty("jdbc.password", "123456");
-		GeneratorProperties.setProperty("jdbc.schema", "TEST");
-		GeneratorProperties.setProperty("jdbc.catalog", "");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:oracle:thin:@localhost:1521:xe");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "oracle.jdbc.driver.OracleDriver");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "test");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "123456");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "TEST");
+		GeneratorProperties.setProperty(GeneratorConstants.JDBC_CATALOG, "");
 		try {
 			runSqlScripts("generator/test/oracle_generator_test_table.sql");
 		}catch(Exception e) {
