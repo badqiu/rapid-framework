@@ -85,7 +85,7 @@ public class FileHelper {
 	}
 	
 	public static File getFileByClassLoader(String resourceName) throws IOException {
-		Enumeration<URL> urls = GeneratorProperties.class.getClassLoader().getResources(resourceName);
+		Enumeration<URL> urls = FileHelper.class.getClassLoader().getResources(resourceName);
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
