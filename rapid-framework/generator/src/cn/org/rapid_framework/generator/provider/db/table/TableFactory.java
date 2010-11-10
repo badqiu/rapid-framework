@@ -4,7 +4,6 @@ package cn.org.rapid_framework.generator.provider.db.table;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -17,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
@@ -52,11 +52,11 @@ public class TableFactory {
 	}
 	
 	public String getCatalog() {
-		return GeneratorProperties.getNullIfBlank("jdbc.catalog");
+		return GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_CATALOG);
 	}
 
 	public String getSchema() {
-		return GeneratorProperties.getNullIfBlank("jdbc.schema");
+		return GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_SCHEMA);
 	}
 
 	private Connection getConnection() {
