@@ -13,4 +13,9 @@ public interface SeqDAO {
     public long getNext${StringHelper.tableNameToClassName(seq)}() throws DataAccessException;
     
 </#list>
+
+<#list sequencesList?word_list as seq>
+    public long getNext${StringHelper.tableNameToClassName(seq)}() throws DataAccessException;
+    
+</#list>
 }

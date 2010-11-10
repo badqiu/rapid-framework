@@ -22,6 +22,16 @@
     <!-- mapped statements for SEQUENCE                -->
     <!-- ============================================= -->
 <#list tableConfigSet.sequences as seq>
+
+    <select id="SEQ.${seq}" resultClass="long">
+    <![CDATA[
+        select ${seq}.nextval from dual
+    ]]>
+    </select>
+</#list>
+
+<#list sequencesList?word_list as seq>
+
     <select id="SEQ.${seq}" resultClass="long">
     <![CDATA[
         select ${seq}.nextval from dual
