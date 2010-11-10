@@ -32,6 +32,8 @@ public class GeneratorTask extends Task {
 	private File operationOutput;
 	private File sequenceInput;
 	private File sequenceOutput;
+	private File tableSetInput;
+	private File tableSetOutput;
 	
 	private File shareInput;
 	
@@ -53,23 +55,38 @@ public class GeneratorTask extends Task {
     }
 
 	private void execute0() throws Exception {
-	    System.out.println(BeanHelper.describe(this));
 		if("*".equals(genInputCmd)) {
 		    generateByAllTable();
 		}else if("seq".equals(genInputCmd)) {
 		    generateBySequence();
+		}else if("tableSet".equals(genInputCmd)) {
+		    generateByTableSet();
 		}else {
-		    generateByTable(parseForTableConfigSet(),genInputCmd);
+		    generateByTables(parseForTableConfigSet(),genInputCmd);
 		}
 	}
 
-	private TableConfigSet parseForTableConfigSet() {
+	private void generateByTables(TableConfigSet tableConfigSet, String genInputCmd) throws Exception {
+	    for(String tableSqlName : genInputCmd.split(",")) {
+	        generateByTable(tableConfigSet,tableSqlName);
+	    }
+    }
+
+    private void generateByTableSet() throws Exception {
+        TableConfigSet tableConfigSet = parseForTableConfigSet();
+        GeneratorFacade generator = createGeneratorFacade(tableSetInput,tableSetOutput);
+        Map map = new HashMap();
+        map.putAll(BeanHelper.describe(tableConfigSet));
+        map.put("tableConfigSet", tableConfigSet);
+        generator.generateByMap(map, tableSetInput.getAbsolutePath());
+    }
+
+    private TableConfigSet parseForTableConfigSet() {
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
 		return tableConfigSet;
 	}
 
     GeneratorFacade createGeneratorFacade(File input,File output) {
-        System.out.println("createGeneratorFacade() input:"+input+" output:"+output);
         if(input == null) throw new IllegalArgumentException("input must be not null");
         if(output == null) throw new IllegalArgumentException("output must be not null");
         
@@ -177,8 +194,16 @@ public class GeneratorTask extends Task {
 	public void setShareInput(File shareInput) {
 		this.shareInput = shareInput;
 	}
+	
+	public void setTableSetInput(File tableSetInput) {
+        this.tableSetInput = tableSetInput;
+    }
 
-	private static Properties toProperties(Hashtable properties) {
+    public void setTableSetOutput(File tableSetOutput) {
+        this.tableSetOutput = tableSetOutput;
+    }
+
+    private static Properties toProperties(Hashtable properties) {
 		Properties props = new Properties();
 		props.putAll(properties);
 		return props;
