@@ -153,6 +153,10 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
             parser.parse("<include refid='placeholder'/>", hashMap));
 	}
     
+    public void testRemoveSelectKey() {
+    	String v = parser.parse("123<selectKey resultClass='java.lang.Long' type='post' keyProperty='user_id' >\nselect last_insert_id() from any\n</selectKey>");
+    	assertEquals("123",v);
+    }
 
 	
 }
