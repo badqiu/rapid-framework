@@ -4,13 +4,17 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.util.StringHelper;
+
 public class TableConfigSet implements Iterable<TableConfig>{
 	private Set<TableConfig> tableConfigs = new LinkedHashSet<TableConfig>();
 	
 	public Set<String> getSequences() {
 		Set<String> result = new LinkedHashSet<String>();
 		for(TableConfig c : tableConfigs) {
-			result.add(c.getSequence());
+		    if(StringHelper.isNotBlank(c.getSequence())) {
+		        result.add(c.getSequence());
+		    }
 		}
 		return result;
 	}
