@@ -23,6 +23,10 @@ public class TableConfigGenTask extends BaseGeneratorTask {
         if("*".equals(tableSqlName)) {
             return toMaps(tableConfigSet.getTableConfigs());
         }else {
+            if(tableConfigFiles.toLowerCase().indexOf(tableSqlName.toLowerCase()) < 0) {
+                log("根据表名"+tableSqlName+"没有找到配置文件");
+                return null;
+            }
             TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
             if(tableConfig == null) {
                 log("根据表名"+tableSqlName+"没有找到配置文件");
