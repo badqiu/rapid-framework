@@ -112,7 +112,7 @@
 	<#if !sql.insertSql>
 		<#return>
     </#if>
-    <#if (sql.hasSqlMap && sql.sqlmap?contains("selectKey")) || sql.ibatisSql?contains("</selectKey>")>
+    <#if (sql.hasSqlMap && sql.sqlmap?contains("</selectKey>")) || sql.ibatisSql?contains("</selectKey>")>
     	<#return>
     </#if>    
     <#if databaseType == 'oracle'>
