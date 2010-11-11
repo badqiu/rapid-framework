@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.ext.ant;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,11 +21,7 @@ public class TableConfigGenTask extends BaseGeneratorTask {
     protected List<Map> getGeneratorContexts() {
         TableConfigSet tableConfigSet = parseForTableConfigSet();
         if("*".equals(tableSqlName)) {
-            List<Map> result = new ArrayList();
-            for(TableConfig c : tableConfigSet.getTableConfigs()) {
-                result.add(toMap(c));
-            }
-            return result;
+            return toMaps(tableConfigSet.getTableConfigs());
         }else {
             TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
             Map map = toMap(tableConfig);
@@ -32,6 +29,14 @@ public class TableConfigGenTask extends BaseGeneratorTask {
         }
     }
 
+    private List<Map> toMaps(Collection<TableConfig> tableConfigs) {
+        List<Map> result = new ArrayList();
+        for(TableConfig c : tableConfigs) {
+            result.add(toMap(c));
+        }
+        return result;
+    }
+    
     private Map toMap(TableConfig tableConfig) {
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfig));
