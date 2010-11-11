@@ -21,8 +21,20 @@ public class OperationGenTask extends BaseGeneratorTask {
     @Override
     protected List<Map> getGeneratorContexts() throws SQLException, Exception {
         TableConfigSet tableConfigSet = parseForTableConfigSet();
-        TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
-        List result = new ArrayList();
+        if("*".equals(tableSqlName)) {
+            List<Map> result = new ArrayList();
+            for(TableConfig tableConfig : tableConfigSet.getTableConfigs()) {
+                result.addAll(toMaps(tableConfig));
+            }
+            return result;
+        }else {
+            List<Map> result = toMaps(tableConfigSet.getBySqlName(tableSqlName));
+            return result;
+        }
+    }
+
+    private List<Map> toMaps(TableConfig tableConfig) throws SQLException, Exception {
+        List<Map> result = new ArrayList();
         for(Sql sql : tableConfig.getSqls()) {
             Map operationMap = new HashMap();
             operationMap.putAll(BeanHelper.describe(sql));
