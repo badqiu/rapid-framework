@@ -19,13 +19,16 @@ public class BeanHelper {
 	/**
 	 * @see #org.apache.commons.beanutils.PropertyUtils.describe(obj)
 	 */ 
-	public static Map describe(Object obj) {
+	public static Map describe(Object obj,String... ignoreProperties) {
 		if (obj instanceof Map)
 			return (Map) obj;
 		Map map = new HashMap();
 		PropertyDescriptor[] descriptors = getPropertyDescriptors(obj.getClass());
 		for(int i = 0; i < descriptors.length; i++ ) {
 			String name = descriptors[i].getName();
+			if(contains(ignoreProperties,name)) {
+				continue;
+			}
             Method readMethod = descriptors[i].getReadMethod();
 			if (readMethod != null) {
 				try {
@@ -39,6 +42,21 @@ public class BeanHelper {
 		}
 		return map;
 	}
+
+   private static boolean contains(String[] ignoreProperties, String name) {
+	   if(ignoreProperties == null) {
+		   return false;
+	   }
+	   if(name == null) {
+		   return false;
+	   }
+	   for(String ignore : ignoreProperties) {
+		   if(name.equals(ignore)) {
+			   return true;
+		   }
+	   }
+	   return false;
+   }
 
    public static PropertyDescriptor getPropertyDescriptor(Class beanClass,String propertyName,boolean ignoreCase) {
         for(PropertyDescriptor pd : getPropertyDescriptors(beanClass)) {

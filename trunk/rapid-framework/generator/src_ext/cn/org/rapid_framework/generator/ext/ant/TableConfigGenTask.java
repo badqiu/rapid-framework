@@ -47,7 +47,7 @@ public class TableConfigGenTask extends BaseGeneratorTask {
     
     private Map toMap(TableConfig tableConfig) {
         Map map = new HashMap();
-        map.putAll(BeanHelper.describe(tableConfig));
+        map.putAll(BeanHelper.describe(tableConfig,"sqls"));
         map.put("tableConfig", tableConfig);
         return map;
     }
