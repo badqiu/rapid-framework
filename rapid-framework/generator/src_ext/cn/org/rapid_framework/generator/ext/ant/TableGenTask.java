@@ -26,7 +26,7 @@ public class TableGenTask extends BaseGeneratorTask {
         }else {
             Table table = TableFactory.getInstance().getTable(tableSqlName);
             if(table == null) {
-                log("没有找到该表"+tableSqlName);
+                log("没有找到该表:"+tableSqlName);
                 return null;
             }
             Map map = toMap(table);
