@@ -83,6 +83,8 @@ public abstract class BaseGeneratorTask extends Task{
     }
 
     protected void executeInternal() throws Exception {
+        freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
+        
         GeneratorFacade generator = createGeneratorFacade(input,output);
         List<Map> maps = getGeneratorContexts();
         if(maps == null) return;
