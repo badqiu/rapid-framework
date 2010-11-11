@@ -128,7 +128,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		}
 		
 		try {
-			Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username1 = :username and password = :password and age=:age and sex=:sex");
+			Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username1javaeye = :username and password = :password and age=:age and sex=:sex");
 			fail();
 		}catch(Exception e){
 			assertTrue(true);
@@ -157,6 +157,13 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
         assertFalse(sqlParametersParser.isMatchListParam("  (#{username}) ", "username"));
         assertFalse(sqlParametersParser.isMatchListParam("  ($username$) ", "username"));
         assertFalse(sqlParametersParser.isMatchListParam("  (${username}) ", "username"));
+        
+        assertTrue(sqlParametersParser.isMatchListParam("  ${username[index]} ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  #{username[index]} ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  #{username[a124]} ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  ${username[${index}]} ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  #{username[${index}]} ", "username"));
+        assertTrue(sqlParametersParser.isMatchListParam("  #{username[${a124}]} ", "username"));
         
         assertTrue(sqlParametersParser.isMatchListParam(" in \n (:username) ", "username"));
         assertTrue(sqlParametersParser.isMatchListParam(" not in (&username) ", "username"));
