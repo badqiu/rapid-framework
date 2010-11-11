@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.ext.ant;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +15,26 @@ public class TableGenTask extends BaseGeneratorTask {
 
     @Override
     protected List<Map> getGeneratorContexts() {
-        Table table = TableFactory.getInstance().getTable(tableSqlName);
+        if("*".equals(tableSqlName)) {
+            List result = new ArrayList();
+            List<Table> tables = TableFactory.getInstance().getAllTables();
+            for(Table t : tables) {
+                Map map = toMap(t);
+                result.add(map);
+            }
+            return result;
+        }else {
+            Table table = TableFactory.getInstance().getTable(tableSqlName);
+            Map map = toMap(table);
+            return Arrays.asList(map);           
+        }
+    }
+
+    private Map toMap(Table table) {
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(table));
         map.put("table", table);
-        
-        return Arrays.asList(map);
+        return map;
     }
 
     public String getTableSqlName() {
@@ -29,6 +44,5 @@ public class TableGenTask extends BaseGeneratorTask {
     public void setTableSqlName(String tableSqlName) {
         this.tableSqlName = tableSqlName;
     }
-
     
 }
