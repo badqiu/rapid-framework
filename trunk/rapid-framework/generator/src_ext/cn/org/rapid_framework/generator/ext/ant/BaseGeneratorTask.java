@@ -8,13 +8,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.SystemUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.util.SystemHelper;
 
 public abstract class BaseGeneratorTask extends Task{
     protected File shareInput;
@@ -88,7 +88,7 @@ public abstract class BaseGeneratorTask extends Task{
         for(Map map : maps) {
             generator.generateByMap(map, input.getAbsolutePath());
         }
-        if(openOutputDir && SystemUtils.IS_OS_WINDOWS) {
+        if(openOutputDir && SystemHelper.isWindowsOS) {
             Runtime.getRuntime().exec("cmd.exe /c start "+output.getAbsolutePath());
         }
     }
