@@ -85,9 +85,12 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 </mapper>
 
 <#macro genSelectKeyForInsertSql sql>
-	<#if sql.operation != 'insert'>
+	<#if !sql.insertSql>
 		<#return>
     </#if>
+    <#if (sql.hasSqlMap && sql.sqlmap?contains("selectKey")) || sql.ibatisSql?contains("</selectKey>")>
+    	<#return>
+    </#if>     
     <#if databaseType == 'oracle'>
         <#if tableConfig.sequence??>
 		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="${tableConfig.dummypk}" >
