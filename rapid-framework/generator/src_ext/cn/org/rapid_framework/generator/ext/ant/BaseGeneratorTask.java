@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.SystemUtils;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
@@ -19,6 +20,7 @@ public abstract class BaseGeneratorTask extends Task{
     protected File shareInput;
     protected File input;
     protected File output;
+    private boolean openOutputDir = false;
     
     public static Properties toProperties(Hashtable properties) {
         Properties props = new Properties();
@@ -65,6 +67,10 @@ public abstract class BaseGeneratorTask extends Task{
         this.output = output;
     }
     
+    public void setOpenOutputDir(boolean openOutputDir) {
+        this.openOutputDir = openOutputDir;
+    }
+
     @Override
     public void execute() throws BuildException {
         super.execute();
@@ -81,6 +87,9 @@ public abstract class BaseGeneratorTask extends Task{
         List<Map> maps = getGeneratorContexts();
         for(Map map : maps) {
             generator.generateByMap(map, input.getAbsolutePath());
+        }
+        if(openOutputDir && SystemUtils.IS_OS_WINDOWS) {
+            Runtime.getRuntime().exec("cmd.exe /c start "+output.getAbsolutePath());
         }
     }
 
