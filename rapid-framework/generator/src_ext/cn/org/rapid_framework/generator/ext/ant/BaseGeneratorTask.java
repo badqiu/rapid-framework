@@ -85,6 +85,7 @@ public abstract class BaseGeneratorTask extends Task{
     protected void executeInternal() throws Exception {
         GeneratorFacade generator = createGeneratorFacade(input,output);
         List<Map> maps = getGeneratorContexts();
+        if(maps == null) return;
         for(Map map : maps) {
             generator.generateByMap(map, input.getAbsolutePath());
         }

@@ -28,7 +28,12 @@ public class OperationGenTask extends BaseGeneratorTask {
             }
             return result;
         }else {
-            List<Map> result = toMaps(tableConfigSet.getBySqlName(tableSqlName));
+            TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
+            if(tableConfig == null) {
+                log("根据表名"+tableSqlName+"没有找到配置文件");
+                return null;
+            }
+            List<Map> result = toMaps(tableConfig);
             return result;
         }
     }

@@ -24,6 +24,10 @@ public class TableConfigGenTask extends BaseGeneratorTask {
             return toMaps(tableConfigSet.getTableConfigs());
         }else {
             TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
+            if(tableConfig == null) {
+                log("根据表名"+tableSqlName+"没有找到配置文件");
+                return null;
+            }
             Map map = toMap(tableConfig);
             return Arrays.asList(map);
         }
