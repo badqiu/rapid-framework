@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
+import cn.org.rapid_framework.generator.util.BeanHelper;
 
 public class TableGenTask extends BaseGeneratorTask {
     private String tableSqlName; 
@@ -15,6 +16,7 @@ public class TableGenTask extends BaseGeneratorTask {
     protected List<Map> getGeneratorContexts() {
         Table table = TableFactory.getInstance().getTable(tableSqlName);
         Map map = new HashMap();
+        map.putAll(BeanHelper.describe(table));
         map.put("table", table);
         
         return Arrays.asList(map);
