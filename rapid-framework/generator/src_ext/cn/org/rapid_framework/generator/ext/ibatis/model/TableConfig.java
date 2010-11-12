@@ -95,10 +95,10 @@ public class TableConfig {
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
                 }
             }
-            Column c = t.getColumnBySqlName(getDummypk());
-            if(c != null) {
-            	c.setPk(true);
-            }
+        }
+        Column c = t.getColumnBySqlName(getDummypk());
+        if(c != null) {
+            c.setPk(true);
         }
         t.setClassName(getTableClassName());
         if(StringHelper.isNotBlank(remarks)) {
