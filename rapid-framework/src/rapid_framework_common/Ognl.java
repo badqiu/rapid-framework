@@ -78,13 +78,7 @@ public class Ognl {
 			String str = (String)o;
 			if(str.length() == 0) return false;
 			if(str.trim().length() == 0) return false;
-			
-			try {
-				Double.parseDouble(str);
-				return true;
-			}catch(NumberFormatException e) {
-				return false;
-			}
+			return org.apache.commons.lang.StringUtils.isNumeric(str);
 		}
 		return false;
 	}
@@ -140,8 +134,8 @@ public class Ognl {
 		if(orderby.indexOf("'") >= 0 || orderby.indexOf("\\") >= 0) {
 			throw new IllegalArgumentException("orderBy:"+orderby+" has SQL Injection risk");
 		}
-		if(orderby != null && orderby.length() > 50) {
-			throw new IllegalArgumentException("orderby.length() <= 50 must be true");
+		if(orderby != null && orderby.length() > 100) {
+			throw new IllegalArgumentException("orderby.length() <= 100 must be true");
 		}
 		if(validSortColumns == null) return true;
 		List<SortInfo> infos = SortInfo.parseSortColumns(orderby);
