@@ -18,8 +18,7 @@ import org.springframework.util.StringUtils;
 public class Asserter {
 
 	/**
-	 * Assert a boolean expression, throwing <code>IllegalArgumentException</code>
-	 * if the test result is <code>false</code>.
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.isTrue(i &gt; 0, "The value must be greater than zero");</pre>
 	 * @param expression a boolean expression
 	 * @param throwIfAssertFail 
@@ -31,7 +30,7 @@ public class Asserter {
 	}
 
 	/**
-	 * Assert that an object is <code>null</code> .
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.isNull(value, "The value must be null");</pre>
 	 * @param object the object to check
 	 * @param throwIfAssertFail 
@@ -43,7 +42,7 @@ public class Asserter {
 	}
 
 	/**
-	 * Assert that an object is not <code>null</code> .
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.notNull(clazz, "The class must not be null");</pre>
 	 * @param object the object to check
 	 * @param throwIfAssertFail 
@@ -55,8 +54,7 @@ public class Asserter {
 	}
 
 	/**
-	 * Assert that the given String is not empty; that is,
-	 * it must not be <code>null</code> and not the empty String.
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.hasLength(name, "Name must not be empty");</pre>
 	 * @param text the String to check
 	 * @param throwIfAssertFail 
@@ -69,8 +67,7 @@ public class Asserter {
 	}
 
 	/**
-	 * Assert that the given String has valid text content; that is, it must not
-	 * be <code>null</code> and must contain at least one non-whitespace character.
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.hasText(name, "'name' must not be empty");</pre>
 	 * @param text the String to check
 	 * @param throwIfAssertFail 
@@ -83,7 +80,7 @@ public class Asserter {
 	}
 
 	/**
-	 * Assert that the given text does not contain the given substring.
+	 * 抛出指定的异常,如果assert fail.
 	 * <pre class="code">Asserter.doesNotContain(name, "rod", "Name must not contain 'rod'");</pre>
 	 * @param textToSearch the text to search
 	 * @param substring the substring to find within the text
@@ -98,6 +95,7 @@ public class Asserter {
 
 
 	/**
+	 * 抛出指定的异常,如果assert fail.
 	 * Assert that an array has elements; that is, it must not be
 	 * <code>null</code> and must have at least one element.
 	 * <pre class="code">Asserter.notEmpty(array, "The array must have elements");</pre>
@@ -111,6 +109,7 @@ public class Asserter {
 	}
 
 	/**
+	 * 抛出指定的异常,如果assert fail.
 	 * Assert that an array has no null elements.
 	 * Note: Does not complain if the array is empty!
 	 * <pre class="code">Asserter.noNullElements(array, new BlogException("The array must have non-null elements"));</pre>
@@ -128,6 +127,7 @@ public class Asserter {
 	}
 
 	/**
+	 * 抛出指定的异常,如果assert fail.
 	 * Assert that a collection has elements; that is, it must not be
 	 * <code>null</code> and must have at least one element.
 	 * <pre class="code">Asserter.notEmpty(collection, "Collection must have elements");</pre>
@@ -141,6 +141,7 @@ public class Asserter {
 	}
 
 	/**
+	 * 抛出指定的异常,如果assert fail.
 	 * Assert that a Map has entries; that is, it must not be <code>null</code>
 	 * and must have at least one entry.
 	 * <pre class="code">Asserter.notEmpty(map, "Map must have entries");</pre>
