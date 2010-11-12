@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>
+		代码生成器配置文件: 
+		1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+	</comment>
+	
+	<entry key="basepackage">com.company.project</entry>
+	<entry key="appName">project</entry>
+	<entry key="databaseType">mysql</entry>
+	
+	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
+	<entry key="tableRemovePrefixes"></entry>
+	
+	<!-- 数据库类型至java类型映射  -->
+	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
+	<entry key="java_typemapping.java.lang.Byte">int</entry>
+	<entry key="java_typemapping.java.lang.Short">int</entry>
+	<entry key="java_typemapping.java.math.BigDecimal">long</entry>
+	<entry key="java_typemapping.java.sql.Clob">String</entry>
+	
+	<!-- dalgen所有的配置文件列表  -->
+	<entry key="tableConfigFiles">
+    	tables/trade_base.xml
+    	tables/trade_fund_bill.xml
+    	tables/trade_refund.xml
+    	tables/beyond_trade_refund_freeze.xml
+    	tables/beyond_trade_rfd_unfreeze.xml
+	</entry>
+	
+	<!-- 用于存放sequence列表，生成SeqDAO使用,使用空格，换行符分隔，示例值: seq_user seq_blog -->
+	<entry key="sequencesList">
+		
+	</entry>
+
+</properties>
