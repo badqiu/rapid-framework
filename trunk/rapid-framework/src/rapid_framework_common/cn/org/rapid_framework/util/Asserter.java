@@ -9,7 +9,9 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 /**
- * 抛出指定的异常,如果assert fail.
+ * 与Spring Assert相同功能的类,
+ * 不同的是抛出指定的异常,如果assert fail.
+ * 
  * 如果不想抛出指定的异常,请使用spring提供的Assert
  * 
  * @see Assert
