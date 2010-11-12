@@ -19,6 +19,7 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.ColumnSet;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -243,7 +244,7 @@ public class TableConfig {
         
         private static Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
-            SqlFactory sqlFactory = new SqlFactory(getCustomSqlParameters(table));
+            SqlFactory sqlFactory = new SqlFactory();
             String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
             String unescapeSqlString = StringHelper.unescapeXml(sqlString);
             String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
@@ -272,33 +273,29 @@ public class TableConfig {
         }
 
 		private static LinkedHashSet<Column> processWithCustomColumns(List<Column> customColumns,LinkedHashSet<Column> columns) {
+		    ColumnSet columnSet = new ColumnSet(customColumns);
 			for(Column c : columns) {
-				Column custom = findByCustomColumnBySqlName(customColumns,c.getSqlName());
+                Column custom = columnSet.getBySqlName(c.getSqlName());
 				if(custom != null) {
 					c.setJavaType(custom.getJavaType());
 				}
 			}
 			return columns;
 		}
-		
-		private static Column findByCustomColumnBySqlName(List<Column> customColumns,String sqlName) {
-            for(Column custom : customColumns) {
-                if(custom.getSqlName().equalsIgnoreCase(sqlName)) {
-                    return custom;
-                }
-            }
-            return null;
-        }
 
 		private static LinkedHashSet<SqlParameter> addExtraParams2SqlParams(List<ParamConfig> extraParams, Sql sql) {
 			LinkedHashSet<SqlParameter> filterdExtraParameters = new LinkedHashSet<SqlParameter>();
-			for(ParamConfig mparam : extraParams) {
-			    if(sql.getParam(mparam.getName()) == null) {
+			for(ParamConfig extraParam : extraParams) {
+			    SqlParameter param = sql.getParam(extraParam.getName());
+                if(param == null) {
 			        SqlParameter extraparam = new SqlParameter();
-			        extraparam.setParameterClass(mparam.getJavatype());
-			        extraparam.setColumnAlias(mparam.getColumnAlias()); // FIXME extraparam alias 有可能为空
-			        extraparam.setParamName(mparam.getName());
+			        extraparam.setParameterClass(extraParam.getJavatype());
+			        extraparam.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 有可能为空
+			        extraparam.setParamName(extraParam.getName());
 			        filterdExtraParameters.add(extraparam);
+			    }else {
+			        param.setParameterClass(extraParam.getJavatype());
+			        param.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 有可能为空
 			    }
 			}
 			if(GeneratorProperties.getBoolean("generator.extraParams.append", true)) {
@@ -345,28 +342,6 @@ public class TableConfig {
             return result;
         }
     
-        private static List<SqlParameter> getCustomSqlParameters(TableConfig table) throws Exception {
-            List<SqlParameter> result = new ArrayList<SqlParameter>();
-            Table t = TableFactory.getInstance().getTable(table.getSqlname());
-            for(OperationConfig op : table.getOperations()) {
-                if(op.getExtraparams() != null) {
-                    for(ParamConfig param : op.getExtraparams()) {
-                        Column c = t.getColumnByName(param.getName());
-                        if(c == null) {
-                            c = new Column(null, JdbcType.UNDEFINED.TYPE_CODE, "UNDEFINED",
-                                param.getName(), -1, -1, false,false,false,false,
-                                "",param.getColumnAlias());
-                        }
-                        SqlParameter sqlParam = new SqlParameter(c);
-                        sqlParam.setJavaType(param.getJavatype());
-                        sqlParam.setParamName(param.getName());
-                        sqlParam.setColumnAlias(param.getColumnAlias()); //FIXME 有可能为空
-                        result.add(sqlParam);
-                    }
-                }
-            }
-            return result;
-        }
     }
     
     public static class SqlConfig {

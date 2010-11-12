@@ -5,11 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,15 +43,9 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
  */
 public class SqlFactory {
     
-    private List<SqlParameter> customParameters = new ArrayList<SqlParameter>();
-    
     public SqlFactory() {
     }
     
-	public SqlFactory(List<SqlParameter> customParameters) {
-        this.customParameters = customParameters;
-    }
-
     public Sql parseSql(String sourceSql) {
     	if(StringHelper.isBlank(sourceSql)) throw new IllegalArgumentException("sourceSql must be not empty");
     	String beforeProcessedSql = beforeParseSql(sourceSql);
@@ -238,11 +230,6 @@ public class SqlFactory {
 		}
 	
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
-		    for(SqlParameter customParam : customParameters) {
-		        if(customParam.getParamName().equals(paramName)) {
-		            return customParam;
-		        }
-		    }
 			Column column = sql.getColumnByName(paramName);
 			if(column == null) {
 				//FIXME 还未处理 t.username = :username的t前缀问题
