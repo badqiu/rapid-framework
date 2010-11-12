@@ -56,7 +56,7 @@ public class BlockDirectiveTest {
 		System.out.println(processor.processTemplate("super.flt",new HashMap()));
 		assertEquals("<html><head>base_head_content</head><body><super>base_body_content<super></body></html>",processTemplate("super.flt"));
 		assertEquals("<html><head><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersuper.flt"));
-		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersupersuper.flt"));
+		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper><supersupersuper_body></body></html>",processTemplate("supersupersuper.flt"));
 	}
 
 	@Test
