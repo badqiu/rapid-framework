@@ -39,7 +39,7 @@
 <#list tableConfig.sqls as sql>	
 <#if sql.selectSql>
 	<#if (sql.columnsCount > 1 && !sql.columnsInSameTable)>
-	<resultMap id="RM.${sql.resultClassName}" class="${basepackage}.query.${sql.resultClass}">
+	<resultMap id="RM.${sql.resultClassName}" class="${basepackage}.operation.${sql.resultClass}">
     	<#list sql.columns as column>
     	<#if column.javaType?ends_with('Money')>
 		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}" javaType="long" jdbcType="${column.jdbcSqlTypeName}" nullValue="0" />
@@ -109,26 +109,23 @@
 </sqlMap>
 
 <#macro genSelectKeyForInsertSql sql>
-	<#if !sql.insertSql>
+	<#if sql.operation != 'insert'>
 		<#return>
     </#if>
-    <#if (sql.hasSqlMap && sql.sqlmap?contains("</selectKey>")) || sql.ibatisSql?contains("</selectKey>")>
-    	<#return>
-    </#if>    
     <#if databaseType == 'oracle'>
         <#if tableConfig.sequence??>
-		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             SELECT ${tableConfig.sequence}.nextval FROM DUAL
         </selectKey>
         </#if>         
     </#if>
     <#if databaseType == 'mysql'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             select last_insert_id()
     	</selectKey>        
     </#if> 
     <#if databaseType == 'sqlserver'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             SELECT  @@identity  AS  ID
         </selectKey>        
     </#if>                     
