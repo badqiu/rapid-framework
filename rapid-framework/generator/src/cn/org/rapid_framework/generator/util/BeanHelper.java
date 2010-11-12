@@ -105,7 +105,7 @@ public class BeanHelper {
         for(String key : keys) {
         	PropertyDescriptor pd = getPropertyDescriptor(target.getClass(), key, ignoreCase);
         	if(pd == null) {
-        		throw new IllegalArgumentException("not found set"+key+"() on class:"+target.getClass());
+        		throw new IllegalArgumentException("not found property:'"+key+"' on class:"+target.getClass());
         	}
         	setProperty(target, pd, source.get(key));
         }
@@ -203,8 +203,17 @@ public class BeanHelper {
         }
     }
     
-    private static void setProperty(Object target, PropertyDescriptor targetPd, Object value)  {
-        Method writeMethod = targetPd.getWriteMethod();
+    private static void setProperty(Object target, PropertyDescriptor propertyDescriptor, Object value)  {
+    	if(propertyDescriptor == null) {
+        	throw new IllegalArgumentException("propertyDescriptor must be not null");
+        }
+    	if(target == null) {
+        	throw new IllegalArgumentException("target must be not null");
+        }
+        Method writeMethod = propertyDescriptor.getWriteMethod();
+        if(writeMethod == null) {
+        	throw new IllegalArgumentException("not found write method for property:"+propertyDescriptor.getName()+" on class:"+target.getClass());
+        }
         if (!Modifier.isPublic(writeMethod.getDeclaringClass()
             .getModifiers())) {
             writeMethod.setAccessible(true);
@@ -212,7 +221,7 @@ public class BeanHelper {
         try {
             writeMethod.invoke(target, new Object[] { convert(value,writeMethod.getParameterTypes()[0]) });
         }catch(Exception e) {
-            throw new RuntimeException("error set property:"+targetPd.getName()+" on class:"+target.getClass(),e);
+            throw new RuntimeException("error set property:"+propertyDescriptor.getName()+" on class:"+target.getClass(),e);
         }
     }
 
