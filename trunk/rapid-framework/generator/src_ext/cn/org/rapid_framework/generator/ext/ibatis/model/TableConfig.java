@@ -35,7 +35,7 @@ public class TableConfig {
     
     public String subpackage;
     public String _package;
-    public String autoswitchdatasrc;
+    public boolean autoSwitchDataSrc;
     public String doname;
     
     public List<ColumnConfig> columns = new ArrayList();
@@ -131,11 +131,6 @@ public class TableConfig {
 		this.columns = column;
 	}
 	
-	public boolean isAutoSwitchDataSrc() {
-		if(StringHelper.isBlank(autoswitchdatasrc)) return false;
-		return Boolean.parseBoolean(autoswitchdatasrc);
-	}
-	
 	public List<SqlConfig> getIncludeSqls() {
 		return includeSqls;
 	}
@@ -187,12 +182,12 @@ public class TableConfig {
         this.subpackage = subpackage;
     }
 
-    public String getAutoswitchdatasrc() {
-        return autoswitchdatasrc;
-    }
-
-    public void setAutoswitchdatasrc(String autoswitchdatasrc) {
-        this.autoswitchdatasrc = autoswitchdatasrc;
+	public boolean isAutoSwitchDataSrc() {
+		return autoSwitchDataSrc;
+	}
+	
+    public void setAutoSwitchDataSrc(boolean autoswitchdatasrc) {
+        this.autoSwitchDataSrc = autoswitchdatasrc;
     }
 
     public String getDoname() {

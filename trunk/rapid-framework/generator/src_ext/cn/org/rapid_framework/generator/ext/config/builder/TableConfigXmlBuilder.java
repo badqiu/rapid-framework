@@ -49,20 +49,20 @@ public class TableConfigXmlBuilder {
         TableConfig config = new TableConfig();
         
         // table
-        BeanHelper.copyProperties(config, nodeData.attributes);
+        BeanHelper.copyProperties(config, nodeData.attributes,true);
         
         for(NodeData child : nodeData.childs) {
             // table/operation
             if("operation".equals(child.nodeName)) {
                 OperationConfig target = new OperationConfig();
-                BeanHelper.copyProperties(target, child.attributes);
+                BeanHelper.copyProperties(target, child.attributes,true);
                 for(NodeData opChild : child.childs) {
                     // table/operation/extraparams
                     if("extraparams".equals(opChild.nodeName)) {
                         // table/operation/extraparams/param
                         for(NodeData paramNode : opChild.childs) {
                             ParamConfig mp = new ParamConfig();
-                            BeanHelper.copyProperties(mp, paramNode.attributes);
+                            BeanHelper.copyProperties(mp, paramNode.attributes,true);
                             target.extraparams.add(mp);
                         }
                     }else {
@@ -74,25 +74,25 @@ public class TableConfigXmlBuilder {
             // table/column
             if("column".equals(child.nodeName)) {
                 ColumnConfig target = new ColumnConfig();
-                BeanHelper.copyProperties(target, child.attributes);
+                BeanHelper.copyProperties(target, child.attributes,true);
                 config.columns.add(target);
             }
             // table/sql
             if("sql".equals(child.nodeName)) {
                 SqlConfig target = new SqlConfig();
-                BeanHelper.copyProperties(target, child.attributes);
+                BeanHelper.copyProperties(target, child.attributes,true);
                 target.setSql(child.innerXML);
                 config.includeSqls.add(target);
             }
             // table/resultmap
             if("resultmap".equals(child.nodeName)) {
                 ResultMapConfig target = new ResultMapConfig();
-                BeanHelper.copyProperties(target, child.attributes);
+                BeanHelper.copyProperties(target, child.attributes,true);
                 // table/resultmap/column
                 for(NodeData c : child.childs) {
                     if("column".equals(c.nodeName)) {
                         ColumnConfig column = new ColumnConfig();
-                        BeanHelper.copyProperties(column, c.attributes);
+                        BeanHelper.copyProperties(column, c.attributes,true);
                         target.getColumns().add(column);
                     }
                 }
