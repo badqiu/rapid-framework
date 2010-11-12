@@ -37,6 +37,8 @@ public class ColumnSet implements java.io.Serializable{
 	}
 	
 	public Column getBySqlName(String name) {
+	    if(name == null) return null;
+	    
 		for(Column c : columns) {
 			if(name.equalsIgnoreCase(c.getSqlName())) {
 				return c;
@@ -46,6 +48,8 @@ public class ColumnSet implements java.io.Serializable{
 	}
 	
 	public Column getByName(String name) {
+	    if(name == null) return null;
+	    
         Column c = getBySqlName(name);
         if(c == null) {
             c = getBySqlName(StringHelper.toUnderscoreName(name));
@@ -62,6 +66,8 @@ public class ColumnSet implements java.io.Serializable{
 	}
 	
     public Column getByColumnName(String name) {
+        if(name == null) return null;
+        
         for(Column c : columns) {
             if(name.equals(c.getColumnName())) {
                 return c;
