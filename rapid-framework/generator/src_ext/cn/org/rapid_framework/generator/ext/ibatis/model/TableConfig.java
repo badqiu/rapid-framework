@@ -336,7 +336,7 @@ public class TableConfig {
                         "",mc.getColumnAlias());
                 }
                 c.setJavaType(mc.getJavatype());
-                c.setColumnAlias(mc.getColumnAlias());
+                c.setColumnAlias(mc.getColumnAlias()); // FIXME ColumnConfig.getColumnAlias()有可能为空
                 result.add(c);
             }
             return result;
