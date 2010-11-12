@@ -96,9 +96,11 @@ public class TableConfig {
                 }
             }
         }
-        Column c = t.getColumnBySqlName(getDummypk());
-        if(c != null) {
-            c.setPk(true);
+        if(StringHelper.isNotBlank(getDummypk())) {
+            Column c = t.getColumnBySqlName(getDummypk());
+            if(c != null) {
+                c.setPk(true);
+            }
         }
         t.setClassName(getTableClassName());
         if(StringHelper.isNotBlank(remarks)) {
