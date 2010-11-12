@@ -26,12 +26,23 @@ public class BeanHelperTest extends TestCase {
     	
         HashMap source = new HashMap();
         source.put("kEY1", "ignore case value");
+        
+        try {
 		BeanHelper.copyProperties(target, source);
-		
-		assertEquals(target.key1,"1");
+		fail();
+        }catch(IllegalArgumentException e){
+        }
+        assertEquals(target.key1,"1");
 		
 		BeanHelper.copyProperties(target, source,true);
 		assertEquals(target.key1,"ignore case value");
+		
+		source.put("notFoundSeter", "not found set");
+		try {
+			BeanHelper.copyProperties(target, source,true);
+			fail();
+	    }catch(IllegalArgumentException e){
+	    }
     }
 
     public void testCopyProperties_ignoreCase_by_source_object() {

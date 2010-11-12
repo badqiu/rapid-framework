@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 public class BeanHelper {
@@ -43,15 +44,15 @@ public class BeanHelper {
 		return map;
 	}
 
-   private static boolean contains(String[] ignoreProperties, String name) {
-	   if(ignoreProperties == null) {
+   private static boolean contains(String[] array, String str) {
+	   if(array == null) {
 		   return false;
 	   }
-	   if(name == null) {
+	   if(str == null) {
 		   return false;
 	   }
-	   for(String ignore : ignoreProperties) {
-		   if(name.equals(ignore)) {
+	   for(String ignore : array) {
+		   if(str.equals(ignore)) {
 			   return true;
 		   }
 	   }
@@ -88,11 +89,26 @@ public class BeanHelper {
 	}
 	
     public static void copyProperties(Object target, Object source)  {
-        copyProperties(target,source,false,null);
+        copyProperties(target,source,false);
     }
 
     public static void copyProperties(Object target, Object source,boolean ignoreCase)  {
         copyProperties(target,source,ignoreCase,null);
+    }
+    
+    public static void copyProperties(Object target, Map source)  {
+        copyProperties(target,source,false);
+    }
+    
+    public static void copyProperties(Object target, Map source,boolean ignoreCase)  {
+        Set<String> keys = source.keySet();
+        for(String key : keys) {
+        	PropertyDescriptor pd = getPropertyDescriptor(target.getClass(), key, ignoreCase);
+        	if(pd == null) {
+        		throw new IllegalArgumentException("not found set"+key+"() on class:"+target.getClass());
+        	}
+        	setProperty(target, pd, source.get(key));
+        }
     }
     
     public static void copyProperties(Object target, Object source,boolean ignoreCase,String[] ignoreProperties)  {
