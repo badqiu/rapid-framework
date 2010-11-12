@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.table.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -15,7 +16,15 @@ public class ColumnSet implements java.io.Serializable{
 	
 	private LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 
-	public LinkedHashSet<Column> getColumns() {
+	public ColumnSet(){
+	}
+	
+	public ColumnSet(Collection<? extends Column> columns) {
+        super();
+        this.columns = new LinkedHashSet(columns);
+    }
+
+    public LinkedHashSet<Column> getColumns() {
 		return columns;
 	}
 
