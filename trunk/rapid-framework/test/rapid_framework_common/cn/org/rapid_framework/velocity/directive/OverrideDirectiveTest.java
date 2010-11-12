@@ -57,7 +57,7 @@ public class OverrideDirectiveTest {
 		
 		assertEquals("<html><head>base_head_content</head><body><super>base_body_content<super></body></html>",processTemplate("super.vm"));
 		assertEquals("<html><head><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersuper.vm"));
-		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper></body></html>",processTemplate("supersupersuper.vm"));
+		assertEquals("<html><head><supersuperhead/><supersupersuper><supersuperhead/></head><body><supersuper><super>base_body_content<super><supersuper><supersupersuper_body></body></html>",processTemplate("supersupersuper.vm"));
 		
 //		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("base-ext.vm"));
 
