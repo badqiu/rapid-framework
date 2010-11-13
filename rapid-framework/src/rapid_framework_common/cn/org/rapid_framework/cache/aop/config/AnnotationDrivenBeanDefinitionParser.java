@@ -77,7 +77,7 @@ class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 				RootBeanDefinition adviceDef = createAnnotationMethodCacheAdviceDefinition(element,eleSource,interceptorName);
 				parserContext.getRegistry().registerBeanDefinition(METHOD_CACHE_ADVICE_BEAN_NAME, adviceDef);
 				
-				//此处代码无用,只是注册了一个 tabName的CompositeComponentDefinition
+				//此处代码无用,只是注册了一个 tagName的CompositeComponentDefinition
 				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), eleSource);
 				compositeDef.addNestedComponent(new BeanComponentDefinition(adviceDef, METHOD_CACHE_ADVICE_BEAN_NAME));
 				compositeDef.addNestedComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
