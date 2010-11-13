@@ -47,8 +47,8 @@ class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 	/**
 	 * The bean name of the internally managed transaction advisor (mode="proxy").
 	 */
-//	public static final String METHOD_CACHE_INTECEPTOR_BEAN_NAME =
-//			"cn.org.rapid_framework.cache.aop.config.internalMethodCacheInteceptor";
+	public static final String METHOD_CACHE_ADVICE_BEAN_NAME =
+			"cn.org.rapid_framework.cache.aop.config.internalMethodCacheAdvice";
 
 	/**
 	 * Parses the '<code>&lt;method-cache:annotation-driven/&gt;</code>' tag. Will
@@ -60,22 +60,6 @@ class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 		return null;
 	}
 	
-//	@Override
-//	protected void doParse(Element element, BeanDefinitionBuilder builder) {
-//		AopAutoProxyConfigurer.configureAutoProxyCreator(element, parserContext);
-//		return;
-//	}
-	
-//	@Override
-//	protected Class getBeanClass(Element element) {
-//		return AnnotationMethodCacheInterceptor.class;
-//	}
-
-	private static void registerMethodCache(Element element, BeanDefinition def) {
-		def.getPropertyValues().add("methodCacheBeanName",
-				MethodCacheNamespaceHandler.getMethodCacheName(element));
-	}
-
 	/**
 	 * Inner class to just introduce an AOP framework dependency when actually in proxy mode.
 	 */
@@ -84,29 +68,20 @@ class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 		public static void configureAutoProxyCreator(Element element, ParserContext parserContext) {
 			AopNamespaceUtils.registerAutoProxyCreatorIfNecessary(parserContext, element);
 
-//			if (!parserContext.getRegistry().containsBeanDefinition(METHOD_CACHE_INTECEPTOR_BEAN_NAME)) {
+			if (!parserContext.getRegistry().containsBeanDefinition(METHOD_CACHE_ADVICE_BEAN_NAME)) {
 				Object eleSource = parserContext.extractSource(element);
 
 				// Create the AnnotationMethodCacheInterceptor definition.
 				RootBeanDefinition interceptorDef = createAnnotationMethodCacheInterceptorDefinition(element, eleSource);
 				String interceptorName = parserContext.getReaderContext().registerWithGeneratedName(interceptorDef);
-
-//				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), eleSource);
-//				compositeDef.addNestedComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
-//				parserContext.registerComponent(compositeDef);
 				
+				// Create the AnnotationMethodCacheAdvice definition.
 				RootBeanDefinition adviceDef = createAnnotationMethodCacheAdviceDefinition(element,eleSource,interceptorName);
-				String adviceName = parserContext.getReaderContext().registerWithGeneratedName(adviceDef);
+				
 				parserContext.registerComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
-				parserContext.registerComponent(new BeanComponentDefinition(adviceDef, adviceName));
+				parserContext.registerComponent(new BeanComponentDefinition(adviceDef, METHOD_CACHE_ADVICE_BEAN_NAME));
 				
-				
-//			}
-				
-//				BeanDefinition beanDef =
-//					parserContext.getRegistry().getBeanDefinition(AopConfigUtils.AUTO_PROXY_CREATOR_BEAN_NAME);
-//				beanDef.getPropertyValues().add("interceptorNames", interceptorName);
-//				AopNamespaceUtils.registerAutoProxyCreatorIfNecessary(parserContext,interceptorName);
+			}
 		}
 
 		private static RootBeanDefinition createAnnotationMethodCacheInterceptorDefinition(
