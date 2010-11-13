@@ -52,7 +52,7 @@ public @interface MethodCache {
      * 示例:
      * 有一个 UserManager.queryBy(String username,String password);
      * 1. String.format()格式: @MethodCache(cacheKey="UserManager.queryBy(%s,%s)")
-     * 2. {args}特殊格式: @MethodCache(cacheKey="UserManager.queryBy({args})")
+     * 2. {args}特殊格式: @MethodCache(cacheKey="UserManager.queryBy({args})") {args}代表所有的参数值
      * </pre>
      **/
     String cacheKey() default "";
