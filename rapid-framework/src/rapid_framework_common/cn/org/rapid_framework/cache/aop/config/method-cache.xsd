@@ -7,6 +7,9 @@
 		targetNamespace="http://rapid-framework.googlecode.com/svn/trunk/schema/method-cache"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"/>
+	<xsd:import namespace="http://www.springframework.org/schema/tool" schemaLocation="http://www.springframework.org/schema/tool/spring-tool-2.5.xsd"/>
 	<xsd:annotation>
 		<xsd:documentation><![CDATA[
 	Defines the elements used in the Rapid Framework's declarative
@@ -28,7 +31,7 @@
 			</xsd:annotation>
 			<xsd:attribute name="method-cache" type="xsd:string" default="methodCache">
 				<xsd:annotation>
-					<xsd:documentation source="java:org.springframework.transaction.PlatformTransactionManager"><![CDATA[
+					<xsd:documentation source="cn.org.rapid_framework.cache.Cache"><![CDATA[
 	The bean name of the Cache that is to be used
 	to drive caches.
 	

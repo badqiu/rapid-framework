@@ -21,6 +21,11 @@ public class AnnotationMethodCacheAdvice implements org.springframework.aop.Poin
 	public Advice getAdvice() {
 		return annotationMethodCacheInterceptor;
 	}
+	
+	public void setAnnotationMethodCacheInterceptor(
+			AnnotationMethodCacheInterceptor annotationMethodCacheInterceptor) {
+		this.annotationMethodCacheInterceptor = annotationMethodCacheInterceptor;
+	}
 
 	public boolean isPerInstance() {
 		return true;

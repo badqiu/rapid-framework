@@ -19,6 +19,7 @@ package cn.org.rapid_framework.cache.aop.config;
 import org.springframework.aop.config.AopNamespaceUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
+import org.springframework.beans.factory.parsing.CompositeComponentDefinition;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -44,9 +45,6 @@ import cn.org.rapid_framework.cache.aop.interceptor.AnnotationMethodCacheInterce
  */
 class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 
-	/**
-	 * The bean name of the internally managed transaction advisor (mode="proxy").
-	 */
 	public static final String METHOD_CACHE_ADVICE_BEAN_NAME =
 			"cn.org.rapid_framework.cache.aop.config.internalMethodCacheAdvice";
 
@@ -77,9 +75,13 @@ class AnnotationDrivenBeanDefinitionParser  implements BeanDefinitionParser {
 				
 				// Create the AnnotationMethodCacheAdvice definition.
 				RootBeanDefinition adviceDef = createAnnotationMethodCacheAdviceDefinition(element,eleSource,interceptorName);
+				parserContext.getRegistry().registerBeanDefinition(METHOD_CACHE_ADVICE_BEAN_NAME, adviceDef);
 				
-				parserContext.registerComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
-				parserContext.registerComponent(new BeanComponentDefinition(adviceDef, METHOD_CACHE_ADVICE_BEAN_NAME));
+				//此处代码无用,只是注册了一个 tabName的CompositeComponentDefinition
+				CompositeComponentDefinition compositeDef = new CompositeComponentDefinition(element.getTagName(), eleSource);
+				compositeDef.addNestedComponent(new BeanComponentDefinition(adviceDef, METHOD_CACHE_ADVICE_BEAN_NAME));
+				compositeDef.addNestedComponent(new BeanComponentDefinition(interceptorDef, interceptorName));
+				parserContext.registerComponent(compositeDef);
 				
 			}
 		}
