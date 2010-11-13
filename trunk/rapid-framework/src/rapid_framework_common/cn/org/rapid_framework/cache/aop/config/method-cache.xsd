@@ -7,44 +7,38 @@
 		targetNamespace="http://rapid-framework.googlecode.com/svn/trunk/schema/method-cache"
 		elementFormDefault="qualified"
 		attributeFormDefault="unqualified">
-
-
-	<xsd:annotation>
+	<xsd:annotation>
 		<xsd:documentation><![CDATA[
-	Defines the elements used in the Spring Framework's declarative
-	transaction management infrastructure.
+	Defines the elements used in the Rapid Framework's declarative
+	cache management infrastructure.
 		]]></xsd:documentation>
 	</xsd:annotation>
-
 
 	<xsd:element name="annotation-driven">
 		<xsd:complexType>
 			<xsd:annotation>
 				<xsd:documentation source="java:org.springframework.transaction.annotation.AnnotationTransactionAttributeSource"><![CDATA[
-	Indicates that transaction configuration is defined by Java 5
+	Indicates that cache configuration is defined by @MethodCache
 	annotations on bean classes, and that proxies are automatically
 	to be created for the relevant annotated beans.
 
-	The default annotations supported are Spring's @Transactional
-	and EJB3's @TransactionAttribute (if available).
+	The default annotations supported are rapid @MethodCache
 
-	Transaction semantics such as propagation settings, the isolation level,
-	the rollback rules, etc are all defined in the annotation metadata.
 				]]></xsd:documentation>
 			</xsd:annotation>
 			<xsd:attribute name="method-cache" type="xsd:string" default="methodCache">
 				<xsd:annotation>
 					<xsd:documentation source="java:org.springframework.transaction.PlatformTransactionManager"><![CDATA[
-	The bean name of the PlatformTransactionManager that is to be used
-	to drive transactions.
+	The bean name of the Cache that is to be used
+	to drive caches.
 	
 	This attribute is not required, and only needs to be specified
-	explicitly if the bean name of the desired PlatformTransactionManager
-	is not 'transactionManager'.
+	explicitly if the bean name of the desired Cache
+	is not 'methodCache'.
 					]]></xsd:documentation>
 					<xsd:appinfo>
 						<tool:annotation kind="ref">
-							<tool:expected-type type="org.springframework.transaction.PlatformTransactionManager"/>
+							<tool:expected-type type="cn.org.rapid_framework.cache.Cache"/>
 						</tool:annotation>
 					</xsd:appinfo>
 				</xsd:annotation>
