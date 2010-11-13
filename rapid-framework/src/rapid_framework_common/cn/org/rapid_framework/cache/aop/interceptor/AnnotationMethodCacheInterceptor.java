@@ -13,7 +13,12 @@ import org.springframework.util.Assert;
 import cn.org.rapid_framework.cache.Cache;
 import cn.org.rapid_framework.cache.aop.annotation.MethodCache;
 
-
+/**
+ * 方法缓存的拦截器,拦截有MethodCache标注的方法,并缓存结果.
+ * 
+ * @author badqiu
+ *
+ */
 public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanFactoryAware,InitializingBean {  
   
     private Cache methodCache;  
