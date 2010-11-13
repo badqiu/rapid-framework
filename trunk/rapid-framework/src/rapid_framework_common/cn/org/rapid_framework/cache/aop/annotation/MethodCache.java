@@ -10,7 +10,9 @@ import java.util.concurrent.TimeUnit;
  * 用于方法缓存的标注.
  * 
  * 要使用本标注,需要通过在spring中开启配置.
- * 
+ * <p>
+ * &lt;method-cache:annotation-driven method-cache="methodCache" />	
+ * </p>
  * 
  * <pre>
  * 示例使用:
