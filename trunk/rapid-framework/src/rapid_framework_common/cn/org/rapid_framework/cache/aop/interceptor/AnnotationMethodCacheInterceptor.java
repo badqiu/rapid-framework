@@ -64,7 +64,10 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
 	}  
   
     protected String getCacheKeyWithArguments(String cacheKey, Object[] args) {
-    	String result = StringUtils.replace(cacheKey, "{args}", ""+StringUtils.join(args,','));
+    	String result = cacheKey;
+    	if(cacheKey.indexOf("{args}") >= 0) {
+    		result = StringUtils.replace(result, "{args}", ""+StringUtils.join(args,','));
+    	}
     	return String.format(result, args);
 	}
     
