@@ -115,7 +115,6 @@ public class GeneratorTask extends Task {
             tableMap.putAll(BeanHelper.describe(tableConfig));
             tableMap.put("tableConfig", tableConfig);
             tableMap.put("basepackage", tableConfig.getBasepackage());
-            tableMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
             tableGenerator.generateByMap(tableMap, tableConfigInput.getAbsolutePath());
 	    }
 	    
@@ -126,7 +125,6 @@ public class GeneratorTask extends Task {
                 operationMap.putAll(BeanHelper.describe(sql));
                 operationMap.put("sql", sql);
                 operationMap.put("basepackage", tableConfig.getBasepackage());
-                operationMap.put("basepackage_dir", tableConfig.getBasepackage_dir());
                 operationGenerator.generateByMap(operationMap, operationInput.getAbsolutePath());
             }
         }
