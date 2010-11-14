@@ -4,7 +4,7 @@
  */
 package ${basepackage}.biz.service.impl;
 
-import ${basepackage}.biz.service.${tableConfig.tableClassName}Service;
+import ${basepackage}.biz.service.${tableConfig.className}Service;
 import org.springframework.dao.DataAccessException;
 import ${basepackage}.query.*;
 
@@ -19,22 +19,22 @@ import com.iwallet.biz.common.util.money.Money;
 /**
  *
  */
-public class ${tableConfig.tableClassName}ServiceImpl implements  ${tableConfig.tableClassName}Service{
-	private ${tableConfig.tableClassName}DAO ${tableConfig.tableClassName?uncap_first}DAO;
+public class ${tableConfig.className}ServiceImpl implements  ${tableConfig.className}Service{
+	private ${tableConfig.className}DAO ${tableConfig.className?uncap_first}DAO;
 	
-	public void set${tableConfig.tableClassName}DAO(${tableConfig.tableClassName}DAO dao) {
-		this.${tableConfig.tableClassName?uncap_first}DAO = dao;
+	public void set${tableConfig.className}DAO(${tableConfig.className}DAO dao) {
+		this.${tableConfig.className?uncap_first}DAO = dao;
 	}
 	
 <#list tableConfig.sqls as sql>
 
 	<#if isUseParamObject(sql) >
 	public <@generateResultClassName sql/> ${sql.operation}(${sql.parameterClassName} param) throws DataAccessException{
-		return ${tableConfig.tableClassName?uncap_first}DAO.${sql.operation}(param);
+		return ${tableConfig.className?uncap_first}DAO.${sql.operation}(param);
 	}
 	<#else>
 	public <@generateResultClassName sql/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) throws DataAccessException {
-		return ${tableConfig.tableClassName?uncap_first}DAO.${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>);
+		return ${tableConfig.className?uncap_first}DAO.${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>);
 	}
 	</#if>
 </#list>

@@ -2,13 +2,13 @@
 <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
     "http://ibatis.apache.org/dtd/sql-map-2.dtd">
     
-<#macro namespace>${tableConfig.tableClassName}.</#macro>
+<#macro namespace>${tableConfig.className}.</#macro>
 
 <sqlMap>
 
 	<#-- add jdbcType for resultMap -->
     <#list tableConfig.resultMaps as resultMap>
-    <resultMap id="${resultMap.name}" class="${basepackage}.dataobject.${tableConfig.tableClassName}">
+    <resultMap id="${resultMap.name}" class="${basepackage}.dataobject.${tableConfig.className}">
     <#list resultMap.columns as column>
     	<#if column.javatype?ends_with('Money')>
 		<result property="${column.name}.cent" column="${column.name}" javaType="long" nullValue="0" />
@@ -19,7 +19,7 @@
     </resultMap>
 	</#list>
     
-    <resultMap id="RM.${tableConfig.tableClassName}" class="${basepackage}.dataobject.${tableConfig.tableClassName}">
+    <resultMap id="RM.${tableConfig.className}" class="${basepackage}.dataobject.${tableConfig.className}">
         <#list tableConfig.table.columns as column>
     	<#if column.javaType?ends_with('Money')>
 		<result property="${column.columnNameFirstLower}.cent" column="${column.sqlName}" javaType="long" jdbcType="${column.jdbcSqlTypeName}" nullValue="0" />

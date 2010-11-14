@@ -16,14 +16,14 @@ import org.springframework.dao.DataAccessException;
 
 import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
-import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
-import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
+import ${basepackage}.dataobject.${tableConfig.className}DO;
+import ${basepackage}.daointerface.${tableConfig.className}DAO;
 
 /**
- * ${tableConfig.tableClassName}DAO
+ * ${tableConfig.className}DAO
  * database table: ${tableConfig.table.sqlName}
  */
-public class Mybatis${tableConfig.tableClassName}DAO extends BaseIbatis3Dao implements ${tableConfig.tableClassName}DAO {
+public class Mybatis${tableConfig.className}DAO extends BaseIbatis3Dao implements ${tableConfig.className}DAO {
 
 <#list tableConfig.sqls as sql>
 
@@ -51,7 +51,7 @@ public class Mybatis${tableConfig.tableClassName}DAO extends BaseIbatis3Dao impl
 }
 
 <#macro generateOperationMethodBody sql>
-	<#local ibatisNamespace = tableConfig.tableClassName+".">
+	<#local ibatisNamespace = tableConfig.className+".">
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>

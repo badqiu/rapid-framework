@@ -3,9 +3,9 @@
 PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
     
-<#macro namespace>${tableConfig.tableClassName}.</#macro>
+<#macro namespace>${tableConfig.className}.</#macro>
 
-<mapper namespace="${tableConfig.tableClassName}">
+<mapper namespace="${tableConfig.className}">
 
 <#list tableConfig.includeSqls as item>
 	<sql id="${item.id}">

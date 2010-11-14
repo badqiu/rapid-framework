@@ -18,7 +18,7 @@ import com.iwallet.biz.common.util.money.Money;
  * 
  *
  */
-public interface ${tableConfig.tableClassName}DAO {
+public interface ${tableConfig.className}DAO {
 
 <#list tableConfig.sqls as sql>
 

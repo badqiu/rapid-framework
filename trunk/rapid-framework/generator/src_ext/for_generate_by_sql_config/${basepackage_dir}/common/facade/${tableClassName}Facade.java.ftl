@@ -18,7 +18,7 @@ import com.iwallet.biz.common.util.money.Money;
  * 
  *
  */
-public interface ${tableConfig.tableClassName}Facade {
+public interface ${tableConfig.className}Facade {
 
 <#list tableConfig.sqls as sql>
 	/**

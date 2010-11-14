@@ -42,7 +42,7 @@ public class TableConfigSet implements Iterable<TableConfig>{
 	
 	public TableConfig getByClassName(String name) {
 		for(TableConfig c : tableConfigs) {
-			if(name.equals(c.getTableClassName())) {
+			if(name.equals(c.getClassName())) {
 				return c;
 			}
 		}

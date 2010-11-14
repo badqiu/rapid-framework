@@ -17,14 +17,14 @@ import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
-import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
-import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
+import ${basepackage}.dataobject.${tableConfig.className}DO;
+import ${basepackage}.daointerface.${tableConfig.className}DAO;
 
 /**
- * ${tableConfig.tableClassName}DAO
+ * ${tableConfig.className}DAO
  * database table: ${tableConfig.table.sqlName}
  */
-public class ${tableConfig.tableClassName}DAO {
+public class ${tableConfig.className}DAO {
 
 <#list tableConfig.sqls as sql>
 	private String ${sql.operation}Sql;
@@ -59,7 +59,7 @@ public class ${tableConfig.tableClassName}DAO {
 }
 
 <#macro generateOperationMethodBody sql>
-	<#local ibatisNamespace = tableConfig.tableClassName+".">
+	<#local ibatisNamespace = tableConfig.className+".">
 	<#if sql.params?size == 0>
 		<#local paramName = 'null'>
 	<#elseif sql.params?size == 1>
