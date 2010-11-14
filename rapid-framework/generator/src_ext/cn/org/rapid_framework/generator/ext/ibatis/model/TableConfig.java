@@ -58,7 +58,7 @@ public class TableConfig {
         this.resultMaps = resultMaps;
     }
 
-    public String getTableClassName() {
+    public String getClassName() {
         if(StringHelper.isNotBlank(doname)) return doname;
         if(StringHelper.isBlank(sqlname)) return null;
         String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
@@ -103,7 +103,7 @@ public class TableConfig {
                 c.setPk(true);
             }
         }
-        t.setClassName(getTableClassName());
+        t.setClassName(getClassName());
         if(StringHelper.isNotBlank(remarks)) {
             t.setTableAlias(remarks);
         }

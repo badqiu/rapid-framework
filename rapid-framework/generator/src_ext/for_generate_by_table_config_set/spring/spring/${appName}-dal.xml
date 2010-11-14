@@ -11,7 +11,7 @@
     <!-- ======================================================================== -->
 
 <#list tableConfigSet.tableConfigs as tableConfig>
-    <bean id="${tableConfig.tableClassName?uncap_first}DAO" class="${basepackage}.ibatis.Ibatis${tableConfig.tableClassName}DAO" parent="<#if (tableConfig.autoSwitchDataSrc)>autoSwitchDataSrcBaseSqlMapClientDAO<#else>${appName}SqlMapClientDAO</#if>"/>
+    <bean id="${tableConfig.className?uncap_first}DAO" class="${basepackage}.ibatis.Ibatis${tableConfig.className}DAO" parent="<#if (tableConfig.autoSwitchDataSrc)>autoSwitchDataSrcBaseSqlMapClientDAO<#else>${appName}SqlMapClientDAO</#if>"/>
 </#list>
 	
 </beans>

@@ -12,6 +12,6 @@
  
 	<sqlMap resource="sqlmap/${appName}/common-sqlmap-mapping.xml" />
 <#list tableConfigSet.tableConfigs as tableConfig>	
-	<sqlMap resource="sqlmap/${appName}/${tableConfig.tableClassName}-sqlmap-mapping.xml" />
+	<sqlMap resource="sqlmap/${appName}/${tableConfig.className}-sqlmap-mapping.xml" />
 </#list>
 </sqlMapConfig>

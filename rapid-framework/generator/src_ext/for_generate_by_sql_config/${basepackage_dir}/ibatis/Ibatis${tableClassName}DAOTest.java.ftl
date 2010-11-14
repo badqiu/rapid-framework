@@ -16,8 +16,8 @@ import org.springframework.dao.DataAccessException;
 
 import com.iwallet.biz.common.util.PageList;
 import com.iwallet.biz.common.util.money.Money;
-import ${basepackage}.dataobject.${tableConfig.tableClassName}DO;
-import ${basepackage}.daointerface.${tableConfig.tableClassName}DAO;
+import ${basepackage}.dataobject.${tableConfig.className}DO;
+import ${basepackage}.daointerface.${tableConfig.className}DAO;
 
 import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  *
  */
-public class Ibatis${tableConfig.tableClassName}DAOTest extends BaseDaoTestCase {
+public class Ibatis${tableConfig.className}DAOTest extends BaseDaoTestCase {
 	@XAutoWire(XAutoWire.BY_NAME)
-	protected Ibatis${tableConfig.tableClassName}DAO ${tableConfig.tableClassName}DAO;
+	protected Ibatis${tableConfig.className}DAO ${tableConfig.className}DAO;
 
     public void setUp() throws Exception {
         super.setUp();
