@@ -242,8 +242,17 @@ public class GeneratorFacade implements GeneratorConstants {
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 		
-		public static void setShareVars(Map templateModel) {
-			templateModel.putAll(getShareVars());
+		public static void setShareVars(Map map) {
+			map.putAll(getShareVars());
+			Set<Object> keys = map.keySet();
+			for(Object key : keys) {
+				Object value = map.get(key);
+				if(key instanceof String && value instanceof String) {
+					String dirKey = key+"_dir";
+					String dirValue = value.toString().replace('.', '/');
+					map.put(dirKey, dirValue);
+				}
+			}
 		}
 
 		public static Map getShareVars() {
