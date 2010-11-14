@@ -5,7 +5,7 @@
  
 package ${basepackage}.ibatis;
 
-import ${basepackage}.query.*;
+import ${basepackage}.operation.*;
 
 import java.util.List;
 import java.util.Date;
@@ -31,9 +31,7 @@ public class Ibatis${tableConfig.tableClassName}DAO extends <#if (tableConfig.au
 	/**
 	 * ${sql.remarks!}
 	 * sql: 
-	 * <pre>
-	 ${sql.executeSql?trim}
-	 * </pre>
+	 * <pre>${StringHelper.removeCrlf(sql.executeSql)?trim}</pre>
 	 */
 	@SuppressWarnings("unchecked")
 	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
