@@ -200,10 +200,6 @@ public class TableConfig {
     public String getBasepackage() {
     	return getPackage();
     }
-    public String getBasepackage_dir() {
-        if(getBasepackage() == null) return null;
-    	return getBasepackage().replace('.', '\\');
-    }
     
     public String toString() {
         return "sqlname:"+sqlname;
