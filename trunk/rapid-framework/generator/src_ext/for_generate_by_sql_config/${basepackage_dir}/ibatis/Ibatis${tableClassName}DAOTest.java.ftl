@@ -5,7 +5,7 @@
  
 package ${basepackage}.ibatis;
 
-import ${basepackage}.query.*;
+import ${basepackage}.operation.*;
 
 import java.util.List;
 import java.util.Date;
