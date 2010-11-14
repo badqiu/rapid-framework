@@ -244,15 +244,21 @@ public class GeneratorFacade implements GeneratorConstants {
 		
 		public static void setShareVars(Map map) {
 			map.putAll(getShareVars());
+			map.putAll(getDirValuesMap(map));
+		}
+
+		private static Map getDirValuesMap(Map map) {
+			Map dirValues = new HashMap();
 			Set<Object> keys = map.keySet();
 			for(Object key : keys) {
 				Object value = map.get(key);
 				if(key instanceof String && value instanceof String) {
 					String dirKey = key+"_dir";
 					String dirValue = value.toString().replace('.', '/');
-					map.put(dirKey, dirValue);
+					dirValues.put(dirKey, dirValue);
 				}
 			}
+			return dirValues;
 		}
 
 		public static Map getShareVars() {
