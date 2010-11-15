@@ -38,11 +38,12 @@ public abstract class BaseGeneratorTask extends Task{
         if(input == null) throw new IllegalArgumentException("input must be not null");
         if(output == null) throw new IllegalArgumentException("output must be not null");
         
-        GeneratorFacade gf = new GeneratorFacade();
         GeneratorProperties.setProperties(new Properties());
         Properties properties = toProperties(getProject().getProperties());
         properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
         GeneratorProperties.setProperties(properties);
+        
+        GeneratorFacade gf = new GeneratorFacade();
         gf.g.addTemplateRootDir(input);
         if(shareInput != null) {
             gf.g.addTemplateRootDir(shareInput);
