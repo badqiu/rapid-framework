@@ -14,6 +14,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>rapid-maven-plugin Maven Mojo</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.maven</groupId>
@@ -27,4 +28,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>
