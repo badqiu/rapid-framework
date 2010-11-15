@@ -7,6 +7,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import com.iwallet.biz.common.util.money.Money;
+import java.util.*;
 
 public class ${className}DO implements java.io.Serializable {
 	
@@ -42,8 +43,8 @@ public class ${className}DO implements java.io.Serializable {
 	public boolean equals(Object obj) {
 		if(obj == null) return false;
 		if(this == obj) return true;
-		if(obj instanceof ${className} == false) return false;
-		${className} other = (${className})obj;
+		if(obj instanceof ${className}DO == false) return false;
+		${className}DO other = (${className}DO)obj;
 		return new EqualsBuilder()
 			<#list table.pkColumns as column>
 			.append(get${column.columnName}(),other.get${column.columnName}())

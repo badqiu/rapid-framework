@@ -5,7 +5,7 @@ package ${basepackage}.operation;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import private com.iwallet.biz.common.util.money.Money;
+import com.iwallet.biz.common.util.money.Money;
 import java.util.*;
 
 public class ${sql.parameterClassName} extends PageQuery implements java.io.Serializable {
