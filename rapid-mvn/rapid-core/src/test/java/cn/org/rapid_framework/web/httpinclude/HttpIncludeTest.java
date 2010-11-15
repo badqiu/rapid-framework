@@ -1,7 +1,6 @@
 package cn.org.rapid_framework.web.httpinclude;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
@@ -15,7 +14,7 @@ import junit.framework.TestCase;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.tuckey.web.MockRequestDispatcher;
+import org.springframework.mock.web.MockRequestDispatcher;
 
 import cn.org.rapid_framework.test.util.MultiThreadTestUtils;
 
@@ -39,12 +38,17 @@ public class HttpIncludeTest extends TestCase {
 			public RequestDispatcher getRequestDispatcher(final String path) {
 				return new MockRequestDispatcher(path) {
 					@Override
-					public void include(ServletRequest servletRequest,ServletResponse servletResponse)throws ServletException, IOException {
+					public void include(ServletRequest servletRequest,ServletResponse servletResponse){
+						try {
 						response.setIncludedUrl(path);
 						new PrintStream(servletResponse.getOutputStream()).append("test_local_write_date_with_output_stream").flush();
 //						super.include(servletRequest, servletResponse);
 						includeExecuted = true;
+						}catch(Exception e) {
+							throw new RuntimeException(e);
+						}
 					}
+
 				};
 			}
 		};
@@ -67,11 +71,15 @@ public class HttpIncludeTest extends TestCase {
 			public RequestDispatcher getRequestDispatcher(final String path) {
 				return new MockRequestDispatcher(path) {
 					@Override
-					public void include(ServletRequest servletRequest,ServletResponse servletResponse)throws ServletException, IOException {
+					public void include(ServletRequest servletRequest,ServletResponse servletResponse){
+						try {
 						response.setIncludedUrl(path);
 						servletResponse.getWriter().append("test_local_write_date_with_write");
 //						super.include(servletRequest, servletResponse);
 						includeExecuted = true;
+						}catch(Exception e) {
+							throw new RuntimeException(e);
+						}
 					}
 				};
 			}
@@ -97,13 +105,15 @@ public class HttpIncludeTest extends TestCase {
                 return new MockRequestDispatcher(path) {
                     @Override
                     public void include(ServletRequest servletRequest,
-                                        ServletResponse servletResponse)
-                                                                        throws ServletException,
-                                                                        IOException {
+                                        ServletResponse servletResponse){
+                    	try {
                         response.setIncludedUrl(path);
                         servletResponse.getWriter().append(
                             "test_local_write_date_with_write");
                         servletResponse.getOutputStream().write('c');
+                    	}catch(Exception e) {
+							throw new RuntimeException(e);
+						}
                     }
                 };
             }
@@ -128,13 +138,15 @@ public class HttpIncludeTest extends TestCase {
                 return new MockRequestDispatcher(path) {
                     @Override
                     public void include(ServletRequest servletRequest,
-                                        ServletResponse servletResponse)
-                                                                        throws ServletException,
-                                                                        IOException {
+                                        ServletResponse servletResponse){
+                    	try {
                         response.setIncludedUrl(path);
                         servletResponse.getOutputStream().write('c');
                         servletResponse.getWriter().append(
                             "test_local_write_date_with_write");
+                    	}catch(Exception e) {
+							throw new RuntimeException(e);
+						}
                     }
                 };
             }
