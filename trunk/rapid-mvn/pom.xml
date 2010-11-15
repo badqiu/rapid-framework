@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>cn.org.rapid</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0</version>
+		<relativePath>rapid-pom.xml</relativePath>
+	</parent>
+	<artifactId>pom</artifactId>
+	<packaging>pom</packaging>
+	<name>rapid - framework</name>
+	
+	
+	<modules>
+	 <module>rapid-core</module>
+	 <module>rapid-generator</module>
+	 <module>rapid-maven-plugin</module>
+	</modules>
+
+<!-- 
+	<developers>
+		<developer>
+			<id>congyy</id>
+			<name>congyy</name>
+			<email>congyy@cssweb.sh.cn</email>
+		</developer>
+	</developers>
+ -->
+<properties>
+		<targetJdk>1.5</targetJdk>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+
+</project>
