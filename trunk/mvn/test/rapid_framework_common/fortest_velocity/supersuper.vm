@@ -1,9 +1,0 @@
-#override("body")
-	<supersuper>
-	#super
-	<supersuper>
-#end
-#override("head")
-	<supersuper head/>
-#end
-#extends("super.vm")

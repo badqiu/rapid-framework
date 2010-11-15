@@ -1,6 +1,0 @@
-	import javacommon.flex.base.*;
-	import javacommon.flex.page.*;
-	import javacommon.flex.util.*;
-	
-	import ${basepackage}.vo.*;
-

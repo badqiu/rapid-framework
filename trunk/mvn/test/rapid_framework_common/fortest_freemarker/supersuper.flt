@@ -1,9 +1,0 @@
-<@override name="body">
-	<supersuper>
-	<@super/>
-	<supersuper>
-</@override>
-<@override name="head">
-	<supersuper head/>
-</@override>
-<@extends name="super.flt"/>

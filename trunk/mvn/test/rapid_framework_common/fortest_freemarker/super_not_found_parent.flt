@@ -1,6 +1,0 @@
-<@override name="not_exist_parent">
-	<super>
-	<@super/>
-	<super>
-</@override>
-<@extends name="base.flt"/>
