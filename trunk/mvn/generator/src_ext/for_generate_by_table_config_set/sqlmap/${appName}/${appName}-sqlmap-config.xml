@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+	<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="false"
+		lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000"
+		maxTransactions="3000" useStatementNamespaces="false" />
+
+	<typeHandler jdbcType="NUMERIC" javaType="cn.org.rapid_framework.util.Money" callback="cn.org.rapid_framework.ibatis.typehandler.MoneyTypeHandler"/>
+ 
+	<sqlMap resource="sqlmap/${appName}/common-sqlmap-mapping.xml" />
+<#list tableConfigSet.tableConfigs as tableConfig>	
+	<sqlMap resource="sqlmap/${appName}/${tableConfig.tableClassName}-sqlmap-mapping.xml" />
+</#list>
+</sqlMapConfig>

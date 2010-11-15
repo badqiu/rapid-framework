@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="400"
+		 height="300">
+
+	<s:layout>
+
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	<s:Parallel id="showEff">
+			<s:Rotate3D angleYFrom="-90"
+						angleYTo="0"/>
+			<s:Fade alphaFrom="0.0"
+					alphaTo="1.0"/>
+		</s:Parallel>
+
+		<s:Parallel id="hideEff">
+			<s:Rotate3D angleYFrom="0"
+						angleYTo="-90"/>
+			<s:Fade alphaFrom="1.0"
+					alphaTo="0.0"/>
+		</s:Parallel>
+	</fx:Declarations>
+	<mx:ViewStack width="100%"
+				  height="100%"
+				  id="viewStack">
+
+		<mx:Panel width="100%"
+				  height="100%"
+				  id="hunhunView"
+				  showEffect="{showEff}"
+				  hideEffect="{hideEff}">
+			<s:Button label="随变混混 qq:104104702"
+					  x="99"
+					  y="94"
+					  width="276"
+					  height="100"
+					  fontSize="20"/>
+		</mx:Panel>
+
+		<mx:Panel width="100%"
+				  height="100%"
+				  id="rapidView"
+				  showEffect="{showEff}"
+				  hideEffect="{hideEff}">
+			<s:Button label="rapid"
+					  x="99"
+					  y="94"
+					  width="276"
+					  height="100"
+					  fontSize="20"/>
+		</mx:Panel>
+
+
+
+	</mx:ViewStack>
+</s:Group>

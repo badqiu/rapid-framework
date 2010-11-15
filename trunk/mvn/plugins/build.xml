@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+快速安装插件的ant文件
+任务介绍:
+	install_plugin : 弹出对话框根据"插件名称"安装插件.可以安装任何插件
+	install_xxxxxx : 内置的快速插件安装,避免需要手工输入插件名称.
+	如需要安装struts2与hibernate插件,直接运行install_struts2+hibernate target即可
+author:badqiu
+ -->
+<project name="plugin_installer" basedir="." default="install_plugin">
+    
+	<target name="install_plugin" description="输入插件名称并安装">
+		<taskdef name="dirlist" classname="javacommon.ant.taskdefs.DirListTask" classpath="anttask_for_plugin.jar"/>
+		<dirlist property="plugin_names" >
+			<fileset dir="${basedir}" includes="*"/>
+		</dirlist>
+		<input addproperty="plugin_name" message="请选择插件名称" validargs="${plugin_names}"></input>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+
+	<target name="install_struts2+hibernate" description="">
+		<antcall target="install_dao_hibernate"></antcall>
+		<antcall target="install_web_struts2"></antcall>
+    </target>
+	
+	<target name="install_extjs+struts2+hibernate" description="安装extjs+struts2+hibernate">
+		<antcall target="install_dao_hibernate"></antcall>
+		<antcall target="install_web_struts2"></antcall>
+		<antcall target="install_extjs"></antcall>
+    </target>
+	
+	<target name="install_dao_hibernate" description="安装orm框架hibernate">
+		<property name="plugin_name" value="hibernate"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+
+	<target name="install_dao_ibatis" description="安装orm框架ibatis">
+		<property name="plugin_name" value="ibatis"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_dao_ibatis3" description="安装orm框架ibatis3">
+		<property name="plugin_name" value="ibatis3"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>	
+
+	<target name="install_dao_spring_jdbc" description="安装orm框架spring_jdbc">
+		<property name="plugin_name" value="spring_jdbc"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+		
+	<target name="install_web_springmvc" description="安装web框架springmvc">
+		<property name="plugin_name" value="springmvc"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_web_springmvc_rest" description="安装web框架springmvc_rest">
+		<property name="plugin_name" value="springmvc_rest"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+
+	<target name="install_web_struts" description="安装web框架struts">
+		<property name="plugin_name" value="struts"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+
+	<target name="install_web_struts2" description="安装web框架struts2">
+		<property name="plugin_name" value="struts2"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_extjs" description="安装Extjs">
+		<property name="plugin_name" value="extjs"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_flex4_cairngorm" description="安装flex4">
+		<property name="plugin_name" value="flex4_cairngorm"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<target name="install_rapid_mailer" description="安装rapid_mailer邮件发送引擎">
+		<property name="plugin_name" value="rapid_mailer"/>
+		<antcall target="_install_plugin_with_plugin_name"></antcall>
+    </target>
+	
+	<!-- 安装插件:输入插件名称,再执行插件安装 -->
+	<target name="_install_plugin_with_plugin_name" depends="" description="根据插件名称安装插件">
+		<echo>安装插件:${plugin_name}</echo>
+		
+		<antcall target="_test_plugin_is_exists"></antcall>
+		
+		<antcall target="_run_plugin_install"></antcall>
+	</target>
+	
+	<target name="_test_plugin_is_exists" description="判断插件是否存在">
+		<condition property="plugin_dir?exists">
+			<and>
+				<not><equals trim="true" arg1="${plugin_name}" arg2=""/></not>
+				<available file="${plugin_name}" type="dir"></available>
+			</and>
+		</condition>
+		<fail unless="plugin_dir?exists" message="插件目录不存在"/>	
+	</target>
+	
+	<!-- 运行插件安装 -->
+	<target name="_run_plugin_install" description="执行插件安装">
+		<echo>拷贝"${plugin_name}"目录下的内容至项目根目录</echo>
+		<copy todir="../" verbose="true" overwrite="true" >
+			<fileset dir="${plugin_name}" excludes="plugin_doc/**,web_merge.xml,pom_merge.xml,build.xml,readme.txt" />
+		</copy>
+		
+		<available property="web_merge_xml?exists" file="${plugin_name}/web_merge.xml" ></available>
+		<available property="pom_merge_xml?exists" file="${plugin_name}/pom_merge.xml" ></available>
+		<antcall target="_merge_web_xml"></antcall>
+		<antcall target="_merge_pom_xml"></antcall>
+		
+	</target>
+	
+	<!-- 合并plugin/web_merge.xml 至 web.xml -->
+	<target name="_merge_web_xml" if="web_merge_xml?exists">
+		<echo>合并 ${plugin_name}/web_merge.xml 至 web.xml</echo>
+		<loadfile property="web_merge_xml_content" srcfile="${plugin_name}/web_merge.xml" encoding="UTF-8"></loadfile>
+		<replace file="../web/WEB-INF/web.xml" value="${web_merge_xml_content}&#13;&#10;&lt;/web-app>" encoding="UTF-8" >
+			<replacetoken><![CDATA[</web-app>]]></replacetoken>
+		</replace>
+	</target>
+
+	<!-- 合并plugin/pom_merge.xml 至 pom.xml -->
+	<target name="_merge_pom_xml" if="pom_merge_xml?exists">
+		<echo>合并 ${plugin_name}/pom_merge.xml 至 pom.xml</echo>
+		<loadfile property="pom_merge_xml_content" srcfile="${plugin_name}/pom_merge.xml" encoding="UTF-8"></loadfile>
+		<replace file="../pom.xml" value="${pom_merge_xml_content}&#13;&#10;&lt;/dependencies>" encoding="UTF-8" >
+			<replacetoken><![CDATA[</dependencies>]]></replacetoken>
+		</replace>
+	</target>
+
+</project>

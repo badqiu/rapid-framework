@@ -1,0 +1,13 @@
+<#macro generateResultClassName>
+	<#compress>
+	<#if sql.selectSql>
+		<#if sql.multiplicity = 'one'>
+			${sql.resultClassName}
+		<#else>
+			List<${sql.resultClassName}>
+		</#if>
+	<#else>
+		int
+	</#if>
+	</#compress>
+</#macro>

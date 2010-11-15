@@ -1,0 +1,21 @@
+
+	<!-- ExtremeTable 表格标签的Properties文件 -->
+	<context-param>
+		<param-name>extremecomponentsPreferencesLocation</param-name>
+		<param-value>/extremetable.properties</param-value>
+	</context-param>
+	<context-param>
+		<param-name>extremecomponentsMessagesLocation</param-name>
+		<param-value>i18n/messages</param-value>
+	</context-param>
+	
+	<!-- ExtremeTable 导出Excel和Pdf的Filter -->
+	<filter>
+		<filter-name>eXtremeExport</filter-name>
+		<filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>eXtremeExport</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>		

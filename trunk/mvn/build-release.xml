@@ -1,0 +1,296 @@
+<!--
+  All rights reserved.
+  author: badqiu
+{ $Id: build.xml,v 1.4 2007/05/15 07:48:36 baichao_qiu Exp $ }
+-->
+
+<!-- ======================================================================= -->
+<!-- rapid-framework的ant主构建文件 -->
+<!-- ======================================================================= -->
+<project name="rapid-framework" basedir="." default="framework-zip">
+ 	<tstamp>
+    	<format property="today" pattern="yyyyMMdd"/>
+  	</tstamp>
+  	
+	<property environment="env"/>
+	<property file="build.properties" />
+	
+	<!--版本控制信息-->
+
+	<target name="get-build-version">
+		<property name="version" value="3.9.3.${today}"/>
+		<property name="version.message" value="version:${version} build:${cctimestamp}"/>
+		<property name="version.file" value="version.txt"></property>
+	</target>
+	
+	<target name="generate-version">
+		<echo file="${dir.src.web}/${version.file}" append="no" message="${version.message}"/>
+	</target>
+	
+	<!-- 主要路径修改START -->
+	<path id="lib.classpath">
+		<fileset id="generator_lib" dir="generator/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${dir.src.web}/WEB-INF/lib">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="for_release_lib">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="plugins">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<path id="dirs.java.src">
+		<path path="java_src"/>
+	  	<pathelement path="src/rapid_framework_common"/>
+	</path>
+
+	<path id="dirs.test.src">
+		<path path="plugins/hibernate/java_src"/>
+	  	<pathelement path="test/rapid_framework_common"/>
+	</path>
+	  		
+	<!-- 主要路径修改END -->
+		
+	<target name="prepare" depends="get-build-version">
+		<echo message="tomcat.home=${tomcat.home} version=${version.message}"/>
+		<mkdir dir="${dir.dist}"/>
+		<mkdir dir="${dir.dist.java}"/>
+		<mkdir dir="${dir.dist.test}"/>
+	</target>
+	
+	<target name="clean">
+		<delete dir="${dir.dist}"></delete>
+	</target>
+			
+	<target name="compile-src" depends="prepare">
+		
+		<javac 
+			nowarn="yes" target="${compile.version}" source="${compile.version}" encoding="${encoding}" debug="true"
+			destdir="${dir.dist.java}"
+			classpathref="lib.classpath">
+			  <src refid="dirs.java.src"/>
+		</javac>
+		
+		<copy todir="${dir.dist.java}">
+			<fileset dir="src/rapid_framework_common" excludes="**/*.java"/>
+		</copy>
+		
+	</target>
+	
+	<target name="compile-test" depends="compile-src">
+		
+		<javac destdir="${dir.dist.test}" debug="true"
+			includes="**/*.*"  target="${compile.version}" 
+			source="${compile.version}" encoding="${encoding}">
+			<src refid="dirs.test.src"/>
+			<classpath>
+				<path refid="lib.classpath"/>
+				<path path="${dir.dist.java}"/>
+			</classpath>
+		</javac>
+		
+		<copy todir="${dir.dist.test}">
+			<fileset dir="test/rapid_framework_common" excludes="**/*.java"/>
+		</copy>
+	</target>
+	
+	<target name="compile-all" description="compile java src and java test source">
+		<antcall target="compile-src"/>
+		<antcall target="compile-test"/>
+	</target>
+
+	<!-- 运行前请将junit.jar加入ant runtime classpath
+	      打开Window>>Perferences>>Ant>>Runtime>>Classpath里加入junit.jar-->
+	<target name="test" depends="compile-all">
+		<delete dir="${dir.test.report}" failonerror="no"/>
+		<mkdir dir="${dir.test.report}"/>
+		<junit printsummary="yes" fork="true" haltonfailure="yes" dir="${basedir}"  maxmemory="256M">
+			
+			<classpath>
+				<path refid="lib.classpath"/>
+				<pathelement path="${dir.dist.java}"/>
+				<pathelement path="${dir.dist.test}"/>
+			</classpath>
+				
+			<formatter type="plain"/>
+			<formatter type="xml"/>
+			<formatter type="brief"/>
+			
+			<batchtest todir="${dir.test.report}" haltonfailure="no">
+				<fileset dir="${dir.dist.test}">
+					<include name="**/*Test.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		
+		<antcall target="test-report"></antcall>
+	</target>
+	
+	
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: test-report                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-report">
+		<junitreport todir="${dir.test.report}">
+			<fileset dir="${dir.test.report}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${dir.test.report}"/>
+		</junitreport>  
+    </target>
+			
+	<target name="rapid-framework.jar" depends="compile-src">
+		<jar jarfile="${dir.dist}/rapid-framework-${version}.jar">
+			<fileset dir="${dir.dist.java}">
+				<include name="META-INF/**"/>
+				<include name="cn/org/rapid_framework/**"/>
+				<include name="*.class"/>
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="javadoc">
+		<javadoc  destdir="${dir.javadoc}" windowtitle="${ant.project.name}" charset="UTF-8"
+			source="1.5" access="protected" author="true" version="true" use="true" 
+			encoding="${encoding}">
+			<sourcepath path="src/rapid_framework_common"/>
+			<classpath refid="lib.classpath"/>
+			
+			<packageset dir="src/rapid_framework_common">
+				<include name="cn/org/**"/>
+			</packageset>
+			
+			<doctitle><![CDATA[<h1>${ant.project.name}</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright &copy; 2006-2009 <a href="http://www.rapid-framework.org.cn/" target="_top">The Rapid Framework</a>.</i>]]></bottom>
+		</javadoc>
+	</target>
+				
+	<target name="rapid-framework.src.jar.zip" depends="rapid-framework.jar,javadoc">
+		<zip zipfile="${dir.dist}/rapid-framework-common-${version}-src.zip">
+			<zipfileset dir="." prefix="rapid-framework-common-${version}">
+				<include name="src/rapid_framework_common/**"/>
+				<include name="test/rapid_framework_common/**"/>
+				<include name="${dir.dist}/rapid-framework-${version}.jar"/>
+				<include name="${dir.javadoc}/**"/>
+			</zipfileset>
+		</zip>
+	</target>
+		
+	<target name="generator-zip" depends="prepare">
+		<mkdir dir="${dir.dist}/generator_java"/>
+		<javac destdir="${dir.dist}/generator_java" debug="true"
+			includes="**/*.*"  target="${compile.version}" 
+			source="${compile.version}" encoding="${encoding}" srcdir="generator/src">
+			<classpath>
+				<fileset dir="generator/lib">
+					<include name="**/*.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+		
+		<zip zipfile="${dir.dist}/rapid-generator-${version}.zip">
+			<zipfileset dir="." prefix="rapid-generator-${version}">
+				<include name="template/**"/>
+				<include name="generator/**"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="framework-zip" depends="prepare,rapid-framework.jar,rapid-framework.src.jar.zip,generator-zip">
+		<property name="dir.for.framework" value="${dir.dist}/for_framework_zip"/>
+		<mkdir dir="${dir.for.framework}/generator/lib"/>
+		<ant antfile="build-generator.xml" target="jar" inheritall="false" inheritrefs="false" />
+		<ant antfile="build-generator.xml" target="jar.source" inheritall="false" inheritrefs="false" />
+		
+		<copy  todir="${dir.for.framework}/generator/lib">
+			<fileset dir="${dir.dist}/generator" includes="rapid-generator-*.jar"></fileset>
+		</copy>
+		<zip zipfile="${dir.dist}/rapid-framework-${version}.zip" encoding="GBK">
+			<zipfileset dir="." prefix="rapid-framework-${version}">
+				<include name="java_src/**"/>
+				<include name="java_test/**"/>
+				<include name="generator/lib/**"/>
+				<include name="generator/src/**/GeneratorMain.java"/>
+				<include name="generator/src/*"/>
+				<include name="template/**"/>
+				<include name="web/**"/>
+				<include name="doc/**"/>
+				<include name="plugins/**"/>
+				
+				<include name="build.properties"/>
+				<include name="build.xml"/>
+				<include name="pom.xml"/>
+				
+				<include name="项目需知.txt"/>
+				<include name="readme.txt"/>
+				<include name="changelog.txt"/>
+				<include name="LICENSE.txt"/>
+				
+				<exclude name="${dir.src.web}/WEB-INF/classes/**"/>
+				<exclude name="generator/test/**"/>
+				<exclude name="plugins/ext/**"/>
+				<exclude name="plugins/flex/**"/>
+				<exclude name="plugins/plugin_template/**"/>
+				<exclude name="plugins/menu*/**"/>
+				<exclude name="plugins/simpletable/**"/>
+				<exclude name="plugins/flex_cairngorm/**"/>
+				<exclude name="plugins/extremetable/**"/>
+				<exclude name="plugins/dalgen_table/**"/>
+				
+			</zipfileset>
+			<zipfileset dir="./${dir.for.framework}" prefix="rapid-framework-${version}">
+				<include name="**"/>
+			</zipfileset>
+			<zipfileset dir="./${dir.dist}" prefix="rapid-framework-${version}/web/WEB-INF/lib">
+				<include name="rapid-framework-${version}.jar"/>
+			</zipfileset>
+			<zipfileset dir="./${dir.dist}" prefix="">
+				<include name="rapid-framework-common-${version}-src.zip"/>
+			</zipfileset>
+			<zipfileset dir="./${dir.dist}" prefix="">
+				<include name="reference_doc/**"/>
+			</zipfileset>
+			
+			<zipfileset dir="plugins/menu_orange_style_iframe/web" prefix="rapid-framework-${version}/web">
+				<include name="**"/>
+				<exclude name="**/jquery.js"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="download-google-wiki">
+		<taskdef name="google-wiki" 
+			classname="cn.org.rapid_framework.tools.google_wiki_to_html.ext.ant.GoogleWikiTask" 
+			classpath="for_release_lib/google-code-wiki-to-html.jar;"
+			>
+		</taskdef>		
+		<google-wiki
+			googleprojectname="rapid-framework"
+			downloadfolder="${basedir}/dist/reference_doc"
+		/>
+	</target>
+	
+	<target name="cc_main">
+		<antcall target="clean" />
+		<antcall target="test" />
+		<antcall target="generator-zip" />
+		<antcall target="download-google-wiki" />
+		<antcall target="framework-zip" />
+		<antcall target="rapid-framework.jar" />
+		<antcall target="rapid-framework.src.jar.zip" />
+		<ant antfile="build-generator.xml" target="cc_main" inheritall="false" inheritrefs="false" />
+	</target>
+	
+	<target name="daily_build" >
+		<tstamp>
+			<format property="version" pattern="yyyyMMdd_HHmm"/>
+		</tstamp>
+		<antcall target="cc_main"/>
+		<ant antfile="build-publish.xml"></ant>
+	</target>
+	
+</project>

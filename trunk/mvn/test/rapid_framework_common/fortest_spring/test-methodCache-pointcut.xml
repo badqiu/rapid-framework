@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+修改说明:
+	1. sessionFactory bean的修改
+		* annotatedScanPackages属性: 修改包名以确定要加载的@Entity class
+		* hibernateProperties属性: 	根据你使用的数据库修改的hibernate.dialect
+	2. 修改context:component-scan节点以确定要加载的dao类
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:method-cache="http://rapid-framework.googlecode.com/svn/trunk/schema/method-cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://rapid-framework.googlecode.com/svn/trunk/schema/method-cache http://rapid-framework.googlecode.com/svn/trunk/schema/method-cache.xsd
+    "
+    default-autowire="byName" default-lazy-init="false">
+
+	<bean id="methodCache" class="cn.org.rapid_framework.cache.MapBackendCache" ></bean>
+	<bean id="methodCacheTestService" class="cn.org.rapid_framework.cache.aop.config.MethodCacheTestService" ></bean>
+
+	<bean id="annotationMethodCacheInterceptor" class="cn.org.rapid_framework.cache.aop.interceptor.AnnotationMethodCacheInterceptor">
+		<property name="methodCache" ref="methodCache"></property>
+	</bean>
+	
+	<bean id="annotationMethodCacheAdvice" class="cn.org.rapid_framework.cache.aop.advice.AnnotationMethodCacheAdvice">
+		<property name="annotationMethodCacheInterceptorBeanName">
+			<value>annotationMethodCacheInterceptor</value>
+		</property>
+	</bean>
+</beans>
