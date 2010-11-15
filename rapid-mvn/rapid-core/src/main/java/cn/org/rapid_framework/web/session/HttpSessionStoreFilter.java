@@ -21,17 +21,16 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.web.session.store.JdbcSessionStore;
-import cn.org.rapid_framework.web.session.store.MemcachedSessionStore;
 import cn.org.rapid_framework.web.session.store.SessionStore;
 import cn.org.rapid_framework.web.session.wrapper.HttpServletRequestSessionWrapper;
 import cn.org.rapid_framework.web.session.wrapper.HttpSessionSessionStoreWrapper;
 import cn.org.rapid_framework.web.util.CookieUtils;
 
 /**
- * é€šè¿‡è¯¥filterè‡ªå·±ç®¡ç†session,å¯ä»¥å°†sessionå­˜å‚¨åœ¨:æ•°æ®åº“,memcachedä¸­
+ * Í¨¹ı¸Ãfilter×Ô¼º¹ÜÀísession,¿ÉÒÔ½«session´æ´¢ÔÚ:Êı¾İ¿â,memcachedÖĞ
  * 
- * <h3>ä½¿ç”¨:</h3>
- * è¯¥filterä¼šè‡ªåŠ¨æŸ¥æ‰¾springå®¹å™¨ä¸­id=sessionStoreçš„å¯¹è±¡ä½œä¸ºsessionå­˜å‚¨
+ * <h3>Ê¹ÓÃ:</h3>
+ * ¸Ãfilter»á×Ô¶¯²éÕÒspringÈİÆ÷ÖĞid=sessionStoreµÄ¶ÔÏó×÷Îªsession´æ´¢
  * 
  * @See {@link SessionStore}
  * @See {@link MemcachedSessionStore}

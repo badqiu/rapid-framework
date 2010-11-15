@@ -3,7 +3,6 @@ package cn.org.rapid_framework.web.session.store;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,14 +12,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.thimbleware.jmemcached.Cache;
+import cn.org.rapid_framework.cache.MapBackendCache;
+
 import com.thimbleware.jmemcached.MemCacheDaemon;
-import com.thimbleware.jmemcached.storage.hash.LRUCacheStorageDelegate;
 
 
-public class MemcachedSessionStoreTest {
+public class CacheSessionStoreTest {
 	
-	MemcachedSessionStore store = new MemcachedSessionStore();
+	CacheSessionStore store = new CacheSessionStore();
 	Map sessionData = new HashMap();
 	Process memcachedProcess;
 	List<Process> process = new ArrayList();
@@ -36,7 +35,7 @@ public class MemcachedSessionStoreTest {
 		sessionData.put("null", null);
 		sessionData.put("string", "string");
 		
-		store.setHosts("localhost:11633 localhost:11933");
+		store.setCache(new MapBackendCache());
 		store.afterPropertiesSet();
 	}
 
@@ -57,14 +56,14 @@ public class MemcachedSessionStoreTest {
 	List<MemCacheDaemon> daemons = new ArrayList();
 	private void startMemcachedServer(int port) throws IOException {
 		try {
-	        LRUCacheStorageDelegate cacheStorage = new LRUCacheStorageDelegate(Integer.MAX_VALUE, Integer.MAX_VALUE, 1024000);
-	        MemCacheDaemon daemon = new MemCacheDaemon();
-	        daemon.setCache(new Cache(cacheStorage));
-	        daemon.setAddr(new InetSocketAddress(port));
-	        daemon.setIdleTime(1000 * 600);
-	        daemon.setVerbose(true);
-	        daemon.start();
-	        daemons.add(daemon);
+//	        LRUCacheStorageDelegate cacheStorage = new LRUCacheStorageDelegate(Integer.MAX_VALUE, Integer.MAX_VALUE, 1024000);
+//	        MemCacheDaemon daemon = new MemCacheDaemon();
+//	        daemon.setCache(new Cache(cacheStorage));
+//	        daemon.setAddr(new InetSocketAddress(port));
+//	        daemon.setIdleTime(1000 * 600);
+//	        daemon.setVerbose(true);
+//	        daemon.start();
+//	        daemons.add(daemon);
 //			File file = ResourceUtils.getFile("classpath:fortest_memcached/memcached.exe");
 //			String cmd = file.getAbsolutePath()+" -p "+port;
 //			System.out.println("exec:"+cmd);
