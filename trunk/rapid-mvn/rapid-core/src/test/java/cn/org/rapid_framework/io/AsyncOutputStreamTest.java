@@ -2,11 +2,8 @@ package cn.org.rapid_framework.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
 
 import junit.framework.TestCase;
-import edu.emory.mathcs.backport.java.util.concurrent.ArrayBlockingQueue;
 
 public class AsyncOutputStreamTest extends TestCase {
 
