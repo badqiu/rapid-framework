@@ -5,7 +5,6 @@
 
 package cn.org.rapid_framework.util.fortest;
 
-import javacommon.base.BaseHibernateDao;
 
 import org.springframework.stereotype.Component;
 
