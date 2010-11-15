@@ -191,5 +191,16 @@
 			<groupId>org.tuckey</groupId>
 			<artifactId>urlrewritefilter</artifactId>
 		</dependency>
+		
+		<dependency>
+	        <groupId>com.thimbleware.jmemcached</groupId>
+	        <artifactId>jmemcached-core</artifactId>
+	        <version>0.9</version>
+    	</dependency>
+		<dependency>
+	        <groupId>net.spy.memcached</groupId>
+	        <artifactId>memcached</artifactId>
+	        <version>2.3</version>
+    	</dependency>    			
 	</dependencies>
 </project>
