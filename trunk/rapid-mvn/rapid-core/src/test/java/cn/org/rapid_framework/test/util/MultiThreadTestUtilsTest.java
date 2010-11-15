@@ -1,13 +1,12 @@
 package cn.org.rapid_framework.test.util;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import junit.framework.TestCase;
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
 
 public class MultiThreadTestUtilsTest extends TestCase {
 	private AtomicInteger executedCount = new AtomicInteger();
