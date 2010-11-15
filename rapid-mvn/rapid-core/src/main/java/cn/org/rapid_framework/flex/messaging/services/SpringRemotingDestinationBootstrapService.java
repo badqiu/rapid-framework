@@ -67,7 +67,7 @@ public class SpringRemotingDestinationBootstrapService extends AbstractBootstrap
 	}
 
 	private void createSpringDestinations(Service remotingService) {
-		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(broker.getServletContext());
+		WebApplicationContext wac = WebApplicationContextUtils.getWebApplicationContext(broker.getInitServletContext());
 		List<String> addedBeanNames = new ArrayList();
 		for(String beanName : wac.getBeanDefinitionNames()) {
 			Class type = wac.getType(beanName);
