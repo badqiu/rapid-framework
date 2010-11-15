@@ -256,7 +256,7 @@ public class TableConfig {
                 sql.setRemarks(op.getRemarks());
                 sql.setPaging(op.isPaging());
                 sql.setSqlmap(op.getSqlmap());
-                if(StringHelper.isBlank(op.getParamtype()) && sql.isSelectSql() && sql.isDeleteSql()) {
+                if(StringHelper.isBlank(op.getParamtype()) && (sql.isSelectSql() || sql.isDeleteSql())) {
                     sql.setParamType("primitive");
                 }else {
                     sql.setParamType(op.getParamtype());
