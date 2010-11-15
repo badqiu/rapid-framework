@@ -33,7 +33,6 @@ public class Ibatis${tableConfig.className}DAO extends <#if (tableConfig.autoSwi
 	 * sql: 
 	 * <pre>${StringHelper.removeCrlf(sql.executeSql)?trim}</pre>
 	 */
-	@SuppressWarnings("unchecked")
 	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
 		<#if sql.paramType != "object" && !isUseParamObject(sql)>
 			<#if (sql.params?size > 1)>
