@@ -250,12 +250,15 @@ public class TableConfig {
                 sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
                 
                 sql.setOperation(op.getName());
-                sql.setMultiplicity(op.getMultiplicity());
                 sql.setParameterClass(op.getParameterClass());
                 sql.setResultClass(op.getResultClass());
                 sql.setRemarks(op.getRemarks());
                 sql.setPaging(op.isPaging());
                 sql.setSqlmap(op.getSqlmap());
+                
+                if(StringHelper.isNotBlank(op.getMultiplicity())) {
+                    sql.setMultiplicity(op.getMultiplicity());
+                }
                 if(StringHelper.isBlank(op.getParamtype()) && (sql.isSelectSql() || sql.isDeleteSql())) {
                     sql.setParamType("primitive");
                 }else {
