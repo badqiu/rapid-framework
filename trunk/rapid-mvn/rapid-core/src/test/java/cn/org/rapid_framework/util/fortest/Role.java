@@ -5,7 +5,6 @@
 
 package cn.org.rapid_framework.util.fortest;
 
-import javacommon.base.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "role")
-public class Role extends BaseEntity {
+public class Role {
 	
 	//alias
 	public static final String TABLE_ALIAS = "Role";
