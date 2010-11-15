@@ -235,29 +235,33 @@ public class TableConfig {
         
         private static Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
-            SqlFactory sqlFactory = new SqlFactory();
-            String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
-            String unescapeSqlString = StringHelper.unescapeXml(sqlString);
-            String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
-            
-            Sql sql = sqlFactory.parseSql(namedSql);
-            LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
-            sql.setParams(finalParameters);
-            sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
-            
-            sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
-            sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
-            sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
-            
-            sql.setOperation(op.getName());
-            sql.setMultiplicity(op.getMultiplicity());
-            sql.setParameterClass(op.getParameterClass());
-            sql.setResultClass(op.getResultClass());
-            sql.setRemarks(op.getRemarks());
-            sql.setPaging(op.isPaging());
-            sql.setSqlmap(op.getSqlmap());
-            sql.setParamType(op.getParamtype());     
-            return sql;
+                SqlFactory sqlFactory = new SqlFactory();
+                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
+                String unescapeSqlString = StringHelper.unescapeXml(sqlString);
+                String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
+                
+                Sql sql = sqlFactory.parseSql(namedSql);
+                LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
+                sql.setParams(finalParameters);
+                sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
+                
+                sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
+                sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
+                sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
+                
+                sql.setOperation(op.getName());
+                sql.setMultiplicity(op.getMultiplicity());
+                sql.setParameterClass(op.getParameterClass());
+                sql.setResultClass(op.getResultClass());
+                sql.setRemarks(op.getRemarks());
+                sql.setPaging(op.isPaging());
+                sql.setSqlmap(op.getSqlmap());
+                if(StringHelper.isBlank(op.getParamtype()) && sql.isSelectSql() && sql.isDeleteSql()) {
+                    sql.setParamType("primitive");
+                }else {
+                    sql.setParamType(op.getParamtype());
+                }
+                return sql;
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
             }
