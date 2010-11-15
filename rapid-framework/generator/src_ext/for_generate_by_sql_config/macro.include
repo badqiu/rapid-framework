@@ -39,14 +39,20 @@
 
 <#macro generateOperationArguments sql>
 <#compress>
-	<#if sql.paramType = 'object'>
+	<#if sql.params?size == 0>
+			<#if sql.paging>
+				int pageSize,int pageNo 
+			</#if>	
+	<#elseif sql.params?size == 1>
+		<#local paramName = sql.params?first.paramName>	
+	<#elseif sql.paramType = 'object'>
 		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
 	<#else>
 		<#if isUseParamObject(sql)>
 			${sql.parameterClassName} param
 		<#else>
 			<#if sql.paging>
-				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageNo,int pageSize
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageSize,int pageNo 
 			<#else>
 				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
 			</#if>
