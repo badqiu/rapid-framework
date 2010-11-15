@@ -8,7 +8,6 @@ package cn.org.rapid_framework.util.fortest;
 import java.util.HashSet;
 import java.util.Set;
 
-import javacommon.base.BaseEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,7 +32,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "resource")
-public class Resource extends BaseEntity {
+public class Resource  {
 	
 	//alias
 	public static final String TABLE_ALIAS = "Resource";
