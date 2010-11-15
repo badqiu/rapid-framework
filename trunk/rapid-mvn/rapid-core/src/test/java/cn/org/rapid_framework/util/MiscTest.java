@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import javacommon.util.ConvertRegisterHelper;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtilsBean;
@@ -53,14 +52,14 @@ public class MiscTest extends TestCase {
 		System.out.println(convert.convert("2010-01-01 10:10:10", java.util.Date.class));
 		System.out.println(convert.convert("2010-01-01 10:10:10.102", java.sql.Timestamp.class));
 	}
-
+	
 	public static void registerConverters(ConvertUtilsBean convertUtils,String[] datePatterns) {
 		convertUtils.register(new StringConverter(), String.class);
 		//date 
-		convertUtils.register(ConvertRegisterHelper.setPatterns(new DateConverter(null),datePatterns),java.util.Date.class);
-		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlDateConverter(null),datePatterns),java.sql.Date.class);
-		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlTimeConverter(null),datePatterns),Time.class);
-		convertUtils.register(ConvertRegisterHelper.setPatterns(new SqlTimestampConverter(null),datePatterns),Timestamp.class);
+		convertUtils.register(setPatterns(new DateConverter(null),datePatterns),java.util.Date.class);
+		convertUtils.register(setPatterns(new SqlDateConverter(null),datePatterns),java.sql.Date.class);
+		convertUtils.register(setPatterns(new SqlTimeConverter(null),datePatterns),Time.class);
+		convertUtils.register(setPatterns(new SqlTimestampConverter(null),datePatterns),Timestamp.class);
 		//number
 		convertUtils.register(new BooleanConverter(null), Boolean.class);
 		convertUtils.register(new ShortConverter(null), Short.class);
