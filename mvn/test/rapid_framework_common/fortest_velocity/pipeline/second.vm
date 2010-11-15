@@ -1,7 +1,0 @@
-<second>
- ${pipeline_content}
-</second>
-
-#override("head") 
-	second_override_content 
-#end

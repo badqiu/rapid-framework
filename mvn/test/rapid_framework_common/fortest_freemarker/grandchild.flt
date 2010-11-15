@@ -1,4 +1,0 @@
-<@override name="head">grandchild_head_content</@override>
-<@override name="body">grandchild_body_content</@override>
-<@override name="empty"/>
-<#include "child.flt"/>

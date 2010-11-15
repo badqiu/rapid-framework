@@ -1,6 +1,0 @@
-<@override name="body">
-	<super>
-	<@super/>
-	<super>
-</@override>
-<@extends name="base.flt"/>
