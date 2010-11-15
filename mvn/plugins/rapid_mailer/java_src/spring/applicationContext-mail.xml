@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+修改说明:
+	1.修改javaMailSender连接邮件服务器相关配置
+	2.修改simpleMailMessageTemplate的默认from
+	3.修改<context:component-scan />,默认扫描com.**.mailer
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+    default-autowire="byName" default-lazy-init="false">
+
+	<!-- 邮件消息模板,指定一些邮件的默认值 -->
+	<bean id="simpleMailMessageTemplate" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="rapidframework@sohu.com"></property>
+	</bean>
+	
+	<!-- 普通的JavaMailSender -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.sohu.com" />
+		<property name="username" value="rapidframework@sohu.com" />
+		<property name="password" value="123456" />
+		<property name="defaultEncoding" value="UTF-8" />
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 异步的JavaMailSender -->
+	<bean id="asyncJavaMailSender" class="cn.org.rapid_framework.mail.AsyncJavaMailSender">
+		<!-- 邮件发送的线程池大小 -->
+		<property name="sendMailThreadPoolSize" value="3" />
+		<property name="javaMailSender" ref="javaMailSender" />
+		<property name="asyncTokenFactory" ref="mailerAsyncTokenFactory"></property>
+    </bean>
+    
+    <!-- AsyncTokenFactory可以为AsyncToken指定默认的responders -->
+	<bean id="mailerAsyncTokenFactory" class="cn.org.rapid_framework.util.concurrent.async.DefaultAsyncTokenFactory">
+		<property name="responders">
+			<list></list>
+		</property>
+	</bean>
+	
+	<!-- freemarker模板相关配置-->	
+	<bean id="freemarkerTemplateProcessor" class="cn.org.rapid_framework.freemarker.FreemarkerTemplateProcessor">
+		<property name="configuration">
+			<bean class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+				<property name="templateLoaderPath" value="classpath:/email_template" />
+				<property name="defaultEncoding" value="UTF-8"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- component-scan自动搜索@Component , @Controller , @Service , @Repository等标注的类 -->
+	<context:component-scan base-package="com.**.mailer"/>
+	
+</beans>

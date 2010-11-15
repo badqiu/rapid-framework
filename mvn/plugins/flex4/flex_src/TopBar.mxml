@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx">
+
+	<s:layout>
+
+		<s:BasicLayout/>
+	</s:layout>
+
+	<fx:Metadata>
+		[Event(name="fullScreen")]
+		[Event(name="changePassword")]
+		[Event(name="logout")]
+		
+		[Event(name="businessManager")]
+		[Event(name="systemManager")]	
+	</fx:Metadata>
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import spark.components.Application;
+			public var loginUsername:String="loginUser";
+
+			[Bindable]
+			public var navLinkBarDataProvider:Object;
+
+			private function fullScreen()
+			{
+				mx.core.Application.application.stage.displayState=StageDisplayState.FULL_SCREEN;
+			}
+		]]>
+	</fx:Script>
+	<mx:Image source="http://rapid-framework.googlecode.com/svn/trunk/images/logo.png"
+			  left="0"
+			  top="0"
+			  width="80"
+			  height="26"/>
+
+	<mx:HBox horizontalGap="5"
+			 horizontalAlign="right"
+			 verticalAlign="middle"
+			 backgroundColor="white"
+			 right="0"
+			 paddingRight="5"
+			 paddingLeft="10"
+			 height="26">
+
+		<mx:Spacer width="10"/>
+		<mx:Text text="{loginUsername}"
+				 useHandCursor="false"
+				 buttonMode="true"
+				 mouseChildren="false"
+				 color="#FF0000"
+				 fontWeight="bold"
+				 fontSize="12"/>
+		<mx:VRule height="10"/>
+		<mx:Label text="修改密码"
+				  useHandCursor="true"
+				  buttonMode="true"
+				  mouseChildren="false"
+				  click="dispatchEvent(new Event('changePassword'));"
+				  textDecoration="underline"/>
+		<mx:VRule height="10"/>
+		<mx:Label text="退出系统"
+				  useHandCursor="true"
+				  buttonMode="true"
+				  mouseChildren="false"
+				  click="dispatchEvent(new Event('logout'));"
+				  textDecoration="underline"/>
+		<mx:VRule height="10"/>
+
+		<mx:Label text="全屏"
+				  useHandCursor="true"
+				  buttonMode="true"
+				  mouseChildren="false"
+				  textDecoration="underline"
+				  click="fullScreen()"/>
+	</mx:HBox>
+
+	<mx:LinkBar id="navLinkBar"
+				dataProvider="{navLinkBarDataProvider}"
+				top="26"
+				height="40"
+				width="100%"
+				horizontalGap="5"
+				verticalAlign="middle"
+				styleName="topNav"/>
+</s:Group>

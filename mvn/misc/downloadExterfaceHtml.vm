@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+#macro(generateOutputParamHtml)
+    #set($outputParam = $exterfaceDoc.outputParam)
+    
+	<h1>$titleNumber.incrementAndGet()、返回参数说明</h1>
+
+	<h2>$titleNumber.subtitleIncrementAndGet()、含义</h2>
+	<p>返回参数是商户在与支付宝做数据交互时，支付宝对商户请求数据的处理结果，以便商户能够得到支付宝的处理结果数据来同步商户系统中的业务机制。</p> 
+
+	<!-- xml返回参数(xmlReturnParam)与(pageParam),(customFormat),(fileParam),(customParam)一般互斥 -->
+	#if($listUtil.isNotEmpty($outputParam.xmlReturnParam))
+		#generateParamTableWithSubtitle('列表' $outputParam.xmlReturnParam)
+		#if($stringUtil.isNotBlank($outputParam.xmlReturnExampleForRight) && $stringUtil.isNotBlank($outputParam.xmlReturnExampleForWrong))
+			<h2>$titleNumber.subtitleIncrementAndGet()、样例</h2>
+			<p>正常输出:</p>
+			<div class="langCode">$stringEscapeUtil.escapeHtml($outputParam.xmlReturnExampleForRight)</div>
+			<p>发生错误时:</p>
+			<div class='langCode'>$stringEscapeUtil.escapeHtml($outputParam.xmlReturnExampleForWrong)</div>
+		#end	
+	#end
+	
+	#if($listUtil.isNotEmpty($outputParam.pageParam))
+		#generateParamTableWithSubtitle('列表' $outputParam.pageParam)
+		<h2>$titleNumber.subtitleIncrementAndGet()、样例</h2>
+		<p><a href='$outputParam.pageParamDemoUrl'>$outputParam.pageParamDemoUrl</a></p>
+	#end
+
+	#if($stringUtil.isNotBlank($outputParam.customFormat))
+		<h2>$titleNumber.subtitleIncrementAndGet()、自定义返回格式</h2>
+		<p><pre>$outputParam.customFormat</pre></p>
+	#end
+	
+	#generateParamTableWithSubtitle('文件返回的参数列表' $outputParam.fileParam)
+	#generateParamTableWithSubtitle('自定义返回的参数列表' $outputParam.customParam)
+		
+#end
+
+#macro(generateParamTableWithSubtitle $title $params)
+	#if($listUtil.isNotEmpty($params))
+		<h2>$titleNumber.subtitleIncrementAndGet()、$title</h2>
+		#generateParamTable($params)
+	#end
+#end
+
+#macro(generateParamTable $params)
+	
+	<table width="100%" border="0">
+		  <tr>
+		    <th width="60">参数说明</th>
+		    <th width="90">参数名</th>
+		    <th width="120">类型(精度)</th>
+		    <th>备注</th>
+			<th width="80">可否为空</th>
+			<th width="300">样例</th>
+		  </tr>
+		<tr>
+		  <td colspan="6" class='tableRowSubtitle' >基本参数</td>	
+		</tr>		  
+		#generateParamTableRow($params 'B')
+		
+		<tr>
+		  <td colspan="6" class='tableRowSubtitle' >业务参数</td>	
+		</tr>		
+		#generateParamTableRow($params 'O')           
+	</table>	
+#end
+
+#macro(generateParamTableRow $params $paramsCategoryCode)
+		#set( $loopCount = 0 )
+		#foreach( $param in $params )
+		  #if ($param.paramsCategory.code == $paramsCategoryCode)
+		  	#if ($loopCount % 2 == 0)
+		  <tr class="even">
+		 	#else
+		  <tr class="odd">
+		  	#end
+		  	#set( $loopCount = $loopCount + 1 )
+		    <td>$!param.fieldName&nbsp;</td>
+		    <td>$!param.variableName&nbsp;</td>
+		    <td>$!param.type&nbsp;</td>
+		    <td>$!param.desc&nbsp;</td>
+		    <td>
+		    	#if($param.isCanBeNull())
+		    		可空
+		    	#else
+		    		不可空
+		    	#end
+		    	&nbsp;
+		    </td>
+		    <td>$!param.getExample()&nbsp;</td>	
+		  </tr>
+		  #end
+		#end  
+#end
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+	<title>${exterfaceDoc.nameForChinese} : ${exterfaceDoc.nameForEnglish}</title>
+	
+	<style type="text/css"> 
+	<!--
+	body {
+		font-size:10pt;
+		color:#444;
+	}
+	h1 {
+	font-family:微软雅黑,microsoft yahei;
+	font-size:14pt;
+	color:#000;
+	margin:0 0 10px 0;
+	}
+	h2 {
+	font-family:微软雅黑,microsoft yahei;
+	font-size:12pt;
+	margin-left:15px;
+	color:#444;
+	}
+	p {
+	margin-left:45px;
+	}
+	.tableRowSubtitle {
+		background-color: #DDDFEE;
+		font-size:9pt;
+	}
+	.langCode {
+		background-color: #FFCC00;
+		margin-left:45px;
+		padding:5px;
+	}
+	.notice {
+		color: #000000; background-color: #FFCC00; font-weight:bold; font-size:9pt;
+	}
+	table {
+	border-collapse:collapse;
+	}
+	table th {
+		border:1px solid #548dd4;
+		vertical-align: middle;
+		background-color: #4f81bd;
+		color:#FFFFFF;
+		padding:5px 10px 5px 0;
+		font-size:11pt;
+	}
+	table td {
+		border:1px solid #548dd4;
+		color: black;
+		padding:5px 10px 5px 10px;
+	}
+	table .odd {
+		background-color: #DDDFEE;
+	}
+	table .even {
+		background-color: #FFFFFF;
+	}
+	.docName {
+		font-size: 21pt;
+		margin:0;
+		padding:0;
+	}
+	.docName-fu{
+		font-size: 18pt;
+		color:#666;
+		margin:0;
+	}
+	.copyright{
+	margin-left:15px;
+	}
+	.t-b{
+	font-weight:bold;
+	display:block;
+	}
+	-->
+	</style> 
+</head>
+
+<body>
+
+<center><h1 class="docName">外部接口名称：$!{exterfaceDoc.nameForChinese}</h1></center>
+<center><h1 class="docName-fu">服务名: $!{exterfaceDoc.nameForEnglish}</h1></center>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<h1>修订历史</h1>
+<table width="100%" border="0">
+  <tr>
+    <th>版本号</th>
+    <th>修订章节</th>
+    <th>修订原因</th>
+    <th>修订日期</th>
+    <th>作者</th>
+  </tr>
+#foreach( $item in $exterfaceDoc.modifyLog )
+  <tr>
+    <td>$!{item.version}&nbsp;</td>
+    <td>$!{item.modifyPart}&nbsp;</td>
+    <td>$!{item.modifyReason}&nbsp;</td>
+    <td>$!{item.modifyDate}&nbsp;</td>
+    <td>$!{item.author}&nbsp;</td>
+  </tr>
+#end
+</table>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<h1>版权信息</h1>
+<p class="copyright"> 
+本手册中所有的信息都是支付宝公司的财产并且受到严格的保密。未经过支付宝公司书面同意，接收
+本手册的人不能复制，公开，泄露手册的部分或全部的内容。
+</p>
+
+<center><h1>$titleNumber.incrementAndGet().文档说明</h1></center>
+
+#if($stringUtil.isNotBlank($exterfaceDoc.functionDesc)) 
+	<h2>$titleNumber.subtitleIncrementAndGet()、功能描述</h2>
+	<p>$!exterfaceDoc.functionDesc</p>
+#end
+
+	<h2>$titleNumber.subtitleIncrementAndGet()、阅读对象</h2>
+	<p>支付宝会员通用登录接口技术文档是面向具有一定的网站开发能力，了解ASP、PHP、JAVA、ASP.NET等开发语言中的一种及SQL数据库语言的网站开发、维护和管理人员。</p>
+	
+#if($listUtil.isNotEmpty($exterfaceDoc.glossary))
+	<h2>$titleNumber.subtitleIncrementAndGet()、业务术语</h2>
+	<table width="100%" border="0">
+	  <tr>
+	    <th>术语</th>
+	    <th>解释</th>
+	  </tr>
+	#foreach( $entry in $exterfaceDoc.glossary.entrySet() )
+	  <tr>
+	    <td>$!{entry.key}&nbsp;</td>
+	    <td>$!{entry.value}&nbsp;</td>
+	  </tr>
+	#end
+	</table>
+#end
+
+	<h2>$titleNumber.subtitleIncrementAndGet()、技术服务</h2>
+	<p>
+在开发或使用支付宝会员通用登录的功能时，产生疑问或出现问题，可按以下方式寻求帮助：
+<p><span class="t-b">方式一：技术支持协助表单申请</span></p>
+申请地址：<br />
+<a href="https://b.alipay.com/support/helperApply.htm?action=supportHome">https://b.alipay.com/support/helperApply.htm?action=supportHome</a><br />
+填写表单，提交技术问题，支付宝技术支持人员会主动联系并及时处理。
+<p><span class="t-b">方式二：论坛发帖</span></p>
+支付宝接口集成专区地址：<br />
+<a href="http://club.alipay.com/thread.php?fid=703">http://club.alipay.com/thread.php?fid=703</a><br />
+在论坛中可以下载接口资料，查找解决方案来自主解决问题，或是发帖寻求帮助。
+<p><span class="t-b">方式三：拨打支付宝商户客服热线电话</span></p>
+支付宝商户客服热线：0571-88158090
+</p>
+
+
+<h1>$titleNumber.incrementAndGet()、功能演示</h1>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+<h1>$titleNumber.incrementAndGet()、数据交互</h1>
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+<h1>$titleNumber.incrementAndGet()、请求参数说明</h1>
+
+	<h2>$titleNumber.subtitleIncrementAndGet()、含义</h2>
+	<p>请求参数是商户在与支付宝做数据交互时，提供给支付宝的请求数据，以便支付宝根据这些数据来做处理。</p>
+
+	#if($listUtil.isNotEmpty($exterfaceDoc.inputParam))
+		<h2>$titleNumber.subtitleIncrementAndGet()、列表</h2>
+
+	#generateParamTable($exterfaceDoc.inputParam)
+	
+		<h2>$titleNumber.subtitleIncrementAndGet()、样例</h2>
+	  	<a href="$exterfaceDoc.inputParamDemoUrl">$exterfaceDoc.inputParamDemoUrl</a>
+	#end
+
+	#if($stringUtil.isNotBlank($exterfaceDoc.visitWay.msg))
+		<h2>$titleNumber.subtitleIncrementAndGet()、访问形式</h2>
+		<p>$!exterfaceDoc.visitWay.msg</p>
+	#end
+
+
+#generateOutputParamHtml()
+
+	#if($listUtil.isNotEmpty($outputParam.notifyParam))
+		<h1>$titleNumber.incrementAndGet()、通知参数说明</h1>
+		<h2>$titleNumber.subtitleIncrementAndGet()、含义</h2>
+		<p>通知参数是支付宝通过系统消息异步通过商户的参数</p> 
+		#generateParamTableWithSubtitle('列表' $outputParam.notifyParam)
+		<h2>$titleNumber.subtitleIncrementAndGet()、样例</h2>
+		<p><a href='$outputParam.notifyParamDemoUrl'>$outputParam.notifyParamDemoUrl</a></p>
+	#end
+		
+	<h1>$titleNumber.incrementAndGet()、通知返回数据处理</h1>
+		#if($listUtil.isNotEmpty($exterfaceDoc.triggerList))
+			<h2>$titleNumber.subtitleIncrementAndGet()、通知触发条件</h2>
+			<table width="100%" border="0">
+			  <tr>
+			    <th>触发条件名  </th>
+			    <th>触发条件描述</th>
+			    <th>触发条件默认值</th>
+			  </tr>
+			  #foreach( $item in $exterfaceDoc.triggerList )
+			  <tr>
+			    <td>$!{item.triggerName}&nbsp;</td>
+			    <td>$!{item.triggerDesc}&nbsp;</td>
+			    <td>$!{item.triggerDefault}&nbsp;</td>
+			  </tr>
+			  #end
+			</table>
+		#end	
+		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+		<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+
+	<h1>$titleNumber.incrementAndGet()、调试</h1>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+	<h1>$titleNumber.incrementAndGet()、签名机制</h1>
+	<h2>$titleNumber.subtitleIncrementAndGet()、哪些是要加密的参数</h2>
+	<p>在请求参数列表、返回参数列表中，除去sign、sign_type两个参数外，其他需要使用到的参数皆是要加密的参数。</p>
+	<h2>$titleNumber.subtitleIncrementAndGet() 排序与连接</h2>
+	<p>所有参数连同携带的值，组合成“参数=参数值”的字符串形式，存放进加密参数组，例：
+	<pre>
+	string[] para ={
+	        "service= user_authentication ",
+	        " _input_charset=gb2312",
+	        "partner=2088101568345155",
+	        "return_url= http://www.test.com/alipay/return_url.asp"
+	};
+	</pre>
+	对数组里的每一个值从a到z的顺序排序，若遇到相同首字母，则看第二个字母，以此类推。
+	排序后的顺序把每个值以“&”字符连接起来，如：
+	<pre>
+	_input_charset=gb2312&service=user_authentication&partner=2088101568345155&return_url=http%3A%2F%2Fwww. test.com% alipay %2Freturn_url.asp
+	</pre>
+	</p>
+	<h2>$titleNumber.subtitleIncrementAndGet()加密</h2>
+	<p>
+	在众多参数中有一个参数是并不属于请求参数，这个参数是key。一个partner对应一个key，它就是俗称的私钥。以英文字母和数字组成的32位字符串。商家可登录到支付宝里面，在“商家服务”栏目中找到，安装数字证书即可查看。
+	它是加密时才需要用上的参数。
+	当拿到排序后用“&”字符连接起来的字符串后，再把参数key的值与该字符串拼接起来形成新的字符串，如：
+	_input_charset=gb2312&service=user_authentication&partner=2088002892920338&return_url=http%3A%2F%2Fwww.xxx.com%2Fuser_asp_gb%2Freturn_url.aspwop2rabt5bvcetdsg8wj6jjhzxn9jf0a
+	把这个新的字符串放入加密函数中，得到32位加密结果字符串。
+	此时，整个签名算法完成。
+	这个32位加密结果字符串就是参数sign的值。
+	</p>
+
+	<h1>$titleNumber.incrementAndGet()、建设与意见</h1>
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+	<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+				
+
+#if($listUtil.isNotEmpty($exterfaceDoc.configEnumMap))
+	<h1>$titleNumber.incrementAndGet()、附录</h1>
+	#foreach( $entry in $exterfaceDoc.configEnumMap.entrySet())
+	<center><h2>$titleNumber.subtitleIncrementAndGet()、$entry.key</h2></center>
+	<table width="100%" border="0">
+	  <tr>
+	    <th>枚举名</th>
+	    <th>枚举说明</th>
+	  </tr>
+	  #foreach( $item in $entry.value )
+	  #if ($velocityCount % 2 == 0)
+	  <tr class="odd">
+	  #else
+	  <tr class="even">
+	  #end
+	    <td>$!{item.enumName}&nbsp;</td>
+	    <td>$!{item.enumValue}&nbsp;</td>
+	  </tr>
+	  #end
+	</table>
+	<p>&nbsp;</p>
+	#end
+#end
+
+#if($listUtil.isNotEmpty($outputParam.getErrorCode()))	
+	<center><h2>$titleNumber.subtitleIncrementAndGet()、返回参数错误代码</h2></center>
+	<table width="100%" border="0">
+	  <tr>
+	    <th>错误代码</th>
+	    <th>说明</th>
+	  </tr>
+	#foreach( $entry in $outputParam.getErrorCode().entrySet() )
+	  #if ($velocityCount % 2 == 0)
+	  <tr class="odd">
+	  #else
+	  <tr class="even">
+	  #end
+	    <td>$!{entry.key}&nbsp;</td>
+	    <td>$!{entry.value}&nbsp;</td>
+	  </tr>
+	#end
+	</table>
+#end	
+	
+#if($listUtil.isNotEmpty($exterfaceDoc.exterfacePropertyList))
+	<center><h2>$titleNumber.subtitleIncrementAndGet()、接口属性配置</h2></center>
+	<table width="100%" border="0">
+	  <tr>
+	    <th>属性名 </th>
+	    <th>属性类型</th>
+	    <th>属性描述</th>
+	    <th>属性默认值</th>
+	  </tr>
+	  #foreach( $item in $exterfaceDoc.exterfacePropertyList )
+	  <tr>
+	    <td>$!{item.propertyName}&nbsp;</td>
+	    <td>$!{item.propertyType}&nbsp;</td>
+	    <td>$!{item.propertyDesc}&nbsp;</td>
+	    <td>$!{item.propertyDefault}&nbsp;</td>
+	  </tr>
+	  #end
+	</table>
+#end
+
+<!-- 
+<h1>$titleNumber.incrementAndGet()、注意事项</h1>
+<p>1) 此接口只支持https请求，详见请求url样例。</p>
+<p>2) 请按照《外部接口文档》中的签名方法对输入参数进行签名，该接口请求才能够被支付宝系统接收。</p> 
+#foreach($item in $exterfaceDoc.attentionList)
+	<p>
+	#set($attentionIndex=$velocityCount + 2)
+	$attentionIndex) ${item.attention}
+	</p>
+#end
+ -->
+</body>
+</html>
+
