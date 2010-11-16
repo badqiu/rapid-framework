@@ -233,11 +233,13 @@ public class GeneratorFacade implements GeneratorConstants {
 		
 		public static GeneratorModel newFromMap(Map params) {
 			Map templateModel = new HashMap();
-			setShareVars(templateModel);
+			templateModel.putAll(getShareVars());
+			templateModel.putAll(getDirValuesMap(params));
 			templateModel.putAll(params);
 			
 			Map filePathModel = new HashMap();
-			setShareVars(filePathModel);
+			filePathModel.putAll(getShareVars());
+			filePathModel.putAll(getDirValuesMap(params));
 			filePathModel.putAll(params);
 			return new GeneratorModel(templateModel,filePathModel);
 		}
