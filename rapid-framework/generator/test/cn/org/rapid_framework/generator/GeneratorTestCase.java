@@ -15,7 +15,7 @@ import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
 public class GeneratorTestCase extends TestCase{
-	protected Generator g = new Generator();;
+	protected Generator g;
 	private static boolean notRunCreatedTabled = true;
 	public void setUp()throws Exception {
 	    g = new Generator();
