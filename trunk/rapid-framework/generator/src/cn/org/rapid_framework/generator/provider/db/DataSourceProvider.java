@@ -19,6 +19,14 @@ public class DataSourceProvider {
 	private static Connection connection;
 	private static DataSource dataSource;
 
+	public synchronized static Connection getNewConnection() {
+		try {
+			return getDataSource().getConnection();
+		}catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 	public synchronized static Connection getConnection() {
 		try {
 			if(connection == null || connection.isClosed()) {
