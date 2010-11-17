@@ -331,8 +331,16 @@ public class Table implements java.io.Serializable,Cloneable {
 		}
 	}
 	
-	String catalog = TableFactory.getInstance().getCatalog();
-	String schema = TableFactory.getInstance().getSchema();
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
+
+	public void setCatalog(String catalog) {
+		this.catalog = catalog;
+	}
+
+	String catalog = null;
+	String schema = null;
 	
 	private String tableAlias;
 	private ForeignKeys exportedKeys;
