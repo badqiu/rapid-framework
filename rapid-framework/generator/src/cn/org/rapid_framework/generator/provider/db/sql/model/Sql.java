@@ -61,6 +61,7 @@ public class Sql {
 	public Sql() {
 	}
 	
+	/** 判断select查询回来的列是否是同一张表的字段 */
 	public boolean isColumnsInSameTable() {
 		// FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
 		if(columns == null || columns.isEmpty()) return false;
