@@ -118,7 +118,7 @@ public class TableFactory {
 		ResultSet rs = dbMetaData.getTables(catalog, schema, tableName, null);
 		try {
 			while(rs.next()) {
-				Table table = createTable(conn, rs);
+				Table table = createTable(schema,catalog,conn, rs);
 				return table;
 			}
 		}finally {
@@ -127,7 +127,7 @@ public class TableFactory {
 		return null;
 	}
 
-	private Table createTable(Connection conn, ResultSet rs) throws SQLException {
+	private Table createTable(String schema,String catalog,Connection conn, ResultSet rs) throws SQLException {
 		String tableName = null;
 		try {
 			ResultSetMetaData rsMetaData = rs.getMetaData();
@@ -140,6 +140,8 @@ public class TableFactory {
 			}
 			
 			Table table = new Table();
+			table.setSchema(schema);
+			table.setCatalog(catalog);
 			table.setSqlName(tableName);
 			table.setRemarks(remarks);
 			
@@ -150,7 +152,6 @@ public class TableFactory {
 			}
 			
 			retriveTableColumns(table);
-			
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
 			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
@@ -166,7 +167,7 @@ public class TableFactory {
 		try {
 			List tables = new ArrayList();
 			while(rs.next()) {
-				tables.add(createTable(conn, rs));
+				tables.add(createTable(getSchema(),getCatalog(),conn, rs));
 			}
 			return tables;
 		}finally {
