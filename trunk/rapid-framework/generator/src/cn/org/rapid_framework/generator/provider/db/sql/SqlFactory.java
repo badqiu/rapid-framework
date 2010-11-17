@@ -106,8 +106,9 @@ public class SqlFactory {
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
+        ResultSet rs = null;
         try {
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			return rs.getMetaData(); 
 		} catch (SQLException e) {
 			try {
@@ -115,6 +116,8 @@ public class SqlFactory {
 			}catch(SQLException ee) {
 				throw e;
 			}
+		}finally {
+			DBHelper.close(rs);
 		}
 	}
 	
