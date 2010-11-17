@@ -20,6 +20,7 @@ import cn.org.rapid_framework.generator.provider.db.table.TableFactory.NotFoundT
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.BasicSqlFormatter;
@@ -64,12 +65,13 @@ public class SqlFactory {
         GLogger.debug("executeSql :"+sql.getExecuteSql());
         GLogger.debug("*********************************");
         
-        Connection conn = DataSourceProvider.getConnection();
+        Connection conn = null;
         try {
+        	conn = DataSourceProvider.getNewConnection();
+        	conn.setAutoCommit(false);
         	if(!DatabaseMetaDataUtils.isHsqlDataBase(conn.getMetaData())){
         		conn.setReadOnly(true);
         	}
-        	conn.setAutoCommit(false);
 	        PreparedStatement ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
             sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
@@ -82,10 +84,11 @@ public class SqlFactory {
         	throw new RuntimeException("sql parse error,\nexecutedSql:"+SqlParseHelper.removeOrders(executeSql),e);
         }finally {
         	try {
-	        	conn.rollback();
-	        	conn.close();
+	        	if(conn != null) conn.rollback();
         	}catch(Exception e) {
         		throw new RuntimeException(e);
+        	}finally {
+        		DBHelper.close(conn);
         	}
         }
     }
