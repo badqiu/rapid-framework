@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import org.xml.sax.InputSource;
 
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
+import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -303,7 +304,12 @@ public class GeneratorControl implements GeneratorConstants{
 	
 	public List<Map> queryForList(String sql,int limit) throws SQLException {
 		Connection conn = DataSourceProvider.getConnection();
-		return SqlExecutorHelper.queryForList(conn, sql, limit);
+		try {
+			List<Map> result =  SqlExecutorHelper.queryForList(conn, sql, limit);
+			return result;
+		}finally {
+			DBHelper.close(conn);
+		}
 	}
 	
 	boolean deleteGeneratedFile = false;
