@@ -128,23 +128,25 @@ public class TableFactory {
 	}
 
 	private Table createTable(Connection conn, ResultSet rs) throws SQLException {
-		String realTableName = null;
+		String tableName = null;
 		try {
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			String schemaName = rs.getString("TABLE_SCHEM") == null ? "" : rs.getString("TABLE_SCHEM");
-			realTableName = rs.getString("TABLE_NAME");
+			tableName = rs.getString("TABLE_NAME");
 			String tableType = rs.getString("TABLE_TYPE");
 			String remarks = rs.getString("REMARKS");
 			if(remarks == null && dbHelper.isOracleDataBase()) {
-				remarks = getOracleTableComments(realTableName);
+				remarks = getOracleTableComments(tableName);
 			}
 			
 			Table table = new Table();
-			table.setSqlName(realTableName);
+			table.setSqlName(tableName);
 			table.setRemarks(remarks);
 			
 			if ("SYNONYM".equals(tableType) && dbHelper.isOracleDataBase()) {
-			    table.setOwnerSynonymName(getSynonymOwner(realTableName));
+			    String[] ownerAndTableName = getSynonymOwnerAndTableName(tableName);
+				table.setOwnerSynonymName(ownerAndTableName[0]);
+				table.setTableSynonymName(ownerAndTableName[1]);
 			}
 			
 			retriveTableColumns(table);
@@ -154,7 +156,7 @@ public class TableFactory {
 			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
 			return table;
 		}catch(SQLException e) {
-			throw new RuntimeException("create table object error,tableName:"+realTableName,e);
+			throw new RuntimeException("create table object error,tableName:"+tableName,e);
 		}
 	}
 	
@@ -172,17 +174,18 @@ public class TableFactory {
 		}
 	}
 
-	private String getSynonymOwner(String synonymName)  {
+	private String[] getSynonymOwnerAndTableName(String synonymName)  {
 	      PreparedStatement ps = null;
 	      ResultSet rs = null;
-	      String ret = null;
+	      String[] ret = new String[2];
 	      try {
-	         ps = getConnection().prepareStatement("select table_owner from sys.all_synonyms where table_name=? and owner=?");
+			 ps = getConnection().prepareStatement("select table_owner,table_name from sys.all_synonyms where synonym_name=? and owner=?");
 	         ps.setString(1, synonymName);
 	         ps.setString(2, getSchema());
 	         rs = ps.executeQuery();
 	         if (rs.next()) {
-	            ret = rs.getString(1);
+	            ret[0] = rs.getString(1);
+	            ret[1] = rs.getString(2);
 	         }
 	         else {
 	            String databaseStructure = getDatabaseStructureInfo();
@@ -257,7 +260,7 @@ public class TableFactory {
 	      try {
 
 	         if (table.getOwnerSynonymName() != null) {
-	            indexRs = getMetaData().getIndexInfo(getCatalog(), table.getOwnerSynonymName(), table.getSqlName(), false, true);
+	            indexRs = getMetaData().getIndexInfo(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), false, true);
 	         }
 	         else {
 	            indexRs = getMetaData().getIndexInfo(getCatalog(), getSchema(), table.getSqlName(), false, true);
@@ -362,7 +365,7 @@ public class TableFactory {
 	private ResultSet getColumnsResultSet(Table table) throws SQLException {
 		ResultSet columnRs = null;
 	    if (table.getOwnerSynonymName() != null) {
-	         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getSqlName(), null);
+	         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), null);
 	    } else {
 	         columnRs = getMetaData().getColumns(getCatalog(), getSchema(), table.getSqlName(), null);
 	    }
@@ -375,7 +378,7 @@ public class TableFactory {
 	      ResultSet primaryKeyRs = null;
 	      try {
 	      if (table.getOwnerSynonymName() != null) {
-	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getSqlName());
+	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName());
 	      }
 	      else {
 	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), getSchema(), table.getSqlName());
