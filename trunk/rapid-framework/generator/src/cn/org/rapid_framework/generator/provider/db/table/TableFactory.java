@@ -373,6 +373,7 @@ public class TableFactory {
 		// get the primary keys
 	      List primaryKeys = new LinkedList();
 	      ResultSet primaryKeyRs = null;
+	      try {
 	      if (table.getOwnerSynonymName() != null) {
 	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getSqlName());
 	      }
@@ -384,8 +385,10 @@ public class TableFactory {
 	         GLogger.trace("primary key:" + columnName);
 	         primaryKeys.add(columnName);
 	      }
-	      primaryKeyRs.close();
-		return primaryKeys;
+	      }finally {
+	    	  DBHelper.close(primaryKeyRs);
+	      }
+		  return primaryKeys;
 	}
 
 	private String getOracleTableComments(String table)  {
