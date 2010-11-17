@@ -68,6 +68,7 @@ public class SqlParseHelper {
 	static Pattern insert = Pattern.compile("(\\s*insert\\s+into\\s+)(\\w+)",
 			Pattern.CASE_INSENSITIVE);
 		
+	/** 从一条sql中解释中包含的表  */
 	public static Set<NameWithAlias> getTableNamesByQuery(String sql) {
 		sql = sql.trim();
 		Set<NameWithAlias> result = new LinkedHashSet();
