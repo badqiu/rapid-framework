@@ -196,6 +196,9 @@ public class Column implements java.io.Serializable,Cloneable{
 		return _sqlName;
 	}
 
+	public void setSqlName(String v) {
+		this._sqlName = v;
+	}
 	
 	/**
 	 * Gets the Pk attribute of the Column object
