@@ -2,9 +2,9 @@ package cn.org.rapid_framework.generator.util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.mysql.jdbc.ResultSet;
 
 public class DBHelper {
 	
