@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -8,11 +9,14 @@ import java.util.List;
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.provider.db.table.model.ColumnSet;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlTypeChecker;
+import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
 
 /**
  * 用于生成代码的Sql对象.对应数据库的sql语句
@@ -60,24 +64,37 @@ public class Sql {
 	public boolean isColumnsInSameTable() {
 		// FIXME 还要增加表的列数与columns是否相等,才可以为select 生成 include语句
 		if(columns == null || columns.isEmpty()) return false;
-		Column firstTable = columns.iterator().next();
-		if(columns.size() == 1) return true;
-		if(firstTable.getTable() == null) {
-			return false;
-		}
 		
-		String preTableName = firstTable.getTable().getSqlName();
-		for(Column c :columns) {
-			Table table = c.getTable();
-			if(table == null) {
-				return false;
-			}
-			if(preTableName.equalsIgnoreCase(table.getSqlName())) {
-				continue;
-			}else {
-			    return false;
-			}
+		Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(executeSql);
+		if(tableNames.size() > 1) {
+		    return false;
 		}
+        Table t = TableFactory.getInstance().getTable(tableNames.iterator().next().getName());
+        for(Column c : columns) {
+            Column fromTableColumn = new ColumnSet(t.getColumns()).getBySqlName(c.getSqlName());
+            if(fromTableColumn == null) {
+                return false;
+            }
+        }
+        
+//		Column firstTable = columns.iterator().next();
+//		if(columns.size() == 1) return true;
+//		if(firstTable.getTable() == null) {
+//			return false;
+//		}
+//		
+//		String preTableName = firstTable.getTable().getSqlName();
+//		for(Column c :columns) {
+//			Table table = c.getTable();
+//			if(table == null) {
+//				return false;
+//			}
+//			if(preTableName.equalsIgnoreCase(table.getSqlName())) {
+//				continue;
+//			}else {
+//			    return false;
+//			}
+//		}
 		return true;
 	}
 
@@ -98,7 +115,9 @@ public class Sql {
 			return columns.iterator().next().getSimpleJavaType();
 		}
 		if(isColumnsInSameTable()) {
-			return columns.iterator().next().getTable().getClassName();
+		    Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(executeSql);
+		    Table t = TableFactory.getInstance().getTable(tableNames.iterator().next().getName());
+		    return t.getClassName();
 		}else {
 			if(operation == null) return null;
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+GeneratorProperties.getProperty(GeneratorConstants.GENERATOR_SQL_RESULTCLASS_SUFFIX,"Result");
