@@ -22,6 +22,7 @@ import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -115,9 +116,13 @@ public class TableFactory {
 		Connection conn = getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getTables(catalog, schema, tableName, null);
-		while(rs.next()) {
-			Table table = createTable(conn, rs);
-			return table;
+		try {
+			while(rs.next()) {
+				Table table = createTable(conn, rs);
+				return table;
+			}
+		}finally {
+			DBHelper.close(rs);
 		}
 		return null;
 	}
@@ -156,11 +161,15 @@ public class TableFactory {
 	private List getAllTables(Connection conn) throws SQLException {
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
-		List tables = new ArrayList();
-		while(rs.next()) {
-			tables.add(createTable(conn, rs));
+		try {
+			List tables = new ArrayList();
+			while(rs.next()) {
+				tables.add(createTable(conn, rs));
+			}
+			return tables;
+		}finally {
+			DBHelper.close(rs);
 		}
-		return tables;
 	}
 
 	private String getSynonymOwner(String synonymName)  {
@@ -184,7 +193,7 @@ public class TableFactory {
 	         GLogger.error(e.getMessage(), e);
 	         throw new RuntimeException("Exception in getting synonym owner " + databaseStructure);
 	      } finally {
-	         dbHelper.close(rs,ps);
+	         DBHelper.close(null,ps,rs);
 	      }
 	      return ret;
 	   }
@@ -209,7 +218,7 @@ public class TableFactory {
 	         GLogger.warn("Couldn't get schemas", e2);
 	         sb.append("  ?? Couldn't get schemas ??").append(nl);
 	      } finally {
-	         dbHelper.close(schemaRs,null);
+	         DBHelper.close(schemaRs);
 	      }
 
 	      try {
@@ -222,7 +231,7 @@ public class TableFactory {
 	         GLogger.warn("Couldn't get catalogs", e2);
 	         sb.append("  ?? Couldn't get catalogs ??").append(nl);
 	      } finally {
-	         dbHelper.close(catalogRs,null);
+	         DBHelper.close(catalogRs);
 	      }
 	      return sb.toString();
     }
@@ -279,7 +288,7 @@ public class TableFactory {
 	         // Bug #604761 Oracle getIndexInfo() needs major grants
 	         // http://sourceforge.net/tracker/index.php?func=detail&aid=604761&group_id=36044&atid=415990
 	      } finally {
-	         dbHelper.close(indexRs,null);
+	         DBHelper.close(indexRs);
 	      }
 
 	      List columns = getTableColumns(table, primaryKeys, indices, uniqueIndices, uniqueColumns);
@@ -299,7 +308,7 @@ public class TableFactory {
 		// get the columns
 	      List columns = new LinkedList();
 	      ResultSet columnRs = getColumnsResultSet(table);
-	      
+	      try {
 	      while (columnRs.next()) {
 	         int sqlType = columnRs.getInt("DATA_TYPE");
 	         String sqlTypeName = columnRs.getString("TYPE_NAME");
@@ -344,7 +353,9 @@ public class TableFactory {
 	         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnOverrideValues(table,column));
 	         columns.add(column);
 	    }
-	    columnRs.close();
+		} finally {
+			DBHelper.close(columnRs);
+		}
 		return columns;
 	}
 	
@@ -436,14 +447,7 @@ public class TableFactory {
 	}
 	
 	class DbHelper {
-		public void close(ResultSet rs,PreparedStatement ps,Statement... statements) {
-			try {
-				if(ps != null) ps.close();
-				if(rs != null) rs.close();
-				for(Statement s : statements) {s.close();}
-			}catch(Exception e){
-			}
-		}
+
 		public boolean isOracleDataBase() {
 			try {
 				return DatabaseMetaDataUtils.isOracleDataBase(getMetaData());
@@ -466,7 +470,7 @@ public class TableFactory {
 				e.printStackTrace();
 				return null;
 			}finally {
-				close(rs,null,s);
+				DBHelper.close(null,s,rs);
 			}
 		}		
 	}
