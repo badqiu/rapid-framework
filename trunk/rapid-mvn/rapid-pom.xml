@@ -29,7 +29,6 @@
 		<mybatis.version>3.0.1</mybatis.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<sourceEncoding>UTF-8</sourceEncoding>
 	</properties>
 
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
@@ -148,7 +147,6 @@
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
-				<scope>test</scope>
 			</dependency>
 			<!-- 
 			<dependency>
@@ -302,7 +300,7 @@
 			<!-- logging end-->
 			
 			<!-- j2ee web spec -->
-				<dependency>
+			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
 				<scope>provided</scope>
@@ -648,6 +646,16 @@
 						<sourceExclude>**/.svn/</sourceExclude>
 					</sourceExcludes>
 					<downloadSources>true</downloadSources>
+					<additionalConfig>
+					  <file>
+						<name>.settings/org.eclipse.core.resources.prefs</name>
+						<content>
+						  <![CDATA[
+						  encoding/<project>=${project.build.sourceEncoding}
+						  ]]>
+						</content>
+					  </file>
+				 </additionalConfig>
 				</configuration>
 			</plugin>
 
@@ -750,6 +758,15 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.5</version>
 			</plugin>	
+
+			<!-- site plugin -->
+		   <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+				  <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+				</configuration>
+		   </plugin>
 
 			<!-- jetty插件 -->
 			<plugin>
