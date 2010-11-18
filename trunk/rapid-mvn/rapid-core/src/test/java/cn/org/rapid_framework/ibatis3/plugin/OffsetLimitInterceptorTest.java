@@ -4,6 +4,7 @@ import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.mapping.MappedStatement.Builder;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.RowBounds;
@@ -39,7 +40,7 @@ public class OffsetLimitInterceptorTest {
 		int count = 10000 * 10;
 		long start = System.currentTimeMillis();
 		for(int i = 0; i < count; i++) {
-			Builder builder = new MappedStatement.Builder(conf,null,new StaticSqlSource(conf,"select * from userinfo "),null);
+			Builder builder = new MappedStatement.Builder(conf,"id",new StaticSqlSource(conf,"select * from userinfo "),SqlCommandType.SELECT);
 			MappedStatement ms = builder.build();
 			Object[] args = new Object[]{ms,new Object(),new RowBounds(100,200),null};
 			di.processIntercept(args);
