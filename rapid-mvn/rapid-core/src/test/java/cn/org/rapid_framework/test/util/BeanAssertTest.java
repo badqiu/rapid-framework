@@ -1,7 +1,7 @@
 package cn.org.rapid_framework.test.util;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.TestBean;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.CommontBean;
 import cn.org.rapid_framework.test.util.testbean.Bean1;
 
 public class BeanAssertTest extends TestCase {
@@ -23,7 +23,7 @@ public class BeanAssertTest extends TestCase {
 	}
 
 	public void test3() {
-		TestBean b = new TestBean();
+		CommontBean b = new CommontBean();
 		b.setUserName("2");
 		b.setAge(1);
 		b.setPassword("p");
@@ -31,7 +31,7 @@ public class BeanAssertTest extends TestCase {
 	}
 
 	public void test3_ignore_properties() {
-		TestBean b = new TestBean();
+		CommontBean b = new CommontBean();
 		b.setAge(1);
 		BeanAssert.assertPropertiesNotNull(b,new String[]{"password","userName"});
 		b.setUserName("usr");
@@ -41,7 +41,7 @@ public class BeanAssertTest extends TestCase {
 			BeanAssert.assertPropertiesNotNull(b);
 			fail();
 		}catch(Error e) {
-			assertTrue(e.getMessage().contains("[TestBean.password] must be not null"));
+			assertTrue(e.getMessage(),e.getMessage().contains("[CommontBean.password] must be not null"));
 		}
 	}
 
