@@ -9,9 +9,9 @@ public class TableTest {
 
 	@Test
 	public void fromClass()  {
-		Table t = MetadataCreateUtils.createTable(TestBean.class);
+		Table t = MetadataCreateUtils.createTable(CommontBean.class);
 
-		assertEquals("test_bean",t.getTableName());
+		assertEquals("commont_bean",t.getTableName());
 		assertEquals(3,t.getColumns().size());
 
 		Column c0 = t.getColumns().get(0);

@@ -26,8 +26,8 @@ public class MetadataCreateUtilsTest {
     
     @Test
     public void testCreate() {
-    	Table table = MetadataCreateUtils.createTable(TestUserInfoBean.class);
-    	assertEquals(table.getTableName(),"test_user_info_bean");
+    	Table table = MetadataCreateUtils.createTable(CommentUserInfoBean.class);
+    	assertEquals(table.getTableName(),"comment_user_info_bean");
     	
     	vefiryColumn(table.getPrimaryKeyColumns().get(0),"user_id",false,false,true);
     }
