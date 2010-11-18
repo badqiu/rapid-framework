@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.TestBean;
+import cn.org.rapid_framework.jdbc.sqlgenerator.metadata.CommontBean;
 
 public  class Bean1 {
     private char char1;
@@ -28,7 +28,7 @@ public  class Bean1 {
     private Map map;
     private ArrayList arrayList;
     private HashMap hashMap;
-    private TestBean testBean;
+    private CommontBean testBean;
     private Set set;
     private HashSet hashSet;
     private Collection collection;
@@ -124,10 +124,10 @@ public  class Bean1 {
 	public void setHashMap(HashMap hashMap) {
 		this.hashMap = hashMap;
 	}
-	public TestBean getTestBean() {
+	public CommontBean getTestBean() {
 		return testBean;
 	}
-	public void setTestBean(TestBean testBean) {
+	public void setTestBean(CommontBean testBean) {
 		this.testBean = testBean;
 	}
 	public Set getSet() {
