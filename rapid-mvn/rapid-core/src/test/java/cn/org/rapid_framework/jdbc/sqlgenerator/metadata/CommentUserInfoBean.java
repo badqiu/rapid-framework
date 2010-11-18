@@ -28,7 +28,7 @@ import cn.org.rapid_framework.util.DateConvertUtils;
  */
 
 
-public class TestUserInfoBean implements java.io.Serializable{
+public class CommentUserInfoBean implements java.io.Serializable{
 	private static final long serialVersionUID = 5454155825314635342L;
 	
 	//alias
@@ -56,13 +56,11 @@ public class TestUserInfoBean implements java.io.Serializable{
 	private Integer age;
 	//columns END
 	
-	//注意： spring_jdbc的MetadataCreateUtils.fromTable(Entity.class) 可以读取JPA annotation的标注信息
-	//现支持 @Id,@Column,@Table标注
 
-	public TestUserInfoBean(){
+	public CommentUserInfoBean(){
 	}
 
-	public TestUserInfoBean(
+	public CommentUserInfoBean(
 		java.lang.Long userId
 	){
 		this.userId = userId;
@@ -145,9 +143,9 @@ public class TestUserInfoBean implements java.io.Serializable{
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof TestUserInfoBean == false) return false;
+		if(obj instanceof CommentUserInfoBean == false) return false;
 		if(this == obj) return true;
-		TestUserInfoBean other = (TestUserInfoBean)obj;
+		CommentUserInfoBean other = (CommentUserInfoBean)obj;
 		return new EqualsBuilder()
 			.append(getUserId(),other.getUserId())
 			.isEquals();

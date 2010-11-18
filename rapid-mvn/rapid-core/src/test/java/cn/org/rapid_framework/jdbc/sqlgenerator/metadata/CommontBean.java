@@ -1,6 +1,6 @@
 package cn.org.rapid_framework.jdbc.sqlgenerator.metadata;
 
-public class TestBean {
+public class CommontBean {
 	private String userName;
 	private int age;
 	private String password;
