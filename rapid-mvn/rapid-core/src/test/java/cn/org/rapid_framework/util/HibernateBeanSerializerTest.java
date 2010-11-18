@@ -35,7 +35,7 @@ public class HibernateBeanSerializerTest extends TestCase {
 	JdbcTemplate jdbcTemplate;
 	private Role role;
 	public void setUp() throws DataAccessException, FileNotFoundException, IOException {
-		context = new ClassPathXmlApplicationContext("/fortest_spring/*.xml");
+		context = new ClassPathXmlApplicationContext("/fortest_spring/applicationContext-*.xml");
 		jdbcTemplate = (JdbcTemplate)context.getBean("jdbcTemplate");
 		roleDao = (RoleDao)context.getBean("roleDao");
 		resourceDao = (ResourceDao)context.getBean("resourceDao");
