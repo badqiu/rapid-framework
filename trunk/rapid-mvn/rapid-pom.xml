@@ -655,7 +655,7 @@
 						  ]]>
 						</content>
 					  </file>
-				 </additionalConfig>
+				    </additionalConfig>
 				</configuration>
 			</plugin>
 
