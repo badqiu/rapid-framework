@@ -111,7 +111,7 @@ public class HttpIncludeTest extends TestCase {
                         servletResponse.getWriter().append(
                             "test_local_write_date_with_write");
                         servletResponse.getOutputStream().write('c');
-                    	}catch(Exception e) {
+                    	}catch(IOException e) {
 							throw new RuntimeException(e);
 						}
                     }
@@ -144,7 +144,7 @@ public class HttpIncludeTest extends TestCase {
                         servletResponse.getOutputStream().write('c');
                         servletResponse.getWriter().append(
                             "test_local_write_date_with_write");
-                    	}catch(Exception e) {
+                    	}catch(IOException e) {
 							throw new RuntimeException(e);
 						}
                     }
