@@ -11,7 +11,7 @@ public class MapBackendCache implements Cache {
 		Object value;
 		public Value(Object value, int expiration) {
 			this.value = value;
-			this.expiration = expiration;
+			this.expiration = expiration * 1000;
 		}
 	}
 	public void add(String key, Object value, int expiration) {
@@ -40,7 +40,7 @@ public class MapBackendCache implements Cache {
 	public Object get(String key) {
 		Value value = (Value)map.get(key);
 		if(value == null) return null;
-		boolean isTimeout = (value.gmtCreate + value.expiration) > System.currentTimeMillis();
+		boolean isTimeout = (value.gmtCreate + value.expiration) <= System.currentTimeMillis();
 		if(isTimeout) {
 			delete(key);
 			return null;
