@@ -64,7 +64,7 @@ public class BlockDirectiveTest {
 		assertEquals("<html><head>base_head_content</head><body>base_body_content</body></html>",processTemplate("super_not_found_parent.flt"));
 	}
 	
-	@Test(timeout=8000) // performance cost: time:4328.0 second/process:23105.36 count:100000
+	@Test(timeout=10000) // performance cost: time:4328.0 second/process:23105.36 count:100000
 	public void testPerformance() throws TemplateException, IOException {
 		HashMap hashMap = new HashMap();
 		hashMap.put("content", RandomStringUtils.randomAlphabetic(8192));
