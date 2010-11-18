@@ -8,7 +8,7 @@ import cn.org.rapid_framework.util.fortest.Role;
 public class BeanUtilsTest extends TestCase {
 	
 	private Role role;
-	
+	 
 	@Override
 	protected void setUp(){
 		role = new Role();
