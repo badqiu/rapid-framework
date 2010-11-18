@@ -15,15 +15,15 @@ public class ScanClassUtilsTest extends TestCase {
 			assertTrue(true);
 		}
 		
-		clazzes = ScanClassUtils.scanPackages("javacommon.util");
+		clazzes = ScanClassUtils.scanPackages("cn.org.rapid_framework.util");
 		assertFalse(clazzes.isEmpty());
-		assertTrue(contains(clazzes, "javacommon.util"));
+		assertTrue(contains(clazzes, "cn.org.rapid_framework.util"));
 		System.out.println(clazzes);
 		
-		clazzes = ScanClassUtils.scanPackages("javacommon.**.*");
+		clazzes = ScanClassUtils.scanPackages("cn.org.rapid_framework.util.**.*");
 		assertFalse(clazzes.isEmpty());
-		assertTrue(contains(clazzes, "javacommon.util"));
-		assertTrue(contains(clazzes, "javacommon.base"));
+		assertTrue(contains(clazzes, "cn.org.rapid_framework.util"));
+		assertTrue(contains(clazzes, "cn.org.rapid_framework.util.fortest"));
 		System.out.println(clazzes);
 		
 		clazzes = ScanClassUtils.scanPackages("javacommon.**.*,cn.org.*_framework");
