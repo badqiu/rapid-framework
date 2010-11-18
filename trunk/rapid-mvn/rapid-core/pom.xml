@@ -13,7 +13,7 @@
 
 	<artifactId>rapid-core</artifactId>
 	<name>rapid-core</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>4.0</version>
 	<packaging>jar</packaging>
 
 
