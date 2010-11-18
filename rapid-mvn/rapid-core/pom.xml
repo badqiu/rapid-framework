@@ -194,5 +194,10 @@
 	        <artifactId>jmemcached-core</artifactId>
 	        <version>0.9</version>
     	</dependency>
+    	
+    	<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+		</dependency>
 	</dependencies>
 </project>
