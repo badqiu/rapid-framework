@@ -28,11 +28,12 @@ import org.springframework.util.ResourceUtils;
 public class HSQLMemDataSourceUtils {
 
 	public static DataSource getDataSource(Class initScripts,String encoding) {
+		String resource = "classpath:"+initScripts.getName().replace('.', '/')+".sql";
 		try {
-			File file = ResourceUtils.getFile("classpath:"+initScripts.getName().replace('.', '/')+".sql");
+			File file = ResourceUtils.getFile(resource);
 			return getDataSource(file,encoding);
 		} catch (FileNotFoundException e) {
-			throw new IllegalStateException("sql file not found",e);
+			throw new IllegalStateException("sql file not found,file:"+resource,e);
 		}
 	}
 	
