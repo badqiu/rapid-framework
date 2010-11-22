@@ -11,7 +11,7 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfigSet;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
 public class TableConfigXmlBuilderTest extends TestCase {

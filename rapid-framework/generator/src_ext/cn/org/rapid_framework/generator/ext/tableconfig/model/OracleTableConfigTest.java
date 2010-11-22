@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis.model;
+package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,7 +44,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     
     public void test_genereate_by_sql_config() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/oracle_user_info.xml");
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/oracle_user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         GeneratorModel gm = newFromTable(t);
         g.generateBy(gm.templateModel, gm.filePathModel);
@@ -53,7 +53,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
 
     public void test_generate_by_oracle_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/oracle_user_info.xml");
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/oracle_user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
@@ -63,7 +63,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
 
     public void test_generate_by_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/user_info.xml");
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);

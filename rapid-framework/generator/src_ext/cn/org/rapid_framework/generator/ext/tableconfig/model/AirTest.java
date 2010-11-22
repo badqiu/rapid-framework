@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis.model;
+package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -53,7 +53,7 @@ public class AirTest extends GeneratorTestCase {
                                                                       Exception,
                                                                       SQLException {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/"+tableConfigFilename);
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/"+tableConfigFilename);
         TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
         GeneratorModel gm = MetaTableTest.newFromTable(t);
         g.generateBy(gm.templateModel, gm.filePathModel);

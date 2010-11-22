@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis;
+package cn.org.rapid_framework.generator.ext.tableconfig;
 
 import java.util.HashMap;
 
