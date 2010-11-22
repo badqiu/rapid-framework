@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+
+<table sqlname="user_info" remarks="UserInfoTable" namespace="" >
+	<column javatype="" name=""/>
+	<column javatype="" name=""/>
+	
+	<sql id="">
+		<dynamic></dynamic>
+	</sql>
+	
+	<operation name="" >
+		<extraparams>
+			<param javatype="" name=""/>
+		</extraparams>
+		<sql>
+			<isEmpty></isEmpty>
+			<include refid=""/>
+		</sql>
+		<sqlmap>
+			<dynamic></dynamic>
+		</sqlmap>
+	</operation>
+	
+</table>
