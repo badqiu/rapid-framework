@@ -219,6 +219,10 @@ public class SqlParseHelperTest extends TestCase{
 	    assertEquals("  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("  select user from info", "select count(*) "));
 	    assertEquals("<!--  select count(*)  from info",SqlParseHelper.toCountSqlForPaging("<!--  select user from info", "select count(*) "));
 	    assertEquals("select count(*)  from (select user,max(user),min(user),count(user) from info group by user having count(user) > 0 ) forGroupByCountTable",SqlParseHelper.toCountSqlForPaging("select user,max(user),min(user),count(user) from info group by user having count(user) > 0", "select count(*) "));
+	    
+	    
+	    assertEquals("<![CDATA[ select count(*)  FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 ]]>",SqlParseHelper.toCountSqlForPaging("<![CDATA[ SELECT  /* TallyItem.findTallyItemPageListByDay.count */ tally_type_id,tally_amount FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 ]]>", "select count(*) "));
+	    assertEquals("<![CDATA[\n select count(*)  FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>",SqlParseHelper.toCountSqlForPaging("<![CDATA[\n SELECT  /* TallyItem.findTallyItemPageListByDay.count */ tally_type_id,tally_amount FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>", "select count(*) "));
 	}
 	
 	public void test_removeSqlComments() {
