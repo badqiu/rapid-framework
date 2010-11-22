@@ -58,9 +58,19 @@ public class DBHelper {
 		close(ps);
 		close(rs);
 	}
+
+	public static void close(PreparedStatement ps,ResultSet rs) {
+		close(ps);
+		close(rs);
+	}
 	
 	public static void close(Connection conn,Statement s,ResultSet rs) {
 		close(conn);
+		close(s);
+		close(rs);
+	}
+
+	public static void close(Statement s,ResultSet rs) {
 		close(s);
 		close(rs);
 	}
