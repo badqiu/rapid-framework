@@ -546,6 +546,13 @@ public class StringHelper {
 	    return removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(removeXmlTagIfBodyEmpty(orderByRemovedSql))));
 	}
 	
+    public static String removeXMLCdataTag(String str) {
+        if(str == null) return null;
+        str = StringHelper.replace(str, "<![CDATA[", "");
+        str = StringHelper.replace(str, "]]>", "");
+        return str;
+    }
+    
 	/**
 	 * 为 查询sql中的关键字 select后面插入一段值 
 	 **/
