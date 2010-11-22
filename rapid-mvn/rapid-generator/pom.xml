@@ -8,12 +8,18 @@
 		<relativePath>../rapid-pom.xml</relativePath>
 	</parent>
 
-	<artifactId>rapid-generator</artifactId>
-	<name>rapid-generator</name>
+	<artifactId>generator-parent</artifactId>
+	<name>generator-parent</name>
+	<packaging>pom</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+
+  <modules>
+      <module>rapid-generator</module>
+      <module>rapid-generator-ext</module>
+  </modules>
 
   <dependencies>
 		<dependency>
@@ -26,4 +32,5 @@
 				<scope>test</scope>
 		</dependency>
   </dependencies>
+
 </project>
