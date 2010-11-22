@@ -31,6 +31,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<!-- 用于 java.net的 maven仓库 jar包 release -->
 	<distributionManagement>
 		<repository>
 			<id>java.net-m2-repository</id>
@@ -576,6 +577,7 @@
 	<!-- 插件配置 -->
 	<build>
 
+		<!-- 用于 java.net的 maven仓库 jar包 release -->
 		<extensions>
 		  <extension>
 			<groupId>org.jvnet.wagon-svn</groupId>
