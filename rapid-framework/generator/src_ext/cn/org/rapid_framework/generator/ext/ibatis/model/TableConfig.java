@@ -259,11 +259,14 @@ public class TableConfig {
                 if(StringHelper.isNotBlank(op.getMultiplicity())) {
                     sql.setMultiplicity(op.getMultiplicity());
                 }
-                if(StringHelper.isBlank(op.getParamtype()) && (sql.isSelectSql() || sql.isDeleteSql())) {
-                    sql.setParamType("primitive");
-                }else {
+                
+                //FIXME 与dalgen的规则是否一致
+                if(StringHelper.isNotBlank(op.getParamtype())) {
                     sql.setParamType(op.getParamtype());
+                }else if(StringHelper.isBlank(op.getParamtype()) && (sql.isSelectSql() || sql.isDeleteSql())) {
+                    sql.setParamType("primitive");
                 }
+                
                 return sql;
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
