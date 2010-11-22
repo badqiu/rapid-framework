@@ -5,6 +5,7 @@
 package ${basepackage}.daointerface;
 import org.springframework.dao.DataAccessException;
 import ${basepackage}.operation.*;
+import ${basepackage}.dataobject.*;
 
 import java.util.List;
 import java.util.Date;
@@ -27,7 +28,7 @@ public interface ${tableConfig.className}DAO {
 	 * sql:
 	 * <pre>${StringHelper.removeCrlf(sql.executeSql)?trim}</pre> 
 	 */
-	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException;
+	public <@generateResultClassName sql 'DO'/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException;
 </#list>
 
 }

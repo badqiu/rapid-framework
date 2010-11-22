@@ -6,17 +6,17 @@
 	</#if>
 </#function>
 
-<#macro generateResultClassName sql>
+<#macro generateResultClassName sql suffix=''>
 	<#compress>
 	<#if sql.selectSql>
+		<#local resultClassName><#if sql.resultClassName==tableConfig.className>${sql.resultClassName}${suffix}<#else>${sql.resultClassName}</#if></#local>
 		<#if sql.paging>
 			PageList
 		<#elseif sql.multiplicity = 'one'>
-			${sql.resultClassName}
+			${resultClassName}
 		<#else>
-			List<${sql.resultClassName}>
+			List<${resultClassName}>
 		</#if>
-		
 	<#else>
 		<#if sql.deleteSql>
 			int
@@ -46,7 +46,7 @@
 			${sql.parameterClassName} param
 		<#else>
 			<#if sql.paging>
-				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageNo,int pageSize
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageSize,int pageNo
 			<#else>
 				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
 			</#if>
