@@ -28,6 +28,8 @@
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<mybatis.version>3.0.1</mybatis.version>
 		
+		<project.version>4.0</project.version>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -44,23 +46,23 @@
 		<dependencies>
 			<!--  sub projects BEGIN -->
 			<dependency>
-				<groupId>com.company.projectname</groupId>
-				<artifactId>projectname-common</artifactId>
+				<groupId>cn.org.rapid</groupId>
+				<artifactId>rapid-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.company.projectname</groupId>
-				<artifactId>projectname-dao</artifactId>
+				<groupId>cn.org.rapid</groupId>
+				<artifactId>rapid-generator</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.company.projectname</groupId>
-				<artifactId>projectname-service</artifactId>
+				<groupId>cn.org.rapid</groupId>
+				<artifactId>rapid-generator-ext</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.company.projectname</groupId>
-				<artifactId>projectname-web</artifactId>
+				<groupId>cn.org.rapid</groupId>
+				<artifactId>rapid-maven-plugin</artifactId>
 				<version>${project.version}</version>
 			</dependency>			
 			<!--  sub projects END -->
@@ -514,9 +516,9 @@
 				<scope>test</scope>
 			</dependency>			
 			<dependency>
-			    <groupId>hsqldb</groupId>
-			    <artifactId>hsqldb</artifactId>
-			    <version>1.8.0.10</version>
+				<groupId>org.hsqldb</groupId>
+				<artifactId>hsqldb</artifactId>
+				<version>1.8.0.10</version>
 			</dependency>
 			<dependency>
 			    <groupId>mysql</groupId>
