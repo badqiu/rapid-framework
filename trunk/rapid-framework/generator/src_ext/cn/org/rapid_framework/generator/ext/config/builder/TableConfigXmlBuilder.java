@@ -9,13 +9,13 @@ import java.util.List;
 
 import org.xml.sax.SAXException;
 
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfigSet;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ColumnConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.OperationConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ParamConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.ResultMapConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig.SqlConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.ColumnConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.OperationConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.ParamConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.ResultMapConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.SqlConfig;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;

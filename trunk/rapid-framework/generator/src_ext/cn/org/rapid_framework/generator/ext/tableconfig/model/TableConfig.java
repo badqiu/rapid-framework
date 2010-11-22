@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis.model;
+package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder;
-import cn.org.rapid_framework.generator.ext.ibatis.IbatisSqlMapConfigParser;
+import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;

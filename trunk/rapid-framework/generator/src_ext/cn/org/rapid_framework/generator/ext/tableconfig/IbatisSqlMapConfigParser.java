@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis;
+package cn.org.rapid_framework.generator.ext.tableconfig;
 
 import java.io.File;
 import java.io.IOException;
@@ -144,7 +144,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
         System.out.println("parsed:"+parse("<dynamic prepend='WHERE 1=1'>123</dynamic>"));
         System.out.println("parsed:"+parse("select * from user_info"));
-        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis/test.xml");
+        File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/test.xml");
 		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
 		System.out.println("".equals(removeComments("<!--1\n2\n3-->")));
 		System.out.println("".equals(removeComments("/*1\n2\n3*/")));

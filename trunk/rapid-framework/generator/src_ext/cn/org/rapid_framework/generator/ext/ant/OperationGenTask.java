@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfig;
-import cn.org.rapid_framework.generator.ext.ibatis.model.TableConfigSet;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;

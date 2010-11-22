@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.ibatis.model;
+package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
 import junit.framework.TestCase;
 
