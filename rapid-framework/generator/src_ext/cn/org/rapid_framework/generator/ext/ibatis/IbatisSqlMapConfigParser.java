@@ -72,7 +72,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
 	        	openClose.close = attributes.get("close");
             }
         }
-        return removeXMLCdata(SqlParseHelper.replaceWhere(sb.toString()));
+        return StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sb.toString()));
     }
     
     private static class OpenCloseTag {
@@ -139,12 +139,6 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
         return str;
     }
 
-    private static String removeXMLCdata(String str) {
-        str = StringHelper.replace(str, "<![CDATA[", "");
-        str = StringHelper.replace(str, "]]>", "");
-        return str;
-    }
-    
     public static void main(String[] args) throws IOException {
         System.out.println("<abc>123</abc> <diy></diy>".replaceAll("</?\\w*>", ""));
         System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
