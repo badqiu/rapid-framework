@@ -15,7 +15,7 @@ import org.apache.tools.ant.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder;
+import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;

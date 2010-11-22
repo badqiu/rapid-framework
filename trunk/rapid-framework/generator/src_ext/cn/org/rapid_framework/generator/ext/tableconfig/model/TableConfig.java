@@ -12,8 +12,8 @@ import java.util.Map;
 import org.xml.sax.SAXException;
 
 import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.ext.config.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser;
+import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
