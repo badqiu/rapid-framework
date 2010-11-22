@@ -3,7 +3,6 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-
 	<parent>
 		<groupId>cn.org.rapid</groupId>
 		<artifactId>parent</artifactId>
@@ -13,8 +12,8 @@
 
 	<artifactId>rapid-core</artifactId>
 	<name>rapid-core</name>
-	<version>4.0</version>
 	<packaging>jar</packaging>
+	<version>${project.version}</version>	
 
 
 	<properties>
@@ -196,7 +195,7 @@
     	</dependency>
     	
     	<dependency>
-			<groupId>hsqldb</groupId>
+			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 		</dependency>
 		
