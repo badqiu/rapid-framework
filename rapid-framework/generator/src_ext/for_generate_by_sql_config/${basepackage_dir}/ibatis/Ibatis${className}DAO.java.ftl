@@ -6,6 +6,7 @@
 package ${basepackage}.ibatis;
 
 import ${basepackage}.operation.*;
+import ${basepackage}.dataobject.*;
 
 import java.util.List;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class Ibatis${tableConfig.className}DAO extends <#if (tableConfig.autoSwi
 	 * sql: 
 	 * <pre>${StringHelper.removeCrlf(sql.executeSql)?trim}</pre>
 	 */
-	public <@generateResultClassName sql/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
+	public <@generateResultClassName sql 'DO'/> ${sql.operation}(<@generateOperationArguments sql/>) throws DataAccessException {
 		<#if sql.paramType != "object" && !isUseParamObject(sql)>
 			<#if (sql.params?size > 1)>
 		Map<String,Object> param = new HashMap<String,Object>();
@@ -62,14 +63,14 @@ public class Ibatis${tableConfig.className}DAO extends <#if (tableConfig.autoSwi
 	<#if sql.selectSql>
 		<#if sql.paging>
 			<#if isUseParamObject(sql)>
-		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName});
+		return (<@generateResultClassName sql 'DO'/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName});
 			<#else>
-		return (<@generateResultClassName sql/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName},pageNo,pageSize);
+		return (<@generateResultClassName sql 'DO'/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName},pageNo,pageSize);
 			</#if>
 		<#elseif sql.multiplicity = 'one'>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
+		return (<@generateResultClassName sql 'DO'/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
 		<#else>
-		return (<@generateResultClassName sql/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",${paramName});
+		return (<@generateResultClassName sql 'DO'/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",${paramName});
 		</#if>
 	</#if>
 	<#if sql.deleteSql>
