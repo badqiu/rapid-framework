@@ -28,9 +28,9 @@ public class XMLHelperTest extends TestCase {
         assertEquals("cn1",table.get("className"));
         assertEquals("ta1",table.get("tableAlias"));
         
-        verifyColumn(columns.get(0),"{sqlName=username, columnName=c1, columnAlias=a1}");
-        verifyColumn(columns.get(1),"{sqlName=password, columnName=c2, columnAlias=a2}");
-        verifyColumn(columns.get(2),"{sqlName=sex, columnName=c3, columnAlias=a3}");
+        verifyColumn(columns.get(0),"{columnAlias=a1, sqlName=username, columnName=c1}");
+        verifyColumn(columns.get(1),"{columnAlias=a2, sqlName=password, columnName=c2}");
+        verifyColumn(columns.get(2),"{columnAlias=a3, sqlName=sex, columnName=c3}");
         
         assertEquals(columns.size(),5);
         
