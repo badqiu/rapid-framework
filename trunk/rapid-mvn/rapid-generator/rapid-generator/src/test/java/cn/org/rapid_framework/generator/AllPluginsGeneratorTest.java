@@ -9,7 +9,9 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	public void testGenerate() throws Exception{
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		File[] listFiles = new File("plugins").listFiles();
+		File pluginDir = new File("plugins");
+		File[] listFiles = pluginDir.listFiles();
+		assertNotNull("plugins must be not null",listFiles);
 		for(int i = 0; i < listFiles.length; i++) {
 			File child = listFiles[i];
 			if(child.isHidden() || !child.isDirectory()) {

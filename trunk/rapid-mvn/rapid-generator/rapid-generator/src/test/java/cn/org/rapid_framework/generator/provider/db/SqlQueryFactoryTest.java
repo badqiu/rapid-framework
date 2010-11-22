@@ -198,10 +198,11 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		return new GeneratorModel(templateModel,filePathModel);
 	}
 	
-	private static void setShareVars(Map templateModel) {
-		templateModel.putAll(System.getProperties());
-		templateModel.put("env", System.getenv());
-		templateModel.put("className", "UserInfoBlog");
-		templateModel.put("tableClassName", "UserInfoBlog");
+	private static void setShareVars(Map map) {
+		map.putAll(System.getProperties());
+		map.put("env", System.getenv());
+		map.put("className", "UserInfoBlog");
+		map.put("tableClassName", "UserInfoBlog");
+		map.put("basepackage", "com.company.project");
 	}
 }
