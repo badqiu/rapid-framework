@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator.ext.config.builder;
+package cn.org.rapid_framework.generator.ext.tableconfig.builder;
 
 import java.io.BufferedInputStream;
 import java.io.File;
