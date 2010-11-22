@@ -24,7 +24,7 @@ public class GeneratorTaskTest extends GeneratorTestCase {
     public void setUp() throws Exception {
         super.setUp();
         GeneratorProperties.setProperty("sequencesList","seq_user_id");
-        project.setBaseDir(FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis"));
+        project.setBaseDir(FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig"));
         putAllProperties(project,GeneratorProperties.getProperties());
         project.setProperty("appName", "projectName");
         task.setProject(project);
