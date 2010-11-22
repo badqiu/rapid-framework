@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.util;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
 
@@ -223,6 +224,7 @@ public class SqlParseHelperTest extends TestCase{
 	    
 	    assertEquals("<![CDATA[ select count(*)  FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 ]]>",SqlParseHelper.toCountSqlForPaging("<![CDATA[ SELECT  /* TallyItem.findTallyItemPageListByDay.count */ tally_type_id,tally_amount FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 ]]>", "select count(*) "));
 	    assertEquals("<![CDATA[\n select count(*)  FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>",SqlParseHelper.toCountSqlForPaging("<![CDATA[\n SELECT  /* TallyItem.findTallyItemPageListByDay.count */ tally_type_id,tally_amount FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>", "select count(*) "));
+	    assertEquals("<![CDATA[\n select count(*)  FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>",Sql.toCountSqlForPaging("<![CDATA[\n SELECT  /* TallyItem.findTallyItemPageListByDay.count */ tally_type_id,tally_amount FROM tally_item where user_id = #userId# and tally_type_code = #tallyTypeCode#and tally_date = #tallyDate# and is_delete = 0 \n]]>"));
 	}
 	
 	public void test_removeSqlComments() {
