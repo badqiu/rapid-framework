@@ -1,18 +1,19 @@
 package cn.org.rapid_framework.io.filter;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
-public class VelocityFilterXmlWebApplicationContext extends org.springframework.web.context.support.XmlWebApplicationContext{
+public class VelocityFilterXmlWebApplicationContext extends XmlWebApplicationContext{
 
-//    private VelocityFilterResourcePatternResolver resourceLoader = new VelocityFilterResourcePatternResolver();
-//    
-//    @Override
-//    public Resource getResource(String location) {
-//        return super.getResource(location);
-//    }
-//    
-//    @Override
-//    public Resource[] getResources(String locationPattern) throws IOException {
-//        return resourceLoader.getResources(locationPattern);
-//    }
+    @Override
+    protected ResourcePatternResolver getResourcePatternResolver() {
+        return new VelocityFilterResourcePatternResolver(super.getResourcePatternResolver());
+    }
+    
+    @Override
+    protected Resource getResourceByPath(String path) {
+        return new VelocityFilterResource(super.getResourceByPath(path));
+    }
     
 }
