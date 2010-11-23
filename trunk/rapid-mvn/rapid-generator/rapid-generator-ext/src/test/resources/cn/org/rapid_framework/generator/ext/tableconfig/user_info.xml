@@ -18,7 +18,7 @@
 		    <param name="pageSize" javatype="int"/>
 		</extraparams>	
 		<sql>
-				INSERT INTO user_info (username,password) values (#username#,#password#)
+				INSERT INTO user_info (user_id,username,password) values (#user_id#,#username#,#password#)
 			<selectKey resultClass="java.lang.Long" type="post" keyProperty="user_id" >
             select last_insert_id() from any
     		</selectKey>
@@ -31,7 +31,7 @@
 		    <param name="pageSize" javatype="int"/>
 		</extraparams>	
 		<sql>
-			INSERT INTO user_info (age,username,password,birth_date,sex) values (curdate(),#username#,?,curtime(),curdate())
+			INSERT INTO user_info (age,username,password,birth_date,sex,user_id) values ('23',#username#,?,curdate(),'12','123111')
 			<selectKey resultClass="java.lang.Long" type="post" keyProperty="user_id" >
             select last_insert_id() from any
     		</selectKey>
@@ -231,7 +231,7 @@
     	<sql>
 	    <![CDATA[
 	    SELECT USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
-	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE 
+	        FROM USER_INFO WHERE AGE = #age#  
 	    ]]>
 	    </sql>
     </operation>
@@ -308,7 +308,7 @@
     	<sql>
 	    <![CDATA[
 	    SELECT <include refid="columns"/> 
-	        FROM USER_INFO WHERE AGE = #age# FOR UPDATE 
+	        FROM USER_INFO WHERE AGE = #age#  
 	    ]]>
 	    </sql>
     </operation>
