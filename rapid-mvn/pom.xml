@@ -9,7 +9,7 @@
 		<version>1.0</version>
 		<relativePath>rapid-pom.xml</relativePath>
 	</parent>
-	<artifactId>pom</artifactId>
+	<artifactId>rapid</artifactId>
 	<packaging>pom</packaging>
 	<name>rapid - framework</name>
 	
