@@ -87,7 +87,7 @@ public class GeneratorTestCase extends TestCase{
 	
 	public String getTempDir() {
 		String tempDir = System.getProperty("java.io.tmpdir");
-		return tempDir+"/test_generator_out";
+		return new File(tempDir,"test_generator_out").getAbsolutePath();
 	}
 	
 }
