@@ -230,7 +230,7 @@ public class SqlFactory {
 		private Column findColumnByParamName(ParsedSql parsedSql,Sql sql, String paramName) throws Exception {
 			Column column = sql.getColumnByName(paramName);
 			if(column == null) {
-				//FIXME 还未处理 t.username = :username的t前缀问题
+				//FIXME 还未处理 t.username = :username的t前缀问题,应该直接根据 t.确定属于那一张表,不需要再猜测
 				String leftColumn = SqlParseHelper.getColumnNameByRightCondition(parsedSql.toString(), paramName);
 				if(leftColumn != null) {
 					column = findColumnByParseSql(parsedSql, leftColumn );
