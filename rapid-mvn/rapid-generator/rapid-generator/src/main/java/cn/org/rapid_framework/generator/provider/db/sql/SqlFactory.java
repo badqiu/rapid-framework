@@ -66,13 +66,14 @@ public class SqlFactory {
         GLogger.debug("*********************************");
         
         Connection conn = null;
+        PreparedStatement ps = null;
         try {
         	conn = DataSourceProvider.getNewConnection();
         	conn.setAutoCommit(false);
         	if(!DatabaseMetaDataUtils.isHsqlDataBase(conn.getMetaData())){
         		conn.setReadOnly(true);
         	}
-	        PreparedStatement ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
+	        ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
             sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
 	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
@@ -88,7 +89,7 @@ public class SqlFactory {
         	}catch(Exception e) {
         		throw new RuntimeException(e);
         	}finally {
-        		DBHelper.close(conn);
+        		DBHelper.close(conn,ps,null);
         	}
         }
     }
@@ -107,15 +108,11 @@ public class SqlFactory {
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
         ResultSet rs = null;
-        try {
-			if(ps.execute()) {
-				rs = ps.getResultSet();
-				return rs.getMetaData();
-			}
-			return null;
-		}finally {
-			DBHelper.close(ps,rs);
+		if(ps.execute()) {
+			rs = ps.getResultSet();
+			return rs.getMetaData();
 		}
+		return null;
 	}
 	
     public class SelectColumnsParser {
