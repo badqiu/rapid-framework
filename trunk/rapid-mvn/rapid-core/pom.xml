@@ -15,7 +15,9 @@
 	<packaging>jar</packaging>
 	<version>${project.version}</version>	
 
-
+	<description>rapid-framework core libs</description>
+	<url>http://code.google.com/p/rapid-framework</url>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -205,4 +207,18 @@
 		</dependency>
 		
 	</dependencies>
+	
+	<licenses>
+		<license>Apache License, Version 2.0</license>
+	</licenses>
+	<scm>
+		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
+		<url>http://code.google.com/p/rapid-framework/source/browse/</url>
+	</scm>
+	<developers>
+		<developer>
+			<email>badqiu(a)gmail.com</email>
+			<name>badqiu</name>
+		</developer>
+	</developers>
 </project>
