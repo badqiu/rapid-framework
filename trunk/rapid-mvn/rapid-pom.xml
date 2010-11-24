@@ -4,7 +4,7 @@
 	<!-- 本文件现没有作用,只是为了maven用户写好一个pom架子,避免重新编写 -->
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>cn.org.rapid</groupId>
+	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>projectname parent pom.xml</name>
