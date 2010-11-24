@@ -17,9 +17,11 @@
 	</parent>
 
 	<licenses>
-		<name>The Apache Software License, Version 2.0</name>
-      	<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      	<distribution>repo</distribution>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
 	</licenses>
 	<scm>
 		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
