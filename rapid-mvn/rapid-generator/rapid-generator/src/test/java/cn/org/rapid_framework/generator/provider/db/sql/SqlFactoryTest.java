@@ -3,10 +3,11 @@ package cn.org.rapid_framework.generator.provider.db.sql;
 import java.sql.SQLException;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 
-public class SqlFactoryTest extends TestCase {
+public class SqlFactoryTest extends GeneratorTestCase {
 	SqlFactory parser = new SqlFactory();
 
 	public void test_isMatchListParam() {
@@ -54,7 +55,7 @@ public class SqlFactoryTest extends TestCase {
 	public void test_select() throws SQLException, Exception {
 		Sql sql = parser.parseSql("select * from user_info where user_id = ? and age = ? and password = ? and username like ? or (sex >= ?)");
 		verifyParameters(sql,"userId","username","password","age","sex");
-		verifyColumns(sql,"userId","username","password","BIRTH_DATE","age","sex");
+		verifyColumns(sql,"user_id","username","password","BIRTH_DATE","age","sex");
 	}
 	
 	public void test_聚合函数() throws SQLException, Exception {
@@ -118,7 +119,7 @@ public class SqlFactoryTest extends TestCase {
 		Sql sql = parser.parseSql("select t1.*,t2.* from user_info t1 inner join role t2 on t1.username=t2.role_name where t1.user_id = ? and t2.role_name = :role_name");
 		verifyParameters(sql,"userId","role_name");
 		String expected = "select t1.USER_ID,t1.USERNAME,t1.PASSWORD,t1.BIRTH_DATE,t1.SEX,t1.AGE,t2.USER_ID,t2.USERNAME,t2.PASSWORD,t2.BIRTH_DATE,t2.SEX,t2.AGE from user_info where user_id = #userId# and username = :username";
-		assertStringEquals(expected,sql.getIbatisSql());
+		assertStringEquals(expected,sql.getSql());
 	}
 	
 	public void test_escaped() throws SQLException, Exception {
@@ -138,9 +139,19 @@ public class SqlFactoryTest extends TestCase {
 	}
 	
 	public void test_insert() throws SQLException, Exception {
-		Sql sql = parser.parseSql("insert into user_info(username,password) values (?,?)");
-		verifyParameters(sql,"username","password");
+		Sql sql = parser.parseSql("insert into user_info(user_id,username,password) values (?,?,?)");
+		verifyParameters(sql,"userId","username","password");
 	}
+	
+	public void test_insert_with_userId_not_null() throws SQLException, Exception {
+		try {
+		Sql sql = parser.parseSql("insert into user_info(username,password) values (?,?)");
+		fail("user_id must be not null");
+		}catch(Exception e) {
+			assertTrue(true);
+		}
+	}
+	
 	public void test_delete() throws SQLException, Exception {
 		Sql sql = parser.parseSql("delete from user_info where username = ? and password = ? and age = ? or (sex >= ?)");
 		verifyParameters(sql,"username","password","age","sex");
@@ -168,12 +179,12 @@ public class SqlFactoryTest extends TestCase {
 	}
 	private void verifyNoParameters(Sql sql, String... expectedParameters) {
 		for(String param : expectedParameters) {
-			assertNull("not found param:"+param+" on sql:"+sql.getSourceSql(),sql.getParam(param));
+			assertNull("not found param:"+param+" on sql:"+sql.getSourceSql()+"\n real params:"+sql.getParams(),sql.getParam(param));
 		}
 	}
 	private void verifyColumns(Sql sql, String... expectedColumns) {
 		for(String name : expectedColumns) {
-			assertNotNull("not found column:"+name+" on sql:"+sql.getSourceSql(),sql.getColumnByName(name));
+			assertNotNull("not found column:"+name+" on sql:"+sql.getSourceSql()+"\n real columns:"+sql.getColumns(),sql.getColumnByName(name));
 		}
 	}
 }
