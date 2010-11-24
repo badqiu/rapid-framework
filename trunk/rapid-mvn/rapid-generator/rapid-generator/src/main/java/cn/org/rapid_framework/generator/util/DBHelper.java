@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 
@@ -73,6 +74,16 @@ public class DBHelper {
 	public static void close(Statement s,ResultSet rs) {
 		close(s);
 		close(rs);
+	}
+	
+	public static void rollback(Connection conn) {
+		if(conn != null) {
+			try {
+				conn.rollback();
+			}catch(SQLException e) {
+				throw new RuntimeException("rollback occer error",e);
+			}
+		}
 	}
 	
 }
