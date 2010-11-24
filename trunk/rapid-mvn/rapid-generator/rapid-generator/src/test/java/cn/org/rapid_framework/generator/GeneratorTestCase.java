@@ -30,10 +30,10 @@ public class GeneratorTestCase extends TestCase{
 	    	runSqlScripts();
 	    	notRunCreatedTabled = false;
 	    }
-		
-		if(isRuningByAnt()) {
+//		System.getProperties().list(System.out);
+		if(isRuningByMaven()) {
 			String tempDir = getTempDir();
-			System.out.println("running by ant, set outRootDir to tempDir="+tempDir);
+			System.out.println("running by maven, set outRootDir to tempDir="+tempDir);
 			g.setOutRootDir(tempDir);
 		}else {
 			if(g.getOutRootDir() == null)
@@ -41,8 +41,8 @@ public class GeneratorTestCase extends TestCase{
 		}
 	}
 
-	public boolean isRuningByAnt() {
-		return System.getProperty("java.class.path").indexOf("ant.jar") >= 0;
+	public boolean isRuningByMaven() {
+		return System.getProperty("surefire.real.class.path") != null;
 	}
 
 	public static void runSqlScripts() throws SQLException, IOException {
