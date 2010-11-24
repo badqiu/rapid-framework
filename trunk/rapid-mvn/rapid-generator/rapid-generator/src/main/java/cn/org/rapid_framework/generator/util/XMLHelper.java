@@ -36,10 +36,9 @@ import org.xml.sax.SAXException;
 /**
  * 将xml解析成NodeData,NodeData主要是使用Map及List来装attribute
  * 
+ * 使用:
  * <pre>
- *        String nodeName;
- *        Map attributes = new HashMap();
- *        List<NodeData> childs = new ArrayList();
+ *     NodeData nd = XMLHelper.parseXML(inputStream)
  * </pre>
  * @author badqiu
  */
