@@ -269,17 +269,5 @@ public abstract class NamedParameterUtils {
 		}
 		return false;
 	}
-	
-	/** by badqiu,FIXME: delete me */
-	static Pattern PATTERN = Pattern.compile(":([\\w_]*):([\\w_]*)");
-	public static Map getNamedParameters(String sql) {
-		Map map = new LinkedHashMap();
-		Matcher m =  PATTERN.matcher(sql);
-		if(m.find()) {
-			map.put(m.group(1), m.group(2));
-		}
-		return map;
-	}
-
 
 }
