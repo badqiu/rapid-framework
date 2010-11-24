@@ -16,18 +16,20 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-
 	<licenses>
-		<license>Apache License, Version 2.0</license>
+		<name>The Apache Software License, Version 2.0</name>
+      	<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      	<distribution>repo</distribution>
 	</licenses>
 	<scm>
 		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<url>http://code.google.com/p/rapid-framework/source/browse/</url>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
 	</scm>
 	<developers>
 		<developer>
 			<email>badqiu(a)gmail.com</email>
 			<name>badqiu</name>
+			<id>badqiu</id>
 		</developer>
 	</developers>
 	

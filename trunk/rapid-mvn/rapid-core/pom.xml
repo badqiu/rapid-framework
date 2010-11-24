@@ -18,6 +18,23 @@
 	<description>rapid-framework core libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
 	
+	<licenses>
+		<name>The Apache Software License, Version 2.0</name>
+      	<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      	<distribution>repo</distribution>
+	</licenses>
+	<scm>
+		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
+	</scm>
+	<developers>
+		<developer>
+			<email>badqiu(a)gmail.com</email>
+			<name>badqiu</name>
+			<id>badqiu</id>
+		</developer>
+	</developers>
+		
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -208,17 +225,4 @@
 		
 	</dependencies>
 	
-	<licenses>
-		<license>Apache License, Version 2.0</license>
-	</licenses>
-	<scm>
-		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<url>http://code.google.com/p/rapid-framework/source/browse/</url>
-	</scm>
-	<developers>
-		<developer>
-			<email>badqiu(a)gmail.com</email>
-			<name>badqiu</name>
-		</developer>
-	</developers>
 </project>
