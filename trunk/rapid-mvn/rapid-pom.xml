@@ -46,22 +46,22 @@
 		<dependencies>
 			<!--  sub projects BEGIN -->
 			<dependency>
-				<groupId>cn.org.rapid</groupId>
+				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-core</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>cn.org.rapid</groupId>
+				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>cn.org.rapid</groupId>
+				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>cn.org.rapid</groupId>
+				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-maven-plugin</artifactId>
 				<version>${project.version}</version>
 			</dependency>			
