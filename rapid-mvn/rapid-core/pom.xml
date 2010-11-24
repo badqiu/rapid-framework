@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>cn.org.rapid</groupId>
+		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0</version>
 		<relativePath>../rapid-pom.xml</relativePath>
