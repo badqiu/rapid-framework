@@ -109,7 +109,11 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_insert_into() {
+		try {
 		Sql selectSql  = new SqlFactory().parseSql("insert into user_info (username,password,age) values(?,?,?)");
+		fail("非空的userId不能为空,应该不能执行至这里");
+		}catch(Exception e) {
+		}
 	}
 	
 	public void test_sql_error() throws Exception {
@@ -128,9 +132,10 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 		}
 		
 		try {
-			Sql selectSql  = new SqlFactory().parseSql("delete from user_info where username1javaeye = :username and password = :password and age=:age and sex=:sex");
-			fail();
+			Sql selectSql  = new SqlFactory().parseSql("delete from user_info where 123username1javaeye = :username and password123 = :password and age=:age and sex=:sex");
+			fail("列错误");
 		}catch(Exception e){
+			e.printStackTrace();
 			assertTrue(true);
 		}
 		
