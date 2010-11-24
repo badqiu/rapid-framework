@@ -25,6 +25,7 @@ public class ColumnTest  extends TestCase{
 		Column c = new Column(new Table(),1,"int","user_name",1,2,true,true,true,true,"","remarks");
 		assertEquals("testJavaStringType",c.getJavaType());
 		
+		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "Long");
 		assertEquals("Long",newBigDecimal().getJavaType());
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "testJavaLongType");
 		assertEquals("testJavaLongType",newBigDecimal().getJavaType());
@@ -38,6 +39,7 @@ public class ColumnTest  extends TestCase{
 		assertEquals("java.lang.String",c.getJavaType());
 		assertEquals("String",c.getSimpleJavaType());
 		
+		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "Long");
 		assertEquals("Long",newBigDecimal().getSimpleJavaType());
 		
 		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "testJavaLongType");
