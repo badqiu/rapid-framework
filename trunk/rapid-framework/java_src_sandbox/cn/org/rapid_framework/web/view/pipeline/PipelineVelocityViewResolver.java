@@ -4,4 +4,8 @@ import org.springframework.web.servlet.view.velocity.VelocityViewResolver;
 
 public class PipelineVelocityViewResolver extends VelocityViewResolver{
 
+    public PipelineVelocityViewResolver() {
+        setViewClass(PipelineView.class);
+    }
+    
 }
