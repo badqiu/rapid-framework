@@ -3,7 +3,7 @@ package cn.org.rapid_framework.generator.provider.sql.model;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
-public class SqlTest extends TestCase {
+public class SqlUnitTest extends TestCase {
 	
 	public void test() {
 		assertTrue(newSql("update user_info set password=:pwd").isUpdateSql());
