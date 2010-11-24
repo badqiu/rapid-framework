@@ -1,4 +1,3 @@
-/* hsqldb1.8不支持unique column及 column comments语法  */
 DROP TABLE IF EXISTS user_info;
 DROP TABLE IF EXISTS blog;
 DROP TABLE IF EXISTS role_permission;
@@ -7,16 +6,16 @@ DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS topic;
 CREATE TABLE USER_INFO (
   user_id bigint PRIMARY KEY,
-  username varchar(50) NOT NULL ,
+  username varchar(50) NOT NULL UNIQUE,
   password varchar(50) DEFAULT NULL,
   birth_date date DEFAULT NULL,
   sex TINYINT DEFAULT NULL,
-  age INTEGER DEFAULT NULL 
+  age INTEGER DEFAULT NULL UNIQUE
 );
 CREATE TABLE blog (
   blog_id bigint PRIMARY KEY,
   user_id bigint,
-  username varchar(50) NOT NULL ,
+  username varchar(50) NOT NULL UNIQUE,
   created date DEFAULT NULL,
   modified date DEFAULT NULL,
   title varchar(10) default NULL,
@@ -57,7 +56,6 @@ CREATE TABLE topic (
   modified date NOT NULL,
   PRIMARY KEY(topic_id,topic_type)
 );
-/*
 COMMENT ON TABLE user_info IS '用户信息表';
 COMMENT ON COLUMN user_info.username IS '用户名';
 COMMENT ON COLUMN user_info.password IS '用户密码';
@@ -65,4 +63,3 @@ COMMENT ON COLUMN user_info.user_id IS '用户ID';
 COMMENT ON COLUMN user_info.birth_date IS '生日';
 COMMENT ON COLUMN user_info.sex IS '性别';
 COMMENT ON COLUMN user_info.age IS '年龄';
-*/
