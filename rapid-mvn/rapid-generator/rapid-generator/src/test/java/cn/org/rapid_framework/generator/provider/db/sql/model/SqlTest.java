@@ -41,7 +41,8 @@ public class SqlTest extends GeneratorTestCase {
 		assertEquals("UserInfo",sql.getResultClass());
 		
 		sql = new SqlFactory().parseSql("select username as user,password as pwd from user_info");
-		assertEquals("UserInfo",sql.getResultClass());
+		sql.setOperation("findUsername");
+		assertEquals("FindUsernameResult",sql.getResultClass());
 		
 		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		sql.setOperation("op1");
@@ -56,7 +57,7 @@ public class SqlTest extends GeneratorTestCase {
 		sql.setOperation("findPage");
 		assertEquals("FindPageQuery",sql.getParameterClass());
 		
-		sql = new SqlFactory().parseSql("insert into user_info(username) values (:username)");
+		sql = new SqlFactory().parseSql("insert into user_info(user_id,username) values (:userId,:username)");
 		sql.setOperation("insertUsername");
 		assertEquals("InsertUsernameParameter",sql.getParameterClass());
 		
@@ -97,22 +98,21 @@ public class SqlTest extends GeneratorTestCase {
 	
 	/** 测试聚集函数colum名称自动转换,示例转换 count(*) => count, max(age) => max_age, sum(income) => sum_income */
 	public void test_intergate_function_name_convert() {
-	    sql = new SqlFactory().parseSql("select count(*) cnt, count(username),max(password),min(password),avg(sex) from user_info");
+	    sql = new SqlFactory().parseSql("select count(*) cnt, count(username) count_username,max(password) max_password,min(password) min_password,avg(sex) avg_sex from user_info");
         String msg = sql.getColumns().toString();
-		assertNotNull(msg,getColumnByColumnName("Cnt"));
-        assertNotNull(msg,getColumnByColumnName("C2"));
-        assertNotNull(msg,getColumnByColumnName("C3"));
-        assertNotNull(msg,getColumnByColumnName("C4"));
-        assertNotNull(msg,getColumnByColumnName("C5"));
+		assertNotNull(msg,sql.getColumnByName("Cnt"));
+        assertNotNull(msg,sql.getColumnByName("count_username"));
+        assertNotNull(msg,sql.getColumnByName("max_password"));
+        assertNotNull(msg,sql.getColumnByName("min_password"));
+        assertNotNull(msg,sql.getColumnByName("avg_sex"));
+        
+        sql = new SqlFactory().parseSql("select count(*) cnt, count(username),max(password),min(password),avg(sex) from user_info");
+        msg = sql.getColumns().toString();
+		assertNotNull(msg,sql.getColumnByName("Cnt"));
+        assertNotNull(msg,sql.getColumnByName("C2"));
+        assertNotNull(msg,sql.getColumnByName("C3"));
+        assertNotNull(msg,sql.getColumnByName("C4"));
+        assertNotNull(msg,sql.getColumnByName("C5"));
 	}
 
-    private Column getColumnByColumnName(String name) {
-        for(Column c : sql.getColumns()) {
-        	System.out.println(c.getColumnName());
-            if(c.getColumnName().equals(name)) {
-                return c;
-            }
-        }
-        return null;
-    }
 }
