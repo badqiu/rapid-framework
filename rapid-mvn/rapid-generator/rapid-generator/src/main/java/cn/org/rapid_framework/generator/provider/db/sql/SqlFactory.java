@@ -85,9 +85,7 @@ public class SqlFactory {
         	throw new RuntimeException("sql parse error,\nexecutedSql:"+SqlParseHelper.removeOrders(executeSql),e);
         }finally {
         	try {
-	        	if(conn != null) conn.rollback();
-        	}catch(Exception e) {
-        		throw new RuntimeException(e);
+	        	DBHelper.rollback(conn);
         	}finally {
         		DBHelper.close(conn,ps,null);
         	}
