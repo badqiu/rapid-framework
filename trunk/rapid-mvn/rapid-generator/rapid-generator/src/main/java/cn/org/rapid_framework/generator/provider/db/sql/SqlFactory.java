@@ -108,14 +108,13 @@ public class SqlFactory {
         ps.setQueryTimeout(20);
         ResultSet rs = null;
         try {
-			ps.execute();
-			if(ps.getMoreResults()) {
-				return rs.getMetaData(); 
-			}else {
-				return null;
+			if(ps.execute()) {
+				rs = ps.getResultSet();
+				return rs.getMetaData();
 			}
+			return null;
 		}finally {
-			DBHelper.close(rs);
+			DBHelper.close(ps,rs);
 		}
 	}
 	
