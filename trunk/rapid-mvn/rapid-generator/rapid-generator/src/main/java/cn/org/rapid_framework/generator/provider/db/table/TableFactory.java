@@ -128,7 +128,8 @@ public class TableFactory {
 	}
 
 	private Table createTable(String schema,String catalog,Connection conn, ResultSet rs) throws SQLException {
-		String tableName = null;
+		long start = System.currentTimeMillis();
+	    String tableName = null;
 		try {
 			ResultSetMetaData rsMetaData = rs.getMetaData();
 			String schemaName = rs.getString("TABLE_SCHEM") == null ? "" : rs.getString("TABLE_SCHEM");
@@ -158,6 +159,8 @@ public class TableFactory {
 			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+tableName,e);
+		}finally {
+		    GLogger.perf("createTable() cost:"+(System.currentTimeMillis()- start)+" tableName:"+tableName);
 		}
 	}
 	
