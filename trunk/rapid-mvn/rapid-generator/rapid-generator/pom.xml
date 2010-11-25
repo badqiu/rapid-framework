@@ -4,7 +4,7 @@
 	<artifactId>rapid-generator</artifactId>
 	<name>rapid-generator</name>
 	<packaging>jar</packaging>
-	<version>${project.version}</version>	
+	<version>4.0</version>	
 	
 	<description>rapid-generator core engine</description>
 	<url>http://code.google.com/p/rapid-framework</url>
