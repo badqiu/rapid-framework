@@ -51,7 +51,7 @@ public class XMLHelper {
         public String outerXML;
 //        public String innerText;
 //        public String outerText;
-        public Map<String,String> attributes = new HashMap<String,String>();
+        public LinkedHashMap<String,String> attributes = new LinkedHashMap<String,String>();
         public List<NodeData> childs = new ArrayList<NodeData>();
         
         public String toString() {
@@ -190,9 +190,9 @@ public class XMLHelper {
 		}
     }
 
-	public static Map<String,String> attrbiuteToMap(NamedNodeMap attributes) {
+	public static LinkedHashMap<String,String> attrbiuteToMap(NamedNodeMap attributes) {
         if(attributes == null) return new LinkedHashMap<String,String>();
-        Map<String,String> result = new LinkedHashMap<String,String>();
+        LinkedHashMap<String,String> result = new LinkedHashMap<String,String>();
         for(int i = 0; i < attributes.getLength(); i++) {
             result.put(attributes.item(i).getNodeName(), attributes.item(i).getNodeValue());
         }
