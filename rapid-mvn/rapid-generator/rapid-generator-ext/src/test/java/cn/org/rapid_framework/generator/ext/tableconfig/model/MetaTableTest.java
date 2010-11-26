@@ -75,7 +75,7 @@ public class MetaTableTest extends GeneratorTestCase {
     public void test_include_sql_by_refid() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
-        TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
+        TableConfig t = new TableConfigXmlBuilder().parseFromXML(file);
         System.out.println(t.includeSqls);
         SqlConfig metaSql = t.includeSqls.get(0);
         assertEquals(metaSql.sql.trim(),"<![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]>");
@@ -84,7 +84,7 @@ public class MetaTableTest extends GeneratorTestCase {
     public void test_generate_by_mybatis_user_info() throws Exception {
     	g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/mybatis_user_info.xml");
-        TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
+        TableConfig t = new TableConfigXmlBuilder().parseFromXML(file);
         GeneratorModel gm = newFromTable(t);
         g.generateBy(gm.templateModel, gm.filePathModel);
         
