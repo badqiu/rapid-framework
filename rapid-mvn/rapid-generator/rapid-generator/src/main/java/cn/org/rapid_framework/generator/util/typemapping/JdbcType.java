@@ -17,22 +17,29 @@ public enum JdbcType {
   DOUBLE(Types.DOUBLE),
   NUMERIC(Types.NUMERIC),
   DECIMAL(Types.DECIMAL),
+  
   CHAR(Types.CHAR),
   VARCHAR(Types.VARCHAR),
   LONGVARCHAR(Types.LONGVARCHAR),
+  
   DATE(Types.DATE),
   TIME(Types.TIME),
   TIMESTAMP(Types.TIMESTAMP),
+  
   BINARY(Types.BINARY),
   VARBINARY(Types.VARBINARY),
   LONGVARBINARY(Types.LONGVARBINARY),
-  NULL(Types.NULL),
-  OTHER(Types.OTHER),
+  
+  BOOLEAN(Types.BOOLEAN),
+  
   BLOB(Types.BLOB),
   CLOB(Types.CLOB),
-  BOOLEAN(Types.BOOLEAN),
+  
+  NULL(Types.NULL),
+  OTHER(Types.OTHER),
   CURSOR(-10), // Oracle
   UNDEFINED(Integer.MIN_VALUE + 1000),
+  
   NVARCHAR(-9),
   NCHAR(-15),
   NCLOB(2011);
