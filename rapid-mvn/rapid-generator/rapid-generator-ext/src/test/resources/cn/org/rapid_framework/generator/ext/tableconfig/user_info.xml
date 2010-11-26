@@ -337,29 +337,29 @@
     
 	<operation name="testRoleJoinRolePermissionJoinBlogWithCustomParam" paramtype="primitive" multiplicity="one" remarks="根据订单号查询订单">
     	<sql>
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
 	    	left join blog b on b.user_id = r.user_id
 	    where 
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
-	    	group by role_id
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
 	    </sql>
     </operation>        
     
 	<operation name="testGroupByPaging"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
 	    	left join blog b on b.user_id = r.user_id
 	    where 
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
-	    	group by role_id
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
 	    </sql>
     </operation>  
     
@@ -370,64 +370,66 @@
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
-	    	group by role_id    
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id    
     </sql>
     
 	<operation name="testSetOperations"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
-    	select role_id,sum(user_id) sum_user_id from role r 
+    	select r.role_id,sum(r.user_id) sum_user_id from role r 
 		<include refid="forSetOperationSql"/>
 	    UNION 
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
 	    UNION ALL
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
-	    MINUS 
-	    select role_id,sum(user_id) sum_user_id from role r 
+		MINUS 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
 	    EXCEPT  
-	    select role_id,sum(user_id) sum_user_id from role r 
-	    <include refid="forSetOperationSql"/>
-	    EXCEPT ALL  
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
 	    INTERSECT   
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    /* h2不支持集合操作	    *//*
+	    EXCEPT ALL  
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
 	    INTERSECT ALL  
 	    select role_id,sum(user_id) sum_user_id from role r 
 	    <include refid="forSetOperationSql"/>
+	    */	    
 	    </sql>
     </operation>          		
 
 	<operation name="testMybatisOrderByPagingWithIf"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
 	    	left join blog b on b.user_id = r.user_id
 	    where 
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
-	    	group by role_id
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
 	   	    <if test="orderBy != null">
-	   	    	order by role_id
+	   	    	order by r.role_id
 	   	    </if>
 		    <if test="orderBy == null">
 		    	order by sum_user_id
 			</if>
 			<choose>
 				<when test="orderby == '123'">
-					order by role_id
+					order by r.role_id
 				</when>
 				<when test="orderby == '123'">
-					order by role_id
+					order by r.role_id
 				</when>
 				<otherwise>
-					order by role_id
+					order by r.role_id
 				</otherwise>
 			</choose>
 	    </sql>
@@ -435,16 +437,16 @@
 
 	<operation name="testOpenClose"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
 	    	left join blog b on b.user_id = r.user_id
 	    where 
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 	   	    and r.role_name in <isNotEmpty open="(" close=")"><iterate property="roleNames" conjunction=",">#roleNames[]#</iterate></isNotEmpty>
-	    	group by role_id
+	    	group by r.role_id
 	    </sql>
     </operation>   
 </table>
