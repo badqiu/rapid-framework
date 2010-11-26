@@ -10,6 +10,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
+import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
@@ -45,7 +46,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     public void test_genereate_by_sql_config() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql_config"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/oracle_user_info.xml");
-        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
         GeneratorModel gm = newFromTable(t);
         g.generateBy(gm.templateModel, gm.filePathModel);
         
@@ -54,7 +55,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     public void test_generate_by_oracle_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/oracle_user_info.xml");
-        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
             g.generateBy(gm.templateModel, gm.filePathModel);
@@ -64,7 +65,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     public void test_generate_by_user_info() throws Exception {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
-        TableConfig t = TableConfig.parseFromXML(new FileInputStream(file));
+        TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
         for(Sql sql : t.getSqls()) {
             GeneratorModel gm = newFromSql(sql,t);
             g.generateBy(gm.templateModel, gm.filePathModel);
