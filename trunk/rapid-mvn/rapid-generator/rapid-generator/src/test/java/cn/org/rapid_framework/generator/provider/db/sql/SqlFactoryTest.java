@@ -2,8 +2,8 @@ package cn.org.rapid_framework.generator.provider.db.sql;
 
 import java.sql.SQLException;
 
-import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory.SqlParametersParser;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 
@@ -12,14 +12,14 @@ public class SqlFactoryTest extends GeneratorTestCase {
 
 	public void test_isMatchListParam() {
 	    String sql = "length(#username#) and in \n (#pwd#) and not \n in \n (#user#) and blog = #blog[]# and sex = #sex[].value#";
-        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "username"));
-        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "notexist"));
-        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "in"));
-        assertFalse(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "not in"));
-        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "pwd"));
-        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "user"));
-        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "blog"));
-        assertTrue(new SqlFactory().new SqlParametersParser().isMatchListParam(sql, "sex"));
+        assertFalse(new SqlParametersParser().isMatchListParam(sql, "username"));
+        assertFalse(new SqlParametersParser().isMatchListParam(sql, "notexist"));
+        assertFalse(new SqlParametersParser().isMatchListParam(sql, "in"));
+        assertFalse(new SqlParametersParser().isMatchListParam(sql, "not in"));
+        assertTrue(new SqlParametersParser().isMatchListParam(sql, "pwd"));
+        assertTrue(new SqlParametersParser().isMatchListParam(sql, "user"));
+        assertTrue(new SqlParametersParser().isMatchListParam(sql, "blog"));
+        assertTrue(new SqlParametersParser().isMatchListParam(sql, "sex"));
 	}
 	
 	public void test_union() throws SQLException, Exception {
