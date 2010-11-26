@@ -17,6 +17,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlTypeChecker;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
+import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMapping;
 
 /**
  * 用于生成代码的Sql对象.对应数据库的sql语句
@@ -111,7 +112,16 @@ public class Sql {
      * @return
      */
 	public String getResultClass() {
-		if(StringHelper.isNotBlank(resultClass)) return resultClass;
+		String resultClass = _getResultClass();
+		if(isPaging() || MULTIPLICITY_MANY.equals(multiplicity)) {
+		    return JavaPrimitiveTypeMapping.getWrapperType(resultClass);
+		}else {
+		    return resultClass;
+		}
+	}
+
+    private String _getResultClass() {
+        if(StringHelper.isNotBlank(resultClass)) return resultClass;
 		if(columns.size() == 1) {
 			return columns.iterator().next().getSimpleJavaType();
 		}
@@ -123,7 +133,7 @@ public class Sql {
 			if(operation == null) return null;
 			return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(operation))+GeneratorProperties.getProperty(GeneratorConstants.GENERATOR_SQL_RESULTCLASS_SUFFIX,"Result");
 		}
-	}    
+    }    
 	
 	public void setResultClass(String queryResultClass) {
 		this.resultClass = queryResultClass;
