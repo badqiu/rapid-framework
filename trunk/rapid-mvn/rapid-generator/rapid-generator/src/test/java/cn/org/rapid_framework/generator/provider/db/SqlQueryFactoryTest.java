@@ -103,11 +103,22 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 
 	public void test_insert_sql() throws Exception {
+	    try {
 		Sql selectSql  = new SqlFactory().parseSql("insert into user_info values(:username,:password,:age,:sex,:userid,:blog)");
 		GeneratorModel gm = newFromQuery(selectSql);
 		g.generateBy(gm.templateModel, gm.filePathModel);
+		fail("数据类型应该匹配不正确");
+	    }catch(Exception e) {
+	        e.printStackTrace();
+	    }
 	}
-	
+
+    public void test_insert_sql_with_right_name() throws Exception {
+        Sql selectSql  = new SqlFactory().parseSql("insert into user_info values(:user_id,:username,:password,:birth_date,:sex,:age)");
+        GeneratorModel gm = newFromQuery(selectSql);
+        g.generateBy(gm.templateModel, gm.filePathModel);
+    }
+	   
 	public void test_insert_into() {
 		try {
 		Sql selectSql  = new SqlFactory().parseSql("insert into user_info (username,password,age) values(?,?,?)");
