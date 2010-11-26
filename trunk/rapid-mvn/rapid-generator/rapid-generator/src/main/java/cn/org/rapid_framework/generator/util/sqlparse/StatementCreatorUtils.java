@@ -1,8 +1,71 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
 
+import java.sql.Types;
+import java.util.Date;
+import java.util.Random;
+
 
 public class StatementCreatorUtils {
 
+    public static Object getRandomValue(int sqlType,Integer scale)  {
+        switch(sqlType) {
+            case Types.BIT:;
+            case Types.TINYINT:;
+            case Types.SMALLINT:;
+            case Types.INTEGER:;
+            case Types.BIGINT:;
+            case Types.FLOAT:;
+            case Types.REAL:;
+            case Types.DOUBLE:;
+            case Types.NUMERIC:;
+            case Types.DECIMAL:;
+                return randomNumber();
+            case Types.DATE:
+            case Types.TIME:
+            case Types.TIMESTAMP:
+                return now();
+            case Types.VARCHAR:
+            case Types.CHAR:
+            case Types.LONGVARCHAR:
+            case Types.CLOB:
+                return randomString();
+            case Types.NVARCHAR:
+            case Types.NCHAR:
+            case Types.NCLOB:
+                return randomString();
+            case Types.BINARY:
+            case Types.VARBINARY:
+            case Types.LONGVARBINARY:
+                return null;
+            case Types.NULL:
+            case Types.OTHER:
+            case Types.BLOB:
+                return null;
+            case Types.BOOLEAN:
+                return false;
+            case -10: //CURSOR
+            case Integer.MIN_VALUE + 1000: //UNDEFINED
+                return null;                
+            default:
+                return "";
+        }
+    }
+    
+    public static byte randomNumber() {
+        return (byte)new Random(System.currentTimeMillis()).nextInt();
+    }
+    
+    public static Date now() {
+        return new Date();
+    }
+    
+    public static String randomString() {
+        char c = (char)(65 + (randomNumber() % 23));
+        return new String(new char[]{c});
+    }
+    
+    
+    
 //    private static void setParameterValueInternal(PreparedStatement ps, int paramIndex,
 //                                                  int sqlType, Integer scale,
 //                                                  Object inValue) throws SQLException {
