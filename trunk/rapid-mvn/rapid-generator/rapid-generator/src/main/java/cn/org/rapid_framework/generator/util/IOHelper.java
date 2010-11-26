@@ -24,66 +24,91 @@ import java.util.List;
 public class IOHelper {
 	public static Writer NULL_WRITER = new NullWriter();
 	
-	public static void copy(Reader reader,Writer writer) throws IOException {
+	public static void copy(Reader reader,Writer writer) {
 		char[] buf = new char[8192];
 		int n = 0;
-		while((n = reader.read(buf)) != -1) {
-			writer.write(buf,0,n);
+		try {
+			while((n = reader.read(buf)) != -1) {
+				writer.write(buf,0,n);
+			}
+		}catch(IOException e){
+			throw new RuntimeException(e);
 		}
 	}
 	
-    public static void copy(InputStream in,OutputStream out) throws IOException {
-        byte[] buf = new byte[8192];
-        int n = 0;
-        while((n = in.read(buf)) != -1) {
-            out.write(buf,0,n);
-        }
+    public static void copy(InputStream in,OutputStream out)  {
+    	try {
+	        byte[] buf = new byte[8192];
+	        int n = 0;
+	        while((n = in.read(buf)) != -1) {
+	            out.write(buf,0,n);
+	        }
+    	}catch(IOException e){
+			throw new RuntimeException(e);
+		}
     }
 	
-    public static List readLines(Reader input) throws IOException {
-        BufferedReader reader = new BufferedReader(input);
-        List list = new ArrayList();
-        String line = reader.readLine();
-        while (line != null) {
-            list.add(line);
-            line = reader.readLine();
-        }
-        return list;
+    public static List readLines(Reader input) {
+    	try {
+	        BufferedReader reader = new BufferedReader(input);
+	        List list = new ArrayList();
+	        String line = reader.readLine();
+	        while (line != null) {
+	            list.add(line);
+	            line = reader.readLine();
+	        }
+	        return list;
+    	}catch(IOException e){
+			throw new RuntimeException(e);
+		}
     }
     
-	public static String readFile(File file) throws IOException {
-		Reader in = new FileReader(file);
-		return toString(in);
+	public static String readFile(File file)  {
+		try {
+			Reader in = new FileReader(file);
+			String result = toString(in);
+			in.close();
+			return result;
+		}catch(IOException e){
+			throw new RuntimeException("occer IOException when read file:"+file,e);
+		}
 	}
 
-    public static String toString(Reader in) throws IOException {
+    public static String toString(Reader in) {
         StringWriter out = new StringWriter();
 		copy(in,out);
-		in.close();
 		return out.toString();
     }
 
-	public static String readFile(File file,String encoding) throws IOException {
-		InputStream inputStream = new FileInputStream(file);
+	public static String readFile(File file,String encoding) {
 		try {
-		    return toString(encoding, inputStream);
-		}finally{
-		    inputStream.close();
+			InputStream inputStream = new FileInputStream(file);
+			try {
+			    return toString(encoding, inputStream);
+			}finally{
+			    inputStream.close();
+			}
+		}catch(IOException e){
+			throw new RuntimeException(e);
 		}
 	}
 
-	public static String toString(InputStream inputStream) throws UnsupportedEncodingException, IOException {
+	public static String toString(InputStream inputStream) {
 		Reader reader = new InputStreamReader(inputStream);
 		StringWriter writer = new StringWriter();
 		copy(reader,writer);
 		return writer.toString();
 	}
 	
-	public static String toString(String encoding, InputStream inputStream) throws UnsupportedEncodingException, IOException {
+	public static String toString(String encoding, InputStream inputStream) {
+		try {
 		Reader reader = new InputStreamReader(inputStream,encoding);
 		StringWriter writer = new StringWriter();
 		copy(reader,writer);
 		return writer.toString();
+		}catch(IOException e){
+			throw new RuntimeException(e);
+		}
 	}
 
     public static void saveFile(File file,String content)  {
@@ -118,7 +143,7 @@ public class IOHelper {
 		}
 	}
 
-    public static void copyAndClose(InputStream in,OutputStream out) throws IOException {
+    public static void copyAndClose(InputStream in,OutputStream out)  {
         try {
             copy(in,out);
         }finally {
