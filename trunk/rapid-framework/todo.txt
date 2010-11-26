@@ -9,6 +9,7 @@ rapid-framework路线图
 	project-web
 
 模板的输入可以为: .zip,.jar,classpath:,classpath*,file://,http://
+	file:/D:/dev/workspaces/workspace/rapid/plugins/struts2/web/WEB-INF/lib/struts2-core-2.1.8.jar!/org/apache/struts2
 
 将dalgen中的params2paramObjectLimit=6修改为 isUsingParamObject()及getParamObjectClass()实现
 generateByClass() 增加: 1.根据method args生成输入页面，根据 return type生成结果页面. 特殊:可以生成分页查询及列表语句
