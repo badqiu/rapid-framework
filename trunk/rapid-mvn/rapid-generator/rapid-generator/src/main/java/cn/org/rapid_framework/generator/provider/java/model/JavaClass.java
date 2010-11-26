@@ -192,6 +192,7 @@ public class JavaClass {
 	    return getMavenJavaSourceFile(f);
     }
 	
+	private String mavenJavaSourceFileContent;
 	public String getMavenJavaSourceFileContent() {
 		//FIXME 增加读取测试代码的文件内容
 //		if(getClassName().startsWith("Test") || getClassName().endsWith("Test")) {
@@ -199,11 +200,13 @@ public class JavaClass {
 //				return IOHelper.readFile(new File(getMavenJavaTestSourceFile()));
 //			}
 //		}else {
-			if(getMavenJavaSourceFile() != null) {
-				return IOHelper.readFile(new File(getMavenJavaSourceFile()));
-			}
 //		}
-		return null;
+		if(mavenJavaSourceFileContent == null){
+			if(getMavenJavaSourceFile() != null) {
+				mavenJavaSourceFileContent = IOHelper.readFile(new File(getMavenJavaSourceFile()));
+			}
+		}
+		return mavenJavaSourceFileContent;
     }
 	
     public static String getMavenJavaTestSourceFile(String clazzFile) {
