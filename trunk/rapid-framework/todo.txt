@@ -11,7 +11,7 @@ rapid-framework路线图
 模板的输入可以为: .zip,.jar,classpath:,classpath*,file://,http://
 	file:/D:/dev/workspaces/workspace/rapid/plugins/struts2/web/WEB-INF/lib/struts2-core-2.1.8.jar!/org/apache/struts2
 
-generator集成sql解析工具:
+generator集成sql解析工具，源代码地址: http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/misc
 	http://jsqlparser.sourceforge.net/
 
 将dalgen中的params2paramObjectLimit=6修改为 isUsingParamObject()及getParamObjectClass()实现
@@ -37,7 +37,8 @@ dalgen table config支持
 	2. 支持 <content></content> content中的内容将直接显示在 sqlmap中
 	3. 通过 include where支持 Query extends IncludeSql,以便重用条件
 
-集成dbcrawler: http://code.google.com/p/dbcrawler/
+集成dbcrawler: 源代码地址: http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/misc
+	http://code.google.com/p/dbcrawler/
 
 在freemarker,velocity,jsp中支持 <rapid:super/> 标签.或者 <rapid:override name="body" showSuper="none|append|prepend">
 如: 
