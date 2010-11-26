@@ -156,7 +156,7 @@
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 
 
 			<#if databaseType?is_empty>
