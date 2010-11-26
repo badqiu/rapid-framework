@@ -1,7 +1,5 @@
 package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,11 +7,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.xml.sax.SAXException;
-
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser;
-import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
@@ -47,10 +42,6 @@ public class TableConfig {
     //<include refid="columns"/> 
     public List<SqlConfig> includeSqls = new ArrayList<SqlConfig>(); 
 
-    public static TableConfig parseFromXML(InputStream reader) throws SAXException, IOException {
-        return new TableConfigXmlBuilder().parseFromXML(reader);
-    }
-    
     public List<ResultMapConfig> getResultMaps() {
         return resultMaps;
     }
@@ -269,7 +260,7 @@ public class TableConfig {
                 
                 return sql;
         	}catch(Exception e) {
-                throw new RuntimeException("parse sql error on table:"+table+" operation:"+op.getName()+" sql:"+op.getSql(),e);
+                throw new RuntimeException("parse sql error on table:"+table.getSqlname()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
             }
         }
 
