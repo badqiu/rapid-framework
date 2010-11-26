@@ -1,12 +1,18 @@
 package cn.org.rapid_framework.generator.util.sqlparse;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
-import java.util.Date;
+import java.util.List;
 import java.util.Random;
+
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 
 public class StatementCreatorUtils {
-
+    //FIXME scale还未使用
     public static Object getRandomValue(int sqlType,Integer scale)  {
         switch(sqlType) {
             case Types.BIT:;
@@ -47,16 +53,16 @@ public class StatementCreatorUtils {
             case Integer.MIN_VALUE + 1000: //UNDEFINED
                 return null;                
             default:
-                return "";
+                return null;
         }
     }
     
-    public static byte randomNumber() {
+    public static int randomNumber() {
         return (byte)new Random(System.currentTimeMillis()).nextInt();
     }
     
-    public static Date now() {
-        return new Date();
+    public static Timestamp now() {
+        return new Timestamp(System.currentTimeMillis());
     }
     
     public static String randomString() {
@@ -64,7 +70,39 @@ public class StatementCreatorUtils {
         return new String(new char[]{c});
     }
     
+    public static void setParameterRandomValue(PreparedStatement ps, int parameterIndex,int sqlType, Integer scale) throws SQLException {    
+        Object v = getRandomValue(sqlType, scale);
+        if(v == null) {
+            ps.setNull(parameterIndex, Types.NULL);
+        }else if(v instanceof String) {
+            ps.setString(parameterIndex, (String)v);
+        }else if(v instanceof Timestamp) {
+            ps.setTimestamp(parameterIndex, (Timestamp)v);
+        }else if(v instanceof Number) {
+            ps.setInt(parameterIndex, (Integer)v);
+        }else {
+            ps.setObject(parameterIndex, v);
+        }
+    }
     
+    public static void setRandomParamsValueForPreparedStatement(String executeSql, PreparedStatement ps,
+                                                                List<SqlParameter> params)
+                                                                                                   throws SQLException {
+        //FIXME 在计算?时需要移除sql comments及 CDATA
+        int count = StringHelper.containsCount(SqlParseHelper.removeOrders(executeSql), "?");
+        if(count == 0) return;
+        
+        SqlParameter[] sqlParameters = params.toArray(new SqlParameter[0]);
+        for(int parameterIndex = 1; parameterIndex <= count; parameterIndex++){
+             int index = parameterIndex - 1;
+             if(index < sqlParameters.length) {
+                 SqlParameter parameter = sqlParameters[index];
+                 StatementCreatorUtils.setParameterRandomValue(ps, parameterIndex, parameter.getSqlType(), parameter.getSize());
+             }else {
+                 ps.setObject(parameterIndex, null); //FIXME 使用assert替换，不可能执行到这里
+             }
+        }
+    }
     
 //    private static void setParameterValueInternal(PreparedStatement ps, int paramIndex,
 //                                                  int sqlType, Integer scale,
@@ -188,7 +226,7 @@ public class StatementCreatorUtils {
 //            }
 //        }
 //    }
-//
+
 //    /**
 //     * Check whether the given value can be treated as a String value.
 //     */
