@@ -18,6 +18,10 @@ public class JavaField {
 	public String getFieldName() {
 		return field.getName();
 	}
+	
+	public JavaClass getType() {
+		return new JavaClass(field.getType());
+	}
 
 	public boolean isAccessible() {
         return field.isAccessible();

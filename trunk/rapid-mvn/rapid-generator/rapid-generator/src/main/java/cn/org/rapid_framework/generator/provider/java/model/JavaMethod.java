@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.provider.java.model.MethodParameter.JavaSourceFileMethodParametersParser;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JavaImport;
 
@@ -122,6 +125,106 @@ public class JavaMethod {
     }
 
     public String toString() {
-		return "JavaClass:"+clazz+" JavaMethod:"+getMethodName();
+		return clazz.getJavaType()+"."+getMethodName()+"()";
 	}
+    
+    public static class JavaMethodInvokeFlows {
+    	public static String fieldMethodInvokeRegex = "(\\w+)\\s*\\.\\s*(\\w+)\\(.*?\\)";
+    	
+    	Method method;
+    	String javaSourceContent;
+    	JavaClass clazz;
+    	
+    	public JavaMethodInvokeFlows(Method method, String javaSourceContent,
+				JavaClass clazz) {
+			super();
+			this.method = method;
+			this.javaSourceContent = javaSourceContent;
+			this.clazz = clazz;
+		}
+
+		public List<JavaMethod> methodInvokeFlows = new ArrayList<JavaMethod>();
+    	public void execute() {
+    		javaSourceContent = removeJavaComments(javaSourceContent);
+    		javaSourceContent = removeImports(javaSourceContent);
+    		javaSourceContent = removePackage(javaSourceContent);
+    		javaSourceContent = replaceString2EmptyString(javaSourceContent);
+    		String methodStartPattern = "(?s)"+method.getName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method)+"\\)\\s*";
+    		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
+    		String methodEnd = javaSourceContent.substring(methodStart);
+    		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
+    		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
+    		
+    		Pattern p = Pattern.compile(fieldMethodInvokeRegex);
+    		Matcher m = p.matcher(methodBody);
+    		while(m.find()) {
+    			String field = m.group(1);
+    			String methodName= m.group(2);
+    			try {
+					JavaField javaField = clazz.getField(field);
+					JavaClass fieldType = javaField.getType();
+					JavaMethod method = fieldType.getMethod(methodName);
+					if(method != null) {
+						methodInvokeFlows.add(method);
+					}
+				} catch (NoSuchFieldException e) {
+					continue;
+				}
+    		}
+    	}
+    	public static  String replaceString2EmptyString(String str) {
+    		if(str == null) return null;
+    		str = str.replaceAll("\".*?\"", ""); // remove "234 " => ""
+			return str;
+		}
+		// getName\s*\(.*?\)\s*\{.*?\;\s*}
+		public static String removeJavaComments(String str) {
+			if(str == null) return null;
+			str = str.replaceAll("//.*", ""); // remove //
+			str = str.replaceAll("(?s)/\\*.*?\\*/", ""); // remove /* */
+			return str;
+		}
+		public static String removeImports(String str) {
+    		if(str == null) return null;
+    		str = str.replaceAll("\\s*import.*", ""); // remove "234 " => ""
+			return str;
+		}
+		public static String removePackage(String str) {
+    		if(str == null) return null;
+    		str = str.replaceAll("\\s*package.*", ""); // remove "234 " => ""
+			return str;
+		}
+		
+		/** 
+		 * 找到对称的一条括号所处的位置,
+		 * 如 findWrapCharEndLocation("0123{{67}}}",'{','}'), 将返回 [4,9]
+		 * 如果没有将到,将返回null 
+		 **/
+		public static int[] findWrapCharEndLocation(String str,char begin,char end) {
+			int count = 0;
+			boolean foundEnd = false;
+			boolean foundBegin = false;
+			int[] beginAndEnd = new int[2];
+			for(int i = 0; i < str.length(); i++) {
+				char c = str.charAt(i);
+				if(c == begin) {
+					if(!foundBegin) {
+						beginAndEnd[0] = i;
+					}
+					foundBegin = true;
+					count ++;
+				}
+				if(c == end) {
+					foundEnd = true;
+					count--;
+				}
+				if(count == 0 && foundBegin && foundEnd) {
+					beginAndEnd[1] = i;
+					return beginAndEnd;
+				}
+			}
+			return null;
+		}
+    }
+    
 }
