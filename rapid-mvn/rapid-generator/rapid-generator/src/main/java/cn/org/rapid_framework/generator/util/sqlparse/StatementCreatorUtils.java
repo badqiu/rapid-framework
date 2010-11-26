@@ -78,7 +78,7 @@ public class StatementCreatorUtils {
         }else if(v instanceof Timestamp) {
             ps.setTimestamp(parameterIndex, (Timestamp)v);
         }else if(v instanceof Number) {
-            ps.setInt(parameterIndex, (Integer)v);
+            ps.setByte(parameterIndex, ((Number)v).byteValue());
         }else {
             ps.setObject(parameterIndex, v);
         }
