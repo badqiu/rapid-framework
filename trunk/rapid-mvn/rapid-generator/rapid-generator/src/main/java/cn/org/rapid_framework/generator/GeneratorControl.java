@@ -217,7 +217,9 @@ public class GeneratorControl implements GeneratorConstants{
 	}
 	
 	public String getOutputFile() {
-	    if(outputFile != null && new File(outputFile).isAbsolute()) {
+		if(outputFile == null) return null;
+		
+	    if(new File(outputFile).isAbsolute()) {
 	        return outputFile;
 	    }else {
 	        return new File(getOutRoot(),outputFile).getAbsolutePath();
