@@ -66,8 +66,7 @@ public class StatementCreatorUtils {
     }
     
     public static String randomString() {
-        char c = (char)(65 + (randomNumber() % 23));
-        return new String(new char[]{c});
+        return ""+(randomNumber() % 10);
     }
     
     public static void setParameterRandomValue(PreparedStatement ps, int parameterIndex,int sqlType, Integer scale) throws SQLException {    
