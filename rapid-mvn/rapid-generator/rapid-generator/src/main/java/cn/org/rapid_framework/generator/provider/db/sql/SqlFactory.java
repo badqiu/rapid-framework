@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.ResultSetMetaDataHolder;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.StatementCreatorUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper.NameWithAlias;
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 /**
@@ -74,9 +77,13 @@ public class SqlFactory {
         		conn.setReadOnly(true);
         	}
 	        ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
-	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps);
+	        
+	        SqlParametersParser sqlParametersParser = new SqlParametersParser();
+            sqlParametersParser.execute(parsedSql,sql);
+            
+	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps,sqlParametersParser.allParams);
             sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
-	        sql.setParams(new SqlParametersParser().parseForSqlParameters(parsedSql,sql));
+            sql.setParams(sqlParametersParser.params);
 	        
 	        return afterProcessedSql(sql);
         }catch(SQLException e) {
@@ -100,8 +107,10 @@ public class SqlFactory {
 		return sourceSql;
 	}
 
-    private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps)throws SQLException {
-		SqlParseHelper.setRandomParamsValueForPreparedStatement(SqlParseHelper.removeOrders(executeSql), ps);
+    private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps,List<SqlParameter> params)throws SQLException {
+//		SqlParseHelper.setRandomParamsValueForPreparedStatement(SqlParseHelper.removeOrders(executeSql), ps);
+		StatementCreatorUtils.setRandomParamsValueForPreparedStatement(executeSql, ps, params);
+		
 		ps.setMaxRows(3);
         ps.setFetchSize(3);
         ps.setQueryTimeout(20);
@@ -112,8 +121,10 @@ public class SqlFactory {
 		}
 		return null;
 	}
+
+
 	
-    public class SelectColumnsParser {
+    public static class SelectColumnsParser {
     
 		private LinkedHashSet<Column> convert2Columns(Sql sql,ResultSetMetaData metadata) throws SQLException, Exception {
 			if(metadata == null) return new LinkedHashSet();
@@ -171,8 +182,8 @@ public class SqlFactory {
 		}
     }
 
-	public class SqlParametersParser {
-		Map<String,Column> specialParametersMapping = new HashMap<String,Column>();
+	public static class SqlParametersParser {
+		private static Map<String,Column> specialParametersMapping = new HashMap<String,Column>();
 		{
 			specialParametersMapping.put("offset", new Column(null,JdbcType.INTEGER.TYPE_CODE,"INTEGER","offset",0,0,false,false,false,false,null,null));
 			specialParametersMapping.put("limit", new Column(null,JdbcType.INTEGER.TYPE_CODE,"INTEGER","limit",0,0,false,false,false,false,null,null));
@@ -194,8 +205,11 @@ public class SqlFactory {
 			specialParametersMapping.put("orderby", new Column(null,JdbcType.VARCHAR.TYPE_CODE,"VARCHAR","orderby",0,0,false,false,false,false,null,null));
 			specialParametersMapping.put("sortColumns", new Column(null,JdbcType.VARCHAR.TYPE_CODE,"VARCHAR","sortColumns",0,0,false,false,false,false,null,null));
 		}
-		private LinkedHashSet<SqlParameter> parseForSqlParameters(ParsedSql parsedSql,Sql sql) throws Exception {
-			LinkedHashSet<SqlParameter> result = new LinkedHashSet<SqlParameter>();
+		
+		public LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
+		public List<SqlParameter> allParams = new ArrayList<SqlParameter>();
+		
+		private void execute(ParsedSql parsedSql,Sql sql) throws Exception {
 			long start = System.currentTimeMillis();
 			for(int i = 0; i < parsedSql.getParameterNames().size(); i++) {
 				String paramName = parsedSql.getParameterNames().get(i);
@@ -213,11 +227,10 @@ public class SqlFactory {
 				if(isMatchListParam(sql.getSourceSql(), paramName)) { //FIXME 只考虑(:username)未考虑(#inUsernames#) and (#{inPassword}),并且可以使用 #inUsername[]#
 					param.setListParam(true);
 				}
-				result.add(param);			
+				params.add(param);
+				allParams.add(param);
 			}
 			GLogger.perf("parseForSqlParameters() cost:"+(System.currentTimeMillis()- start));
-			return result;
-	    
 		}
 
 		public boolean isMatchListParam(String sql, String paramName) {
