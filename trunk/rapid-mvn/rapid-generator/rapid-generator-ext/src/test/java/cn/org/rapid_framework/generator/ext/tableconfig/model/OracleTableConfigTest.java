@@ -20,7 +20,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 public class OracleTableConfigTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
-//        super.setUp();
+        super.setUp();
     	GLogger.perf = true;
     	GLogger.logLevel = GLogger.DEBUG;
     	System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
