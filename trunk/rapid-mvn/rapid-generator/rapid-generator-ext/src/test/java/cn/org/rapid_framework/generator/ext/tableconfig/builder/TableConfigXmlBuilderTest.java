@@ -21,7 +21,7 @@ public class TableConfigXmlBuilderTest extends TestCase {
 		GeneratorProperties.setProperty("appName", "rapid");
 		GeneratorProperties.setProperty("outRoot", "./temp/"+getClass().getSimpleName()+"/"+getName());
 		System.setProperty(GeneratorConstants.GG_IS_OVERRIDE,"true");
-		basedir = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/ibatis");
+		basedir = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig");
 	}
 	
 	public void test() throws IOException, Exception {
