@@ -173,7 +173,7 @@ public class MethodParameter {
     	    return null;
         }
     
-        private String getParamsPattern(Method method) {
+        public static String getParamsPattern(Method method) {
             List paramPatterns = new ArrayList();
     	    for(int i = 0; i < method.getParameterTypes().length; i++ ) {
     	        Class type = method.getParameterTypes()[i];

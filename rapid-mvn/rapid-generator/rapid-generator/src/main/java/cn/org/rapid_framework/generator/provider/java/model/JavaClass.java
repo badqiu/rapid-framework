@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.provider.java.model;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -12,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
 import cn.org.rapid_framework.generator.util.typemapping.JavaImport;
@@ -90,6 +92,15 @@ public class JavaClass {
 	
 	public JavaMethod[] getMethods() {
 		return toJavaMethods(clazz.getDeclaredMethods());
+	}
+	
+	public JavaMethod getMethod(String methodName) {
+		for(Method m : clazz.getMethods()) {
+			if(m.getName().equals(methodName)) {
+				return new JavaMethod(m,this); //FIXME javaClazz关联错误,现在会覆盖父类的引用.
+			}
+		}
+		return null;
 	}
 	
 	public JavaMethod[] getPublicMethods() {
@@ -172,17 +183,46 @@ public class JavaClass {
 	}
 
 	public String getMavenJavaTestSourceFile() {
-	    clazz.getResource("");
 	    String f = getClassFile();
 	    return getMavenJavaTestSourceFile(f);
     }
 
+	public String getMavenJavaSourceFile() {
+	    String f = getClassFile();
+	    return getMavenJavaSourceFile(f);
+    }
+	
+	public String getMavenJavaSourceFileContent() {
+		//FIXME 增加读取测试代码的文件内容
+//		if(getClassName().startsWith("Test") || getClassName().endsWith("Test")) {
+//			if(getMavenJavaTestSourceFile() != null) {
+//				return IOHelper.readFile(new File(getMavenJavaTestSourceFile()));
+//			}
+//		}else {
+			if(getMavenJavaSourceFile() != null) {
+				return IOHelper.readFile(new File(getMavenJavaSourceFile()));
+			}
+//		}
+		return null;
+    }
+	
     public static String getMavenJavaTestSourceFile(String clazzFile) {
         if(clazzFile == null) return null;
         clazzFile = clazzFile.replace('\\', '/');
         if(clazzFile.indexOf("target/classes") >= 0) {
             String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
     	    return StringHelper.replace(result, ".class", "Test.java");
+        }else {
+            return null;
+        }
+    }
+
+    public static String getMavenJavaSourceFile(String clazzFile) {
+        if(clazzFile == null) return null;
+        clazzFile = clazzFile.replace('\\', '/');
+        if(clazzFile.indexOf("target/classes") >= 0) {
+            String result = StringHelper.replace(clazzFile, "target/classes", "src/main/java");
+    	    return StringHelper.replace(result, ".class", ".java");
         }else {
             return null;
         }
@@ -230,7 +270,7 @@ public class JavaClass {
 	}
 
 	public JavaField getField(String name) throws NoSuchFieldException,SecurityException {
-		return new JavaField(clazz.getField(name),this);
+		return new JavaField(clazz.getDeclaredField(name),this);
 	}
 
 	public JavaClass getSuperclass() {
