@@ -146,6 +146,14 @@
 	    </sql>
     </operation>  
     
+    <!-- 
+    
+	FIXME 还没有修正<#if r_has_next>,</#if>:   and r.role_name in (
+			<#list rolenameSet as r>
+				${r} <#if r_has_next>,</#if>
+			</#list>
+			)    
+     -->
 	<operation name="testOpenClose_with_list"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
     	<![CDATA[
@@ -162,7 +170,7 @@
 			<#if databaseType?is_empty>
 			and r.role_name in (
 			<#list rolenameSet as r>
-				${r} <#if r_has_next>,</#if>
+				${r} 
 			</#list>
 			)
 			</#if>
