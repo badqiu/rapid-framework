@@ -40,8 +40,11 @@ public enum JdbcType {
   CURSOR(-10), // Oracle
   UNDEFINED(Integer.MIN_VALUE + 1000),
   
+  ROWID(-8),
   NVARCHAR(-9),
   NCHAR(-15),
+  LONGNVARCHAR(-16),
+  SQLXML(2009),
   NCLOB(2011);
 
   public final int TYPE_CODE;
