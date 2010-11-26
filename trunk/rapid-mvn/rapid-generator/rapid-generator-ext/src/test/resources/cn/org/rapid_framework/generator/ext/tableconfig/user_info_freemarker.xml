@@ -106,14 +106,14 @@
 	<operation name="testOpenClose"  multiplicity="paging" remarks="根据订单号查询订单">
     	<sql>
     	<![CDATA[
-	    select role_id,sum(user_id) sum_user_id from role r 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
 	    	left join blog b on b.user_id = r.user_id
 	    where 
 	    	r.role_id = ? 
 	    	and r.role_name = ?
 	    	and b.content like ?
-	    	and modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 	   	    <#if databaseType?is_empty>
 	   	    and r.role_name in (${role_name})
 	   	    </#if>
@@ -141,6 +141,24 @@
 			     and r.role_id = :roleId
 			</#switch>  
 
+	    	group by r.role_id
+	    ]]>
+	    </sql>
+    </operation>  
+    
+	<operation name="testOpenClose_with_list"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+    	<![CDATA[
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and modified between #modifiedBegin# and #modifiedEnd#
+
+
 			<#if databaseType?is_empty>
 			and r.role_name in (
 			<#list rolenameSet as r>
@@ -148,8 +166,8 @@
 			</#list>
 			)
 			</#if>
-	    	group by role_id
+	    	group by r.role_id
 	    ]]>
 	    </sql>
-    </operation>   
+    </operation>      
 </table>
