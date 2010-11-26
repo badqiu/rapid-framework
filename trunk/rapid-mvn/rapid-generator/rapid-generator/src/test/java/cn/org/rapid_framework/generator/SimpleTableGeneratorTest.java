@@ -9,6 +9,7 @@ public class SimpleTableGeneratorTest extends GeneratorTestCase{
 
 	public void testGenerate() throws Exception{
 
+	    System.out.println(TableFactory.getInstance().getAllTables());
 		Table table = TableFactory.getInstance().getTable("USER_INFO");
 		
 		g.addTemplateRootDir(new File("template").getAbsoluteFile());

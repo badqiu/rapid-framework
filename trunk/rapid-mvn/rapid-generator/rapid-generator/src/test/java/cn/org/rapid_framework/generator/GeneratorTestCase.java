@@ -14,20 +14,18 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
-	private static boolean notRunCreatedTabled = true;
-	public void setUp()throws Exception {
+	public synchronized void setUp()throws Exception {
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
 		
-	    if(notRunCreatedTabled) {
-	    	runSqlScripts();
-	    	notRunCreatedTabled = false;
-	    }
+	    runSqlScripts();
+
 //		System.getProperties().list(System.out);
 		if(isRuningByMaven()) {
 			String tempDir = getTempDir();
@@ -46,10 +44,10 @@ public class GeneratorTestCase extends TestCase{
 	static String testDbType = "h2";
 	public static void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
-    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
 	    }else if("h2".equals(testDbType)) {
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20));
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
 	    }else if("mysql".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
@@ -79,7 +77,7 @@ public class GeneratorTestCase extends TestCase{
 //		System.out.println(conn.getCatalog());
 		
 		Statement stat = conn.createStatement();
-		String sqls = IOHelper.readFile(FileHelper.getFileByClassLoader(file));
+		String sqls = IOHelper.readFile(FileHelper.getFileByClassLoader(file),"UTF-8");
 		sqls = SqlParseHelper.removeSqlComments(sqls);
 		System.out.println(sqls);
 		for(String t : sqls.trim().split(";")) {
