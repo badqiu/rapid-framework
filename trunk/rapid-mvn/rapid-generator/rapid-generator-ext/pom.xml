@@ -24,5 +24,20 @@
 		    <version>1.7.1</version>
 		</dependency>		
 	</dependencies>
-	
+
+	<build>
+		<plugins>
+
+			<!-- test plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<parallel>false</parallel>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
+		
 </project>
