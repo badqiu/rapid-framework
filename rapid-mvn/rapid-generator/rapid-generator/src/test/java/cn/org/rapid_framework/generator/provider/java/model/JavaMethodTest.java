@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Queue;
 
+import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeFlows;
+
 import junit.framework.TestCase;
 
 public class JavaMethodTest extends TestCase {
@@ -33,5 +35,33 @@ public class JavaMethodTest extends TestCase {
 	
 	public void isVoidMethod() {
 		
+	}
+	
+	public void test_findWrapCharEndLocation() {
+		int[] beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{56}}", '{', '}');
+		assertEquals(beginAndEnd[0],4);
+		assertEquals(beginAndEnd[1],7);
+		
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{67}}", '{', '}');
+		assertEquals(beginAndEnd[0],4);
+		assertEquals(beginAndEnd[1],9);
+
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{67}}}}", '{', '}');
+		assertEquals(beginAndEnd[0],4);
+		assertEquals(beginAndEnd[1],9);
+		
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{56\n}}}", '{', '}');
+		assertEquals(beginAndEnd[0],4);
+		assertEquals(beginAndEnd[1],8);
+		
+		//start test with return null
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("012356}}", '{', '}');
+		assertNull(beginAndEnd);
+		
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{{67}}", '{', '}');
+		assertNull(beginAndEnd);
+		
+		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("012367", '{', '}');
+		assertNull(beginAndEnd);
 	}
 }
