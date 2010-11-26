@@ -35,9 +35,9 @@ public class StatementCreatorUtils {
             case Types.LONGVARCHAR:
             case Types.CLOB:
                 return randomString();
-            case Types.NVARCHAR:
-            case Types.NCHAR:
-            case Types.NCLOB:
+            case -9 :  //Types.NVARCHAR
+            case -15:  //Types.NCHAR
+            case 2011: //Types.NCLOB
                 return randomString();
             case Types.BINARY:
             case Types.VARBINARY:
