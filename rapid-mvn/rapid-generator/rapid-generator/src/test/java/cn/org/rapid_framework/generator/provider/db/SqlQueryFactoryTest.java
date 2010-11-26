@@ -155,7 +155,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	}
 	
 	public void test_isMatchListParam() {
-		SqlParametersParser sqlParametersParser = new SqlFactory().new SqlParametersParser();
+		SqlParametersParser sqlParametersParser = new SqlFactory.SqlParametersParser();
         assertFalse(sqlParametersParser.isMatchListParam("  \n (:username) ", "username"));
         assertFalse(sqlParametersParser.isMatchListParam("  (&username) ", "username"));
         assertFalse(sqlParametersParser.isMatchListParam("  (#username#) ", "username"));

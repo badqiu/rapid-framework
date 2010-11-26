@@ -14,8 +14,6 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
-import cn.org.rapid_framework.generator.util.StringHelper;
-import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 public class GeneratorTestCase extends TestCase{
@@ -44,10 +42,26 @@ public class GeneratorTestCase extends TestCase{
 	public boolean isRuningByMaven() {
 		return System.getProperty("surefire.real.class.path") != null;
 	}
-
+	
+	static String testDbType = "h2";
 	public static void runSqlScripts() throws SQLException, IOException {
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
+	    if("hsql".equals(testDbType)) {
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
+	    }else if("h2".equals(testDbType)) {
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
+	    }else if("mysql".equals(testDbType)) {
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");           
+        }else if("oracle".equals(testDbType)) {
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "oracle.jdbc.driver.OracleDriver");           
+        }else if("sqlserver".equals(testDbType)) {
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.microsoft.jdbc.sqlserver.SQLServerDriver");           
+        }
+	    
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "");
