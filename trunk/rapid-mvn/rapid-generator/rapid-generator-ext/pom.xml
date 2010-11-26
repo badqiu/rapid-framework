@@ -35,7 +35,8 @@
 				<configuration>
 					<parallel>false</parallel>
 					<excludes>
-						<exclude>OracleTableConfigTest</exclude>
+						<exclude>**/*$*</exclude>
+						<exclude>*OracleTableConfigTest*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
