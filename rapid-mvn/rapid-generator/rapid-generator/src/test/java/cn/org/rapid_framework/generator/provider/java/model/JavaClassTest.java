@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator;
+import cn.org.rapid_framework.generator.provider.java.model.JavaClass.MavenHelper;
+import cn.org.rapid_framework.generator.provider.java.model.testservicebean.BlogServiceBean;
 
 public class JavaClassTest extends TestCase {
 
@@ -26,26 +28,30 @@ public class JavaClassTest extends TestCase {
     }
 	
 	public void test_getMavenJavaTestSourceFile() {
-	    assertEquals("src/test/java/abcTest.java",JavaClass.getMavenJavaTestSourceFile("target/classes/abc.class"));
-	    assertEquals("c:/src/test/java/abcTest.java",JavaClass.getMavenJavaTestSourceFile("c:/target\\classes/abc.class"));
-	    assertEquals("c:/rapid/src/test/java/abcTest.java",JavaClass.getMavenJavaTestSourceFile("c:/rapid/target\\classes/abc.class"));
+	    assertEquals("src/test/java/abcTest.java",MavenHelper.getMavenJavaTestSourceFile("target/classes/abc.class"));
+	    assertEquals("c:/src/test/java/abcTest.java",MavenHelper.getMavenJavaTestSourceFile("c:/target\\classes/abc.class"));
+	    assertEquals("c:/rapid/src/test/java/abcTest.java",MavenHelper.getMavenJavaTestSourceFile("c:/rapid/target\\classes/abc.class"));
 	    
-	    assertEquals(null,JavaClass.getMavenJavaTestSourceFile(""));
-	    assertEquals(null,JavaClass.getMavenJavaTestSourceFile(null));
-	    assertEquals(null,JavaClass.getMavenJavaTestSourceFile("t1arget/classes/abc.class"));
+	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile(""));
+	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile(null));
+	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile("t1arget/classes/abc.class"));
 	}
 	
 	public void test_getMavenJavaSourceFile() {
-	    assertEquals("src/main/java/abc.java",JavaClass.getMavenJavaSourceFile("target/classes/abc.class"));
-	    assertEquals("c:/src/main/java/abc.java",JavaClass.getMavenJavaSourceFile("c:/target\\classes/abc.class"));
-	    assertEquals("c:/rapid/src/main/java/abc.java",JavaClass.getMavenJavaSourceFile("c:/rapid/target\\classes/abc.class"));
+	    assertEquals("src/main/java/abc.java",MavenHelper.getMavenJavaSourceFile("target/classes/abc.class"));
+	    assertEquals("c:/src/main/java/abc.java",MavenHelper.getMavenJavaSourceFile("c:/target\\classes/abc.class"));
+	    assertEquals("c:/rapid/src/main/java/abc.java",MavenHelper.getMavenJavaSourceFile("c:/rapid/target\\classes/abc.class"));
 	    
-	    assertEquals(null,JavaClass.getMavenJavaSourceFile(""));
-	    assertEquals(null,JavaClass.getMavenJavaSourceFile(null));
-	    assertEquals(null,JavaClass.getMavenJavaSourceFile("t1arget/classes/abc.class"));
+	    assertEquals(null,MavenHelper.getMavenJavaSourceFile(""));
+	    assertEquals(null,MavenHelper.getMavenJavaSourceFile(null));
+	    assertEquals(null,MavenHelper.getMavenJavaSourceFile("t1arget/classes/abc.class"));
 	}
 	
 	public void test_getMavenJavaSourceFileContent() {
-	    assertEquals("src/main/java/abc.java",new JavaClass(Generator.class).getMavenJavaSourceFileContent());
+	    String content = new JavaClass(Generator.class).getMavenJavaSourceFileContent();
+		assertTrue(content.indexOf("package cn.org.rapid_framework") >=0);
+		
+		content = new JavaClass(BlogServiceBean.class).getMavenJavaSourceFileContent();
+		assertTrue(content.indexOf("package cn.org.rapid_framework") >=0);
 	}
 }

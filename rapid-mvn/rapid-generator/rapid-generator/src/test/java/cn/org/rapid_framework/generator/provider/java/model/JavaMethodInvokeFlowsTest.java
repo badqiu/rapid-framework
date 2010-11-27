@@ -6,7 +6,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.FieldMethodInvocation;
-import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeSequences;
+import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeSequencesParser;
 import cn.org.rapid_framework.generator.provider.java.model.testservicebean.BlogServiceBean;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
@@ -16,7 +16,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	public void test_get_JavaMethodInvokeFlows() {
 		JavaClass clazz = new JavaClass(GeneratorFacade.class);
 		JavaMethod method = clazz.getMethod("deleteOutRootDir");
-		JavaMethodInvokeSequences executor = new JavaMethodInvokeSequences(method,clazz.getMavenJavaSourceFileContent());
+		JavaMethodInvokeSequencesParser executor = new JavaMethodInvokeSequencesParser(method,clazz.getMavenJavaSourceFileContent());
 		
 		executor.execute();
 		List<FieldMethodInvocation> invokes = executor.getMethodInvokeSequences();
@@ -28,7 +28,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	public void test_get_JavaMethodInvokeFlows_no_execute() {
 		JavaClass clazz = new JavaClass(GeneratorFacade.class);
 		JavaMethod method = clazz.getMethod("deleteOutRootDir");
-		JavaMethodInvokeSequences executor = new JavaMethodInvokeSequences(method,clazz.getMavenJavaSourceFileContent());
+		JavaMethodInvokeSequencesParser executor = new JavaMethodInvokeSequencesParser(method,clazz.getMavenJavaSourceFileContent());
 		try {
 			List<FieldMethodInvocation> invokes = executor.getMethodInvokeSequences();
 			fail("还没有执行execute()方法");
@@ -54,7 +54,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	public void test_getMethodInvokeSequences(String javaSourceFile,String methodName,Class clazz, String... expected) {
 		JavaClass javaClazz = new JavaClass(clazz);
 		JavaMethod method = javaClazz.getMethod(methodName);
-		JavaMethodInvokeSequences executor = new JavaMethodInvokeSequences(method,IOHelper.readFile(new File(javaSourceFile)));
+		JavaMethodInvokeSequencesParser executor = new JavaMethodInvokeSequencesParser(method,IOHelper.readFile(new File(javaSourceFile)));
 		
 		executor.execute();
 		List<FieldMethodInvocation> invokes = executor.getMethodInvokeSequences();
