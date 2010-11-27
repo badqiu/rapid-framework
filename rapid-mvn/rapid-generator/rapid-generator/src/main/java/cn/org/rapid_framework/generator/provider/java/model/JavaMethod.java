@@ -128,70 +128,118 @@ public class JavaMethod {
 		return clazz.getJavaType()+"."+getMethodName()+"()";
 	}
     
+    public static class FieldMethodInvocation {
+    	JavaField field;
+    	JavaMethod method;
+		public FieldMethodInvocation(JavaField field, JavaMethod method) {
+			super();
+			this.field = field;
+			this.method = method;
+		}
+		public JavaField getField() {
+			return field;
+		}
+		public void setField(JavaField field) {
+			this.field = field;
+		}
+		public JavaMethod getMethod() {
+			return method;
+		}
+		public void setMethod(JavaMethod method) {
+			this.method = method;
+		}
+    }
+    
     public static class JavaMethodInvokeFlows {
-    	public static String fieldMethodInvokeRegex = "(\\w+)\\s*\\.\\s*(\\w+)\\(.*?\\)";
+    	//匹配一个field的方法调用,如  generator.deleteBy() method.getClass()
+    	public static String fieldMethodInvokeRegex = "(\\w+)\\.(\\w+)\\(";
     	
-    	Method method;
+    	JavaMethod method;
     	String javaSourceContent;
     	JavaClass clazz;
     	
-    	public JavaMethodInvokeFlows(Method method, String javaSourceContent,
-				JavaClass clazz) {
+    	boolean executed = false;
+    	public JavaMethodInvokeFlows(JavaMethod method, String javaSourceContent) {
 			super();
 			this.method = method;
 			this.javaSourceContent = javaSourceContent;
-			this.clazz = clazz;
+			this.clazz = method.getClazz();
 		}
 
-		public List<JavaMethod> methodInvokeFlows = new ArrayList<JavaMethod>();
+		private List<FieldMethodInvocation> methodInvokeFlows = new ArrayList<FieldMethodInvocation>();
+		
+    	public List<FieldMethodInvocation> getMethodInvokeFlows() {
+    		if(executed) {
+    			return methodInvokeFlows;
+    		}else {
+    			throw new IllegalStateException("please invoke execute() method before getMethodInvokeFlows()");
+    		}
+    	}
+    	
     	public void execute() {
-    		javaSourceContent = removeJavaComments(javaSourceContent);
-    		javaSourceContent = removeImports(javaSourceContent);
-    		javaSourceContent = removePackage(javaSourceContent);
-    		javaSourceContent = replaceString2EmptyString(javaSourceContent);
-    		String methodStartPattern = "(?s)"+method.getName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method)+"\\)\\s*";
-    		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
-    		String methodEnd = javaSourceContent.substring(methodStart);
-    		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
-    		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
+    		executed = true;
+    		String javaSourceContent = removeSomeThings();
+    		String methodBody = getMethodBody(javaSourceContent);
     		
     		Pattern p = Pattern.compile(fieldMethodInvokeRegex);
     		Matcher m = p.matcher(methodBody);
     		while(m.find()) {
     			String field = m.group(1);
     			String methodName= m.group(2);
-    			try {
-					JavaField javaField = clazz.getField(field);
-					JavaClass fieldType = javaField.getType();
-					JavaMethod method = fieldType.getMethod(methodName);
-					if(method != null) {
-						methodInvokeFlows.add(method);
-					}
-				} catch (NoSuchFieldException e) {
-					continue;
-				}
+    			addFieldMethodInvocation(field, methodName);
     		}
     	}
+
+		private void addFieldMethodInvocation(String field, String methodName) {
+			try {
+				JavaField javaField = clazz.getField(field);
+				JavaClass fieldType = javaField.getType();
+				JavaMethod method = fieldType.getMethod(methodName);
+				if(method != null) {
+					methodInvokeFlows.add(new FieldMethodInvocation(javaField,method));
+				}
+			} catch (NoSuchFieldException e) {
+				//ignore
+			}
+		}
+
+		private String getMethodBody(String javaSourceContent) {
+			String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
+    		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
+    		String methodEnd = javaSourceContent.substring(methodStart);
+    		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
+    		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
+			return methodBody;
+		}
+
+		private String removeSomeThings() {
+			String javaSourceContent = removeJavaComments(this.javaSourceContent);
+    		javaSourceContent = removeJavaImports(javaSourceContent);
+    		javaSourceContent = removeJavaPackage(javaSourceContent);
+    		javaSourceContent = replaceString2EmptyString(javaSourceContent);
+			return javaSourceContent;
+		}
+    	
     	public static  String replaceString2EmptyString(String str) {
     		if(str == null) return null;
-    		str = str.replaceAll("\".*?\"", ""); // remove "234 " => ""
+    		str = str.replaceAll("\".*?\"", ""); // replace string from "234 " => ""
 			return str;
 		}
 		// getName\s*\(.*?\)\s*\{.*?\;\s*}
 		public static String removeJavaComments(String str) {
 			if(str == null) return null;
-			str = str.replaceAll("//.*", ""); // remove //
-			str = str.replaceAll("(?s)/\\*.*?\\*/", ""); // remove /* */
+			str = str.replaceAll("//.*", ""); // remove line comment: //
+			str = str.replaceAll("(?s)/\\*.*?\\*/", ""); // remove block comment: /* */
 			return str;
 		}
-		public static String removeImports(String str) {
+		public static String removeJavaImports(String str) {
     		if(str == null) return null;
-    		str = str.replaceAll("\\s*import.*", ""); // remove "234 " => ""
+    		str = str.replaceAll("\\s*import.*", ""); // remove java import
 			return str;
 		}
-		public static String removePackage(String str) {
+		public static String removeJavaPackage(String str) {
     		if(str == null) return null;
-    		str = str.replaceAll("\\s*package.*", ""); // remove "234 " => ""
+    		str = str.replaceAll("\\s*package.*", ""); // remove java package
 			return str;
 		}
 		
