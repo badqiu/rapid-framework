@@ -47,4 +47,13 @@ public class BlogServiceBean {
 		}
 		return csb.cc(sex);
 	}
+
+	public void setCsb(CommentServiceBean csb) {
+		this.csb = csb;
+	}
+
+	public void setEsb(EmailServiceBean esb) {
+		this.esb = esb;
+	}
+	
 }

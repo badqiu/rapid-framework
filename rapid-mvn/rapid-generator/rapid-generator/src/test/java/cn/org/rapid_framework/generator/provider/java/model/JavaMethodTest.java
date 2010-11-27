@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Queue;
 
-import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeFlows;
+import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeSequences;
 
 import junit.framework.TestCase;
 
@@ -38,30 +38,30 @@ public class JavaMethodTest extends TestCase {
 	}
 	
 	public void test_findWrapCharEndLocation() {
-		int[] beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{56}}", '{', '}');
+		int[] beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("0123{56}}", '{', '}');
 		assertEquals(beginAndEnd[0],4);
 		assertEquals(beginAndEnd[1],7);
 		
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{67}}", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("0123{{67}}", '{', '}');
 		assertEquals(beginAndEnd[0],4);
 		assertEquals(beginAndEnd[1],9);
 
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{67}}}}", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("0123{{67}}}}", '{', '}');
 		assertEquals(beginAndEnd[0],4);
 		assertEquals(beginAndEnd[1],9);
 		
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{56\n}}}", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("0123{56\n}}}", '{', '}');
 		assertEquals(beginAndEnd[0],4);
 		assertEquals(beginAndEnd[1],8);
 		
 		//start test with return null
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("012356}}", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("012356}}", '{', '}');
 		assertNull(beginAndEnd);
 		
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("0123{{{67}}", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("0123{{{67}}", '{', '}');
 		assertNull(beginAndEnd);
 		
-		beginAndEnd = JavaMethodInvokeFlows.findWrapCharEndLocation("012367", '{', '}');
+		beginAndEnd = JavaMethodInvokeSequences.findWrapCharEndLocation("012367", '{', '}');
 		assertNull(beginAndEnd);
 	}
 }
