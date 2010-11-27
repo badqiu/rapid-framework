@@ -1,8 +1,9 @@
 package cn.org.rapid_framework.generator.provider.java.model.testservicebean;
 
-public class BlogServiceBean {
+public class BlogServiceBean extends AbstractBlogServiceBean{
 	public CommentServiceBean csb;
 	private EmailServiceBean esb;
+	private String name;
 
 	public String testSay(String sex) {
 		if(true) {
@@ -54,6 +55,10 @@ public class BlogServiceBean {
 
 	public void setEsb(EmailServiceBean esb) {
 		this.esb = esb;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
