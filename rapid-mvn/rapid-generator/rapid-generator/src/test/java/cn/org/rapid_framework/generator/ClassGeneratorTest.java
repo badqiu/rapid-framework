@@ -1,18 +1,19 @@
 package cn.org.rapid_framework.generator;
 
-import junit.framework.TestCase;
+import java.io.File;
+
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
-import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.provider.java.model.testservicebean.BlogServiceBean;
 
 public class ClassGeneratorTest extends GeneratorTestCase{
     GeneratorFacade g = new GeneratorFacade();
     
     public void test() throws Exception  {
         Generator g = new Generator();
-        g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test/template/clazz"));
+        g.setTemplateRootDir(new File("src/template/clazz/jmock"));
         g.setOutRootDir(getTempDir());
-        GeneratorModel gm = GeneratorModelUtils.newFromClass(Generator.class);
+        GeneratorModel gm = GeneratorModelUtils.newFromClass(BlogServiceBean.class);
         g.generateBy(gm.templateModel,gm.filePathModel);
     }
 }
