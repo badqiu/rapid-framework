@@ -37,24 +37,21 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	}
 	
 	public void test_get_JavaMethodInvokeFlows_with_BlogServiceBean() {
-		String file = "E:/svnroot/google_code/rapid-mvn/rapid-generator/rapid-generator/src/test/java/cn/org/rapid_framework/generator/provider/java/model/testservicebean/BlogServiceBean.java";
-		test_getMethodInvokeSequences(file,"testSay",BlogServiceBean.class,"esb.say","csb.bb","esb.hello","csb.aa","esb.say","csb.cc");
+		test_getMethodInvokeSequences("testSay",BlogServiceBean.class,"esb.say","csb.bb","esb.hello","csb.aa","esb.say","csb.cc");
 	}
 
 	public void test_get_JavaMethodInvokeFlows_with_blogjava() {
-		String file = "E:/svnroot/google_code/rapid-mvn/rapid-generator/rapid-generator/src/test/java/cn/org/rapid_framework/generator/provider/java/model/testservicebean/BlogServiceBean.java";
-		test_getMethodInvokeSequences(file,"blogjava",BlogServiceBean.class,"csb.bb","esb.say","esb.hello","csb.aa","csb.cc");
+		test_getMethodInvokeSequences("blogjava",BlogServiceBean.class,"csb.bb","esb.say","esb.hello","csb.aa","csb.cc");
 	}
 
 	public void test_get_JavaMethodInvokeFlows_with_chain_call() {
-		String file = "E:/svnroot/google_code/rapid-mvn/rapid-generator/rapid-generator/src/test/java/cn/org/rapid_framework/generator/provider/java/model/testservicebean/BlogServiceBean.java";
-		test_getMethodInvokeSequences(file,"chain_call",BlogServiceBean.class,"csb.bb","esb.say","csb.dd","csb.aa","csb.cc");
+		test_getMethodInvokeSequences("chain_call",BlogServiceBean.class,"csb.bb","esb.say","csb.dd","csb.aa","csb.cc");
 	}
 	
-	public void test_getMethodInvokeSequences(String javaSourceFile,String methodName,Class clazz, String... expected) {
+	public void test_getMethodInvokeSequences(String methodName,Class clazz, String... expected) {
 		JavaClass javaClazz = new JavaClass(clazz);
 		JavaMethod method = javaClazz.getMethod(methodName);
-		JavaMethodInvokeSequencesParser executor = new JavaMethodInvokeSequencesParser(method,IOHelper.readFile(new File(javaSourceFile)));
+		JavaMethodInvokeSequencesParser executor = new JavaMethodInvokeSequencesParser(method,IOHelper.readFile(new File(javaClazz.getMavenJavaSourceFile())));
 		
 		executor.execute();
 		List<FieldMethodInvocation> invokes = executor.getMethodInvokeSequences();
