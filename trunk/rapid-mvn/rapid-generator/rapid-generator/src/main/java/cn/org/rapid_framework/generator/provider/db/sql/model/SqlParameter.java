@@ -57,7 +57,7 @@ public class SqlParameter extends Column {
 		    return toListParam(getParameterClass());
 		}
         
-		private String toListParam(String parameterClassName) {
+		String toListParam(String parameterClassName) {
 			if(isListParam) {
 				if(parameterClassName.indexOf("[]") >= 0){
 					return parameterClassName;
