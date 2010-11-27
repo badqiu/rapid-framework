@@ -194,14 +194,26 @@ public class JavaClass {
         return clazz.getName().replace('.', '/')+".java";
 	}
 
+	/**
+	 * 得到 当前类对应的测试代码的文件路径
+	 * @return
+	 */
 	public String getMavenJavaTestSourceFile() {
 	    return MavenHelper.getMavenJavaTestSourceFile(getClassFile());
     }
 
+	/**
+	 * 得到 当前类对应的源代码的文件路径
+	 * @return
+	 */
 	public String getMavenJavaSourceFile() {
 	    return MavenHelper.getMavenJavaSourceFile(getClassFile());
     }
-	
+
+	/**
+	 * 得到 当前类的源代码内容
+	 * @return
+	 */
 	private String mavenJavaSourceFileContent;
 	public String getMavenJavaSourceFileContent() {
 		if(mavenJavaSourceFileContent == null){
