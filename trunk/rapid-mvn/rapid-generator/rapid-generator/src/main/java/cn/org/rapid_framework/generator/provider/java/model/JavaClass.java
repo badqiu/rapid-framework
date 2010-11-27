@@ -113,7 +113,6 @@ public class JavaClass {
 		return toJavaMethods(filterByModifiers(methods,Modifier.PUBLIC,Modifier.STATIC));
 	}
 	
-
 	public JavaMethod[] getPublicNotStaticMethods() {
 		Method[] staticMethods = filterByModifiers(clazz.getDeclaredMethods(),Modifier.STATIC);
 		Method[] publicMethods = filterByModifiers(clazz.getDeclaredMethods(),Modifier.PUBLIC);
@@ -162,22 +161,35 @@ public class JavaClass {
 		return result;
 	}
 	
+	/**
+	 * 得到当前类包名称对应的文件路径,如 com.company.project包,将返回 com/company/project
+	 * */
 	public String getPackagePath(){
 		return getPackageName().replace(".", "/");
 	}
 	
+	/**
+	 * 得到当前类父一级的包名称如 com.company.project包,将返回com.company
+	 * */
 	public String getParentPackageName() {
 		return getPackageName().substring(0,getPackageName().lastIndexOf("."));
 	}
-
+	/**
+	 * 得到当前类父一级的包名称对应的文件路径,如 com.company.project包,将返回com/company
+	 * */
 	public String getParentPackagePath() {
 		return getParentPackageName().replace(".", "/");
 	}
 	
+	/**
+	 * 得到当前类是从那里装载的绝对路径
+	 * */
 	public String getClassFile() {
 	    return clazz.getClassLoader().getResource(clazz.getName().replace('.', '/')+".class").getFile();
 	}
-
+	/**
+	 * 得到当前类对应的java源文件名称
+	 * */
 	public String getJavaSourceFile() {
         return clazz.getName().replace('.', '/')+".java";
 	}
@@ -192,13 +204,6 @@ public class JavaClass {
 	
 	private String mavenJavaSourceFileContent;
 	public String getMavenJavaSourceFileContent() {
-		//FIXME 增加读取测试代码的文件内容
-//		if(getClassName().startsWith("Test") || getClassName().endsWith("Test")) {
-//			if(getMavenJavaTestSourceFile() != null) {
-//				return IOHelper.readFile(new File(getMavenJavaTestSourceFile()));
-//			}
-//		}else {
-//		}
 		if(mavenJavaSourceFileContent == null){
 			if(getMavenJavaSourceFile() != null) {
 				mavenJavaSourceFileContent = IOHelper.readFile(new File(getMavenJavaSourceFile()));
