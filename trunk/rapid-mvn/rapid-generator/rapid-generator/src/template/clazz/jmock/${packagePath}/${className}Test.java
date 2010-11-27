@@ -81,7 +81,7 @@ public class ${clazz.className}Test{
     @Test
     public void test_${method.methodName}() throws Throwable{
         
-        <#list method.fieldMethodInvocationFlows as fieldInvoke>
+        <#list method.fieldMethodInvocationSequences as fieldInvoke>
         <@genJmockContextChecking fieldInvoke.field.fieldName fieldInvoke.method/>
         
         </#list>
@@ -132,18 +132,18 @@ public class ${clazz.className}Test{
 </#macro>
 
 <#macro genJmockContextChecking fieldName method>
-	context.checking(new Expectations() {
-	    {
-	        <#if (method.returnType.className!="void")>
-	        ${genNewJavaTypeExpr(method.returnType,'first')}
-	        </#if>
-	        
-	        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
-	        <#if (method.returnType.className!="void")>
-	        will(returnValue(first));
-	        </#if>
-	    }
-	});
+		context.checking(new Expectations() {
+		    {
+		        <#if (method.returnType.className!="void")>
+		        ${genNewJavaTypeExpr(method.returnType,'first')}
+		        </#if>
+		        
+		        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
+		        <#if (method.returnType.className!="void")>
+		        will(returnValue(first));
+		        </#if>
+		    }
+		});
 </#macro>
 
 <#function genNewJavaTypeExpr clazz varName>
