@@ -124,6 +124,10 @@ public class JavaMethod {
     	return false;
     }
 
+    /**
+     * 解析java源代码的方法,将一个方法中调用field的所有方法全部提取出来.
+     * @return
+     */
     public List<FieldMethodInvocation> getFieldMethodInvocationSequences() {
     	if(StringHelper.isNotBlank(clazz.getMavenJavaSourceFileContent())) {
     		JavaMethodInvokeSequencesParser cmd = new JavaMethodInvokeSequencesParser(this,clazz.getMavenJavaSourceFileContent());
