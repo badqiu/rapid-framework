@@ -124,6 +124,16 @@ public class JavaMethod {
     	return false;
     }
 
+    public List<FieldMethodInvocation> getFieldMethodInvocationSequences() {
+    	if(StringHelper.isNotBlank(clazz.getMavenJavaSourceFileContent())) {
+    		JavaMethodInvokeSequencesParser cmd = new JavaMethodInvokeSequencesParser(this,clazz.getMavenJavaSourceFileContent());
+	    	cmd.execute();
+	    	return cmd.getMethodInvokeSequences();
+    	}else {
+    		return new ArrayList<FieldMethodInvocation>(0);
+    	}
+    }
+    
     public String toString() {
 		return clazz.getJavaType()+"."+getMethodName()+"()";
 	}
@@ -150,17 +160,24 @@ public class JavaMethod {
 		}
     }
     
-    public static class JavaMethodInvokeFlows {
+    /**
+     * 解析java源代码的方法,将一个方法中调用field的所有方法全部提取出来.
+     **/
+    public static class JavaMethodInvokeSequencesParser {
     	//匹配一个field的方法调用,如  generator.deleteBy() method.getClass()
     	public static String fieldMethodInvokeRegex = "(\\w+)\\.(\\w+)\\(";
     	
-    	JavaMethod method;
-    	String javaSourceContent;
-    	JavaClass clazz;
+    	private JavaMethod method;
+    	private String javaSourceContent;
+    	private JavaClass clazz;
     	
     	boolean executed = false;
-    	public JavaMethodInvokeFlows(JavaMethod method, String javaSourceContent) {
+    	public JavaMethodInvokeSequencesParser(JavaMethod method, String javaSourceContent) {
 			super();
+    		if(StringHelper.isBlank(javaSourceContent)) {
+    			throw new IllegalArgumentException("'javaSourceContent' must be not blank");
+    		}
+    		
 			this.method = method;
 			this.javaSourceContent = javaSourceContent;
 			this.clazz = method.getClazz();
@@ -168,7 +185,7 @@ public class JavaMethod {
 
 		private List<FieldMethodInvocation> methodInvokeFlows = new ArrayList<FieldMethodInvocation>();
 		
-    	public List<FieldMethodInvocation> getMethodInvokeFlows() {
+    	public List<FieldMethodInvocation> getMethodInvokeSequences() {
     		if(executed) {
     			return methodInvokeFlows;
     		}else {
@@ -178,6 +195,8 @@ public class JavaMethod {
     	
     	public void execute() {
     		executed = true;
+
+    		
     		String javaSourceContent = removeSomeThings();
     		String methodBody = getMethodBody(javaSourceContent);
     		
