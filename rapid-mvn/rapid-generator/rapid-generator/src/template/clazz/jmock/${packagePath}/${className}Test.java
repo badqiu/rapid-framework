@@ -163,6 +163,8 @@ public class ${clazz.className}Test{
                 </#if>
             <#elseif (clazz.booleanType)>
                 boolean ${varName} = true;
+            <#elseif clazz?ends_with("java.lang.String")>
+            	String ${varName} = "";
             <#elseif (clazz.array)>
                 ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}[]{};
             <#elseif (clazz.primitive)>
