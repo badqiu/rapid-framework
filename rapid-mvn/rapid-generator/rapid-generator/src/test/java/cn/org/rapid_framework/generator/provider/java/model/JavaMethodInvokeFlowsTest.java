@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.FieldMethodInvocation;
 import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.JavaMethodInvokeSequencesParser;
+import cn.org.rapid_framework.generator.provider.java.model.testservicebean.AbstractBlogServiceBean;
 import cn.org.rapid_framework.generator.provider.java.model.testservicebean.BlogServiceBean;
 import cn.org.rapid_framework.generator.util.IOHelper;
 
@@ -46,6 +47,16 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 
 	public void test_get_JavaMethodInvokeFlows_with_chain_call() {
 		test_getMethodInvokeSequences("chain_call",BlogServiceBean.class,"csb.bb","esb.say","csb.dd","csb.aa","csb.cc");
+	}
+
+	public void test_get_JavaMethodInvokeFlows_with_SuperClass() {
+		test_getMethodInvokeSequences("absInvoke",AbstractBlogServiceBean.class,"emailServiceBean.say","emailServiceBean.hello");
+		
+		try {
+		test_getMethodInvokeSequences("absInvoke",BlogServiceBean.class,"emailServiceBean.say","emailServiceBean.hello");
+		fail("shoud not found method");
+		}catch(Exception e){
+		}
 	}
 	
 	public void test_getMethodInvokeSequences(String methodName,Class clazz, String... expected) {
