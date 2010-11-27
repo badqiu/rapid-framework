@@ -80,13 +80,14 @@ public class ${clazz.className}Test{
     <#if isNotPropertyMethod(method.methodName)>
     @Test
     public void test_${method.methodName}() throws Throwable{
-        <#list method.parameters as param>
-        ${genNewJavaTypeExpr(param.paramClass,param.name)}
-        </#list>
         
         <#list method.fieldMethodInvocationFlows as fieldInvoke>
         <@genJmockContextChecking fieldInvoke.field.fieldName fieldInvoke.method/>
         
+        </#list>
+        
+        <#list method.parameters as param>
+        ${genNewJavaTypeExpr(param.paramClass,param.name)}
         </#list>
         
         <#if (method.returnType.className=="void")>
@@ -135,12 +136,11 @@ public class ${clazz.className}Test{
 	    {
 	        <#if (method.returnType.className!="void")>
 	        ${genNewJavaTypeExpr(method.returnType,'first')}
-	        ${genNewJavaTypeExpr(method.returnType,'second')}
 	        </#if>
 	        
 	        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
 	        <#if (method.returnType.className!="void")>
-	        will(onConsecutiveCalls(returnValue(first), returnValue(second)));
+	        will(returnValue(first));
 	        </#if>
 	    }
 	});
