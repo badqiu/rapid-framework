@@ -183,13 +183,11 @@ public class JavaClass {
 	}
 
 	public String getMavenJavaTestSourceFile() {
-	    String f = getClassFile();
-	    return getMavenJavaTestSourceFile(f);
+	    return MavenHelper.getMavenJavaTestSourceFile(getClassFile());
     }
 
 	public String getMavenJavaSourceFile() {
-	    String f = getClassFile();
-	    return getMavenJavaSourceFile(f);
+	    return MavenHelper.getMavenJavaSourceFile(getClassFile());
     }
 	
 	private String mavenJavaSourceFileContent;
@@ -209,27 +207,33 @@ public class JavaClass {
 		return mavenJavaSourceFileContent;
     }
 	
-    public static String getMavenJavaTestSourceFile(String clazzFile) {
-        if(clazzFile == null) return null;
-        clazzFile = clazzFile.replace('\\', '/');
-        if(clazzFile.indexOf("target/classes") >= 0) {
-            String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
-    	    return StringHelper.replace(result, ".class", "Test.java");
-        }else {
-            return null;
-        }
-    }
-
-    public static String getMavenJavaSourceFile(String clazzFile) {
-        if(clazzFile == null) return null;
-        clazzFile = clazzFile.replace('\\', '/');
-        if(clazzFile.indexOf("target/classes") >= 0) {
-            String result = StringHelper.replace(clazzFile, "target/classes", "src/main/java");
-    	    return StringHelper.replace(result, ".class", ".java");
-        }else {
-            return null;
-        }
-    }
+	public static class MavenHelper {
+	    public static String getMavenJavaTestSourceFile(String clazzFile) {
+	        if(clazzFile == null) return null;
+	        clazzFile = clazzFile.replace('\\', '/');
+	        if(clazzFile.indexOf("target/classes") >= 0) {
+	            String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
+	    	    return StringHelper.replace(result, ".class", "Test.java");
+	        }else {
+	            return null;
+	        }
+	    }
+	
+	    public static String getMavenJavaSourceFile(String clazzFile) {
+	        if(clazzFile == null) return null;
+	        clazzFile = clazzFile.replace('\\', '/');
+	        if(clazzFile.indexOf("target/classes") >= 0) {
+	            String result = StringHelper.replace(clazzFile, "target/classes", "src/main/java");
+	    	    return StringHelper.replace(result, ".class", ".java");
+	        } else if (clazzFile.indexOf("target/test-classes") >= 0){
+	        	String result = StringHelper.replace(clazzFile, "target/test-classes", "src/test/java");
+	    	    return StringHelper.replace(result, ".class", ".java");
+	        }
+	        else {
+	            return null;
+	        }
+	    }
+	}
     
 	/**
 	 * 得到class是在那个classpath路径装载
@@ -386,6 +390,6 @@ public class JavaClass {
     }
 
     public String toString() {
-		return "JavaClass:"+clazz.getName();
+		return clazz.getName();
 	}
 }
