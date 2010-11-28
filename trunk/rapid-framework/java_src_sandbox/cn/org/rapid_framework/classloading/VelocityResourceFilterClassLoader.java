@@ -99,7 +99,7 @@ public class VelocityResourceFilterClassLoader extends ClassLoader {
 	
 	private static void printManifest(String resourceName) {
 		System.out.println("resourceName:"+resourceName);
-		Manifest manifest = ManifestUtils.getManifestByResource(Thread.currentThread().getContextClassLoader(), resourceName);
+		Manifest manifest = ManifestUtils.getManifest(Thread.currentThread().getContextClassLoader(), resourceName);
 		if(manifest != null) {
 			Attributes attrs = manifest.getMainAttributes();
 			System.out.println("manifest:"+Arrays.toString(attrs.values().toArray()));

@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.WeakHashMap;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import org.apache.commons.io.IOUtils;
 /**
  * Manifest读取的工具类
  * 
@@ -40,7 +43,7 @@ public class ManifestUtils {
 		return result;
 	}
 	
-	public static Manifest getManifestByResource(ClassLoader classLoader,String resourceName) {
+	public static Manifest getManifest(ClassLoader classLoader,String resourceName) {
 		try {
 			URL url = classLoader.getResource(resourceName);
 			if(url == null) return null;
@@ -48,20 +51,24 @@ public class ManifestUtils {
 				String jarLocation = url.toString().substring(0,url.toString().indexOf("!"))+"!/META-INF/MANIFEST.MF";
 //				System.out.println("ManifestUtils.getManifestByResource()"+jarLocation+" resourceName:"+resourceName+" url:"+url);
 				return new Manifest(new URL(jarLocation).openStream());
-			}else if(new File(url.getFile()).isDirectory() && new File(url.getFile()).exists()) {
-				String resourceFolder = url.getFile().substring(0,resourceName.length());
-				return readManifest(new URL(url,resourceFolder));
+			}else if(new File(url.getFile()).exists()) {
+				String resourceFolder = getResourceLoadFolder(resourceName, url);
+				return readManifest(new URL(resourceFolder));
 			}
-			throw new RuntimeException("META-INF/MANIFEST.MF FileNotFound with resourceName:"+resourceName);
+			throw new RuntimeException("META-INF/MANIFEST.MF FileNotFound with resourceName:"+resourceName+" url:"+url);
 		}catch(MalformedURLException e) {
 			throw new RuntimeException("MalformedURLException",e);
 		}catch(IOException e) {
 			throw new RuntimeException("IOException",e);
 		}
 	}
+
+	private static String getResourceLoadFolder(String resourceName, URL url) {
+		return url.toString().substring(0,url.toString().length() - resourceName.length());
+	}
 	
 	//FIXME 需要测试打为war包后,通过jar可不可以得到MANIFEST
-	private static Manifest readManifest(URL location) {
+	private static Manifest readManifest(URL location)  {
 		File file = new File(location.getFile());
 		if(file.isDirectory()) {
 			File manifestFile = new File(file,"META-INF/MANIFEST.MF");
@@ -82,7 +89,16 @@ public class ManifestUtils {
 			} catch (IOException e) {
 				throw new RuntimeException("error on read META-INF/MANIFEST.MF with location:"+location);
 			}
+		}else{
+			InputStream in = null; 
+			try {
+				in = new URL(location+"!/META-INF/MANIFEST.MF").openStream();
+				return new Manifest(in);
+			}catch(IOException e) {
+				IOUtils.closeQuietly(in);
+				throw new RuntimeException("read META-INF/MANIFEST.MF occer error with location:"+location);
+			}
 		}
-		throw new RuntimeException("META-INF/MANIFEST.MF FileNotFound with location:"+location);
+//		throw new RuntimeException("META-INF/MANIFEST.MF FileNotFound with location:"+location);
 	}
 }
