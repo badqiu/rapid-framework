@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.CodeSource;
 import java.util.WeakHashMap;
@@ -33,14 +34,34 @@ public class ManifestUtils {
 		URL location = codeSource.getLocation();
 		Manifest result = cache.get(location);
 		if(result == null) {
-			result = getManifest(location);
+			result = readManifest(location);
 			cache.put(location, result);
 		}
 		return result;
 	}
 	
+	public static Manifest getManifestByResource(ClassLoader classLoader,String resourceName) {
+		try {
+			URL url = classLoader.getResource(resourceName);
+			if(url == null) return null;
+			if(url.toString().indexOf("!") >= 0) {
+				String jarLocation = url.toString().substring(0,url.toString().indexOf("!"))+"!/META-INF/MANIFEST.MF";
+//				System.out.println("ManifestUtils.getManifestByResource()"+jarLocation+" resourceName:"+resourceName+" url:"+url);
+				return new Manifest(new URL(jarLocation).openStream());
+			}else if(new File(url.getFile()).isDirectory() && new File(url.getFile()).exists()) {
+				String resourceFolder = url.getFile().substring(0,resourceName.length());
+				return readManifest(new URL(url,resourceFolder));
+			}
+			throw new RuntimeException("META-INF/MANIFEST.MF FileNotFound with resourceName:"+resourceName);
+		}catch(MalformedURLException e) {
+			throw new RuntimeException("MalformedURLException",e);
+		}catch(IOException e) {
+			throw new RuntimeException("IOException",e);
+		}
+	}
+	
 	//FIXME 需要测试打为war包后,通过jar可不可以得到MANIFEST
-	private static Manifest getManifest(URL location) {
+	private static Manifest readManifest(URL location) {
 		File file = new File(location.getFile());
 		if(file.isDirectory()) {
 			File manifestFile = new File(file,"META-INF/MANIFEST.MF");
