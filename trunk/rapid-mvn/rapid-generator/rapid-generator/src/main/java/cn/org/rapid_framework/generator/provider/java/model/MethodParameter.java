@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.util.ClassHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.paranamer.AdaptiveParanamer;
@@ -51,7 +52,7 @@ public class MethodParameter {
 		}
 	}
 	
-	public static Paranamer paranamer = setParanamer(Thread.currentThread().getContextClassLoader());
+	public static Paranamer paranamer = setParanamer(ClassHelper.getDefaultClassLoader());
 	public static Paranamer setParanamer(ClassLoader classLoader) {
 		paranamer = new CachingParanamer(new AdaptiveParanamer(new DefaultParanamer(),new BytecodeReadingParanamer(),new JavaSourceParanamer(classLoader)) );
 		return paranamer;

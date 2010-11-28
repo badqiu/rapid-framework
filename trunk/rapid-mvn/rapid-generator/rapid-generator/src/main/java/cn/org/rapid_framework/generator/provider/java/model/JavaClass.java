@@ -231,6 +231,9 @@ public class JavaClass {
 	        if(clazzFile.indexOf("target/classes") >= 0) {
 	            String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
 	    	    return StringHelper.replace(result, ".class", "Test.java");
+	        } else if (clazzFile.indexOf("target/test-classes") >= 0){
+	        	String result = StringHelper.replace(clazzFile, "target/test-classes", "src/test/java");
+	        	return StringHelper.replace(result, ".class", "Test.java");
 	        }else {
 	            return null;
 	        }
