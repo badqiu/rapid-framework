@@ -59,4 +59,7 @@ public @interface MethodCache {
      **/
     String cacheKey() default "";
     
+    
+    //TODO 增加指定使用具体的cache对象. 如: Cache cache() default NULL;
+    
 }
