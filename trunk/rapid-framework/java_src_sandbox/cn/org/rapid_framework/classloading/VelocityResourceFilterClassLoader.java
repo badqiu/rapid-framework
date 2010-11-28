@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.security.CodeSource;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Vector;
 import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.struts2.interceptor.ApplicationAware;
@@ -76,6 +79,10 @@ public class VelocityResourceFilterClassLoader extends ClassLoader {
 		printManifest(ApplicationAware.class);
 		printManifest(ApplicationAware.class);
 		printManifest(VelocityResourceFilterClassLoader.class);
+		String resource = VelocityResourceFilterClassLoader.class.getName().replace('.', '/');
+		printManifest(resource+".class");
+		
+		printManifest(ApplicationAware.class.getName().replace('.', '/')+".class");
 	}
 
 	private static void printCodeSource(Class clazz) {
@@ -88,5 +95,14 @@ public class VelocityResourceFilterClassLoader extends ClassLoader {
 	private static void printManifest(Class clazz) {
 		Attributes attrs = ManifestUtils.getManifest(clazz).getMainAttributes();
 		System.out.println("manifest:"+Arrays.toString(attrs.values().toArray()));
+	}
+	
+	private static void printManifest(String resourceName) {
+		System.out.println("resourceName:"+resourceName);
+		Manifest manifest = ManifestUtils.getManifestByResource(Thread.currentThread().getContextClassLoader(), resourceName);
+		if(manifest != null) {
+			Attributes attrs = manifest.getMainAttributes();
+			System.out.println("manifest:"+Arrays.toString(attrs.values().toArray()));
+		}
 	}
 }
