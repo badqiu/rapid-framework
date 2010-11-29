@@ -5,10 +5,8 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -43,8 +41,8 @@ import cn.org.rapid_framework.web.util.FilterConfigUtils;
  *
  */
 public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
-    private int threshold = 3000;
-    private boolean includeQueryString = false;
+    int threshold = 3000;
+    boolean includeQueryString = false;
     private static final Log log = LogFactory.getLog(PerformanceFilter.class);
 
     public void destroy() {
