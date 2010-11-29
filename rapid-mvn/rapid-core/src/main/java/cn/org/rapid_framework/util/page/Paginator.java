@@ -1,7 +1,12 @@
 package cn.org.rapid_framework.util.page;
 
 import java.util.List;
-
+/**
+ * 分页器，根据page,pageSize,totalItem用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
+ * 
+ * @author badqiu
+ * @version $Id: Paginator.java,v 0.1 2010-11-29 下午05:35:58 zhongxuan Exp $
+ */
 public class Paginator implements java.io.Serializable{
 	private static final long serialVersionUID = 6089482156906595931L;
 	
