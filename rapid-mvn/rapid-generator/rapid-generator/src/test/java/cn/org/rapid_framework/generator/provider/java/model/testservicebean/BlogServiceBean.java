@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator.provider.java.model.testservicebean;
 
+import java.util.List;
+
 public class BlogServiceBean extends AbstractBlogServiceBean{
 	public CommentServiceBean csb;
 	private EmailServiceBean esb;
@@ -47,6 +49,20 @@ public class BlogServiceBean extends AbstractBlogServiceBean{
 			esb.say(csb.dd(csb.aa("123", 1)));
 		}
 		return csb.cc(sex);
+	}
+	
+	public String call_other_method() {
+	    return blogjava(chain_call(""));
+	}
+	
+	public String array_args(String[] names,List<String> sexes) {
+	    for(String name : names) {
+	        csb.bb(name);
+	    }
+	    for(String name : sexes) {
+            csb.aa(name, 1);
+        }
+	    return names[0];
 	}
 
 	public void setCsb(CommentServiceBean csb) {

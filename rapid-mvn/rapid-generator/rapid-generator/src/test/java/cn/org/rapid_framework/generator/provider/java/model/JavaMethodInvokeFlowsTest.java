@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -48,7 +49,16 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	public void test_get_JavaMethodInvokeFlows_with_chain_call() {
 		test_getMethodInvokeSequences("chain_call",BlogServiceBean.class,"csb.bb","esb.say","csb.dd","csb.aa","csb.cc");
 	}
-
+	
+	
+	public void test_get_JavaMethodInvokeFlows_with_array_args() {
+        test_getMethodInvokeSequences("array_args",BlogServiceBean.class,"csb.bb","csb.aa");
+    }
+	
+	public void test_get_JavaMethodInvokeFlows_with_call_other_method() {
+        test_getMethodInvokeSequences("call_other_method",BlogServiceBean.class,"csb.bb","esb.say","csb.dd","csb.aa","csb.cc","csb.bb","esb.say","esb.hello","csb.aa","csb.cc");
+    }
+	
 	public void test_get_JavaMethodInvokeFlows_with_SuperClass() {
 		test_getMethodInvokeSequences("absInvoke",AbstractBlogServiceBean.class,"emailServiceBean.say","emailServiceBean.hello");
 		
@@ -72,7 +82,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 	}
 	
 	private void verifyInvokeFlows(List<FieldMethodInvocation> invokes, String... expected) {
-		assertEquals("real:"+invokes+" expected:"+expected,invokes.size(),expected.length);
+		assertEquals("real:"+invokes+" expected:"+Arrays.toString(expected),invokes.size(),expected.length);
 		for(int i = 0; i < invokes.size(); i++) {
 			String methodName = invokes.get(i).getMethod().getMethodName();
 			String fieldName = invokes.get(i).getField().getFieldName();
