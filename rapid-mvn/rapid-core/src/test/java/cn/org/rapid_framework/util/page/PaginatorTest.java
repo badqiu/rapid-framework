@@ -24,6 +24,17 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.isHasNextPage(),true);
 		assertEquals(p.isHasPrePage(),true);
 		
+		assertFalse(p.isDisabledPage(1));
+		assertFalse(p.isDisabledPage(5));
+		assertFalse(p.isDisabledPage(11));
+		
+		assertTrue(p.isDisabledPage(10));
+		
+		assertTrue(p.isDisabledPage(-1));
+		assertTrue(p.isDisabledPage(0));
+		assertTrue(p.isDisabledPage(12));
+		assertTrue(p.isDisabledPage(30));
+		
 		p = new Paginator(1,10,101);
 		assertEquals(p.isFirstPage(),true);
 		assertEquals(p.isLastPage(),false);
