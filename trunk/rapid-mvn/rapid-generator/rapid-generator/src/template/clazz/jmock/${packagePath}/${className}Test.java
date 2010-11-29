@@ -1,5 +1,7 @@
-${gg.setOverride(true)}
-${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
+${gg.setOverride(false)}
+<#if clazz.anonymousClass || clazz.enum || clazz.interface || clazz.className?ends_with('Test') || clazz.className?starts_with('Test')>
+${gg.setIgnoreOutput(true)}
+</#if>
 <#if clazz.mavenJavaTestSourceFile??>
 ${gg.setOutputFile(clazz.mavenJavaTestSourceFile)}
 </#if>
@@ -52,7 +54,6 @@ public class ${clazz.className}Test{
     
     @Before
     public void setUp() throws Exception {
-        //请将 context.checking(new Expectations(){ }) 相关方法迁移至具体的各个测试方法中.
         
         <#list clazz.properties as prop>
         <#if prop.hasWriteMethod && !prop.propertyType.primitive>
@@ -60,6 +61,9 @@ public class ${clazz.className}Test{
         </#if>
         </#list>
         
+        // 请将 context.checking(new Expectations(){ }) 相关方法迁移至具体的各个测试方法中.
+        // 以下注释掉的方法可以根据需要手工拷贝使用，不需要则请删除
+        /*
         <#list clazz.properties as prop>
             <#if !prop.propertyType.javaType?starts_with("java")>
                 <#list prop.propertyType.publicMethods as method>
@@ -68,7 +72,7 @@ public class ${clazz.className}Test{
                </#list>
            </#if>
         </#list>
-        
+        */
     }
     
     @After
@@ -132,18 +136,21 @@ public class ${clazz.className}Test{
 </#macro>
 
 <#macro genJmockContextChecking fieldName method>
-		context.checking(new Expectations() {
-		    {
-		        <#if (method.returnType.className!="void")>
-		        ${genNewJavaTypeExpr(method.returnType,'first')}
-		        </#if>
-		        
-		        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
-		        <#if (method.returnType.className!="void")>
-		        will(returnValue(first));
-		        </#if>
-		    }
-		});
+    <#if method.clazz?starts_with("java") || method.clazz?contains('Logger') || method.clazz?ends_with('.Log')>
+        <#return/>
+    </#if>
+        context.checking(new Expectations() {
+            {
+                <#if (method.returnType.className!="void")>
+                ${genNewJavaTypeExpr(method.returnType,'first')}
+                </#if>
+                
+                allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
+                <#if (method.returnType.className!="void")>
+                will(returnValue(first));
+                </#if>
+            }
+        });
 </#macro>
 
 <#function genNewJavaTypeExpr clazz varName>
@@ -164,7 +171,7 @@ public class ${clazz.className}Test{
             <#elseif (clazz.booleanType)>
                 boolean ${varName} = true;
             <#elseif clazz?ends_with("java.lang.String")>
-            	String ${varName} = "";
+                String ${varName} = "";
             <#elseif (clazz.array)>
                 ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}[]{};
             <#elseif (clazz.primitive)>
