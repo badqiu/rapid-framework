@@ -7,7 +7,7 @@ import java.util.List;
  * @author badqiu
  * @version $Id: Paginator.java,v 0.1 2010-11-29 下午05:35:58 zhongxuan Exp $
  */
-public class Paginator implements java.io.Serializable, Cloneable {
+public class Paginator implements java.io.Serializable {
 	private static final long serialVersionUID = 6089482156906595931L;
 	
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
@@ -207,14 +207,6 @@ public class Paginator implements java.io.Serializable, Cloneable {
             result.add(new Integer(i));
         }
         return result;
-    }
-    
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (java.lang.CloneNotSupportedException e) {
-            return null; 
-        }
     }
     
     public String toString() {
