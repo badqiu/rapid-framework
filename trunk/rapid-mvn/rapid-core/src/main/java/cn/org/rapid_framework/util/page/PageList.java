@@ -19,7 +19,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
     
     private int               pageSize;
     private int               page;
-    private long              totalItems;
+    private int              totalItems;
 
     public PageList() {}
     
@@ -27,13 +27,13 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 		super(c);
 	}
 
-	public PageList(int page, int pageSize, long totalItems) {
+	public PageList(int page, int pageSize, int totalItems) {
         this.page = page;
         this.pageSize = pageSize;
         this.totalItems = totalItems;
     }
 	
-	public PageList(Collection<? extends E> c,int page, int pageSize, long totalItems) {
+	public PageList(Collection<? extends E> c,int page, int pageSize, int totalItems) {
         super(c);
         this.page = page;
         this.pageSize = pageSize;
@@ -69,11 +69,11 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
         this.page = page;
     }
 
-	public long getTotalItems() {
+	public int getTotalItems() {
 		return totalItems;
 	}
 
-	public void setTotalItems(long totalItems) {
+	public void setTotalItems(int totalItems) {
 		this.totalItems = totalItems;
 	}
 

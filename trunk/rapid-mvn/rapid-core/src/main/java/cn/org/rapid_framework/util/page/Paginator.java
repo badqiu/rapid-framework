@@ -15,10 +15,10 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	
 	private int page;
 	private int pageSize = DEFAULT_PAGE_SIZE;
-	private long totalItems;
+	private int totalItems = Integer.MAX_VALUE; // 必须初始值设置为MAX_VALUE
 	
 	public Paginator() {
-	    this(0,DEFAULT_PAGE_SIZE,0);
+	    this(0,DEFAULT_PAGE_SIZE,Integer.MAX_VALUE);
 	}
 
 	public Paginator(int pageSize) {
@@ -26,7 +26,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
         this.pageSize = pageSize;
     }
 	
-	public Paginator(int page, int pageSize, long totalItems) {
+	public Paginator(int page, int pageSize, int totalItems) {
 		super();
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
@@ -62,7 +62,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
      *
      * @return 总项数
      */
-	public long getTotalItems() {
+	public int getTotalItems() {
 		return totalItems;
 	}
     /**
@@ -71,7 +71,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
      * @param totalItems 总项数
      *
      */
-	public void setTotalItems(long totalItems) {
+	public void setTotalItems(int totalItems) {
 		this.totalItems = totalItems >= 0 ? totalItems : 0;
 		this.page = computePageNo(page);
 	}
@@ -159,28 +159,28 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	/**
 	 * 开始行，可以用于oracle分页使用 (1-based)。
 	 **/
-	public long getStartRow() {
+	public int getStartRow() {
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
 	/**
      * 结束行，可以用于oracle分页使用 (1-based)。
      **/
-	public long getEndRow() {
+	public int getEndRow() {
 	    return page > 0 ? Math.min(pageSize * page, getTotalItems()) : 0; 
 	}
     /**
      * offset，计数从0开始，可以用于mysql分页使用
      **/	
-	public long getOffset() {
+	public int getOffset() {
 		return page > 0 ? (page - 1) * getPageSize() : 0;
 	}
 	
-	public long getTotalPages() {
+	public int getTotalPages() {
 		if (totalItems < 0) {
 			return -1;
 		}
 
-		long count = totalItems / pageSize;
+		int count = totalItems / pageSize;
 		if (totalItems % pageSize > 0) {
 			count++;
 		}
@@ -199,7 +199,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
-    private static int computeLastPageNumber(long totalItems,int pageSize) {
+    private static int computeLastPageNumber(int totalItems,int pageSize) {
         int result = (int)(totalItems % pageSize == 0 ? 
                 totalItems / pageSize 
                 : totalItems / pageSize + 1);
@@ -208,7 +208,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
         return result;
     }
     
-    private static int computePageNumber(int page, int pageSize,long totalItems) {
+    private static int computePageNumber(int page, int pageSize,int totalItems) {
         if(page <= 1) {
             return 1;
         }
