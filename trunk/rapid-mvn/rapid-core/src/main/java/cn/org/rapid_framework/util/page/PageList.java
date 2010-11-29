@@ -1,5 +1,5 @@
 
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.util.page;
 
 import java.io.Serializable;
 import java.util.ArrayList;
