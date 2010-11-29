@@ -60,7 +60,7 @@ public class Generator implements GeneratorConstants {
 	}
 
 	public void setTemplateRootDirs(File... templateRootDirs) {
-		this.templateRootDirs = Arrays.asList(templateRootDirs);
+		this.templateRootDirs = new ArrayList(Arrays.asList(templateRootDirs));
 	}
 	
 	public void addTemplateRootDir(File f) {
