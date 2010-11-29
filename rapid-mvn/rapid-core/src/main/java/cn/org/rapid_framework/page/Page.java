@@ -8,10 +8,17 @@ import java.util.List;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
+ * <pre>
  * 分页信息
  * 第一页从1开始
+ * 
+ * 已经过时,使用PageList替代
+ * </pre>
+ * 
+ * @see cn.org.rapid_framework.util.page.PageList
  * @author badqiu
  */
+@Deprecated
 public class Page<T> implements Serializable,Iterable<T>
 {
 	

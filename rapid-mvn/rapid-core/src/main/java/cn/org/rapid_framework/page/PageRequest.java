@@ -3,11 +3,18 @@ package cn.org.rapid_framework.page;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+
+import cn.org.rapid_framework.util.page.PageQuery;
 /**
  * 分页请求信息
  * 其中范型<T>为filters的类型
+ * 
+ * 已经过时,使用PageQuery替代
+ * 
+ * @see PageQuery
  * @author badqiu
  */
+@Deprecated
 public class PageRequest<T> implements Serializable {
 
 	/**
