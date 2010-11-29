@@ -2,15 +2,15 @@ package cn.org.rapid_framework.generator.provider.java.model.testservicebean;
 
 public class AbstractBlogServiceBean {
 	
-	private EmailServiceBean emailServiceBean;
+	private TopicServiceBean topicServiceBean;
 
-	public void setEmailServiceBean(EmailServiceBean emailServiceBean) {
-		this.emailServiceBean = emailServiceBean;
+	public void setEmailServiceBean(TopicServiceBean emailServiceBean) {
+		this.topicServiceBean = topicServiceBean;
 	}
 	
 	public void absInvoke() {
-		emailServiceBean.say("123");
-		emailServiceBean.hello("123",1);
+	    topicServiceBean.a1();
+	    topicServiceBean.a2("123");
 	}
 	
 }
