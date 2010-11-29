@@ -2,19 +2,16 @@ package cn.org.rapid_framework.util.page;
 
 import java.util.ArrayList;
 
-import cn.org.rapid_framework.util.page.PageList;
-import cn.org.rapid_framework.util.page.Paginator;
-
 import junit.framework.TestCase;
 
 public class PaginatorTest extends TestCase {
 	
-	Paginator p = new Paginator();
+	Paginator p = new Paginator(10,10,101);
 	
 	public void setUp() {
-		p.setPage(10);
-		p.setPageSize(10);
-		p.setTotalItems(101);		
+//	    p.setPage(10);
+//		p.setPageSize(10);
+//		p.setTotalItems(101);		
 	}
 	
 	public void test_getTotalPages() {
@@ -22,24 +19,24 @@ public class PaginatorTest extends TestCase {
 	}
 	
 	public void test_is() {
-		assertEquals(p.isFirstPage(),false);
+		assertEquals(p.toString(),p.isFirstPage(),false);
 		assertEquals(p.isLastPage(),false);
 		assertEquals(p.isHasNextPage(),true);
 		assertEquals(p.isHasPrePage(),true);
 		
-		p.setPage(1);
+		p = new Paginator(1,10,101);
 		assertEquals(p.isFirstPage(),true);
 		assertEquals(p.isLastPage(),false);
 		assertEquals(p.isHasPrePage(),false);
 		assertEquals(p.isHasNextPage(),true);
 		
-		p.setPage(11);
+		p = new Paginator(11,10,101);
 		assertEquals(p.isFirstPage(),false);
 		assertEquals(p.isLastPage(),true);
 		assertEquals(p.isHasPrePage(),true);
 		assertEquals(p.isHasNextPage(),false);
 		
-		p.setPage(5);
+		p = new Paginator(5,10,101);
 		assertEquals(p.isFirstPage(),false);
 		assertEquals(p.isLastPage(),false);
 		assertEquals(p.isHasPrePage(),true);
@@ -56,11 +53,10 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getNextPage(),11);
 		assertEquals(p.getTotalPages(),11);
 		assertEquals(p.getTotalItems(),101);
-
 	}
 	
 	public void test_get_with_pageSize() {
-		p.setPageSize(5);
+	    p = new Paginator(10,5,101);
 		assertEquals(p.getStartRow(),46);
 		assertEquals(p.getEndRow(),50);
 		assertEquals(p.getOffset(),45);
@@ -71,16 +67,16 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getTotalPages(),21);
 		assertEquals(p.getTotalItems(),101);
 
-		p.setPageSize(200);
+		p = new Paginator(10,200,Integer.MAX_VALUE);
 		assertEquals(p.getStartRow(),1801);
-		assertEquals(p.getEndRow(),101);
+		assertEquals(p.getEndRow(),2000);
 		assertEquals(p.getOffset(),1800);
 		assertEquals(p.getPage(),10);
 		assertEquals(p.getPageSize(),200);
 		assertEquals(p.getPrePage(),9);
-		assertEquals(p.getNextPage(),10);
-		assertEquals(p.getTotalPages(),1);
-		assertEquals(p.getTotalItems(),101);
+		assertEquals(p.getNextPage(),11);
+		assertEquals(p.getTotalPages(),10737419);
+		assertEquals(p.getTotalItems(),Integer.MAX_VALUE);
 		
 		for(int i = 1; i <= p.getTotalPages(); i++) {
 			PageList<String> pageList = findPage(i,p.getPageSize(),"query");
