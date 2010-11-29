@@ -62,7 +62,7 @@ public class BlogServiceBean extends AbstractBlogServiceBean{
 	    for(String name : sexes) {
             csb.aa(name, 1);
         }
-	    return names[0];
+	    return "array_args()";
 	}
 
 	public void setCsb(CommentServiceBean csb) {
