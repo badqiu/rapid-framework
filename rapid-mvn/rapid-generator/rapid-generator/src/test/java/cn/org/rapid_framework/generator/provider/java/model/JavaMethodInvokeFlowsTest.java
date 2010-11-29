@@ -60,7 +60,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
     }
 	
 	public void test_get_JavaMethodInvokeFlows_with_SuperClass() {
-		test_getMethodInvokeSequences("absInvoke",AbstractBlogServiceBean.class,"emailServiceBean.say","emailServiceBean.hello");
+		test_getMethodInvokeSequences("absInvoke",AbstractBlogServiceBean.class,"topicServiceBean.a1","topicServiceBean.a2");
 		
 		try {
 		test_getMethodInvokeSequences("absInvoke",BlogServiceBean.class,"emailServiceBean.say","emailServiceBean.hello");
