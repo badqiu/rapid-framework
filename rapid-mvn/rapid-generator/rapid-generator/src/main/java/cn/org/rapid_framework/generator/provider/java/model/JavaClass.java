@@ -71,10 +71,21 @@ public class JavaClass {
             Class[] clazzes = { f.getType() };
             JavaImport.addImportClass(set,clazzes);
         }
-	    for(Constructor c : clazz.getConstructors()) {
+	    for(Field f :clazz.getDeclaredFields()) {
+            Class[] clazzes = { f.getType() };
+            JavaImport.addImportClass(set,clazzes);
+        }
+	    for(Constructor c : clazz.getDeclaredConstructors()) {
 	    	JavaImport.addImportClass(set,c.getExceptionTypes());
 	    	JavaImport.addImportClass(set,c.getParameterTypes());
 	    }
+	    for(Constructor c : clazz.getConstructors()) {
+            JavaImport.addImportClass(set,c.getExceptionTypes());
+            JavaImport.addImportClass(set,c.getParameterTypes());
+        }
+	    for(Class c : clazz.getDeclaredClasses()) {
+            JavaImport.addImportClass(set,c);
+        }
 	    return set;
 	}
 
