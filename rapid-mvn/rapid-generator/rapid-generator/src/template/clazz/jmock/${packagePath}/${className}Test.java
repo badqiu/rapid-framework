@@ -139,18 +139,18 @@ public class ${clazz.className}Test{
     <#if method.clazz?starts_with("java") || method.clazz?contains('Logger') || method.clazz?ends_with('.Log')>
         <#return/>
     </#if>
-        context.checking(new Expectations() {
-            {
-                <#if (method.returnType.className!="void")>
-                ${genNewJavaTypeExpr(method.returnType,'first')}
-                </#if>
-                
-                allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
-                <#if (method.returnType.className!="void")>
-                will(returnValue(first));
-                </#if>
-            }
-        });
+		context.checking(new Expectations() {
+		    {
+		        <#if (method.returnType.className!="void")>
+		        ${genNewJavaTypeExpr(method.returnType,'first')}
+		        </#if>
+		        
+		        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
+		        <#if (method.returnType.className!="void")>
+		        will(returnValue(first));
+		        </#if>
+		    }
+		});
 </#macro>
 
 <#function genNewJavaTypeExpr clazz varName>
@@ -171,7 +171,7 @@ public class ${clazz.className}Test{
             <#elseif (clazz.booleanType)>
                 boolean ${varName} = true;
             <#elseif clazz?ends_with("java.lang.String")>
-                String ${varName} = "";
+            	String ${varName} = "";
             <#elseif (clazz.array)>
                 ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}[]{};
             <#elseif (clazz.primitive)>
