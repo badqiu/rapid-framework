@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.util.page;
 /**
  * 分页查询对象
  * @author zhongxuan
