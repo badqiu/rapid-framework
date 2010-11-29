@@ -1,7 +1,5 @@
 package cn.org.rapid_framework.util.page;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 
 public class PaginatorTest extends TestCase {
@@ -90,12 +88,13 @@ public class PaginatorTest extends TestCase {
 		assertEquals(p.getTotalItems(),Integer.MAX_VALUE);
 		
 		for(int i = 1; i <= p.getTotalPages(); i++) {
-			PageList<String> pageList = findPage(i,p.getPageSize(),"query");
 		}
 	}
 
-	private PageList findPage(int page, int pageSize, String string) {
-		return new PageList(new ArrayList(),page,pageSize,101);
+	
+	public void test_limit() {
+	    assertEquals(p.getLimit(),10);
+	    assertEquals(new Paginator(11,10,101).getLimit(),1);
 	}
 	
 }
