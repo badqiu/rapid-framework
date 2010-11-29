@@ -153,12 +153,18 @@ public class Paginator implements java.io.Serializable {
     protected int computePageNo(int page) {
         return computePageNumber(page,pageSize,totalItems);
     }
-    
-    public List<Integer> getSliders() {
+    /**
+     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
+     * @return
+     */
+    public List<Integer> getSlider() {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
     }
-    
-    public List<Integer> getSliders(int slidersCount) {
+    /**
+     * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
+     * @return
+     */
+    public List<Integer> getSlider(int slidersCount) {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
@@ -202,7 +208,7 @@ public class Paginator implements java.io.Serializable {
             }
         }
         
-        java.util.List<Integer> result = new java.util.ArrayList();
+        java.util.List<Integer> result = new java.util.ArrayList<Integer>();
         for(int i = startPageNumber; i <= endPageNumber; i++) {
             result.add(new Integer(i));
         }
