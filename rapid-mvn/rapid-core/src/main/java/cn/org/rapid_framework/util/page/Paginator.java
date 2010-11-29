@@ -7,7 +7,7 @@ import java.util.List;
  * @author badqiu
  * @version $Id: Paginator.java,v 0.1 2010-11-29 下午05:35:58 zhongxuan Exp $
  */
-public class Paginator implements java.io.Serializable{
+public class Paginator implements java.io.Serializable, Cloneable {
 	private static final long serialVersionUID = 6089482156906595931L;
 	
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
@@ -21,20 +21,32 @@ public class Paginator implements java.io.Serializable{
 	    this(0,DEFAULT_PAGE_SIZE,0);
 	}
 
+	public Paginator(int pageSize) {
+        super();
+        this.pageSize = pageSize;
+    }
+	
 	public Paginator(int page, int pageSize, long totalItems) {
 		super();
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
 	}
-
+    /**
+     * 取得当前页。
+     */
 	public int getPage() {
 		return page;
 	}
-
+    /**
+     * 设置并取得当前页。实际的当前页值被确保在正确的范围内。
+     *
+     * @param page 当前页
+     *
+     * @return 设置后的当前页
+     */
 	public void setPage(int page) {
-		this.page = page;
-		computePageNo(page);
+		this.page = computePageNo(page);
 	}
 
 	public int getPageSize() {
@@ -43,16 +55,25 @@ public class Paginator implements java.io.Serializable{
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
-		computePageNo(page);
+		this.page = computePageNo(page);
 	}
-
+    /**
+     * 取得总项数。
+     *
+     * @return 总项数
+     */
 	public long getTotalItems() {
 		return totalItems;
 	}
-
+    /**
+     * 设置并取得总项数。如果指定的总项数小于0，则被看作0。自动调整当前页，确保当前页值在正确的范围内。
+     *
+     * @param totalItems 总项数
+     *
+     */
 	public void setTotalItems(long totalItems) {
-		this.totalItems = totalItems;
-		computePageNo(page);
+		this.totalItems = totalItems >= 0 ? totalItems : 0;
+		this.page = computePageNo(page);
 	}
 	
     /**
@@ -73,6 +94,24 @@ public class Paginator implements java.io.Serializable{
 		return page >= getTotalPages();
 	}
 	
+    /**
+     * 取得首页页码。
+     *
+     * @return 首页页码
+     */
+    public int getFirstPage() {
+        return computePageNo(1);
+    }
+
+    /**
+     * 取得末页页码。
+     *
+     * @return 末页页码
+     */
+    public int getLastPage() {
+        return computePageNo((int)getTotalPages());
+    }
+    
 	public int getPrePage() {
 		if (isHasPrePage()) {
 			return page - 1;
@@ -88,6 +127,18 @@ public class Paginator implements java.io.Serializable{
 			return page;
 		}
 	}
+	
+    /**
+     * 判断指定页码是否被禁止，也就是说指定页码超出了范围或等于当前页码。
+     *
+     * @param page 页码
+     *
+     * @return boolean  是否为禁止的页码
+     */
+    public boolean isDisabledPage(int page) {
+        return ((page < 1) || (page > getTotalPages()) || (page == this.page));
+    }
+    
     /**
      * 是否有上一页
      *
@@ -106,19 +157,19 @@ public class Paginator implements java.io.Serializable{
 	}
 	
 	/**
-	 * 开始行，可以用于oracle分页使用
+	 * 开始行，可以用于oracle分页使用 (1-based)。
 	 **/
 	public long getStartRow() {
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
 	/**
-     * 结束行，可以用于oracle分页使用
+     * 结束行，可以用于oracle分页使用 (1-based)。
      **/
 	public long getEndRow() {
 	    return page > 0 ? Math.min(pageSize * page, getTotalItems()) : 0; 
 	}
     /**
-     * offset，可以用于mysql分页使用
+     * offset，计数从0开始，可以用于mysql分页使用
      **/	
 	public long getOffset() {
 		return page > 0 ? (page - 1) * getPageSize() : 0;
@@ -194,4 +245,17 @@ public class Paginator implements java.io.Serializable{
         }
         return result;
     }
+    
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (java.lang.CloneNotSupportedException e) {
+            return null; 
+        }
+    }
+    
+    public String toString() {
+        return "page:"+page+" pageSize:"+pageSize+" totalItems:"+totalItems;
+    }
+    
 }
