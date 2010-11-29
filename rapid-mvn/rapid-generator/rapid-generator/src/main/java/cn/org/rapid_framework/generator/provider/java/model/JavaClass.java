@@ -26,8 +26,12 @@ public class JavaClass {
 	}
 	
 	public String getClassName() {
-		return getSimpleJavaType();
+		return getClassName(getSimpleJavaType());
 	}
+
+    static String getClassName(String simpleJavaType) {
+        return simpleJavaType.indexOf('$') >= 0 ? simpleJavaType.substring(simpleJavaType.indexOf('$')+1) : simpleJavaType;
+    }
 	
 	public String getPackageName() {
 		return clazz.getPackage().getName();
