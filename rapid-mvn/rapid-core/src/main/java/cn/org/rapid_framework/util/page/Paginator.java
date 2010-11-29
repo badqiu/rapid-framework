@@ -11,14 +11,14 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	private static final long serialVersionUID = 6089482156906595931L;
 	
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
-	private static final int DEFAULT_PAGE_SIZE = 10;
 	
 	private int page;
-	private int pageSize = DEFAULT_PAGE_SIZE;
-	private int totalItems = Integer.MAX_VALUE; // 必须初始值设置为MAX_VALUE
+	private int pageSize;
+	private int totalItems;
 	
 	public Paginator(int page, int pageSize, int totalItems) {
 		super();
+		if(pageSize <= 0) throw new IllegalArgumentException("'pageSize' must be great than 0");
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
@@ -112,18 +112,31 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	public int getStartRow() {
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
+	
 	/**
      * 结束行，可以用于oracle分页使用 (1-based)。
      **/
 	public int getEndRow() {
 	    return page > 0 ? Math.min(pageSize * page, getTotalItems()) : 0; 
 	}
+	
     /**
      * offset，计数从0开始，可以用于mysql分页使用
      **/	
 	public int getOffset() {
 		return page > 0 ? (page - 1) * getPageSize() : 0;
 	}
+	
+	/**
+     * limit，可以用于mysql分页使用
+     **/
+    public int getLimit() {
+        if (page > 0) {
+            return Math.min(pageSize * page, getTotalItems()) - (pageSize * (page - 1));
+        } else {
+            return 0;
+        }
+    }
 	
 	public int getTotalPages() {
 		if (totalItems < 0) {
