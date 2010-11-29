@@ -9,6 +9,8 @@ import java.util.Collection;
  * 
  * 包含“分页”信息的List
  * 
+ * <p>要得到总页数请使用 toPaginator().getTotalPages();</p>
+ * 
  * @author badqiu
  */
 public class PageList<E> extends ArrayList<E> implements Serializable {
