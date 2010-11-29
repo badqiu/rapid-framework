@@ -1,6 +1,9 @@
-package cn.org.rapid_framework.util;
+package cn.org.rapid_framework.util.page;
 
 import java.util.ArrayList;
+
+import cn.org.rapid_framework.util.page.PageList;
+import cn.org.rapid_framework.util.page.Paginator;
 
 import junit.framework.TestCase;
 
