@@ -178,7 +178,8 @@ public class MethodParameter {
             List paramPatterns = new ArrayList();
     	    for(int i = 0; i < method.getParameterTypes().length; i++ ) {
     	        Class type = method.getParameterTypes()[i];
-    	        String paramPattern = ".*"+type.getSimpleName()+".*\\s+(\\w+).*";
+    	        String classType = type.getSimpleName().replace("[", "\\[").replace("]", "\\]");
+                String paramPattern = ".*"+classType+".*\\s+(\\w+).*";
     	        paramPatterns.add(paramPattern);
     	    }
     	    return StringHelper.join(paramPatterns, ",");
