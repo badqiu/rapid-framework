@@ -9,6 +9,7 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
@@ -37,5 +38,8 @@ public class PageQueryTest{
         context.assertIsSatisfied();
     }
     
+    @Test 
+    public void test() {
+    }
     
 }
