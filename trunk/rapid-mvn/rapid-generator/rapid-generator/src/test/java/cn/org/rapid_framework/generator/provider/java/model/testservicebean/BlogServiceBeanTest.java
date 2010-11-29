@@ -3,10 +3,10 @@
 
 package cn.org.rapid_framework.generator.provider.java.model.testservicebean;
 
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.*;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.*;
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -17,18 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.lang.String;
-import java.util.List;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.CommentServiceBean;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.EmailServiceBean;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.TopicServiceBean;
-import java.lang.Object;
-import java.util.Locale;
-import java.nio.charset.Charset;
-import java.io.UnsupportedEncodingException;
-import java.util.Comparator;
-import java.io.ObjectStreamField;
 
 
 @RunWith(JMock.class)
@@ -221,8 +209,9 @@ public class BlogServiceBeanTest{
             {
                 String first = "";
                 
+                
                 allowing(csb).bb(with(any(String.class)));
-                will(returnValue(first));
+                will(onConsecutiveCalls(returnValue(first),returnValue(first)));
             }
         });
         
@@ -262,6 +251,78 @@ public class BlogServiceBeanTest{
             }
         });
         
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).aa(with(any(String.class)),with(any(int.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).dd(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).cc(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a1();
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a2(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a3(with(any(String.class)),with(any(int[].class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(esb).say(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(esb).hello(with(any(String.class)),with(any(int.class)));
+                will(returnValue(first));
+            }
+        });
         
         String sex = "";
         
@@ -329,7 +390,86 @@ public class BlogServiceBeanTest{
     @Test
     public void test_call_other_method() throws Throwable{
         
-        
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).aa(with(any(String.class)),with(any(int.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).dd(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).bb(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(csb).cc(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a1();
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a2(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(emailServiceBean).a3(with(any(String.class)),with(any(int[].class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(esb).say(with(any(String.class)));
+                will(returnValue(first));
+            }
+        });
+
+        context.checking(new Expectations() {
+            {
+                String first = "";
+                
+                allowing(esb).hello(with(any(String.class)),with(any(int.class)));
+                will(returnValue(first));
+            }
+        });        
         
         String result = blogServiceBean.call_other_method();
         
