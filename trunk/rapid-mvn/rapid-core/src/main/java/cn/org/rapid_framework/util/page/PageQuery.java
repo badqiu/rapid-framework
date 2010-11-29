@@ -13,6 +13,10 @@ public class PageQuery implements java.io.Serializable{
     public PageQuery() {
     }
 
+    public PageQuery(int pageSize) {
+        this.pageSize = pageSize;
+    }
+    
     public PageQuery(PageQuery query) {
         this.page = query.page;
         this.pageSize = query.pageSize;
