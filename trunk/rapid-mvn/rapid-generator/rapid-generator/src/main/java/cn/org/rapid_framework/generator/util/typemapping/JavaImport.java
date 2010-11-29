@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.util.typemapping;
 
+import java.lang.reflect.Modifier;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -31,6 +32,8 @@ public class JavaImport {
             if(c.getName().startsWith("java.lang.")) continue;
             if(c.isPrimitive()) continue;
             if("void".equals(c.getName())) continue;
+            if(c.isAnonymousClass()) continue;
+            if(!Modifier.isPublic(c.getModifiers())) continue;
             if(JavaImport.isNeedImport(c.getName())) {
                 set.add(new JavaClass(c));
             }
