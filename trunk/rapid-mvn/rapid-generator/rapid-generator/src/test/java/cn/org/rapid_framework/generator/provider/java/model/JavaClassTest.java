@@ -18,6 +18,10 @@ public class JavaClassTest extends TestCase {
 		}
 	}
 	
+	public void test_getClassName() {
+	    assertEquals(JavaClass.getClassName("User$Blog"),"Blog");
+	}
+	
 	public void test_isHasDefaultConstructor() {
         JavaClass c = new JavaClass(JavaClass.class);
         assertFalse(c.isHasDefaultConstructor());
