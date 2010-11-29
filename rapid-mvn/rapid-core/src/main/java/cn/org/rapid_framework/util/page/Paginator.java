@@ -17,46 +17,24 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	private int pageSize = DEFAULT_PAGE_SIZE;
 	private int totalItems = Integer.MAX_VALUE; // 必须初始值设置为MAX_VALUE
 	
-	public Paginator() {
-	    this(0,DEFAULT_PAGE_SIZE,Integer.MAX_VALUE);
-	}
-
-	public Paginator(int pageSize) {
-        super();
-        this.pageSize = pageSize;
-    }
-	
 	public Paginator(int page, int pageSize, int totalItems) {
 		super();
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
 	}
+	
     /**
      * 取得当前页。
      */
 	public int getPage() {
 		return page;
 	}
-    /**
-     * 设置并取得当前页。实际的当前页值被确保在正确的范围内。
-     *
-     * @param page 当前页
-     *
-     * @return 设置后的当前页
-     */
-	public void setPage(int page) {
-		this.page = computePageNo(page);
-	}
 
 	public int getPageSize() {
 		return pageSize;
 	}
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
-		this.page = computePageNo(page);
-	}
     /**
      * 取得总项数。
      *
@@ -65,17 +43,7 @@ public class Paginator implements java.io.Serializable, Cloneable {
 	public int getTotalItems() {
 		return totalItems;
 	}
-    /**
-     * 设置并取得总项数。如果指定的总项数小于0，则被看作0。自动调整当前页，确保当前页值在正确的范围内。
-     *
-     * @param totalItems 总项数
-     *
-     */
-	public void setTotalItems(int totalItems) {
-		this.totalItems = totalItems >= 0 ? totalItems : 0;
-		this.page = computePageNo(page);
-	}
-	
+
     /**
      * 是否是首页（第一页），第一页页码为1
      *
@@ -94,24 +62,6 @@ public class Paginator implements java.io.Serializable, Cloneable {
 		return page >= getTotalPages();
 	}
 	
-    /**
-     * 取得首页页码。
-     *
-     * @return 首页页码
-     */
-    public int getFirstPage() {
-        return computePageNo(1);
-    }
-
-    /**
-     * 取得末页页码。
-     *
-     * @return 末页页码
-     */
-    public int getLastPage() {
-        return computePageNo((int)getTotalPages());
-    }
-    
 	public int getPrePage() {
 		if (isHasPrePage()) {
 			return page - 1;

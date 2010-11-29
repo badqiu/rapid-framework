@@ -19,7 +19,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
     
     private int               pageSize;
     private int               page;
-    private int              totalItems;
+    private int               totalItems;
 
     public PageList() {}
     
@@ -78,11 +78,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 	}
 
 	public Paginator toPaginator() {
-		Paginator p = new Paginator();
-		p.setPage(page);
-		p.setPageSize(pageSize);
-		p.setTotalItems(totalItems);
-		return p;
+		return new Paginator(page,pageSize,totalItems);
 	}
 	
 }
