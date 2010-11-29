@@ -64,13 +64,9 @@ public class GeneratorTest{
         context.assertIsSatisfied();
     }
     
-    @Test
+    @Test(expected=IllegalStateException.class)
     public void test_deleteOutRootDir() throws Throwable{
-        
-        
-        
         generator.deleteOutRootDir();
-        
     }
     
     @Test
@@ -88,7 +84,7 @@ public class GeneratorTest{
         
         
         
-        File f = new File("");
+        File f = new File(".");
         
         generator.addTemplateRootDir(f);
         
