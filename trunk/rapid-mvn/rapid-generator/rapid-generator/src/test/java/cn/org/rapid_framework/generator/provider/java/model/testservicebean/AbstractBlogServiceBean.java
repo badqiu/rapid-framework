@@ -4,7 +4,7 @@ public class AbstractBlogServiceBean {
 	
 	private TopicServiceBean topicServiceBean;
 
-	public void setEmailServiceBean(TopicServiceBean emailServiceBean) {
+	public void setTopicServiceBean(TopicServiceBean emailServiceBean) {
 		this.topicServiceBean = topicServiceBean;
 	}
 	
