@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator.util.typemapping;
 
+import java.util.HashSet;
+
 import junit.framework.TestCase;
 
 public class JavaImportTest extends TestCase {
@@ -26,4 +28,24 @@ public class JavaImportTest extends TestCase {
         javaImport.addImport("abc.diy.User$Info");
         assertEquals(javaImport.getImports().iterator().next(),"abc.diy.User.Info");
 	}
+	
+	public void test2_addImportClass() {
+	    HashSet set = new HashSet();
+        JavaImport.addImportClass(set,PriviateClass.class );
+        assertTrue(set.isEmpty());
+        
+        JavaImport.addImportClass(set,PackageClass.class );
+        assertTrue(set.isEmpty());
+        
+        JavaImport.addImportClass(set,PublicStaticClass.class );
+        assertFalse(set.isEmpty());
+    }
+	
+	private static class PriviateClass {
+	}
+	
+	class PackageClass {
+	}
+	
+	public static class PublicStaticClass{}
 }
