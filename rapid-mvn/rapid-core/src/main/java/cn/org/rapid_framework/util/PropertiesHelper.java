@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -215,6 +217,35 @@ public class PropertiesHelper {
 		return Double.parseDouble(getRequiredString(key));
 	}
 	
+	public URL getURL(String key) throws IllegalArgumentException {
+        try {
+            return new URL(getProperty(key));
+        } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Property " + key + " must be a valid URL (" + getProperty(key) + ")");
+        }
+    }
+    
+    public Object getClassInstance(String key) throws IllegalArgumentException {
+        String s = (String) getProperty(key);
+        if (s == null || "".equals(s.trim())) {
+            throw new IllegalArgumentException("Property " + key + " must be a valid classname  : " + key);
+        }
+        try {
+            return Class.forName(s).newInstance();
+        } catch (ClassNotFoundException nfe) {
+            throw new IllegalArgumentException(s + ": invalid class name for key " + key, nfe);
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException(s + ": class could not be reflected " + s, e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(s + ": class could not be reflected " + s, e);
+        }
+    }
+
+    public Object getClassInstance(String key, Object defaultinstance)
+            throws IllegalArgumentException {
+        return (containsKey(key) ? getClassInstance(key) : defaultinstance);
+    }
+    
 	/** setProperty(String key,int value) ... start */
 	
 	public Object setProperty(String key,int value) {
