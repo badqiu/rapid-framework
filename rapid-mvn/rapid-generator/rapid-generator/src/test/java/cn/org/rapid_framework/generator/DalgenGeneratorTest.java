@@ -19,7 +19,7 @@ public class DalgenGeneratorTest extends GeneratorTestCase{
 		g.setExcludes("**/*Manager*.java,**/*DaoTest.java,**/*ManagerTest.java");
 		generateByTable(table);
 		
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 //		g.deleteBy(m.templateModel, m.filePathModel);
 		
 //		Runtime.getRuntime().exec("cmd.exe /c start "+new File(GeneratorProperties.getProperty("outRoot")).getAbsolutePath());
