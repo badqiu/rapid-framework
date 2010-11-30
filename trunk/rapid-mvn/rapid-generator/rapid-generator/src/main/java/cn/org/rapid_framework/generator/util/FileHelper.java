@@ -266,9 +266,7 @@ public class FileHelper {
                 if (!filePresent){
                     throw new FileNotFoundException("File does not exist: " + file);
                 }
-                String message =
-                    "Unable to delete file: " + file;
-                throw new IOException(message);
+                throw new IOException("Unable to delete file: " + file);
             }
         }
     }
