@@ -97,4 +97,54 @@ public class PaginatorTest extends TestCase {
 	    assertEquals(new Paginator(11,10,101).getLimit(),1);
 	}
 	
+	public void test_zero() {
+		p = new Paginator(0,0,0);
+		
+		assertEquals(p.getStartRow(),0);
+		assertEquals(p.getEndRow(),0);
+		assertEquals(p.getOffset(),0);
+		assertEquals(p.getPage(),0);
+		assertEquals(p.getPageSize(),0);
+		assertEquals(p.getPrePage(),0);
+		assertEquals(p.getNextPage(),0);
+		assertEquals(p.getTotalPages(),0);
+		assertEquals(p.getTotalItems(),0);
+		
+		p = new Paginator(10,0,0);
+		
+		assertEquals(p.getStartRow(),0);
+		assertEquals(p.getEndRow(),0);
+		assertEquals(p.getOffset(),0);
+		assertEquals(p.getPage(),1);
+		assertEquals(p.getPageSize(),0);
+		assertEquals(p.getPrePage(),1);
+		assertEquals(p.getNextPage(),1);
+		assertEquals(p.getTotalPages(),0);
+		assertEquals(p.getTotalItems(),0);
+		
+		p = new Paginator(0,10,0);
+		
+		assertEquals(p.getStartRow(),0);
+		assertEquals(p.getEndRow(),0);
+		assertEquals(p.getOffset(),0);
+		assertEquals(p.getPage(),0);
+		assertEquals(p.getPageSize(),10);
+		assertEquals(p.getPrePage(),0);
+		assertEquals(p.getNextPage(),0);
+		assertEquals(p.getTotalPages(),0);
+		assertEquals(p.getTotalItems(),0);
+		
+		p = new Paginator(0,0,10);
+		
+		assertEquals(p.getStartRow(),0);
+		assertEquals(p.getEndRow(),0);
+		assertEquals(p.getOffset(),0);
+		assertEquals(p.getPage(),0);
+		assertEquals(p.getPageSize(),0);
+		assertEquals(p.getPrePage(),0);
+		assertEquals(p.getNextPage(),0);
+		assertEquals(p.getTotalPages(),0);
+		assertEquals(p.getTotalItems(),10);
+	}
+	
 }
