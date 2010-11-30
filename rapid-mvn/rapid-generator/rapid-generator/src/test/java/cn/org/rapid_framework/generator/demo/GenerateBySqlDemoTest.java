@@ -11,7 +11,7 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	GeneratorFacade generatorFacade = new GeneratorFacade();
 	public void setUp() throws Exception {
 		super.setUp();
-		g.setOutRootDir("temp/"+getClass().getSimpleName()+"/"+getName());
+		g.setOutRootDir("target/temp/"+getClass().getSimpleName()+"/"+getName());
 		generatorFacade.setGenerator(g);
 	}
 	
