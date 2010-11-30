@@ -87,13 +87,13 @@ public class GeneratorTestCase extends TestCase{
 	}
 	
 	public void generateByTable(Table table) throws Exception {
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 //		g.setIgnoreTemplateGenerateException(false);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
 	public void generateByTable(Generator g,Table table) throws Exception {
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
