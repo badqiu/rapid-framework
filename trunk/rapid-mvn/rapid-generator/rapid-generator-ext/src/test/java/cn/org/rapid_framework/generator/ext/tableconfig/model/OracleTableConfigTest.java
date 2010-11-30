@@ -102,10 +102,11 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     }
 
     private GeneratorModel newFromTable(TableConfig t) {
-        
+        t.setPackage("com.company.project");
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
         templateModel.put("tableConfig", t);
+        templateModel.put("basepackage", t.getBasepackage());
         setShareVars(templateModel);
         
         Map filePathModel = new HashMap();
