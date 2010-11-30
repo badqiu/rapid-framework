@@ -117,7 +117,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     }
     
     private static void setShareVars(Map templateModel) {
-    	GeneratorModelUtils.setShareVars(templateModel);
+    	templateModel.putAll(GeneratorModelUtils.getShareVars());
     	templateModel.put("StringHelper", new StringHelper());
     }
 }

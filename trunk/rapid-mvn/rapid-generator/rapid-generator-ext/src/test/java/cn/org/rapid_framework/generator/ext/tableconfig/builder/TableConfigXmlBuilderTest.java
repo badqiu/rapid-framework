@@ -13,6 +13,7 @@ import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class TableConfigXmlBuilderTest extends TestCase {
 	private File basedir;
@@ -34,7 +35,12 @@ public class TableConfigXmlBuilderTest extends TestCase {
 		Map map = new HashMap();
 		map.put("tableConfigSet", tableConfigSet);
 		map.put("tableConfigs", tableConfigSet.getTableConfigs());
-		gf.generateByMap(map, FileHelper.getFileByClassLoader("for_generate_by_table_config_set").getAbsolutePath());
+		map.put("basepackage", "com.company.project");
+		map.put("sequencesList", "list,list");
+		map.put("StringHelper", new StringHelper());
+		
+		gf.getGenerator().addTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_table_config_set"));
+		gf.generateByMap(map);
 	}
 	
 }
