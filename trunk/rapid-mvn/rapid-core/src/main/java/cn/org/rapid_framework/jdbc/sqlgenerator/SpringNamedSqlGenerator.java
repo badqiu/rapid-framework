@@ -74,7 +74,7 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		}else if(isSinglePrimaryKey()) {
 			return getDeleteBySinglePkSql();
 		}
-		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
 	}
 
 	public String getSelectByPkSql() {
@@ -83,12 +83,12 @@ public class SpringNamedSqlGenerator implements SqlGenerator{
 		}else if(isSinglePrimaryKey()) {
 			return getSelectBySinglePkSql();
 		}
-		throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+		throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
 	}
 
 	public String getUpdateByPkSql() {
 		if(getPrimaryKeyColumns().size() == 0) {
-			throw new IllegalStateException("not found primary key on table:"+table.getTableName());
+			throw new IllegalStateException("not found primary key config on table:"+table.getTableName());
 		}
 		
 		StringBuilder sb = new StringBuilder("UPDATE ").append(getTableName()).append(" SET ");
