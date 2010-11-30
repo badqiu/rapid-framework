@@ -34,10 +34,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<parallel>false</parallel>
-					<excludes>
-						<exclude>**/*$*</exclude>
-						<exclude>*OracleTableConfigTest*</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			
