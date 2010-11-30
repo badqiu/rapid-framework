@@ -78,28 +78,32 @@ public class TableConfig {
     	this._package = pkg;
     }
     
+    private Table table = null;
     public Table getTable() throws Exception {
-        Table t = TableFactory.getInstance().getTable(getSqlname());
+    	if(table != null) return table;
+    	
+        table = TableFactory.getInstance().getTable(getSqlname());
         if(columns != null) {
             for(ColumnConfig c : columns) {
-                Column tableColumn = t.getColumnByName(c.getName());
+                Column tableColumn = table.getColumnByName(c.getName());
                 if(tableColumn != null) {
                     tableColumn.setJavaType(c.getJavatype()); //FIXME 只能自定义javaType
                 }
             }
         }
         if(StringHelper.isNotBlank(getDummypk())) {
-            Column c = t.getColumnBySqlName(getDummypk());
+            Column c = table.getColumnBySqlName(getDummypk());
             if(c != null) {
                 c.setPk(true);
             }
         }
-        t.setClassName(getClassName());
+        table.setClassName(getClassName());
         if(StringHelper.isNotBlank(remarks)) {
-            t.setTableAlias(remarks);
+            table.setTableAlias(remarks);
         }
-        return t;
+        return table;
     }
+    
     public String getSqlname() {
         return sqlname;
     }
