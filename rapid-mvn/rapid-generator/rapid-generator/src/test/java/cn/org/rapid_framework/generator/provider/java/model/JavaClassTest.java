@@ -37,6 +37,9 @@ public class JavaClassTest extends TestCase {
 	    assertEquals("c:/src/test/java/abcTest.java",MavenHelper.getMavenJavaTestSourceFile("c:/target\\classes/abc.class"));
 	    assertEquals("c:/rapid/src/test/java/abcTest.java",MavenHelper.getMavenJavaTestSourceFile("c:/rapid/target\\classes/abc.class"));
 	    
+	    assertEquals("c:/rapid/src/test/java/InfoTest.java",MavenHelper.getMavenJavaTestSourceFile("c:/rapid/target\\classes/User$Info.class"));
+	    assertEquals("c:/rapid/src/test/java/1Test.java",MavenHelper.getMavenJavaTestSourceFile("c:/rapid/target\\classes/User$1.class"));
+	    
 	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile(""));
 	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile(null));
 	    assertEquals(null,MavenHelper.getMavenJavaTestSourceFile("t1arget/classes/abc.class"));
