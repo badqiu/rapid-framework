@@ -66,7 +66,7 @@ public class TableConfig {
     
     public String getPackage() {
     	if(StringHelper.isBlank(_package)) {
-    		_package = GeneratorProperties.getProperty("basepackage");
+    		_package = GeneratorProperties.getRequiredProperty("basepackage");
     	}
     	if(StringHelper.isBlank(subpackage)) {
     		return _package;
