@@ -56,6 +56,7 @@ public class GeneratorException extends RuntimeException{
 		s.println("GeneratorException:"+getMessage());
 		for(Exception e : exceptions) {
 		    e.printStackTrace(s);
+		    s.println("--------------------------------------------------------------------------------------------------------------------------------");
 		}
 	}
 
@@ -64,6 +65,7 @@ public class GeneratorException extends RuntimeException{
 		s.println("GeneratorException:"+getMessage());
 		for(Exception e : exceptions) {
 		    e.printStackTrace(s);
+		    s.println("--------------------------------------------------------------------------------------------------------------------------------");
 		}
 	}
 	
