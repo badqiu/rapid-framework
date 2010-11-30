@@ -34,7 +34,7 @@ public class AirTest extends GeneratorTestCase {
         g = new Generator();
         g.setSourceEncoding("GBK");
         g.setOutputEncoding("GBK");
-        g.setOutRootDir("./temp/generate_by_sql_config");
+        g.setOutRootDir("./target/temp/generate_by_sql_config");
     }
     
     public void test_genereate_by_sql_config() throws Exception {

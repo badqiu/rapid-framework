@@ -39,7 +39,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
 			}
 		}
 		
-        g.setOutRootDir("./temp/generate_by_sql_config");
+        g.setOutRootDir("./target/temp/generate_by_sql_config");
         GeneratorProperties.setProperty("appName", "rapid");
     }
     
