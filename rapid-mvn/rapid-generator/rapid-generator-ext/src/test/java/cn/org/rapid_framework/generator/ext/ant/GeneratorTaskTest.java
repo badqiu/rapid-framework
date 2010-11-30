@@ -9,9 +9,11 @@ import java.util.Properties;
 
 import org.apache.tools.ant.Project;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 /**
  * @author zhongxuan
@@ -23,6 +25,8 @@ public class GeneratorTaskTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
+        GeneratorProperties.setProperty("basepackage", "com.company.project.generatortasktest");
+        GeneratorProperties.setProperty(GeneratorConstants.GENERATOR_TOOLS_CLASS, "cn.org.rapid_framework.generator.util.StringHelper");
         GeneratorProperties.setProperty("sequencesList","seq_user_id");
         project.setBaseDir(FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig"));
         putAllProperties(project,GeneratorProperties.getProperties());
