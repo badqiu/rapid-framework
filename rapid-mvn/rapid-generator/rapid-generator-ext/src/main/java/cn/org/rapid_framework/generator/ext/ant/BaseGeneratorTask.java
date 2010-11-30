@@ -44,11 +44,11 @@ public abstract class BaseGeneratorTask extends Task{
         GeneratorProperties.setProperties(properties);
         
         GeneratorFacade gf = new GeneratorFacade();
-        gf.g.addTemplateRootDir(input);
+        gf.getGenerator().addTemplateRootDir(input);
         if(shareInput != null) {
-            gf.g.addTemplateRootDir(shareInput);
+            gf.getGenerator().addTemplateRootDir(shareInput);
         }
-        gf.g.setOutRootDir(output.getAbsolutePath());
+        gf.getGenerator().setOutRootDir(output.getAbsolutePath());
         return gf;
     }
     
@@ -86,11 +86,11 @@ public abstract class BaseGeneratorTask extends Task{
     protected void executeInternal() throws Exception {
         freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
         
-        GeneratorFacade generator = createGeneratorFacade(input,output);
+        GeneratorFacade facade = createGeneratorFacade(input,output);
         List<Map> maps = getGeneratorContexts();
         if(maps == null) return;
         for(Map map : maps) {
-            generator.generateByMap(map, input.getAbsolutePath());
+            facade.generateByMap(map);
         }
         if(openOutputDir && SystemHelper.isWindowsOS) {
             Runtime.getRuntime().exec("cmd.exe /c start "+output.getAbsolutePath());

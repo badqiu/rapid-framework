@@ -76,7 +76,7 @@ public class GeneratorTask extends Task {
     	        log("请输入要生成的表名");
     	        return;
     	    }
-            gf.generateByTable(args[1], tableInput.getAbsolutePath());
+            gf.generateByTable(args[1]);
 	    }
     }
 
@@ -92,7 +92,7 @@ public class GeneratorTask extends Task {
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfigSet));
         map.put("tableConfigSet", tableConfigSet);
-        generator.generateByMap(map, tableInput.getAbsolutePath());
+        generator.generateByMap(map);
     }
 
     private TableConfigSet parseForTableConfigSet() {
@@ -115,7 +115,7 @@ public class GeneratorTask extends Task {
             tableMap.putAll(BeanHelper.describe(tableConfig));
             tableMap.put("tableConfig", tableConfig);
             tableMap.put("basepackage", tableConfig.getBasepackage());
-            tableGenerator.generateByMap(tableMap, tableConfigInput.getAbsolutePath());
+            tableGenerator.generateByMap(tableMap);
 	    }
 	    
         if(operationInput != null) {
@@ -125,7 +125,7 @@ public class GeneratorTask extends Task {
                 operationMap.putAll(BeanHelper.describe(sql));
                 operationMap.put("sql", sql);
                 operationMap.put("basepackage", tableConfig.getBasepackage());
-                operationGenerator.generateByMap(operationMap, operationInput.getAbsolutePath());
+                operationGenerator.generateByMap(operationMap);
             }
         }
         log("生成成功.table:"+tableSqlName,Project.MSG_INFO);
@@ -138,7 +138,7 @@ public class GeneratorTask extends Task {
             Map map = new HashMap();
             map.putAll(BeanHelper.describe(tableConfigSet));
             map.put("tableConfigSet", tableConfigSet);
-            generator.generateByMap(map, sequenceInput.getAbsolutePath());
+            generator.generateByMap(map);
             log("根据sequence生成代码成功.",Project.MSG_INFO);
         }
     }
@@ -159,11 +159,11 @@ public class GeneratorTask extends Task {
         Properties properties = toProperties(getProject().getProperties());
         properties.setProperty("basedir", getProject().getBaseDir().getAbsolutePath());
         GeneratorProperties.setProperties(properties);
-        gf.g.addTemplateRootDir(input);
+        gf.getGenerator().addTemplateRootDir(input);
         if(shareInput != null) {
-            gf.g.addTemplateRootDir(shareInput);
+            gf.getGenerator().addTemplateRootDir(shareInput);
         }
-        gf.g.setOutRootDir(output.getAbsolutePath());
+        gf.getGenerator().setOutRootDir(output.getAbsolutePath());
         return gf;
     }
     
