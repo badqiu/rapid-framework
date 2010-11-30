@@ -44,16 +44,18 @@ public class CommandLine {
 		if("gen".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			if(args.length == 0) return;
-			facade.g.setIncludes(getIncludes(args,1));
-			facade.generateByTable(args[0],getTemplateRootDir());
+			facade.getGenerator().setIncludes(getIncludes(args,1));
+			facade.getGenerator().addTemplateRootDir(new File(getTemplateRootDir()));
+			facade.generateByTable(args[0]);
 			if(SystemHelper.isWindowsOS) {
 			    Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot").replace('/', '\\'));
 			}
 		}else if("del".equals(cmd)) {
 			String[] args = nextArguments(sc);
 			if(args.length == 0) return;
-			facade.g.setIncludes(getIncludes(args,1));
-			facade.deleteByTable(args[0], getTemplateRootDir());
+			facade.getGenerator().setIncludes(getIncludes(args,1));
+			facade.getGenerator().addTemplateRootDir(new File(getTemplateRootDir()));
+			facade.deleteByTable(args[0]);
 		}else if("quit".equals(cmd)) {
 		    System.exit(0);
 		}else {

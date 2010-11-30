@@ -30,13 +30,11 @@ import cn.org.rapid_framework.generator.util.StringHelper;
  *
  */
 public class GeneratorFacade implements GeneratorConstants {
-	public Generator g = new Generator();
-	private String outRoot = GeneratorProperties.getProperty("outRoot");
-	private Set<File> templateRootDirs = new LinkedHashSet<File>();
+	private Generator generator = new Generator();
 	
 	public GeneratorFacade(){
-	    if(StringHelper.isNotBlank(outRoot)) {
-	        g.setOutRootDir(outRoot);
+	    if(StringHelper.isNotBlank(GeneratorProperties.getProperty("outRoot"))) {
+	        generator.setOutRootDir(GeneratorProperties.getProperty("outRoot"));
 	    }
 	}
 	
@@ -45,55 +43,55 @@ public class GeneratorFacade implements GeneratorConstants {
 	}
 	
 	public void deleteOutRootDir() throws IOException {
-		g.deleteOutRootDir();
+		generator.deleteOutRootDir();
 	}
 	
-	public void generateByMap(Map map,String templateRootDir) throws Exception {
-		new ProcessUtils().processByMap(map, templateRootDir,false);
+	public void generateByMap(Map map) throws Exception {
+		new ProcessUtils().processByMap(map,false);
 	}
 
-	public void deleteByMap(Map map,String templateRootDir) throws Exception {
-		new ProcessUtils().processByMap(map, templateRootDir,true);
+	public void deleteByMap(Map map) throws Exception {
+		new ProcessUtils().processByMap(map, true);
 	}
 	
-	public void generateByAllTable(String templateRootDir) throws Exception {
-		new ProcessUtils().processByAllTable(templateRootDir,false);
+	public void generateByAllTable() throws Exception {
+		new ProcessUtils().processByAllTable(false);
 	}
 	
-	public void deleteByAllTable(String templateRootDir) throws Exception {
-		new ProcessUtils().processByAllTable(templateRootDir,true);		
+	public void deleteByAllTable() throws Exception {
+		new ProcessUtils().processByAllTable(true);		
 	}
 	
-    public void generateByTable(String tableName,String templateRootDir) throws Exception {
-    	new ProcessUtils().processByTable(tableName,templateRootDir,false);
+    public void generateByTable(String tableName) throws Exception {
+    	new ProcessUtils().processByTable(tableName,false);
 	}
 
-    public void deleteByTable(String tableName,String templateRootDir) throws Exception {
-    	new ProcessUtils().processByTable(tableName,templateRootDir,true);
+    public void deleteByTable(String tableName) throws Exception {
+    	new ProcessUtils().processByTable(tableName,true);
 	}
     
-	public void generateByClass(Class clazz,String templateRootDir) throws Exception {
-		new ProcessUtils().processByClass(clazz, templateRootDir,false);
+	public void generateByClass(Class clazz) throws Exception {
+		new ProcessUtils().processByClass(clazz,false);
 	}
 
-	public void deleteByClass(Class clazz,String templateRootDir) throws Exception {
-		new ProcessUtils().processByClass(clazz, templateRootDir,true);
+	public void deleteByClass(Class clazz) throws Exception {
+		new ProcessUtils().processByClass(clazz,true);
 	}
 	
-	public void generateBySql(Sql sql,String templateRootDir) throws Exception {
-		new ProcessUtils().processBySql(sql,templateRootDir,false);
+	public void generateBySql(Sql sql) throws Exception {
+		new ProcessUtils().processBySql(sql,false);
 	}
 
-	public void deleteBySql(Sql sql,String templateRootDir) throws Exception {
-		new ProcessUtils().processBySql(sql,templateRootDir,true);
+	public void deleteBySql(Sql sql) throws Exception {
+		new ProcessUtils().processBySql(sql,true);
 	}
 	
-    protected Generator getGenerator(String templateRootDir) {
-        g.setTemplateRootDir(new File(templateRootDir).getAbsoluteFile());
-        for(File f : templateRootDirs) {
-            g.addTemplateRootDir(f);
-        }
-        return g;
+    public Generator getGenerator() {
+    	return generator;
+    }
+    
+    public void setGenerator(Generator generator) {
+    	this.generator = generator;
     }
     
     /** 生成器的上下文，存放的变量将可以在模板中引用 */
@@ -120,28 +118,27 @@ public class GeneratorFacade implements GeneratorConstants {
     
     public class ProcessUtils {
         
-    	public void processByMap(Map params, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
-			Generator g = getGenerator(templateRootDir);
+    	public void processByMap(Map params,boolean isDelete) throws Exception, FileNotFoundException {
+			Generator g = getGenerator();
 			GeneratorModel m = GeneratorModelUtils.newFromMap(params);
-			processByGeneratorModel(templateRootDir, isDelete, g, m);
+			processByGeneratorModel(isDelete, g, m);
     	}
     	
-    	public void processBySql(Sql sql,String templateRootDir,boolean isDelete) throws Exception {
-    		Generator g = getGenerator(templateRootDir);
-    		GeneratorModel m = GeneratorModelUtils.newFromSql(sql);
+    	public void processBySql(Sql sql,boolean isDelete) throws Exception {
+    		Generator g = getGenerator();
+    		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("sql",sql);
     		PrintUtils.printBeginProcess("sql:"+sql.getSourceSql(),isDelete);
-    		processByGeneratorModel(templateRootDir,isDelete,g,m);
+    		processByGeneratorModel(isDelete,g,m);
     	}   
     	
-    	public void processByClass(Class clazz, String templateRootDir,boolean isDelete) throws Exception, FileNotFoundException {
-			Generator g = getGenerator(templateRootDir);
-			GeneratorModel m = GeneratorModelUtils.newFromClass(clazz);
+    	public void processByClass(Class clazz,boolean isDelete) throws Exception, FileNotFoundException {
+			Generator g = getGenerator();
+			GeneratorModel m = GeneratorModelUtils.newGeneratorModel("clazz",new JavaClass(clazz));
 			PrintUtils.printBeginProcess("JavaClass:"+clazz.getSimpleName(),isDelete);
-			processByGeneratorModel(templateRootDir, isDelete, g, m);
+			processByGeneratorModel(isDelete, g, m);
     	}
 
-        private void processByGeneratorModel(String templateRootDir,
-                                             boolean isDelete, Generator g,
+        private void processByGeneratorModel(boolean isDelete, Generator g,
                                              GeneratorModel m)
                                                               throws Exception,
                                                               FileNotFoundException {
@@ -151,42 +148,44 @@ public class GeneratorFacade implements GeneratorConstants {
 				else
 					g.generateBy(m.templateModel, m.filePathModel);
 			}catch(GeneratorException ge) {
-				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
+				PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator().getOutRootDir(),ge.getExceptions());
+				throw ge;
 			}
         }
     	
-        public void processByTable(String tableName,String templateRootDir,boolean isDelete) throws Exception {
+        public void processByTable(String tableName,boolean isDelete) throws Exception {
         	if("*".equals(tableName)) {
         	    if(isDelete)
-        	        deleteByAllTable(templateRootDir);
+        	        deleteByAllTable();
         	    else
-        	        generateByAllTable(templateRootDir);
+        	        generateByAllTable();
         		return;
         	}
-    		Generator g = getGenerator(templateRootDir);
+    		Generator g = getGenerator();
     		Table table = TableFactory.getInstance().getTable(tableName);
     		try {
     			processByTable(g,table,isDelete);
     		}catch(GeneratorException ge) {
-    			PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator(templateRootDir).getOutRootDir(),ge.getExceptions());
+    			PrintUtils.printExceptionsSumary(ge.getMessage(),getGenerator().getOutRootDir(),ge.getExceptions());
+    			throw ge;
     		}
     	}    
         
-		public void processByAllTable(String templateRootDir,boolean isDelete) throws Exception {
+		public void processByAllTable(boolean isDelete) throws Exception {
 			List<Table> tables = TableFactory.getInstance().getAllTables();
 			List exceptions = new ArrayList();
 			for(int i = 0; i < tables.size(); i++ ) {
 				try {
-					processByTable(getGenerator(templateRootDir),tables.get(i),isDelete);
+					processByTable(getGenerator(),tables.get(i),isDelete);
 				}catch(GeneratorException ge) {
 					exceptions.addAll(ge.getExceptions());
 				}
 			}
-			PrintUtils.printExceptionsSumary("",getGenerator(templateRootDir).getOutRootDir(),exceptions);
+			PrintUtils.printExceptionsSumary("",getGenerator().getOutRootDir(),exceptions);
 		}
 		
 		public void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
-	        GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+	        GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 	        PrintUtils.printBeginProcess(table.getSqlName()+" => "+table.getClassName(),isDelete);
 	        if(isDelete)
 	        	g.deleteBy(m.templateModel,m.filePathModel);
@@ -198,71 +197,29 @@ public class GeneratorFacade implements GeneratorConstants {
     @SuppressWarnings("all")
 	public static class GeneratorModelUtils {
 		
-		public static GeneratorModel newFromTable(Table table) {
-			Map templateModel = new HashMap();
-			setShareVars(templateModel);
-			templateModel.put("table", table);
-			
-			Map filePathModel = new HashMap();
-			setShareVars(filePathModel);
-			filePathModel.putAll(BeanHelper.describe(table));
-			return new GeneratorModel(templateModel,filePathModel);
-		}
-
-		public static GeneratorModel newFromSql(Sql sql) throws Exception {
-			Map templateModel = new HashMap();
-			setShareVars(templateModel);
-			templateModel.put("sql", sql);
-			
-			Map filePathModel = new HashMap();
-			setShareVars(filePathModel);
-			filePathModel.putAll(BeanHelper.describe(sql));
-			return new GeneratorModel(templateModel,filePathModel);
-		}
-
-		public static GeneratorModel newFromClass(Class clazz) {
-			Map templateModel = new HashMap();
-			setShareVars(templateModel);
-			templateModel.put("clazz", new JavaClass(clazz));
-			
-			Map filePathModel = new HashMap();
-			setShareVars(filePathModel);
-			filePathModel.putAll(BeanHelper.describe(new JavaClass(clazz)));
-			return new GeneratorModel(templateModel,filePathModel);
+		public static GeneratorModel newGeneratorModel(String key,Object valueObject) {
+			GeneratorModel gm = newDefaultGeneratorModel();
+			gm.templateModel.put(key, valueObject);
+			gm.filePathModel.putAll(BeanHelper.describe(valueObject));
+			return gm;
 		}
 		
 		public static GeneratorModel newFromMap(Map params) {
+			GeneratorModel gm = newDefaultGeneratorModel();
+			gm.templateModel.putAll(params);
+			gm.filePathModel.putAll(params);
+			return gm;
+		}
+		
+		public static GeneratorModel newDefaultGeneratorModel() {
 			Map templateModel = new HashMap();
 			templateModel.putAll(getShareVars());
-			templateModel.putAll(getDirValuesMap(params));
-			templateModel.putAll(params);
 			
 			Map filePathModel = new HashMap();
 			filePathModel.putAll(getShareVars());
-			filePathModel.putAll(getDirValuesMap(params));
-			filePathModel.putAll(params);
 			return new GeneratorModel(templateModel,filePathModel);
 		}
 		
-		public static void setShareVars(Map map) {
-			map.putAll(getShareVars());
-			map.putAll(getDirValuesMap(map));
-		}
-
-		private static Map getDirValuesMap(Map map) {
-			Map dirValues = new HashMap();
-			Set<Object> keys = map.keySet();
-			for(Object key : keys) {
-				Object value = map.get(key);
-				if(key instanceof String && value instanceof String) {
-					String dirKey = key+"_dir";
-					String dirValue = value.toString().replace('.', '/');
-					dirValues.put(dirKey, dirValue);
-				}
-			}
-			return dirValues;
-		}
-
 		public static Map getShareVars() {
 			Map templateModel = new HashMap();
 			templateModel.putAll(GeneratorProperties.getProperties());
@@ -271,13 +228,12 @@ public class GeneratorFacade implements GeneratorConstants {
 			templateModel.put("now", new Date());
 			templateModel.put(GeneratorConstants.DATABASE_TYPE, GeneratorProperties.getDatabaseType(GeneratorConstants.DATABASE_TYPE));
 			templateModel.putAll(GeneratorContext.getContext());
-			Map toolsMap = getToolsMap();
-			templateModel.putAll(toolsMap);
+			templateModel.putAll(getToolsMap());
 			return templateModel;
 		}
 		
 		/** 得到模板可以引用的工具类  */
-		public static Map getToolsMap() {
+		private static Map getToolsMap() {
 			Map toolsMap = new HashMap();
 			String[] tools = GeneratorProperties.getStringArray(GENERATOR_TOOLS_CLASS);
 			for(String className : tools) {
