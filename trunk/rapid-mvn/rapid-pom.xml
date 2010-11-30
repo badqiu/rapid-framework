@@ -3,11 +3,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<!-- 本文件现没有作用,只是为了maven用户写好一个pom架子,避免重新编写 -->
 	
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+		<relativePath>oos-parent-pom.xml</relativePath>
+	</parent>
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
-	<name>projectname parent pom.xml</name>
+	<name>rapid-framework parent pom.xml</name>
 	<version>1.0</version>
 	<organization>
 		<name>Rapid-Framework</name>
@@ -34,13 +41,15 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
-	<!-- 用于 java.net的 maven仓库 jar包 release -->
+	<!-- 用于 java.net的 maven仓库 jar包 release: 必须创建 ${user.home}/.java.net 文件并 保存用户名密码 userName=badqiu password=password 才可以发布 -->
+	<!-- 
 	<distributionManagement>
 		<repository>
 			<id>java.net-m2-repository</id>
 			<url>java-net:/maven2-repository/trunk/repository/</url>
 		</repository>
 	</distributionManagement>
+	-->
 
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
 	<dependencyManagement>
@@ -601,6 +610,7 @@
 	<build>
 
 		<!-- 用于 java.net的 maven仓库 jar包 release -->
+		<!-- 
 		<extensions>
 		  <extension>
 			<groupId>org.jvnet.wagon-svn</groupId>
@@ -608,6 +618,7 @@
 			<version>RELEASE</version>
 		  </extension>
 		</extensions>
+		-->
 
 		<plugins>
 			<!-- compiler plugin -->
