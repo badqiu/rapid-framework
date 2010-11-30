@@ -18,5 +18,7 @@ public class BeanUtilsTest extends TestCase {
 		role.setRoleId(new Long(1));
 		BeanUtils.setProperty(role, "roleId", "2");
 		assertEquals(role.getRoleId(), Long.valueOf(2));
+		
+		System.out.println(BeanUtils.describe(role));
 	}
 }
