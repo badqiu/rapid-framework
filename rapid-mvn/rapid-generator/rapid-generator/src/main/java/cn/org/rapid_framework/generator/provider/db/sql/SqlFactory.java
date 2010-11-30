@@ -122,7 +122,9 @@ public class SqlFactory {
 		return null;
 	}
 
-
+    private static Table getTable(String tableSqlName) {
+    	return TableFactory.getInstance().getTable(tableSqlName);
+    }
 	
     public static class SelectColumnsParser {
     
@@ -169,12 +171,12 @@ public class SqlFactory {
 
 		private Table foundTableByTableNameOrTableAlias(Sql sql,String tableNameId) throws Exception {
 			try {
-				return TableFactory.getInstance().getTable(tableNameId);
+				return getTable(tableNameId);
 			}catch(NotFoundTableException e) {
 				Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
 				for(NameWithAlias tableName : tableNames) {
 					if(tableName.getAlias().equalsIgnoreCase(tableNameId)) {
-						return TableFactory.getInstance().getTable(tableName.getName());
+						return getTable(tableName.getName());
 					}
 				}
 			}
@@ -260,7 +262,7 @@ public class SqlFactory {
 			
 			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
 			for(NameWithAlias tableName : tableNames) {
-				Table t = TableFactory.getInstance().getTable(tableName.getName());
+				Table t = getTable(tableName.getName());
 				if(t != null) {
 					Column column = t.getColumnByName(paramName);
 					if(column != null) {
