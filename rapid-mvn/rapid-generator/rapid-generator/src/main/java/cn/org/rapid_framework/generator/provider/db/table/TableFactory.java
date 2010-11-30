@@ -100,7 +100,7 @@ public class TableFactory {
 			throw new RuntimeException(e);
 		}
 		if(t == null) {
-			throw new NotFoundTableException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : ""));
+			throw new NotFoundTableException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : "")+"\n current "+DataSourceProvider.getDataSource()+" current schema:"+getSchema()+" current catalog:"+getCatalog());
 		}
 		return t;
 	}

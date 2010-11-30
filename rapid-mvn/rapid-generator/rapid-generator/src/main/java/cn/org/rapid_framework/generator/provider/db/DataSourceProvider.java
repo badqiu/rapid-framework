@@ -110,6 +110,10 @@ public class DataSourceProvider {
 		public boolean isWrapperFor(Class<?> iface) throws SQLException {
 			return DataSource.class.equals(iface);
 		}
+		
+		public String toString() {
+			return "DataSource: "+"url="+url+" username="+username;
+		}
 
 	}
 }
