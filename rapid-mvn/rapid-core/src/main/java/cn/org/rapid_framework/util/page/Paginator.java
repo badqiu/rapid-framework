@@ -18,7 +18,6 @@ public class Paginator implements java.io.Serializable {
 	
 	public Paginator(int page, int pageSize, int totalItems) {
 		super();
-		if(pageSize <= 0) throw new IllegalArgumentException("'pageSize' must be great than 0");
 		this.pageSize = pageSize;
 		this.totalItems = totalItems;
 		this.page = computePageNo(page);
@@ -110,6 +109,7 @@ public class Paginator implements java.io.Serializable {
 	 * 开始行，可以用于oracle分页使用 (1-based)。
 	 **/
 	public int getStartRow() {
+		if(getPageSize() <= 0) return 0;
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
 	
@@ -139,8 +139,11 @@ public class Paginator implements java.io.Serializable {
     }
 	
 	public int getTotalPages() {
-		if (totalItems < 0) {
-			return -1;
+		if (totalItems <= 0) {
+			return 0;
+		}
+		if (pageSize <= 0) {
+			return 0;
 		}
 
 		int count = totalItems / pageSize;
@@ -169,6 +172,7 @@ public class Paginator implements java.io.Serializable {
     }
     
     private static int computeLastPageNumber(int totalItems,int pageSize) {
+    	if(pageSize <= 0) return 1;
         int result = (int)(totalItems % pageSize == 0 ? 
                 totalItems / pageSize 
                 : totalItems / pageSize + 1);
@@ -178,6 +182,7 @@ public class Paginator implements java.io.Serializable {
     }
     
     private static int computePageNumber(int page, int pageSize,int totalItems) {
+    	if(page <= 0) return 0;
         if(page <= 1) {
             return 1;
         }
