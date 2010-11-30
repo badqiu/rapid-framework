@@ -30,6 +30,10 @@ public class BeanHelper {
 			if(contains(ignoreProperties,name)) {
 				continue;
 			}
+			if("class".equals(name)) {
+				continue;
+			}
+			
             Method readMethod = descriptors[i].getReadMethod();
 			if (readMethod != null) {
 				try {
