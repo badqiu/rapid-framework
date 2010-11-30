@@ -104,7 +104,7 @@ public class Column implements java.io.Serializable,Cloneable{
 			String sqlName, int size, int decimalDigits, boolean isPk,
 			boolean isNullable, boolean isIndexed, boolean isUnique,
 			String defaultValue,String remarks) {
-		if(sqlName == null) throw new NullPointerException();
+		if(sqlName == null) throw new NullPointerException("sqlName must be not null");
 		_table = table;
 		_sqlType = sqlType;
 		_sqlName = sqlName;
