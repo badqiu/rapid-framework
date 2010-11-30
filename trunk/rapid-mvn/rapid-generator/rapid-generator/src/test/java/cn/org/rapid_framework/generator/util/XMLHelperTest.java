@@ -28,9 +28,13 @@ public class XMLHelperTest extends TestCase {
         assertEquals("cn1",table.get("className"));
         assertEquals("ta1",table.get("tableAlias"));
         
-        verifyColumn(columns.get(0),"{columnAlias=a1, columnName=c1, sqlName=username}");
-        verifyColumn(columns.get(1),"{columnAlias=a2, columnName=c2, sqlName=password}");
-        verifyColumn(columns.get(2),"{columnAlias=a3, columnName=c3, sqlName=sex}");
+        verifyColumnWithNodeAsKey(columns.get(0),"{columnAlias=a1, columnName=c1, sqlName=username}");
+        verifyColumnWithNodeAsKey(columns.get(1),"{columnAlias=a2, columnName=c2, sqlName=password}");
+        verifyColumnWithNodeAsKey(columns.get(2),"{columnAlias=a3, columnName=c3, sqlName=sex}");
+        
+        verifyColumn(columns.get(0),"{columnAlias=a1, columnName=c1}");
+        verifyColumn(columns.get(1),"{columnAlias=a2, columnName=c2}");
+        verifyColumn(columns.get(2),"{columnAlias=a3, columnName=c3}");
         
         assertEquals(columns.size(),5);
         
@@ -117,9 +121,13 @@ public class XMLHelperTest extends TestCase {
 //    	assertEquals("UTF-8",XMLHelper.removeXmlns("<?xml version=\"1.0\" encoding='UTF-8'?>"));
     }
     
-    public void verifyColumn(NodeData c, String expected) {
+    public void verifyColumnWithNodeAsKey(NodeData c, String expected) {
         Map column = c.nodeNameAsAttributes("sqlName");
         assertEquals(expected,column.toString());
+    }
+    
+    public void verifyColumn(NodeData c, String expected) {
+        assertEquals(expected,c.attributes.toString());
     }
     
 //    public void test_parse_SqlConfig() throws Exception {
