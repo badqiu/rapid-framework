@@ -125,7 +125,7 @@ public class MetaTableTest extends GeneratorTestCase {
     }
 
     public static GeneratorModel newFromTable(TableConfig t) {
-        
+        t.setPackage("com.company.project");
         Map templateModel = new HashMap();
         templateModel.putAll(GeneratorProperties.getProperties());
         templateModel.put("tableConfig", t);
@@ -140,7 +140,7 @@ public class MetaTableTest extends GeneratorTestCase {
     }
     
     public static void setShareVars(Map templateModel) {
-    	GeneratorModelUtils.setShareVars(templateModel);
+    	templateModel.putAll(GeneratorModelUtils.getShareVars());
     	templateModel.put("StringHelper", new StringHelper());
     	templateModel.put("basepackage", "com.company.project");
     }
