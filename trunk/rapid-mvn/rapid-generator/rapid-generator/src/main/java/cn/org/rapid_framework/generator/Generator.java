@@ -424,8 +424,10 @@ public class Generator implements GeneratorConstants {
 	}
 
 	public static class GeneratorModel implements java.io.Serializable{
-		public Map filePathModel;
-		public Map templateModel;
+		public Map templateModel = new HashMap();
+		public Map filePathModel = new HashMap();
+		public GeneratorModel() {
+		}
 		public GeneratorModel(Map templateModel, Map filePathModel) {
 			this.templateModel = templateModel;
 			this.filePathModel = filePathModel;
