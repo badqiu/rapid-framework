@@ -323,7 +323,7 @@ public class TableConfig {
 
         private static List<Column> getCustomColumns(TableConfig table) throws Exception {
             List<Column> result = new ArrayList<Column>();
-            Table t = TableFactory.getInstance().getTable(table.getSqlname());
+            Table t = table.getTable();
             for(ColumnConfig mc : table.getColumns()) {
                 Column c = t.getColumnByName(mc.getName());
                 if(c == null) {
