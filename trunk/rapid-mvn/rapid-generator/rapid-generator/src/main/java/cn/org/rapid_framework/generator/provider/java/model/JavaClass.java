@@ -243,6 +243,7 @@ public class JavaClass {
 	    public static String getMavenJavaTestSourceFile(String clazzFile) {
 	        if(clazzFile == null) return null;
 	        clazzFile = clazzFile.replace('\\', '/');
+	        clazzFile = clazzFile.replaceAll("\\w+\\$", ""); // for inner class User$1.class and User$Info.class
 	        if(clazzFile.indexOf("target/classes") >= 0) {
 	            String result = StringHelper.replace(clazzFile, "target/classes", "src/test/java");
 	    	    return StringHelper.replace(result, ".class", "Test.java");
