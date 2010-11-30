@@ -127,13 +127,10 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
-//	    assertPropertyKey(key);
 		value = resolveProperty(value,getProperties());
 		key = resolveProperty(key,getProperties());
-	    GLogger.debug("[setProperty()] "+key+"="+value);
+		GLogger.debug("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
-		String dir_value = value.toString().replace('.', '/');
-		getHelper().getProperties().put(key+"_dir", dir_value);
 	}
 
 	private static void assertPropertyKey(String key) {
@@ -167,9 +164,6 @@ public class GeneratorProperties {
         }
         GLogger.println("");
         
-        GLogger.println("[Auto Replace] [.] => [/] on generator.properties, key=source_key+'_dir', For example: pkg=com.company ==> pkg_dir=com/company  \n");
-        Properties dirProperties = autoReplacePropertiesValue2DirValue(props.getProperties());
-        props.getProperties().putAll(dirProperties);
 	}
 
 }
