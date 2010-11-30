@@ -41,7 +41,7 @@ import freemarker.template.TemplateException;
  */
 public class Generator implements GeneratorConstants {
 	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
-	private List templateRootDirs = new ArrayList();
+	private ArrayList<File> templateRootDirs = new ArrayList<File>();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
 	private String removeExtensions = GeneratorProperties.getProperty(GENERATOR_REMOVE_EXTENSIONS,".ftl,.vm");
@@ -60,7 +60,7 @@ public class Generator implements GeneratorConstants {
 	}
 
 	public void setTemplateRootDirs(File... templateRootDirs) {
-		this.templateRootDirs = new ArrayList(Arrays.asList(templateRootDirs));
+		this.templateRootDirs = new ArrayList<File>(Arrays.asList(templateRootDirs));
 	}
 	
 	public void addTemplateRootDir(File f) {
@@ -153,8 +153,8 @@ public class Generator implements GeneratorConstants {
     }	
 	
 	private void processTemplateRootDirs(Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
-	    if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not null.");
-		if(templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs' cannot empty");
+	    if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not empty.");
+		if(templateRootDirs == null || templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs'  must be not empty");
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
