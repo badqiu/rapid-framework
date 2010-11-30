@@ -20,7 +20,7 @@ public class TableConfigXmlBuilderTest extends TestCase {
 
 	public void setUp() throws Exception {
 		GeneratorProperties.setProperty("appName", "rapid");
-		GeneratorProperties.setProperty("outRoot", "./temp/"+getClass().getSimpleName()+"/"+getName());
+		GeneratorProperties.setProperty("outRoot", "./target/temp/"+getClass().getSimpleName()+"/"+getName());
 		System.setProperty(GeneratorConstants.GG_IS_OVERRIDE,"true");
 		basedir = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig");
 	}

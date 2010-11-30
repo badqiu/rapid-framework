@@ -22,7 +22,7 @@ public class MetaTableTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        g.setOutRootDir("./temp/"+getClass().getSimpleName()+"/"+getName());
+        g.setOutRootDir("./target/temp/"+getClass().getSimpleName()+"/"+getName());
         GeneratorProperties.setProperty("appName", "rapid");
     }
     
