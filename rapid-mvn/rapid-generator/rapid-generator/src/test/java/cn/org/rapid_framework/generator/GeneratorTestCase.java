@@ -24,7 +24,11 @@ public class GeneratorTestCase extends TestCase{
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
 		
-	    runSqlScripts();
+	    try {
+	    	runSqlScripts();
+	    }catch(Exception e) {
+	    	e.printStackTrace();
+	    }
 
 //		System.getProperties().list(System.out);
 		if(isRuningByMaven()) {
