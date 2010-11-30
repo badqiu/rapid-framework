@@ -28,7 +28,7 @@ public class ColumnHelper {
 		if(c.getSqlName().indexOf("mail") >= 0) {
 			result += "@Email ";
 		}
-		if(DatabaseDataTypesUtils.isString(c.getJavaType())) {
+		if(DatabaseDataTypesUtils.isString(c.getJavaType()) && c.getSize() > 0) {
 			result += String.format("@Length(max=%s)",c.getSize());
 		}
 		if(DatabaseDataTypesUtils.isIntegerNumber(c.getJavaType())) {
