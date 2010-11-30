@@ -185,7 +185,9 @@ public class Generator implements GeneratorConstants {
 			    if(isDelete){
 			        new TemplateProcessor().executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
 			    }else {
+			    	long start = System.currentTimeMillis();
 			        new TemplateProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
+			        GLogger.perf("genereate by tempate cost time:"+(System.currentTimeMillis() - start)+"ms");
 			    }
 			}catch(Exception e) {
 				if (ignoreTemplateGenerateException) {
