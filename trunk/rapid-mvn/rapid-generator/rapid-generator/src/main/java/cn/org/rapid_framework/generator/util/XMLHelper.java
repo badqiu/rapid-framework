@@ -59,7 +59,7 @@ public class XMLHelper {
         }
         
         public Map<String,String> nodeNameAsAttributes(String nodeNameKey) {
-            Map map = new HashMap();
+        	LinkedHashMap map = new LinkedHashMap();
             map.putAll(attributes);
             map.put(nodeNameKey, nodeName);
             return map;
