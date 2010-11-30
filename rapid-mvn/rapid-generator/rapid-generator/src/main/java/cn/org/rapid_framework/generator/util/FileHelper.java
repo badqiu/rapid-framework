@@ -33,7 +33,8 @@ public class FileHelper {
 		return file.getAbsolutePath().substring(baseDir.getAbsolutePath().length()+1);
 	}
 	
-	public static List<File> searchAllNotIgnoreFile(File dir) throws IOException {
+	/** 搜索目录下的所有文件,并忽略如 .svn .cvs等文件 */
+	public static List<File> searchAllNotIgnoreFile(File dir) {
 		ArrayList arrayList = new ArrayList();
 		searchAllNotIgnoreFile(dir,arrayList);
 		Collections.sort(arrayList,new Comparator<File>() {
@@ -53,8 +54,8 @@ public class FileHelper {
 		}
 		return inputStream;
 	}
-
-	public static void searchAllNotIgnoreFile(File dir,List<File> collector) throws IOException {
+	
+	public static void searchAllNotIgnoreFile(File dir,List<File> collector) {
 		collector.add(dir);
 		if((!dir.isHidden() && dir.isDirectory()) && !isIgnoreFile(dir)) {
 			File[] subFiles = dir.listFiles();
@@ -62,6 +63,18 @@ public class FileHelper {
 				searchAllNotIgnoreFile(subFiles[i],collector);
 			}
 		}
+	}
+	
+	/**
+	 * 读取整个目录下所有子文件的内容至String中 
+	 **/
+	public static String readEntireDirectoryContent(File dir) {
+		List<File> files = searchAllNotIgnoreFile(dir);
+		StringBuffer result = new StringBuffer();
+		for(File file : files) {
+			result.append(IOHelper.readFile(file));
+		}
+		return result.toString();
 	}
 	
 	public static File mkdir(String dir,String file) {
