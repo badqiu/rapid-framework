@@ -44,20 +44,25 @@ public class TableFactory {
 	private DbHelper dbHelper = new DbHelper();
 	private static TableFactory instance = null;
 	
-	private TableFactory() {
+	private String schema;
+	private String catalog;
+	
+	private TableFactory(String schema,String catalog) {
+		this.schema = schema;
+		this.catalog = catalog;
 	}
 	
 	public synchronized static TableFactory getInstance() {
-		if(instance == null) instance = new TableFactory();
+		if(instance == null) instance = new TableFactory(GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_SCHEMA),GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_CATALOG));
 		return instance;
 	}
 	
 	public String getCatalog() {
-		return GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_CATALOG);
+		return catalog;
 	}
 
 	public String getSchema() {
-		return GeneratorProperties.getNullIfBlank(GeneratorConstants.JDBC_SCHEMA);
+		return schema;
 	}
 
 	private Connection getConnection() {
@@ -155,7 +160,7 @@ public class TableFactory {
 			retriveTableColumns(table);
 			table.initExportedKeys(conn.getMetaData());
 			table.initImportedKeys(conn.getMetaData());
-			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableOverrideValues(table.getSqlName()));
+			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableConfigValues(table.getSqlName()));
 			return table;
 		}catch(SQLException e) {
 			throw new RuntimeException("create table object error,tableName:"+tableName,e);
@@ -357,7 +362,7 @@ public class TableFactory {
 	               isUnique,
 	               columnDefaultValue,
 	               remarks);
-	         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnOverrideValues(table,column));
+	         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnConfigValues(table,column));
 	         columns.add(column);
 	    }
 		} finally {
@@ -411,7 +416,7 @@ public class TableFactory {
 	/** 得到表的自定义配置信息 */
 	public static class TableOverrideValuesProvider {
 		
-		private static Map getTableOverrideValues(String tableSqlName){
+		private static Map getTableConfigValues(String tableSqlName){
 			NodeData nd = getTableConfigXmlNodeData(tableSqlName);
 			if(nd == null) {
 			    return new HashMap();
@@ -419,7 +424,7 @@ public class TableFactory {
 			return nd == null ? new HashMap() : nd.attributes;
 		}
 	
-		private static Map getColumnOverrideValues(Table table, Column column) {
+		private static Map getColumnConfigValues(Table table, Column column) {
 			NodeData root = getTableConfigXmlNodeData(table.getSqlName());
 			if(root != null){
 				 for(NodeData item : root.childs) {
