@@ -11,8 +11,10 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import cn.org.rapid_framework.generator.util.AntPathMatcher;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -152,9 +154,15 @@ public class Generator implements GeneratorConstants {
     	return this;
     }	
 	
+    @SuppressWarnings("unchecked")
 	private void processTemplateRootDirs(Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
 	    if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not empty.");
 		if(templateRootDirs == null || templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs'  must be not empty");
+		
+		//生成 路径值,如 pkg=com.company.project 将生成 pkg_dir=com/company/project的值
+		templateModel.putAll(GeneratorHelper.getDirValuesMap(templateModel));
+		filePathModel.putAll(GeneratorHelper.getDirValuesMap(filePathModel));
+		
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
@@ -314,6 +322,26 @@ public class Generator implements GeneratorConstants {
 	}
 
 	static class GeneratorHelper {
+		
+		/**
+		 * 生成 路径值,如 pkg=com.company.project 将生成 pkg_dir=com/company/project的值
+		 * @param map
+		 * @return
+		 */
+		public static Map getDirValuesMap(Map map) {
+			Map dirValues = new HashMap();
+			Set<Object> keys = map.keySet();
+			for(Object key : keys) {
+				Object value = map.get(key);
+				if(key instanceof String && value instanceof String) {
+					String dirKey = key+"_dir";
+					String dirValue = value.toString().replace('.', '/');
+					dirValues.put(dirKey, dirValue);
+				}
+			}
+			return dirValues;
+		}
+		
 		public static boolean isIgnoreTemplateProcess(File srcFile,String templateFile,String includes,String excludes) {
 			if(srcFile.isDirectory() || srcFile.isHidden())
 				return true;
