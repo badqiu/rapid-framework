@@ -8,10 +8,8 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,17 +56,17 @@ public class XMLHelper {
             return "nodeName="+nodeName+",attributes="+attributes+" nodeValue="+nodeValue+" child:\n"+childs;
         }
         
-        public Map<String,String> nodeNameAsAttributes(String nodeNameKey) {
+        public LinkedHashMap<String,String> nodeNameAsAttributes(String nodeNameKey) {
         	LinkedHashMap map = new LinkedHashMap();
             map.putAll(attributes);
             map.put(nodeNameKey, nodeName);
             return map;
         }
         
-        public List<Map<String,String>> childsAsListMap() {
-        	List<Map<String,String>> result = new ArrayList();
+        public List<LinkedHashMap<String,String>> childsAsListMap() {
+        	List<LinkedHashMap<String,String>> result = new ArrayList();
             for(NodeData c : childs) {
-            	Map map = new LinkedHashMap();
+            	LinkedHashMap map = new LinkedHashMap();
             	map.put(c.nodeName, c.nodeValue);
             	result.add(map);
             }
@@ -288,8 +286,8 @@ public class XMLHelper {
      * @param attributes 格式： name='badqiu' sex='F'
      * @return
      */
-    public static Map<String, String> parse2Attributes(String attributes) {
-        Map result = new HashMap();
+    public static LinkedHashMap<String, String> parse2Attributes(String attributes) {
+    	LinkedHashMap result = new LinkedHashMap();
         Pattern p = Pattern.compile("(\\w+?)=['\"](.*?)['\"]");
         Matcher m = p.matcher(attributes);
         while(m.find()) {
@@ -302,7 +300,7 @@ public class XMLHelper {
         String file = "D:/dev/workspaces/alipay/ali-generator/generator/src/table_test.xml";
         NodeData nd = new XMLHelper().parseXML(new FileInputStream(new File(file)));
         
-        Map table = nd.attributes;
+        LinkedHashMap table = nd.attributes;
         List columns = nd.childs;
         System.out.println(table);
         System.out.println(columns);
