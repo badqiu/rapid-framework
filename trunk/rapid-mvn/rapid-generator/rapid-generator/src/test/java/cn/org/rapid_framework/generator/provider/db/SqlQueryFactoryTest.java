@@ -17,7 +17,7 @@ public class SqlQueryFactoryTest extends GeneratorTestCase  {
 	public void setUp() throws Exception {
 		super.setUp();
 		g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_select_sql"));
-		g.setOutRootDir("./temp/sql");
+		g.setOutRootDir("./target/temp/sql");
 	}
 
 	public void test_select_with_between() throws Exception {

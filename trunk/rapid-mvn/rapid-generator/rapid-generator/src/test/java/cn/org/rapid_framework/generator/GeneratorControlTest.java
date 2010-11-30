@@ -8,7 +8,7 @@ public class GeneratorControlTest extends GeneratorTestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		g.setOutRootDir("temp/generator_control");
+		g.setOutRootDir("target/temp/generator_control");
 		g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_gg_loadxml/template"));
 		
 	}
