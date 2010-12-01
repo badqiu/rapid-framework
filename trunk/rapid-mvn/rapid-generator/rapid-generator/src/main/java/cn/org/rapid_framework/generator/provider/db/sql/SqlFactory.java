@@ -111,18 +111,38 @@ public class SqlFactory {
 //		SqlParseHelper.setRandomParamsValueForPreparedStatement(SqlParseHelper.removeOrders(executeSql), ps);
 		StatementCreatorUtils.setRandomParamsValueForPreparedStatement(executeSql, ps, params);
 		
-		ps.setMaxRows(3);
-        ps.setFetchSize(3);
-        ps.setQueryTimeout(20);
-        ResultSet rs = null;
-		if(ps.execute()) {
-			rs = ps.getResultSet();
-			return rs.getMetaData();
+		try {
+			ps.setMaxRows(3);
+	        ps.setFetchSize(3);
+	        ps.setQueryTimeout(20);
+	        ResultSet rs = null;
+			if(ps.execute()) {
+				rs = ps.getResultSet();
+				return rs.getMetaData();
+			}
+			return null;
+		}catch(SQLException e) {
+			if(isDataIntegrityViolationException(e)) {
+				return null;
+			}
+			throw e;
 		}
-		return null;
 	}
 
-    static Map<String,Table> cache = new HashMap<String,Table>();
+    /** 判断是否是外键,完整性约束等异常 引发的异常 */
+    private boolean isDataIntegrityViolationException(SQLException e) {
+    	//ORA-01400: 无法将NULL插入  外键约束ORA-02291 无效数字ora-01722 ORA-02292: 违反完整约束条件
+    	
+    	//mysql
+    	//1215	SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
+    	//1216	SQLSTATE: 23000 (ER_NO_REFERENCED_ROW) Cannot add or update a child row: a foreign key constraint fails
+    	//1217	SQLSTATE: 23000 (ER_ROW_IS_REFERENCED) Cannot delete or update a parent row: a foreign key constraint fails
+    	
+    	// e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
+		return false;
+	}
+
+	static Map<String,Table> cache = new HashMap<String,Table>();
     private static Table getTable(String tableSqlName) {
         if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
         
