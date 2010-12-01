@@ -12,7 +12,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 
 public class TableGenTask extends BaseGeneratorTask {
     private String tableSqlName; 
-
+    
     @Override
     protected List<Map> getGeneratorContexts() {
         if("*".equals(tableSqlName)) {
@@ -48,5 +48,5 @@ public class TableGenTask extends BaseGeneratorTask {
     public void setTableSqlName(String tableSqlName) {
         this.tableSqlName = tableSqlName;
     }
-    
+
 }

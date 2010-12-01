@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.ext.ant;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,8 @@ import org.apache.tools.ant.Task;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 
 public abstract class BaseGeneratorTask extends Task{
@@ -21,6 +24,7 @@ public abstract class BaseGeneratorTask extends Task{
     protected File input;
     protected File output;
     private boolean openOutputDir = false;
+    private String _package;
     
     public static Properties toProperties(Hashtable properties) {
         Properties props = new Properties();
@@ -72,6 +76,20 @@ public abstract class BaseGeneratorTask extends Task{
         this.openOutputDir = openOutputDir;
     }
 
+    public String getPackage() {
+        return _package;
+    }
+
+    public void setPackage(String _package) {
+        this._package = _package;
+    }
+    
+    static TableConfigSet parseForTableConfigSet(String _package,File basedir,String[] tableConfigFilesArray) {
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
+        tableConfigSet.setPackage(_package);
+        return tableConfigSet;
+    }
+    
     @Override
     public void execute() throws BuildException {
         super.execute();

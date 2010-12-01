@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.BeanHelper;
@@ -19,7 +18,7 @@ public class TableConfigGenTask extends BaseGeneratorTask {
 	
 	@Override
     protected List<Map> getGeneratorContexts() {
-        TableConfigSet tableConfigSet = parseForTableConfigSet();
+        TableConfigSet tableConfigSet = parseForTableConfigSet(getPackage(),getProject().getBaseDir(),getTableConfigFilesArray());
         if("*".equals(tableSqlName)) {
             return toMaps(tableConfigSet.getTableConfigs());
         }else {
@@ -62,11 +61,6 @@ public class TableConfigGenTask extends BaseGeneratorTask {
     
     public void setTableSqlName(String tableSqlName) {
         this.tableSqlName = tableSqlName;
-    }
-
-    private TableConfigSet parseForTableConfigSet() {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
-        return tableConfigSet;
     }
 	
 }

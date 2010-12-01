@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class TableConfigSetGenTask extends BaseGeneratorTask {
 	private String tableConfigFiles; 
+	
 	@Override
     protected List<Map> getGeneratorContexts() {
-        TableConfigSet tableConfigSet = parseForTableConfigSet();
+        TableConfigSet tableConfigSet = parseForTableConfigSet(getPackage(),getProject().getBaseDir(),getTableConfigFilesArray());
         Map map = new HashMap();
         map.putAll(BeanHelper.describe(tableConfigSet));
         map.put("tableConfigSet", tableConfigSet);
@@ -28,11 +28,5 @@ public class TableConfigSetGenTask extends BaseGeneratorTask {
     public void setTableConfigFiles(String tableConfigFiles) {
         this.tableConfigFiles = tableConfigFiles;
     }
-
-    private TableConfigSet parseForTableConfigSet() {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
-        return tableConfigSet;
-    }
-
 	
 }
