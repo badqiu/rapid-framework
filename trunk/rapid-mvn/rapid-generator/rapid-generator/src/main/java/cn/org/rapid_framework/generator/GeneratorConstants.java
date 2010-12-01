@@ -21,6 +21,9 @@ public interface GeneratorConstants {
 	/** 需要移除的表名前缀,示例值: t_,v_ */
 	public String TABLE_REMOVE_PREFIXES = "tableRemovePrefixes";
 	
+	/** 用于控制表名是否自动转换为单数, 如 customers ==> customer. 默认值是 false */
+	public String TABLE_NAME_SINGULARIZE = "tableNameSingularize";
+	
 	/** generate by sql中查询结果使用的后缀，默认值为: Result */
 	public String GENERATOR_SQL_RESULTCLASS_SUFFIX = "generator_sql_resultClass_suffix";
 	
@@ -32,5 +35,8 @@ public interface GeneratorConstants {
 	public String JDBC_SCHEMA = "jdbc_schema";
 	public String JDBC_CATALOG = "jdbc_catalog";
 	
+	/** 数据库类型，模板中引用可以用于控制如：分页语句的生成，不同的数据库生成不同的分页语法 */
 	public String DATABASE_TYPE = "databaseType";
+	
+	
 }
