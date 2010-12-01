@@ -25,15 +25,15 @@ import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 public class TableConfig {
     public String sqlname;
     public String sequence;
-    public String dummypk;
+    public String dummyPk;
     public String remarks;
     
     public String subpackage;
     public String _package;
     public boolean autoSwitchDataSrc;
-    public String doname;
+    public String doName;
     
-    public List<ColumnConfig> columns = new ArrayList();
+    public List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     public List<OperationConfig> operations = new ArrayList<OperationConfig>();
     public List<ResultMapConfig> resultMaps = new ArrayList<ResultMapConfig>();
     
@@ -50,17 +50,16 @@ public class TableConfig {
     }
 
     public String getClassName() {
-        if(StringHelper.isNotBlank(doname)) return doname;
+        if(StringHelper.isNotBlank(doName)) return doName;
         if(StringHelper.isBlank(sqlname)) return null;
-        String removedPrefixSqlName = Table.removeTableSqlNamePrefix(sqlname);
-        return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
+        return StringHelper.toJavaClassName(sqlname);
     }
     
     public Column getPkColumn() throws Exception {
-    	if(StringHelper.isBlank(dummypk)) {
+    	if(StringHelper.isBlank(dummyPk)) {
     		return getTable().getPkColumn();
     	}else {
-    		return getTable().getColumnByName(dummypk);
+    		return getTable().getColumnByName(dummyPk);
     	}
     }
     
@@ -91,8 +90,8 @@ public class TableConfig {
                 }
             }
         }
-        if(StringHelper.isNotBlank(getDummypk())) {
-            Column c = table.getColumnBySqlName(getDummypk());
+        if(StringHelper.isNotBlank(getDummyPk())) {
+            Column c = table.getColumnBySqlName(getDummyPk());
             if(c != null) {
                 c.setPk(true);
             }
@@ -151,12 +150,12 @@ public class TableConfig {
         return null;
     }
     
-    public String getDummypk() {
-        return dummypk;
+    public String getDummyPk() {
+        return dummyPk;
     }
 
-    public void setDummypk(String dummypk) {
-        this.dummypk = dummypk;
+    public void setDummyPk(String dummypk) {
+        this.dummyPk = dummypk;
     }
     
     public String getRemarks() {
@@ -185,11 +184,11 @@ public class TableConfig {
         this.autoSwitchDataSrc = autoswitchdatasrc;
     }
 
-    public String getDoname() {
-        return doname;
+    public String getDoName() {
+        return doName;
     }
-    public void setDoname(String doname) {
-        this.doname = doname;
+    public void setDoName(String doname) {
+        this.doName = doname;
     }
 
     public String getBasepackage() {
@@ -250,6 +249,9 @@ public class TableConfig {
                 sql.setRemarks(op.getRemarks());
                 sql.setPaging(op.isPaging());
                 sql.setSqlmap(op.getSqlmap());
+                sql.setResultMap(op.getResultMap());
+                
+                //FIXME 增加insert append="nowait"至 CDATA ]]>结尾的前面
                 
                 if(StringHelper.isNotBlank(op.getMultiplicity())) {
                     sql.setMultiplicity(op.getMultiplicity());
@@ -425,6 +427,7 @@ public class TableConfig {
         public List<ParamConfig> extraparams = new ArrayList<ParamConfig>();
         public String name;
         public String resultClass;
+        public String resultMap;
         public String parameterClass;
         public String remarks;
         public String multiplicity;
@@ -515,6 +518,22 @@ public class TableConfig {
 
         public void setPaging(boolean paging) {
             this.paging = paging;
+        }
+        
+        public String getResultMap() {
+            return resultMap;
+        }
+
+        public void setResultMap(String resultMap) {
+            this.resultMap = resultMap;
+        }
+
+        public String getAppend() {
+            return append;
+        }
+
+        public void setAppend(String append) {
+            this.append = append;
         }
 
         public String toString() {
