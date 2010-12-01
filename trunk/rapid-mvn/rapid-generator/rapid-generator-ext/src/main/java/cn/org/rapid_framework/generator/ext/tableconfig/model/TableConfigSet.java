@@ -53,7 +53,7 @@ public class TableConfigSet implements Iterable<TableConfig>{
 
 	public TableConfig getBySqlName(String sqlName) {
 		for(TableConfig c : tableConfigs) {
-			if(sqlName.equalsIgnoreCase(c.getSqlname())) {
+			if(sqlName.equalsIgnoreCase(c.getSqlName())) {
 				return c;
 			}
 		}
