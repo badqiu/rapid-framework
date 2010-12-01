@@ -109,7 +109,7 @@ public class Paginator implements java.io.Serializable {
 	 * 开始行，可以用于oracle分页使用 (1-based)。
 	 **/
 	public int getStartRow() {
-		if(getPageSize() <= 0) return 0;
+		if(getPageSize() <= 0 || totalItems <= 0) return 0;
 		return page > 0 ? (page - 1) * getPageSize() + 1 : 0;
 	}
 	
@@ -182,7 +182,6 @@ public class Paginator implements java.io.Serializable {
     }
     
     private static int computePageNumber(int page, int pageSize,int totalItems) {
-    	if(page <= 0) return 0;
         if(page <= 1) {
             return 1;
         }
