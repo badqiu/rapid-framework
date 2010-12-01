@@ -9,6 +9,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column.EnumMetaDada;
 
 /**
@@ -221,9 +223,24 @@ public class StringHelper {
 		return uncapitalize(toJavaClassName(str));
 	}
 
-	public static String toJavaClassName(String str) {
-		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(str));
+	public static String toJavaClassName(String sqlName) {
+	    String processedSqlName = removeTableSqlNamePrefix(sqlName);
+	    if(GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE, false)) {
+	        processedSqlName = singularise(processedSqlName);
+	    }
+		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(processedSqlName));
 	}
+	
+    public static String removeTableSqlNamePrefix(String sqlName) {
+        String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES);
+        for(String prefix : prefixs) {
+            String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
+            if(!removedPrefixSqlName.equals(sqlName)) {
+                return removedPrefixSqlName;
+            }
+        }
+        return sqlName;
+    }
 	
 	public static String getJavaClassSimpleName(String clazz) {
 		if(clazz == null) return null;
@@ -578,4 +595,81 @@ public class StringHelper {
         return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(dbName));
     }
 	
+
+	/**
+    * 将一个单词从单数转变为复数, 如 customer => customers
+    */
+    public static String pluralise(String name) {
+        String result = name;
+        if (name.length() == 1) {
+            // just append 's'
+            result += 's';
+        } else {
+            if (!seemsPluralised(name)) {
+                String lower = name.toLowerCase();
+                char secondLast = lower.charAt(name.length() - 2);
+                if (!isVowel(secondLast) && lower.endsWith("y")) {
+                    // city, body etc --> cities, bodies
+                    result = name.substring(0, name.length() - 1) + "ies";
+                } else if (lower.endsWith("ch") || lower.endsWith("s")) {
+                    // switch --> switches or bus --> buses
+                    result = name + "es";
+                } else {
+                    result = name + "s";
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将一个单词从复数转变为单数, 如 customers => customer
+     */
+    public static String singularise(String name) {
+        String result = name;
+        if (seemsPluralised(name)) {
+            String lower = name.toLowerCase();
+            if (lower.endsWith("ies")) {
+                // cities --> city
+                result = name.substring(0, name.length() - 3) + "y";
+            } else if (lower.endsWith("ches") || lower.endsWith("ses")) {
+                // switches --> switch or buses --> bus
+                result = name.substring(0, name.length() - 2);
+            } else if (lower.endsWith("s")) {
+                // customers --> customer
+                result = name.substring(0, name.length() - 1);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Gets the Vowel attribute of the Util object
+     *
+     * @todo-javadoc Write javadocs for method parameter
+     * @param c Describe what the parameter does
+     * @return The Vowel value
+     */
+    private static final boolean isVowel(char c) {
+        boolean vowel = false;
+        vowel |= c == 'a';
+        vowel |= c == 'e';
+        vowel |= c == 'i';
+        vowel |= c == 'o';
+        vowel |= c == 'u';
+        vowel |= c == 'y';
+        return vowel;
+    }
+
+    /**
+     * 是否像一个复数单词
+     */
+    private static boolean seemsPluralised(String name) {
+        name = name.toLowerCase();
+        boolean pluralised = false;
+        pluralised |= name.endsWith("es");
+        pluralised |= name.endsWith("s");
+        pluralised &= !(name.endsWith("ss") || name.endsWith("us"));
+        return pluralised;
+    }
 }
