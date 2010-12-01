@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import cn.org.rapid_framework.generator.GeneratorConstants;
-import cn.org.rapid_framework.generator.GeneratorProperties;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * 用于生成代码的Table对象.对应数据库的table
@@ -81,17 +78,6 @@ public class Table implements java.io.Serializable,Cloneable {
 	public void setSqlName(String sqlName) {
 		this.sqlName = sqlName;
 	}
-
-	public static String removeTableSqlNamePrefix(String sqlName) {
-		String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES);
-		for(String prefix : prefixs) {
-			String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
-			if(!removedPrefixSqlName.equals(sqlName)) {
-				return removedPrefixSqlName;
-			}
-		}
-		return sqlName;
-	}
 	
 	/** 数据库中表的表备注 */
 	public String getRemarks() {
@@ -113,8 +99,7 @@ public class Table implements java.io.Serializable,Cloneable {
 	 */
 	public String getClassName() {
 	    if(StringHelper.isBlank(className)) {
-	        String removedPrefixSqlName = removeTableSqlNamePrefix(sqlName);
-	        return StringHelper.makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(removedPrefixSqlName));
+	        return StringHelper.toJavaClassName(sqlName);
 	    }else {
 	    	return className;
 	    }
