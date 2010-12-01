@@ -240,4 +240,8 @@ public class StringHelperTest extends TestCase {
 	    assertEquals("select  /* SELECT-FROM-USER */ count(*) from user where 1=$123$",StringHelper.insertTokenIntoSelectSql("select count(*) from user where 1=$123$", " /* SELECT-FROM-USER */ "));
 	    assertEquals("delete from count(*) from user where 1=$123$",StringHelper.insertTokenIntoSelectSql("delete from count(*) from user where 1=$123$", " /* SELECT-FROM-USER */ "));
 	}
+	
+	public void testToJavaClassName() {
+	    assertEquals("dalgen是这种规则",StringHelper.toJavaClassName("d_create"),"DCreate");
+	}
 }
