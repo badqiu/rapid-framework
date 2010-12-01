@@ -226,7 +226,7 @@ public class StringHelper {
 	public static String toJavaClassName(String sqlName) {
 	    String processedSqlName = removeTableSqlNamePrefix(sqlName);
 	    if(GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE, false)) {
-	        processedSqlName = singularise(processedSqlName);
+	        processedSqlName = singularize(processedSqlName);
 	    }
 		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(processedSqlName));
 	}
@@ -599,77 +599,79 @@ public class StringHelper {
 	/**
     * 将一个单词从单数转变为复数, 如 customer => customers
     */
-    public static String pluralise(String name) {
-        String result = name;
-        if (name.length() == 1) {
-            // just append 's'
-            result += 's';
-        } else {
-            if (!seemsPluralised(name)) {
-                String lower = name.toLowerCase();
-                char secondLast = lower.charAt(name.length() - 2);
-                if (!isVowel(secondLast) && lower.endsWith("y")) {
-                    // city, body etc --> cities, bodies
-                    result = name.substring(0, name.length() - 1) + "ies";
-                } else if (lower.endsWith("ch") || lower.endsWith("s")) {
-                    // switch --> switches or bus --> buses
-                    result = name + "es";
-                } else {
-                    result = name + "s";
-                }
-            }
-        }
-        return result;
+    public static String pluralize(String word) {
+        return Inflector.getInstance().pluralize(word);
+//        String result = name;
+//        if (name.length() == 1) {
+//            // just append 's'
+//            result += 's';
+//        } else {
+//            if (!seemsPluralised(name)) {
+//                String lower = name.toLowerCase();
+//                char secondLast = lower.charAt(name.length() - 2);
+//                if (!isVowel(secondLast) && lower.endsWith("y")) {
+//                    // city, body etc --> cities, bodies
+//                    result = name.substring(0, name.length() - 1) + "ies";
+//                } else if (lower.endsWith("ch") || lower.endsWith("s")) {
+//                    // switch --> switches or bus --> buses
+//                    result = name + "es";
+//                } else {
+//                    result = name + "s";
+//                }
+//            }
+//        }
+//        return result;
     }
 
     /**
      * 将一个单词从复数转变为单数, 如 customers => customer
      */
-    public static String singularise(String name) {
-        String result = name;
-        if (seemsPluralised(name)) {
-            String lower = name.toLowerCase();
-            if (lower.endsWith("ies")) {
-                // cities --> city
-                result = name.substring(0, name.length() - 3) + "y";
-            } else if (lower.endsWith("ches") || lower.endsWith("ses")) {
-                // switches --> switch or buses --> bus
-                result = name.substring(0, name.length() - 2);
-            } else if (lower.endsWith("s")) {
-                // customers --> customer
-                result = name.substring(0, name.length() - 1);
-            }
-        }
-        return result;
+    public static String singularize(String word) {
+        return Inflector.getInstance().singularize(word);
+//        String result = name;
+//        if (seemsPluralised(name)) {
+//            String lower = name.toLowerCase();
+//            if (lower.endsWith("ies")) {
+//                // cities --> city
+//                result = name.substring(0, name.length() - 3) + "y";
+//            } else if (lower.endsWith("ches") || lower.endsWith("ses")) {
+//                // switches --> switch or buses --> bus
+//                result = name.substring(0, name.length() - 2);
+//            } else if (lower.endsWith("s")) {
+//                // customers --> customer
+//                result = name.substring(0, name.length() - 1);
+//            }
+//        }
+//        return result;
     }
 
-    /**
-     * Gets the Vowel attribute of the Util object
-     *
-     * @todo-javadoc Write javadocs for method parameter
-     * @param c Describe what the parameter does
-     * @return The Vowel value
-     */
-    private static final boolean isVowel(char c) {
-        boolean vowel = false;
-        vowel |= c == 'a';
-        vowel |= c == 'e';
-        vowel |= c == 'i';
-        vowel |= c == 'o';
-        vowel |= c == 'u';
-        vowel |= c == 'y';
-        return vowel;
-    }
-
-    /**
-     * 是否像一个复数单词
-     */
-    private static boolean seemsPluralised(String name) {
-        name = name.toLowerCase();
-        boolean pluralised = false;
-        pluralised |= name.endsWith("es");
-        pluralised |= name.endsWith("s");
-        pluralised &= !(name.endsWith("ss") || name.endsWith("us"));
-        return pluralised;
-    }
+//    /**
+//     * Gets the Vowel attribute of the Util object
+//     *
+//     * @todo-javadoc Write javadocs for method parameter
+//     * @param c Describe what the parameter does
+//     * @return The Vowel value
+//     */
+//    private static final boolean isVowel(char c) {
+//        boolean vowel = false;
+//        vowel |= c == 'a';
+//        vowel |= c == 'e';
+//        vowel |= c == 'i';
+//        vowel |= c == 'o';
+//        vowel |= c == 'u';
+//        vowel |= c == 'y';
+//        return vowel;
+//    }
+//
+//    /**
+//     * 是否像一个复数单词
+//     */
+//    private static boolean seemsPluralised(String name) {
+//        name = name.toLowerCase();
+//        boolean pluralised = false;
+//        pluralised |= name.endsWith("es");
+//        pluralised |= name.endsWith("s");
+//        pluralised &= !(name.endsWith("ss") || name.endsWith("us"));
+//        return pluralised;
+//    }
 }
