@@ -146,7 +146,7 @@ public class GeneratorTask extends Task {
     private void generateByAllTableConfig() throws Exception {
         TableConfigSet tableConfigSet = parseForTableConfigSet();
         for(TableConfig t : tableConfigSet) {
-            generateByTableConfig(tableConfigSet,t.getSqlname());
+            generateByTableConfig(tableConfigSet,t.getSqlName());
         }
     }
 
