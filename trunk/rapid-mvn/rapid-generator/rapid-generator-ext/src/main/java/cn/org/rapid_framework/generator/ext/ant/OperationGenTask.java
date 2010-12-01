@@ -2,12 +2,10 @@ package cn.org.rapid_framework.generator.ext.ant;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -20,7 +18,7 @@ public class OperationGenTask extends BaseGeneratorTask {
     
     @Override
     protected List<Map> getGeneratorContexts() throws SQLException, Exception {
-        TableConfigSet tableConfigSet = parseForTableConfigSet();
+        TableConfigSet tableConfigSet = parseForTableConfigSet(getPackage(),getProject().getBaseDir(),getTableConfigFilesArray());
         if("*".equals(tableSqlName)) {
             List<Map> result = new ArrayList();
             for(TableConfig tableConfig : tableConfigSet.getTableConfigs()) {
@@ -64,11 +62,6 @@ public class OperationGenTask extends BaseGeneratorTask {
     
     public void setTableSqlName(String tableSqlName) {
         this.tableSqlName = tableSqlName;
-    }
-
-    private TableConfigSet parseForTableConfigSet() {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(getProject().getBaseDir(), Arrays.asList(getTableConfigFilesArray()));
-        return tableConfigSet;
     }
     
 }
