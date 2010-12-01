@@ -9,10 +9,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -53,7 +51,15 @@ public class GeneratorFacade implements GeneratorConstants {
 	public void deleteByMap(Map map) throws Exception {
 		new ProcessUtils().processByMap(map, true);
 	}
-	
+
+    public void generateBy(GeneratorModel model) throws Exception {
+        new ProcessUtils().processByGeneratorModel(model,false);
+    }
+    
+    public void deleteBy(GeneratorModel model) throws Exception {
+        new ProcessUtils().processByGeneratorModel(model,true);
+    }
+	   
 	public void generateByAllTable() throws Exception {
 		new ProcessUtils().processByAllTable(false);
 	}
@@ -117,6 +123,15 @@ public class GeneratorFacade implements GeneratorConstants {
     }
     
     public class ProcessUtils {
+        
+        public void processByGeneratorModel(GeneratorModel model,boolean isDelete) throws Exception, FileNotFoundException {
+            Generator g = getGenerator();
+            
+            GeneratorModel targetModel = GeneratorModelUtils.newDefaultGeneratorModel();
+            targetModel.filePathModel.putAll(model.filePathModel);
+            targetModel.templateModel.putAll(model.templateModel);
+            processByGeneratorModel(isDelete, g, targetModel);
+        }
         
     	public void processByMap(Map params,boolean isDelete) throws Exception, FileNotFoundException {
 			Generator g = getGenerator();
