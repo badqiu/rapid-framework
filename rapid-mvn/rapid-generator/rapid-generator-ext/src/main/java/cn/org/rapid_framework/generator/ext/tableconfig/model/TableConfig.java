@@ -23,15 +23,15 @@ import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMappin
 import cn.org.rapid_framework.generator.util.typemapping.JdbcType;
 
 public class TableConfig {
-    public String sqlname;
+    public String sqlName;
     public String sequence;
     public String dummyPk;
     public String remarks;
     
-    public String subpackage;
+    public String subPackage;
     public String _package;
     public boolean autoSwitchDataSrc;
-    public String doName;
+    public String className;
     
     public List<ColumnConfig> columns = new ArrayList<ColumnConfig>();
     public List<OperationConfig> operations = new ArrayList<OperationConfig>();
@@ -50,9 +50,13 @@ public class TableConfig {
     }
 
     public String getClassName() {
-        if(StringHelper.isNotBlank(doName)) return doName;
+        if(StringHelper.isNotBlank(className)) return className;
         if(StringHelper.isBlank(sqlname)) return null;
         return StringHelper.toJavaClassName(sqlname);
+    }
+    
+    public void setClassName(String className) {
+        this.className = className;
     }
     
     public Column getPkColumn() throws Exception {
@@ -67,10 +71,10 @@ public class TableConfig {
     	if(StringHelper.isBlank(_package)) {
     		_package = GeneratorProperties.getRequiredProperty("basepackage");
     	}
-    	if(StringHelper.isBlank(subpackage)) {
+    	if(StringHelper.isBlank(subPackage)) {
     		return _package;
     	}else {
-    		return _package+"."+subpackage;
+    		return _package+"."+subPackage;
     	}
     }
     public void setPackage(String pkg) {
@@ -81,7 +85,7 @@ public class TableConfig {
     public Table getTable() throws Exception {
     	if(table != null) return table;
     	
-        table = TableFactory.getInstance().getTable(getSqlname());
+        table = TableFactory.getInstance().getTable(getSqlName());
         if(columns != null) {
             for(ColumnConfig c : columns) {
                 Column tableColumn = table.getColumnByName(c.getName());
@@ -103,10 +107,10 @@ public class TableConfig {
         return table;
     }
     
-    public String getSqlname() {
+    public String getSqlName() {
         return sqlname;
     }
-    public void setSqlname(String sqlname) {
+    public void setSqlName(String sqlname) {
         this.sqlname = sqlname;
     }
     public String getSequence() {
@@ -168,12 +172,12 @@ public class TableConfig {
     }
 
 
-    public String getSubpackage() {
-        return subpackage;
+    public String getSubPackage() {
+        return subPackage;
     }
 
-    public void setSubpackage(String subpackage) {
-        this.subpackage = subpackage;
+    public void setSubPackage(String subpackage) {
+        this.subPackage = subpackage;
     }
 
 	public boolean isAutoSwitchDataSrc() {
@@ -184,11 +188,8 @@ public class TableConfig {
         this.autoSwitchDataSrc = autoswitchdatasrc;
     }
 
-    public String getDoName() {
-        return doName;
-    }
     public void setDoName(String doname) {
-        this.doName = doname;
+        this.className = doname;
     }
 
     public String getBasepackage() {
@@ -266,7 +267,7 @@ public class TableConfig {
                 
                 return sql;
         	}catch(Exception e) {
-                throw new RuntimeException("parse sql error on table:"+table.getSqlname()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
+                throw new RuntimeException("parse sql error on table:"+table.getSqlName()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
             }
         }
 
