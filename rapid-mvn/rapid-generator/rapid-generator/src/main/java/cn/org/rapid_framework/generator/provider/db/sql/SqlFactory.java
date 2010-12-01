@@ -122,8 +122,16 @@ public class SqlFactory {
 		return null;
 	}
 
+    static Map<String,Table> cache = new HashMap<String,Table>();
     private static Table getTable(String tableSqlName) {
-    	return TableFactory.getInstance().getTable(tableSqlName);
+        if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
+        
+        Table table = cache.get(tableSqlName.toLowerCase());
+        if(table == null) {
+            table = TableFactory.getInstance().getTable(tableSqlName);
+            cache.put(tableSqlName.toLowerCase(), table);
+        }
+        return table;
     }
 	
     public static class SelectColumnsParser {
