@@ -41,7 +41,6 @@ public class BlogServiceBeanTest{
     public void setUp() throws Exception {
         
         blogServiceBean.setCsb(csb);
-        blogServiceBean.setEmailServiceBean(emailServiceBean);
         blogServiceBean.setEsb(esb);
         blogServiceBean.setName(name);
         
