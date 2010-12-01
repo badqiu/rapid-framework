@@ -14,7 +14,7 @@ public class TableConfigTest extends TestCase {
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_NAME_SINGULARIZE, "true");
         TableConfig table = new TableConfig();
         table.setSqlname("bashes");
-        assertEquals("Bashe",table.getClassName());
+        assertEquals("Bash",table.getClassName());
         
         table.setSqlname("cuStomeRs");
         assertEquals("CuStomeR",table.getClassName());
