@@ -137,7 +137,10 @@ public class Paginator implements java.io.Serializable {
             return 0;
         }
     }
-	
+	/**
+	 * 得到 总页数
+	 * @return
+	 */
 	public int getTotalPages() {
 		if (totalItems <= 0) {
 			return 0;
@@ -192,7 +195,7 @@ public class Paginator implements java.io.Serializable {
         return page;
     }
     
-    public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
+    private static List<Integer> generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
         int avg = count / 2;
         
         int startPageNumber = currentPageNumber - avg;
