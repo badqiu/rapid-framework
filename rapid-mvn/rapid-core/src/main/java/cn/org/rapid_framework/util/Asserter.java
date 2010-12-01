@@ -10,7 +10,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * 与Spring Assert相同功能的类,
- * 不同的是抛出指定的异常,如果assert fail.
+ * 不同的是如果assert fail将抛出指定的异常. 
+ * 这样在做业务检查时，可以根据该类抛出指定的业务异常。
  * 
  * 如果不想抛出指定的异常,请使用spring提供的Assert
  * 

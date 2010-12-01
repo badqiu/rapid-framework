@@ -6,9 +6,11 @@ package cn.org.rapid_framework.util.page;
  */
 public class PageQuery implements java.io.Serializable{
     private static final long serialVersionUID = -8000900575354501298L;
-
+    
+    public static final int DEFAULT_PAGE_SIZE = 10;
+    
     private int    page;
-    private int    pageSize;
+    private int    pageSize = DEFAULT_PAGE_SIZE;
 
     public PageQuery() {
     }
