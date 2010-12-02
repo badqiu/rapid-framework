@@ -51,8 +51,8 @@ public class TableConfig {
 
     public String getClassName() {
         if(StringHelper.isNotBlank(className)) return className;
-        if(StringHelper.isBlank(sqlname)) return null;
-        return StringHelper.toJavaClassName(sqlname);
+        if(StringHelper.isBlank(sqlName)) return null;
+        return StringHelper.toJavaClassName(sqlName);
     }
     
     public void setClassName(String className) {
@@ -108,10 +108,10 @@ public class TableConfig {
     }
     
     public String getSqlName() {
-        return sqlname;
+        return sqlName;
     }
     public void setSqlName(String sqlname) {
-        this.sqlname = sqlname;
+        this.sqlName = sqlname;
     }
     public String getSequence() {
         return sequence;
@@ -197,7 +197,7 @@ public class TableConfig {
     }
     
     public String toString() {
-        return "sqlname:"+sqlname;
+        return "sqlname:"+sqlName;
     }
     
     private List<Sql> sqls;
@@ -289,12 +289,16 @@ public class TableConfig {
                 if(param == null) {
 			        SqlParameter extraparam = new SqlParameter();
 			        extraparam.setParameterClass(extraParam.getJavatype());
-			        extraparam.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 有可能为空
+			        if(StringHelper.isNotBlank(extraParam.getColumnAlias())) {
+			        	extraparam.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 现在的处理方式不好,应该不使用StringHelper.isNotBlank()判断
+			        }
 			        extraparam.setParamName(extraParam.getName());
 			        filterdExtraParameters.add(extraparam);
 			    }else {
 			        param.setParameterClass(extraParam.getJavatype());
-			        param.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 有可能为空
+			        if(StringHelper.isNotBlank(extraParam.getColumnAlias())) {
+			        	param.setColumnAlias(extraParam.getColumnAlias()); // FIXME extraparam alias 现在的处理方式不好,应该不使用StringHelper.isNotBlank()判断
+			        }
 			    }
 			}
 			if(GeneratorProperties.getBoolean("generator.extraParams.append", true)) {
