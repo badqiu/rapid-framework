@@ -22,7 +22,7 @@ public class GeneratorTestCase extends TestCase{
 	public synchronized void setUp()throws Exception {
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
-	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
+	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
 		
 	    try {
 	    	runSqlScripts();

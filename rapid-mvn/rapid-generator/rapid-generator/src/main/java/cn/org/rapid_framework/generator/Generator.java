@@ -29,6 +29,7 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * 代码生成器核心引擎
  * 
@@ -41,18 +42,18 @@ import freemarker.template.TemplateException;
  * @author badqiu
  * @email badqiu(a)gmail.com
  */
-public class Generator implements GeneratorConstants {
+public class Generator  {
 	private static final String GENERATOR_INSERT_LOCATION = "generator-insert-location";
 	private ArrayList<File> templateRootDirs = new ArrayList<File>();
 	private String outRootDir;
 	private boolean ignoreTemplateGenerateException = true;
-	private String removeExtensions = GeneratorProperties.getProperty(GENERATOR_REMOVE_EXTENSIONS,".ftl,.vm");
+	private String removeExtensions = GeneratorProperties.getProperty(GENERATOR_REMOVE_EXTENSIONS);
 	private boolean isCopyBinaryFile = true;
 	
 	private String includes = GeneratorProperties.getProperty(GENERATOR_INCLUDES); // 需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
 	private String excludes = GeneratorProperties.getProperty(GENERATOR_EXCLUDES); // 不需要处理的模板，使用逗号分隔符,示例值: java_src/**,java_test/**
-	private String sourceEncoding =  GeneratorProperties.getProperty(GENERATOR_SOURCE_ENCODING,"UTF-8");
-	private String outputEncoding =  GeneratorProperties.getProperty(GENERATOR_OUTPUT_ENCODING,"UTF-8");
+	private String sourceEncoding =  GeneratorProperties.getProperty(GENERATOR_SOURCE_ENCODING);
+	private String outputEncoding =  GeneratorProperties.getProperty(GENERATOR_OUTPUT_ENCODING);
 	
 	public Generator() {
 	}

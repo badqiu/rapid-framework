@@ -97,9 +97,17 @@ public class GeneratorProperties {
 	public static String getProperty(String key) {
 		return getHelper().getProperty(key);
 	}
+
+	public static String getProperty(GeneratorConstants key) {
+		return getHelper().getProperty(key.code,key.defaultValue);
+	}
 	
 	public static String getRequiredProperty(String key) {
 		return getHelper().getRequiredProperty(key);
+	}
+
+	public static String getRequiredProperty(GeneratorConstants key) {
+		return getHelper().getRequiredProperty(key.code);
 	}
 	
 	public static int getRequiredInt(String key) {
@@ -113,9 +121,17 @@ public class GeneratorProperties {
 	public static String getNullIfBlank(String key) {
 		return getHelper().getNullIfBlank(key);
 	}
+
+	public static String getNullIfBlank(GeneratorConstants key) {
+		return getHelper().getNullIfBlank(key.code);
+	}
 	
 	public static String[] getStringArray(String key) {
 		return getHelper().getStringArray(key);
+	}
+	
+	public static String[] getStringArray(GeneratorConstants key) {
+		return getHelper().getStringArray(key.code);
 	}
 	
 	public static int[] getIntArray(String key) {
@@ -124,6 +140,14 @@ public class GeneratorProperties {
 	
 	public static boolean getBoolean(String key,boolean defaultValue) {
 	    return getHelper().getBoolean(key, defaultValue);
+	}
+
+	public static boolean getBoolean(GeneratorConstants key) {
+	    return getHelper().getBoolean(key.code, Boolean.getBoolean(key.defaultValue));
+	}
+	
+	public static void setProperty(GeneratorConstants key,String value) {
+		setProperty(key.code,value);
 	}
 	
 	public static void setProperty(String key,String value) {
