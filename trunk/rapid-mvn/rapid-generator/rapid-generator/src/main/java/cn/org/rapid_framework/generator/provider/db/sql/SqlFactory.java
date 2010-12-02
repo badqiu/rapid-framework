@@ -25,6 +25,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.sqlerrorcode.SQLErrorCodeSQLExceptionTranslator;
 import cn.org.rapid_framework.generator.util.sqlparse.BasicSqlFormatter;
 import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
 import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
@@ -123,14 +124,18 @@ public class SqlFactory {
 			return null;
 		}catch(SQLException e) {
 			if(isDataIntegrityViolationException(e)) {
+			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" message:"+e.getMessage()+" sqlState:"+e.getSQLState()+ " executedSql:"+executeSql);
 				return null;
 			}
+			e.fillInStackTrace();
 			throw e;
 		}
 	}
 
     /** 判断是否是外键,完整性约束等异常 引发的异常 */
-    private boolean isDataIntegrityViolationException(SQLException e) {
+    private boolean isDataIntegrityViolationException(SQLException sqlEx) {
+        SQLErrorCodeSQLExceptionTranslator transaltor = SQLErrorCodeSQLExceptionTranslator.getSQLErrorCodeSQLExceptionTranslator(DataSourceProvider.getDataSource());
+        return transaltor.isDataIntegrityViolation(sqlEx);
     	//ORA-01400: 无法将NULL插入  外键约束ORA-02291 无效数字ora-01722 ORA-02292: 违反完整约束条件
     	
     	//mysql
@@ -139,7 +144,6 @@ public class SqlFactory {
     	//1217	SQLSTATE: 23000 (ER_ROW_IS_REFERENCED) Cannot delete or update a parent row: a foreign key constraint fails
     	
     	// e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
-		return false;
 	}
 
 	static Map<String,Table> cache = new HashMap<String,Table>();
