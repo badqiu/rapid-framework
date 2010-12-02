@@ -16,6 +16,8 @@ generator集成sql解析工具，源代码地址: http://rapid-framework.googlec
 
 生成器增加 GeneratorBeanFactory用于生成 Table,Column,Sql等对象对便使用人员扩展
 
+#生成器中增加自动将表名从复数转换为单数
+
 将dalgen中的params2paramObjectLimit=6修改为 isUsingParamObject()及getParamObjectClass()实现
 generateByClass() 增加: 1.根据method args生成输入页面，根据 return type生成结果页面. 特殊:可以生成分页查询参数,及列表页面
 
