@@ -71,9 +71,18 @@ public class SQLErrorCodesFactory {
 
 
 	public SQLErrorCodesFactory() {
+       //ORA-01400: 无法将NULL插入  外键约束ORA-02291 无效数字ora-01722 ORA-02292: 违反完整约束条件
+        
+        //mysql
+        //1215  SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
+        //1216  SQLSTATE: 23000 (ER_NO_REFERENCED_ROW) Cannot add or update a child row: a foreign key constraint fails
+        //1217  SQLSTATE: 23000 (ER_ROW_IS_REFERENCED) Cannot delete or update a parent row: a foreign key constraint fails
+        
+        // e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
+	    
 	    errorCodesMap.put("DB2", newSQLErrorCodes(false,"DB2*","-407,-530,-531,-532,-543,-544,-545,-603,-667"));
 	    errorCodesMap.put("Derby", newSQLErrorCodes(true,"Apache Derby","22001,22005,23502,23503,23513,X0Y32"));
-	    errorCodesMap.put("H2", newSQLErrorCodes(false,"H2","22003,22012,22025,23000"));
+	    errorCodesMap.put("H2", newSQLErrorCodes(false,"H2","22003,22012,22025,23000,23001,23002,23003")); // http://www.h2database.com/javadoc/org/h2/constant/ErrorCode.html
 	    errorCodesMap.put("HSQL", newSQLErrorCodes(false,"HSQL Database Engine","-9"));
 	    errorCodesMap.put("Informix", newSQLErrorCodes(false,"Informix","-692,-11030"));
 	    errorCodesMap.put("MS-SQL", newSQLErrorCodes(false,"Microsoft SQL Server","2627,8114,8115"));

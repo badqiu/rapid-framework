@@ -124,7 +124,7 @@ public class SqlFactory {
 			return null;
 		}catch(SQLException e) {
 			if(isDataIntegrityViolationException(e)) {
-			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" message:"+e.getMessage()+" sqlState:"+e.getSQLState()+ " executedSql:"+executeSql);
+			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ " executedSql:"+executeSql);
 				return null;
 			}
 			e.fillInStackTrace();
@@ -136,14 +136,6 @@ public class SqlFactory {
     private boolean isDataIntegrityViolationException(SQLException sqlEx) {
         SQLErrorCodeSQLExceptionTranslator transaltor = SQLErrorCodeSQLExceptionTranslator.getSQLErrorCodeSQLExceptionTranslator(DataSourceProvider.getDataSource());
         return transaltor.isDataIntegrityViolation(sqlEx);
-    	//ORA-01400: 无法将NULL插入  外键约束ORA-02291 无效数字ora-01722 ORA-02292: 违反完整约束条件
-    	
-    	//mysql
-    	//1215	SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
-    	//1216	SQLSTATE: 23000 (ER_NO_REFERENCED_ROW) Cannot add or update a child row: a foreign key constraint fails
-    	//1217	SQLSTATE: 23000 (ER_ROW_IS_REFERENCED) Cannot delete or update a parent row: a foreign key constraint fails
-    	
-    	// e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
 	}
 
 	static Map<String,Table> cache = new HashMap<String,Table>();
