@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import junit.framework.TestCase;
-import cn.org.rapid_framework.generator.GeneratorConstants;
-import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
@@ -26,7 +24,11 @@ public class GeneratorTestCase extends TestCase{
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE, "true");
 		
-	    runSqlScripts();
+	    try {
+	    	runSqlScripts();
+	    }catch(Exception e) {
+	    	e.printStackTrace();
+	    }
 
 //		System.getProperties().list(System.out);
 		if(isRuningByMaven()) {
@@ -89,13 +91,13 @@ public class GeneratorTestCase extends TestCase{
 	}
 	
 	public void generateByTable(Table table) throws Exception {
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 //		g.setIgnoreTemplateGenerateException(false);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	
 	public void generateByTable(Generator g,Table table) throws Exception {
-		GeneratorModel m = GeneratorModelUtils.newFromTable(table);
+		GeneratorModel m = GeneratorModelUtils.newGeneratorModel("table",table);
 		g.generateBy(m.templateModel, m.filePathModel);
 	}
 	

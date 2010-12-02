@@ -8,30 +8,30 @@ public class TableConfigTest extends TestCase {
     
     public void test() {
         TableConfig tc = new TableConfig();
-        tc.setSqlname("user_info");
+        tc.setSqlName("user_info");
         assertEquals(tc.getClassName(),"UserInfo");
         
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_NAME_SINGULARIZE, "true");
         TableConfig table = new TableConfig();
-        table.setSqlname("bashes");
+        table.setSqlName("bashes");
         assertEquals("Bash",table.getClassName());
         
-        table.setSqlname("cuStomeRs");
+        table.setSqlName("cuStomeRs");
         assertEquals("CuStomeR",table.getClassName());
         
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
-        table.setSqlname("t_user_infos");
+        table.setSqlName("t_user_infos");
         assertEquals("UserInfo",table.getClassName());
         
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_NAME_SINGULARIZE, "false");
-        table.setSqlname("bashes");
+        table.setSqlName("bashes");
         assertEquals("Bashes",table.getClassName());
         
-        table.setSqlname("cuStomeRs");
+        table.setSqlName("cuStomeRs");
         assertEquals("CuStomeRs",table.getClassName());
         
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
-        table.setSqlname("t_user_infos");
+        table.setSqlName("t_user_infos");
         assertEquals("UserInfos",table.getClassName());
     }
 }
