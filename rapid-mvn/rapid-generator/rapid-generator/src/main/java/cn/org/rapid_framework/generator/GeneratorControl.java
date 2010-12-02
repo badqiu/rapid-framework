@@ -28,7 +28,7 @@ import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
 import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
- * 生成器模板控制器,用于模板中可以控制生成器执行相关控制操作
+ * gg变量,生成器模板控制器,用于模板中可以控制生成器执行相关控制操作
  * 如: 是否覆盖目标文件
  * 
  * <pre>
