@@ -71,13 +71,34 @@ public class SQLErrorCodesFactory {
 
 
 	public SQLErrorCodesFactory() {
-       //ORA-01400: 无法将NULL插入  外键约束ORA-02291 无效数字ora-01722 ORA-02292: 违反完整约束条件
+        //ORA-01400: 无法将NULL插入 
+	    //ORA-01722: 无效数字 
+	    //ORA-02291: 外键约束
+	    //ORA-02292: An attempt was made to delete a row that is referenced by a foreign key. 
         
-        //mysql
+        //ms-sql
         //1215  SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
         //1216  SQLSTATE: 23000 (ER_NO_REFERENCED_ROW) Cannot add or update a child row: a foreign key constraint fails
         //1217  SQLSTATE: 23000 (ER_ROW_IS_REFERENCED) Cannot delete or update a parent row: a foreign key constraint fails
         
+	    //MySQL
+	    /*
+	     * 1452: 不能删除或更新父行，外键约束失败(%s)。
+	     * 1453: 消息：不能添加或更新子行，外键约束失败(%s)。错误： 
+	     * 1217: 无法添加或更新子行，外键约束失败。
+	     * 1218: 无法删除或更新父行，外键约束失败。
+	     */
+	    
+	    //PostgreSQL
+	    /*
+        23000   违反完整性约束（INTEGRITY CONSTRAINT VIOLATION）
+        23001   违反限制（RESTRICT VIOLATION）
+        23502   违反非空（NOT NULL VIOLATION）
+        23503   违反外键约束（FOREIGN KEY VIOLATION）
+        23505   违反唯一约束（UNIQUE VIOLATION）
+        23514   违反检查（CHECK VIOLATION）
+	     */
+	    
         // e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
 	    
 	    errorCodesMap.put("DB2", newSQLErrorCodes(false,"DB2*","-407,-530,-531,-532,-543,-544,-545,-603,-667"));
@@ -86,9 +107,9 @@ public class SQLErrorCodesFactory {
 	    errorCodesMap.put("HSQL", newSQLErrorCodes(false,"HSQL Database Engine","-9"));
 	    errorCodesMap.put("Informix", newSQLErrorCodes(false,"Informix","-692,-11030"));
 	    errorCodesMap.put("MS-SQL", newSQLErrorCodes(false,"Microsoft SQL Server","2627,8114,8115"));
-	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","630,839,840,893,1169,1215,1216,1217,1451,1452,1557"));
-	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","1400,1722,2291,2292"));
-	    errorCodesMap.put("PostgreSQL", newSQLErrorCodes(true,"PostgreSQL","23000,23502,23503,23514"));
+	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","1217,1218,1452,1453")); //spring error code定义:630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557
+	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292")); // TODO 是否要增加: 1400,1722,该两项为spirng定义
+	    errorCodesMap.put("PostgreSQL", newSQLErrorCodes(true,"PostgreSQL","23001,23503,23514")); //全部约束: "23000,23001,23502,23503,23505,23514"
 	    errorCodesMap.put("Sybase", newSQLErrorCodes(false,"Sybase SQL Server,SQL Server,Adaptive Server Enterprise,ASE,sql server","233,423,511,515,530,547,2615,2714"));
 	}
 	

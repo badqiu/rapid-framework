@@ -124,10 +124,9 @@ public class SqlFactory {
 			return null;
 		}catch(SQLException e) {
 			if(isDataIntegrityViolationException(e)) {
-			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ " executedSql:"+executeSql);
+			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+executeSql);
 				return null;
 			}
-			e.fillInStackTrace();
 			throw e;
 		}
 	}
