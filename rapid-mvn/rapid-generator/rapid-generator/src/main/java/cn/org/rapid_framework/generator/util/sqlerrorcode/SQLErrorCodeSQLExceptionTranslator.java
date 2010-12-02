@@ -140,14 +140,14 @@ public class SQLErrorCodeSQLExceptionTranslator {
     }
 
     /** 是否是数据完整性异常 */
-    public boolean isDataIntegrityViolation(SQLException sqlEx) {
+    public boolean isDataIntegrityViolation(SQLException e) {
         // Check SQLErrorCodes with corresponding error code, if available.
         if (this.sqlErrorCodes != null) {
             String errorCode = null;
             if (this.sqlErrorCodes.isUseSqlStateForTranslation()) {
-                errorCode = sqlEx.getSQLState();
+                errorCode = e.getSQLState();
             } else {
-                errorCode = Integer.toString(sqlEx.getErrorCode());
+                errorCode = Integer.toString(e.getErrorCode());
             }
 
             if (errorCode != null) {
