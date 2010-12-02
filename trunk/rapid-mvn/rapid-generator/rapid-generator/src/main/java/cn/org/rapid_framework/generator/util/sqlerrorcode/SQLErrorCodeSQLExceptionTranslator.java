@@ -124,12 +124,6 @@ public class SQLErrorCodeSQLExceptionTranslator {
         this.sqlErrorCodes = sec;
     }
 
-    public static SQLErrorCodeSQLExceptionTranslator getSQLErrorCodeSQLExceptionTranslator(DataSource ds) {
-        SQLErrorCodeSQLExceptionTranslator translator = new SQLErrorCodeSQLExceptionTranslator();
-        translator.setDataSource(ds);
-        return translator;
-    }
-    
     /**
      * Return the error codes used by this translator.
      * Usually determined via a DataSource.
@@ -157,6 +151,12 @@ public class SQLErrorCodeSQLExceptionTranslator {
             }
         }
         return false;
+    }
+    
+    public static SQLErrorCodeSQLExceptionTranslator getSQLErrorCodeSQLExceptionTranslator(DataSource ds) {
+        SQLErrorCodeSQLExceptionTranslator translator = new SQLErrorCodeSQLExceptionTranslator();
+        translator.setDataSource(ds);
+        return translator;
     }
 
 }
