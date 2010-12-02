@@ -139,7 +139,7 @@ public class SQLErrorCodeSQLExceptionTranslator {
         return sqlErrorCodes;
     }
 
-    /** 是否是数据完整性异常 */
+    /** 判断是否是外键,完整性约束等异常 引发的异常 */
     public boolean isDataIntegrityViolation(SQLException e) {
         // Check SQLErrorCodes with corresponding error code, if available.
         if (this.sqlErrorCodes != null) {
