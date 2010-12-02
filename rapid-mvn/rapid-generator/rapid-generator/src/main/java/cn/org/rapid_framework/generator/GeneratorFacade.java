@@ -24,6 +24,7 @@ import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
+ * 生成器的主要入口类,包装相关方法供外部生成代码使用
  * 
  * @author badqiu
  *
