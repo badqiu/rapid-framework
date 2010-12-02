@@ -26,7 +26,7 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
-
+import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * 生成器模板控制器,用于模板中可以控制生成器执行相关控制操作
  * 如: 是否覆盖目标文件
@@ -44,8 +44,8 @@ import freemarker.ext.dom.NodeModel;
  * @author badqiu
  *
  */
-public class GeneratorControl implements GeneratorConstants{
-	private boolean isOverride = Boolean.parseBoolean(GeneratorProperties.getProperty(GG_IS_OVERRIDE,"false")); 
+public class GeneratorControl {
+	private boolean isOverride = GeneratorProperties.getBoolean(GG_IS_OVERRIDE); 
 	private boolean isAppend = false; //no pass
 	private boolean ignoreOutput = false; 
 	private boolean isMergeIfExists = true; //no pass

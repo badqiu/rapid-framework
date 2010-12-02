@@ -22,12 +22,13 @@ import cn.org.rapid_framework.generator.util.ClassHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * 
  * @author badqiu
  *
  */
-public class GeneratorFacade implements GeneratorConstants {
+public class GeneratorFacade  {
 	private Generator generator = new Generator();
 	
 	public GeneratorFacade(){
@@ -241,7 +242,7 @@ public class GeneratorFacade implements GeneratorConstants {
 			templateModel.putAll(System.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
-			templateModel.put(GeneratorConstants.DATABASE_TYPE, GeneratorProperties.getDatabaseType(GeneratorConstants.DATABASE_TYPE));
+			templateModel.put(GeneratorConstants.DATABASE_TYPE.code, GeneratorProperties.getDatabaseType(GeneratorConstants.DATABASE_TYPE.code));
 			templateModel.putAll(GeneratorContext.getContext());
 			templateModel.putAll(getToolsMap());
 			return templateModel;

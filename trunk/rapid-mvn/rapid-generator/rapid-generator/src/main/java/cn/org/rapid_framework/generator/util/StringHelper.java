@@ -225,14 +225,14 @@ public class StringHelper {
 
 	public static String toJavaClassName(String sqlName) {
 	    String processedSqlName = removeTableSqlNamePrefix(sqlName);
-	    if(GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE, false)) {
+	    if(GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE)) {
 	        processedSqlName = singularize(processedSqlName);
 	    }
 		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(processedSqlName));
 	}
 	
     public static String removeTableSqlNamePrefix(String sqlName) {
-        String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES);
+        String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES.code);
         for(String prefix : prefixs) {
             String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
             if(!removedPrefixSqlName.equals(sqlName)) {
