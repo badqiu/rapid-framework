@@ -70,7 +70,8 @@ public class SqlParameter extends Column {
 				}
 				return "java.util.List<"+JavaPrimitiveTypeMapping.getWrapperType(parameterClassName)+">";
 			}else {
-				return parameterClassName;
+				//FIXME 增加 param.setDynamicParam(true) 以便sql查询中生成的对象为: Long而不是long,因为 long无法动态构建条件, 现在为固定使用: JavaPrimitiveTypeMapping.getWrapperType()
+				return JavaPrimitiveTypeMapping.getWrapperType(parameterClassName);
 			}
 		}
 //		public int getParameterMode() {
