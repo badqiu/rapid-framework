@@ -98,12 +98,12 @@ public class MetaTableTest extends GeneratorTestCase {
 	public void test_remove_table_prefix() {
 		GeneratorProperties.setProperty(GeneratorConstants.TABLE_REMOVE_PREFIXES, "t_,v_");
 		TableConfig tc = new TableConfig();
-		tc.setSqlname("t_user_info");
+		tc.setSqlName("t_user_info");
 		assertEquals("UserInfo",tc.getClassName());
-		tc.setSqlname("v_user");
+		tc.setSqlName("v_user");
 		assertEquals("User",tc.getClassName());
 		
-		tc.setSqlname("diy_user");
+		tc.setSqlName("diy_user");
 		assertEquals("DiyUser",tc.getClassName());
 	}
 	
