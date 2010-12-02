@@ -232,7 +232,7 @@ public class StringHelper {
 	}
 	
     public static String removeTableSqlNamePrefix(String sqlName) {
-        String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES.code);
+        String[] prefixs = GeneratorProperties.getStringArray(GeneratorConstants.TABLE_REMOVE_PREFIXES);
         for(String prefix : prefixs) {
             String removedPrefixSqlName = StringHelper.removePrefix(sqlName, prefix,true);
             if(!removedPrefixSqlName.equals(sqlName)) {
