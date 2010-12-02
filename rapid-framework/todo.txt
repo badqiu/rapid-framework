@@ -14,8 +14,10 @@ rapid-framework路线图
 generator集成sql解析工具，源代码地址: http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/misc
 	http://jsqlparser.sourceforge.net/
 
+生成器增加 GeneratorBeanFactory用于生成 Table,Column,Sql等对象
+
 将dalgen中的params2paramObjectLimit=6修改为 isUsingParamObject()及getParamObjectClass()实现
-generateByClass() 增加: 1.根据method args生成输入页面，根据 return type生成结果页面. 特殊:可以生成分页查询及列表语句
+generateByClass() 增加: 1.根据method args生成输入页面，根据 return type生成结果页面. 特殊:可以生成分页查询参数,及列表页面
 
 maven:
 	命令行直接运行applicatin: mvn exec:java -Dexec.mainClass="cn.org.rapid_framework.generator.ext.CommandLine"
@@ -23,7 +25,7 @@ maven:
 	
 增加ThreadLocal cache的设计,同一个线程上下文的cache,放在本地缓存中,ThreadLocal使用完再清理
 
-实现spring.xml及其它任何文件的 resource filter功能
+实现spring.xml及其它任何文件的 resource filter功能,通过增加 VelocityFilterResource + 扩展 ApplicationContext.getReosurce() 及 getResources()实现
 add groupId=basepackage:com.company.project=com-company-project
 	Define value for groupId: : com.badqiu.sfmvc
 	Define value for artifactId: : sfmvc
