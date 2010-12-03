@@ -33,6 +33,8 @@ public enum GeneratorConstants {
 	DATABASE_TYPE("databaseType",null,"数据库类型，模板中引用可以用于控制如：分页语句的生成，不同的数据库生成不同的分页语法"),
 	
 	USE_INNER_XML_FOR_XML_PARSING("use_inner_xml_for_xml_parse","true","xml解析时,使用innerXML取一个节点的值,如果false则使用nodeValue. 用途: table.xml配置使用该配置来控制读取方式"),
+	
+	SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES("sqlparse_ignore_sql_exception_error_codes","","SqlFactory在解析sql时,需要忽略的SQLException的错误码列表,使用逗号分隔多个error codes"),
 	;
 	
 	public final String code;
