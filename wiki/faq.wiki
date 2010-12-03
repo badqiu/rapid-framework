@@ -56,6 +56,6 @@ Caused by: java.sql.SQLException: ORA-01424: 转义符之后字符缺失或非�
 
 解决办法: 
   # 可以使用命令: purge recyclebin;清空回收站。 
-  # 生成文件时指定表名.
+  # 生成文件时指定具体的表名.
 
  
