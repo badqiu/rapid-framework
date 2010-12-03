@@ -28,15 +28,12 @@ public class IbatisSqlMapConfigParser {
         return parse(str,new HashMap());
     }	
 
-    // 1. 处理 query not allowed
-    // 2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
-    // 同时支持 <include refid="otherSql"/> <sql id=""></sql>
     public String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
         str = removeSelectKeyXmlForInsertSql(str);
         
         Pattern xmlTagRegex =  Pattern.compile("<(/?[\\w#@]+)(.*?)>");
-        StringBuffer sb = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         Matcher m = xmlTagRegex.matcher(str);
         
         OpenCloseTag openClose = null;
@@ -46,17 +43,17 @@ public class IbatisSqlMapConfigParser {
             Map<String,String> attributes = XMLHelper.parse2Attributes(attributesString);
             
             if("include".equals(xmlTag.trim())) {
-                processIncludeByRefid(includeSqls, sb, m, attributes);
+                processIncludeByRefid(includeSqls, sql, m, attributes);
                 continue;
             }
             
-            processForMybatis(sb, xmlTag, attributes);
+            processForMybatis(sql, xmlTag, attributes);
             
             String replacement = getReplacement(attributes.get("open"), attributes.get("prepend"));
-            StringHelper.appendReplacement(m, sb, replacement);
+            StringHelper.appendReplacement(m, sql, replacement);
             
             if(openClose != null && openClose.close != null && xmlTag.equals("/"+openClose.xmlTag)) {
-                sb.append(openClose.close);
+                sql.append(openClose.close);
                 openClose = null;
             }
             if(attributes.get("close") != null) {
@@ -65,7 +62,7 @@ public class IbatisSqlMapConfigParser {
 	        	openClose.close = attributes.get("close");
             }
         }
-        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sb.toString()))).replace(";", "");
+        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
     
     private static class OpenCloseTag {
