@@ -79,6 +79,7 @@ public class SQLErrorCodesFactory {
 	    //ORA-12899: value too large for column "APAYFUND"."PDC_CARD"."CARD_NO" (actual: 32, maximum: 16)
         //ORA-00001  unique constraint "APAYFUND"."PDC_CARD"."CARD_NO" violated
 	    //ORA-02290  check constraint "APAYFUND"."PDC_CARD"."CARD_NO" violated
+	    //ORA-01461: can bind a LONG value only for insert into a LONG column
 	    
         //ms-sql
         //1215  SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
@@ -112,7 +113,7 @@ public class SQLErrorCodesFactory {
 	    errorCodesMap.put("Informix", newSQLErrorCodes(false,"Informix","-692,-11030"));
 	    errorCodesMap.put("MS-SQL", newSQLErrorCodes(false,"Microsoft SQL Server","2627,8114,8115"));
 	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","1217,1218,1452,1453")); //spring error code定义:630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557
-	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292,12899,1")); // TODO spring定义: 2291,2292,1400,1722
+	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292,12899,1,2290,1461")); // TODO spring定义: 2291,2292,1400,1722
 	    errorCodesMap.put("PostgreSQL", newSQLErrorCodes(true,"PostgreSQL","23001,23503,23514")); //全部约束: "23000,23001,23502,23503,23505,23514"
 	    errorCodesMap.put("Sybase", newSQLErrorCodes(false,"Sybase SQL Server,SQL Server,Adaptive Server Enterprise,ASE,sql server","233,423,511,515,530,547,2615,2714"));
 	}
