@@ -25,6 +25,15 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 	    assertEquals("select * from user_info; &amp;",parser.parse("select * from user_info &amp;"));
 	}
 	
+	public void test() {
+	    assertEquals(" WHERE order_id = ?",parser.parse(" WHERE order_id = ?"));
+	    assertEquals(" WHERE ander_id = ?",parser.parse(" WHERE ander_id = ?"));
+	    assertEquals(" WHERE user = ?",parser.parse(" WHERE and user = ?"));
+	    assertEquals(" WHERE user = ?",parser.parse(" WHERE or user = ?"));
+	    assertEquals(" WHERE user = ?",parser.parse(" where or user = ?"));
+	    assertEquals(" WHERE user = ?",parser.parse(" where OR user = ?"));
+	}
+	
 	@SuppressWarnings("static-access")
 	public void test_iterate_open_and_close() {
 		stringEquals(
