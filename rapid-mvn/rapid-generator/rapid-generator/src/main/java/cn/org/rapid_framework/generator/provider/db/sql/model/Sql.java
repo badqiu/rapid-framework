@@ -27,7 +27,7 @@ import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMappin
  * <pre>
  * hibernate: :username,
  * ibatis2: #username#,$usename$,
- * mybatis(or ibatis3): #{username},${username}
+ * mybatis(or mybatis): #{username},${username}
  * </pre>
  * SQL对象创建示例：
  * <pre>
@@ -51,8 +51,8 @@ public class Sql {
 	String                      multiplicity        = MULTIPLICITY_ONE;                 /* many or one or paging */
     boolean                     paging              = false;                            // 是否分页查询
     
-    String                      sqlmap;                                                 /* for ibatis and ibatis3 */
-    String                      resultMap           = null;                             /* for ibatis and ibatis3 */
+    String                      sqlmap;                                                 /* for ibatis and mybatis */
+    String                      resultMap           = null;                             /* for ibatis and mybatis */
 	
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
@@ -362,8 +362,8 @@ public class Sql {
         return toCountSqlForPaging(getIbatisSql());
     }
     
-    public String getIbatis3CountSql() {
-        return toCountSqlForPaging(getIbatis3Sql());
+    public String getMybatisCountSql() {
+        return toCountSqlForPaging(getMybatisSql());
     }
 
     public String getSqlmapCountSql() {
@@ -394,16 +394,16 @@ public class Sql {
 	    return StringHelper.isBlank(ibatisSql) ? SqlParseHelper.convert2NamedParametersSql(getSql(),"#","#") : ibatisSql;
 	}
 	
-	public String getIbatis3Sql() {
-	    return StringHelper.isBlank(ibatis3Sql) ? SqlParseHelper.convert2NamedParametersSql(getSql(),"#{","}") : ibatis3Sql;
+	public String getMybatisSql() {
+	    return StringHelper.isBlank(mybatisSql) ? SqlParseHelper.convert2NamedParametersSql(getSql(),"#{","}") : mybatisSql;
 	}
 
 	public void setIbatisSql(String ibatisSql) {
         this.ibatisSql = ibatisSql;
     }
 
-    public void setIbatis3Sql(String ibatis3Sql) {
-        this.ibatis3Sql = ibatis3Sql;
+    public void setMybatisSql(String mybatisSql) {
+        this.mybatisSql = mybatisSql;
     }
 
     private String joinColumnsSqlName() {
@@ -510,5 +510,5 @@ public class Sql {
 	}
 	
 	private String ibatisSql;
-	private String ibatis3Sql;
+	private String mybatisSql;
 }
