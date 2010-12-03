@@ -9,7 +9,6 @@ import java.util.List;
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.ColumnSet;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -73,7 +72,7 @@ public class Sql {
 		if(tableNames.size() > 1) {
 		    return false;
 		}
-        Table t = TableFactory.getInstance().getTable(tableNames.iterator().next().getName());
+        Table t = getTableFromCache(tableNames.iterator().next().getName());
         for(Column c : columns) {
             Column fromTableColumn = new ColumnSet(t.getColumns()).getBySqlName(c.getSqlName());
             if(fromTableColumn == null) {
@@ -102,6 +101,11 @@ public class Sql {
 		return true;
 	}
 
+	
+    public static Table getTableFromCache(String tableName) {
+        return SqlFactory.getTableFromCache(tableName);
+    }
+    
     /**
      * 得到select查询返回的resultClass,可以通过setResultClass()自定义，如果没有自定义则为你自动生成<br />
      * resultClass可以为com.company.User的完全路径
@@ -129,7 +133,7 @@ public class Sql {
 		}
 		if(isColumnsInSameTable()) {
 		    Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(executeSql);
-		    Table t = TableFactory.getInstance().getTable(tableNames.iterator().next().getName());
+		    Table t = getTableFromCache(tableNames.iterator().next().getName());
 		    return t.getClassName();
 		}else {
 			if(operation == null) return null;
