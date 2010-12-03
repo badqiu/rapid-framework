@@ -145,7 +145,7 @@ public class SQLErrorCodeSQLExceptionTranslator {
             }
 
             if (errorCode != null) {
-                if (Arrays.binarySearch(this.sqlErrorCodes.getDataIntegrityViolationCodes(),errorCode) >= 0) {
+                if (Arrays.asList(sqlErrorCodes.getDataIntegrityViolationCodes()).contains(errorCode)) {
                     return true;
                 }
             }
