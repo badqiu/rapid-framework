@@ -319,7 +319,10 @@ public class TableConfig {
 				return filterdExtraParameters;
 			}
 		}        
-
+		
+		/**
+		 * Money类的特殊转换，only for alipay 
+		 **/
 		private static String processSqlForMoneyParam(String ibatisSql,LinkedHashSet<SqlParameter> params) {
 			for(SqlParameter p : params) {
 				if(p.getParameterClass().endsWith("Money")) {
@@ -451,7 +454,7 @@ public class TableConfig {
         public Sql parsedSql;
         public boolean paging = false;
         
-        public String append = ""; // FIXME 还没有实现
+        public String append = ""; // append为无用配置,only for alipay的兼容性
         public String appendXmlAttributes = "";
         
         public List<ParamConfig> getExtraparams() {
