@@ -18,28 +18,16 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 /**
  * 解析sql map文件，生成Sql对象
  */
-public class IbatisSqlMapConfigParser extends SqlFactory {
-	protected String beforeParseSql(String sourceSql) {
-		String parsedSql = parse(sourceSql);
-		String namedSql = SqlParseHelper.convert2NamedParametersSql(parsedSql,"#","#");
-		return namedSql;
-	}
-	
-	@Override
-	protected Sql afterProcessedSql(Sql sql) {
-		return super.afterProcessedSql(sql);
-	}
-	
+public class IbatisSqlMapConfigParser {
 
-	
-    public static String parse(String str) {
+    public String parse(String str) {
         return parse(str,new HashMap());
     }	
 
     // 1. 处理 query not allowed
     // 2. order by可能多个问题，应该移除: where子句，order by子句,having子句, group by保留
     // 同时支持 <include refid="otherSql"/> <sql id=""></sql>
-    public static String parse(String str,Map<String,String> includeSqls) {
+    public String parse(String str,Map<String,String> includeSqls) {
         str = removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
         str = removeSelectKeyXmlForInsertSql(str);
         
@@ -73,7 +61,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
 	        	openClose.close = attributes.get("close");
             }
         }
-        return StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sb.toString()));
+        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sb.toString()))).replace(";", "");
     }
     
     private static class OpenCloseTag {
@@ -117,7 +105,7 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
 	}
     
     //process <include refid="otherSql"/>
-	private static void processIncludeByRefid(Map<String, String> includeSqls,
+	private void processIncludeByRefid(Map<String, String> includeSqls,
 			StringBuffer sb, Matcher m, Map<String, String> attributes) {
 		String refid = attributes.get("refid");
 		if(refid == null) {
@@ -141,12 +129,13 @@ public class IbatisSqlMapConfigParser extends SqlFactory {
     }
 
     public static void main(String[] args) throws IOException {
+    	IbatisSqlMapConfigParser parser = new IbatisSqlMapConfigParser();
         System.out.println("<abc>123</abc> <diy></diy>".replaceAll("</?\\w*>", ""));
-        System.out.println("parsed:"+parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
-        System.out.println("parsed:"+parse("<dynamic prepend='WHERE 1=1'>123</dynamic>"));
-        System.out.println("parsed:"+parse("select * from user_info"));
+        System.out.println("parsed:"+parser.parse("<isNotEmpty prepend='and' property='gmtCreateStartTime'>BTR.gmt_create &gt;= #gmtCreateStartTime#</isNotEmpty>"));
+        System.out.println("parsed:"+parser.parse("<dynamic prepend='WHERE 1=1'>123</dynamic>"));
+        System.out.println("parsed:"+parser.parse("select * from user_info"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/test.xml");
-		System.out.println("parsed file:"+parse(IOHelper.readFile(file)));
+		System.out.println("parsed file:"+parser.parse(IOHelper.readFile(file)));
 		System.out.println("".equals(removeComments("<!--1\n2\n3-->")));
 		System.out.println("".equals(removeComments("/*1\n2\n3*/")));
     }
