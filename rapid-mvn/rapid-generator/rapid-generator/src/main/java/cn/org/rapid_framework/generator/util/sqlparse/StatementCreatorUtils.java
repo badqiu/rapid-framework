@@ -18,6 +18,7 @@ public class StatementCreatorUtils {
             case Types.BIT:;
             case Types.TINYINT:;
             case Types.SMALLINT:;
+                return (byte)randomNumber();
             case Types.INTEGER:;
             case Types.BIGINT:;
             case Types.FLOAT:;
@@ -25,7 +26,7 @@ public class StatementCreatorUtils {
             case Types.DOUBLE:;
             case Types.NUMERIC:;
             case Types.DECIMAL:;
-                return randomNumber();
+                return (int)randomNumber();
             case Types.DATE:
             case Types.TIME:
             case Types.TIMESTAMP:
@@ -34,11 +35,11 @@ public class StatementCreatorUtils {
             case Types.CHAR:
             case Types.LONGVARCHAR:
             case Types.CLOB:
-                return randomString();
+                return randomString(scale);
             case -9 :  //Types.NVARCHAR
             case -15:  //Types.NCHAR
             case 2011: //Types.NCLOB
-                return randomString();
+                return randomString(scale);
             case Types.BINARY:
             case Types.VARBINARY:
             case Types.LONGVARBINARY:
@@ -58,15 +59,22 @@ public class StatementCreatorUtils {
     }
     
     public static int randomNumber() {
-        return (byte)new Random(System.currentTimeMillis()).nextInt();
+        return new Random(System.currentTimeMillis()).nextInt();
     }
     
     public static Timestamp now() {
         return new Timestamp(System.currentTimeMillis());
     }
     
-    public static String randomString() {
-        return ""+(randomNumber() % 10);
+    public static String randomString(Integer count) {
+        if(count == null || count <= 0) {
+            count = 1;
+        }
+        String result = "";
+        for(int i = 0; i < count; i++) {
+            result += ""+(randomNumber() % 9);
+        }
+        return result;
     }
     
     public static void setParameterRandomValue(PreparedStatement ps, int parameterIndex,int sqlType, Integer scale) throws SQLException {    
