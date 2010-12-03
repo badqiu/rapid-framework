@@ -385,7 +385,7 @@ public class SqlParseHelper {
     }
     
     public static String replaceWhere(String sql) {
-        return sql.toString().replaceAll("(?i)\\swhere\\s+(and|or)", " WHERE");
+        return sql.toString().replaceAll("(?i)\\swhere\\s+(and|or)\\s", " WHERE ");
     }
 	
 	public static long startTimes = System.currentTimeMillis();
