@@ -134,7 +134,7 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName,boolean ignoreException) {
 	    try {
-	        Enumeration<URL> urls =  ClassHelper.getDefaultClassLoader().getResources(resourceName);
+	        Enumeration<URL> urls =  FileHelper.class.getClassLoader().getResources(resourceName);
 	        boolean notFound = true;
 	        while(urls.hasMoreElements()) {
 	            notFound = false;
