@@ -21,12 +21,12 @@ public enum GeneratorConstants {
 	TABLE_NAME_SINGULARIZE("tableNameSingularize","false","用于控制表名是否自动转换为单数, 如 customers ==> customer. 默认值是 false"),
 	GENERATOR_SQL_RESULTCLASS_SUFFIX("generator_sql_resultClass_suffix","Result","generate by sql中查询结果使用的后缀，默认值为: Result"),
 	
-	JDBC_USERNAME("jdbc_username",null,"数据库:用户名"),
-	JDBC_PASSWORD("jdbc_password",null,"数据库:密码"),
-	JDBC_DRIVER("jdbc_driver",null,"数据库:驱动"),
-	JDBC_URL("jdbc_url",null,"数据库:URL"),
-	JDBC_SCHEMA("jdbc_schema",null,"数据库:schema"),
-	JDBC_CATALOG("jdbc_catalog",null,"数据库:catalog"),
+	JDBC_USERNAME("jdbc_username",null,"数据源:用户名"),
+	JDBC_PASSWORD("jdbc_password",null,"数据源:密码"),
+	JDBC_DRIVER("jdbc_driver",null,"数据源:驱动"),
+	JDBC_URL("jdbc_url",null,"数据源:URL"),
+	JDBC_SCHEMA("jdbc_schema",null,"数据源:schema"),
+	JDBC_CATALOG("jdbc_catalog",null,"数据源:catalog"),
 	
 	DATA_SOURCE_JNDI_NAME("data_source_jndi_name",null,"数据源的jndi名称,用于加载数据源"),
 	
