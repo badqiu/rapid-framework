@@ -68,7 +68,7 @@ public class TableConfigXmlBuilder {
                             target.extraparams.add(mp);
                         }
                     }else {
-                        BeanHelper.setProperty(target, opChild.nodeName, getNodeValue(child));
+                        BeanHelper.setProperty(target, opChild.nodeName, getNodeValue(opChild));
                     }
                 }
                 config.operations.add(target);

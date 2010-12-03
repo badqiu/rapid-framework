@@ -212,6 +212,14 @@ public class TableConfig {
         return Convert2SqlsProecssor.toSqls(table);
     }
     
+    public OperationConfig getOperation(String name) {
+        for(OperationConfig op : operations) {
+            if(op.getName().equals(name)) {
+                return op;
+            }
+        }
+        return null;
+    }
     /**
      * 用于将 OperationConfig.class 解析转换成 Sql.class对象 
      **/
