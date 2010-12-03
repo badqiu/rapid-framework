@@ -63,8 +63,8 @@ public class GeneratorProperties {
 		if(p.containsKey(key)) {
 			return (String)p.get(key);
 		}
-		String databaseType = DatabaseTypeUtils.getDatabaseTypeByJdbcDriver((String)p.get(GeneratorConstants.JDBC_DRIVER));
-		return databaseType;
+		String jdbcDriver = (String)p.get(GeneratorConstants.JDBC_DRIVER.code);
+        return DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(jdbcDriver);
 	}
 	
 	// 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀
