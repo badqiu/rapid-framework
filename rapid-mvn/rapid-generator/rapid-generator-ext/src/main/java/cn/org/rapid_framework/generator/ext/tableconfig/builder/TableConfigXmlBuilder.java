@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.xml.sax.SAXException;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.ColumnConfig;
@@ -66,7 +68,7 @@ public class TableConfigXmlBuilder {
                             target.extraparams.add(mp);
                         }
                     }else {
-                        BeanHelper.setProperty(target, opChild.nodeName, opChild.innerXML);
+                        BeanHelper.setProperty(target, opChild.nodeName, getNodeValue(child));
                     }
                 }
                 config.operations.add(target);
@@ -81,7 +83,7 @@ public class TableConfigXmlBuilder {
             if("sql".equals(child.nodeName)) {
                 SqlConfig target = new SqlConfig();
                 BeanHelper.copyProperties(target, child.attributes,true);
-                target.setSql(child.innerXML);
+                target.setSql(getNodeValue(child));
                 config.includeSqls.add(target);
             }
             // table/resultmap
@@ -100,6 +102,14 @@ public class TableConfigXmlBuilder {
             }
         }
         return config;
+    }
+    
+    public String getNodeValue(NodeData v) {
+        if(GeneratorProperties.getBoolean(GeneratorConstants.USE_INNER_XML_FOR_XML_PARSING)) {
+            return v.innerXML;
+        }else {
+            return v.nodeValue;
+        }
     }
     
 }
