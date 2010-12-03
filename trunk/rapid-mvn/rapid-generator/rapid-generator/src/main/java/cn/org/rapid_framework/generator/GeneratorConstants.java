@@ -28,6 +28,8 @@ public enum GeneratorConstants {
 	JDBC_SCHEMA("jdbc_schema",null,"数据库:schema"),
 	JDBC_CATALOG("jdbc_catalog",null,"数据库:catalog"),
 	
+	DATA_SOURCE_JNDI_NAME("data_source_jndi_name",null,"数据源的jndi名称,用于加载数据源"),
+	
 	DATABASE_TYPE("databaseType",null,"数据库类型，模板中引用可以用于控制如：分页语句的生成，不同的数据库生成不同的分页语法"),
 	
 	USE_INNER_XML_FOR_XML_PARSING("use_inner_xml_for_xml_parse","true","xml解析时,使用innerXML取一个节点的值,如果false则使用nodeValue. 用途: table.xml配置使用该配置来控制读取方式"),
