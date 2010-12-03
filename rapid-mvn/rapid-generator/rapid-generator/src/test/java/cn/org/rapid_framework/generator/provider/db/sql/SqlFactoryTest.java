@@ -127,7 +127,7 @@ public class SqlFactoryTest extends GeneratorTestCase {
 		Sql sql = parser.parseSql("select * from user_info where user_id > ? and username < :username");
 		verifyParameters(sql,"userId","username");
 		assertStringEquals("select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE from user_info where user_id > #userId# and username < :username",sql.getIbatisSql());
-		assertStringEquals("select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE from user_info where user_id > #{userId} and username < :username",sql.getIbatis3Sql());
+		assertStringEquals("select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE from user_info where user_id > #{userId} and username < :username",sql.getMybatisSql());
 	}
 
 	public void test_sql_function() throws SQLException, Exception {
@@ -157,7 +157,7 @@ public class SqlFactoryTest extends GeneratorTestCase {
 		Sql sql = parser.parseSql("delete from user_info where username = ? and password = ? and age = ? or (sex >= ?)");
 		verifyParameters(sql,"username","password","age","sex");
 		assertEquals("delete from user_info where username = #username# and password = #password# and age = #age# or (sex >= #sex#)",sql.getIbatisSql());
-		assertEquals("delete from user_info where username = #{username} and password = #{password} and age = #{age} or (sex >= #{sex})",sql.getIbatis3Sql());
+		assertEquals("delete from user_info where username = #{username} and password = #{password} and age = #{age} or (sex >= #{sex})",sql.getMybatisSql());
 		assertEquals("delete from user_info where username = :username and password = :password and age = :age or (sex >= :sex)",sql.getSpringJdbcSql());
 		assertEquals("delete from user_info where username = :username and password = :password and age = :age or (sex >= :sex)",sql.getHql());
 	}
