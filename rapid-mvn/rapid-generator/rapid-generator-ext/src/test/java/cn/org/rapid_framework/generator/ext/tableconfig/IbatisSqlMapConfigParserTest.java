@@ -19,6 +19,12 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 		stringEquals("#abc123[]# ",parser.parse("<@if databaseType?is_empty>#abc123[]# </@if>"));
 	}
 	
+	public void test_remove_semicolon() {
+	    assertEquals("select * from user_info",parser.parse("select * from user_info;"));
+	    assertEquals("select * from user_info;select * from user_info;",parser.parse("select * from user_info;select * from user_info;      "));
+	    assertEquals("select * from user_info; &amp;",parser.parse("select * from user_info &amp;"));
+	}
+	
 	@SuppressWarnings("static-access")
 	public void test_iterate_open_and_close() {
 		stringEquals(
