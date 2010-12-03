@@ -152,6 +152,9 @@ public class SQLErrorCodeSQLExceptionTranslator {
             }
             
             if (errorCode != null) {
+            	if(Arrays.asList(GeneratorProperties.getStringArray(GeneratorConstants.SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES)).contains(errorCode)){
+            		return true;
+            	}
                 if (Arrays.asList(sqlErrorCodes.getDataIntegrityViolationCodes()).contains(errorCode)) {
                     return true;
                 }
@@ -161,9 +164,7 @@ public class SQLErrorCodeSQLExceptionTranslator {
     }
 
 	protected boolean ignoreByCustom(String errorCode) {
-		if(errorCode == null) return false;
-		
-		return Arrays.asList(GeneratorProperties.getStringArray(GeneratorConstants.SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES)).contains(errorCode);
+		return false;
 	}
     
     public static SQLErrorCodeSQLExceptionTranslator getSQLErrorCodeSQLExceptionTranslator(DataSource ds) {
