@@ -56,6 +56,13 @@ public class GeneratorPropertiesTest extends TestCase {
 	    assertEquals(false,GeneratorProperties.getBoolean(GeneratorConstants.DATABASE_TYPE));
 	    assertEquals(null,GeneratorProperties.getNullIfBlank(GeneratorConstants.GENERATOR_INCLUDES));
 	    
+	    assertEquals("123",GeneratorProperties.getRequiredProperty(GeneratorConstants.DATABASE_TYPE));
+	    try {
+	        assertEquals("123",GeneratorProperties.getRequiredProperty(GeneratorConstants.GENERATOR_INCLUDES));
+	        fail();
+	    }catch(Exception e) {
+	    }
+	    
 	    String[] stringArray = GeneratorProperties.getStringArray(GeneratorConstants.GENERATOR_TOOLS_CLASS);
 	    System.out.println(Arrays.toString(stringArray));
         assertEquals("123",stringArray[0]);
