@@ -21,6 +21,9 @@ import java.util.Arrays;
 
 import javax.sql.DataSource;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
+import cn.org.rapid_framework.generator.GeneratorProperties;
+
 /**
  * Implementation of SQLExceptionTranslator that analyzes vendor-specific error codes.
  * More precise than an implementation based on SQL state, but vendor-specific.
@@ -144,6 +147,10 @@ public class SQLErrorCodeSQLExceptionTranslator {
                 errorCode = Integer.toString(e.getErrorCode());
             }
 
+            if(ignoreByCustom(errorCode)) {
+            	return true;
+            }
+            
             if (errorCode != null) {
                 if (Arrays.asList(sqlErrorCodes.getDataIntegrityViolationCodes()).contains(errorCode)) {
                     return true;
@@ -152,6 +159,12 @@ public class SQLErrorCodeSQLExceptionTranslator {
         }
         return false;
     }
+
+	protected boolean ignoreByCustom(String errorCode) {
+		if(errorCode == null) return false;
+		
+		return Arrays.asList(GeneratorProperties.getStringArray(GeneratorConstants.SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES)).contains(errorCode);
+	}
     
     public static SQLErrorCodeSQLExceptionTranslator getSQLErrorCodeSQLExceptionTranslator(DataSource ds) {
         SQLErrorCodeSQLExceptionTranslator translator = new SQLErrorCodeSQLExceptionTranslator();

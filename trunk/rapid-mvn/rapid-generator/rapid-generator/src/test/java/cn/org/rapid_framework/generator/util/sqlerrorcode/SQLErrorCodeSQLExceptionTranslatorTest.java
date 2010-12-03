@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import cn.org.rapid_framework.generator.GeneratorConstants;
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
@@ -38,10 +40,22 @@ public class SQLErrorCodeSQLExceptionTranslatorTest extends GeneratorTestCase {
         conn.close();
     }
     
-    public void test() {
+    public void test_oracle() {
         SQLErrorCodeSQLExceptionTranslator translator = newTranslator("Oracle");
         
         assertTrue(translator.isDataIntegrityViolation(new SQLException("","",12899)));
+    }
+    
+    public void test_ignore_by_config() {
+    	SQLErrorCodeSQLExceptionTranslator translator = newTranslator("Oracle");
+        
+        assertFalse(translator.isDataIntegrityViolation(new SQLException("","",12345)));
+        assertFalse(translator.isDataIntegrityViolation(new SQLException("","",67890)));
+        
+        GeneratorProperties.setProperty(GeneratorConstants.SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES, "12345,67890");
+        
+        assertTrue(translator.isDataIntegrityViolation(new SQLException("","",12345)));
+        assertTrue(translator.isDataIntegrityViolation(new SQLException("","",67890)));
     }
 
     private SQLErrorCodeSQLExceptionTranslator newTranslator(String dbName) {
