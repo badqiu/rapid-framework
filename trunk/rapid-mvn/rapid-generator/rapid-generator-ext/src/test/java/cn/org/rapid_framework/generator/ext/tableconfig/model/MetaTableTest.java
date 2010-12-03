@@ -16,6 +16,7 @@ import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.SqlCon
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class MetaTableTest extends GeneratorTestCase {
@@ -24,6 +25,7 @@ public class MetaTableTest extends GeneratorTestCase {
         super.setUp();
         g.setOutRootDir("./target/temp/"+getClass().getSimpleName()+"/"+getName());
         GeneratorProperties.setProperty("appName", "rapid");
+        GLogger.perfLogLevel = GLogger.INFO;
     }
     
     public void test_genereate_by_sql_config() throws Exception {
