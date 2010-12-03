@@ -212,6 +212,9 @@ public class TableConfig {
         return Convert2SqlsProecssor.toSqls(table);
     }
     
+    /**
+     * 用于将 OperationConfig.class 解析转换成 Sql.class对象 
+     **/
     static class Convert2SqlsProecssor {
         
         public static List<Sql> toSqls(TableConfig table)  {
@@ -240,9 +243,9 @@ public class TableConfig {
                 sql.setParams(finalParameters);
                 sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
                 
-                sql.setIbatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")));
-                sql.setIbatisSql(processSqlForMoneyParam(sql.getIbatisSql(),sql.getParams()));
-                sql.setIbatis3Sql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))); // FIXME 修正ibatis3的问题
+                String ibatisSql = getIbatisSql(op, sql);
+                sql.setIbatisSql(ibatisSql);
+                sql.setMybatisSql(sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#{","}"))  + " "+op.getAppend()); // FIXME 修正ibatis3的问题
                 
                 sql.setOperation(op.getName());
                 sql.setParameterClass(op.getParameterClass());
@@ -269,6 +272,12 @@ public class TableConfig {
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table.getSqlName()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
             }
+        }
+
+        private static String getIbatisSql(OperationConfig op, Sql sql) {
+            String ibatisNamedSql = sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")) + " "+ StringHelper.defaultString(op.getAppend());
+            String ibatisSql = processSqlForMoneyParam(ibatisNamedSql,sql.getParams());
+            return ibatisSql;
         }
 
 		private static LinkedHashSet<Column> processWithCustomColumns(List<Column> customColumns,LinkedHashSet<Column> columns) {
