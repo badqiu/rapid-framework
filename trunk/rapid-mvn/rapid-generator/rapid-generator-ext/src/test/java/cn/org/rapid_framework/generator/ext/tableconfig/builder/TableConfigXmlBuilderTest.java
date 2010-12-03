@@ -11,7 +11,9 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
+import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.OperationConfig;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
@@ -43,4 +45,14 @@ public class TableConfigXmlBuilderTest extends TestCase {
 		gf.generateByMap(map);
 	}
 	
+	public void testload() throws IOException {
+	    TableConfig config = new TableConfigXmlBuilder().parseFromXML(FileHelper.getFileByClassLoader("for_test_table_config_xml_builder/pdc_card.xml"));
+	    OperationConfig oc = config.getOperation("getRealNameCardsByParentCardNo");
+	    assertTrue(oc.getSql().indexOf("WHERE parent_card_no = ?  AND status = ? AND type = 'R'") >= 0);
+	    assertFalse(oc.getSql(),oc.getSql().indexOf("<dynamic>") >= 0);
+	    assertTrue(oc.getSqlmap().indexOf("<dynamic>") >= 0);
+	    assertFalse(oc.getSqlmap().indexOf("WHERE parent_card_no = ?  AND status = ? AND type = 'R'") >= 0);
+	    for(Object item : config.getOperations()) {
+	    }
+	}
 }
