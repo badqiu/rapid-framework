@@ -6,7 +6,7 @@
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
 		<version>1.0</version>
-		<relativePath>../rapid-pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
   <artifactId>rapid-maven-plugin</artifactId>
