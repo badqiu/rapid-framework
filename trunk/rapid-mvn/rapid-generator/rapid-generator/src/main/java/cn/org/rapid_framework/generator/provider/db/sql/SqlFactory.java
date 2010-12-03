@@ -138,7 +138,7 @@ public class SqlFactory {
 	}
 
 	static Map<String,Table> cache = new HashMap<String,Table>();
-    private static Table getTable(String tableSqlName) {
+    public static Table getTableFromCache(String tableSqlName) {
         if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
         
         Table table = cache.get(tableSqlName.toLowerCase());
@@ -194,12 +194,12 @@ public class SqlFactory {
 
 		private Table foundTableByTableNameOrTableAlias(Sql sql,String tableNameId) throws Exception {
 			try {
-				return getTable(tableNameId);
+				return getTableFromCache(tableNameId);
 			}catch(NotFoundTableException e) {
 				Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.getExecuteSql());
 				for(NameWithAlias tableName : tableNames) {
 					if(tableName.getAlias().equalsIgnoreCase(tableNameId)) {
-						return getTable(tableName.getName());
+						return getTableFromCache(tableName.getName());
 					}
 				}
 			}
@@ -286,7 +286,7 @@ public class SqlFactory {
 			
 			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
 			for(NameWithAlias tableName : tableNames) {
-				Table t = getTable(tableName.getName());
+				Table t = getTableFromCache(tableName.getName());
 				if(t != null) {
 					Column column = t.getColumnByName(paramName);
 					if(column != null) {
