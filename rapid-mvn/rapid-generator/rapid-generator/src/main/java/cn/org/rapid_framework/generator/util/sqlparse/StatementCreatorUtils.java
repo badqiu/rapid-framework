@@ -59,8 +59,9 @@ public class StatementCreatorUtils {
         }
     }
     
+    static Random random = new Random(System.currentTimeMillis());
     public static int randomNumber() {
-        return new Random(System.currentTimeMillis()).nextInt();
+		return random.nextInt();
     }
     
     public static Timestamp now() {
@@ -73,7 +74,7 @@ public class StatementCreatorUtils {
         }
         String result = "";
         for(int i = 0; i < count; i++) {
-            result += ""+(randomNumber() % 9);
+            result += ""+(Math.abs(randomNumber()) % 9);
         }
         return result;
     }
