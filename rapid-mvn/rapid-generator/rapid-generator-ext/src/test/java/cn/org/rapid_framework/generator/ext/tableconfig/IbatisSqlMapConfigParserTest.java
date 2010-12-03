@@ -21,8 +21,8 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 	
 	public void test_remove_semicolon() {
 	    assertEquals("select * from user_info",parser.parse("select * from user_info;"));
-	    assertEquals("select * from user_info;select * from user_info;",parser.parse("select * from user_info;select * from user_info;      "));
-	    assertEquals("select * from user_info; &amp;",parser.parse("select * from user_info &amp;"));
+	    assertEquals("select * from user_info select * from user_info      ",parser.parse("select * from user_info; select * from user_info;      "));
+	    assertEquals("select * from user_info &",parser.parse("select * from user_info &amp;"));
 	}
 	
 	public void test() {
@@ -42,7 +42,7 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
                 .parse("<iterate open='(' close=')' conjunction='OR' property='orIncludeAges'>#abc123[]# </iterate>"));
         stringEquals(
             "  (#abc123[]# ) ",
-            IbatisSqlMapConfigParser
+            parser
                 .parse("<iterate open='(' close=')' conjunction=',' property='orIncludeAges'>#abc123[]# </iterate>"));
 		stringEquals(
             "  (#abc123[]# ",
@@ -57,7 +57,7 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
                 .parse("<iterate open='(' conjunction='OR' property='orIncludeAges'>#abc123[]# </iterate>"));
         stringEquals(
             "  #abc123[]#  ) ",
-            IbatisSqlMapConfigParser
+            parser
                 .parse("<iterate close=')' conjunction=',' property='orIncludeAges'>#abc123[]# </iterate>"));
         stringEquals("  #abc123[]# ", parser
             .parse("<iterate property='orIncludeAges'>#abc123[]#"));
@@ -109,11 +109,11 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
             parser
                 .parse("<isNotEmpty prepend='3&amp;2&lt;1&gt;' property='age'>age = ?</isNotEmpty>"));
         stringEquals(
-            "  3&2<1> age &lt; ?  ",
+            "  3&2<1> age < ?  ",
             parser
                 .parse("<isNotEmpty prepend='3&amp;2&lt;1&gt;' property='age'>age &lt; ?</isNotEmpty>"));
         stringEquals(
-            "  3&2<1> age &gt;= ?  ",
+            "  3&2<1> age >= ?  ",
             parser
                 .parse("<isNotEmpty prepend='3&amp;2&lt;1&gt;' property='age'>age &gt;= ?</isNotEmpty>"));
 	}
