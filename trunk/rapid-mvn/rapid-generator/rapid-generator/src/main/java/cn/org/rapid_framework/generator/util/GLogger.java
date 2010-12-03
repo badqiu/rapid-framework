@@ -1,6 +1,11 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Properties;
 
 public class GLogger {
 	public static final int TRACE = 60;
@@ -52,9 +57,9 @@ public class GLogger {
 		}
 	}
 	
-	public static boolean perf = false;
+	public static int perfLogLevel = TRACE;
     public static void perf(String s) {
-        if(perf)
+        if(perfLogLevel >= INFO)
             out.println("[Generator Performance] " + s);
     }
 	
@@ -64,4 +69,58 @@ public class GLogger {
 		}
 	}
 	
+	static {
+	    init_with_log4j_config();
+	}
+	
+	public static void init_with_log4j_config() {
+	    Properties props = loadLog4jProperties();
+	    logLevel = toLogLevel(props.getProperty("cn.org.rapid_framework.generator.util.GLogger","INFO"));
+	    perfLogLevel = toLogLevel(props.getProperty("cn.org.rapid_framework.generator.util.GLogger.perf","DEBUG"));
+	}
+	
+	public static int toLogLevel(String level) {
+        if("TRACE".equalsIgnoreCase(level)) {
+            return TRACE;
+        }
+        if("DEBUG".equalsIgnoreCase(level)) {
+            return DEBUG;
+        }	    
+	    if("INFO".equalsIgnoreCase(level)) {
+	        return INFO;
+	    }
+	    if("WARN".equalsIgnoreCase(level)) {
+            return WARN;
+        }
+	    if("ERROR".equalsIgnoreCase(level)) {
+            return ERROR;
+        }
+	    if("FATAL".equalsIgnoreCase(level)) {
+            return ERROR;
+        }
+	    if("ALL".equalsIgnoreCase(level)) {
+            return ERROR;
+        }
+	    return WARN;
+	}
+
+    private static Properties loadLog4jProperties()  {
+        try {
+            File file = FileHelper.getFileByClassLoader("log4j.properties");
+    	    Properties props = new Properties();
+    	    FileInputStream in = new FileInputStream(file);
+    	    try {
+    	        props.load(in);
+    	    }finally {
+    	        IOHelper.close(in, null);
+    	    }
+    	    return props;
+        }catch(FileNotFoundException e) {
+            GLogger.warn("not found log4j.properties, cause:"+e);
+            return new Properties();
+        }catch(IOException e) {
+            GLogger.warn("load log4j.properties occer error, cause:"+e);
+            return new Properties();
+        }
+    }
 }

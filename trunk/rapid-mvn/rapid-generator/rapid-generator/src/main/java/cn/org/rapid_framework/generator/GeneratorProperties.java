@@ -143,7 +143,7 @@ public class GeneratorProperties {
 	}
 
 	public static boolean getBoolean(GeneratorConstants key) {
-	    return getHelper().getBoolean(key.code, Boolean.getBoolean(key.defaultValue));
+	    return getHelper().getBoolean(key.code, Boolean.parseBoolean(key.defaultValue));
 	}
 	
 	public static void setProperty(GeneratorConstants key,String value) {
