@@ -242,9 +242,8 @@ public class TableConfig {
         private static Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
                 SqlFactory sqlFactory = new SqlFactory();
-                String sqlString = IbatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
-                String unescapeSqlString = StringHelper.unescapeXml(sqlString);
-                String namedSql = SqlParseHelper.convert2NamedParametersSql(unescapeSqlString,":","");
+                String sqlString = new IbatisSqlMapConfigParser().parse(op.getSql(),toMap(table.includeSqls));
+                String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
                 
                 Sql sql = sqlFactory.parseSql(namedSql);
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
