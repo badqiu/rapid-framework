@@ -56,6 +56,10 @@ public class SQLErrorCodeSQLExceptionTranslatorTest extends GeneratorTestCase {
         
         assertTrue(translator.isDataIntegrityViolation(new SQLException("","",12345)));
         assertTrue(translator.isDataIntegrityViolation(new SQLException("","",67890)));
+        
+        GeneratorProperties.setProperty(GeneratorConstants.SQLPARSE_IGNORE_SQL_EXCEPTION_ERROR_CODES, "54321,09876");
+        assertFalse(translator.isDataIntegrityViolation(new SQLException("","",12345)));
+        assertFalse(translator.isDataIntegrityViolation(new SQLException("","",67890)));
     }
 
     private SQLErrorCodeSQLExceptionTranslator newTranslator(String dbName) {
