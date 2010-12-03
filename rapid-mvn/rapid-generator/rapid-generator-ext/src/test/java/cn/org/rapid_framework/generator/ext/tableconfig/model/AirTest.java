@@ -18,7 +18,7 @@ import cn.org.rapid_framework.generator.util.GLogger;
 public class AirTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
-        GLogger.perf = true;
+        GLogger.perfLogLevel = GLogger.DEBUG;
         GLogger.logLevel = GLogger.DEBUG;
         System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
         System.setProperty(GeneratorConstants.GENERATOR_SQL_RESULTCLASS_SUFFIX.code, "DO");

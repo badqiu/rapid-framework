@@ -21,7 +21,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-    	GLogger.perf = true;
+        GLogger.perfLogLevel = GLogger.DEBUG;
     	GLogger.logLevel = GLogger.DEBUG;
     	System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:oracle:thin:@localhost:1521:xe");
