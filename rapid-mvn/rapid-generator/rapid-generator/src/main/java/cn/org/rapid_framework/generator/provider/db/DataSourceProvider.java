@@ -5,10 +5,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.util.GLogger;
+import cn.org.rapid_framework.generator.util.StringHelper;
 /**
  * 用于提供生成器的数据源
  * 
@@ -44,12 +49,27 @@ public class DataSourceProvider {
 
 	public synchronized static DataSource getDataSource() {
 		if(dataSource == null) {
-			dataSource = new DriverManagerDataSource(GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_URL), 
-					GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_USERNAME), 
-					GeneratorProperties.getProperty(GeneratorConstants.JDBC_PASSWORD), 
-					GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_DRIVER));
+			dataSource = lookupJndiDataSource(GeneratorProperties.getProperty(GeneratorConstants.DATA_SOURCE_JNDI_NAME));
+			if(dataSource == null) {
+				dataSource = new DriverManagerDataSource(GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_URL), 
+						GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_USERNAME), 
+						GeneratorProperties.getProperty(GeneratorConstants.JDBC_PASSWORD), 
+						GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_DRIVER));
+			}
 		}
 		return dataSource;
+	}
+
+	private static DataSource lookupJndiDataSource(String name) {
+		if(StringHelper.isBlank(name)) return null;
+		
+		try {
+			Context context = new InitialContext();
+			return (DataSource) context.lookup(name);
+		}catch(NamingException e) {
+			GLogger.warn("lookup generator dataSource fail by name:"+name+" cause:"+e.toString()+",retry by jdbc_url again");
+			return null;
+		}
 	}
 	
 	public static class DriverManagerDataSource implements DataSource {
