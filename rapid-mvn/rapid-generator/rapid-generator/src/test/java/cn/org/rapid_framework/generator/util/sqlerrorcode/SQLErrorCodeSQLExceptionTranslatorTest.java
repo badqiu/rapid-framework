@@ -37,4 +37,18 @@ public class SQLErrorCodeSQLExceptionTranslatorTest extends GeneratorTestCase {
         ps.close();
         conn.close();
     }
+    
+    public void test() {
+        SQLErrorCodeSQLExceptionTranslator translator = newTranslator("Oracle");
+        
+        assertTrue(translator.isDataIntegrityViolation(new SQLException("","",12899)));
+    }
+
+    private SQLErrorCodeSQLExceptionTranslator newTranslator(String dbName) {
+        SQLErrorCodeSQLExceptionTranslator translator = new SQLErrorCodeSQLExceptionTranslator();
+        SQLErrorCodes codes = SQLErrorCodesFactory.getInstance().getErrorCodes(dbName);
+        assertNotNull(codes);
+        translator.setSqlErrorCodes(codes);
+        return translator;
+    }
 }
