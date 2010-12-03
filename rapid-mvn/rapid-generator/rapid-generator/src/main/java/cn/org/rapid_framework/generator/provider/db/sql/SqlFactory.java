@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -127,9 +128,16 @@ public class SqlFactory {
 			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+executeSql);
 				return null;
 			}
-			throw e;
+			String message = "errorCode:"+e.getErrorCode()+" SQLState:"+e.getSQLState()+" errorCodeTranslatorDataBaaseName:"+getErrorCodeTranslatorDataBaaseName()+" "+ e.getMessage();
+			throw new SQLException(message,e.getSQLState(),e.getErrorCode());
 		}
 	}
+
+    private String getErrorCodeTranslatorDataBaaseName() {
+        SQLErrorCodeSQLExceptionTranslator transaltor = SQLErrorCodeSQLExceptionTranslator.getSQLErrorCodeSQLExceptionTranslator(DataSourceProvider.getDataSource());
+        if(transaltor.getSqlErrorCodes() == null) return "null";
+        return Arrays.toString(transaltor.getSqlErrorCodes().getDatabaseProductNames());
+    }
 
     /** 判断是否是外键,完整性约束等异常 引发的异常 */
     private boolean isDataIntegrityViolationException(SQLException sqlEx) {
