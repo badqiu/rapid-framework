@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator;
 
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
 public class GeneratorPropertiesTest extends TestCase {
@@ -30,5 +32,20 @@ public class GeneratorPropertiesTest extends TestCase {
 			fail();
 		}catch(Exception e) {
 		}
+	}
+	
+	public void test() {
+//	    GeneratorProperties.setProperty(GeneratorConstants.GENERATOR_TOOLS_CLASS, "StringDiy");
+	    GeneratorProperties.setProperties(new Properties());
+	    for(GeneratorConstants key : GeneratorConstants.values()) {
+	        GeneratorProperties.getBoolean(key);
+	        GeneratorProperties.getNullIfBlank(key);
+	        GeneratorProperties.getStringArray(key);
+	        try {
+	        GeneratorProperties.getRequiredProperty(key);
+	        fail();
+	        }catch(IllegalStateException e) {
+	        }
+	    }
 	}
 }
