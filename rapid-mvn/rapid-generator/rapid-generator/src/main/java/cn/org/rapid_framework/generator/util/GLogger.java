@@ -59,8 +59,10 @@ public class GLogger {
 	
 	public static int perfLogLevel = TRACE;
     public static void perf(String s) {
-        if(perfLogLevel >= INFO)
-            out.println("[Generator Performance] " + s);
+        if(perfLogLevel <= INFO) {
+            out.println("[Generator Performance] " + "() " + s);
+//            new Throwable().printStackTrace(out); //print call trace
+        }
     }
 	
 	public static void println(String s) {
@@ -76,7 +78,7 @@ public class GLogger {
 	public static void init_with_log4j_config() {
 	    Properties props = loadLog4jProperties();
 	    logLevel = toLogLevel(props.getProperty("cn.org.rapid_framework.generator.util.GLogger","INFO"));
-	    perfLogLevel = toLogLevel(props.getProperty("cn.org.rapid_framework.generator.util.GLogger.perf","DEBUG"));
+	    perfLogLevel = toLogLevel(props.getProperty("cn.org.rapid_framework.generator.util.GLogger.perf","ERROR"));
 	}
 	
 	public static int toLogLevel(String level) {
@@ -123,4 +125,5 @@ public class GLogger {
             return new Properties();
         }
     }
+    
 }
