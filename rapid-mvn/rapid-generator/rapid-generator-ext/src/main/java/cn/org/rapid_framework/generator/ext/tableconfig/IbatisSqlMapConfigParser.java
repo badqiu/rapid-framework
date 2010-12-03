@@ -16,7 +16,11 @@ import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 /**
- * 解析sql map文件，生成Sql对象
+ * 解析ibatis的sql语句,并转换成正常的sql.
+ * 
+ * 主要功能:
+ * 1.将动态构造条件节点全部替换成删除 只留下可执行的SQL
+ * 
  */
 public class IbatisSqlMapConfigParser {
 

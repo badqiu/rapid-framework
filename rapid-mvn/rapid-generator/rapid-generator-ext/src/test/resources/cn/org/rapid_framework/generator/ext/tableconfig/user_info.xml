@@ -448,5 +448,14 @@
 	   	    and r.role_name in <isNotEmpty open="(" close=")"><iterate property="roleNames" conjunction=",">#roleNames[]#</iterate></isNotEmpty>
 	    	group by r.role_id
 	    </sql>
-    </operation>   
+    </operation>  
+    
+    <operation name="testXmlEscape"  multiplicity="paging" remarks="测试xml escape">
+    	<sql>
+	    select * from role r 
+	    where 
+	    	r.role_id &lt; ? 
+	    	and r.role_name &gt; ?
+	    </sql>
+    </operation> 
 </table>
