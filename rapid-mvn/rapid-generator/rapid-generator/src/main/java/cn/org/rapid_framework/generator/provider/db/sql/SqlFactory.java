@@ -74,7 +74,7 @@ public class SqlFactory {
         try {
         	conn = DataSourceProvider.getNewConnection();
         	conn.setAutoCommit(false);
-        	if(!DatabaseMetaDataUtils.isHsqlDataBase(conn.getMetaData())){
+        	if(DatabaseMetaDataUtils.isMysqlDataBase(conn.getMetaData())){
         		conn.setReadOnly(true);
         	}
 	        ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));

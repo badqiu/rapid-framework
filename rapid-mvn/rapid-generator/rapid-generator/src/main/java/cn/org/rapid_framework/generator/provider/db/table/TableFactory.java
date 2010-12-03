@@ -512,6 +512,17 @@ public class TableFactory {
 				return false;
 //				throw new RuntimeException(s);
 			}
-		}		
+		}	
+		public static boolean isMysqlDataBase(DatabaseMetaData metadata) {
+            try {
+                boolean ret = false;
+                ret = (metadata.getDatabaseProductName().toLowerCase()
+                            .indexOf("mysql") != -1);
+                return ret;
+            }catch(SQLException s) {
+                return false;
+//              throw new RuntimeException(s);
+            }
+        }
 	}
 }
