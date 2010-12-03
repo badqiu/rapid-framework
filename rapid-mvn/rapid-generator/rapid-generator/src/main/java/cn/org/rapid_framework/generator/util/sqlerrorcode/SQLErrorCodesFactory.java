@@ -77,8 +77,8 @@ public class SQLErrorCodesFactory {
 	    //ORA-02292: An attempt was made to delete a row that is referenced by a foreign key. 
 	    
 	    //ORA-12899: value too large for column "APAYFUND"."PDC_CARD"."CARD_NO" (actual: 32, maximum: 16)
-        //ORA-00001  unique constraint  violated
-	    //
+        //ORA-00001  unique constraint "APAYFUND"."PDC_CARD"."CARD_NO" violated
+	    //ORA-02290  check constraint "APAYFUND"."PDC_CARD"."CARD_NO" violated
 	    
         //ms-sql
         //1215  SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
