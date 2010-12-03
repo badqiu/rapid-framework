@@ -75,7 +75,11 @@ public class SQLErrorCodesFactory {
 	    //ORA-01722: 无效数字 
 	    //ORA-02291: 外键约束
 	    //ORA-02292: An attempt was made to delete a row that is referenced by a foreign key. 
-        
+	    
+	    //ORA-12899: value too large for column "APAYFUND"."PDC_CARD"."CARD_NO" (actual: 32, maximum: 16)
+        //ORA-00001  unique constraint  violated
+	    //
+	    
         //ms-sql
         //1215  SQLSTATE: HY000 (ER_CANNOT_ADD_FOREIGN) Cannot add foreign key constraint
         //1216  SQLSTATE: 23000 (ER_NO_REFERENCED_ROW) Cannot add or update a child row: a foreign key constraint fails
@@ -108,7 +112,7 @@ public class SQLErrorCodesFactory {
 	    errorCodesMap.put("Informix", newSQLErrorCodes(false,"Informix","-692,-11030"));
 	    errorCodesMap.put("MS-SQL", newSQLErrorCodes(false,"Microsoft SQL Server","2627,8114,8115"));
 	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","1217,1218,1452,1453")); //spring error code定义:630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557
-	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292")); // TODO 是否要增加: 1400,1722,该两项为spirng定义
+	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292,12899,1")); // TODO spring定义: 2291,2292,1400,1722
 	    errorCodesMap.put("PostgreSQL", newSQLErrorCodes(true,"PostgreSQL","23001,23503,23514")); //全部约束: "23000,23001,23502,23503,23505,23514"
 	    errorCodesMap.put("Sybase", newSQLErrorCodes(false,"Sybase SQL Server,SQL Server,Adaptive Server Enterprise,ASE,sql server","233,423,511,515,530,547,2615,2714"));
 	}
