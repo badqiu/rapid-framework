@@ -33,13 +33,14 @@ public class StatementCreatorUtils {
                 return now();
             case Types.VARCHAR:
             case Types.CHAR:
+                return randomString(scale);
             case Types.LONGVARCHAR:
             case Types.CLOB:
-                return randomString(scale);
+                return null;
             case -9 :  //Types.NVARCHAR
             case -15:  //Types.NCHAR
             case 2011: //Types.NCLOB
-                return randomString(scale);
+                return null;
             case Types.BINARY:
             case Types.VARBINARY:
             case Types.LONGVARBINARY:
