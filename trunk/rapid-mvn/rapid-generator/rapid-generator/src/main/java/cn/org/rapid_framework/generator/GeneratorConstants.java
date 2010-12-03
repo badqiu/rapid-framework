@@ -29,6 +29,8 @@ public enum GeneratorConstants {
 	JDBC_CATALOG("jdbc_catalog",null,"数据库:catalog"),
 	
 	DATABASE_TYPE("databaseType",null,"数据库类型，模板中引用可以用于控制如：分页语句的生成，不同的数据库生成不同的分页语法"),
+	
+	USE_INNER_XML_FOR_XML_PARSING("use_inner_xml_for_xml_parse","true","使用innerXML取一个节点的值,如果false则不读取"),
 	;
 	
 	public final String code;
