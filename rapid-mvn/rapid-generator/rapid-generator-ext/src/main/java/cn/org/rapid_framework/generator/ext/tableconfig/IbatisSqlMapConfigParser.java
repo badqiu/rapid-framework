@@ -62,6 +62,7 @@ public class IbatisSqlMapConfigParser {
 	        	openClose.close = attributes.get("close");
             }
         }
+        //FIXME 不能兼容自动删除分号, 因为还需要测试最终的ibatis sql是否会删除;
         return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
     
