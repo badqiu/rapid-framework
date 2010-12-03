@@ -14,8 +14,6 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import freemarker.template.utility.ClassUtil;
 /**
  * 
  * @author badqiu
@@ -136,11 +134,18 @@ public class FileHelper {
 	
 	public static void loadBinaryExtentionsList(String resourceName,boolean ignoreException) {
 	    try {
-	        InputStream input  = ClassHelper.getDefaultClassLoader().getResourceAsStream(resourceName);
-			binaryExtentionsList.addAll(IOHelper.readLines(new InputStreamReader(input)));
-			input.close();
+	        Enumeration<URL> urls =  ClassHelper.getDefaultClassLoader().getResources(resourceName);
+	        boolean notFound = true;
+	        while(urls.hasMoreElements()) {
+	            notFound = false;
+	            URL url = urls.nextElement();
+	            InputStream input = url.openStream();
+	            binaryExtentionsList.addAll(IOHelper.readLines(new InputStreamReader(input)));
+	            input.close();
+	        }
+	        if(notFound) throw new IllegalStateException("not found required file with:"+resourceName);
 	    }catch(Exception e) {
-	        if(!ignoreException)throw new RuntimeException(e);
+	        if(!ignoreException)throw new RuntimeException("loadBinaryExtentionsList occer error,resourceName:"+resourceName,e);
 	    }
     }
 	
