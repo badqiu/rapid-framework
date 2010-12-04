@@ -24,6 +24,7 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
     private Cache methodCache;  
     private BeanFactory beanFactory;
     private String methodCacheBeanName = null;
+    private String cacheKeyPrefix = "";
   
     public void setMethodCache(Cache methodCache) {  
         this.methodCache = methodCache;  
@@ -52,18 +53,17 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
         return result;
     }   
 	
-	protected String getCackeKey(String className, String methodName,
-			Object[] arguments, MethodCache annotation) {
+	protected String getCackeKey(String className, String methodName,Object[] arguments, MethodCache annotation) {
 		String cacheKey = null;
 		if(StringUtils.isEmpty(annotation.cacheKey())) {
-			cacheKey = getCacheKey(className, methodName, arguments);     
+			cacheKey = createDefaultCacheKey(className, methodName, arguments);     
 		}else {
-			cacheKey = getCacheKeyWithArguments(annotation.cacheKey(),arguments);
+			cacheKey = createCacheKey(annotation.cacheKey(),arguments);
 		}
-		return cacheKey;
+		return cacheKeyPrefix + cacheKey;
 	}  
   
-    protected String getCacheKeyWithArguments(String cacheKey, Object[] args) {
+    protected String createCacheKey(String cacheKey, Object[] args) {
     	String result = cacheKey;
     	if(cacheKey.indexOf("{args}") >= 0) {
     		result = StringUtils.replace(result, "{args}", ""+StringUtils.join(args,','));
@@ -71,7 +71,7 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
     	return String.format(result, args);
 	}
     
-	protected String getCacheKey(String className, String methodName,Object[] arguments) {   
+	protected String createDefaultCacheKey(String className, String methodName,Object[] arguments) {   
         StringBuilder datakey = new StringBuilder();   
         datakey.append(className).append(".").append(methodName).append("(");
         datakey.append(StringUtils.join(arguments,','));
@@ -85,6 +85,18 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
 
 	public void setMethodCacheBeanName(String methodCacheBeanName) {
 		this.methodCacheBeanName = methodCacheBeanName;
+	}
+	
+	public String getCacheKeyPrefix() {
+		return cacheKeyPrefix;
+	}
+	
+	/**
+	 * cacheKey的前缀,增加在所有的cacheKey中,主要用于不同系统间的cache划用,
+	 * @param cacheKeyPrefix
+	 */
+	public void setCacheKeyPrefix(String cacheKeyPrefix) {
+		this.cacheKeyPrefix = cacheKeyPrefix == null ? "" : cacheKeyPrefix;
 	}
 
 	public void afterPropertiesSet() throws Exception {
