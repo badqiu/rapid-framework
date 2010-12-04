@@ -61,5 +61,6 @@ public @interface MethodCache {
     
     
     //TODO 增加指定使用具体的cache对象. 如: Cache cache() default NULL;
+    //TODO 增加 CACHE_KEY_PREFIX,用于cache的默认前缀,以区别不同系统
     
 }
