@@ -209,7 +209,7 @@ public class TableConfig {
     }
     
     public static List<Sql> toSqls(TableConfig table) throws SQLException, Exception {
-        return Convert2SqlsProecssor.toSqls(table);
+        return new Convert2SqlsProecssor().toSqls(table);
     }
     
     public OperationConfig getOperation(String name) {
@@ -225,7 +225,7 @@ public class TableConfig {
      **/
     static class Convert2SqlsProecssor {
         
-        public static List<Sql> toSqls(TableConfig table)  {
+        public List<Sql> toSqls(TableConfig table)  {
             List<Sql> sqls = new ArrayList<Sql>();
             for(OperationConfig op :table.getOperations()) {
                 sqls.add(processOperation(op,table));
@@ -233,13 +233,13 @@ public class TableConfig {
             return sqls;
         }
         
-        public static Sql toSql(TableConfig table,String operationName)  {
+        public Sql toSql(TableConfig table,String operationName)  {
         	OperationConfig operation = table.findOperation(operationName);
             if(operation == null) throw new IllegalArgumentException("not found operation with name:"+operationName);
             return processOperation(operation, table);
         }
         
-        private static Sql processOperation(OperationConfig op,TableConfig table) {
+        private Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
                 String sqlString = new IbatisSqlMapConfigParser().parse(op.getSql(),toMap(table.includeSqls));
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
@@ -274,13 +274,17 @@ public class TableConfig {
                     sql.setParamType(Sql.PARAMTYPE_PRIMITIVE);
                 }
                 
-                return sql;
+                return afterProcessed(sql,op,table);
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table.getSqlName()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
             }
         }
 
-        private static String getIbatisSql(OperationConfig op, Sql sql) {
+        protected Sql afterProcessed(Sql sql,OperationConfig op,TableConfig table) {
+			return sql;
+		}
+
+		private static String getIbatisSql(OperationConfig op, Sql sql) {
             String ibatisNamedSql = sql.replaceWildcardWithColumnsSqlName(SqlParseHelper.convert2NamedParametersSql(op.getSql(),"#","#")) + " "+ StringHelper.defaultString(op.getAppend());
             String ibatisSql = processSqlForMoneyParam(ibatisNamedSql,sql.getParams());
             return ibatisSql;
@@ -357,7 +361,9 @@ public class TableConfig {
                         "",mc.getColumnAlias());
                 }
                 c.setJavaType(mc.getJavatype());
-                c.setColumnAlias(mc.getColumnAlias()); // FIXME ColumnConfig.getColumnAlias()有可能为空
+                if(StringHelper.isNotBlank(mc.getColumnAlias())) {
+                	c.setColumnAlias(mc.getColumnAlias()); // FIXME custom column的 alias 现在的处理方式不好,应该不使用StringHelper.isNotBlank()判断
+                }
                 result.add(c);
             }
             return result;
