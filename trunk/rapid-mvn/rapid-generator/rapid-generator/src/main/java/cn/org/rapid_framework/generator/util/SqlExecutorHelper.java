@@ -5,12 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import javax.sql.DataSource;
 
 public class SqlExecutorHelper {
 
@@ -24,6 +25,19 @@ public class SqlExecutorHelper {
 			return result;
 		}finally {
 			DBHelper.close(rs);
+		}
+	}
+	
+	public static boolean execute(DataSource ds,String sql) {
+		Connection conn = null;
+		try {
+			conn = ds.getConnection();
+			Statement s = conn.createStatement();
+			return s.execute(sql);
+		}catch(SQLException e) {
+			throw new RuntimeException(e.getMessage()+" errorCode:"+e.getErrorCode()+" SQLState:"+e.getSQLState());
+		}finally {
+			DBHelper.close(conn);
 		}
 	}
 
