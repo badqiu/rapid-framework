@@ -70,7 +70,7 @@ public class MetaTableTest extends GeneratorTestCase {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
         TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
-        GeneratorModel gm = newFromSql(Convert2SqlsProecssor.toSql(t, getName()),t);
+        GeneratorModel gm = newFromSql(new Convert2SqlsProecssor().toSql(t, getName()),t);
         g.generateBy(gm.templateModel, gm.filePathModel);
     }
     
