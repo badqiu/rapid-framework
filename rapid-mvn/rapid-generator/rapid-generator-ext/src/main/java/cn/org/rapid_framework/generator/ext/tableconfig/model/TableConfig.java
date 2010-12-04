@@ -241,11 +241,10 @@ public class TableConfig {
         
         private static Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
-                SqlFactory sqlFactory = new SqlFactory();
                 String sqlString = new IbatisSqlMapConfigParser().parse(op.getSql(),toMap(table.includeSqls));
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
                 
-                Sql sql = sqlFactory.parseSql(namedSql);
+                Sql sql = new SqlFactory().parseSql(namedSql);
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
                 sql.setParams(finalParameters);
                 sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
@@ -272,7 +271,7 @@ public class TableConfig {
                 if(StringHelper.isNotBlank(op.getParamtype())) {
                     sql.setParamType(op.getParamtype());
                 }else if(StringHelper.isBlank(op.getParamtype()) && (sql.isSelectSql() || sql.isDeleteSql())) {
-                    sql.setParamType("primitive");
+                    sql.setParamType(Sql.PARAMTYPE_PRIMITIVE);
                 }
                 
                 return sql;
