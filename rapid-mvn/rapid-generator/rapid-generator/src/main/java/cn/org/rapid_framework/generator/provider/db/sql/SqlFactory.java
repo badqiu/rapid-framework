@@ -75,9 +75,9 @@ public class SqlFactory {
         try {
         	conn = DataSourceProvider.getNewConnection();
         	conn.setAutoCommit(false);
-        	if(DatabaseMetaDataUtils.isMysqlDataBase(conn.getMetaData())){
-        		conn.setReadOnly(true);
-        	}
+//        	if(DatabaseMetaDataUtils.isMysqlDataBase(conn.getMetaData())){
+//        		conn.setReadOnly(true);
+//        	}
 	        ps = conn.prepareStatement(SqlParseHelper.removeOrders(executeSql));
 	        
 	        SqlParametersParser sqlParametersParser = new SqlParametersParser();
@@ -125,7 +125,7 @@ public class SqlFactory {
 			return null;
 		}catch(SQLException e) {
 			if(isDataIntegrityViolationException(e)) {
-			    GLogger.warn("executeForResultSetMetaData() occer DataIntegrityViolationException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+executeSql);
+			    GLogger.warn("ignore executeForResultSetMetaData() SQLException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+executeSql);
 				return null;
 			}
 			String message = "errorCode:"+e.getErrorCode()+" SQLState:"+e.getSQLState()+" errorCodeTranslatorDataBaaseName:"+getErrorCodeTranslatorDataBaaseName()+" "+ e.getMessage();
