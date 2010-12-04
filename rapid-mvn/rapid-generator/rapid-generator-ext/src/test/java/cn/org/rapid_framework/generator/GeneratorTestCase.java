@@ -45,29 +45,36 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("surefire.real.class.path") != null;
 	}
 	
-	static String testDbType = "h2";
+	protected static String testDbType = "h2";
 	public static void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
 	    }else if("h2".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20));
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	      
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
 	    }else if("mysql".equals(testDbType)) {
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");           
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver"); 
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "root");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "123456");
         }else if("oracle".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "oracle.jdbc.driver.OracleDriver");           
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "oracle.jdbc.driver.OracleDriver"); 
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_CATALOG, "");
         }else if("sqlserver".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.microsoft.jdbc.sqlserver.SQLServerDriver");           
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.microsoft.jdbc.sqlserver.SQLServerDriver");   
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+    		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
         }
-	    
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "");
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_CATALOG, "");
 		
 		runSqlScripts("generator_test_table.sql");
 		
