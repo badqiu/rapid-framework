@@ -42,6 +42,9 @@ public class Sql {
 	public static String MULTIPLICITY_MANY = "many";
 	public static String MULTIPLICITY_PAGING = "paging";
 	
+	public static String PARAMTYPE_PRIMITIVE = "primitive";
+	public static String PARAMTYPE_OBJECT = "object";
+	
 	String operation = null;
 	String resultClass;
 	String parameterClass;
@@ -58,7 +61,7 @@ public class Sql {
 	
 	String sourceSql; // source sql
 	String executeSql;
-	private String              paramType           = "primitive";                      /* primitive or object */
+	private String              paramType           = PARAMTYPE_PRIMITIVE;                      /* primitive or object */
 	
 	public Sql() {
 	}
