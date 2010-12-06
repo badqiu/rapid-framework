@@ -6,7 +6,8 @@ import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 public class MethodParameterTest extends TestCase {
 	
 	public void test() {
-		JavaMethod[] methods = new JavaClass(Table.class).getMethods();
+		JavaClass javaClass = new JavaClass(Table.class);
+        JavaMethod[] methods = javaClass.getMethods();
 		for(JavaMethod m : methods) {
 			System.out.print(m.getMethodName()+"(");
 			for(MethodParameter p : m.getParameters()) {
@@ -14,6 +15,9 @@ public class MethodParameterTest extends TestCase {
 			}
 			System.out.println(")");
 		}
+		JavaMethod m = javaClass.getMethod("setOwnerSynonymName");
+		System.out.println("toGenericString()"+m.method.toGenericString());
+		System.out.println("toString()"+m.method.toString());
 	}
 	
 	public String blog(String name,String sex) {
