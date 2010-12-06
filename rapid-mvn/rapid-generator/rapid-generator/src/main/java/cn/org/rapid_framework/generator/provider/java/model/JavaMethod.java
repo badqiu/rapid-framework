@@ -9,6 +9,7 @@ package cn.org.rapid_framework.generator.provider.java.model;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -250,9 +251,18 @@ public class JavaMethod {
 				//ignore
 			}
 		}
-
+		
+		public static String modifierToString(int mod) {
+		    if ((mod & Modifier.PUBLIC) != 0)    return "public";
+		    if ((mod & Modifier.PROTECTED) != 0) return "protected";
+		    if ((mod & Modifier.PRIVATE) != 0)   return "private";
+		    return "";
+		}
+		
 		private String getMethodBody(String javaSourceContent) {
-		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getSimpleParamsPattern(method.method)+"\\)\\s*";
+		    
+		    String methodStartPattern = "(?s)"+modifierToString(method.method.getModifiers())+".*\\s+"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getSimpleParamsPattern(method.method)+"\\)\\s*";
+            
         	int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
         	if(methodStart == -1) throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+" methodName:"+method.getMethodName() +"\n javaSource:"+javaSourceContent);
         	
