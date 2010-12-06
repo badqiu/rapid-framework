@@ -237,9 +237,10 @@ public class JavaMethod {
 
 		private String getMethodBody(String javaSourceContent) {
 		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
-		    try {
-        		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
-        		if(methodStart == -1) return "";
+        	int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
+        	if(methodStart == -1) throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+"\n javaSource:"+javaSourceContent);
+        	
+        	try {
         		String methodEnd = javaSourceContent.substring(methodStart);
         		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
         		if(beginAndEnd == null) return "";
