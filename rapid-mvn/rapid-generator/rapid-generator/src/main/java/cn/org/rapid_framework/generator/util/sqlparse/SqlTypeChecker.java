@@ -23,7 +23,8 @@ public class SqlTypeChecker {
 	 * @return
 	 */
 	public static boolean isDeleteSql(String sourceSql) {
-		return StringHelper.removeXMLCdataTag(SqlParseHelper.removeSqlComments(sourceSql)).trim().toLowerCase().matches("(?is)\\s*delete\\s+from\\s.*");
+		String processedSql = StringHelper.removeXMLCdataTag(SqlParseHelper.removeSqlComments(sourceSql)).trim().toLowerCase();
+        return processedSql.matches("(?is)\\s*delete\\s+from\\s.*") || processedSql.matches("(?is)\\s*delete\\s+.*");
 	}
 	/**
 	 * 当前的sourceSql是否是insert语句
