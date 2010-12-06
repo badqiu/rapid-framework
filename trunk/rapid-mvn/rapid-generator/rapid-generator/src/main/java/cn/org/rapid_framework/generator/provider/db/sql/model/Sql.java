@@ -147,7 +147,15 @@ public class Sql {
 	public void setResultClass(String queryResultClass) {
 		this.resultClass = queryResultClass;
 	}
+	
+	public boolean isHasCustomResultClass() {
+	    return StringHelper.isNotBlank(this.resultClass);
+	}
 
+	public boolean isHasCustomResultMap() {
+        return StringHelper.isNotBlank(this.resultMap);
+    }
+	
     /**
      * 返回getResultClass()的类名称 <br />
      * 示例: <br />
