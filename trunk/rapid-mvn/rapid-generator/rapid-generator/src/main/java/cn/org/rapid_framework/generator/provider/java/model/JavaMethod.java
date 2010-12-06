@@ -239,12 +239,13 @@ public class JavaMethod {
 		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
 		    try {
         		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
+        		if(methodStart == -1) return "";
         		String methodEnd = javaSourceContent.substring(methodStart);
         		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
         		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
     			return methodBody;
 		    }catch(RuntimeException e) {
-		        throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+"\n javaSource:"+javaSourceContent);
+		        throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+"\n javaSource:"+javaSourceContent,e);
 		    }
 		}
 
