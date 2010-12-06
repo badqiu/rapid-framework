@@ -49,6 +49,8 @@ public class SqlTypeCheckerTest{
         
         result = sqlTypeChecker.isSelectSql("/*select * from hibernate */" );
         assertFalse(result);
+        
+        assertTrue(sqlTypeChecker.isSelectSql("<![CDATA[ select * from user ]]>" ));
     }
     
     @Test
@@ -56,6 +58,8 @@ public class SqlTypeCheckerTest{
         
         boolean result = sqlTypeChecker.isUpdateSql("update user set username = ? ,abc = ? where id = ?" );
         assertTrue(result);
+        
+        assertTrue(sqlTypeChecker.isUpdateSql("<![CDATA[ update user set username = ? ,abc = ? where id = ? ]]>" ));
     }
     
     @Test
@@ -66,6 +70,8 @@ public class SqlTypeCheckerTest{
         
         result = sqlTypeChecker.isDeleteSql("sdelete from userinfo" );
         assertFalse(result);
+        
+        assertTrue(sqlTypeChecker.isDeleteSql("<![CDATA[ delete from userinfo ]]>" ));
     }
     
     @Test
@@ -74,6 +80,8 @@ public class SqlTypeCheckerTest{
         
         boolean result = sqlTypeChecker.isInsertSql(sourceSql );
         assertTrue(result);
+        
+        assertTrue(sqlTypeChecker.isInsertSql("<![CDATA[ insert into userinfo (user) values (?) ]]>" ));
         
         result = sqlTypeChecker.isInsertSql("sinsert into userinfo (user) values (?)" );
         assertFalse(result);
