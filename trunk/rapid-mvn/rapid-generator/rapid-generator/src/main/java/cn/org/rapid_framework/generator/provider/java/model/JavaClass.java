@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.provider.java.model.JavaMethod.FieldMethodInvocation;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.ActionScriptDataTypesUtils;
@@ -367,6 +368,14 @@ public class JavaClass {
 
 	public Class getClazz() {
 	    return clazz;
+	}
+	
+	public Set<FieldMethodInvocation> getFieldMethodInvocationSequences() {
+	    Set<FieldMethodInvocation> set = new LinkedHashSet<FieldMethodInvocation>();
+	    for(JavaMethod m : getMethods()) {
+	        set.addAll(m.getFieldMethodInvocationSequences());
+	    }
+	    return set;
 	}
 	
 	private Method[] filterByModifiers(Method[] methods,int... filteredModifiers) {
