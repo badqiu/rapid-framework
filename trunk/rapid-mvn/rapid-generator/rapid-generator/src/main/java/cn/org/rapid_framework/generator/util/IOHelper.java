@@ -12,7 +12,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +64,7 @@ public class IOHelper {
     
 	public static String readFile(File file)  {
 		try {
-			Reader in = new FileReader(file);
+			Reader in = new BufferedReader(new FileReader(file));
 			String result = toString(in);
 			in.close();
 			return result;

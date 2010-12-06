@@ -176,13 +176,24 @@ public class MethodParameter {
     
         public static String getParamsPattern(Method method) {
             List paramPatterns = new ArrayList();
-    	    for(int i = 0; i < method.getParameterTypes().length; i++ ) {
-    	        Class type = method.getParameterTypes()[i];
-    	        String classType = type.getSimpleName().replace("[", "\\[").replace("]", "\\]");
-                String paramPattern = "[\\w\\s\\.]*"+classType+"\\s+(\\w+)";
-    	        paramPatterns.add(paramPattern);
-    	    }
-    	    return StringHelper.join(paramPatterns, ",");
+            for(int i = 0; i < method.getParameterTypes().length; i++ ) {
+                Class type = method.getParameterTypes()[i];
+                String classType = type.getSimpleName().replace("[", "\\[").replace("]", "\\]");
+                String paramPattern = ".*"+classType+".*\\s+(\\w+).*";
+                paramPatterns.add(paramPattern);
+            }
+            return StringHelper.join(paramPatterns, ",");
+        }
+        
+        public static String getSimpleParamsPattern(Method method) {
+            List paramPatterns = new ArrayList();
+            for(int i = 0; i < method.getParameterTypes().length; i++ ) {
+                Class type = method.getParameterTypes()[i];
+                String classType = type.getSimpleName().replace("[", "\\[").replace("]", "\\]");
+                String paramPattern = ".*"+classType+".*";
+                paramPatterns.add(paramPattern);
+            }
+            return StringHelper.join(paramPatterns, ",");
         }
         
 	}
