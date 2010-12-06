@@ -83,7 +83,7 @@ public class SqlFactory {
 	        SqlParametersParser sqlParametersParser = new SqlParametersParser();
             sqlParametersParser.execute(parsedSql,sql);
             
-	        ResultSetMetaData resultSetMetaData = executeForResultSetMetaData(executeSql,ps,sqlParametersParser.allParams);
+	        ResultSetMetaData resultSetMetaData = executeSqlForResultSetMetaData(executeSql,ps,sqlParametersParser.allParams);
             sql.setColumns(new SelectColumnsParser().convert2Columns(sql,resultSetMetaData));
             sql.setParams(sqlParametersParser.params);
 	        
@@ -109,9 +109,9 @@ public class SqlFactory {
 		return sourceSql;
 	}
 
-    private ResultSetMetaData executeForResultSetMetaData(String executeSql,PreparedStatement ps,List<SqlParameter> params)throws SQLException {
+    private ResultSetMetaData executeSqlForResultSetMetaData(String sql,PreparedStatement ps,List<SqlParameter> params)throws SQLException {
 //		SqlParseHelper.setRandomParamsValueForPreparedStatement(SqlParseHelper.removeOrders(executeSql), ps);
-		StatementCreatorUtils.setRandomParamsValueForPreparedStatement(executeSql, ps, params);
+		StatementCreatorUtils.setRandomParamsValueForPreparedStatement(sql, ps, params);
 		
 		try {
 			ps.setMaxRows(3);
@@ -125,7 +125,7 @@ public class SqlFactory {
 			return null;
 		}catch(SQLException e) {
 			if(isDataIntegrityViolationException(e)) {
-			    GLogger.warn("ignore executeForResultSetMetaData() SQLException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+executeSql);
+			    GLogger.warn("ignore executeSqlForResultSetMetaData() SQLException,errorCode:"+e.getErrorCode()+" sqlState:"+e.getSQLState()+" message:"+e.getMessage()+ "\n executedSql:"+sql);
 				return null;
 			}
 			String message = "errorCode:"+e.getErrorCode()+" SQLState:"+e.getSQLState()+" errorCodeTranslatorDataBaaseName:"+getErrorCodeTranslatorDataBaaseName()+" "+ e.getMessage();
