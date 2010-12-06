@@ -208,7 +208,14 @@ public class JavaMethod {
     	
     	public void execute() {
     		executed = true;
-
+    		//本类是否有声明
+    		if(!declaredMethodsContains()) {
+    		    return;
+    		}
+    		//是否是匿名方法
+    		if(method.getMethodName().indexOf("$") >= 0) {
+    		    return;
+    		}
     		
     		String javaSourceContent = removeSomeThings();
     		String methodBody = getMethodBody(javaSourceContent);
@@ -221,6 +228,15 @@ public class JavaMethod {
     			addFieldMethodInvocation(field, methodName);
     		}
     	}
+
+        private boolean declaredMethodsContains() {
+            for(Method m : clazz.getClazz().getDeclaredMethods()) {
+    		    if(m.equals(method.method)) {
+    		        return true;
+    		    }
+    		}
+            return false;
+        }
 
 		private void addFieldMethodInvocation(String field, String methodName) {
 			try {
@@ -236,9 +252,9 @@ public class JavaMethod {
 		}
 
 		private String getMethodBody(String javaSourceContent) {
-		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
+		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getSimpleParamsPattern(method.method)+"\\)\\s*";
         	int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
-        	if(methodStart == -1) throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+"\n javaSource:"+javaSourceContent);
+        	if(methodStart == -1) throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+" methodName:"+method.getMethodName() +"\n javaSource:"+javaSourceContent);
         	
         	try {
         		String methodEnd = javaSourceContent.substring(methodStart);
