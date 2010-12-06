@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
-import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
@@ -63,7 +61,8 @@ public class IbatisSqlMapConfigParser {
             }
         }
         //FIXME 不能兼容自动删除分号, 因为还需要测试最终的ibatis sql是否会删除;
-        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
+        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString())));
+//        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
     
     private static class OpenCloseTag {
