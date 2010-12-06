@@ -72,6 +72,9 @@ public class SqlTypeCheckerTest{
         assertFalse(result);
         
         assertTrue(sqlTypeChecker.isDeleteSql("<![CDATA[ delete from userinfo ]]>" ));
+        
+        assertTrue(sqlTypeChecker.isDeleteSql("<![CDATA[ \ndelete\n from\n userinfo ]]>" ));
+        assertTrue(sqlTypeChecker.isDeleteSql("<![CDATA[ \ndelete air_ld_config\n            where config_name = ?\n        \n]]>" ));
     }
     
     @Test
