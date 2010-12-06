@@ -162,6 +162,15 @@ public class JavaMethod {
 		public void setMethod(JavaMethod method) {
 			this.method = method;
 		}
+		public boolean equals(Object obj) {
+		    if(obj == null) return false;
+		    if(! (obj instanceof FieldMethodInvocation)) return false;
+		    FieldMethodInvocation other = (FieldMethodInvocation)obj;
+		    return field.equals(other.field) && method.equals(other.method);
+		}
+		public int hashCode() {
+		    return field.hashCode() + method.hashCode();
+		}
     }
     
     /**
@@ -227,12 +236,16 @@ public class JavaMethod {
 		}
 
 		private String getMethodBody(String javaSourceContent) {
-			String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
-    		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
-    		String methodEnd = javaSourceContent.substring(methodStart);
-    		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
-    		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
-			return methodBody;
+		    String methodStartPattern = "(?s)"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getParamsPattern(method.method)+"\\)\\s*";
+		    try {
+        		int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
+        		String methodEnd = javaSourceContent.substring(methodStart);
+        		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
+        		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
+    			return methodBody;
+		    }catch(RuntimeException e) {
+		        throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+"\n javaSource:"+javaSourceContent);
+		    }
 		}
 
 		private String removeSomeThings() {
