@@ -136,7 +136,7 @@ public class Sql {
 		}
 		if(isColumnsInSameTable()) {
 		    Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(executeSql);
-		    Table t = getTableFromCache(tableNames.iterator().next().getName());
+		    Table t = getTableFromCache(tableNames.iterator().next().getName()); //FIXME 自定义的className将不会起作用,因为不是从同一个cache取的对象
 		    return t.getClassName();
 		}else {
 			if(operation == null) return null;
