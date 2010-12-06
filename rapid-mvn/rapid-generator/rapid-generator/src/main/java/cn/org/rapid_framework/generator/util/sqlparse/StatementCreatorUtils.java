@@ -61,7 +61,7 @@ public class StatementCreatorUtils {
     
     static Random random = new Random(System.currentTimeMillis());
     public static int randomNumber() {
-		return random.nextInt();
+		return Math.abs(random.nextInt());
     }
     
     public static Timestamp now() {
