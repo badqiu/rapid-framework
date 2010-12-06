@@ -242,6 +242,8 @@ public class JavaMethod {
         		if(methodStart == -1) return "";
         		String methodEnd = javaSourceContent.substring(methodStart);
         		int[] beginAndEnd = findWrapCharEndLocation(methodEnd,'{','}');
+        		if(beginAndEnd == null) return "";
+        		
         		String methodBody = methodEnd.substring(beginAndEnd[0], beginAndEnd[1]);
     			return methodBody;
 		    }catch(RuntimeException e) {
