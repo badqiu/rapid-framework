@@ -1,5 +1,11 @@
 package cn.org.rapid_framework.generator;
 
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_EXCLUDES;
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_INCLUDES;
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_OUTPUT_ENCODING;
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_REMOVE_EXTENSIONS;
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_SOURCE_ENCODING;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,7 +35,6 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * 代码生成器核心引擎
  * 
@@ -319,7 +324,11 @@ public class Generator  {
 				return;
 			}
 			
-			GLogger.println("[generate]\t template:"+templateFile+" ==> "+outputFilepath);
+			if(absoluteOutputFilePath.exists()) {
+			    GLogger.println("[override]\t template:"+templateFile+" ==> "+outputFilepath);
+			}else {
+			    GLogger.println("[generate]\t template:"+templateFile+" ==> "+outputFilepath);
+			}
 			FreemarkerHelper.processTemplate(template, templateModel, absoluteOutputFilePath,gg.getOutputEncoding());
 		}
 	}
