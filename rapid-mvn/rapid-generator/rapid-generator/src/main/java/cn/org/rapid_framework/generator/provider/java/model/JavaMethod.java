@@ -251,8 +251,8 @@ public class JavaMethod {
 
 		private String removeSomeThings() {
 			String javaSourceContent = removeJavaComments(this.javaSourceContent);
-    		javaSourceContent = removeJavaImports(javaSourceContent);
-    		javaSourceContent = removeJavaPackage(javaSourceContent);
+//    		javaSourceContent = removeJavaImports(javaSourceContent);
+//    		javaSourceContent = removeJavaPackage(javaSourceContent);
     		javaSourceContent = replaceString2EmptyString(javaSourceContent);
 			return javaSourceContent;
 		}
@@ -269,16 +269,16 @@ public class JavaMethod {
 			str = str.replaceAll("(?s)/\\*.*?\\*/", ""); // remove block comment: /* */
 			return str;
 		}
-		public static String removeJavaImports(String str) {
-    		if(str == null) return null;
-    		str = str.replaceAll("\\s*import.*", ""); // remove java import
-			return str;
-		}
-		public static String removeJavaPackage(String str) {
-    		if(str == null) return null;
-    		str = str.replaceAll("\\s*package.*", ""); // remove java package
-			return str;
-		}
+//		public static String removeJavaImports(String str) {
+//    		if(str == null) return null;
+//    		str = str.replaceAll("\\s*import\\s.*", ""); // remove java import
+//			return str;
+//		}
+//		public static String removeJavaPackage(String str) {
+//    		if(str == null) return null;
+//    		str = str.replaceAll("\\s*package\\s.*", ""); // remove java package
+//			return str;
+//		}
 		
 		/** 
 		 * 找到对称的一条括号所处的位置,
