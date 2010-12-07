@@ -152,7 +152,7 @@ public class Sql {
 	    return StringHelper.isNotBlank(this.resultClass);
 	}
 
-	public boolean isHasCustomResultMap() {
+	public boolean isHasResultMap() {
         return StringHelper.isNotBlank(this.resultMap);
     }
 	
