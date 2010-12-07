@@ -46,7 +46,7 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("surefire.real.class.path") != null;
 	}
 	
-	static String testDbType = "h2";
+	protected static String testDbType = "h2";
 	public static void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
