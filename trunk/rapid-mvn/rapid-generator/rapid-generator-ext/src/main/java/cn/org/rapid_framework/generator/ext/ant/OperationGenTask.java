@@ -47,6 +47,7 @@ public class OperationGenTask extends BaseGeneratorTask {
             operationMap.putAll(BeanHelper.describe(sql));
             operationMap.put("sql", sql);
             operationMap.put("basepackage", tableConfig.getBasepackage());
+            operationMap.put("tableConfig", tableConfig);
             result.add(operationMap);
         }
         return result;
