@@ -64,6 +64,11 @@ public class SqlParseHelperTest extends TestCase{
         verifyTableNames(tableNames,"user u","role r","blog b");
     }
 	   
+    public void test_getTableNamesByQuery_with_update_columname() {
+        Set<NameWithAlias> tableNames =  SqlParseHelper.getTableNamesByQuery("select usr_id,usr_name,usr_passwd,usr_type,usr_gmt_create,usr_gmt_update from tse_user_base");
+        verifyTableNames(tableNames,"tse_user_base tse_user_base");
+    }
+    
     public void test_getTableNamesByQuery_with_join() {
         Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user u left join role r on u.username=r.username");
         System.out.println(tableNames);
