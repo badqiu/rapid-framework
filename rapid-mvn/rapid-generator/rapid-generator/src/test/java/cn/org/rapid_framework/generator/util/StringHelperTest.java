@@ -241,7 +241,7 @@ public class StringHelperTest extends TestCase {
 	    assertEquals("delete from count(*) from user where 1=$123$",StringHelper.insertTokenIntoSelectSql("delete from count(*) from user where 1=$123$", " /* SELECT-FROM-USER */ "));
 	}
 	
-	public void testToJavaClassName() {
+	public void testToJavaClassName_with_alipay_dalgen_rule() {
 	    assertEquals("dalgen是这种规则",StringHelper.toJavaClassName("d_create"),"DCreate");
 	}
 }
