@@ -70,11 +70,13 @@ public class TableFactory {
 	}
 
 	public List getAllTables() {
+	    Connection conn = getConnection();
 		try {
-			Connection conn = getConnection();
 			return getAllTables(conn);
 		}catch(Exception e) {
 			throw new RuntimeException(e);
+		}finally {
+		    DBHelper.close(conn);
 		}
 	}
 	
@@ -127,7 +129,7 @@ public class TableFactory {
 				return table;
 			}
 		}finally {
-			DBHelper.close(rs);
+			DBHelper.close(conn,rs);
 		}
 		return null;
 	}
