@@ -75,7 +75,7 @@ public class Sql {
 		if(tableNames.size() > 1) {
 		    return false;
 		}
-        Table t = getTableFromCache(tableNames.iterator().next().getName());
+        Table t = SqlFactory.getTableFromCache(tableNames.iterator().next().getName());
         for(Column c : columns) {
             Column fromTableColumn = new ColumnSet(t.getColumns()).getBySqlName(c.getSqlName());
             if(fromTableColumn == null) {
@@ -105,10 +105,6 @@ public class Sql {
 	}
 
 	
-    public static Table getTableFromCache(String tableName) {
-        return SqlFactory.getTableFromCache(tableName);
-    }
-    
     /**
      * 得到select查询返回的resultClass,可以通过setResultClass()自定义，如果没有自定义则为你自动生成<br />
      * resultClass可以为com.company.User的完全路径
@@ -136,7 +132,7 @@ public class Sql {
 		}
 		if(isColumnsInSameTable()) {
 		    Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(executeSql);
-		    Table t = getTableFromCache(tableNames.iterator().next().getName()); //FIXME 自定义的className将不会起作用,因为不是从同一个cache取的对象
+		    Table t = SqlFactory.getTableFromCache(tableNames.iterator().next().getName()); //FIXME 自定义的className将不会起作用,因为不是从同一个cache取的对象
 		    return t.getClassName();
 		}else {
 			if(operation == null) return null;
