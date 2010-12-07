@@ -57,6 +57,27 @@ public class TableFactory {
 		return instance;
 	}
 	
+	public List<TableFactoryListener> getTableFactoryListeners() {
+		return tableFactoryListeners;
+	}
+
+	public void setTableFactoryListeners(
+			List<TableFactoryListener> tableFactoryListeners) {
+		this.tableFactoryListeners = tableFactoryListeners;
+	}
+
+	public boolean addTableFactoryListener(TableFactoryListener o) {
+		return tableFactoryListeners.add(o);
+	}
+
+	public void clearTableFactoryListener() {
+		tableFactoryListeners.clear();
+	}
+
+	public boolean removeTableFactoryListener(TableFactoryListener o) {
+		return tableFactoryListeners.remove(o);
+	}
+
 	public String getCatalog() {
 		return catalog;
 	}
