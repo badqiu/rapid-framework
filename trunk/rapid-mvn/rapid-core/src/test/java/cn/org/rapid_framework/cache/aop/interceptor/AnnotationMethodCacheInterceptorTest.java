@@ -1,56 +1,59 @@
 package cn.org.rapid_framework.cache.aop.interceptor;
 
+import java.lang.annotation.Annotation;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import junit.framework.TestCase;
+import cn.org.rapid_framework.cache.aop.annotation.MethodCache;
 
 public class AnnotationMethodCacheInterceptorTest extends TestCase {
 
 	public void test_getCacheKeyWithArguments_with_null() {
-		String key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join({args},{args})", new String[0]);
+		String key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join({args},{args})", new String[0]);
 		assertEquals("UserInfo.join(,)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join({args},{args})", null);
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join({args},{args})", null);
 		assertEquals("UserInfo.join(null,null)",key);
 		
 		
 	}
 	
 	public void test_getCacheKeyWithArguments() {
-		String key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join({args})", new String[]{"1","2"});
+		String key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join({args})", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1,2)",key);
 		
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join({args},{args})", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join({args},{args})", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1,2,1,2)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join(%s)", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join(%s)", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join(%s  %s)", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join(%s  %s)", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1  2)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join(%s  %s {3})", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join(%s  %s {3})", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1  2 {3})",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKeyWithArguments("UserInfo.join(%s  %s {3} %1$s)", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createCacheKey("UserInfo.join(%s  %s {3} %1$s)", new String[]{"1","2"});
 		assertEquals("UserInfo.join(1  2 {3} 1)",key);
 	}
 	
 	public void test_getCacheKey() {
-		String key = new AnnotationMethodCacheInterceptor().getCacheKey("UserManager","getById", new String[]{"1"});
+		String key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new String[]{"1"});
 		assertEquals("UserManager.getById(1)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKey("UserManager","getById", new String[]{"1","2"});
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new String[]{"1","2"});
 		assertEquals("UserManager.getById(1,2)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKey("UserManager","getById", null);
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", null);
 		assertEquals("UserManager.getById(null)",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKey("UserManager","getById", new String[0]);
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new String[0]);
 		assertEquals("UserManager.getById()",key);
 		
-		key = new AnnotationMethodCacheInterceptor().getCacheKey("UserManager","getById", new Object[]{"1","2",3,4});
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new Object[]{"1","2",3,4});
 		assertEquals("UserManager.getById(1,2,3,4)",key);
 		
 	}
@@ -68,5 +71,49 @@ public class AnnotationMethodCacheInterceptorTest extends TestCase {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(System.currentTimeMillis());
 		assertEquals("Duke's Birthday: 2010",String.format("Duke's Birthday: %1$tY", c));
+	}
+	
+	public void test_cache_key_prefix() {
+	    AnnotationMethodCacheInterceptor interceptor = new AnnotationMethodCacheInterceptor();
+	    interceptor.setCacheKeyPrefix("AppBadqiu__");
+	    MethodCache annotation = new MethodCache(){
+            public String cacheKey() {
+                return null;
+            }
+
+            public long expireTime() {
+                return 0;
+            }
+
+            public TimeUnit timeUnit() {
+                return null;
+            }
+
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+	    };
+	    
+        String key = interceptor.getCackeKey("User", "say", new Integer[]{1,2},annotation);
+        assertEquals("AppBadqiu__User.say(1,2)",key);
+        
+        key = interceptor.getCackeKey("User", "say", new Integer[]{1,2}, new MethodCache(){
+            public String cacheKey() {
+                return "key";
+            }
+
+            public long expireTime() {
+                return 0;
+            }
+
+            public TimeUnit timeUnit() {
+                return null;
+            }
+
+            public Class<? extends Annotation> annotationType() {
+                return null;
+            }
+        });
+        assertEquals("AppBadqiu__key",key);
 	}
 }
