@@ -26,6 +26,6 @@ public class SqlParameterTest extends TestCase {
 		assertEquals(p.getPreferredParameterJavaType(),"Long");
 		
 		p.setParameterClass("long");
-		assertEquals(p.getPreferredParameterJavaType(),"long");
+		assertEquals(p.getPreferredParameterJavaType(),"Long");
 	}
 }
