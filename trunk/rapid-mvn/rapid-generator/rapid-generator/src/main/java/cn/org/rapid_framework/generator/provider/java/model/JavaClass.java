@@ -234,7 +234,11 @@ public class JavaClass {
 	public String getMavenJavaSourceFileContent() {
 		if(mavenJavaSourceFileContent == null){
 			if(getMavenJavaSourceFile() != null) {
-				mavenJavaSourceFileContent = IOHelper.readFile(new File(getMavenJavaSourceFile()));
+				File file = new File(getMavenJavaSourceFile());
+				if(file.exists()) {
+				    mavenJavaSourceFileContent = IOHelper.readFile(file);
+				}
+				//TODO 增加读取 maven app-sources.jar只的源代码文件地址.
 			}
 		}
 		return mavenJavaSourceFileContent;
