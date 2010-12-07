@@ -28,7 +28,7 @@ public class GeneratorTestCase extends TestCase{
 	    try {
 	    	runSqlScripts();
 	    }catch(Exception e) {
-	    	e.printStackTrace();
+	    	throw e;
 	    }
 
 //		System.getProperties().list(System.out);
@@ -52,7 +52,7 @@ public class GeneratorTestCase extends TestCase{
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
 	    }else if("h2".equals(testDbType)) {
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20));
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20)+";DB_CLOSE_DELAY=-1");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
 	    }else if("mysql".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
