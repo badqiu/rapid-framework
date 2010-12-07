@@ -1,12 +1,9 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import cn.org.rapid_framework.generator.GeneratorTestCase;
-import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
-import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 
 public class SqlTest extends GeneratorTestCase {
 	Sql sql = new Sql();
@@ -95,6 +92,11 @@ public class SqlTest extends GeneratorTestCase {
 		
 		sql = new SqlFactory().parseSql("insert into user_info(username,user_id) values (:username,?)");
 		assertFalse(sql.isColumnsInSameTable());
+	}
+	
+	public void test_get_result_class() {
+		Sql sql = new SqlFactory().parseSql("select * from user_info /* inner join from blogjava */ ");
+		assertEquals("UserInfo",sql.getResultClass());
 	}
 	
 	/** 测试聚集函数colum名称自动转换,示例转换 count(*) => count, max(age) => max_age, sum(income) => sum_income */
