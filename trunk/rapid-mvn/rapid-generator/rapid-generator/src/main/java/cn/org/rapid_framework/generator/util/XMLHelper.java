@@ -83,7 +83,7 @@ public class XMLHelper {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             dbf.setIgnoringElementContentWhitespace(false);
             dbf.setValidating(false);
-            dbf.setCoalescing(false);  //convert CDATA nodes to Text FIXME 该节点与if(elm.getNodeType() == Node.CDATA_SECTION_NODE) 
+            dbf.setCoalescing(false);  //convert CDATA nodes to Text 
             dbf.setIgnoringComments(false); //为false时与CDATA冲突
             try {
                 DocumentBuilder db = dbf.newDocumentBuilder();
