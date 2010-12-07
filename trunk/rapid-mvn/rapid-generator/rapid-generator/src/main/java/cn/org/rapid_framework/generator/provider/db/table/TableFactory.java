@@ -45,6 +45,7 @@ public class TableFactory {
 	
 	private String schema;
 	private String catalog;
+	private List<TableFactoryListener> tableFactoryListeners = new ArrayList<TableFactoryListener>();
 	
 	private TableFactory(String schema,String catalog) {
 		this.schema = schema;
@@ -67,7 +68,11 @@ public class TableFactory {
 	public List getAllTables() {
 	    Connection conn = DataSourceProvider.getConnection();
 		try {
-			return new TableCreateProcessor(conn,getSchema(),getCatalog()).getAllTables();
+			List<Table> tables = new TableCreateProcessor(conn,getSchema(),getCatalog()).getAllTables();
+			for(Table t : tables) {
+				dispatchOnTableCreatedEvent(t);
+			}
+			return tables;
 		}catch(Exception e) {
 			throw new RuntimeException(e);
 		}finally {
@@ -75,6 +80,12 @@ public class TableFactory {
 		}
 	}
 	
+	private void dispatchOnTableCreatedEvent(Table t) {
+		for(TableFactoryListener listener : tableFactoryListeners) {
+			listener.onTableCreated(t);
+		}
+	}
+
 	public Table getTable(String tableName) {
 		return getTable(getSchema(),tableName);
 	}
@@ -104,6 +115,7 @@ public class TableFactory {
 				DBHelper.close(conn);
 			}
 		}
+		dispatchOnTableCreatedEvent(t);
 		return t;
 	}
 	
@@ -154,7 +166,7 @@ public class TableFactory {
 			this.catalog = catalog;
 		}
 
-		private Table createTable(ResultSet rs) throws SQLException {
+		public Table createTable(ResultSet rs) throws SQLException {
 			long start = System.currentTimeMillis();
 		    String tableName = null;
 			try {
@@ -191,11 +203,11 @@ public class TableFactory {
 			}
 		}
 		
-		private List getAllTables() throws SQLException {
+		private List<Table> getAllTables() throws SQLException {
 			DatabaseMetaData dbMetaData = connection.getMetaData();
 			ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
 			try {
-				List tables = new ArrayList();
+				List<Table> tables = new ArrayList<Table>();
 				while(rs.next()) {
 					tables.add(createTable(rs));
 				}
