@@ -62,12 +62,19 @@ public class TableTest extends TestCase{
 		table.setSqlName("diy_user");
 		assertEquals("DiyUser",table.getClassName());
 	}
-	
+
+   public void test_alipay_dalgen_rule() {
+        GeneratorProperties.setProperty(GeneratorConstants.TABLE_NAME_SINGULARIZE, "true");
+        Table table = new Table();
+        table.setSqlName("bashes");
+        assertEquals("dalgen是这种规则","Bashe",table.getClassName());
+   }
+   
 	public void test_TABLE_NAME_SINGULARIZE() {
         GeneratorProperties.setProperty(GeneratorConstants.TABLE_NAME_SINGULARIZE, "true");
         Table table = new Table();
         table.setSqlName("bashes");
-        assertEquals("Bashe",table.getClassName());
+        assertEquals("Bash",table.getClassName());
         
         table.setSqlName("cuStomeRs");
         assertEquals("CuStomeR",table.getClassName());
