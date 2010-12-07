@@ -41,7 +41,6 @@ import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
  */
 public class TableFactory {
 	
-	private DbHelper dbHelper = new DbHelper();
 	private static TableFactory instance = null;
 	
 	private String schema;
@@ -65,14 +64,10 @@ public class TableFactory {
 		return schema;
 	}
 
-	private Connection getConnection() {
-		return DataSourceProvider.getConnection();
-	}
-
 	public List getAllTables() {
-	    Connection conn = getConnection();
+	    Connection conn = DataSourceProvider.getConnection();
 		try {
-			return getAllTables(conn);
+			return new TableCreateProcessor(conn,getSchema(),getCatalog()).getAllTables();
 		}catch(Exception e) {
 			throw new RuntimeException(e);
 		}finally {
@@ -102,7 +97,12 @@ public class TableFactory {
 			throw new RuntimeException(e);
 		}
 		if(t == null) {
-			throw new NotFoundTableException("not found table with give name:"+tableName+ (dbHelper.isOracleDataBase() ? " \n databaseStructureInfo:"+getDatabaseStructureInfo() : "")+"\n current "+DataSourceProvider.getDataSource()+" current schema:"+getSchema()+" current catalog:"+getCatalog());
+			Connection conn = DataSourceProvider.getConnection();
+			try {
+				throw new NotFoundTableException("not found table with give name:"+tableName+ (DatabaseMetaDataUtils.isOracleDataBase(DatabaseMetaDataUtils.getMetaData(conn)) ? " \n databaseStructureInfo:"+DatabaseMetaDataUtils.getDatabaseStructureInfo(DatabaseMetaDataUtils.getMetaData(conn),schema,catalog) : "")+"\n current "+DataSourceProvider.getDataSource()+" current schema:"+getSchema()+" current catalog:"+getCatalog());
+			}finally {
+				DBHelper.close(conn);
+			}
 		}
 		return t;
 	}
@@ -120,12 +120,12 @@ public class TableFactory {
 	    catalog = StringHelper.defaultIfEmpty(catalog, null);
 	    schema = StringHelper.defaultIfEmpty(schema, null);
 	    
-		Connection conn = getConnection();
+		Connection conn = DataSourceProvider.getConnection();
 		DatabaseMetaData dbMetaData = conn.getMetaData();
 		ResultSet rs = dbMetaData.getTables(catalog, schema, tableName, null);
 		try {
 			while(rs.next()) {
-				Table table = createTable(schema,catalog,conn, rs);
+				Table table = new TableCreateProcessor(conn,getSchema(),getCatalog()).createTable(rs);
 				return table;
 			}
 		}finally {
@@ -134,285 +134,269 @@ public class TableFactory {
 		return null;
 	}
 
-	private Table createTable(String schema,String catalog,Connection conn, ResultSet rs) throws SQLException {
-		long start = System.currentTimeMillis();
-	    String tableName = null;
-		try {
-			ResultSetMetaData rsMetaData = rs.getMetaData();
-			String schemaName = rs.getString("TABLE_SCHEM") == null ? "" : rs.getString("TABLE_SCHEM");
-			tableName = rs.getString("TABLE_NAME");
-			String tableType = rs.getString("TABLE_TYPE");
-			String remarks = rs.getString("REMARKS");
-			if(remarks == null && dbHelper.isOracleDataBase()) {
-				remarks = getOracleTableComments(tableName);
-			}
-			
-			Table table = new Table();
-			table.setSchema(schema);
-			table.setCatalog(catalog);
-			table.setSqlName(tableName);
-			table.setRemarks(remarks);
-			
-			if ("SYNONYM".equals(tableType) && dbHelper.isOracleDataBase()) {
-			    String[] ownerAndTableName = getSynonymOwnerAndTableName(tableName);
-				table.setOwnerSynonymName(ownerAndTableName[0]);
-				table.setTableSynonymName(ownerAndTableName[1]);
-			}
-			
-			retriveTableColumns(table);
-			table.initExportedKeys(conn.getMetaData());
-			table.initImportedKeys(conn.getMetaData());
-			BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableConfigValues(table.getSqlName()));
-			return table;
-		}catch(SQLException e) {
-			throw new RuntimeException("create table object error,tableName:"+tableName,e);
-		}finally {
-		    GLogger.perf("createTable() cost:"+(System.currentTimeMillis()- start)+" tableName:"+tableName);
+	public static class TableCreateProcessor {
+		private Connection connection;
+		private String catalog;
+		private String schema;
+		
+		public String getCatalog() {
+			return catalog;
 		}
-	}
+
+		public String getSchema() {
+			return schema;
+		}
+		
+		public TableCreateProcessor(Connection connection,String schema,String catalog) {
+			super();
+			this.connection = connection;
+			this.schema = schema;
+			this.catalog = catalog;
+		}
+
+		private Table createTable(ResultSet rs) throws SQLException {
+			long start = System.currentTimeMillis();
+		    String tableName = null;
+			try {
+				ResultSetMetaData rsMetaData = rs.getMetaData();
+				String schemaName = rs.getString("TABLE_SCHEM") == null ? "" : rs.getString("TABLE_SCHEM");
+				tableName = rs.getString("TABLE_NAME");
+				String tableType = rs.getString("TABLE_TYPE");
+				String remarks = rs.getString("REMARKS");
+				if(remarks == null && DatabaseMetaDataUtils.isOracleDataBase(connection.getMetaData())) {
+					remarks = getOracleTableComments(tableName);
+				}
+				
+				Table table = new Table();
+				table.setSchema(schema);
+				table.setCatalog(catalog);
+				table.setSqlName(tableName);
+				table.setRemarks(remarks);
+				
+				if ("SYNONYM".equals(tableType) && DatabaseMetaDataUtils.isOracleDataBase(connection.getMetaData())) {
+				    String[] ownerAndTableName = getSynonymOwnerAndTableName(tableName);
+					table.setOwnerSynonymName(ownerAndTableName[0]);
+					table.setTableSynonymName(ownerAndTableName[1]);
+				}
+				
+				retriveTableColumns(table);
+				table.initExportedKeys(connection.getMetaData());
+				table.initImportedKeys(connection.getMetaData());
+				BeanHelper.copyProperties(table, TableOverrideValuesProvider.getTableConfigValues(table.getSqlName()));
+				return table;
+			}catch(SQLException e) {
+				throw new RuntimeException("create table object error,tableName:"+tableName,e);
+			}finally {
+			    GLogger.perf("createTable() cost:"+(System.currentTimeMillis()- start)+" tableName:"+tableName);
+			}
+		}
+		
+		private List getAllTables() throws SQLException {
+			DatabaseMetaData dbMetaData = connection.getMetaData();
+			ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
+			try {
+				List tables = new ArrayList();
+				while(rs.next()) {
+					tables.add(createTable(rs));
+				}
+				return tables;
+			}finally {
+				DBHelper.close(rs);
+			}
+		}
 	
-	private List getAllTables(Connection conn) throws SQLException {
-		DatabaseMetaData dbMetaData = conn.getMetaData();
-		ResultSet rs = dbMetaData.getTables(getCatalog(), getSchema(), null, null);
-		try {
-			List tables = new ArrayList();
-			while(rs.next()) {
-				tables.add(createTable(getSchema(),getCatalog(),conn, rs));
-			}
-			return tables;
-		}finally {
-			DBHelper.close(rs);
+		private String[] getSynonymOwnerAndTableName(String synonymName)  {
+		      PreparedStatement ps = null;
+		      ResultSet rs = null;
+		      String[] ret = new String[2];
+		      try {
+				 ps = connection.prepareStatement("select table_owner,table_name from sys.all_synonyms where synonym_name=? and owner=?");
+		         ps.setString(1, synonymName);
+		         ps.setString(2, getSchema());
+		         rs = ps.executeQuery();
+		         if (rs.next()) {
+		            ret[0] = rs.getString(1);
+		            ret[1] = rs.getString(2);
+		         }
+		         else {
+		            String databaseStructure = DatabaseMetaDataUtils.getDatabaseStructureInfo(getMetaData(),schema,catalog);
+		            throw new RuntimeException("Wow! Synonym " + synonymName + " not found. How can it happen? " + databaseStructure);
+		         }
+		      } catch (SQLException e) {
+		         String databaseStructure = DatabaseMetaDataUtils.getDatabaseStructureInfo(getMetaData(),schema,catalog);
+		         GLogger.error(e.getMessage(), e);
+		         throw new RuntimeException("Exception in getting synonym owner " + databaseStructure);
+		      } finally {
+		         DBHelper.close(null,ps,rs);
+		      }
+		      return ret;
 		}
-	}
-
-	private String[] getSynonymOwnerAndTableName(String synonymName)  {
-	      PreparedStatement ps = null;
-	      ResultSet rs = null;
-	      String[] ret = new String[2];
-	      try {
-			 ps = getConnection().prepareStatement("select table_owner,table_name from sys.all_synonyms where synonym_name=? and owner=?");
-	         ps.setString(1, synonymName);
-	         ps.setString(2, getSchema());
-	         rs = ps.executeQuery();
-	         if (rs.next()) {
-	            ret[0] = rs.getString(1);
-	            ret[1] = rs.getString(2);
-	         }
-	         else {
-	            String databaseStructure = getDatabaseStructureInfo();
-	            throw new RuntimeException("Wow! Synonym " + synonymName + " not found. How can it happen? " + databaseStructure);
-	         }
-	      } catch (SQLException e) {
-	         String databaseStructure = getDatabaseStructureInfo();
-	         GLogger.error(e.getMessage(), e);
-	         throw new RuntimeException("Exception in getting synonym owner " + databaseStructure);
-	      } finally {
-	         DBHelper.close(null,ps,rs);
-	      }
-	      return ret;
-	   }
-   
-   private String getDatabaseStructureInfo() {
-	      ResultSet schemaRs = null;
-	      ResultSet catalogRs = null;
-	      String nl = System.getProperty("line.separator");
-	      StringBuffer sb = new StringBuffer(nl);
-	      // Let's give the user some feedback. The exception
-	      // is probably related to incorrect schema configuration.
-	      sb.append("Configured schema:").append(getSchema()).append(nl);
-	      sb.append("Configured catalog:").append(getCatalog()).append(nl);
-
-	      try {
-	         schemaRs = getMetaData().getSchemas();
-	         sb.append("Available schemas:").append(nl);
-	         while (schemaRs.next()) {
-	            sb.append("  ").append(schemaRs.getString("TABLE_SCHEM")).append(nl);
-	         }
-	      } catch (SQLException e2) {
-	         GLogger.warn("Couldn't get schemas", e2);
-	         sb.append("  ?? Couldn't get schemas ??").append(nl);
-	      } finally {
-	         DBHelper.close(schemaRs);
-	      }
-
-	      try {
-	         catalogRs = getMetaData().getCatalogs();
-	         sb.append("Available catalogs:").append(nl);
-	         while (catalogRs.next()) {
-	            sb.append("  ").append(catalogRs.getString("TABLE_CAT")).append(nl);
-	         }
-	      } catch (SQLException e2) {
-	         GLogger.warn("Couldn't get catalogs", e2);
-	         sb.append("  ?? Couldn't get catalogs ??").append(nl);
-	      } finally {
-	         DBHelper.close(catalogRs);
-	      }
-	      return sb.toString();
-    }
 	   
-	private DatabaseMetaData getMetaData() throws SQLException {
-		return getConnection().getMetaData();
-	}
-	
-	private void retriveTableColumns(Table table) throws SQLException {
-	      GLogger.trace("-------setColumns(" + table.getSqlName() + ")");
-
-	      List primaryKeys = getTablePrimaryKeys(table);
-	      table.setPrimaryKeyColumns(primaryKeys);
-	      
-	      // get the indices and unique columns
-	      List indices = new LinkedList();
-	      // maps index names to a list of columns in the index
-	      Map uniqueIndices = new HashMap();
-	      // maps column names to the index name.
-	      Map uniqueColumns = new HashMap();
-	      ResultSet indexRs = null;
-
-	      try {
-
-	         if (table.getOwnerSynonymName() != null) {
-	            indexRs = getMetaData().getIndexInfo(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), false, true);
-	         }
-	         else {
-	            indexRs = getMetaData().getIndexInfo(getCatalog(), getSchema(), table.getSqlName(), false, true);
-	         }
-	         while (indexRs.next()) {
-	            String columnName = indexRs.getString("COLUMN_NAME");
-	            if (columnName != null) {
-	               GLogger.trace("index:" + columnName);
-	               indices.add(columnName);
-	            }
-
-	            // now look for unique columns
-	            String indexName = indexRs.getString("INDEX_NAME");
-	            boolean nonUnique = indexRs.getBoolean("NON_UNIQUE");
-
-	            if (!nonUnique && columnName != null && indexName != null) {
-	               List l = (List)uniqueColumns.get(indexName);
-	               if (l == null) {
-	                  l = new ArrayList();
-	                  uniqueColumns.put(indexName, l);
-	               }
-	               l.add(columnName);
-	               uniqueIndices.put(columnName, indexName);
-	               GLogger.trace("unique:" + columnName + " (" + indexName + ")");
-	            }
-	         }
-	      } catch (Throwable t) {
-	         // Bug #604761 Oracle getIndexInfo() needs major grants
-	         // http://sourceforge.net/tracker/index.php?func=detail&aid=604761&group_id=36044&atid=415990
-	      } finally {
-	         DBHelper.close(indexRs);
-	      }
-
-	      List columns = getTableColumns(table, primaryKeys, indices, uniqueIndices, uniqueColumns);
-
-	      for (Iterator i = columns.iterator(); i.hasNext(); ) {
-	         Column column = (Column)i.next();
-	         table.addColumn(column);
-	      }
-
-	      // In case none of the columns were primary keys, issue a warning.
-	      if (primaryKeys.size() == 0) {
-	         GLogger.warn("WARNING: The JDBC driver didn't report any primary key columns in " + table.getSqlName());
-	      }
-	}
-
-	private List getTableColumns(Table table, List primaryKeys, List indices, Map uniqueIndices, Map uniqueColumns) throws SQLException {
-		// get the columns
-	      List columns = new LinkedList();
-	      ResultSet columnRs = getColumnsResultSet(table);
-	      try {
-	      while (columnRs.next()) {
-	         int sqlType = columnRs.getInt("DATA_TYPE");
-	         String sqlTypeName = columnRs.getString("TYPE_NAME");
-	         String columnName = columnRs.getString("COLUMN_NAME");
-	         String columnDefaultValue = columnRs.getString("COLUMN_DEF");
-	         
-	         String remarks = columnRs.getString("REMARKS");
-	         if(remarks == null && dbHelper.isOracleDataBase()) {
-	        	 remarks = getOracleColumnComments(table.getSqlName(), columnName);
-	         }
-	         
-	         // if columnNoNulls or columnNullableUnknown assume "not nullable"
-	         boolean isNullable = (DatabaseMetaData.columnNullable == columnRs.getInt("NULLABLE"));
-	         int size = columnRs.getInt("COLUMN_SIZE");
-	         int decimalDigits = columnRs.getInt("DECIMAL_DIGITS");
-
-	         boolean isPk = primaryKeys.contains(columnName);
-	         boolean isIndexed = indices.contains(columnName);
-	         String uniqueIndex = (String)uniqueIndices.get(columnName);
-	         List columnsInUniqueIndex = null;
-	         if (uniqueIndex != null) {
-	            columnsInUniqueIndex = (List)uniqueColumns.get(uniqueIndex);
-	         }
-
-	         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
-	         if (isUnique) {
-	            GLogger.trace("unique column:" + columnName);
-	         }
-	         Column column = new Column(
-	               table,
-	               sqlType,
-	               sqlTypeName,
-	               columnName,
-	               size,
-	               decimalDigits,
-	               isPk,
-	               isNullable,
-	               isIndexed,
-	               isUnique,
-	               columnDefaultValue,
-	               remarks);
-	         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnConfigValues(table,column));
-	         columns.add(column);
-	    }
-		} finally {
-			DBHelper.close(columnRs);
+		private DatabaseMetaData getMetaData() {
+			return DatabaseMetaDataUtils.getMetaData(connection);
 		}
-		return columns;
-	}
+		
+		private void retriveTableColumns(Table table) throws SQLException {
+		      GLogger.trace("-------setColumns(" + table.getSqlName() + ")");
 	
-	private ResultSet getColumnsResultSet(Table table) throws SQLException {
-		ResultSet columnRs = null;
-	    if (table.getOwnerSynonymName() != null) {
-	         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), null);
-	    } else {
-	         columnRs = getMetaData().getColumns(getCatalog(), getSchema(), table.getSqlName(), null);
-	    }
-		return columnRs;
-	}
-
-	private List<String> getTablePrimaryKeys(Table table) throws SQLException {
-		// get the primary keys
-	      List primaryKeys = new LinkedList();
-	      ResultSet primaryKeyRs = null;
-	      try {
-	      if (table.getOwnerSynonymName() != null) {
-	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName());
-	      }
-	      else {
-	         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), getSchema(), table.getSqlName());
-	      }
-	      while (primaryKeyRs.next()) {
-	         String columnName = primaryKeyRs.getString("COLUMN_NAME");
-	         GLogger.trace("primary key:" + columnName);
-	         primaryKeys.add(columnName);
-	      }
-	      }finally {
-	    	  DBHelper.close(primaryKeyRs);
-	      }
-		  return primaryKeys;
-	}
-
-	private String getOracleTableComments(String table)  {
-		String sql = "SELECT comments FROM user_tab_comments WHERE table_name='"+table+"'";
-		return dbHelper.queryForString(sql);
-	}
-
-	private String getOracleColumnComments(String table,String column)  {
-		String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
-		return dbHelper.queryForString(sql);
+		      List primaryKeys = getTablePrimaryKeys(table);
+		      table.setPrimaryKeyColumns(primaryKeys);
+		      
+		      // get the indices and unique columns
+		      List indices = new LinkedList();
+		      // maps index names to a list of columns in the index
+		      Map uniqueIndices = new HashMap();
+		      // maps column names to the index name.
+		      Map uniqueColumns = new HashMap();
+		      ResultSet indexRs = null;
+	
+		      try {
+	
+		         if (table.getOwnerSynonymName() != null) {
+		            indexRs = getMetaData().getIndexInfo(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), false, true);
+		         }
+		         else {
+		            indexRs = getMetaData().getIndexInfo(getCatalog(), getSchema(), table.getSqlName(), false, true);
+		         }
+		         while (indexRs.next()) {
+		            String columnName = indexRs.getString("COLUMN_NAME");
+		            if (columnName != null) {
+		               GLogger.trace("index:" + columnName);
+		               indices.add(columnName);
+		            }
+	
+		            // now look for unique columns
+		            String indexName = indexRs.getString("INDEX_NAME");
+		            boolean nonUnique = indexRs.getBoolean("NON_UNIQUE");
+	
+		            if (!nonUnique && columnName != null && indexName != null) {
+		               List l = (List)uniqueColumns.get(indexName);
+		               if (l == null) {
+		                  l = new ArrayList();
+		                  uniqueColumns.put(indexName, l);
+		               }
+		               l.add(columnName);
+		               uniqueIndices.put(columnName, indexName);
+		               GLogger.trace("unique:" + columnName + " (" + indexName + ")");
+		            }
+		         }
+		      } catch (Throwable t) {
+		         // Bug #604761 Oracle getIndexInfo() needs major grants
+		         // http://sourceforge.net/tracker/index.php?func=detail&aid=604761&group_id=36044&atid=415990
+		      } finally {
+		         DBHelper.close(indexRs);
+		      }
+	
+		      List columns = getTableColumns(table, primaryKeys, indices, uniqueIndices, uniqueColumns);
+	
+		      for (Iterator i = columns.iterator(); i.hasNext(); ) {
+		         Column column = (Column)i.next();
+		         table.addColumn(column);
+		      }
+	
+		      // In case none of the columns were primary keys, issue a warning.
+		      if (primaryKeys.size() == 0) {
+		         GLogger.warn("WARNING: The JDBC driver didn't report any primary key columns in " + table.getSqlName());
+		      }
+		}
+	
+		private List getTableColumns(Table table, List primaryKeys, List indices, Map uniqueIndices, Map uniqueColumns) throws SQLException {
+			// get the columns
+		      List columns = new LinkedList();
+		      ResultSet columnRs = getColumnsResultSet(table);
+		      try {
+		    	  while (columnRs.next()) {
+			         int sqlType = columnRs.getInt("DATA_TYPE");
+			         String sqlTypeName = columnRs.getString("TYPE_NAME");
+			         String columnName = columnRs.getString("COLUMN_NAME");
+			         String columnDefaultValue = columnRs.getString("COLUMN_DEF");
+			         
+			         String remarks = columnRs.getString("REMARKS");
+			         if(remarks == null && DatabaseMetaDataUtils.isOracleDataBase(connection.getMetaData())) {
+			        	 remarks = getOracleColumnComments(table.getSqlName(), columnName);
+			         }
+			         
+			         // if columnNoNulls or columnNullableUnknown assume "not nullable"
+			         boolean isNullable = (DatabaseMetaData.columnNullable == columnRs.getInt("NULLABLE"));
+			         int size = columnRs.getInt("COLUMN_SIZE");
+			         int decimalDigits = columnRs.getInt("DECIMAL_DIGITS");
+		
+			         boolean isPk = primaryKeys.contains(columnName);
+			         boolean isIndexed = indices.contains(columnName);
+			         String uniqueIndex = (String)uniqueIndices.get(columnName);
+			         List columnsInUniqueIndex = null;
+			         if (uniqueIndex != null) {
+			            columnsInUniqueIndex = (List)uniqueColumns.get(uniqueIndex);
+			         }
+		
+			         boolean isUnique = columnsInUniqueIndex != null && columnsInUniqueIndex.size() == 1;
+			         if (isUnique) {
+			            GLogger.trace("unique column:" + columnName);
+			         }
+			         Column column = new Column(
+			               table,
+			               sqlType,
+			               sqlTypeName,
+			               columnName,
+			               size,
+			               decimalDigits,
+			               isPk,
+			               isNullable,
+			               isIndexed,
+			               isUnique,
+			               columnDefaultValue,
+			               remarks);
+			         BeanHelper.copyProperties(column,TableOverrideValuesProvider.getColumnConfigValues(table,column));
+			         columns.add(column);
+		        }
+			}finally {
+				DBHelper.close(columnRs);
+			}
+			return columns;
+		}
+		
+		private ResultSet getColumnsResultSet(Table table) throws SQLException {
+			ResultSet columnRs = null;
+		    if (table.getOwnerSynonymName() != null) {
+		         columnRs = getMetaData().getColumns(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName(), null);
+		    } else {
+		         columnRs = getMetaData().getColumns(getCatalog(), getSchema(), table.getSqlName(), null);
+		    }
+			return columnRs;
+		}
+	
+		private List<String> getTablePrimaryKeys(Table table) throws SQLException {
+			// get the primary keys
+		      List primaryKeys = new LinkedList();
+		      ResultSet primaryKeyRs = null;
+		      try {
+		      if (table.getOwnerSynonymName() != null) {
+		         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), table.getOwnerSynonymName(), table.getTableSynonymName());
+		      }
+		      else {
+		         primaryKeyRs = getMetaData().getPrimaryKeys(getCatalog(), getSchema(), table.getSqlName());
+		      }
+		      while (primaryKeyRs.next()) {
+		         String columnName = primaryKeyRs.getString("COLUMN_NAME");
+		         GLogger.trace("primary key:" + columnName);
+		         primaryKeys.add(columnName);
+		      }
+		      }finally {
+		    	  DBHelper.close(primaryKeyRs);
+		      }
+			  return primaryKeys;
+		}
+		
+		// FIXME 如果是oracle同义词:Synonym, 需要根据 OwnerSynonymName及TableSynonymName 才能查找回oracle注释
+		private String getOracleTableComments(String table)  {
+			String sql = "SELECT comments FROM user_tab_comments WHERE table_name='"+table+"'";
+			return ExecuteSqlHelper.queryForString(connection,sql);
+		}
+	
+		private String getOracleColumnComments(String table,String column)  {
+			String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
+			return ExecuteSqlHelper.queryForString(connection,sql);
+		}
 	}
 	
 	/** 得到表的自定义配置信息 */
@@ -463,21 +447,13 @@ public class TableFactory {
 		}
 	}
 	
-	class DbHelper {
+	static class ExecuteSqlHelper {
 
-		public boolean isOracleDataBase() {
-			try {
-				return DatabaseMetaDataUtils.isOracleDataBase(getMetaData());
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public String queryForString(String sql) {
+		public static String queryForString(Connection conn,String sql) {
 			Statement s = null;
 			ResultSet rs = null;
 			try {
-				s =  getConnection().createStatement();
+				s =  conn.createStatement();
 				rs = s.executeQuery(sql);
 				if(rs.next()) {
 					return rs.getString(1);
@@ -526,5 +502,51 @@ public class TableFactory {
 //              throw new RuntimeException(s);
             }
         }
+		
+		public static DatabaseMetaData getMetaData(Connection connection) {
+			try {
+				return connection.getMetaData();
+			}catch(SQLException e) {
+				throw new RuntimeException("cannot get DatabaseMetaData",e);
+			}
+		}
+		
+		public static String getDatabaseStructureInfo(DatabaseMetaData metadata,String schema,String catalog) {
+		      ResultSet schemaRs = null;
+		      ResultSet catalogRs = null;
+		      String nl = System.getProperty("line.separator");
+		      StringBuffer sb = new StringBuffer(nl);
+		      // Let's give the user some feedback. The exception
+		      // is probably related to incorrect schema configuration.
+		      sb.append("Configured schema:").append(schema).append(nl);
+		      sb.append("Configured catalog:").append(catalog).append(nl);
+
+		      try {
+		         schemaRs = metadata.getSchemas();
+		         sb.append("Available schemas:").append(nl);
+		         while (schemaRs.next()) {
+		            sb.append("  ").append(schemaRs.getString("TABLE_SCHEM")).append(nl);
+		         }
+		      } catch (SQLException e2) {
+		         GLogger.warn("Couldn't get schemas", e2);
+		         sb.append("  ?? Couldn't get schemas ??").append(nl);
+		      } finally {
+		         DBHelper.close(schemaRs);
+		      }
+
+		      try {
+		         catalogRs = metadata.getCatalogs();
+		         sb.append("Available catalogs:").append(nl);
+		         while (catalogRs.next()) {
+		            sb.append("  ").append(catalogRs.getString("TABLE_CAT")).append(nl);
+		         }
+		      } catch (SQLException e2) {
+		         GLogger.warn("Couldn't get catalogs", e2);
+		         sb.append("  ?? Couldn't get catalogs ??").append(nl);
+		      } finally {
+		         DBHelper.close(catalogRs);
+		      }
+		      return sb.toString();
+	    }		
 	}
 }
