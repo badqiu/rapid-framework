@@ -70,7 +70,7 @@ public class SqlParseHelper {
 		
 	/** 从一条sql中解释中包含的表  */
 	public static Set<NameWithAlias> getTableNamesByQuery(String sql) {
-		sql = sql.trim();
+		sql = removeSqlComments(StringHelper.removeXMLCdataTag(sql)).trim();
 		Set<NameWithAlias> result = new LinkedHashSet();
 		Matcher m = fromRegex.matcher(sql);
 		if (m.find()) {
@@ -96,15 +96,18 @@ public class SqlParseHelper {
 				result.add(parseTableSqlAlias(from));
 			}
 		}
-
-		m = update.matcher(sql);
-		if (m.find()) {
-			result.add(new NameWithAlias(m.group(2),null));
+		if(SqlTypeChecker.isUpdateSql(sql)) {
+    		m = update.matcher(sql);
+    		if (m.find()) {
+    			result.add(new NameWithAlias(m.group(2),null));
+    		}
 		}
 
-		m = insert.matcher(sql);
-		if (m.find()) {
-			result.add(new NameWithAlias(m.group(2),null));
+		if(SqlTypeChecker.isInsertSql(sql)) {
+    		m = insert.matcher(sql);
+    		if (m.find()) {
+    			result.add(new NameWithAlias(m.group(2),null));
+    		}
 		}
 		return result;
 	}
