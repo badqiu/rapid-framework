@@ -178,6 +178,9 @@ public class JavaMethod {
 		public int hashCode() {
 		    return field.hashCode() + method.hashCode();
 		}
+		public String toString() {
+		    return field.getFieldName()+"."+method.getMethodName()+"()";
+		}
     }
     
     /**
@@ -267,7 +270,7 @@ public class JavaMethod {
 		
 		private String getMethodBody(String javaSourceContent) {
 		    
-		    String methodStartPattern = "(?s)"+modifierToString(method.method.getModifiers())+".*\\s+"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getSimpleParamsPattern(method.method)+"\\)\\s*";
+		    String methodStartPattern = "(?s)\\s+"+method.getMethodName()+"\\s*\\("+JavaSourceFileMethodParametersParser.getSimpleParamsPattern(method.method)+"\\)\\s*";
             
         	int methodStart = StringHelper.indexOfByRegex(javaSourceContent,methodStartPattern);
         	if(methodStart == -1) throw new IllegalArgumentException("cannot get method body by pattern:"+methodStartPattern+" methodName:"+method.getMethodName() +"\n javaSource:"+javaSourceContent);
