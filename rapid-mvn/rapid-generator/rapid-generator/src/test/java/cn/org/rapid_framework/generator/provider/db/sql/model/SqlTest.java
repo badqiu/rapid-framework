@@ -1,19 +1,15 @@
 package cn.org.rapid_framework.generator.provider.db.sql.model;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+
 import cn.org.rapid_framework.generator.GeneratorTestCase;
+import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 
 public class SqlTest extends GeneratorTestCase {
 	Sql sql = new Sql();
-	
-	public void setUp() {
-		try {
-			super.setUp();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void test_getOperationResultClassName() {
 		sql.setResultClass("com.badqiu.User");
@@ -33,7 +29,7 @@ public class SqlTest extends GeneratorTestCase {
 		assertEquals("FindPageParameter",sql.getParameterClassName());
 	}
 	
-	public void test_getOperationResultClass() {
+	public void test_getOperationResultClass() throws SQLException {
 		Sql sql = new SqlFactory().parseSql("select username from user_info");
 		assertEquals("String",sql.getResultClass());
 		
