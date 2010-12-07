@@ -3,10 +3,10 @@
 
 package cn.org.rapid_framework.generator.provider.java.model.testservicebean;
 
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.*;
+import static org.junit.Assert.assertNotNull;
 
-import java.util.*;
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -17,18 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.lang.String;
-import java.util.List;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.CommentServiceBean;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.EmailServiceBean;
-import cn.org.rapid_framework.generator.provider.java.model.testservicebean.TopicServiceBean;
-import java.lang.Object;
-import java.util.Locale;
-import java.nio.charset.Charset;
-import java.io.UnsupportedEncodingException;
-import java.util.Comparator;
-import java.io.ObjectStreamField;
 
 
 @RunWith(JMock.class)
@@ -326,15 +314,15 @@ public class BlogServiceBeanTest{
         assertNotNull(result);
     }
     
-    @Test
-    public void test_call_other_method() throws Throwable{
-        
-        
-        
-        String result = blogServiceBean.call_other_method();
-        
-        assertNotNull(result);
-    }
+//    @Test
+//    public void test_call_other_method() throws Throwable{
+//        
+//        
+//        
+//        String result = blogServiceBean.call_other_method();
+//        
+//        assertNotNull(result);
+//    }
     
     @Test
     public void test_array_args() throws Throwable{
