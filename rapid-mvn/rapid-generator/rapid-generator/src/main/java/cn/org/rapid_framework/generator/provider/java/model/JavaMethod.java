@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import cn.org.rapid_framework.generator.provider.java.model.MethodParameter.JavaSourceFileMethodParametersParser;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.JavaImport;
 
@@ -131,9 +132,14 @@ public class JavaMethod {
      */
     public List<FieldMethodInvocation> getFieldMethodInvocationSequences() {
     	if(StringHelper.isNotBlank(clazz.getMavenJavaSourceFileContent())) {
-    		JavaMethodInvokeSequencesParser cmd = new JavaMethodInvokeSequencesParser(this,clazz.getMavenJavaSourceFileContent());
-	    	cmd.execute();
-	    	return cmd.getMethodInvokeSequences();
+    	    try {
+        		JavaMethodInvokeSequencesParser cmd = new JavaMethodInvokeSequencesParser(this,clazz.getMavenJavaSourceFileContent());
+    	    	cmd.execute();
+    	    	return cmd.getMethodInvokeSequences();
+    	    }catch(Exception e) {
+    	        GLogger.warn("getFieldMethodInvocationSequences() occer error on method:"+method.toString(),e);
+    	        return new ArrayList<FieldMethodInvocation>(0);
+    	    }
     	}else {
     		return new ArrayList<FieldMethodInvocation>(0);
     	}
