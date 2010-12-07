@@ -11,6 +11,7 @@ import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
+import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.IOHelper;
@@ -79,15 +80,19 @@ public class GeneratorTestCase extends TestCase{
 		assertEquals(conn,conn2);
 		
 //		System.out.println(conn.getCatalog());
-		
 		Statement stat = conn.createStatement();
-		String sqls = IOHelper.readFile(FileHelper.getFileByClassLoader(file),"UTF-8");
-		sqls = SqlParseHelper.removeSqlComments(sqls);
-		System.out.println(sqls);
-		for(String t : sqls.trim().split(";")) {
-			stat.execute(t.trim());
+		try {
+    		String sqls = IOHelper.readFile(FileHelper.getFileByClassLoader(file),"UTF-8");
+    		sqls = SqlParseHelper.removeSqlComments(sqls);
+    		System.out.println(sqls);
+    		for(String t : sqls.trim().split(";")) {
+    			stat.execute(t.trim());
+    		}
+		}finally {
+		    DBHelper.close(conn);
+		    DBHelper.close(conn2);
+		    DBHelper.close(stat);
 		}
-		stat.close();
 	}
 	
 	public void generateByTable(Table table) throws Exception {
