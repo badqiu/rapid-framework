@@ -46,13 +46,13 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("surefire.real.class.path") != null;
 	}
 	
-	protected static String testDbType = "h2";
+	static String testDbType = "h2";
 	public static void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
 	    }else if("h2".equals(testDbType)) {
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20));
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20)+";DB_CLOSE_DELAY=-1");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
 	    }else if("mysql".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
