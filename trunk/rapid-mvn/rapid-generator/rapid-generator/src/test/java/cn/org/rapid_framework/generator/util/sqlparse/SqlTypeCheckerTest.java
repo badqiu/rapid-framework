@@ -60,6 +60,8 @@ public class SqlTypeCheckerTest{
         assertTrue(result);
         
         assertTrue(sqlTypeChecker.isUpdateSql("<![CDATA[ update user set username = ? ,abc = ? where id = ? ]]>" ));
+        
+        assertFalse(sqlTypeChecker.isUpdateSql("select usr_id,usr_name,usr_passwd,usr_type,usr_gmt_create,usr_gmt_update from tse_user_base" ));
     }
     
     @Test
