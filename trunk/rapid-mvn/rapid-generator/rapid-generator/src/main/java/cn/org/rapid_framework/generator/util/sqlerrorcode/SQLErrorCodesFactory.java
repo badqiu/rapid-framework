@@ -106,7 +106,7 @@ public class SQLErrorCodesFactory {
         23514   违反检查（CHECK VIOLATION）
 	     */
 	    
-        // e.getErrorCode() e.getSQLState() FIXME 忽略掉insert update过程中的外键约束及完整性约束等异常,查看spring SQLExceptionTranslator代码
+        // e.getErrorCode() e.getSQLState() 
 	    
 	    errorCodesMap.put("DB2", newSQLErrorCodes(false,"DB2*","-407,-530,-531,-532,-543,-544,-545,-603,-667"));
 	    errorCodesMap.put("Derby", newSQLErrorCodes(true,"Apache Derby","22001,22005,23502,23503,23513,X0Y32"));
