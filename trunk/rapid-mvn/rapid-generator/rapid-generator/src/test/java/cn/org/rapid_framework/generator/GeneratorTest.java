@@ -106,7 +106,9 @@ public class GeneratorTest{
         
         Map templateModel = new HashMap();
         Map filePathModel = new HashMap();
-        
+        System.getProperties().list(System.out);
+        generator.setOutRootDir(System.getProperty("java.io.tmpdir")+"/test_generateBy");
+        generator.setTemplateRootDir(new File("/not_exist_828282"));
         Generator result = generator.generateBy(templateModel ,filePathModel );
         
         assertNotNull(result);
@@ -118,7 +120,8 @@ public class GeneratorTest{
         
         Map templateModel = new HashMap();
         Map filePathModel = new HashMap();
-        
+        generator.setOutRootDir(System.getProperty("java.io.tmpdir")+"/test_deleteBy");
+        generator.setTemplateRootDir(new File("/not_exist_828282"));
         Generator result = generator.deleteBy(templateModel ,filePathModel );
         
         assertNotNull(result);
