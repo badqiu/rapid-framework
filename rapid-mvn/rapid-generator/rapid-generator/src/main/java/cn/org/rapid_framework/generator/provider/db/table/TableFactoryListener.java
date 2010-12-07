@@ -10,6 +10,6 @@ public interface TableFactoryListener {
 	/**
 	 * 当table创建完成时会触发该事件,可以在此修改Table的属性值什么的 
 	 **/
-	public void onTableCreated(Table t);
+	public void onTableCreated(Table table);
 	
 }
