@@ -29,7 +29,8 @@ public class TableConfigSet implements Iterable<TableConfig>{
 		        }
 		        
 		        //TODO 考虑列的类型是否需要自定义,具体请参考TableConfig.getTable();
-		        //FIXME 还没有考虑TableConfigSet 的listener清除问题
+		        //FIXME 还没有考虑TableConfigSet 的listener清除问题,
+		        //TODO 增加单元测试
 			}
 		});
 	}
