@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactoryListener;
+import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class TableConfigSet implements Iterable<TableConfig>{
@@ -12,6 +15,25 @@ public class TableConfigSet implements Iterable<TableConfig>{
     
 	private String _package;
     
+	public TableConfigSet() {
+		
+		//增加监听器,用于table的自定义className
+		TableFactory tf = TableFactory.getInstance();
+		tf.addTableFactoryListener(new TableFactoryListener() {
+			public void onTableCreated(Table table) {
+				TableConfig tc = getBySqlName(table.getSqlName());
+				if(tc == null) return;
+		        table.setClassName(tc.getClassName());
+		        if(StringHelper.isNotBlank(table.getRemarks())) {
+		            table.setTableAlias(table.getRemarks());
+		        }
+		        
+		        //TODO 考虑列的类型是否需要自定义,具体请参考TableConfig.getTable();
+		        //FIXME 还没有考虑TableConfigSet 的listener清除问题
+			}
+		});
+	}
+	
     public String getPackage() {
         return _package;
     }
