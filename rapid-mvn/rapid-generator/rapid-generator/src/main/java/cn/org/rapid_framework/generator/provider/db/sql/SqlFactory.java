@@ -18,7 +18,6 @@ import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
-import cn.org.rapid_framework.generator.provider.db.table.TableFactory.DatabaseMetaDataUtils;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory.NotFoundTableException;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
@@ -291,16 +290,19 @@ public class SqlFactory {
 	
 		private Column findColumnByParseSql(ParsedSql sql, String paramName) throws Exception {
 			if(paramName == null) throw new NullPointerException("'paramName' must be not null");
-			
-			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
-			for(NameWithAlias tableName : tableNames) {
-				Table t = getTableFromCache(tableName.getName());
-				if(t != null) {
-					Column column = t.getColumnByName(paramName);
-					if(column != null) {
-						return column;
-					}
-				}
+			try {
+    			Collection<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery(sql.toString());
+    			for(NameWithAlias tableName : tableNames) {
+    				Table t = getTableFromCache(tableName.getName());
+    				if(t != null) {
+    					Column column = t.getColumnByName(paramName);
+    					if(column != null) {
+    						return column;
+    					}
+    				}
+    			}
+			}catch(NotFoundTableException e) {
+			    throw new IllegalArgumentException("get tableNamesByQuery occer error:"+sql.toString(),e);
 			}
 			return null;
 		}
