@@ -1,0 +1,1 @@
+集成gmaven,使用groovy替换现在的 ant build http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code
