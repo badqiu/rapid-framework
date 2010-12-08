@@ -67,6 +67,13 @@ public class SqlParseHelperTest extends TestCase{
     public void test_getTableNamesByQuery_with_update_columname() {
         Set<NameWithAlias> tableNames =  SqlParseHelper.getTableNamesByQuery("select usr_id,usr_name,usr_passwd,usr_type,usr_gmt_create,usr_gmt_update from tse_user_base");
         verifyTableNames(tableNames,"tse_user_base tse_user_base");
+        
+        tableNames =  SqlParseHelper.getTableNamesByQuery("select usr_id,usr_name,usr_passwd,usr_type,usr_gmt_create,usr_gmt_update from tse_user_base order by USR_GMT_UPDATE DESC");
+        verifyTableNames(tableNames,"tse_user_base tse_user_base");
+        
+        tableNames =  SqlParseHelper.getTableNamesByQuery("SELECT *     FROM        tse_course_info           WHERE        cos_id = ?              and           cos_name LIKE ?                 and           cos_status = ?              and              cos_create_usr_id = ?  and              cos_update_usr_id = ? ORDER BY cos_gmt_update DESC LIMIT #offset#, #limit# ");
+        verifyTableNames(tableNames,"tse_course_info tse_course_info");
+           
     }
     
     public void test_getTableNamesByQuery_with_join() {
@@ -104,6 +111,8 @@ public class SqlParseHelperTest extends TestCase{
 	}
 	
 	private void verifyTableNames(Set<NameWithAlias> tableNames,String... expectedTableNames) {
+	    assertEquals(tableNames.size(),expectedTableNames.length);
+	    
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			String expectedTableName = expectedTableNames[i];
 			NameWithAlias expectedTable = SqlParseHelper.parseTableSqlAlias(expectedTableName);
