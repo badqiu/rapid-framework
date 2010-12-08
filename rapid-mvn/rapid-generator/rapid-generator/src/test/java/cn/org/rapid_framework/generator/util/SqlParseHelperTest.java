@@ -73,7 +73,10 @@ public class SqlParseHelperTest extends TestCase{
         
         tableNames =  SqlParseHelper.getTableNamesByQuery("SELECT *     FROM        tse_course_info           WHERE        cos_id = ?              and           cos_name LIKE ?                 and           cos_status = ?              and              cos_create_usr_id = ?  and              cos_update_usr_id = ? ORDER BY cos_gmt_update DESC LIMIT #offset#, #limit# ");
         verifyTableNames(tableNames,"tse_course_info tse_course_info");
-           
+        
+        
+        tableNames =  SqlParseHelper.getTableNamesByQuery("SELECT *     FROM        tse_course_info           WHERE        cos_id = :cosId              and           cos_name LIKE :cosName                 and           cos_status = :cosStatus              and              cos_create_usr_id = :cosCreateUsrId  and              cos_update_usr_id = :cosUpdateUsrId ORDER BY cos_gmt_update DESC LIMIT :offset, :limit ");
+        verifyTableNames(tableNames,"tse_course_info tse_course_info");   
     }
     
     public void test_getTableNamesByQuery_with_join() {
