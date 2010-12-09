@@ -3,21 +3,17 @@
 
 package cn.org.rapid_framework.generator;
 
-import static org.junit.Assert.assertNotNull;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import cn.org.rapid_framework.generator.util.FileHelper;
 
@@ -43,9 +39,13 @@ public class GeneratorTest extends Assert{
     File[] templateRootDirs = new File[]{};
     
     String tempOutDir = System.getProperty("java.io.tmpdir")+"/for_test_question_nation";
+    
+    Map templateModel = new HashMap();
+    Map filePathModel = new HashMap();
     @Before
     public void setUp() throws Exception {
-        
+    	filePathModel.put("blogname", "BADQIU");
+    	
         generator.setExcludes(excludes);
         generator.setIncludes(includes);
 //        generator.setOutputEncoding(outputEncoding);
@@ -107,15 +107,10 @@ public class GeneratorTest extends Assert{
     @Test
     public void test_generateBy_for_test_question_nation() throws Throwable{
         
-        
-        Map templateModel = new HashMap();
-        Map filePathModel = new HashMap();
         System.getProperties().list(System.out);
-        
 		
         generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_question_nation"));
         
-        filePathModel.put("blogname", "BADQIU");
         Generator result = generator.generateBy(templateModel ,filePathModel );
         
         assertTrue(new File(tempOutDir,"Green").exists());
@@ -126,17 +121,26 @@ public class GeneratorTest extends Assert{
     public void test_generateBy_removeExtensions() throws Throwable{
         
         
-        Map templateModel = new HashMap();
-        Map filePathModel = new HashMap();
+
         System.getProperties().list(System.out);
         generator.setRemoveExtensions("bad,diy");
         generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_question_nation"));
         
         filePathModel.put("blogname", "BADQIU");
-        Generator result = generator.generateBy(templateModel ,filePathModel );
+        generator.generateBy(templateModel ,filePathModel );
         
         assertTrue(new File(tempOutDir,"Green").exists());
         assertTrue(new File(tempOutDir,"BADQIU").exists());
+    }
+    
+    @Test
+    public void test_zip_file() throws Throwable{
+    	
+    	generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip"));
+    	
+    	generator.generateBy(templateModel ,filePathModel );
+    	assertTrue(new File(tempOutDir,"folder/Green").exists());
+        assertTrue(new File(tempOutDir,"folder/BADQIU.bad").exists());
     }
     
     @Test
