@@ -30,6 +30,7 @@ import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.ZipUtils;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.cache.MultiTemplateLoader;
 import freemarker.template.Configuration;
@@ -170,15 +171,29 @@ public class Generator  {
 		filePathModel.putAll(GeneratorHelper.getDirValuesMap(filePathModel));
 		
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
+		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File templateRootDir = (File)templateRootDirs.get(i);
-			List<Exception> exceptions = scanTemplatesAndProcess(templateRootDir,templateModel,filePathModel,isDelete);
+			if(templateRootDir.isFile()) {
+				templateRootDir = ZipUtils.unzip2TempDir(templateRootDir);
+			}
+			unzipIfTemplateRootDirIsZipFile.add(templateRootDir);
+		}
+		
+		for(int i = 0; i < unzipIfTemplateRootDirIsZipFile.size(); i++) {
+			File templateRootDir = (File)unzipIfTemplateRootDirIsZipFile.get(i);
+			List<Exception> exceptions = scanTemplatesAndProcess(templateRootDir,unzipIfTemplateRootDirIsZipFile,templateModel,filePathModel,isDelete);
 			ge.addAll(exceptions); 
 		}
 		if(!ge.exceptions.isEmpty()) throw ge;
 	}
 	
-	private List<Exception> scanTemplatesAndProcess(File templateRootDir, Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
+    /**
+     * 搜索templateRootDir目录下的所有文件并生成东西
+     * @param templateRootDir 用于搜索的模板目录
+     * @param templateRootDirs freemarker用于装载模板的目录
+     */
+	private List<Exception> scanTemplatesAndProcess(File templateRootDir,List<File> templateRootDirs,Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
 		if(templateRootDir == null) throw new IllegalStateException("'templateRootDir' must be not null");
 		GLogger.println("-------------------load template from templateRootDir = '"+templateRootDir.getAbsolutePath()+"' outRootDir:"+new File(outRootDir).getAbsolutePath());
 		
@@ -189,10 +204,10 @@ public class Generator  {
 			File srcFile = (File)srcFiles.get(i);
 			try {
 			    if(isDelete){
-			        new TemplateProcessor().executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
+			        new TemplateProcessor(templateRootDirs).executeDelete(templateRootDir, templateModel,filePathModel, srcFile);
 			    }else {
 			    	long start = System.currentTimeMillis();
-			        new TemplateProcessor().executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
+			        new TemplateProcessor(templateRootDirs).executeGenerate(templateRootDir, templateModel,filePathModel, srcFile);
 			        GLogger.perf("genereate by tempate cost time:"+(System.currentTimeMillis() - start)+"ms");
 			    }
 			}catch(Exception e) {
@@ -209,6 +224,13 @@ public class Generator  {
 	
 	private class TemplateProcessor {
 		private GeneratorControl gg = new GeneratorControl();
+		private List<File> templateRootDirs = new ArrayList<File>();
+		
+		public TemplateProcessor(List<File> templateRootDirs) {
+			super();
+			this.templateRootDirs = templateRootDirs;
+		}
+
 		private void executeGenerate(File templateRootDir,Map templateModel, Map filePathModel ,File srcFile) throws SQLException, IOException,TemplateException {
 			String templateFile = FileHelper.getRelativePath(templateRootDir, srcFile);
 			if(GeneratorHelper.isIgnoreTemplateProcess(srcFile, templateFile,includes,excludes)) {
