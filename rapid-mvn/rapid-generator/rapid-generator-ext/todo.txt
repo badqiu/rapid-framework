@@ -1,2 +1,4 @@
 集成gmaven,使用groovy替换现在的 ant build http://docs.codehaus.org/display/GMAVEN/Executing+Groovy+Code
 rename repid-generator-ext => tableconfig
+支持 filters by filepath with ${className~lower_case~replace('1','2')}
+${className^lower_case^replace('1','2')}
