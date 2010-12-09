@@ -132,6 +132,16 @@ public class IOHelper {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public static void saveFile(File file,InputStream in)  {
+		try{
+			FileOutputStream output = new FileOutputStream(file);
+			copy(in,output);
+			output.close();
+		}catch(IOException e){
+			throw new RuntimeException(e);
+		}
+	}
 	
 	private static class NullWriter extends Writer {
 		public void close() throws IOException {
