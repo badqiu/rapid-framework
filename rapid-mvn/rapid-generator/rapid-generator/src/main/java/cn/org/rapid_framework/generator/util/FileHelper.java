@@ -90,8 +90,9 @@ public class FileHelper {
     }
 	   
 	public static void parnetMkdir(File outputFile) {
-		if(outputFile.getParentFile() != null) {
-			outputFile.getParentFile().mkdirs();
+		File parentFile = outputFile.getParentFile();
+		if(parentFile != null && !parentFile.equals(outputFile)) {
+			parentFile.mkdirs();
 		}
 	}
 	
