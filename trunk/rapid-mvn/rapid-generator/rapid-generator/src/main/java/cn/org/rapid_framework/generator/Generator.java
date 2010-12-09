@@ -171,21 +171,46 @@ public class Generator  {
 		filePathModel.putAll(GeneratorHelper.getDirValuesMap(filePathModel));
 		
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
-		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
-		for(int i = 0; i < this.templateRootDirs.size(); i++) {
-			File templateRootDir = (File)templateRootDirs.get(i);
-			if(templateRootDir.isFile()) {
-				templateRootDir = ZipUtils.unzip2TempDir(templateRootDir);
-			}
-			unzipIfTemplateRootDirIsZipFile.add(templateRootDir);
-		}
+		List<File> processedTemplateRootDirs = processTemplateRootDirs();
 		
-		for(int i = 0; i < unzipIfTemplateRootDirIsZipFile.size(); i++) {
-			File templateRootDir = (File)unzipIfTemplateRootDirIsZipFile.get(i);
-			List<Exception> exceptions = scanTemplatesAndProcess(templateRootDir,unzipIfTemplateRootDirIsZipFile,templateModel,filePathModel,isDelete);
+		for(int i = 0; i < processedTemplateRootDirs.size(); i++) {
+			File templateRootDir = (File)processedTemplateRootDirs.get(i);
+			List<Exception> exceptions = scanTemplatesAndProcess(templateRootDir,processedTemplateRootDirs,templateModel,filePathModel,isDelete);
 			ge.addAll(exceptions); 
 		}
 		if(!ge.exceptions.isEmpty()) throw ge;
+	}
+    
+    /**
+     * 用于子类覆盖,预处理模板目录,如执行文件解压动作 
+     **/
+	protected List<File> processTemplateRootDirs() {
+		return unzipIfTemplateRootDirIsZipFile();
+	}
+	
+	/**
+	 * 解压模板目录,如果模板目录是一个zip,jar文件 . 支持zip文件,或者是zip文件里面的子目录,子目录通过 !号分隔
+	 * 示例值: c:\\some.zip   或者 c:\some.zip!/folder/
+	 **/
+	private List<File> unzipIfTemplateRootDirIsZipFile() {
+		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
+		for(int i = 0; i < this.templateRootDirs.size(); i++) {
+			String templateRootDir = ((File)templateRootDirs.get(i)).getAbsolutePath();
+			
+			String subFolder = "";
+			int zipFileSeperatorIndexOf = templateRootDir.indexOf("!");
+			if(zipFileSeperatorIndexOf >= 0) {
+				subFolder = templateRootDir.substring(zipFileSeperatorIndexOf+1);
+				templateRootDir = templateRootDir.substring(0,zipFileSeperatorIndexOf);
+			}
+			
+			if(new File(templateRootDir).isFile()) {
+				templateRootDir = ZipUtils.unzip2TempDir(new File(templateRootDir)).getAbsolutePath();
+			}
+			
+			unzipIfTemplateRootDirIsZipFile.add(new File(templateRootDir,subFolder));
+		}
+		return unzipIfTemplateRootDirIsZipFile;
 	}
 	
     /**
@@ -222,6 +247,9 @@ public class Generator  {
 		return exceptions;
 	}
 	
+	/**
+	 * 单个模板文件的处理器
+	 **/
 	private class TemplateProcessor {
 		private GeneratorControl gg = new GeneratorControl();
 		private List<File> templateRootDirs = new ArrayList<File>();
