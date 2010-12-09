@@ -210,7 +210,7 @@ public class Generator  {
 			}
 			
 			if(new File(templateRootDir).isFile()) {
-				templateRootDir = ZipUtils.unzip2TempDir(new File(templateRootDir)).getAbsolutePath();
+				templateRootDir = ZipUtils.unzip2TempDir(new File(templateRootDir),"tmp_generator_template_folder_for_zipfile").getAbsolutePath();
 			}
 			
 			unzipIfTemplateRootDirIsZipFile.add(new File(templateRootDir,subFolder));
