@@ -15,7 +15,6 @@ import java.io.LineNumberReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -200,7 +199,7 @@ public class Generator  {
 		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
 			File file = templateRootDirs.get(i);
-			String templateRootDir = toFilePathIfIsURL(file);
+			String templateRootDir = FileHelper.toFilePathIfIsURL(file);
 			
 			String subFolder = "";
 			int zipFileSeperatorIndexOf = templateRootDir.indexOf("!");
@@ -218,16 +217,7 @@ public class Generator  {
 		return unzipIfTemplateRootDirIsZipFile;
 	}
 
-	private static String toFilePathIfIsURL(File file) throws MalformedURLException {
-		try {
-			return new URL(((File)file).getPath()).getPath();
-		}catch(MalformedURLException e) {
-			//ignore,fallback to file.getPath()
-			return file.getPath();
-		}
-	}
-	
-    /**
+	/**
      * 搜索templateRootDir目录下的所有文件并生成东西
      * @param templateRootDir 用于搜索的模板目录
      * @param templateRootDirs freemarker用于装载模板的目录
