@@ -298,6 +298,9 @@ public class Generator  {
 				}
 			}
 			Configuration conf = GeneratorHelper.newFreeMarkerConfiguration(templateRootDirs, sourceEncoding,"/filepath/processor/");
+			
+			//使freemarker支持过滤,如 ${className?lower_case} 现在为 ${className^lower_case}
+			outputFilePath = outputFilePath.replace('^', '?');
 			return FreemarkerHelper.processTemplateString(outputFilePath,filePathModel,conf);
 		}
 	
@@ -367,7 +370,9 @@ public class Generator  {
 			for(String exclude : StringHelper.tokenizeToStringArray(excludes,",")) {
 				if(new AntPathMatcher().match(exclude.replace('\\', '/'), templateFile)) return true;
 			}
-			if(includes == null) return false;
+			if(StringHelper.isBlank(includes)) {
+				return false;
+			}
 			for(String include : StringHelper.tokenizeToStringArray(includes,",")) {
 				if(new AntPathMatcher().match(include.replace('\\', '/'), templateFile)) return false;
 			}
