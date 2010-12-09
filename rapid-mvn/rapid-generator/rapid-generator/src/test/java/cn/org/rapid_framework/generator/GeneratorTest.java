@@ -14,13 +14,15 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import cn.org.rapid_framework.generator.util.FileHelper;
 
-@RunWith(JMock.class)
-public class GeneratorTest{
+
+public class GeneratorTest extends Assert{
 
     private Mockery  context = new JUnit4Mockery(){
         {
@@ -34,22 +36,21 @@ public class GeneratorTest{
     //dependence class
     String excludes = "";
     String includes = "";
-    String outRootDir = "";
     String outputEncoding = "";
     String removeExtensions = "";
     String sourceEncoding = "";
     File templateRootDir = null;
     File[] templateRootDirs = new File[]{};
     
+    String tempOutDir = System.getProperty("java.io.tmpdir")+"/for_test_question_nation";
     @Before
     public void setUp() throws Exception {
         
         generator.setExcludes(excludes);
         generator.setIncludes(includes);
-        generator.setOutRootDir(outRootDir);
-        generator.setOutputEncoding(outputEncoding);
-        generator.setRemoveExtensions(removeExtensions);
-        generator.setSourceEncoding(sourceEncoding);
+//        generator.setOutputEncoding(outputEncoding);
+//        generator.setRemoveExtensions(removeExtensions);
+//        generator.setSourceEncoding(sourceEncoding);
         generator.setTemplateRootDir(templateRootDir);
         generator.setTemplateRootDirs(templateRootDirs);
         
@@ -57,15 +58,18 @@ public class GeneratorTest{
         // ����ע�͵��ķ������Ը����Ҫ�ֹ�����ʹ�ã�����Ҫ����ɾ��
         /*
         */
+        generator.setOutRootDir(tempOutDir);
     }
     
     @After
     public void tearDown() throws Throwable{
         context.assertIsSatisfied();
+        FileHelper.deleteDirectory(new File(tempOutDir));
     }
     
     @Test(expected=IllegalStateException.class)
     public void test_deleteOutRootDir() throws Throwable{
+    	generator.setOutRootDir("  ");
         generator.deleteOutRootDir();
     }
     
@@ -101,17 +105,38 @@ public class GeneratorTest{
     }
     
     @Test
-    public void test_generateBy() throws Throwable{
+    public void test_generateBy_for_test_question_nation() throws Throwable{
         
         
         Map templateModel = new HashMap();
         Map filePathModel = new HashMap();
         System.getProperties().list(System.out);
-        generator.setOutRootDir(System.getProperty("java.io.tmpdir")+"/test_generateBy");
-        generator.setTemplateRootDir(new File("/not_exist_828282"));
+        
+		
+        generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_question_nation"));
+        
+        filePathModel.put("blogname", "BADQIU");
         Generator result = generator.generateBy(templateModel ,filePathModel );
         
-        assertNotNull(result);
+        assertTrue(new File(tempOutDir,"Green").exists());
+        assertTrue(new File(tempOutDir,"badqiu.java").exists());
+    }
+    
+    @Test
+    public void test_generateBy_removeExtensions() throws Throwable{
+        
+        
+        Map templateModel = new HashMap();
+        Map filePathModel = new HashMap();
+        System.getProperties().list(System.out);
+        generator.setRemoveExtensions("bad,diy");
+        generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_question_nation"));
+        
+        filePathModel.put("blogname", "BADQIU");
+        Generator result = generator.generateBy(templateModel ,filePathModel );
+        
+        assertTrue(new File(tempOutDir,"Green").exists());
+        assertTrue(new File(tempOutDir,"BADQIU").exists());
     }
     
     @Test
@@ -120,7 +145,6 @@ public class GeneratorTest{
         
         Map templateModel = new HashMap();
         Map filePathModel = new HashMap();
-        generator.setOutRootDir(System.getProperty("java.io.tmpdir")+"/test_deleteBy");
         generator.setTemplateRootDir(new File("/not_exist_828282"));
         Generator result = generator.deleteBy(templateModel ,filePathModel );
         
