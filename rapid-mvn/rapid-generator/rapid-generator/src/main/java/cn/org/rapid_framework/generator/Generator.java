@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -184,7 +186,7 @@ public class Generator  {
     /**
      * 用于子类覆盖,预处理模板目录,如执行文件解压动作 
      **/
-	protected List<File> processTemplateRootDirs() {
+	protected List<File> processTemplateRootDirs() throws Exception {
 		return unzipIfTemplateRootDirIsZipFile();
 	}
 	
@@ -192,11 +194,13 @@ public class Generator  {
 	 * 解压模板目录,如果模板目录是一个zip,jar文件 . 并且支持指定 zip文件的子目录作为模板目录,通过 !号分隔
 	 * 指定zip文件: c:\\some.zip   
 	 * 指定zip文件子目录: c:\some.zip!/folder/
+	 * @throws MalformedURLException 
 	 **/
-	private List<File> unzipIfTemplateRootDirIsZipFile() {
+	private List<File> unzipIfTemplateRootDirIsZipFile() throws MalformedURLException {
 		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
 		for(int i = 0; i < this.templateRootDirs.size(); i++) {
-			String templateRootDir = ((File)templateRootDirs.get(i)).getAbsolutePath();
+			File file = templateRootDirs.get(i);
+			String templateRootDir = toFilePathIfIsURL(file);
 			
 			String subFolder = "";
 			int zipFileSeperatorIndexOf = templateRootDir.indexOf("!");
@@ -212,6 +216,15 @@ public class Generator  {
 			unzipIfTemplateRootDirIsZipFile.add(new File(templateRootDir,subFolder));
 		}
 		return unzipIfTemplateRootDirIsZipFile;
+	}
+
+	private static String toFilePathIfIsURL(File file) throws MalformedURLException {
+		try {
+			return new URL(((File)file).getPath()).getPath();
+		}catch(MalformedURLException e) {
+			//ignore,fallback to file.getPath()
+			return file.getPath();
+		}
 	}
 	
     /**
@@ -268,8 +281,10 @@ public class Generator  {
 			
 			if(isCopyBinaryFile && FileHelper.isBinaryFile(srcFile)) {
 				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
-				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+new File(getOutRootDir(),outputFilepath));
-				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(new File(getOutRootDir(),outputFilepath)));
+				File outputFile = new File(getOutRootDir(),outputFilepath);
+				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+outputFile);
+				FileHelper.parnetMkdir(outputFile);
+				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(outputFile));
 				return;
 			}
 			

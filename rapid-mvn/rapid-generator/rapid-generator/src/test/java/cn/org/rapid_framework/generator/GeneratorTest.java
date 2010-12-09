@@ -4,6 +4,7 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,11 +157,14 @@ public class GeneratorTest extends Assert{
     @Test
     public void test_jar_file() throws Throwable{
     	
-    	generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip"));
+    	File templateRoot = FileHelper.getFileByClassLoader("com/mysql/jdbc/log");
+    	System.out.println(templateRoot);
+    	System.out.println(new URL(templateRoot.getPath()).getPath());
+		generator.setTemplateRootDir(templateRoot);
     	
     	generator.generateBy(templateModel ,filePathModel );
-    	assertTrue(new File(tempOutDir,"folder/Green").exists());
-        assertTrue(new File(tempOutDir,"folder/BADQIU.bad").exists());
+    	assertTrue(new File(tempOutDir,"CommonsLogger.class").exists());
+        assertTrue(new File(tempOutDir,"NullLogger.class").exists());
     }
     
     @Test
