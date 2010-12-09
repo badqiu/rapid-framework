@@ -142,6 +142,26 @@ public class GeneratorTest extends Assert{
     	assertTrue(new File(tempOutDir,"folder/Green").exists());
         assertTrue(new File(tempOutDir,"folder/BADQIU.bad").exists());
     }
+
+    @Test
+    public void test_zip_file_with_sub_folder() throws Throwable{
+    	
+    	generator.setTemplateRootDir(new File(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip"),"!/folder"));
+    	
+    	generator.generateBy(templateModel ,filePathModel );
+    	assertTrue(new File(tempOutDir,"Green").exists());
+        assertTrue(new File(tempOutDir,"BADQIU.bad").exists());
+    }
+    
+    @Test
+    public void test_jar_file() throws Throwable{
+    	
+    	generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip"));
+    	
+    	generator.generateBy(templateModel ,filePathModel );
+    	assertTrue(new File(tempOutDir,"folder/Green").exists());
+        assertTrue(new File(tempOutDir,"folder/BADQIU.bad").exists());
+    }
     
     @Test
     public void test_deleteBy() throws Throwable{
