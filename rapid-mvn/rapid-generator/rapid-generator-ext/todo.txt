@@ -3,3 +3,4 @@ rename repid-generator-ext => tableconfig
 支持 filters by filepath with ${className~lower_case~replace('1','2')}
 ${className^lower_case^replace('1','2')}
 支持 some.zip及 some.zip!/sub_folder
+性能需要提示,因为没有使用数据库连接池
