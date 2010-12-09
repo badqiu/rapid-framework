@@ -96,7 +96,7 @@ public class Generator  {
 	}
 
 	public void setSourceEncoding(String sourceEncoding) {
-		if(sourceEncoding == null) throw new IllegalArgumentException("sourceEncoding must be not null");
+		if(StringHelper.isBlank(sourceEncoding)) throw new IllegalArgumentException("sourceEncoding must be not empty");
 		this.sourceEncoding = sourceEncoding;
 	}
 
@@ -105,7 +105,7 @@ public class Generator  {
 	}
 
 	public void setOutputEncoding(String outputEncoding) {
-		if(outputEncoding == null) throw new IllegalArgumentException("outputEncoding must be not null");
+		if(StringHelper.isBlank(outputEncoding)) throw new IllegalArgumentException("outputEncoding must be not empty");
 		this.outputEncoding = outputEncoding;
 	}
 	
