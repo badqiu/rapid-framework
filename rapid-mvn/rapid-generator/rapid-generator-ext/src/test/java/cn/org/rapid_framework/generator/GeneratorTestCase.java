@@ -28,7 +28,7 @@ public class GeneratorTestCase extends TestCase{
 	    try {
 	    	runSqlScripts();
 	    }catch(Exception e) {
-	    	throw e;
+	    	e.printStackTrace();
 	    }
 
 //		System.getProperties().list(System.out);
