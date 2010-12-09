@@ -13,4 +13,8 @@ public class FileHelperTest extends TestCase {
         assertTrue(FileHelper.isBinaryFile(new File(".zip")));
     }
     
+    public void test() {
+    	assertEquals(FileHelper.toFilePathIfIsURL(new File("file://c:/123.txt")),"/c:/123.txt");
+    	assertEquals(FileHelper.toFilePathIfIsURL(new File("c:/123456.txt")).replace('/', '\\'),"c:\\123456.txt");
+    }
 }

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -276,4 +277,13 @@ public class FileHelper {
             }
         }
     }
+
+	public static String toFilePathIfIsURL(File file) {
+		try {
+			return new URL(((File)file).getPath()).getPath();
+		}catch(MalformedURLException e) {
+			//ignore,fallback to file.getPath()
+			return file.getPath();
+		}
+	}
 }
