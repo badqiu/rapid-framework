@@ -189,8 +189,9 @@ public class Generator  {
 	}
 	
 	/**
-	 * 解压模板目录,如果模板目录是一个zip,jar文件 . 支持zip文件,或者是zip文件里面的子目录,子目录通过 !号分隔
-	 * 示例值: c:\\some.zip   或者 c:\some.zip!/folder/
+	 * 解压模板目录,如果模板目录是一个zip,jar文件 . 并且支持指定 zip文件的子目录作为模板目录,通过 !号分隔
+	 * 指定zip文件: c:\\some.zip   
+	 * 指定zip文件子目录: c:\some.zip!/folder/
 	 **/
 	private List<File> unzipIfTemplateRootDirIsZipFile() {
 		List<File> unzipIfTemplateRootDirIsZipFile = new ArrayList<File>();
