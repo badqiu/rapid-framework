@@ -131,7 +131,7 @@ public abstract class BaseGeneratorTask extends Task{
             String cp = ((AntClassLoader) getClass().getClassLoader()).getClasspath();
             classpath = new Path(getProject(),cp);
         }
-        AntClassLoader classloader = new AntClassLoader(getProject(),classpath);
+        AntClassLoader classloader = new AntClassLoader(getProject(),classpath,true);
         Thread.currentThread().setContextClassLoader(classloader);
     }
 
