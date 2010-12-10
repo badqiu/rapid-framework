@@ -20,9 +20,10 @@ import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 
 public abstract class BaseGeneratorTask extends Task{
-    protected File shareInput;
-    protected File input;
-    protected File output;
+    protected String shareInput; //共享模板目录,可以使用classpath:前缀
+    protected String input; //模板输入目录,可以使用classpath:前缀
+    protected String output; //模板输出目录,可以使用classpath:前缀
+    
     private boolean openOutputDir = false;
     private String _package;
     
@@ -38,7 +39,7 @@ public abstract class BaseGeneratorTask extends Task{
         log(out.toString(),Project.MSG_ERR);
     }
     
-    protected GeneratorFacade createGeneratorFacade(File input,File output) {
+    protected GeneratorFacade createGeneratorFacade(String input,String output) {
         if(input == null) throw new IllegalArgumentException("input must be not null");
         if(output == null) throw new IllegalArgumentException("output must be not null");
         
@@ -52,23 +53,23 @@ public abstract class BaseGeneratorTask extends Task{
         if(shareInput != null) {
             gf.getGenerator().addTemplateRootDir(shareInput);
         }
-        gf.getGenerator().setOutRootDir(output.getAbsolutePath());
+        gf.getGenerator().setOutRootDir(output);
         return gf;
     }
     
-    public File getShareInput() {
+    public String getShareInput() {
         return shareInput;
     }
 
-    public void setShareInput(File shareInput) {
+    public void setShareInput(String shareInput) {
         this.shareInput = shareInput;
     }
 
-    public void setInput(File input) {
+    public void setInput(String input) {
         this.input = input;
     }
 
-    public void setOutput(File output) {
+    public void setOutput(String output) {
         this.output = output;
     }
     
@@ -111,7 +112,7 @@ public abstract class BaseGeneratorTask extends Task{
             facade.generateByMap(map);
         }
         if(openOutputDir && SystemHelper.isWindowsOS) {
-            Runtime.getRuntime().exec("cmd.exe /c start "+output.getAbsolutePath());
+            Runtime.getRuntime().exec("cmd.exe /c start "+output);
         }
     }
 
