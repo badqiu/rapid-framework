@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.tools.ant.AntClassLoader;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Reference;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
@@ -20,6 +23,8 @@ import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfigSet;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 
 public abstract class BaseGeneratorTask extends Task{
+    protected Path classpath;
+    
     protected String shareInput; //共享模板目录,可以使用classpath:前缀
     protected String input; //模板输入目录,可以使用classpath:前缀
     protected String output; //模板输出目录,可以使用classpath:前缀
@@ -85,6 +90,11 @@ public abstract class BaseGeneratorTask extends Task{
         this._package = _package;
     }
     
+    public void setClasspathRef(Reference r){
+        this.classpath = new Path(getProject());
+        this.classpath.setRefid(r);
+    }
+
     static TableConfigSet parseForTableConfigSet(String _package,File basedir,String[] tableConfigFilesArray) {
         TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
         tableConfigSet.setPackage(_package);
@@ -94,6 +104,7 @@ public abstract class BaseGeneratorTask extends Task{
     @Override
     public void execute() throws BuildException {
         super.execute();
+        setContextClassLoader();
         try {
         executeInternal();
         }catch(Exception e) {
@@ -104,7 +115,6 @@ public abstract class BaseGeneratorTask extends Task{
 
     protected void executeInternal() throws Exception {
         freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
-        
         GeneratorFacade facade = createGeneratorFacade(input,output);
         List<Map> maps = getGeneratorContexts();
         if(maps == null) return;
@@ -114,6 +124,15 @@ public abstract class BaseGeneratorTask extends Task{
         if(openOutputDir && SystemHelper.isWindowsOS) {
             Runtime.getRuntime().exec("cmd.exe /c start "+output);
         }
+    }
+
+    private void setContextClassLoader() {
+        if(classpath == null) {
+            String cp = ((AntClassLoader) getClass().getClassLoader()).getClasspath();
+            classpath = new Path(getProject(),cp);
+        }
+        AntClassLoader classloader = new AntClassLoader(getProject(),classpath);
+        Thread.currentThread().setContextClassLoader(classloader);
     }
 
     protected abstract List<Map> getGeneratorContexts() throws Exception;
