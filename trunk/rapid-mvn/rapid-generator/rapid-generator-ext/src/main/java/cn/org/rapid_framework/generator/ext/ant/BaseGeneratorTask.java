@@ -95,18 +95,12 @@ public abstract class BaseGeneratorTask extends Task{
         this.classpath.setRefid(r);
     }
 
-    static TableConfigSet parseForTableConfigSet(String _package,File basedir,String[] tableConfigFilesArray) {
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
-        tableConfigSet.setPackage(_package);
-        return tableConfigSet;
-    }
-    
     @Override
-    public void execute() throws BuildException {
+    final public void execute() throws BuildException {
         super.execute();
         setContextClassLoader();
         try {
-        executeInternal();
+        	executeInternal();
         }catch(Exception e) {
             error(e);
             throw new BuildException(e);
@@ -115,18 +109,23 @@ public abstract class BaseGeneratorTask extends Task{
 
     protected void executeInternal() throws Exception {
         freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
+        
+        executeBefore();
+        
         GeneratorFacade facade = createGeneratorFacade(input,output);
+        
         List<Map> maps = getGeneratorContexts();
         if(maps == null) return;
         for(Map map : maps) {
             facade.generateByMap(map);
         }
+        
         if(openOutputDir && SystemHelper.isWindowsOS) {
             Runtime.getRuntime().exec("cmd.exe /c start "+output);
         }
     }
 
-    private void setContextClassLoader() {
+	private void setContextClassLoader() {
         if(classpath == null) {
             String cp = ((AntClassLoader) getClass().getClassLoader()).getClasspath();
             classpath = new Path(getProject(),cp);
@@ -135,6 +134,9 @@ public abstract class BaseGeneratorTask extends Task{
         Thread.currentThread().setContextClassLoader(classloader);
     }
 
+    protected void executeBefore() throws Exception {
+	}
+    
     protected abstract List<Map> getGeneratorContexts() throws Exception;
     
 }
