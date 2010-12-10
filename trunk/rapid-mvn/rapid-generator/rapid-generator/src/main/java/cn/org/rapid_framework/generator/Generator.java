@@ -69,14 +69,30 @@ public class Generator  {
 		setTemplateRootDirs(new File[]{templateRootDir});
 	}
 
+	public void setTemplateRootDir(String templateRootDir) {
+	        setTemplateRootDirs(new String[]{templateRootDir});
+	}
+	   
 	public void setTemplateRootDirs(File... templateRootDirs) {
 		this.templateRootDirs = new ArrayList<File>(Arrays.asList(templateRootDirs));
 	}
-	
-	public void addTemplateRootDir(File f) {
-		templateRootDirs.add(f);
+
+    public void setTemplateRootDirs(String... templateRootDirs) {
+        ArrayList<File> tempDirs = new ArrayList<File>();
+        for(String dir : templateRootDirs) {
+            tempDirs.add(FileHelper.getFile(dir));
+        }
+        this.templateRootDirs = tempDirs;
+    }
+	   
+	public void addTemplateRootDir(File file) {
+		templateRootDirs.add(file);
 	}
-	
+
+    public void addTemplateRootDir(String file) {
+        templateRootDirs.add(FileHelper.getFile(file));
+    }
+	   
 	public boolean isIgnoreTemplateGenerateException() {
         return ignoreTemplateGenerateException;
     }
