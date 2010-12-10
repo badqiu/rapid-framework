@@ -147,7 +147,7 @@ public class GeneratorTest extends Assert{
     @Test
     public void test_zip_file_with_sub_folder() throws Throwable{
     	
-    	generator.setTemplateRootDir(new File(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip"),"!/folder"));
+    	generator.setTemplateRootDir(FileHelper.getFileByClassLoader("for_test_zip/for_test_zip.zip")+"!/folder");
     	
     	generator.generateBy(templateModel ,filePathModel );
     	assertTrue(new File(tempOutDir,"Green").exists());
@@ -165,6 +165,12 @@ public class GeneratorTest extends Assert{
     	generator.generateBy(templateModel ,filePathModel );
     	assertTrue(new File(tempOutDir,"CommonsLogger.class").exists());
         assertTrue(new File(tempOutDir,"NullLogger.class").exists());
+        
+        generator.setTemplateRootDir("classpath:com/mysql/jdbc/log");
+        
+        generator.generateBy(templateModel ,filePathModel );
+        assertTrue(new File(tempOutDir,"CommonsLogger.class").exists());
+        assertTrue(new File(tempOutDir,"NullLogger.class").exists());
     }
     
     @Test
@@ -173,7 +179,7 @@ public class GeneratorTest extends Assert{
         
         Map templateModel = new HashMap();
         Map filePathModel = new HashMap();
-        generator.setTemplateRootDir(new File("/not_exist_828282"));
+        generator.setTemplateRootDir("/not_exist_828282");
         Generator result = generator.deleteBy(templateModel ,filePathModel );
         
         assertNotNull(result);
