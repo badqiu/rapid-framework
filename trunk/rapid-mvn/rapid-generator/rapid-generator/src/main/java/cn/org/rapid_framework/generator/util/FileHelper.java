@@ -44,6 +44,20 @@ public class FileHelper {
 		return arrayList;
 	}
 	
+	public static File getFile(String file) {
+	    try {
+    	    if(file.startsWith("classpath:")) {
+    	        return getFileByClassLoader(file.substring("classpath:".length()));
+    	    } else {
+    	        return new File(toFilePathIfIsURL(new File(file)));
+    	    }
+	    }catch(FileNotFoundException e) {
+	        throw new RuntimeException(e.toString());
+	    }catch(IOException e) {
+	        throw new RuntimeException("getFile() error,file:"+file,e);
+	    }
+	}
+	
 	public static InputStream getInputStream(String file) throws FileNotFoundException {
 		InputStream inputStream = null;
 		if(file.startsWith("classpath:")) {
