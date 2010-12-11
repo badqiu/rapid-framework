@@ -830,6 +830,14 @@
 			</activation>
 			<repositories>
 				<repository>
+					<id>maven.net.cn</id>
+					<name>maven.net.cn</name>
+					<url>http://maven.net.cn/content/groups/public/</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>
+				<repository>
 					<id>offical</id>
 					<name>Maven Official Repository</name>
 					<url>http://repo1.maven.org/maven2</url>
@@ -849,14 +857,6 @@
 					<id>jboss https</id>
 					<name>Jboss Repository</name>
 					<url>https://repository.jboss.org/nexus/content/repositories/public</url>
-					<snapshots>
-						<enabled>false</enabled>
-					</snapshots>
-				</repository>
-				<repository>
-					<id>maven.net.cn</id>
-					<name>maven.net.cn</name>
-					<url>http://maven.net.cn/content/groups/public/</url>
 					<snapshots>
 						<enabled>false</enabled>
 					</snapshots>
