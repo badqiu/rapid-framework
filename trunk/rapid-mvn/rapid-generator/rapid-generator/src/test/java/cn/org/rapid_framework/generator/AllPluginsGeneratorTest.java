@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 
+import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorContext;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
@@ -9,28 +10,15 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	//FIXME plugins所有的模板还没有搬迁过来
 	public void testGenerate() throws Exception{
 		
-		g.addTemplateRootDir(new File("template").getAbsoluteFile());
-		File pluginDir = new File("plugins");
-		File[] listFiles = pluginDir.listFiles();
-		if(listFiles == null) return;
-		assertNotNull("plugins must be not null",listFiles);
-		for(int i = 0; i < listFiles.length; i++) {
-			File child = listFiles[i];
-			if(child.isHidden() || !child.isDirectory()) {
-				continue;
-			}
-			File pluginTemplate = new File(child,"template").getAbsoluteFile();
-			System.out.println("pluginTemplate:"+pluginTemplate);
-			if(pluginTemplate.exists()) {
-				g.addTemplateRootDir(pluginTemplate);
-			}
-		}
-		
-//		List<Table> allTables = DbTableFactory.getInstance().getAllTables();
-//		for(Table t : allTables) {
-//			generateByTable(t);
-//		}
+		GeneratorContext.clear();
+		GeneratorContext.put("basepackage","com.company.project");
+		GeneratorContext.put("namespace","pages");
+		g.addTemplateRootDir("classpath:generator/template/rapid/table");
+		g.addTemplateRootDir("classpath:generator/template/rapid/table/ria_flex_cairngorm");
+		g.addTemplateRootDir("classpath:generator/template/rapid/share/basic");
+		g.addTemplateRootDir("classpath:generator/template/rapid/share/flex");
 		generateByTable(TableFactory.getInstance().getTable("USER_INFO"));
+		GeneratorContext.clear();
 //		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
 	}
 	
