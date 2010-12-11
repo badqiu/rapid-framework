@@ -1,3 +1,16 @@
+/**
+ * Groovy Maven Plugin Default Variables
+ * By default a few variables are bound into the scripts environment:
+ * 
+ * project	 The maven project, with auto-resolving properties
+ * pom	     Alias for project
+ * session	 The executing MavenSession
+ * settings	 The executing Settings
+ * log	     A SLF4J Logger instance
+ * ant	     An AntBuilder instance for easy access to Ant tasks
+ * fail()	 A helper to throw MojoExecutionException
+ **/
+
 import cn.org.rapid_framework.generator.*;
 import cn.org.rapid_framework.generator.util.*;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.*;
@@ -12,35 +25,49 @@ def main() {
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	
 	String executeTarget = System.getProperty("executeTarget"); 
-	new Targets()."${executeTarget}"();
+	new Targets(pom,settings,log)."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
 }
 
 public class Targets {
-	public	String dir_templates_root = GeneratorProperties.getProperty('dir_templates_root');
-	public	String dir_dal_output_root = GeneratorProperties.getProperty('dir_dal_output_root');
-	public	String basedir = System.getProperty('pom.basedir');
+	public  Object pom;
+	public  Object settings;
+	public  Object log;
+	
+	public	String dir_templates_root = GeneratorProperties.getRequiredProperty('dir_templates_root');
+	public	String dir_dal_output_root = GeneratorProperties.getRequiredProperty('dir_dal_output_root');
+	public	String tableConfigFiles = GeneratorProperties.getRequiredProperty('tableConfigFiles');
+	public	String dal_package = GeneratorProperties.getRequiredProperty('dal_package');
+	
+	public	File basedir = null;
 	public	String genInputCmd = System.getProperty('genInputCmd');
 	
+	public Targets(Object pom,Object settings,Object log) {
+		this.pom = pom;
+		this.settings = settings;
+		this.log = log;
+		this.basedir = new File("${pom.basedir}");
+	}
+	
 	def dal() {
-		TableConfigSet tableConfigSet = Helper.parseTableConfigSet(basedir);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('/table_config_set/dal',dir_dal_output_root,'/share/dal',basedir),tableConfigSet); 
-		GenUtils.genByTableConfig(Helper.createGeneratorFacade('/table_config/dal',dir_dal_output_root,'/share/dal',basedir),tableConfigSet,genInputCmd); 
-		GenUtils.genByOperation(Helper.createGeneratorFacade('/operation/dal',dir_dal_output_root,'/share/dal',basedir),tableConfigSet,genInputCmd); 
+		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('${dir_templates_root}/table_config_set/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet); 
+		GenUtils.genByTableConfig(Helper.createGeneratorFacade('${dir_templates_root}/table_config/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet,genInputCmd); 
+		GenUtils.genByOperation(Helper.createGeneratorFacade('${dir_templates_root}/operation/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet,genInputCmd); 
 	}
 	
 	def table() {
-		GenUtils.genByTable(Helper.createGeneratorFacade('/table/dalgen_config',dir_dal_output_root,'/share/dal',basedir),genInputCmd)
+		GenUtils.genByTable(Helper.createGeneratorFacade('${dir_templates_root}/table/dalgen_config',dir_dal_output_root,'${dir_templates_root}/share/dal'),genInputCmd)
 	}
 	
 	def seq() {
-		TableConfigSet tableConfigSet = Helper.parseTableConfigSet(basedir);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('/table_config_set/sequence',dir_dal_output_root,'/share/dal',basedir),tableConfigSet); 
+		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('/table_config_set/sequence',dir_dal_output_root,'/share/dal'),tableConfigSet); 
 	}
 }
 
-public class GenUtils {
+public class GenUtils extends Targets {
 	public static genByTableConfigSet(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet) {
 		Map map = new HashMap();
 		map.putAll(BeanHelper.describe(tableConfigSet));
@@ -80,7 +107,7 @@ public class GenUtils {
 
 }
 
-public class Helper {
+public class Helper extends Targets {
 	public static List<TableConfig> getTableConfigs(TableConfigSet tableConfigSet,String tableSqlName) {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
@@ -89,13 +116,7 @@ public class Helper {
 		}
 	}
 	
-	public static TableConfigSet parseTableConfigSet(String basedir) {
-		String tableConfigFiles = GeneratorProperties.getProperty('tableConfigFiles');
-		String dal_package = GeneratorProperties.getProperty('dal_package');
-		return new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles,);
-	}	
-	
-	public static GeneratorFacade createGeneratorFacade(String input,String output,String shareInput,String basedir) {
+	public static GeneratorFacade createGeneratorFacade(String input,String output,String shareInput) {
 	    if(input == null) throw new IllegalArgumentException("input must be not null");
 	    if(output == null) throw new IllegalArgumentException("output must be not null");
 	    
