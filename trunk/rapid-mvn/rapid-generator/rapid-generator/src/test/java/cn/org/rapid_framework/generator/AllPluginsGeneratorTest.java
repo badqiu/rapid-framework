@@ -4,6 +4,7 @@ import java.io.File;
 
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorContext;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class AllPluginsGeneratorTest extends GeneratorTestCase {
 	
@@ -17,6 +18,8 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 		g.addTemplateRootDir("classpath:generator/template/rapid/table/ria_flex_cairngorm");
 		g.addTemplateRootDir("classpath:generator/template/rapid/share/basic");
 		g.addTemplateRootDir("classpath:generator/template/rapid/share/flex");
+		GeneratorProperties.setProperty(GeneratorConstants.GENERATOR_TOOLS_CLASS, StringHelper.class.getName());
+		
 		generateByTable(TableFactory.getInstance().getTable("USER_INFO"));
 		GeneratorContext.clear();
 //		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
