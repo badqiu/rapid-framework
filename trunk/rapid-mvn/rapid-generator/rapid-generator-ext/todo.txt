@@ -5,3 +5,4 @@ ${className^lower_case^replace('1','2')}
 支持 some.zip及 some.zip!/sub_folder
 性能需要提示,因为没有使用数据库连接池
 增加删除临时文件夹的功能
+String url = "jdbc:h2:mem;INIT=RUNSCRIPT FROM '~/create.sql'\\;RUNSCRIPT FROM '~/populate.sql'";
