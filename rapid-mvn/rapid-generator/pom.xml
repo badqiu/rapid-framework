@@ -24,6 +24,28 @@
   </modules>
 
   <dependencies>
+		<!-- sub projects -->
+		<!--
+		<dependency>
+			<groupId>com.googlecode.rapid-framework</groupId>
+			<artifactId>rapid-generator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.rapid-framework</groupId>
+			<artifactId>rapid-generator-ext</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.rapid-framework</groupId>
+			<artifactId>rapid-generator-template</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.rapid-framework</groupId>
+			<artifactId>rapid-generator-cmd-line</artifactId>
+			<version>4.0</version>
+		</dependency>
+		-->
+
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
