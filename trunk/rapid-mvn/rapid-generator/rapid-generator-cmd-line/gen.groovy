@@ -5,19 +5,19 @@ import cn.org.rapid_framework.generator.provider.db.model.*;
 import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
-GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 main();
 
 def main() {
+	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	
-	String executeCmd = System.getProperty("executeCmd"); 
-	new Cmd()."${executeCmd}"();
+	String executeTarget = System.getProperty("executeTarget"); 
+	new Targets()."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
 }
 
-public class Cmd {
+public class Targets {
 	public	String dir_templates_root = GeneratorProperties.getProperty('dir_templates_root');
 	public	String dir_dal_output_root = GeneratorProperties.getProperty('dir_dal_output_root');
 	public	String basedir = System.getProperty('pom.basedir');
