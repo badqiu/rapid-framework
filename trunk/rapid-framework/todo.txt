@@ -1,6 +1,13 @@
 rapid-framework路线图
 增加BaseQuery或者将PageRequest.getSortInfos() => PageRequest.fetchSortInfos();
 
+增加    <mvc:default-servlet-handler/>
+    <mvc:resources mapping="/scripts/**" location="/scripts/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/widgets/**" location="/widgets/"/>
+以替换掉 RestFilter
+
 将project全部应用maven构建并如下项目划分,并且考虑是否需要支持 dao-module1,service-module2,web-module1,2,3,4
 	project-generator
 	project-common : common-util common-vo
