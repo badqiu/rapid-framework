@@ -65,22 +65,32 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-core</artifactId>
-				<version>${project.version}</version>
+				<version>4.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>${project.version}</version>
+				<version>4.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>${project.version}</version>
+				<version>4.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-maven-plugin</artifactId>
-				<version>${project.version}</version>
+				<version>4.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.rapid-framework</groupId>
+				<artifactId>rapid-generator-template</artifactId>
+				<version>4.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.rapid-framework</groupId>
+				<artifactId>rapid-generator-cmd-line</artifactId>
+				<version>4.0</version>
 			</dependency>			
 			<!--  sub projects END -->
 
