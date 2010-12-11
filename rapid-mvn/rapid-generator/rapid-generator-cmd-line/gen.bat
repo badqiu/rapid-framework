@@ -1,1 +1,1 @@
-mvn package -DexecuteTarget=%1 -DgenInputCmd=%2 -errors
+mvn groovy:execute -DexecuteTarget=%1 -DgenInputCmd=%2 -errors

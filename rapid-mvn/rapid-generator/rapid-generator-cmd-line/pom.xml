@@ -43,6 +43,10 @@
 				<groupId>org.codehaus.groovy.maven</groupId>
 				<artifactId>gmaven-plugin</artifactId>
 				<version>1.0</version>
+			    <configuration>
+			        <source>${pom.basedir}/gen.groovy</source>
+			    </configuration>				
+				<!-- 
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -54,6 +58,7 @@
 						</configuration>
 					</execution>
 				</executions>
+				 -->
 			</plugin>
 		</plugins>
 	</build>  
