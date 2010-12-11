@@ -54,9 +54,6 @@ public abstract class BaseTableConfigSetTask extends BaseGeneratorTask{
 
 	
     static TableConfigSet parseForTableConfigSet(String _package,File basedir,String tableConfigFiles) {
-    	String[] tableConfigFilesArray = StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
-        tableConfigSet.setPackage(_package);
-        return tableConfigSet;
+    	return new TableConfigXmlBuilder().parseFromXML(_package, basedir, tableConfigFiles);
     }
 }

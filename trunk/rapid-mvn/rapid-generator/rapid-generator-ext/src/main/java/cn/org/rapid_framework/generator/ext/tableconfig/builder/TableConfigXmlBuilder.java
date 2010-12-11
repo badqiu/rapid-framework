@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import org.xml.sax.SAXException;
@@ -20,11 +21,19 @@ import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.Result
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.SqlConfig;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper.NodeData;
 
 public class TableConfigXmlBuilder {
 	
+    public TableConfigSet parseFromXML(String _package,File basedir,String tableConfigFiles) {
+    	String[] tableConfigFilesArray = StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
+        tableConfigSet.setPackage(_package);
+        return tableConfigSet;
+    }
+    
 	public TableConfigSet parseFromXML(File basedir,List<String> tableConfigFiles) {
 		TableConfigSet result = new TableConfigSet();
 		for(String filepath : tableConfigFiles ) {
