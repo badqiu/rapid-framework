@@ -84,7 +84,14 @@ public class TableConfig {
     private Table table = null;
     public Table getTable() throws Exception {
     	if(table != null) return table;
-    	
+        table = TableFactory.getInstance().getTable(getSqlName());
+        return customTable(table);
+    }
+    
+    public Table customTable(Table table) {
+    	if(!table.getSqlName().equalsIgnoreCase(getSqlName())) {
+    		throw new RuntimeException("cannot custom table properties,sqlName not equals. tableConfig.sqlName:"+getSqlName()+" table.sqlName:"+table.getSqlName());
+    	}
         table = TableFactory.getInstance().getTable(getSqlName());
         if(columns != null) {
             for(ColumnConfig c : columns) {
