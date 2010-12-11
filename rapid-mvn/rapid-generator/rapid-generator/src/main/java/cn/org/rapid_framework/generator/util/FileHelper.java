@@ -116,7 +116,7 @@ public class FileHelper {
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
-		throw new FileNotFoundException(resourceName);
+		throw new FileNotFoundException("classpath:"+resourceName);
 	}
 
 	
