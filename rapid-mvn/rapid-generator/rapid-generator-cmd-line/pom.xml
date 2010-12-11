@@ -12,7 +12,7 @@
   <version>4.0</version>
   <name>rapid-generator-cmd-line</name>
   <url>http://maven.apache.org</url>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   
   <dependencies>
     <dependency>
@@ -21,5 +21,40 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    
+	<dependency>
+		<groupId>com.googlecode.rapid-framework</groupId>
+		<artifactId>rapid-generator</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>com.googlecode.rapid-framework</groupId>
+		<artifactId>rapid-generator-ext</artifactId>
+	</dependency>    
+	<dependency>
+		<groupId>com.googlecode.rapid-framework</groupId>
+		<artifactId>rapid-generator-template</artifactId>
+	</dependency>
+	 	    
   </dependencies>
+  
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<configuration>
+							<source>${pom.basedir}/gen.groovy</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>  
 </project>
