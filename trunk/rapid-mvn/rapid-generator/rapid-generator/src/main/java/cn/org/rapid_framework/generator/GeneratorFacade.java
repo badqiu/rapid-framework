@@ -253,6 +253,10 @@ public class GeneratorFacade  {
 				}
 			}
 			PrintUtils.printExceptionsSumary("",getGenerator().getOutRootDir(),exceptions);
+			if(!exceptions.isEmpty()) {
+				throw new GeneratorException("batch generate by all table occer error",exceptions);
+			}
+			
 		}
 		
 		public void processByTable(Generator g, Table table,boolean isDelete) throws Exception {
@@ -313,7 +317,7 @@ public class GeneratorFacade  {
 					toolsMap.put(Class.forName(className).getSimpleName(), instance);
 					GLogger.debug("put tools class:"+className+" with key:"+Class.forName(className).getSimpleName());
 				}catch(Exception e) {
-					GLogger.error("cannot load tools by className:"+className);
+					GLogger.error("cannot load tools by className:"+className+" cause:"+e);
 				}
 			}
 			return toolsMap;
