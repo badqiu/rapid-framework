@@ -21,13 +21,23 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 main();
 
 def main() {
-	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
+	
+	loadDefaultGeneratorProperties()
 	
 	String executeTarget = System.getProperty("executeTarget"); 
 	new Targets(this)."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
+}
+
+def loadDefaultGeneratorProperties() {
+	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
+	GeneratorProperties.properties.put("generator_tools_class","cn.org.rapid_framework.generator.util.StringHelper,org.apache.commons.lang.StringUtils");
+	GeneratorProperties.properties.put("gg_isOverride","true");
+	if(pom != null) {
+		GeneratorProperties.properties.putAll(pom.properties);
+	}
 }
 
 public class Targets extends HashMap{
@@ -48,9 +58,7 @@ public class Targets extends HashMap{
 		for(e in GeneratorProperties.properties) {
 			put(e.key,e.value)
 		}
-		for(e in pom.properties) {
-			put(e.key,e.value)
-		}
+		// GeneratorProperties.properties.each { k,v -> println "${k}=${v}"}
 	}
 	
 	def dal() {
@@ -67,6 +75,7 @@ public class Targets extends HashMap{
 	
 	def seq() {
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
+		GeneratorProperties.properties.put("basepackage",dal_package);
 		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/sequence","${dir_templates_root}/share/dal"),tableConfigSet); 
 	}
 
@@ -110,7 +119,7 @@ public class GenUtils extends Targets {
 	            operationMap.put("sql", sql);
 	            operationMap.put("tableConfig", tableConfig);
 	            operationMap.put("basepackage", tableConfig.getBasepackage());
-				generatorFacade.generateByMap(operationMap.put);
+				generatorFacade.generateByMap(operationMap);
 	        }
         }
 	}
@@ -126,7 +135,7 @@ public class Helper extends Targets {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
 		}else {
-			return tableConfigSet.getBySqlName(tableSqlName);
+			return Arrays.asList(tableConfigSet.getBySqlName(tableSqlName));
 		}
 	}
 	

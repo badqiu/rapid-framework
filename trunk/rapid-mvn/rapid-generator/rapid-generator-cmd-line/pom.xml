@@ -34,7 +34,11 @@
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>rapid-generator-template</artifactId>
 	</dependency>
-	 	    
+	<dependency>
+		<groupId>com.alipay.generator</groupId>
+		<artifactId>alipay-generator-template</artifactId>
+		<version>1.0</version>
+	</dependency>	 	    
   </dependencies>
   
 	<build>

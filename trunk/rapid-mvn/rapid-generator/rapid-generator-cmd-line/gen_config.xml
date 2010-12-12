@@ -32,16 +32,17 @@
 	
 	<!-- dalgen所有的配置文件列表  -->
 	<entry key="tableConfigFiles">
+		tables/user_info.xml
 	</entry>
 	
 	<!-- 用于存放sequence列表，生成SeqDAO使用,使用空格，换行符分隔，示例值: seq_user seq_blog -->
 	<entry key="sequencesList">
-		
+		seq_demo1 seq_demo2
 	</entry>
 
 	<!-- dal层模板的输出目录 -->
 	<entry key="dir_dal_output_root">target/generator-output/</entry>
 	<!-- 模板根目录,可以为: 1. c:/some.jar!/subfolder   2. classpath:some_folder -->
-	<entry key="dir_templates_root">classpath:generator/template/rapid</entry>
+	<entry key="dir_templates_root">classpath:generator/template/alipay</entry>
 	
 </properties>
