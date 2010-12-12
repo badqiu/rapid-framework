@@ -24,8 +24,9 @@ def main() {
 	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	
+	println this.metaClass.properties.find { it.name }
 	String executeTarget = System.getProperty("executeTarget"); 
-	new Targets(pom,settings,log,this)."${executeTarget}"();
+	new Targets(this)."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
 }
@@ -35,10 +36,10 @@ public class Targets extends HashMap{
 	public  Object settings;
 	public  Object log;
 	
-	public Targets(Object pom,Object settings,Object log,Object global) {
-		this.pom = pom;
-		this.settings = settings;
-		this.log = log;
+	public Targets(Object global) {
+		this.pom = global.pom;
+		this.settings = global.settings;
+		this.log = global.log;
 
 		for(e in System.properties) {
 			put(e.key,e.value)
@@ -67,7 +68,6 @@ public class Targets extends HashMap{
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
 		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade("${dir_templates_root}/table_config_set/sequence",dir_dal_output_root,"/share/dal"),tableConfigSet); 
 	}
-	
 
 }
 
