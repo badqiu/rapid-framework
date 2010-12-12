@@ -71,7 +71,12 @@ public class Targets extends HashMap{
 	}
 
 	def crud() {
-		GeneratorFacade gf = Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table/dao_hibernate","${dir_templates_root}/table/dao_hibernate_annotation","${dir_templates_root}/table/service_no_interface","${dir_templates_root}/table/web_struts2");
+		GeneratorFacade gf = Helper.createGeneratorFacade(dir_dal_output_root,
+			"${dir_templates_root}/share/basic",
+			"${dir_templates_root}/table/dao_hibernate",
+			"${dir_templates_root}/table/dao_hibernate_annotation",
+			"${dir_templates_root}/table/service_no_interface",
+			"${dir_templates_root}/table/web_struts2");
 		GenUtils.genByTable(gf,genInputCmd)
 	}
 }
