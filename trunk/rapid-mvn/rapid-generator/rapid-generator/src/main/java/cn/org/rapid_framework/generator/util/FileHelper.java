@@ -119,6 +119,14 @@ public class FileHelper {
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
+		urls = FileHelper.class.getClassLoader().getResources(resourceName);
+		while (urls.hasMoreElements()) {
+			return new File(urls.nextElement().getFile());
+		}
+		urls = ClassLoader.getSystemResources(resourceName);
+		while (urls.hasMoreElements()) {
+			return new File(urls.nextElement().getFile());
+		}
 		throw new FileNotFoundException("classpath:"+resourceName);
 	}
 
