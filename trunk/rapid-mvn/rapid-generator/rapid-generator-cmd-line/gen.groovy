@@ -24,7 +24,6 @@ def main() {
 	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	
-	println this.metaClass.properties.find { it.name }
 	String executeTarget = System.getProperty("executeTarget"); 
 	new Targets(this)."${executeTarget}"();
 	
@@ -35,11 +34,13 @@ public class Targets extends HashMap{
 	public  Object pom;
 	public  Object settings;
 	public  Object log;
+	public  fail
 	
 	public Targets(Object global) {
 		this.pom = global.pom;
 		this.settings = global.settings;
 		this.log = global.log;
+		this.fail = global.fail;
 
 		for(e in System.properties) {
 			put(e.key,e.value)
@@ -55,20 +56,24 @@ public class Targets extends HashMap{
 	def dal() {
 		println "dal_package:${dal_package}"
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade("${dir_templates_root}/table_config_set/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet); 
-		GenUtils.genByTableConfig(Helper.createGeneratorFacade("${dir_templates_root}/table_config/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
-		GenUtils.genByOperation(Helper.createGeneratorFacade("${dir_templates_root}/operation/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/dal","${dir_templates_root}/share/dal"),tableConfigSet); 
+		GenUtils.genByTableConfig(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config/dal","${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
+		GenUtils.genByOperation(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/operation/dal","${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
 	}
 	
 	def table() {
-		GenUtils.genByTable(Helper.createGeneratorFacade("${dir_templates_root}/table/dalgen_config",dir_dal_output_root,"${dir_templates_root}/share/dal"),genInputCmd)
+		GenUtils.genByTable(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table/dalgen_config","${dir_templates_root}/share/dal"),genInputCmd)
 	}
 	
 	def seq() {
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade("${dir_templates_root}/table_config_set/sequence",dir_dal_output_root,"/share/dal"),tableConfigSet); 
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/sequence","${dir_templates_root}/share/dal"),tableConfigSet); 
 	}
 
+	def crud() {
+		GeneratorFacade gf = Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table/dao_hibernate","${dir_templates_root}/table/dao_hibernate_annotation","${dir_templates_root}/table/service_no_interface","${dir_templates_root}/table/web_struts2");
+		GenUtils.genByTable(gf,genInputCmd)
+	}
 }
 
 public class GenUtils extends Targets {
@@ -120,16 +125,13 @@ public class Helper extends Targets {
 		}
 	}
 	
-	public static GeneratorFacade createGeneratorFacade(String input,String output,String shareInput) {
-	    if(input == null) throw new IllegalArgumentException("input must be not null");
-	    if(output == null) throw new IllegalArgumentException("output must be not null");
+	public static GeneratorFacade createGeneratorFacade(String outRootDir,String... templateRootDirs) {
+	    if(templateRootDirs == null) throw new IllegalArgumentException("templateRootDirs must be not null");
+	    if(outRootDir == null) throw new IllegalArgumentException("outRootDir must be not null");
 	    
 	    GeneratorFacade gf = new GeneratorFacade();
-	    gf.getGenerator().addTemplateRootDir(input);
-	    if(shareInput != null) {
-	        gf.getGenerator().addTemplateRootDir(shareInput);
-	    }
-	    gf.getGenerator().setOutRootDir(output);
+	    gf.getGenerator().setTemplateRootDirs(templateRootDirs);
+	    gf.getGenerator().setOutRootDir(outRootDir);
 	    return gf;
 	}
 		
