@@ -25,46 +25,50 @@ def main() {
 	freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_NONE);
 	
 	String executeTarget = System.getProperty("executeTarget"); 
-	new Targets(pom,settings,log)."${executeTarget}"();
+	new Targets(pom,settings,log,this)."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
 }
 
-public class Targets {
+public class Targets extends HashMap{
 	public  Object pom;
 	public  Object settings;
 	public  Object log;
 	
-	public	String dir_templates_root = GeneratorProperties.getRequiredProperty('dir_templates_root');
-	public	String dir_dal_output_root = GeneratorProperties.getRequiredProperty('dir_dal_output_root');
-	public	String tableConfigFiles = GeneratorProperties.getRequiredProperty('tableConfigFiles');
-	public	String dal_package = GeneratorProperties.getRequiredProperty('dal_package');
-	
-	public	File basedir = null;
-	public	String genInputCmd = System.getProperty('genInputCmd');
-	
-	public Targets(Object pom,Object settings,Object log) {
+	public Targets(Object pom,Object settings,Object log,Object global) {
 		this.pom = pom;
 		this.settings = settings;
 		this.log = log;
-		this.basedir = new File("${pom.basedir}");
+
+		for(e in System.properties) {
+			put(e.key,e.value)
+		}
+		for(e in GeneratorProperties.properties) {
+			put(e.key,e.value)
+		}
+		for(e in pom.properties) {
+			put(e.key,e.value)
+		}
 	}
 	
 	def dal() {
+		println "dal_package:${dal_package}"
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('${dir_templates_root}/table_config_set/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet); 
-		GenUtils.genByTableConfig(Helper.createGeneratorFacade('${dir_templates_root}/table_config/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet,genInputCmd); 
-		GenUtils.genByOperation(Helper.createGeneratorFacade('${dir_templates_root}/operation/dal',dir_dal_output_root,'${dir_templates_root}/share/dal'),tableConfigSet,genInputCmd); 
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade("${dir_templates_root}/table_config_set/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet); 
+		GenUtils.genByTableConfig(Helper.createGeneratorFacade("${dir_templates_root}/table_config/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
+		GenUtils.genByOperation(Helper.createGeneratorFacade("${dir_templates_root}/operation/dal",dir_dal_output_root,"${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
 	}
 	
 	def table() {
-		GenUtils.genByTable(Helper.createGeneratorFacade('${dir_templates_root}/table/dalgen_config',dir_dal_output_root,'${dir_templates_root}/share/dal'),genInputCmd)
+		GenUtils.genByTable(Helper.createGeneratorFacade("${dir_templates_root}/table/dalgen_config",dir_dal_output_root,"${dir_templates_root}/share/dal"),genInputCmd)
 	}
 	
 	def seq() {
 		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
-		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade('/table_config_set/sequence',dir_dal_output_root,'/share/dal'),tableConfigSet); 
+		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade("${dir_templates_root}/table_config_set/sequence",dir_dal_output_root,"/share/dal"),tableConfigSet); 
 	}
+	
+
 }
 
 public class GenUtils extends Targets {
