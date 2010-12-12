@@ -137,7 +137,11 @@ public class Helper extends Targets {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
 		}else {
-			return Arrays.asList(tableConfigSet.getBySqlName(tableSqlName));
+			TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
+			if(tableConfig == null) {
+				throw new RuntimeException("根据表名:${tableSqlName}没有找到配置文件");
+			}
+			return Arrays.asList(tableConfig);
 		}
 	}
 	
