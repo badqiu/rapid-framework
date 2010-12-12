@@ -8,3 +8,4 @@ String url = "jdbc:h2:mem;INIT=RUNSCRIPT FROM '~/create.sql'\\;RUNSCRIPT FROM '~
 支持GeneratorProperties templateRoots=classpath:generator/template/rapid/table,generator/template/rapid/clazz
 使用Groovy mixin增加 Column属性
 使用 GeneratorBeanFactory 用于创建 Column,JavaMethod等对象以便扩展
+应该将 vo.${className}Query移至dao层
