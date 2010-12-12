@@ -32,11 +32,13 @@ def main() {
 }
 
 def loadDefaultGeneratorProperties() {
-	GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 	GeneratorProperties.properties.put("generator_tools_class","cn.org.rapid_framework.generator.util.StringHelper,org.apache.commons.lang.StringUtils");
 	GeneratorProperties.properties.put("gg_isOverride","true");
 	if(pom != null) {
+		GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 		GeneratorProperties.properties.putAll(pom.properties);
+	}else {
+		GeneratorProperties.load("db.xml","gen_config.xml");
 	}
 }
 
@@ -99,11 +101,11 @@ public class GenUtils extends Targets {
 	}
 	
 	public static genByTableConfig(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) {
-		String[] ignoreProperties = "sqls";
 		
 		List<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			Map map = new HashMap();
+			String[] ignoreProperties = "sqls";
 	        map.putAll(BeanHelper.describe(tableConfig,ignoreProperties));
 	        map.put("tableConfig", tableConfig);
 			generatorFacade.generateByMap(map);
