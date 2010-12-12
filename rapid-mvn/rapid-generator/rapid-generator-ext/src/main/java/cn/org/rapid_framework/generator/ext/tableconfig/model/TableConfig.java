@@ -89,7 +89,6 @@ public class TableConfig {
     	if(!table.getSqlName().equalsIgnoreCase(getSqlName())) {
     		throw new RuntimeException("cannot custom table properties,sqlName not equals. tableConfig.sqlName:"+getSqlName()+" table.sqlName:"+table.getSqlName());
     	}
-        table = TableFactory.getInstance().getTable(getSqlName());
         if(columns != null) {
             for(ColumnConfig c : columns) {
                 Column tableColumn = table.getColumnByName(c.getName());
