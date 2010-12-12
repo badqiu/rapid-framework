@@ -61,6 +61,14 @@ public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListene
 		}
     }
 
+	public TableConfig getRequiredBySqlName(String sqlName) {
+		TableConfig tc = getBySqlName(sqlName);
+		if(tc == null) {
+			throw new IllegalArgumentException("not found TableConfig on TableConfigSet by sqlName:"+sqlName);
+		}
+		return tc;
+	}
+	
 	public TableConfig getBySqlName(String sqlName) {
 		for(TableConfig c : tableConfigs) {
 			if(sqlName.equalsIgnoreCase(c.getSqlName())) {
