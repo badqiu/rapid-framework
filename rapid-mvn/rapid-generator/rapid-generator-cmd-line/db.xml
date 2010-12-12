@@ -14,7 +14,7 @@
 	
 	<!-- 切换不同的数据库驱动，可以影响如分页语句的生成. 因为生成器会根据jdbc_driver自动生成一个databaseType=mysql,oracle,postgresql变量 -->
 	<!-- Mysql -->
-	<entry key="jdbc_url">jdbc:h2:mem;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
+	<entry key="jdbc_url">jdbc:h2:mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
 	<entry key="jdbc_driver">org.h2.Driver</entry>
 
 	<!-- oracle使用oci的连接方式需要设置PATH环境变量及ORACLE_HOME环境变量 -->
