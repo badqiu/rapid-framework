@@ -1,11 +1,15 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.InvalidPropertiesFormatException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
@@ -130,6 +134,24 @@ public class PropertiesHelper {
 		return p.propertyNames();
 	}
 	
+	public static Properties load(String...files) throws InvalidPropertiesFormatException, IOException {
+		Properties properties = new Properties();
+		for(String f : files) {
+			File file = FileHelper.getFile(f);
+			InputStream input = new FileInputStream(file);
+			try {
+				if(file.getPath().endsWith(".xml")){
+					properties.loadFromXML(input);
+				}else {
+					properties.load(input);
+				}
+				properties.putAll(properties);
+			}finally {
+				input.close();
+			}
+		}
+		return properties;
+	}
 	
 	public static String[] loadAllPropertiesFromClassLoader(Properties properties,String... resourceNames) throws IOException {
 		List successLoadProperties = new ArrayList();

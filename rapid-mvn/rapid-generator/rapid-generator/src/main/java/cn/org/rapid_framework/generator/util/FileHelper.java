@@ -45,6 +45,9 @@ public class FileHelper {
 	}
 	
 	public static File getFile(String file) {
+		if(StringHelper.isBlank(file)) {
+			throw new IllegalArgumentException("'file' must be not blank");
+		}
 	    try {
     	    if(file.startsWith("classpath:")) {
     	        return getFileByClassLoader(file.substring("classpath:".length()));
