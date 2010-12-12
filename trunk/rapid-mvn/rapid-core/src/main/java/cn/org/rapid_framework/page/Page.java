@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
@@ -16,6 +17,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * </pre>
  * 
  * @see cn.org.rapid_framework.util.page.PageList
+ * @see cn.org.rapid_framework.util.page.Paginator
  * @author badqiu
  */
 @Deprecated
