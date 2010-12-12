@@ -80,7 +80,7 @@ public class Targets extends HashMap{
 		GeneratorProperties.properties.put("basepackage",dal_package);
 		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/sequence","${dir_templates_root}/share/dal"),tableConfigSet); 
 	}
-
+	
 	def crud() {
 		GeneratorFacade gf = Helper.createGeneratorFacade(dir_dal_output_root,
 			"${dir_templates_root}/share/basic",
