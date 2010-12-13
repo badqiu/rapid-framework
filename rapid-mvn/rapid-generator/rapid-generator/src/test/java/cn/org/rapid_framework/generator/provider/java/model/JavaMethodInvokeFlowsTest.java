@@ -24,7 +24,7 @@ public class JavaMethodInvokeFlowsTest extends TestCase{
 		List<FieldMethodInvocation> invokes = executor.getMethodInvokeSequences();
 		System.out.println(invokes);
 		
-		verifyInvokeFlows(invokes,"g.deleteOutRootDir"); 
+		verifyInvokeFlows(invokes,"generator.deleteOutRootDir"); 
 	}
 	
 	public void test_get_JavaMethodInvokeFlows_no_execute() {
