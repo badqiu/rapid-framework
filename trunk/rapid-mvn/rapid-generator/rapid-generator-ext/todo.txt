@@ -11,6 +11,7 @@ String url = "jdbc:h2:mem;INIT=RUNSCRIPT FROM '~/create.sql'\\;RUNSCRIPT FROM '~
 应该将 vo.${className}Query移至dao层
 
 project-common-service-facade           facade层,提供外部服务
+	project-common-service-facade-impl      facade层,提供外部服务
 	project-service-shared            		公共的业务逻辑
 		project-service-module1           	业务逻辑模块1
 		project-service-module2           	业务逻辑模块2
