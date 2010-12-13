@@ -19,16 +19,16 @@ project-web-war					    	包含 web.xml等配置，并且依赖所有web项目,�
 		project-service-module2           	业务逻辑模块2
 			project-common-service-integration      facade层,引用的外部服务
 			project-common-util               		util工具层
-			project-common-dao                		dao层		
-project-common-service-facade           facade层,提供外部服务
-	project-common-service-facade-impl      common-service-facade实现
-		project-service-shared            		公共的业务逻辑
-			project-service-module1           	业务逻辑模块1
-			project-service-module2           	业务逻辑模块2
-				project-common-service-integration      facade层,引用的外部服务
-				project-common-util               		util工具层
-				project-common-dao                		dao层	
-
+			project-common-dao                		dao层
+	
+project-common-service-facade-impl      common-service-facade实现(是否需要这个,可否分散在各个包中
+	project-service-shared            		公共的业务逻辑
+		project-service-module1           	业务逻辑模块1
+		project-service-module2           	业务逻辑模块2
+			project-common-service-integration      facade层,引用的外部服务
+			project-common-util               		util工具层
+			project-common-dao                		dao层	
+			project-common-service-facade           facade层,提供外部服务
 
                            
 	
