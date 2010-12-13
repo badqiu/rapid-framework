@@ -78,7 +78,6 @@ public class ${clazz.className}Test extends Assert{{
     
     @After
     public void tearDown() throws Throwable{
-        context.assertIsSatisfied();
     }
     
     <#list clazz.publicMethods as method>
@@ -104,6 +103,8 @@ public class ${clazz.className}Test extends Assert{{
         </#if>
         
         <@genJunitAssert method.returnType />
+        
+        context.assertIsSatisfied();
     }
     
     </#if>
