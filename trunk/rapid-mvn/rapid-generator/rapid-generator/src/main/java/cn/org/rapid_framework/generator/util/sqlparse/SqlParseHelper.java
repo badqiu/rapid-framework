@@ -71,7 +71,7 @@ public class SqlParseHelper {
 	/** 从一条sql中解释中包含的表  */
 	public static Set<NameWithAlias> getTableNamesByQuery(String sql) {
 		sql = removeSqlComments(StringHelper.removeXMLCdataTag(sql)).trim();
-		Set<NameWithAlias> result = new LinkedHashSet();
+		Set<NameWithAlias> result = new LinkedHashSet<NameWithAlias>();
 		Matcher m = fromRegex.matcher(sql);
 		if (m.find()) {
 			String from = getFromClauses(sql);
@@ -84,7 +84,7 @@ public class SqlParseHelper {
 				for(String s : array) {
 					result.add(parseTableSqlAlias(s));
 				}
-			}else if(from.indexOf("join") >= 0) {
+			}else if(StringHelper.indexOfByRegex(from.toLowerCase(), "\\sjoin\\s") >= 0) {
 				//join的多表
 				String removedFrom = StringHelper.removeMany(from.toLowerCase(),"inner","full","left","right","outer");
 				String[] joins = removedFrom.split("join");
