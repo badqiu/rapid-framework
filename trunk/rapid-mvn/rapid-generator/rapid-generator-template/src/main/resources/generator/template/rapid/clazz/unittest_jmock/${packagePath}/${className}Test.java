@@ -1,5 +1,7 @@
 ${gg.setOverride(false)}
-${gg.setIgnoreOutput(clazz.className?ends_with('Test') || clazz.className?starts_with('Test'))}
+<#if clazz.anonymousClass || clazz.enum || clazz.interface || clazz.className?ends_with('Test') || clazz.className?starts_with('Test')>
+${gg.setIgnoreOutput(true)}
+</#if>
 <#if clazz.mavenJavaTestSourceFile??>
 ${gg.setOutputFile(clazz.mavenJavaTestSourceFile)}
 </#if>
@@ -17,6 +19,7 @@ import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.lib.legacy.ClassImposteriser;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +31,7 @@ import ${importClass.javaType?replace("$", ".")};
 <#assign classVar = clazz.className?uncap_first>
 
 @RunWith(JMock.class)
-public class ${clazz.className}Test{
+public class ${clazz.className}Test extends Assert{{
 
     private Mockery  context = new JUnit4Mockery(){
         {
@@ -52,7 +55,6 @@ public class ${clazz.className}Test{
     
     @Before
     public void setUp() throws Exception {
-        //ËØ∑Â∞Ü context.checking(new Expectations(){ }) Áõ∏ÂÖ≥ÊñπÊ≥ïËøÅÁßªËá≥ÂÖ∑‰ΩìÁöÑÂêÑ‰∏™ÊµãËØïÊñπÊ≥ï‰∏≠.
         
         <#list clazz.properties as prop>
         <#if prop.hasWriteMethod && !prop.propertyType.primitive>
@@ -60,27 +62,18 @@ public class ${clazz.className}Test{
         </#if>
         </#list>
         
+        // «ÎΩ´ context.checking(new Expectations(){ }) œ‡πÿ∑Ω∑®«®“∆÷¡æﬂÃÂµƒ∏˜∏ˆ≤‚ ‘∑Ω∑®÷–.
+        // “‘œ¬◊¢ ÕµÙµƒ∑Ω∑®ø…“‘∏˘æ›–Ë“™ ÷π§øΩ±¥ π”√£¨≤ª–Ë“™‘Ú«Î…æ≥˝
+        /*
         <#list clazz.properties as prop>
-            <#if prop.propertyType.interface && !prop.propertyType.javaType?starts_with("java")>
+            <#if !prop.propertyType.javaType?starts_with("java")>
                 <#list prop.propertyType.publicMethods as method>
-                    
-        context.checking(new Expectations() {
-            {
-                <#if (method.returnType.className!="void")>
-                ${genNewJavaTypeExpr(method.returnType,'first')}
-                ${genNewJavaTypeExpr(method.returnType,'second')}
-                </#if>
-                
-                allowing(${prop.name?uncap_first}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
-                <#if (method.returnType.className!="void")>
-                will(onConsecutiveCalls(returnValue(first), returnValue(second)));
-                </#if>
-            }
-        });
+
+        <@genJmockContextChecking prop.name?uncap_first method/>
                </#list>
            </#if>
         </#list>
-        
+        */
     }
     
     @After
@@ -92,6 +85,12 @@ public class ${clazz.className}Test{
     <#if isNotPropertyMethod(method.methodName)>
     @Test
     public void test_${method.methodName}() throws Throwable{
+        
+        <#list method.fieldMethodInvocationSequences as fieldInvoke>
+        <@genJmockContextChecking fieldInvoke.field.fieldName fieldInvoke.method/>
+        
+        </#list>
+        
         <#list method.parameters as param>
         ${genNewJavaTypeExpr(param.paramClass,param.name)}
         </#list>
@@ -137,6 +136,24 @@ public class ${clazz.className}Test{
     </#if>
 </#macro>
 
+<#macro genJmockContextChecking fieldName method>
+    <#if method.clazz?starts_with("java") || method.clazz?contains('Logger') || method.clazz?ends_with('.Log')>
+        <#return/>
+    </#if>
+		context.checking(new Expectations() {
+		    {
+		        <#if (method.returnType.className!="void")>
+		        ${genNewJavaTypeExpr(method.returnType,'first')}
+		        </#if>
+		        
+		        allowing(${fieldName}).${method.methodName}(<#list method.parameters as param><#if param.paramClass.array>with(any(${param.paramClass.simpleJavaType}[].class))<#else>with(any(${param.paramClass.simpleJavaType}.class))</#if><#if param_has_next>,</#if></#list>);
+		        <#if (method.returnType.className!="void")>
+		        will(returnValue(first));
+		        </#if>
+		    }
+		});
+</#macro>
+
 <#function genNewJavaTypeExpr clazz varName>
     <#local result>
         <#compress>
@@ -154,6 +171,8 @@ public class ${clazz.className}Test{
                 </#if>
             <#elseif (clazz.booleanType)>
                 boolean ${varName} = true;
+            <#elseif clazz?ends_with("java.lang.String")>
+            	String ${varName} = "";
             <#elseif (clazz.array)>
                 ${clazz.simpleJavaType}[] ${varName} = new ${clazz.simpleJavaType}[]{};
             <#elseif (clazz.primitive)>
