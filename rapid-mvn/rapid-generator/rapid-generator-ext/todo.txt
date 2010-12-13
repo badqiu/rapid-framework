@@ -11,16 +11,16 @@ String url = "jdbc:h2:mem;INIT=RUNSCRIPT FROM '~/create.sql'\\;RUNSCRIPT FROM '~
 应该将 vo.${className}Query移至dao层
 
 project-common-service-facade           facade层,提供外部服务
-project-common-service-integration      facade层,引用的外部服务
-project-common-util               		util工具层
-project-common-dao                		dao层
-project-service-shared            		公共的业务逻辑
-	project-service-module1           	业务逻辑模块1
-	project-service-module2           	业务逻辑模块2
-project-web-war					    	包含 web.xml等配置，并且依赖所有web项目
-	project-web-home                  	公共的web模块, 只有这个项目有 web.xml
-		project-web-module1             web模块1
-		project-web-module2             web模块2
+	project-service-shared            		公共的业务逻辑
+		project-service-module1           	业务逻辑模块1
+		project-service-module2           	业务逻辑模块2
+			project-common-service-integration      facade层,引用的外部服务
+			project-common-util               		util工具层
+			project-common-dao                		dao层
+project-web-war					    	包含 web.xml等配置，并且依赖所有web项目,只有这个项目有 web.xml
+	project-web-home                  	公共的web模块
+		project-web-module1             web模块1,依赖于web-home
+		project-web-module2             web模块2,依赖于web-home
 
 
                            
