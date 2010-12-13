@@ -31,4 +31,8 @@ project-common-service-facade-impl      common-service-facade实现(是否需要
 			project-common-service-facade           facade层,提供外部服务
 
                            
-	
+alipay dalgen兼容性
+	1. 继承的PageQuery必须是与包名无关的
+	2. 自动复数转换关闭
+	3. PageList应该支持范型
+	3. 删除 Money 相关	
