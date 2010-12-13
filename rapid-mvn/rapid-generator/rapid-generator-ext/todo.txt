@@ -35,4 +35,6 @@ alipay dalgen兼容性
 	1. 继承的PageQuery必须是与包名无关的
 	2. 自动复数转换关闭
 	3. PageList应该支持范型
-	3. 删除 Money 相关	
+	3. 删除 Money 相关
+	4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
+	5. common-sqlmap-mapping.xml 必须删除Money	
