@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -424,6 +425,17 @@ public class PropertiesHelper {
 	
 	public String toString() {
 		return p.toString();
+	}
+	
+	public static Properties restoreFromString(String str) {
+		if(str == null) return new Properties();
+		Properties p = new Properties();
+		try {
+			p.load(new ByteArrayInputStream(str.getBytes()));
+		}catch(IOException e) {
+			throw new IllegalStateException("restore properties from String occer error. str:"+str,e);
+		}
+		return p;
 	}
 
 	private static boolean isBlankString(String value) {
