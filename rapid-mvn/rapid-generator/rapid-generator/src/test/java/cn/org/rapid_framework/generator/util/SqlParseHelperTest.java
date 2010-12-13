@@ -1,5 +1,8 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -22,6 +25,14 @@ public class SqlParseHelperTest extends TestCase{
 		tableNames = SqlParseHelper.getTableNamesByQuery("select * froM user as t");
 		System.out.println(tableNames);
 		verifyTableNames(tableNames,"user t");
+	}
+	
+	Set<NameWithAlias> tableNames;
+	public void test_getTableNamesByQuery_with_multi_table3() throws IOException {
+	    File file = FileHelper.getFileByClassLoader("for_test_parse_table_names/test_sql.sql");
+	    String str = IOHelper.readFile(file);
+	    tableNames = SqlParseHelper.getTableNamesByQuery(str);
+	    verifyTableNames(tableNames,"mcenter_mini_account_log as mal"," mcenter_air_ext as mae","mcenter_creditpay as mc");
 	}
 	
 	public void test_getTableNamesByQuery_with_multi_table() {
@@ -114,7 +125,8 @@ public class SqlParseHelperTest extends TestCase{
 	}
 	
 	private void verifyTableNames(Set<NameWithAlias> tableNames,String... expectedTableNames) {
-	    assertEquals(tableNames.size(),expectedTableNames.length);
+	    String message = tableNames+" expectedTableNames:"+Arrays.toString(expectedTableNames);
+        assertEquals(message,tableNames.size(),expectedTableNames.length);
 	    
 		for(int i = 0; i < expectedTableNames.length; i++) {
 			String expectedTableName = expectedTableNames[i];
