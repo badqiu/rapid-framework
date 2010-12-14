@@ -2,7 +2,7 @@
 ==rapid-generator v4.0 生成器修改==
 *兼容性*
 * 配置不兼容*
-  # 将jdbc.username等相关配置修改为 jdbc_username,这样的好处是jdbc_username可以在模板中直接引用.之前的由于句号"."导致模板难以引用该变量
+  将jdbc.username等相关配置修改为 jdbc_username,这样的好处是jdbc_username可以在模板中直接引用.之前的由于句号"."导致模板难以引用该变量
 * API不兼容 *
   对GeneratorFacade及一些API的接口进行了比较大的重构. 有不兼容的问题.
   模板方面仍然完全兼容.
