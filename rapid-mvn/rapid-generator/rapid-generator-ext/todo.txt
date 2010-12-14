@@ -71,3 +71,7 @@ ibatis gen的include sql的参数重用功能.
 		}
 		
 		并且为代理生成构造方法.
+		
+	
+Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
+			
