@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.googlecode.rapid-framework</groupId>
-	<artifactId>generator-parent</artifactId>
-	<name>generator-parent</name>
+	<artifactId>rapid-generator-parent</artifactId>
+	<name>rapid-generator-parent</name>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 
