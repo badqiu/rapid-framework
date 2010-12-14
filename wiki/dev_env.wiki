@@ -2,6 +2,19 @@
 
 = 开发环境 =
 
-myEclipse
+现整个项目基于maven构建. 所以在使用项目必须下载maven
 
-通过svn checkout项目,然后导入myEclipse中,拷贝IDE/dev/myeclipse下面的.project,.classpath,.mymetadata至项目根目录即可
+
+==maven安装==
+  # 下载maven [http://maven.apache.org/] 并解压至本地目录,如c:/dev/mvn
+  # 设置系统环境变量: M2_HOME=c:/dev/mvn
+  # 设置Path系统环境变量: path=%M2_HOME%\bin;
+  # 测试mvn安装成功
+{{{ mvn --version }}}
+
+== checkout 项目==
+  # 将源代码从[source] 检出. 注意,要有commit权限必须是 https的URL
+  # 然后在项目根目录运行mvn eclipse命令. 请耐心等待下载相关jar包
+{{{ mvn eclipse:eclipse}}}
+  # 然后通过eclipse导入项目
+  # 手工配置eclipse M2_REPO环境变量
