@@ -1,6 +1,6 @@
 #summary One-sentence summary of this page.
 
-= 开发环境 =
+= 开发环境配置 =
 
 现整个项目基于maven构建. 所以在使用项目必须下载maven
 
