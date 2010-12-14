@@ -46,3 +46,28 @@ alipay dalgen兼容性
 	4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
 	5. common-sqlmap-mapping.xml 必须删除Money	
 	6. 提供一个java_imports.include,共享需要引用的import
+	
+	
+ibatis gen的include sql的参数重用功能.
+	1. 得到这条sql重用了几段 segment
+	2. 识别segment中的所有参数列表,得到 SegmentId{ params 对象 }
+	3. 根据原始的sql得到 SegementId params参数的类型
+	4. 生成Segment对应的类: 
+		UserInfoWhere.java
+		PayTypeWhere.java
+	5. 移除 Sql中SegmentId的param列表
+	6. 在Sql Param对象中生成 SegmentId参数的代理
+		QueryByUser{
+			private UserInfoWhere userInfoWhere;
+			setUserInfoWhere(userInfoWhere) {
+				this.userInfoWhere = userInfoWhere;
+			}
+			getUsername() {
+				userInfoWhere.getUsername();
+			}
+			getPassword() {
+				userInfoWhere.getPassword();
+			}
+		}
+		
+		并且为代理生成构造方法.
