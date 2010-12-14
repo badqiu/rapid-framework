@@ -1,19 +1,13 @@
 package cn.org.rapid_framework.generator;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
-import net.sf.cglib.transform.impl.AddPropertyTransformer;
-
-import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.PropertiesHelper;
 import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper;
