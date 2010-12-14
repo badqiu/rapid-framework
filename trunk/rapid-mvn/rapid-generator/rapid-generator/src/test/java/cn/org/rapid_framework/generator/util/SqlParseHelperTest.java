@@ -122,6 +122,9 @@ public class SqlParseHelperTest extends TestCase{
 	public void test_join_same_table() {
 		Set<NameWithAlias> tableNames = SqlParseHelper.getTableNamesByQuery("select t1.*,t2.* from user_info t1 inner join user_info2 t2 on t1.username=t2.username where t1.user_id = ? and t2.username = ?");
 		verifyTableNames(tableNames,"user_info t1","user_info2 t2");
+		
+		tableNames = SqlParseHelper.getTableNamesByQuery("select t1.*,t2.* from user_info t1 inner join user_info2 t2 on t1.username=t2.username where t1.user_id = ? and t2.username = ?".toUpperCase());
+        verifyTableNames(tableNames,"user_info t1","user_info2 t2");
 	}
 	
 	private void verifyTableNames(Set<NameWithAlias> tableNames,String... expectedTableNames) {
