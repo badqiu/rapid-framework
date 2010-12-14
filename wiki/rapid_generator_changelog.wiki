@@ -21,6 +21,7 @@
   Sql解析能力加强
 *其它*
   现模板目录可以是classpath,zip文件.如classpath:template/rapid, c:/template.zip!/some_subfolder
+  生成器的模板路径可以使用freemarker的过滤器,如 ${className^lower_case},将className转换为小写输出(其实freemarker本身支持${className?lower_case},但由于疑问号"?"在windows文件路径中是非法字符,所以不能使用?号)
  
 *新模板*
  提供一套ibatis的生成模板,可以根据一张表的配置文件,生成IBatisDao,IbatisDaoImpl,Ibatis SqlMap.xml 及相关spring配置文件
