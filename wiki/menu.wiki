@@ -57,7 +57,7 @@
     * 其它UI
       * [plugin_extjs extjs]
       * [plugin_flex flex]
-  * 贡献代码
+  * 开发者文档
     * [dev_env 开发环境]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [project_build 项目构建]
