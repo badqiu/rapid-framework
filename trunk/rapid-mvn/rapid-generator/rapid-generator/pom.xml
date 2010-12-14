@@ -35,4 +35,10 @@
 		</developer>
 	</developers>
 	
+	<dependencies>
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+			</dependency>
+	</dependencies>
 </project>
