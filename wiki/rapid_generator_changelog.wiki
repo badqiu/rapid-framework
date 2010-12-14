@@ -23,7 +23,7 @@
 *新模板*
  提供一套ibatis的生成模板,可以根据一张表的配置文件,生成IBatisDao,IbatisDaoImpl,Ibatis SqlMap.xml 及相关spring配置文件
 
-
+----
   
 ==rapid-generator v3.9.2.20100719 生成器修改==
   * 增加 gg.queryForList`("select * from user",limit)` 方法
