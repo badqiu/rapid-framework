@@ -45,3 +45,4 @@ alipay dalgen兼容性
 	3. 删除 Money 相关
 	4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
 	5. common-sqlmap-mapping.xml 必须删除Money	
+	6. 提供一个java_imports.include,共享需要引用的import
