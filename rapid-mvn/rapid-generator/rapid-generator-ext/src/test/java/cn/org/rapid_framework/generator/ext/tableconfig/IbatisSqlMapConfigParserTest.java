@@ -14,6 +14,9 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
 	}
 
 	public void test_freemarker_xml() {
+	    assertTrue("".equals(parser.removeComments("<!--1\n2\n3-->")));
+	    assertTrue("".equals(parser.removeComments("/*1\n2\n3*/")));
+	        
 		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
 		stringEquals("#abc123[]# ",parser.parse("<#if databaseType?is_empty>#abc123[]# </#if>"));
 		stringEquals("#abc123[]# ",parser.parse("<@if databaseType?is_empty>#abc123[]# </@if>"));
