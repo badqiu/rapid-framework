@@ -1,5 +1,8 @@
 = 项目构建 =
 
-将项目从svn checkout下来，通过ant运行build-release.xml的framework-zip任务，即可构建出可以发布的项目产品。
+将项目从svn checkout下来,源代码在[source]，安装maven并进行根目录运行命令:
+{{{
+mvn install -Dmaven.test.skip=true
+}}}
 
-也可以下载专为rapid搭建好的持续集成 [cruisecontrol],根据说明运行即可构建出产品
+-Dmaven.test.skip=true意思是不运行单元测试. 构建出来的产品在你的本地mvn仓库. mvn groupId是com.googlecode.rapid-framework
