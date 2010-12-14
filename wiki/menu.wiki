@@ -54,7 +54,7 @@
     * 分页列表组件
       * [plugin_simpletable rapid-simpletable:分页列表组件]
     * [plugin_rapid_mailer rapid_mailer v3.0]
-    * 其它UI
+    * RIA(RichInternetApplication)
       * [plugin_extjs extjs]
       * [plugin_flex flex]
   * 开发者文档
