@@ -31,5 +31,4 @@ mvn eclipse:eclipse
 {{{
 mvn install -Dmaven.test.skip=true
 }}}
--Dmaven.test.skip=true意思是不运行单元测试.
-
+-Dmaven.test.skip=true意思是不运行单元测试. 构建出来的产品在你的本地mvn仓库. mvn groupId是com.googlecode.rapid-framework
