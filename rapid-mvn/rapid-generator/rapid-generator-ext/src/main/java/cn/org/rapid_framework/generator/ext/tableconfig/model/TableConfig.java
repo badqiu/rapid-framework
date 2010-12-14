@@ -244,7 +244,8 @@ public class TableConfig {
         
         private Sql processOperation(OperationConfig op,TableConfig table) {
         	try {
-                String sqlString = new IbatisSqlMapConfigParser().parse(op.getSql(),toMap(table.includeSqls));
+                IbatisSqlMapConfigParser ibatisSqlMapConfigParser = new IbatisSqlMapConfigParser();
+				String sqlString = ibatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
                 
                 Sql sql = new SqlFactory().parseSql(namedSql);
@@ -470,7 +471,7 @@ public class TableConfig {
         public boolean paging = false;
         
         public String append = ""; // append为无用配置,only for alipay的兼容性
-        public String appendXmlAttributes = "";
+        public String appendXmlAttributes = ""; //TODO 还没有实现
         
         public List<ParamConfig> getExtraparams() {
             return extraparams;
