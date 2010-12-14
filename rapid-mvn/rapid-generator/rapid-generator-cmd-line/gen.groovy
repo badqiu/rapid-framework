@@ -34,6 +34,12 @@ def main() {
 def loadDefaultGeneratorProperties() {
 	GeneratorProperties.properties.put("generator_tools_class","cn.org.rapid_framework.generator.util.StringHelper,org.apache.commons.lang.StringUtils");
 	GeneratorProperties.properties.put("gg_isOverride","true");
+	
+	GeneratorProperties.properties.put("generator_sourceEncoding","GBK");
+	GeneratorProperties.properties.put("generator_outputEncoding","GBK");
+	GeneratorProperties.properties.put("gg_isOverride","true");
+	//将表名从复数转换为单数 
+	GeneratorProperties.properties.put("tableNameSingularize","true");
 	if(pom != null) {
 		GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
 		GeneratorProperties.properties.putAll(pom.properties);
@@ -102,7 +108,7 @@ public class GenUtils extends Targets {
 	
 	public static genByTableConfig(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) {
 		
-		List<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
+		Collection<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			Map map = new HashMap();
 			String[] ignoreProperties = "sqls";
@@ -113,7 +119,7 @@ public class GenUtils extends Targets {
 	}
 	
 	public static genByOperation(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) {
-		List<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
+		Collection<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			for(Sql sql : tableConfig.getSqls()) {
 	            Map operationMap = new HashMap();
@@ -133,7 +139,7 @@ public class GenUtils extends Targets {
 }
 
 public class Helper extends Targets {
-	public static List<TableConfig> getTableConfigs(TableConfigSet tableConfigSet,String tableSqlName) {
+	public static Collection<TableConfig> getTableConfigs(TableConfigSet tableConfigSet,String tableSqlName) {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
 		}else {
