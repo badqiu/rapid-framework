@@ -1,12 +1,28 @@
 =Changelog=
 ==rapid-generator v4.0 生成器修改==
-  将jdbc.username等相关配置修改为 jdbc_username,这样的好处是jdbc_username可以在模板中直接引用.之前的由于句号"."导致模板难以引用该变量
-  
-增加参数配置:
+ *兼容性*
+  *配置不兼容*
+  # 将jdbc.username等相关配置修改为 jdbc_username,这样的好处是jdbc_username可以在模板中直接引用.之前的由于句号"."导致模板难以引用该变量
+  * API不兼容 *
+  对GeneratorFacade及一些API的接口进行了比较大的重构. 有不兼容的问题.
+  模板方面仍然完全兼容.
+
+ *可扩展性*
+  为TableFactory增加TableFactoryListener,可以监听表创建的Table对象,并修改相关属性值等.
+
+ *增加参数配置*
   # generator_tools_class : 用于控制存放在生成器中的工具类,以便在模板中使用 StringUtils
-  # tableNameSingularize : 用于控制表名是否自动转换为单数, 如 customers ==> customer. 默认值是 false
+  # tableNameSingularize : 用于控制表名=>className是否自动转换为单数, 如 customers ==> customer. 默认值是 false
   # data_source_jndi_name : 数据源的jndi名称,如果查找失败,会再次使用jdbc_url等配置参数
   # sqlparse_ignore_sql_exception_error_codes : 用于SqlFactory解析sql时需要忽略的SqlException的error codes. 使用这个的好处是sql在执行insert update时,可以忽略掉一些外键约束的异常.
+ *SqlFactory*
+  Sql解析能力加强
+ *其它*
+  现模板目录可以是classpath,zip文件.如classpath:template/rapid, c:/template.zip!/some_subfolder
+ 
+ *新模板*
+ 提供一套ibatis的生成模板,可以根据一张表的配置文件,生成IBatisDao,IbatisDaoImpl,Ibatis SqlMap.xml 及相关spring配置文件
+
 
   
 ==rapid-generator v3.9.2.20100719 生成器修改==
