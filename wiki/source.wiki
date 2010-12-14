@@ -18,4 +18,8 @@ GUI and IDE access
 
 [http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/ http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/]
 
+[http://code.google.com/p/rapid-framework/source/browse/ browse]
+
+[http://code.google.com/p/rapid-framework/source/list changes]
+
 This project's Subversion repository may be accessed using many different client programs and plug-ins. See your client's documentation for more information.
