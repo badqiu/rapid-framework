@@ -11,7 +11,7 @@
 	
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
-		<artifactId>generator-parent</artifactId>
+		<artifactId>rapid-generator-parent</artifactId>
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
