@@ -246,7 +246,7 @@ public class TableConfig {
         	try {
                 IbatisSqlMapConfigParser ibatisSqlMapConfigParser = new IbatisSqlMapConfigParser();
 				String sqlString = ibatisSqlMapConfigParser.parse(op.getSql(),toMap(table.includeSqls));
-                String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":","");
+                String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":",""); // TODO 确认要删除本行?,因为与SqlFactory里面的代码重复
                 
                 Sql sql = new SqlFactory().parseSql(namedSql);
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);

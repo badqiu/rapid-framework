@@ -1,14 +1,20 @@
 package cn.org.rapid_framework.generator.ext.tableconfig;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
+import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
+import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 /**
@@ -19,13 +25,18 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  * 
  */
 public class IbatisSqlMapConfigParser {
-    private Map<String,UsedIncludeSql> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
+    public Map<String,UsedIncludeSql> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
+    private String sourceSql;
+    private Map<String,String> includeSqls;
+    private String resultSql;
     
     public String parse(String str) {
         return parse(str,new HashMap());
     }	
 
     public String parse(String str,Map<String,String> includeSqls) {
+    	this.sourceSql = str;
+    	this.includeSqls = includeSqls;
         str = Helper.removeComments("<for_remove_comment>"+str+"</for_remove_comment>");
         str = Helper.removeSelectKeyXmlForInsertSql(str);
         
@@ -60,16 +71,22 @@ public class IbatisSqlMapConfigParser {
             }
         }
         //FIXME 不能兼容自动删除分号, 因为还需要测试最终的ibatis sql是否会删除;
-        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString())));
+        resultSql = StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString())));
+        return resultSql;
 //        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
     
+    public void test() {
+    	for(UsedIncludeSql sql : usedIncludedSqls.values()) {
+    		ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sql.parsedIncludeSql);
+    	}
+    }
     private static class OpenCloseTag {
     	public String close;
     	public String xmlTag;
     }
     
-    public static class UsedIncludeSql {
+    public class UsedIncludeSql {
     	public String refid;
     	public String rawIncludeSql;
     	public String parsedIncludeSql;
@@ -84,8 +101,22 @@ public class IbatisSqlMapConfigParser {
 		}
 
 		public Set<SqlParameter> getParams() {
-    		return params;
+			Sql sql = new SqlFactory().parseSql(resultSql); // FIXME 缺少自定义参数类型
+    		Set<SqlParameter> result = new LinkedHashSet();
+			for(String paramName : getParamNames()) {
+    			SqlParameter p = sql.getParam(paramName);
+    			if(p == null) throw new IllegalArgumentException("not found param on sql:"+parsedIncludeSql+" with name:"+paramName); //是否不该扔异常
+    			result.add(p);
+			}
+			return result;
     	}
+		public List<String> getParamNames() {
+			ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(parsedIncludeSql);
+			return parsedSql.getParameterNames();
+		}
+		public String getRefidClassName() {
+			return StringHelper.toJavaClassName(refid.replace(".", "_").replace("-", "_"));
+		}
     }
 
     //process <include refid="otherSql"/>
