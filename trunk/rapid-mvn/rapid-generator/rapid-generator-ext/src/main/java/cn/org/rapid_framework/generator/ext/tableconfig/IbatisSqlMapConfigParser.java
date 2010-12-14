@@ -2,9 +2,11 @@ package cn.org.rapid_framework.generator.ext.tableconfig;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
@@ -17,7 +19,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  * 
  */
 public class IbatisSqlMapConfigParser {
-    private Map usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
+    private Map<String,UsedIncludeSql> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
     
     public String parse(String str) {
         return parse(str,new HashMap());
@@ -66,6 +68,25 @@ public class IbatisSqlMapConfigParser {
     	public String close;
     	public String xmlTag;
     }
+    
+    public static class UsedIncludeSql {
+    	public String refid;
+    	public String rawIncludeSql;
+    	public String parsedIncludeSql;
+    	public Set<SqlParameter> params;
+    	
+    	public UsedIncludeSql(String refid, String rawIncludeSql,
+				String parsedIncludeSql) {
+			super();
+			this.refid = refid;
+			this.rawIncludeSql = rawIncludeSql;
+			this.parsedIncludeSql = parsedIncludeSql;
+		}
+
+		public Set<SqlParameter> getParams() {
+    		return params;
+    	}
+    }
 
     //process <include refid="otherSql"/>
     private void processIncludeByRefid(Map<String, String> includeSqls,
@@ -76,8 +97,9 @@ public class IbatisSqlMapConfigParser {
         }else {
             String includeValue = includeSqls.get(refid);
             if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
-            usedIncludedSqls.put(refid, includeValue);
-            StringHelper.appendReplacement(m, sb, parse(includeValue,includeSqls));
+            String parsedIncludeValue = parse(includeValue,includeSqls);
+            usedIncludedSqls.put(refid, new UsedIncludeSql(refid,includeValue,parsedIncludeValue));
+			StringHelper.appendReplacement(m, sb, parsedIncludeValue);
         }
     }
     
