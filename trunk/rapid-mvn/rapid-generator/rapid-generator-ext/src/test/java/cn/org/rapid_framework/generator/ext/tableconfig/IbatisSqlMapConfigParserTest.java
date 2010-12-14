@@ -184,8 +184,8 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     }
     
     public void test_includeSqlParams() {
-    	hashMap.put("UserInfo.where", "username = #username# and password = #password# and age = #age# ");
-    	parser.parse("select * from user_info where <include refid='UserInfo.where'/>",hashMap);
+    	hashMap.put("user-Info.where", "username = #username# and password = #password# and age = #age# ");
+    	parser.parse("select * from user_info where <include refid='user-Info.where'/>",hashMap);
     	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
     		assertEquals(segment.getParamNames().get(0),"username");
     		assertEquals(segment.getParamNames().get(1),"password");
@@ -202,6 +202,25 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     	}
     }
 
+    public void test_includeSqlParams_with_question_nation() {
+    	hashMap.put("User.Info-where", "username = #username# and password = #password# and age = ? ");
+    	parser.parse("select * from user_info where <include refid='User.Info-where'/>",hashMap);
+    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    		assertEquals(segment.getParamNames().get(0),"username");
+    		assertEquals(segment.getParamNames().get(1),"password");
+    		assertEquals(segment.getParamNames().get(2),"age");
+    		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
+    		
+    		assertEquals(get(segment.getParams(),0).getParamName(),"username");
+    		assertEquals(get(segment.getParams(),1).getParamName(),"password");
+    		assertEquals(get(segment.getParams(),2).getParamName(),"age");
+    		
+    		assertEquals(get(segment.getParams(),0).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(),1).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(),2).getParameterClass(),"Integer");
+    	}
+    }
+    
 	private SqlParameter get(Set<SqlParameter> params, int i) {
 		return new ArrayList<SqlParameter>(params).get(i);
 	}
