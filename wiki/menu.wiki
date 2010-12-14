@@ -59,9 +59,10 @@
       * [plugin_flex flex]
   * 开发者文档
     * [dev_env 开发环境快速开始]
-    * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [project_build 项目构建]
+    * [project_modules_overview 项目模块概览]
     * [plugin_dev 插件开发]
+    * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [contributors 贡献者名单]
   * [best_practice 最佳实践]
   * [changelog 修改日志]
