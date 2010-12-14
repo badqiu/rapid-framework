@@ -1,14 +1,21 @@
 package cn.org.rapid_framework.generator.ext.tableconfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
+
+import cn.org.rapid_framework.generator.GeneratorTestCase;
+import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser.UsedIncludeSql;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
 
 import junit.framework.TestCase;
 
-public class IbatisSqlMapConfigParserTest extends TestCase {
+public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
 	
 	HashMap<String,String> hashMap = new HashMap();
 	IbatisSqlMapConfigParser parser = new IbatisSqlMapConfigParser();
-	public void setUp() {
+	public void setUp() throws Exception {
+		super.setUp();
 		hashMap.put("question", "username = ? and password = ?");
 		hashMap.put("placeholder", "sex = #equals_sex# and password = #pwd#");
 	}
@@ -175,6 +182,29 @@ public class IbatisSqlMapConfigParserTest extends TestCase {
     	String v = parser.parse("123<selectKey resultClass='java.lang.Long' type='post' keyProperty='user_id' >\nselect last_insert_id() from any\n</selectKey>");
     	assertEquals("123",v);
     }
+    
+    public void test_includeSqlParams() {
+    	hashMap.put("UserInfo.where", "username = #username# and password = #password# and age = #age# ");
+    	parser.parse("select * from user_info where <include refid='UserInfo.where'/>",hashMap);
+    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    		assertEquals(segment.getParamNames().get(0),"username");
+    		assertEquals(segment.getParamNames().get(1),"password");
+    		assertEquals(segment.getParamNames().get(2),"age");
+    		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
+    		
+    		assertEquals(get(segment.getParams(),0).getParamName(),"username");
+    		assertEquals(get(segment.getParams(),1).getParamName(),"password");
+    		assertEquals(get(segment.getParams(),2).getParamName(),"age");
+    		
+    		assertEquals(get(segment.getParams(),0).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(),1).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(),2).getParameterClass(),"Integer");
+    	}
+    }
+
+	private SqlParameter get(Set<SqlParameter> params, int i) {
+		return new ArrayList<SqlParameter>(params).get(i);
+	}
 
 	
 }
