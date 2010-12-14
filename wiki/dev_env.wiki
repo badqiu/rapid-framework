@@ -10,11 +10,18 @@
   # 设置系统环境变量: M2_HOME=c:/dev/mvn
   # 设置Path系统环境变量: path=%M2_HOME%\bin;
   # 测试mvn安装成功
-{{{ mvn --version }}}
+{{{ 
+mvn --version
+ }}}
 
 == checkout 项目==
   # 将源代码从[source] 检出. 注意,要有commit权限必须是 https的URL
-  # 然后在项目根目录运行mvn eclipse命令. 请耐心等待下载相关jar包
-{{{ mvn eclipse:eclipse}}}
-  # 然后通过eclipse导入项目
-  # 手工配置eclipse M2_REPO环境变量
+
+== 将项目导入 eclipse ==
+  # 然后在项目根目录命令行运行mvn eclipse命令. 请耐心等待下载相关jar包
+{{{ 
+mvn eclipse:eclipse
+}}}
+  # 然后通过eclipse导入项目,选择菜单 File => Import... => Existing Project Into Workspace
+  # 手工配置eclipse M2_REPO环境变量. M2_REPO就是mvn本地仓库的位置.
+[http://rapid-framework.googlecode.com/svn/trunk/images/doc/maven/eclipse_m2_var_config.jpg]
