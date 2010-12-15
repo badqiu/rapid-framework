@@ -88,7 +88,10 @@ public class FileHelper {
 		List<File> files = searchAllNotIgnoreFile(dir);
 		StringBuffer result = new StringBuffer();
 		for(File file : files) {
-			result.append(IOHelper.readFile(file));
+			if(file.isDirectory()) continue;
+			if(file.isFile() && file.exists()) {
+				result.append(IOHelper.readFile(file));
+			}
 		}
 		return result.toString();
 	}
