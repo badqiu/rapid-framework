@@ -5,16 +5,17 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
+import cn.org.rapid_framework.generator.Generator;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
+
 /**
- * 生成器的测试工具类,用于将模板内容生成在某个临时文件夹,然后读取临时文件夹的内容返回
- * 返回之前会删除临时文件夹
+ * 生成器的测试工具类,用于将模板内容生成在某个临时文件夹,然后读取临时文件夹的内容返回 返回之前会删除临时文件夹
  * 
  * @author badqiu
- *
+ * 
  */
 public class GeneratorTestHelper {
 	private static AtomicLong count = new AtomicLong(System.currentTimeMillis());
@@ -64,6 +65,19 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateByTable(tableNames);
+		return readEntireDirectoryContentAndDelete(tempDir);
+	}
+
+	public String generateBy(Generator g, Map templateModel)
+			throws Exception {
+		return generateBy(g, templateModel,templateModel);
+	}
+
+	public String generateBy(Generator g, Map templateModel, Map filePathModel)
+			throws Exception {
+		File tempDir = getOutputTempDir();
+		g.setOutRootDir(tempDir.getPath());
+		g.generateBy(templateModel, filePathModel);
 		return readEntireDirectoryContentAndDelete(tempDir);
 	}
 
