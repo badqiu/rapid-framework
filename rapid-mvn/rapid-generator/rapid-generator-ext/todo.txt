@@ -71,7 +71,13 @@ ibatis gen的include sql的参数重用功能.
 		}
 		
 		并且为代理生成构造方法.
-		
+
+Result的select column也通过 include生成.
+	1. 通过正则表达式得到 select columns from的 columns
+	2. 得到 columns中的所有 include段
+	3. 得到各个具体 include 所代表的 columns(怎么取呢?正则表达式不大可能完成)
+			
 	
 Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
-			
+
+在模板的开始位置: 需要注明模板引用的变量声明: <#-- $import cn.rapid.Table -->			
