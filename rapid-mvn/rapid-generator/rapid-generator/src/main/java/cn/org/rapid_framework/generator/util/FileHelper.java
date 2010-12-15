@@ -311,4 +311,8 @@ public class FileHelper {
 			return file.getPath();
 		}
 	}
+
+	public static String getTempDir() {
+		return System.getProperty("java.io.tmpdir");
+	}
 }
