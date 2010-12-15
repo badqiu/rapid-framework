@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.util;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.Reference;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
@@ -93,4 +95,7 @@ public class MiscTest extends TestCase {
         return sb.toString();
     }
 	
+    public void test() {
+    	Reference<String> ref = new PhantomReference<String>("", null);
+    }
 }
