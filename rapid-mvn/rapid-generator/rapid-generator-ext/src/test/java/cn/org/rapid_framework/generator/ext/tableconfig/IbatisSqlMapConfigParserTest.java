@@ -2,13 +2,18 @@ package cn.org.rapid_framework.generator.ext.tableconfig;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
+import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser.UsedIncludeSql;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
-
-import junit.framework.TestCase;
+import cn.org.rapid_framework.generator.util.BeanHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
 
 public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
 	
@@ -19,7 +24,9 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
 		hashMap.put("question", "username = ? and password = ?");
 		hashMap.put("placeholder", "sex = #equals_sex# and password = #pwd#");
 	}
-
+	public static void assertMatch(String str,String regex) {
+		assertTrue("Regex:"+regex+" str:"+str,StringHelper.indexOfByRegex(str, regex) >= 0);
+	}
 	public void test_freemarker_xml() {
 	    assertTrue("".equals(IbatisSqlMapConfigParser.Helper.removeComments("<!--1\n2\n3-->")));
 	    assertTrue("".equals(IbatisSqlMapConfigParser.Helper.removeComments("/*1\n2\n3*/")));
@@ -192,13 +199,34 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     		assertEquals(segment.getParamNames().get(2),"age");
     		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
     		
-    		assertEquals(get(segment.getParams(),0).getParamName(),"username");
-    		assertEquals(get(segment.getParams(),1).getParamName(),"password");
-    		assertEquals(get(segment.getParams(),2).getParamName(),"age");
+    		Sql sql = new SqlFactory().parseSql(parser.resultSql);
+    		assertEquals(get(segment.getParams(sql),0).getParamName(),"username");
+    		assertEquals(get(segment.getParams(sql),1).getParamName(),"password");
+    		assertEquals(get(segment.getParams(sql),2).getParamName(),"age");
     		
-    		assertEquals(get(segment.getParams(),0).getParameterClass(),"String");
-    		assertEquals(get(segment.getParams(),1).getParameterClass(),"String");
-    		assertEquals(get(segment.getParams(),2).getParameterClass(),"Integer");
+    		assertEquals(get(segment.getParams(sql),0).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(sql),1).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(sql),2).getParameterClass(),"Integer");
+    	}
+    }
+    
+    public void test_get_includeSqlParams() throws Exception {
+    	hashMap.put("user-Info.where", "username = #username# and password = #password# and age = #age# ");
+    	parser.parse("select * from user_info where <include refid='user-Info.where'/>",hashMap);
+    	GeneratorFacade gf = new GeneratorFacade();
+    	gf.getGenerator().setTemplateRootDir("classpath:for_test_sql_segment");
+    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    		Map map = new HashMap();
+    		map.put("sqlSegment", segment);
+    		map.putAll(BeanHelper.describe(segment));
+    		System.out.println(map);
+    		String str = GeneratorTestHelper.generateByMap(gf, map);
+    		System.out.println(str);
+    		assertFalse(StringHelper.isBlank(str));
+    		assertMatch(str,"public class UserInfoWhere");
+    		assertMatch(str,"private String username");
+    		assertMatch(str,"private String password");
+    		assertMatch(str,"private Integer age");
     	}
     }
 
@@ -211,13 +239,14 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     		assertEquals(segment.getParamNames().get(2),"age");
     		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
     		
-    		assertEquals(get(segment.getParams(),0).getParamName(),"username");
-    		assertEquals(get(segment.getParams(),1).getParamName(),"password");
-    		assertEquals(get(segment.getParams(),2).getParamName(),"age");
+    		Sql sql = new SqlFactory().parseSql(parser.resultSql);
+    		assertEquals(get(segment.getParams(sql),0).getParamName(),"username");
+    		assertEquals(get(segment.getParams(sql),1).getParamName(),"password");
+    		assertEquals(get(segment.getParams(sql),2).getParamName(),"age");
     		
-    		assertEquals(get(segment.getParams(),0).getParameterClass(),"String");
-    		assertEquals(get(segment.getParams(),1).getParameterClass(),"String");
-    		assertEquals(get(segment.getParams(),2).getParameterClass(),"Integer");
+    		assertEquals(get(segment.getParams(sql),0).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(sql),1).getParameterClass(),"String");
+    		assertEquals(get(segment.getParams(sql),2).getParameterClass(),"Integer");
     	}
     }
     
@@ -225,5 +254,4 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
 		return new ArrayList<SqlParameter>(params).get(i);
 	}
 
-	
 }

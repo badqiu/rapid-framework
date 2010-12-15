@@ -111,4 +111,9 @@ public class GeneratorTestCase extends TestCase{
 		return new File(tempDir,"test_generator_out").getAbsolutePath();
 	}
 	
+	public static void assertContains(String str,String regex) {
+		boolean condition = StringHelper.indexOfByRegex(str, regex) >= 0;
+		assertTrue("not match Regex:"+regex+" str:"+str,condition || str.contains(regex));
+	}
+	
 }

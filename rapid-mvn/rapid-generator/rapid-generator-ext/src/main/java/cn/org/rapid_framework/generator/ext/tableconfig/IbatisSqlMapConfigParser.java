@@ -28,7 +28,7 @@ public class IbatisSqlMapConfigParser {
     public Map<String,UsedIncludeSql> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
     private String sourceSql;
     private Map<String,String> includeSqls;
-    private String resultSql;
+    public String resultSql;
     
     public String parse(String str) {
         return parse(str,new HashMap());
@@ -99,9 +99,12 @@ public class IbatisSqlMapConfigParser {
 			this.rawIncludeSql = rawIncludeSql;
 			this.parsedIncludeSql = parsedIncludeSql;
 		}
-
-		public Set<SqlParameter> getParams() {
-			Sql sql = new SqlFactory().parseSql(resultSql); // FIXME 缺少自定义参数类型
+    	
+    	public Set<SqlParameter> getParams() {
+    		return getParams(new SqlFactory().parseSql(resultSql));// FIXME 缺少自定义参数类型
+    	}
+    	
+		public Set<SqlParameter> getParams(Sql sql) {
     		Set<SqlParameter> result = new LinkedHashSet();
 			for(String paramName : getParamNames()) {
     			SqlParameter p = sql.getParam(paramName);
