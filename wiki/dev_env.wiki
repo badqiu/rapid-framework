@@ -23,12 +23,19 @@ mvn --version
 mvn eclipse:eclipse
 }}}
   # 然后通过eclipse导入项目,选择菜单 File => Import... => Existing Project Into Workspace
-  # 手工配置eclipse M2_REPO环境变量. M2_REPO就是mvn本地仓库的位置.选择菜单: Window => Perferences => Java => Build Path => Classpath Variables
+  # 配置eclipse M2_REPO环境变量. 
+
+*手工配置*: 
+M2_REPO就是mvn本地仓库的位置.选择菜单: Window => Perferences => Java => Build Path => Classpath Variables
 [http://rapid-framework.googlecode.com/svn/trunk/images/doc/maven/eclipse_m2_var_config.jpg]
 注意: C:\.m2\repository是我自己手工修改 M2_HOME/conf/settings.xml的配置。
    
-   或者通过命令行配置eclipse M2_REPO环境变量:
-在命令行运行: mvn eclipse:configure-workspace -Dworkspace=c:/youWorkspaceLocation
+*命令行配置*
+   通过命令行配置eclipse M2_REPO环境变量:
+在命令行运行: 
+{{{
+mvn eclipse:configure-workspace -Dworkspace=c:/youWorkspaceLocation
+}}}
 
 
 ==项目构建==
