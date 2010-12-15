@@ -14,7 +14,6 @@ import cn.org.rapid_framework.util.page.PageQuery;
  * @see PageQuery
  * @author badqiu
  */
-@Deprecated
 public class PageRequest<T> implements Serializable {
 
 	/**

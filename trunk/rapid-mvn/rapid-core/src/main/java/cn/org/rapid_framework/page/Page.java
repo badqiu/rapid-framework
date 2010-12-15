@@ -20,7 +20,6 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * @see cn.org.rapid_framework.util.page.Paginator
  * @author badqiu
  */
-@Deprecated
 public class Page<T> implements Serializable,Iterable<T>
 {
 	
