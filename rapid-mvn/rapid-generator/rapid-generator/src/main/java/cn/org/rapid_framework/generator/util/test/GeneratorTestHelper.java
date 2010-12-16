@@ -13,7 +13,8 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
 /**
- * 生成器的测试工具类,用于将模板内容生成在某个临时文件夹,然后读取临时文件夹的内容返回 返回之前会删除临时文件夹
+ * 生成器的测试工具类,用于将模板内容生成在某个临时文件夹,
+ * 然后读取临时文件夹的内容返回 返回之前会删除临时文件夹
  * 
  * @author badqiu
  * 
