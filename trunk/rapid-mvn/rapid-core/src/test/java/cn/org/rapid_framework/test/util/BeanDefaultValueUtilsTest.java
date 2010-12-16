@@ -1,17 +1,8 @@
 package cn.org.rapid_framework.test.util;
 
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.Date;
 
 import junit.framework.TestCase;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.util.ClassUtils;
-
 import cn.org.rapid_framework.test.util.testbean.Bean1;
 import cn.org.rapid_framework.test.util.testbean.SexEnumBean;
 import cn.org.rapid_framework.util.DateConvertUtils;
@@ -50,7 +41,64 @@ public class BeanDefaultValueUtilsTest extends TestCase {
 
         
     }
+    
+    public void testConstructor() {
+        ConstructorParentBean parent = new ConstructorParentBean();
+        BeanDefaultValueUtils.setBeanProperties(parent);
+        assertEquals(parent.getChild().getAge(),1);
+        assertEquals(parent.getChild().getSex(),new Integer(1));
+        assertEquals(parent.getChild().getName(),"1");
+    }
 
+    public static class ConstructorParentBean {
+        ConstructorChildBean child;
+
+        public ConstructorChildBean getChild() {
+            return child;
+        }
+
+        public void setChild(ConstructorChildBean child) {
+            this.child = child;
+        }
+    }
+    
+    public static class ConstructorChildBean {
+        private int age = 0;
+        private Integer sex = null;
+        private String name = "";
+        
+        public ConstructorChildBean(int age, Integer sex, String name) {
+            super();
+            this.age = age;
+            this.sex = sex;
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public Integer getSex() {
+            return sex;
+        }
+
+        public void setSex(Integer sex) {
+            this.sex = sex;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+    }
     
 
     
