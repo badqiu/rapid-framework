@@ -58,7 +58,7 @@ ibatis gen的include sql的参数重用功能.
 	5. 移除 Sql中SegmentId的param列表
 	6. 在Sql Param对象中生成 SegmentId参数的(1.代理 2.或者是继承)
 		QueryByUser{
-			private UserInfoWhere userInfoWhere;
+			private UserInfoWhere userInfoWhere = new UserInfoWhere();
 			setUserInfoWhere(userInfoWhere) {
 				this.userInfoWhere = userInfoWhere;
 			}
@@ -67,6 +67,9 @@ ibatis gen的include sql的参数重用功能.
 			}
 			getPassword() {
 				userInfoWhere.getPassword();
+			}
+			public void setUsername(String username) {
+				userInfoWhere.setUsername(username);
 			}
 		}
 		
