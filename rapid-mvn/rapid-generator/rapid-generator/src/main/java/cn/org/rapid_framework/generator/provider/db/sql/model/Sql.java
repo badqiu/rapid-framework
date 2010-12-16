@@ -38,17 +38,17 @@ import cn.org.rapid_framework.generator.util.typemapping.JavaPrimitiveTypeMappin
  *
  */
 public class Sql {
-	public static String MULTIPLICITY_ONE = "one";
-	public static String MULTIPLICITY_MANY = "many";
-	public static String MULTIPLICITY_PAGING = "paging";
+	public static String MULTIPLICITY_ONE = "one"; // select查询回一条记录, selectOne()
+	public static String MULTIPLICITY_MANY = "many"; // select查询回一个List, selectList()
+	public static String MULTIPLICITY_PAGING = "paging"; // 分页查询
 	
 	public static String PARAMTYPE_PRIMITIVE = "primitive";
 	public static String PARAMTYPE_OBJECT = "object";
 	
 	String operation = null;
-	String resultClass;
-	String parameterClass;
-	String remarks;
+	String resultClass; // select查询返回的结果集的class
+	String parameterClass; //参数代表的parameterClass
+	String remarks; //注释
 	
 	String                      multiplicity        = MULTIPLICITY_ONE;                 /* many or one or paging */
     boolean                     paging              = false;                            // 是否分页查询
@@ -56,11 +56,13 @@ public class Sql {
     String                      sqlmap;                                                 /* for ibatis and mybatis */
     String                      resultMap           = null;                             /* for ibatis and mybatis */
 	
+    /** 代表一条select查询回来的结果列 */
 	LinkedHashSet<Column> columns = new LinkedHashSet<Column>();
+	/** 代表一条sql 查询有参数列表  */
 	LinkedHashSet<SqlParameter> params = new LinkedHashSet<SqlParameter>();
 	
 	String sourceSql; // source sql
-	String executeSql;
+	String executeSql; //代表在数据库执行的sql
 	private String              paramType           = PARAMTYPE_PRIMITIVE;                      /* primitive or object */
 	
 	/** 代表一段SQL include 其它的sql片段. 如ibatis中的 <include refid='User.Where'/> */
