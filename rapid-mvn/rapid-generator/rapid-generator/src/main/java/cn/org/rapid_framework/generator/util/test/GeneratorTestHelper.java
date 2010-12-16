@@ -2,6 +2,7 @@ package cn.org.rapid_framework.generator.util.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -82,13 +83,17 @@ public class GeneratorTestHelper {
 	}
 
 	private static String readEntireDirectoryContentAndDelete(File tempDir) {
-		String r = FileHelper.readEntireDirectoryContent(tempDir);
+		String result = FileHelper.readEntireDirectoryContent(tempDir);
+		List<File> files = FileHelper.searchAllNotIgnoreFile(tempDir);
+		for(File f : files) {
+			result = result + "\n"+"file:"+f.getPath().replace('\\', '/');
+		}
 		try {
 			FileHelper.deleteDirectory(tempDir);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return r;
+		return result;
 	}
 
 	private static File getOutputTempDir() {
