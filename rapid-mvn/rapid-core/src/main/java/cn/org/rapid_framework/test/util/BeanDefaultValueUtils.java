@@ -11,9 +11,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import org.springframework.beans.BeanUtils;
 /**
@@ -148,6 +151,12 @@ public class BeanDefaultValueUtils {
             }
             if(targetType.isAssignableFrom(Map.class)) {
             	return new HashMap();
+            }
+            if(targetType.isAssignableFrom(Queue.class)) {
+            	return (Queue)new ArrayBlockingQueue(100);
+            }
+            if(targetType.isAssignableFrom(Iterator.class)) {
+            	return (Iterator)new ArrayList();
             }
             return null;
         }
