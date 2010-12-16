@@ -78,11 +78,14 @@ public class DataSourceProvider {
 		private String password;
 		private String driverClass;
 		
-		private static void loadJdbcDriver(String driver) {
+		private static void loadJdbcDriver(String driverClass) {
 			try {
-				Class.forName(driver);
+				if(driverClass == null || "".equals(driverClass.trim())) {
+					throw new IllegalArgumentException("jdbc 'driverClass' must not be empty");
+				}
+				Class.forName(driverClass.trim());
 			} catch (ClassNotFoundException e) {
-				throw new RuntimeException("not found jdbc driver class:["+driver+"]",e);
+				throw new RuntimeException("not found jdbc driver class:["+driverClass+"]",e);
 			}
 		}
 		
