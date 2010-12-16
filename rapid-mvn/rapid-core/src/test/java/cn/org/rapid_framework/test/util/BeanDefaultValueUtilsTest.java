@@ -48,17 +48,27 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         assertEquals(parent.getChild().getAge(),1);
         assertEquals(parent.getChild().getSex(),new Integer(1));
         assertEquals(parent.getChild().getName(),"1");
+        
+        assertEquals(parent.getPrivateChild(),null);
     }
 
     public static class ConstructorParentBean {
         ConstructorChildBean child;
-
+        ConstructorPrivateChildBean privateChild;
         public ConstructorChildBean getChild() {
             return child;
         }
 
         public void setChild(ConstructorChildBean child) {
             this.child = child;
+        }
+
+        public ConstructorPrivateChildBean getPrivateChild() {
+            return privateChild;
+        }
+
+        public void setPrivateChild(ConstructorPrivateChildBean privateChild) {
+            this.privateChild = privateChild;
         }
     }
     
@@ -100,6 +110,42 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         
     }
     
+    public static class ConstructorPrivateChildBean {
+        private int age = 0;
+        private Integer sex = null;
+        private String name = "";
+        
+        private ConstructorPrivateChildBean(int age, Integer sex, String name) {
+            super();
+            this.age = age;
+            this.sex = sex;
+            this.name = name;
+        }
 
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public Integer getSex() {
+            return sex;
+        }
+
+        public void setSex(Integer sex) {
+            this.sex = sex;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+    }
     
 }
