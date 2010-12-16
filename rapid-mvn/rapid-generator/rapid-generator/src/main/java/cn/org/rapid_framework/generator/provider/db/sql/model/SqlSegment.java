@@ -10,6 +10,8 @@ import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 
 /**
  *  SQL片段, 代表一句SQL include 其它的sql片段. 如ibatis中的 <include refid='User.Where'/> 
+ *  
+ *  @see Sql
  **/
 public class SqlSegment {
 	/** sql segment ID */
