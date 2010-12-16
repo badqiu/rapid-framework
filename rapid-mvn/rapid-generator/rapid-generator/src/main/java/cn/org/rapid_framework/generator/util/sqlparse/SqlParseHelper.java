@@ -216,7 +216,7 @@ public class SqlParseHelper {
 	    }
 
         private String replace2NamedParameters(String sql) {
-            String replacedSql = replace2NamedParametersByOperator(sql,"[=<>!]{1,2}");
+            String replacedSql = replace2NamedParametersByOperator(sql,"[=<>!]{1,2}"); //缺少oracle的^=运算符:  !=,<>,^=:不等于 
             replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+like\\s+"); // like
 //            replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+not\\s+in\\s+\\("); // not in
 //            replacedSql = replace2NamedParametersByOperator(replacedSql,"\\s+in\\s+\\("); // in
@@ -226,7 +226,7 @@ public class SqlParseHelper {
         private String replaceInsertSql2NamedParameters(String sql) {
         	if(sql.matches("(?is)\\s*insert\\s+into\\s+\\w+\\s+values\\s*\\(.*\\).*")) {
         		if(sql.indexOf("?") >= 0) {
-        			throw new IllegalArgumentException("无法解析的insert sql:"+sql+",values()段不能包含疑问号?");
+        			throw new IllegalArgumentException("无法解析的insert sql:"+sql+",values()段没有包含疑问号?");
         		} else {
         			return sql;
         		}
