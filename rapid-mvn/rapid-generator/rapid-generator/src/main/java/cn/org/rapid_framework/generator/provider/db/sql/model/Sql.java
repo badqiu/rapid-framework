@@ -45,7 +45,7 @@ public class Sql {
 	public static String PARAMTYPE_PRIMITIVE = "primitive";
 	public static String PARAMTYPE_OBJECT = "object";
 	
-	String operation = null;
+	String operation = null;  //这段 sql相对应的操作名称.
 	String resultClass; // select查询返回的结果集的class
 	String parameterClass; //参数代表的parameterClass
 	String remarks; //注释
