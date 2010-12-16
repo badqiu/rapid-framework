@@ -63,6 +63,9 @@ public class Sql {
 	String executeSql;
 	private String              paramType           = PARAMTYPE_PRIMITIVE;                      /* primitive or object */
 	
+	/** 代表一段SQL include 其它的sql片段. 如ibatis中的 <include refid='User.Where'/> */
+	private List<SqlSegment> sqlSegments = new ArrayList<SqlSegment>();
+	
 	public Sql() {
 	}
 	
@@ -436,7 +439,36 @@ public class Sql {
 		}
 	}
 
-    /**
+	public List<SqlSegment> getSqlSegments() {
+		return sqlSegments;
+	}
+
+	public void setSqlSegments(List<SqlSegment> includeSqls) {
+		this.sqlSegments = includeSqls;
+	}
+	
+	public List<SqlParameter> getFilterdWithSqlSegmentParams() {
+		List<SqlParameter> result = new ArrayList<SqlParameter>();
+		for(SqlParameter p : getParams()) {
+			if(isSqlSegementContainsParam(p.getParamName())) {
+				continue;
+			}
+			result.add(p);
+		}
+		return result;
+	}
+	
+    private boolean isSqlSegementContainsParam(String paramName) {
+		for(SqlSegment seg : getSqlSegments()) {
+			//TODO 增加如果参数数是1,则不生成  SqlSegemnt,此处也要修改对1的特殊控制
+			if(seg.getParamNames().contains(paramName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
      * 当前的sourceSql是否是select语句
      * @return
      */
