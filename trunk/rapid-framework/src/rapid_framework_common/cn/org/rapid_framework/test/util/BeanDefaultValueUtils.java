@@ -34,6 +34,7 @@ import org.springframework.beans.BeanUtils;
  */
 public class BeanDefaultValueUtils {
 	public static int DEFAULT_VALUE = 1;
+	//TODO 增加对范型 List<String>及 setFields()
 	
     public static <T> T setBeanProperties(T obj) {
         return setBeanProperties(obj, DEFAULT_VALUE);
