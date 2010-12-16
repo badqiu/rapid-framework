@@ -158,6 +158,9 @@ public class BeanDefaultValueUtils {
             if(targetType.isAssignableFrom(Iterator.class)) {
             	return (Iterator)new ArrayList();
             }
+            if(targetType.isAssignableFrom(Iterable.class)) {
+            	return (Iterable)new ArrayList();
+            }
             return null;
         }
         try {
