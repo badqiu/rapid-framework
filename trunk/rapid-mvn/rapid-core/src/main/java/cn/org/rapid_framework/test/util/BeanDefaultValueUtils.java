@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.test.util;
 
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -27,6 +28,7 @@ import org.springframework.beans.BeanUtils;
  * 
  * <pre>
  * <b>相关默认值:</b>
+ * 
  * 数字类型: 1
  * 日期类型: 当前时间
  * boolean: true
@@ -163,13 +165,30 @@ public class BeanDefaultValueUtils {
             }
             return null;
         }
-        try {
-        	return BeanUtils.instantiateClass(targetType);
-        }catch(Exception e) {
-        	//ignore
-        	return null;
+        Constructor[] cs = targetType.getConstructors();
+        for(Constructor c : cs) {
+            Object obj = newInstance(c,defaultValue);
+            if(obj != null) return obj;
         }
+    	return null;
+
         
 //        throw new IllegalArgumentException("cannot generate default value for targetType:"+targetType);
 	}
+
+    private static Object newInstance(Constructor c,int defaultValue) {
+        c.setAccessible(true);
+        Object[] args = new Object[c.getParameterTypes().length];
+        for(int i = 0; i < c.getParameterTypes().length; i++) {
+            Class type = c.getParameterTypes()[i];
+            args[i] = getDefaultValue(type);
+        }
+        try {
+            return c.newInstance(args);
+        }catch(Exception e) {
+            e.printStackTrace();
+            //ignore 
+            return null;
+        }
+    }
 }
