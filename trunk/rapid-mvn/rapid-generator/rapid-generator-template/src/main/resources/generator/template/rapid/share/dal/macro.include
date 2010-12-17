@@ -1,0 +1,58 @@
+<#function isUseParamObject sql>
+	<#if (sql.params?size <= 1)>
+		<#return false/>
+	</#if>
+	<#if (sql.paramType = 'parameterObject' || sql.params?size >= 1000)>
+		<#return true/>
+	</#if>
+	<#return false/>		
+</#function>
+
+<#macro generateResultClassName sql suffix=''>
+	<#compress>
+	<#if sql.selectSql>
+		<#local resultClassName><#if sql.resultClassName==tableConfig.className>${sql.resultClassName}${suffix}<#else>${sql.resultClassName}</#if></#local>
+		<#if sql.paging>
+			PageList
+		<#elseif sql.multiplicity = 'one'>
+			${resultClassName}
+		<#else>
+			List<${resultClassName}>
+		</#if>
+	<#else>
+		<#if sql.deleteSql>
+			int
+		</#if>
+		
+		<#if sql.insertSql>
+			<#if sql.paramType = 'object'>
+				${tableConfig.pkColumn.javaType}
+			<#else>
+				int
+			</#if>    
+		</#if>
+		
+		<#if sql.updateSql>
+			int
+		</#if>
+	</#if>
+	</#compress>
+</#macro>
+
+<#macro generateOperationArguments sql>
+<#compress>
+	<#if sql.paramType = 'object'>
+		${tableConfig.table.className}DO ${tableConfig.table.classNameFirstLower}
+	<#else>
+		<#if isUseParamObject(sql)>
+			${sql.parameterClassName} param
+		<#else>
+			<#if sql.paging>
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName},</#list>int pageSize,int pageNum
+			<#else>
+				<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>
+			</#if>
+		</#if>
+	</#if>
+</#compress>
+</#macro>
