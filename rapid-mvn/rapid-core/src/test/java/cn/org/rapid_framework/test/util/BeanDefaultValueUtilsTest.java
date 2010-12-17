@@ -84,6 +84,12 @@ public class BeanDefaultValueUtilsTest extends TestCase {
             this.name = name;
         }
 
+        public ConstructorChildBean(int age, Integer sex) {
+            super();
+            this.age = age;
+            this.sex = sex;
+        }
+        
         public int getAge() {
             return age;
         }
