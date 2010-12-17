@@ -91,6 +91,11 @@
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
 				<version>4.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.googlecode.rapid-framework</groupId>
+				<artifactId>rapid-generator-parent</artifactId>
+				<version>1.0</version>
 			</dependency>			
 			<!--  sub projects END -->
 
@@ -745,7 +750,7 @@
 			  <configuration>
 					<charset>${project.reporting.outputEncoding}</charset>
 			  </configuration>
-
+			  <!--
 			  <executions>
 			    <execution>
 			      <id>attach-javadocs</id>
@@ -754,6 +759,7 @@
 			      </goals>
 			    </execution>
 			  </executions>
+			  -->
 			  
 			</plugin>				
 
