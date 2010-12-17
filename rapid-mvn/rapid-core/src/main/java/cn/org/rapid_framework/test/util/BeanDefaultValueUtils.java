@@ -9,6 +9,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +21,8 @@ import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.springframework.beans.BeanUtils;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 /**
  * 用于为Bean设置属性设置默认值的工具类.
  * 
@@ -166,6 +169,11 @@ public class BeanDefaultValueUtils {
             return null;
         }
         Constructor[] cs = targetType.getConstructors();
+        Arrays.sort(cs,new Comparator<Constructor>() {
+            public int compare(Constructor o1, Constructor o2) {
+                return o1.getParameterTypes().length - o2.getParameterTypes().length;
+            }
+        });
         for(Constructor c : cs) {
             Object obj = newInstance(c,defaultValue);
             if(obj != null) return obj;
