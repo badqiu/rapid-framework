@@ -171,7 +171,7 @@ public class BeanDefaultValueUtils {
         Constructor[] cs = targetType.getConstructors();
         Arrays.sort(cs,new Comparator<Constructor>() {
             public int compare(Constructor o1, Constructor o2) {
-                return o1.getParameterTypes().length - o2.getParameterTypes().length;
+                return o2.getParameterTypes().length - o1.getParameterTypes().length;
             }
         });
         for(Constructor c : cs) {
