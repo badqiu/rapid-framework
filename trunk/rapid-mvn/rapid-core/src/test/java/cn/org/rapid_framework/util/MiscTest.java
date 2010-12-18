@@ -2,6 +2,7 @@ package cn.org.rapid_framework.util;
 
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
@@ -28,6 +29,7 @@ import org.apache.commons.beanutils.converters.SqlTimeConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.lang.StringUtils;
 
+import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.beanutils.converter.StringConverter;
 
 public class MiscTest extends TestCase {
@@ -97,5 +99,43 @@ public class MiscTest extends TestCase {
 	
     public void test() {
     	Reference<String> ref = new PhantomReference<String>("", null);
+    }
+    
+    public void testBeanProperty() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    	Map map = org.apache.commons.beanutils.BeanUtils.describe(new ProBean());
+    	
+    	assertTrue(map.toString(),map.containsKey("PUserName"));
+    	assertTrue(map.toString(),map.containsKey("username"));
+    	assertTrue(map.toString(),map.containsKey("puserName"));
+    	System.out.println(map);
+    }
+    
+    public static class ProBean {
+    	private String puserName;
+    	private String username;
+
+		public String getPuserName() {
+			return puserName;
+		}
+
+		public void setPuserName(String puserName) {
+			this.puserName = puserName;
+		}
+		
+		public String getPUserName() {
+			return puserName;
+		}
+
+		public void setPUserName(String puserName) {
+			this.puserName = puserName;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public void setUsername(String username) {
+			this.username = username;
+		}
     }
 }
