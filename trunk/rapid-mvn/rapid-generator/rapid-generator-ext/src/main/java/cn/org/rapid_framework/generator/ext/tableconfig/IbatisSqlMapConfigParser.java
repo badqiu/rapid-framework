@@ -1,20 +1,15 @@
 package cn.org.rapid_framework.generator.ext.tableconfig;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
-import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
-import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlSegment;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
-import cn.org.rapid_framework.generator.util.sqlparse.NamedParameterUtils;
-import cn.org.rapid_framework.generator.util.sqlparse.ParsedSql;
 import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 
 /**
@@ -25,7 +20,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
  * 
  */
 public class IbatisSqlMapConfigParser {
-    public Map<String,UsedIncludeSql> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
+    public Map<String,SqlSegment> usedIncludedSqls = new HashMap(); //增加一条sql语句引用的 includesSql的解析
     private String sourceSql;
     private Map<String,String> includeSqls;
     public String resultSql;
@@ -76,51 +71,15 @@ public class IbatisSqlMapConfigParser {
 //        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
     
-    public void test() {
-    	for(UsedIncludeSql sql : usedIncludedSqls.values()) {
-    		ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(sql.parsedIncludeSql);
-    	}
+    public List<SqlSegment> getSqlSegments() {
+    	return new ArrayList(usedIncludedSqls.values());
     }
+    
     private static class OpenCloseTag {
     	public String close;
     	public String xmlTag;
     }
     
-    public class UsedIncludeSql {
-    	public String refid;
-    	public String rawIncludeSql;
-    	public String parsedIncludeSql;
-    	public Set<SqlParameter> params;
-    	
-    	public UsedIncludeSql(String refid, String rawIncludeSql,
-				String parsedIncludeSql) {
-			super();
-			this.refid = refid;
-			this.rawIncludeSql = rawIncludeSql;
-			this.parsedIncludeSql = parsedIncludeSql;
-		}
-    	
-    	public Set<SqlParameter> getParams() {
-    		return getParams(new SqlFactory().parseSql(resultSql));// FIXME 缺少自定义参数类型
-    	}
-    	
-		public Set<SqlParameter> getParams(Sql sql) {
-    		Set<SqlParameter> result = new LinkedHashSet();
-			for(String paramName : getParamNames()) {
-    			SqlParameter p = sql.getParam(paramName);
-    			if(p == null) throw new IllegalArgumentException("not found param on sql:"+parsedIncludeSql+" with name:"+paramName); //是否不该扔异常
-    			result.add(p);
-			}
-			return result;
-    	}
-		public List<String> getParamNames() {
-			ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(parsedIncludeSql);
-			return parsedSql.getParameterNames();
-		}
-		public String getRefidClassName() {
-			return StringHelper.toJavaClassName(refid.replace(".", "_").replace("-", "_"));
-		}
-    }
 
     //process <include refid="otherSql"/>
     private void processIncludeByRefid(Map<String, String> includeSqls,
@@ -132,7 +91,7 @@ public class IbatisSqlMapConfigParser {
             String includeValue = includeSqls.get(refid);
             if(includeValue == null) throw new IllegalArgumentException("not found include sql by <include refid='"+refid+"'/>");
             String parsedIncludeValue = parse(includeValue,includeSqls);
-            usedIncludedSqls.put(refid, new UsedIncludeSql(refid,includeValue,parsedIncludeValue));
+            usedIncludedSqls.put(refid, new SqlSegment(refid,includeValue,parsedIncludeValue));
 			StringHelper.appendReplacement(m, sb, parsedIncludeValue);
         }
     }
