@@ -38,14 +38,9 @@ import java.util.concurrent.TimeUnit;
 @Retention(RetentionPolicy.RUNTIME)     
 public @interface MethodCache {  
 	/** 
-	 * 过期时间,时间单位通过timeUnit()指定,默认的时间单位为秒
+	 * 过期时间,默认的时间单位为秒
 	 **/
     long expireTime();  
-    
-    /** 
-     * 过期时间的单位,默认为秒
-     **/
-    TimeUnit timeUnit() default TimeUnit.SECONDS;
     
     /** 
      * 存放在cache中的key,支持String.format() 语法.

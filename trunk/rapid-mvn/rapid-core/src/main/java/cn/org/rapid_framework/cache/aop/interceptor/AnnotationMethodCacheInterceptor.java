@@ -40,7 +40,7 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
             Object[] arguments = invocation.getArguments();  
             MethodCache annotation = invocation.getMethod().getAnnotation(MethodCache.class);
             String cacheKey = getCackeKey(targetName, methodName, arguments,annotation);
-            int expireSeconds = (int)annotation.timeUnit().toSeconds(annotation.expireTime());
+            int expireSeconds = (int)annotation.expireTime();
             return getResult(cacheKey, invocation,expireSeconds); 
         } else {  
             return invocation.proceed();  
