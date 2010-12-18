@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
@@ -138,6 +140,12 @@ public class BeanDefaultValueUtils {
         	Calendar calendar = Calendar.getInstance();
 			calendar.setTimeInMillis(System.currentTimeMillis());
 			return calendar;
+        }
+        if(targetType == Currency.class) {
+        	return Currency.getInstance(Locale.getDefault());
+        }
+        if(targetType == Locale.class) {
+        	return Locale.getDefault();
         }
         if(targetType.isEnum()) {
             Enum[] enums = (Enum[])targetType.getEnumConstants();;
