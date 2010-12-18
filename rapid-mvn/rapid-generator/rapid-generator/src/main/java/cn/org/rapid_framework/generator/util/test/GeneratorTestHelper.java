@@ -100,6 +100,7 @@ public class GeneratorTestHelper {
 	private static File getOutputTempDir() {
 		File tempDir = new File(FileHelper.getTempDir(), "GeneratorTestHelper/"
 				+ count.incrementAndGet() + ".tmp");
+		tempDir.deleteOnExit();
 		return tempDir;
 	}
 
