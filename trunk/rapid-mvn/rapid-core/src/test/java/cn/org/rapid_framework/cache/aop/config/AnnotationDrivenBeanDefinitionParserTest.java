@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import cn.org.rapid_framework.cache.Cache;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class AnnotationDrivenBeanDefinitionParserTest {
 	
@@ -54,5 +55,14 @@ public class AnnotationDrivenBeanDefinitionParserTest {
 		assertEquals(101,methodCacheTestService.notCachedqueryByUser("123", "456"));
 		assertEquals(102,methodCacheTestService.notCachedqueryByUser("123", "456"));
 		assertEquals(103,methodCacheTestService.notCachedqueryByUser("123", "456"));
+		
+		assertEquals(101,methodCacheTestService.cachedqueryByUser(new String[]{"123"}, Arrays.asList(new String[]{"456"})));
+		assertEquals(101,methodCacheTestService.cachedqueryByUser(new String[]{"123"}, Arrays.asList(new String[]{"456"})));
+		
+		assertEquals(102,methodCacheTestService.cachedqueryByUser(new String[]{"123"}, Arrays.asList(new String[]{"4567"})));
+		assertEquals(103,methodCacheTestService.cachedqueryByUser(new String[]{"456"}, Arrays.asList(new String[]{"456"})));
+		assertEquals(101,methodCacheTestService.cachedqueryByUser(new String[]{"123"}, Arrays.asList(new String[]{"456"})));
+		
+		
 	}
 }
