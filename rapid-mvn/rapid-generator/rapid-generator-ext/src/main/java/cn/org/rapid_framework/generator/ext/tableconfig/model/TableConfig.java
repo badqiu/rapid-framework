@@ -12,6 +12,7 @@ import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlSegment;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.ColumnSet;
@@ -40,7 +41,7 @@ public class TableConfig {
     //for support 
     //<sql id="columns"><![CDATA[ ]]></sql id="columns">
     //<include refid="columns"/> 
-    public List<SqlConfig> includeSqls = new ArrayList<SqlConfig>(); 
+    private List<SqlConfig> includeSqls = new ArrayList<SqlConfig>(); 
 
     public List<ResultMapConfig> getResultMaps() {
         return resultMaps;
@@ -140,6 +141,11 @@ public class TableConfig {
 		this.includeSqls = includeSqls;
 	}
 
+    public void addSqlConfig(SqlConfig c) {
+    	this.includeSqls.add(c);
+    	c.setTableConfig(this);
+    }
+    
 	public List<OperationConfig> getOperations() {
         return operations;
     }
@@ -204,14 +210,14 @@ public class TableConfig {
     }
     
     private List<Sql> sqls;
-    public List<Sql> getSqls() throws SQLException, Exception {
+    public List<Sql> getSqls()  {
         if(sqls == null) {
             sqls = toSqls(this);
         }
         return sqls;
     }
     
-    public static List<Sql> toSqls(TableConfig table) throws SQLException, Exception {
+    public static List<Sql> toSqls(TableConfig table) {
         return new Convert2SqlsProecssor().toSqls(table);
     }
     
@@ -249,6 +255,8 @@ public class TableConfig {
                 String namedSql = SqlParseHelper.convert2NamedParametersSql(sqlString,":",""); // TODO 确认要删除本行?,因为与SqlFactory里面的代码重复
                 
                 Sql sql = new SqlFactory().parseSql(namedSql);
+                sql.setSqlSegments(ibatisSqlMapConfigParser.getSqlSegments());
+                
                 LinkedHashSet<SqlParameter> finalParameters = addExtraParams2SqlParams(op.getExtraparams(), sql);
                 sql.setParams(finalParameters);
                 sql.setColumns(processWithCustomColumns(getCustomColumns(table),sql.getColumns()));
@@ -278,6 +286,7 @@ public class TableConfig {
                     sql.setParamType(Sql.PARAMTYPE_PRIMITIVE);
                 }
                 
+                sql.afterPropertiesSet();
                 return afterProcessed(sql,op,table);
         	}catch(Exception e) {
                 throw new RuntimeException("parse sql error on table:"+table.getSqlName()+" operation:"+op.getName()+"() sql:"+op.getSql(),e);
@@ -375,9 +384,11 @@ public class TableConfig {
     
     }
     
+    /** 代表被 include的一段sql */
     public static class SqlConfig {
         String id;
         String sql;
+        private TableConfig tableConfig;
         public String toString() {
             return String.format("<sql id='%s'>%s</sql>",id,sql);
         }
@@ -393,7 +404,21 @@ public class TableConfig {
         public void setSql(String sql) {
             this.sql = sql;
         }
-        
+		public TableConfig getTableConfig() {
+			return tableConfig;
+		}
+		public void setTableConfig(TableConfig tableConfig) {
+			this.tableConfig = tableConfig;
+		}
+		public SqlSegment getSqlSegment() {
+			if(tableConfig == null) throw new IllegalArgumentException("tableConfig must be not null");
+			for(Sql sql : tableConfig.getSqls()) {
+				if(sql.getSqlSegment(id) != null) {
+					return sql.getSqlSegment(id);
+				}
+			}
+			return null;
+		}
     }
     public static class ColumnConfig {
         private String name;

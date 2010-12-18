@@ -93,7 +93,7 @@ public class TableConfigXmlBuilder {
                 SqlConfig target = new SqlConfig();
                 BeanHelper.copyProperties(target, child.attributes,true);
                 target.setSql(getNodeValue(child));
-                config.includeSqls.add(target);
+                config.addSqlConfig(target);
             }
             // table/resultmap
             if("resultmap".equals(child.nodeName)) {
