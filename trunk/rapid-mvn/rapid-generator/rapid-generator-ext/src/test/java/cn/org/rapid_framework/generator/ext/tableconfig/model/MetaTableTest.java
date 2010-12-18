@@ -169,12 +169,18 @@ public class MetaTableTest extends GeneratorTestCase {
 		}
 	    
 	    public Map newMapFromSql(Sql sql,TableConfig tableConfig) {
-	    	GeneratorModel model = GeneratorModelUtils.newDefaultGeneratorModel();
 	    	Map map = new HashMap();
 	    	map.putAll(BeanHelper.describe(sql));
 	    	map.put("sql", sql);
 	    	map.put("tableConfig", tableConfig);
 	    	map.put("basepackage", tableConfig.getBasepackage());
+	    	return map;
+	    }
+
+	    public Map newMapFromTableConfigSet(TableConfigSet tableConfigSet) {
+	    	Map map = new HashMap();
+	    	map.putAll(BeanHelper.describe(tableConfigSet));
+	    	map.put("tableConfigSet", tableConfigSet);
 	    	return map;
 	    }
 	    
