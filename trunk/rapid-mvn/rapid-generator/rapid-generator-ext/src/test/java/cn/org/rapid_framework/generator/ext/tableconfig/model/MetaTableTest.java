@@ -18,6 +18,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
+import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
 
 public class MetaTableTest extends GeneratorTestCase {
     
@@ -78,8 +79,8 @@ public class MetaTableTest extends GeneratorTestCase {
         g.setTemplateRootDir(FileHelper.getFileByClassLoader("for_generate_by_sql"));
         File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
         TableConfig t = new TableConfigXmlBuilder().parseFromXML(file);
-        System.out.println(t.includeSqls);
-        SqlConfig metaSql = t.includeSqls.get(0);
+        System.out.println(t.getIncludeSqls());
+        SqlConfig metaSql = t.getIncludeSqls().get(0);
         assertEquals(metaSql.sql.trim(),"<![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]>");
     }
 
@@ -141,7 +142,52 @@ public class MetaTableTest extends GeneratorTestCase {
         return gm;
     }
     
-    public static void setShareVars(Map templateModel) {
+    public void test_gen_by_operation() throws Exception{
+    	File file = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig/user_info.xml");
+    	TableConfig t = new TableConfigXmlBuilder().parseFromXML(new FileInputStream(file));
+    	g.addTemplateRootDir("classpath:generator/template/rapid/operation/dal/src/main");
+    	g.addTemplateRootDir("classpath:generator/template/rapid/share/dal");
+    	String content = GeneratorTestHelper.generateBy(g,new Helper().getMapBySql(t, "testIncludeWhere"));
+    	assertContains(content,"java/com/company/project/user_info/operation/userinfo/TestIncludeWhereQuery.java");
+    	assertContains(content, "package com.company.project.user_info.operation.userinfo;");
+    	assertContains(content, "/** 用户名 */");
+    	assertContains(content, "用户信息表");
+    	assertContains(content, "extends.*PageQuery");
+    	
+    	content = GeneratorTestHelper.generateBy(g,new Helper().getMapBySql(t, "testIncludeWhereWithNoPaging"));
+    	assertContains("java/com/company/project/user_info/operation/userinfo/TestIncludeWhereWithNoPagingQuery.java");
+    	assertContains(content, "/** 用户名 */");
+    	assertNotContains(content, "extends.*PageQuery");
+    	System.out.println(content);
+    }
+    
+    public static class Helper {
+		public Map getMapBySql(TableConfig t, String operation) {
+			Sql sql = getSql(t,operation);
+	    	Map map = newMapFromSql(sql,t);
+			return map;
+		}
+	    
+	    public Map newMapFromSql(Sql sql,TableConfig tableConfig) {
+	    	GeneratorModel model = GeneratorModelUtils.newDefaultGeneratorModel();
+	    	Map map = new HashMap();
+	    	map.putAll(BeanHelper.describe(sql));
+	    	map.put("sql", sql);
+	    	map.put("tableConfig", tableConfig);
+	    	map.put("basepackage", tableConfig.getBasepackage());
+	    	return map;
+	    }
+	    
+	    private Sql getSql(TableConfig t, String name) {
+			for(Sql sql : t.getSqls()) {
+				if(sql.getOperation().equals(name)) {
+					return sql;
+				}
+			}
+			throw new IllegalArgumentException("not found sql with name:"+name);
+		}
+    }
+	public static void setShareVars(Map templateModel) {
     	templateModel.putAll(GeneratorModelUtils.getShareVars());
     	templateModel.put("StringHelper", new StringHelper());
     	templateModel.put("basepackage", "com.company.project");
