@@ -70,12 +70,12 @@ public class GeneratorTestHelper {
 		return readEntireDirectoryContentAndDelete(tempDir);
 	}
 
-	public String generateBy(Generator g, Map templateModel)
+	public static String generateBy(Generator g, Map templateModel)
 			throws Exception {
 		return generateBy(g, templateModel,templateModel);
 	}
 
-	public String generateBy(Generator g, Map templateModel, Map filePathModel)
+	public static String generateBy(Generator g, Map templateModel, Map filePathModel)
 			throws Exception {
 		File tempDir = getOutputTempDir();
 		g.setOutRootDir(tempDir.getPath());
