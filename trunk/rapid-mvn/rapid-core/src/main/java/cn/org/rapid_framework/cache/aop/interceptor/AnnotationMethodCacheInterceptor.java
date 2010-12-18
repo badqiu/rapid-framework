@@ -1,6 +1,8 @@
 package cn.org.rapid_framework.cache.aop.interceptor;
 
 
+import java.util.Iterator;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +14,7 @@ import org.springframework.util.Assert;
 
 import cn.org.rapid_framework.cache.Cache;
 import cn.org.rapid_framework.cache.aop.annotation.MethodCache;
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 /**
  * 方法缓存的拦截器,拦截有MethodCache标注的方法,并缓存结果.
@@ -74,10 +77,32 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
 	protected String createDefaultCacheKey(String className, String methodName,Object[] arguments) {   
         StringBuilder datakey = new StringBuilder();   
         datakey.append(className).append(".").append(methodName).append("(");
-        datakey.append(StringUtils.join(arguments,','));
+        
+        for(int i = 0; i < arguments.length; i++) {
+        	Object arg = arguments[i];
+        	datakey.append(objectToString(arg));
+        	if(i != arguments.length - 1) {
+        		datakey.append(",");
+        	}
+        }
+        
         datakey.append(")");
         return datakey.toString();
     }
+
+	private String objectToString(Object arg) {
+		String argString = null;
+		if(arg == null) {
+			argString = "null";
+		}else if(arg.getClass().isArray()) {
+			argString = "["+StringUtils.join(((Object[])arg), ',')+"]";
+		}else if(arg instanceof Iterable) {
+			argString = "["+StringUtils.join(((Iterable)arg).iterator(), ',')+"]";
+		}else {
+			argString = arg.toString();
+		}
+		return argString;
+	}
 
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
