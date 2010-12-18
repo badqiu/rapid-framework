@@ -42,6 +42,7 @@ alipay dalgen兼容性
 	1. 继承的PageQuery必须是与包名无关的
 	2. 自动复数转换关闭
 	3. PageList应该支持范型
+	4. 增加 PageQueryUtils的 import
 	3. 删除 Money 相关
 	4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
 	5. common-sqlmap-mapping.xml 必须删除Money	
@@ -55,8 +56,8 @@ ibatis gen的include sql的参数重用功能.
 	4. 生成Segment对应的类: 
 		UserInfoWhere.java
 		PayTypeWhere.java
-	5. 移除 Sql中SegmentId的param列表
-	6. 在Sql Param对象中生成 SegmentId参数的(1.代理 2.或者是继承)
+	5. 移除 Sql中SegmentId的param列表 (问题没有解决: 多个where会重复使用一个paramName,冲突怎么解决?)
+	6. 在Sql Param对象中生成 SegmentId参数的(1.代理 2.或者是继承) 如果参数为空,则不生成Segment class
 		QueryByUser{
 			private UserInfoWhere userInfoWhere = new UserInfoWhere();
 			setUserInfoWhere(userInfoWhere) {
@@ -84,3 +85,10 @@ Result的select column也通过 include生成.
 Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
 
 在模板的开始位置: 需要注明模板引用的变量声明: <#-- $import cn.rapid.Table -->			
+
+
+
+1. Mybatis生成器及 dal生成器
+2. maven中央仓库
+3. maven + groovy 基本完成替换 ant构建
+4. 
