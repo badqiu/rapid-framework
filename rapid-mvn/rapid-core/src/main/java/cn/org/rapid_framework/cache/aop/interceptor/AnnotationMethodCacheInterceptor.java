@@ -78,12 +78,14 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
         StringBuilder datakey = new StringBuilder();   
         datakey.append(className).append(".").append(methodName).append("(");
         
-        for(int i = 0; i < arguments.length; i++) {
-        	Object arg = arguments[i];
-        	datakey.append(objectToString(arg));
-        	if(i != arguments.length - 1) {
-        		datakey.append(",");
-        	}
+        if(arguments != null) {
+	        for(int i = 0; i < arguments.length; i++) {
+	        	Object arg = arguments[i];
+	        	datakey.append(objectToString(arg));
+	        	if(i != arguments.length - 1) {
+	        		datakey.append(",");
+	        	}
+	        }
         }
         
         datakey.append(")");
@@ -93,7 +95,7 @@ public class AnnotationMethodCacheInterceptor implements MethodInterceptor,BeanF
 	private String objectToString(Object arg) {
 		String argString = null;
 		if(arg == null) {
-			argString = "null";
+			argString = "";
 		}else if(arg.getClass().isArray()) {
 			argString = "["+StringUtils.join(((Object[])arg), ',')+"]";
 		}else if(arg instanceof Iterable) {
