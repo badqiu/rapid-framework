@@ -449,6 +449,15 @@ public class Sql {
 		this.sqlSegments = includeSqls;
 	}
 	
+	public SqlSegment getSqlSegment(String id) {
+		for(SqlSegment seg : sqlSegments) {
+			if(seg.getId().equals(id)) {
+				return seg;
+			}
+		}
+		return null;
+	}
+	
 	public List<SqlParameter> getFilterdWithSqlSegmentParams() {
 		List<SqlParameter> result = new ArrayList<SqlParameter>();
 		for(SqlParameter p : getParams()) {
@@ -548,6 +557,12 @@ public class Sql {
 	    	c = getColumnBySqlName(StringHelper.toUnderscoreName(name));
 	    }
 	    return c;
+	}
+	
+	public void afterPropertiesSet() {
+		for(SqlSegment seg : sqlSegments) {
+			seg.setParams(seg.getParams(this));
+		}
 	}
 	
 	public String toString() {

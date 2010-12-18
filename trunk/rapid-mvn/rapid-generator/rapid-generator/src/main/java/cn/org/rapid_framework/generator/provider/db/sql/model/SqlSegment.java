@@ -23,6 +23,15 @@ public class SqlSegment {
 	/** 这段include sql包含的参数列表 */
 	public Set<SqlParameter> params;
 	
+	public SqlSegment(){}
+	
+	public SqlSegment(String id, String rawIncludeSql, String parsedIncludeSql) {
+		super();
+		setId(id);
+		this.rawIncludeSql = rawIncludeSql;
+		this.parsedIncludeSql = parsedIncludeSql;
+	}
+	
 	//TODO 增加如果参数数是1,则不生成  SqlSegemnt,此处也要修改对1的特殊控制
 	public Set<SqlParameter> getParams(Sql sql) {
 		Set<SqlParameter> result = new LinkedHashSet();
@@ -34,7 +43,7 @@ public class SqlSegment {
 		return result;
 	}
 	public List<String> getParamNames() {
-		ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(parsedIncludeSql);
+		ParsedSql parsedSql = NamedParameterUtils.parseSqlStatement(parsedIncludeSql); // FIXME 没有执行替换?为 :name的动作
 		return parsedSql.getParameterNames();
 	}
 	public String getClassName() {
@@ -44,6 +53,7 @@ public class SqlSegment {
 		return id;
 	}
 	public void setId(String id) {
+		if(StringHelper.isBlank(id)) throw new IllegalArgumentException("id must be not blank");
 		this.id = id;
 	}
 	public String getRawIncludeSql() {
@@ -63,6 +73,35 @@ public class SqlSegment {
 	}
 	public void setParams(Set<SqlParameter> params) {
 		this.params = params;
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
+	}
+	
+	public boolean isGenerateParameterObject() {
+		if(getParamNames().size() > 1) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SqlSegment other = (SqlSegment) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 	
 }
