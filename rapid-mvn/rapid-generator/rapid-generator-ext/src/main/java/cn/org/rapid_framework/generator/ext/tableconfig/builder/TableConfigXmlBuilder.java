@@ -29,13 +29,13 @@ public class TableConfigXmlBuilder {
 	
     public TableConfigSet parseFromXML(String _package,File basedir,String tableConfigFiles) {
     	String[] tableConfigFilesArray = StringHelper.tokenizeToStringArray(tableConfigFiles, ", \t\n\r\f");
-        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir, Arrays.asList(tableConfigFilesArray));
-        tableConfigSet.setPackage(_package);
+        TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(basedir,_package, Arrays.asList(tableConfigFilesArray));
         return tableConfigSet;
     }
     
-	public TableConfigSet parseFromXML(File basedir,List<String> tableConfigFiles) {
+	public TableConfigSet parseFromXML(File basedir,String _package,List<String> tableConfigFiles) {
 		TableConfigSet result = new TableConfigSet();
+		result.setPackage(_package);
 		for(String filepath : tableConfigFiles ) {
 			File file = new File(basedir,filepath);
 			result.addTableConfig(parseFromXML(file));

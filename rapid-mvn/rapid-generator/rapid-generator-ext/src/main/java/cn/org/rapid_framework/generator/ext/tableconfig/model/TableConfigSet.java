@@ -42,7 +42,7 @@ public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListene
 	}
 	
 	public void addTableConfig(TableConfig t) {
-	    t.setPackage(getPackage());
+	    setPackageIfBlank(t);
 		tableConfigs.add(t);
 	}
 	
@@ -57,9 +57,15 @@ public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListene
 
     private void setPackageForTableConfigs() {
         for(TableConfig t : this.tableConfigs) {
-		    t.setPackage(getPackage());
+		    setPackageIfBlank(t); //FIXME 需要检查,如果 tableConfig.package为空,才可以设置,不然会覆盖 tableConfig已有的值
 		}
     }
+
+	private void setPackageIfBlank(TableConfig t) {
+		if(StringHelper.isBlank(t.getPackage())) {
+			t.setPackage(getPackage());
+		}
+	}
 
 	public TableConfig getRequiredBySqlName(String sqlName) {
 		TableConfig tc = getBySqlName(sqlName);
@@ -100,7 +106,6 @@ public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListene
 //            table.setTableAlias(table.getRemarks());
 //        }
         
-        //TODO 考虑列的类型是否需要自定义,具体请参考TableConfig.getTable();
         //FIXME 还没有考虑TableConfigSet 的listener清除问题,
         //TODO 增加单元测试
 	}
