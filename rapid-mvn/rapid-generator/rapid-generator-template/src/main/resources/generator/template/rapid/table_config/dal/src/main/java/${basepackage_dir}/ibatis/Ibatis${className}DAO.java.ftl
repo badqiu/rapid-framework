@@ -5,17 +5,10 @@ package ${tableConfig.basepackage}.ibatis;
 import ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case}.*;
 import ${tableConfig.basepackage}.dataobject.*;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
+<#include '/java_import.include'/>
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
-
-import com.iwallet.biz.common.util.PageList;
-import com.iwallet.biz.common.util.money.Money;
-import com.alipay.common.ibatis.util.PageQueryUtils;
 
 import ${tableConfig.basepackage}.dataobject.${tableConfig.className}DO;
 import ${tableConfig.basepackage}.daointerface.${tableConfig.className}DAO;

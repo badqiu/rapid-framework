@@ -4,13 +4,7 @@ import org.springframework.dao.DataAccessException;
 import ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case}.*;
 import ${tableConfig.basepackage}.dataobject.*;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
-
-import com.iwallet.biz.common.util.PageList;
-import com.iwallet.biz.common.util.money.Money;
+<#include '/java_import.include'/>
 
 /**
  * ${tableConfig.className}DAO
