@@ -8,8 +8,9 @@ package ${tableConfig.basepackage}.dataobject;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
-import com.iwallet.biz.common.util.money.Money;
-import java.util.*;
+import org.apache.commons.lang.builder.ToStringStyle;
+
+<#include '/java_import.include'/>
 
 /**
  * ${tableConfig.className}DO

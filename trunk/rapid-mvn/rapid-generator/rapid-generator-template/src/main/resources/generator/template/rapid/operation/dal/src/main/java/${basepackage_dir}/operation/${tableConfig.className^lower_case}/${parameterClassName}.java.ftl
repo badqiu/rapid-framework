@@ -6,11 +6,12 @@ ${gg.setIgnoreOutput(true)}
 
 package ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case};
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import com.iwallet.biz.common.util.money.Money;
-import com.alipay.common.dal.util.PageQuery;
-import java.util.*;
+
+<#include '/java_import.include'/>
 
 /**
 <#include '/java_description.include'/>
@@ -40,4 +41,8 @@ public class ${sql.parameterClassName} <#if sql.paging> extends PageQuery</#if> 
 		this.${param.paramName} = ${param.paramName};
 	}
 	</#list>
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

@@ -4,10 +4,12 @@ ${gg.setIgnoreOutput(sql.columnsCount <= 1 || sql.columnsInSameTable)}
 
 package ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case};
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import com.iwallet.biz.common.util.money.Money;
-import java.util.*;
+
+<#include '/java_import.include'/>
 
 /**
 <#include '/java_description.include'/>
@@ -44,7 +46,7 @@ public class ${sql.resultClassName} implements java.io.Serializable {
 	</#list>
 
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 }

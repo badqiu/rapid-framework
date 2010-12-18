@@ -1,21 +1,13 @@
-/*
- * Alipay.com Inc.
- * Copyright (c) 2010 All Rights Reserved.
- */
+<#include '/java_copyright.include'/>
  
 package ${tableConfig.basepackage}.ibatis;
 
 import ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case}.*;
 
-import java.util.List;
-import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
+<#include '/java_import.include'/>
 
 import org.springframework.dao.DataAccessException;
 
-import com.iwallet.biz.common.util.PageList;
-import com.iwallet.biz.common.util.money.Money;
 import ${tableConfig.basepackage}.dataobject.${tableConfig.className}DO;
 import ${tableConfig.basepackage}.daointerface.${tableConfig.className}DAO;
 
@@ -23,8 +15,7 @@ import org.nuxeo.runtime.test.autowire.annotation.XAutoWire;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * 
- *
+ * ${tableConfig.className}DAOTest
  */
 public class Ibatis${tableConfig.className}DAOTest extends BaseDaoTestCase {
 	@XAutoWire(XAutoWire.BY_NAME)
