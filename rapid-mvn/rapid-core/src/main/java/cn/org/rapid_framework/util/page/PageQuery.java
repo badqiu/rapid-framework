@@ -45,4 +45,8 @@ public class PageQuery implements java.io.Serializable{
         this.pageSize = pageSize;
     }
 
+    public String toString() {
+    	return "page:"+page+",pageSize:"+pageSize;
+    }
+    
 }
