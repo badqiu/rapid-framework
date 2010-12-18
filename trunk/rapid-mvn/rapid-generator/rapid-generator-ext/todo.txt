@@ -90,7 +90,7 @@ Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
 
 1. Mybatis生成器及 dal生成器
 2. 进入maven中央仓库
-3. maven + groovy 基本替换maven + ant构建
+3. maven + groovy 基本替换maven + ant构建(maven需要自定义的部分可以用groovy)
 5. 引用 @IsPermitted annotation for security, 并且增加 SecurityChecker.isPermitted("some permission") 直接抛异常的方式
 Cache接口抽象
 	6. cache抽象层
