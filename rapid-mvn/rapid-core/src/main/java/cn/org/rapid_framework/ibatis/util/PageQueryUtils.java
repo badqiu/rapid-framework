@@ -21,6 +21,7 @@ import cn.org.rapid_framework.util.page.Paginator;
  * @author badqiu
  * @version $Id: PageQueryUtils.java,v 0.1 2010-7-28 下午04:45:27 zhongxuan Exp $
  */
+@SuppressWarnings("unchecked")
 public class PageQueryUtils {
     /**
      * 封装ibatis的分页查询
