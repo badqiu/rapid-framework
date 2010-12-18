@@ -11,7 +11,7 @@ import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 
 public class TableConfigSetTest extends GeneratorTestCase {
     
-    public void test() {
+    public void test_setSequence() {
         TableConfigSet set = new TableConfigSet();
         assertTrue(set.getSequences().isEmpty());
         
@@ -21,6 +21,26 @@ public class TableConfigSetTest extends GeneratorTestCase {
         
         config.setSequence("123");
         assertFalse(set.getSequences().isEmpty());
+    }
+    
+    public void test_setPakcage() {
+        TableConfigSet set = new TableConfigSet();
+        assertEquals(null,set.getPackage());
+        set.setPackage("com.company.project");
+        
+        TableConfig config = new TableConfig();
+        set.addTableConfig(config);
+        assertEquals("com.company.project",config.getPackage());
+        
+        TableConfig config2 = new TableConfig();
+        config2.setPackage("diy");
+        set.addTableConfig(config);
+        assertEquals("diy",config2.getPackage());
+        
+        set.setPackage("com.company.projectjj");
+        
+        assertEquals("diy",config2.getPackage());
+        assertEquals("com.company.project",config.getPackage());
     }
     Sql sql;
     public void testListner() throws SQLException, Exception {
