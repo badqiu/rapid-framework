@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
-<table sqlname="user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
+<table sqlname="user_info" package="com.company.project.user_info" dummypk="user_id" sequence="SEQ_BBCC_CUSTOMER" autoswitchdatasrc="false" remarks="用户信息表">
 	<column name="age" javatype="com.iwallet.biz.common.util.money.Money" />
 	<column name="sex" javatype="com.iwallet.biz.common.util.money.Money" />
 	
@@ -456,6 +456,32 @@
 	    where 
 	    	r.role_id &lt; ? 
 	    	and r.role_name &gt; ?
+	    </sql>
+    </operation> 
+    
+    <sql id="user_info.where">
+	    	and username > #username#
+	    	and password = #password#    
+    </sql>
+
+    <sql id="roleSecond.where">
+	    	and username = #secondUsername#    
+    </sql>   
+    
+    <sql id="duplication.where">
+	    	and username > #username#
+	    	and password = #password#   
+	    	and username = #secondUsername#    
+	    	and username = #noduplicationUsername#    
+    </sql>     
+    <operation name="testIncludeWhere"  multiplicity="paging" remarks="测试testIncludeWhere" paramtype="parameterObject">
+    	<sql>
+	    select * from user_info r 
+	    where 1=1
+			<include refid="user_info.where"/>
+			<include refid="user_info.where"/>
+			<include refid="roleSecond.where"/>
+			<include refid="duplication.where"/>
 	    </sql>
     </operation> 
 </table>
