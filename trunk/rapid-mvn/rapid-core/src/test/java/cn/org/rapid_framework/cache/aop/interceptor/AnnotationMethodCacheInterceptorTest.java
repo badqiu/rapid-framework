@@ -48,10 +48,19 @@ public class AnnotationMethodCacheInterceptorTest extends TestCase {
 		assertEquals("UserManager.getById(1,2)",key);
 		
 		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", null);
-		assertEquals("UserManager.getById(null)",key);
+		assertEquals("UserManager.getById()",key);
 		
 		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new String[0]);
 		assertEquals("UserManager.getById()",key);
+		
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new String[2]);
+		assertEquals("UserManager.getById(,)",key);
+		
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new Object[]{1,new String[]{"11","12"}});
+		assertEquals("UserManager.getById(1,[11,12])",key);
+		
+		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new Object[]{1,new String[]{"11",null,null,"14"}});
+		assertEquals("UserManager.getById(1,[11,,,14])",key);
 		
 		key = new AnnotationMethodCacheInterceptor().createDefaultCacheKey("UserManager","getById", new Object[]{"1","2",3,4});
 		assertEquals("UserManager.getById(1,2,3,4)",key);
