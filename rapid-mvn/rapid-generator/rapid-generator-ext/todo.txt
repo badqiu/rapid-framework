@@ -89,8 +89,15 @@ Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
 
 
 1. Mybatis生成器及 dal生成器
-2. maven中央仓库
-3. maven + groovy 基本完成替换 ant构建
-4. 
+2. 进入maven中央仓库
+3. maven + groovy 基本替换maven + ant构建
+5. 引用 @IsPermitted annotation for security, 并且增加 SecurityChecker.isPermitted("some permission") 直接抛异常的方式
+Cache接口抽象
+	6. cache抽象层
+	4. 引用 @MethodCache annotation做方法缓存
+7. 全 static模式,类似 SpringContextHolder,搞 ,,ConfigHolder将这些底层服务当做 static方法调用
+	CacheHodler cache
+	ValidatorHodler 持有 hibernate validator
+	ConfigHolder 持有系统配置,用于系统参数的动态刷新
 
 将 mapper及sqlmap迁移至 src/main/resources/(mapper|sqlmap)
