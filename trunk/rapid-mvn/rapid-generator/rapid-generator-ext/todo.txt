@@ -92,3 +92,5 @@ Logger是否考虑使用freemarker logger,或者是支持new GLogger(class)
 2. maven中央仓库
 3. maven + groovy 基本完成替换 ant构建
 4. 
+
+将 mapper及sqlmap迁移至 src/main/resources/(mapper|sqlmap)
