@@ -9,6 +9,7 @@ String url = "jdbc:h2:mem;INIT=RUNSCRIPT FROM '~/create.sql'\\;RUNSCRIPT FROM '~
 使用Groovy mixin增加 Column属性
 使用 GeneratorBeanFactory 用于创建 Column,JavaMethod等对象以便扩展
 应该将 vo.${className}Query移至dao层
+为Column增加读取属性,如is_autoincrement,以便生成主键
 
 project-web-war					    	包含 web.xml等配置，并且依赖所有web项目,只有这个项目有 web.xml
 	project-web-home                  	公共的web模块
@@ -101,3 +102,5 @@ Cache接口抽象
 	ConfigHolder 持有系统配置,用于系统参数的动态刷新
 
 将 mapper及sqlmap迁移至 src/main/resources/(mapper|sqlmap)
+
+
