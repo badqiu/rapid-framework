@@ -111,11 +111,15 @@ public class GeneratorTestCase extends TestCase{
 		return new File(tempDir,"test_generator_out").getAbsolutePath();
 	}
 	
-	public static void assertContains(String str,String regex) {
-		assertTrue("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+	public static void assertContains(String str,String... regexArray) {
+		for(String regex : regexArray) {
+			assertTrue("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+		}
 	}
 
-	public static void assertNotContains(String str,String regex) {
-		assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+	public static void assertNotContains(String str,String... regexArray) {
+		for(String regex : regexArray) {
+			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+		}
 	}
 }
