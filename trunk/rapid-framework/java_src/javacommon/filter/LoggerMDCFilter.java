@@ -42,7 +42,7 @@ public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
         }
     }
 
-    private void clearMDC() {
+    private static void clearMDC() {
         Map map = MDC.getContext();
         if(map != null) {
             map.clear();
