@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.test.util;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.test.util.testbean.Bean1;
@@ -48,6 +49,7 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         assertEquals(parent.getChild().getAge(),1);
         assertEquals(parent.getChild().getSex(),new Integer(1));
         assertEquals(parent.getChild().getName(),"1");
+        assertEquals(parent.getChild().getNikenames().get(0),"1");
         
         assertEquals(parent.getPrivateChild(),null);
     }
@@ -76,6 +78,7 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         private int age = 0;
         private Integer sex = null;
         private String name = "";
+        private List<String> nikenames;
         
         public ConstructorChildBean(int age, Integer sex, String name) {
             super();
@@ -113,6 +116,14 @@ public class BeanDefaultValueUtilsTest extends TestCase {
         public void setName(String name) {
             this.name = name;
         }
+
+		public List<String> getNikenames() {
+			return nikenames;
+		}
+
+		public void setNikenames(List<String> nikenames) {
+			this.nikenames = nikenames;
+		}
         
     }
     
