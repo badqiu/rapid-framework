@@ -9,12 +9,13 @@ package ${tableConfig.basepackage}.operation.${tableConfig.className?lower_case}
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import com.iwallet.biz.common.util.money.Money;
+import com.alipay.common.dal.util.PageQuery;
 import java.util.*;
 
 /**
 <#include '/java_description.include'/>
  */
-public class ${sql.parameterClassName} <#if sql.paging> extends com.alipay.common.dal.util.PageQuery</#if> implements java.io.Serializable {
+public class ${sql.parameterClassName} <#if sql.paging> extends PageQuery</#if> implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
 	
 	<#list sql.params as param>
