@@ -78,11 +78,11 @@ public class PageQueryUtils {
         
         Number totalCount = (Number)sqlMapClientTemplate.queryForObject(countStatementName, parameterObject);
         
-        Paginator paginator = new Paginator(page,pageSize,totalCount.intValue());
-        
-        if (totalCount.intValue() > 0) {
+        if (totalCount != null && totalCount.intValue() > 0) {
             
-            Map<String, Integer> otherParams = new HashMap<String, Integer>();
+        	Paginator paginator = new Paginator(page,pageSize,totalCount.intValue());
+
+        	Map<String, Integer> otherParams = new HashMap<String, Integer>();
             otherParams.put("offset", paginator.getOffset());
             otherParams.put("limit", paginator.getLimit());
             otherParams.put("startRow", paginator.getStartRow());
@@ -91,7 +91,7 @@ public class PageQueryUtils {
             List list = sqlMapClientTemplate.queryForList(statementName,new MapAndObject(otherParams,parameterObject));
             return new PageList(list, paginator);
         }
-        return new PageList(new ArrayList(0), new Paginator(pageSize, 0,0));
+        return new PageList(new Paginator(0, pageSize,0));
     }
 
 }
