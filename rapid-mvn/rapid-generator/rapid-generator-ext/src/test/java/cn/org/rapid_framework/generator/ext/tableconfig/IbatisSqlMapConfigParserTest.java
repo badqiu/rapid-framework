@@ -7,10 +7,10 @@ import java.util.Set;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
-import cn.org.rapid_framework.generator.ext.tableconfig.IbatisSqlMapConfigParser.UsedIncludeSql;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.provider.db.sql.model.SqlParameter;
+import cn.org.rapid_framework.generator.provider.db.sql.model.SqlSegment;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
@@ -193,11 +193,11 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     public void test_includeSqlParams() {
     	hashMap.put("user-Info.where", "username = #username# and password = #password# and age = #age# ");
     	parser.parse("select * from user_info where <include refid='user-Info.where'/>",hashMap);
-    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    	for(SqlSegment segment : parser.usedIncludedSqls.values()) {
     		assertEquals(segment.getParamNames().get(0),"username");
     		assertEquals(segment.getParamNames().get(1),"password");
     		assertEquals(segment.getParamNames().get(2),"age");
-    		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
+    		assertEquals(segment.getClassName(),"UserInfoWhere");
     		
     		Sql sql = new SqlFactory().parseSql(parser.resultSql);
     		assertEquals(get(segment.getParams(sql),0).getParamName(),"username");
@@ -215,7 +215,7 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     	parser.parse("select * from user_info where <include refid='user-Info.where'/>",hashMap);
     	GeneratorFacade gf = new GeneratorFacade();
     	gf.getGenerator().setTemplateRootDir("classpath:for_test_sql_segment");
-    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    	for(SqlSegment segment : parser.usedIncludedSqls.values()) {
     		Map map = new HashMap();
     		map.put("sqlSegment", segment);
     		map.putAll(BeanHelper.describe(segment));
@@ -233,11 +233,11 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     public void test_includeSqlParams_with_question_nation() {
     	hashMap.put("User.Info-where", "username = #username# and password = #password# and age = ? ");
     	parser.parse("select * from user_info where <include refid='User.Info-where'/>",hashMap);
-    	for(UsedIncludeSql segment : parser.usedIncludedSqls.values()) {
+    	for(SqlSegment segment : parser.usedIncludedSqls.values()) {
     		assertEquals(segment.getParamNames().get(0),"username");
     		assertEquals(segment.getParamNames().get(1),"password");
     		assertEquals(segment.getParamNames().get(2),"age");
-    		assertEquals(segment.getRefidClassName(),"UserInfoWhere");
+    		assertEquals(segment.getClassName(),"UserInfoWhere");
     		
     		Sql sql = new SqlFactory().parseSql(parser.resultSql);
     		assertEquals(get(segment.getParams(sql),0).getParamName(),"username");
