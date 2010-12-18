@@ -10,8 +10,9 @@ import org.springframework.util.StringUtils;
 
 /**
  * 与Spring Assert相同功能的类,
- * 不同的是如果assert fail将抛出指定的异常. 
- * 这样在做业务检查时，可以根据该类抛出指定的业务异常。
+ * 不同的是
+ * 1. 如果assert fail将抛出指定的异常. 这样在做业务检查时，可以根据该类抛出指定的业务异常。
+ * 2. assert完会返回输入值,如  this.username = Assert.notEmpty(username,new IllegalArgumentException("username must be not empty"));
  * 
  * 如果不想抛出指定的异常,请使用spring提供的Assert
  * 
@@ -49,11 +50,13 @@ public class Asserter {
 	 * <pre class="code">Asserter.notNull(username, new IllegalBizArgumentsException(ErrorCode.USERNAME_ERROR));</pre>
 	 * @param object the object to check
 	 * @param throwIfAssertFail 
+	 * @return object输入值
 	 */
-	public static void notNull(Object object, RuntimeException throwIfAssertFail) {
+	public static Object notNull(Object object, RuntimeException throwIfAssertFail) {
 		if (object == null) {
 			throw throwIfAssertFail;
 		}
+		return object;
 	}
 
 	/**
@@ -61,12 +64,13 @@ public class Asserter {
 	 * <pre class="code">Asserter.notEmpty(username, new IllegalBizArgumentsException(ErrorCode.USERNAME_ERROR));</pre>
 	 * @param text the String to check
 	 * @param throwIfAssertFail 
-	 * @see StringUtils#hasLength
+	 * @return text输入值
 	 */
-	public static void notEmpty(String text, RuntimeException throwIfAssertFail) {
+	public static String notEmpty(String text, RuntimeException throwIfAssertFail) {
 		if (!StringUtils.hasLength(text)) {
 			throw throwIfAssertFail;
 		}
+		return text;
 	}
 
 	/**
@@ -74,12 +78,13 @@ public class Asserter {
 	 * <pre class="code">Asserter.notBlank(username, new IllegalBizArgumentsException(ErrorCode.USERNAME_ERROR));</pre>
 	 * @param text the String to check
 	 * @param throwIfAssertFail 
-	 * @see StringUtils#hasText
+	 * @return text输入值
 	 */
-	public static void notBlank(String text, RuntimeException throwIfAssertFail) {
+	public static String notBlank(String text, RuntimeException throwIfAssertFail) {
 		if (!StringUtils.hasText(text)) {
 			throw throwIfAssertFail;
 		}
+		return text;
 	}
 
 	/**
@@ -89,11 +94,12 @@ public class Asserter {
 	 * @param substring the substring to find within the text
 	 * @param throwIfAssertFail 
 	 */
-	public static void doesNotContain(String textToSearch, String substring, RuntimeException throwIfAssertFail) {
+	public static String doesNotContain(String textToSearch, String substring, RuntimeException throwIfAssertFail) {
 		if (StringUtils.hasLength(textToSearch) && StringUtils.hasLength(substring) &&
 				textToSearch.indexOf(substring) != -1) {
 			throw throwIfAssertFail;
 		}
+		return textToSearch;
 	}
 
 
@@ -105,10 +111,11 @@ public class Asserter {
 	 * @param array the array to check
 	 * @param throwIfAssertFail 
 	 */
-	public static void notEmpty(Object[] array, RuntimeException throwIfAssertFail) {
+	public static <T> T[] notEmpty(T[] array, RuntimeException throwIfAssertFail) {
 		if (ObjectUtils.isEmpty(array)) {
 			throw throwIfAssertFail;
 		}
+		return array;
 	}
 
 	/**
@@ -119,7 +126,7 @@ public class Asserter {
 	 * @param array the array to check
 	 * @param throwIfAssertFail 
 	 */
-	public static void noNullElements(Object[] array, RuntimeException throwIfAssertFail) {
+	public static <T> T[] noNullElements(T[] array, RuntimeException throwIfAssertFail) {
 		if (array != null) {
 			for (int i = 0; i < array.length; i++) {
 				if (array[i] == null) {
@@ -127,6 +134,7 @@ public class Asserter {
 				}
 			}
 		}
+		return array;
 	}
 
 	/**
@@ -137,10 +145,11 @@ public class Asserter {
 	 * @param collection the collection to check
 	 * @param throwIfAssertFail 
 	 */
-	public static void notEmpty(Collection collection, RuntimeException throwIfAssertFail) {
+	public static <E> Collection<E> notEmpty(Collection<E> collection, RuntimeException throwIfAssertFail) {
 		if (CollectionUtils.isEmpty(collection)) {
 			throw throwIfAssertFail;
 		}
+		return collection;
 	}
 
 	/**
@@ -151,10 +160,11 @@ public class Asserter {
 	 * @param map the map to check
 	 * @param throwIfAssertFail 
 	 */
-	public static void notEmpty(Map map, RuntimeException throwIfAssertFail) {
+	public static <K,V> Map<K,V> notEmpty(Map<K,V> map, RuntimeException throwIfAssertFail) {
 		if (CollectionUtils.isEmpty(map)) {
 			throw throwIfAssertFail;
 		}
+		return map;
 	}
 
 }
