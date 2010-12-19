@@ -31,8 +31,14 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (rs.wasNull()) {
 			return new Money(0, 0);
 		} else {
-			return Money.newMoneyWithCent(d);
+			return newMoneyWithCent(d);
 		}
+	}
+
+	private Object newMoneyWithCent(long cent) {
+		Money m = new Money();
+		m.setCent(cent);
+		return m;
 	}
 
 	public Object getResult(ResultSet rs, int columnIndex) throws SQLException {
@@ -40,7 +46,7 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (rs.wasNull()) {
 		    return new Money(0, 0);
 		} else {
-			return Money.newMoneyWithCent(d);
+			return newMoneyWithCent(d);
 		}
 	}
 
@@ -50,11 +56,12 @@ public class MoneyTypeHandler extends BaseTypeHandler implements TypeHandler {
 		if (cs.wasNull()) {
 		    return new Money(0, 0);
 		} else {
-			return Money.newMoneyWithCent(d);
+			return newMoneyWithCent(d);
 		}
 	}
 
 	public Object valueOf(String s) {
-		return new Money(s);
+		return newMoneyWithCent(Long.parseLong(s));
 	}
+	
 }
