@@ -49,6 +49,7 @@ alipay dalgen兼容性
 	5. common-sqlmap-mapping.xml 必须删除Money	
 	#6. 提供一个java_imports.include,共享需要引用的import
 	#7. dalgen config的DTD必须使用 rapid的DTD: ibatis-table-config-1.0.xml
+	8. gen.groovy中的encoding从GBK=>UTF-8
 	
 ibatis gen的include sql的参数重用功能.
 	1. 得到这条sql重用了几段 segment
