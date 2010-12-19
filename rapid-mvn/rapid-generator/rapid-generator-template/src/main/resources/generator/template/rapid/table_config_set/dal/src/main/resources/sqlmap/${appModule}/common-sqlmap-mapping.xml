@@ -6,12 +6,7 @@
 <!-- Configuration for ibatis sqlmap mapping.                    -->
 <!-- ==========================================================  -->
 
-<sqlMap namespace="paygw">
-
-    <!-- result map for Money class -->
-    <resultMap id="RM.Money" class="com.iwallet.biz.common.util.money.Money">
-        <result property="cent" columnIndex="1" jdbcType="NUMBER" nullValue="0"/>
-    </resultMap>
+<sqlMap namespace="${appModule}">
 
     <!-- ============================================= -->
     <!-- mapped statements for SEQUENCE                -->
