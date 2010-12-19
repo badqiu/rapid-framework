@@ -23,7 +23,7 @@ public class OracleTableConfigTest extends GeneratorTestCase {
         super.setUp();
         GLogger.perfLogLevel = GLogger.DEBUG;
     	GLogger.logLevel = GLogger.DEBUG;
-    	System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
+    	GeneratorProperties.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:oracle:thin:@localhost:1521:xe");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "oracle.jdbc.driver.OracleDriver");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "test");
