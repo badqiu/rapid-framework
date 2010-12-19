@@ -111,7 +111,7 @@ public class GenUtils {
 		Collection<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			Map map = new HashMap();
-			String[] ignoreProperties = new String[]{"sqls"};
+			String[] ignoreProperties = {"sqls"};
 	        map.putAll(BeanHelper.describe(tableConfig,ignoreProperties));
 	        map.put("tableConfig", tableConfig);
 			generatorFacade.generateByMap(map);
