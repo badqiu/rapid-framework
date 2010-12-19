@@ -35,8 +35,8 @@ def loadDefaultGeneratorProperties() {
 	GeneratorProperties.properties.put("generator_tools_class","cn.org.rapid_framework.generator.util.StringHelper,org.apache.commons.lang.StringUtils");
 	GeneratorProperties.properties.put("gg_isOverride","true");
 	
-	GeneratorProperties.properties.put("generator_sourceEncoding","GBK");
-	GeneratorProperties.properties.put("generator_outputEncoding","GBK");
+	GeneratorProperties.properties.put("generator_sourceEncoding","UTF-8");
+	GeneratorProperties.properties.put("generator_outputEncoding","UTF-8");
 	GeneratorProperties.properties.put("gg_isOverride","true");
 	//将表名从复数转换为单数 
 	GeneratorProperties.properties.put("tableNameSingularize","true");
