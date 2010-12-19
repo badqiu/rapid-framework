@@ -28,7 +28,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateBy(models);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateByAllTable(GeneratorFacade gf)
@@ -36,7 +36,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateByAllTable();
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateByClass(GeneratorFacade gf, Class... clazzes)
@@ -44,7 +44,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateByClass(clazzes);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateByMap(GeneratorFacade gf, Map... maps)
@@ -52,7 +52,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateByMap(maps);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateBySql(GeneratorFacade gf, Sql... sqls)
@@ -60,7 +60,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateBySql(sqls);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateByTable(GeneratorFacade gf,
@@ -68,7 +68,7 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		gf.getGenerator().setOutRootDir(tempDir.getPath());
 		gf.generateByTable(tableNames);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,gf.getGenerator().getOutputEncoding());
 	}
 
 	public static String generateBy(Generator g, Map templateModel)
@@ -81,11 +81,11 @@ public class GeneratorTestHelper {
 		File tempDir = getOutputTempDir();
 		g.setOutRootDir(tempDir.getPath());
 		g.generateBy(templateModel, filePathModel);
-		return readEntireDirectoryContentAndDelete(tempDir);
+		return readEntireDirectoryContentAndDelete(tempDir,g.getOutputEncoding());
 	}
 
-	private static String readEntireDirectoryContentAndDelete(File tempDir) {
-		String result = FileHelper.readEntireDirectoryContent(tempDir);
+	private static String readEntireDirectoryContentAndDelete(File tempDir,String encoding) {
+		String result = FileHelper.readEntireDirectoryContent(tempDir,encoding);
 		List<File> files = FileHelper.searchAllNotIgnoreFile(tempDir);
 		for(File f : files) {
 			if(f.isDirectory()) continue;
