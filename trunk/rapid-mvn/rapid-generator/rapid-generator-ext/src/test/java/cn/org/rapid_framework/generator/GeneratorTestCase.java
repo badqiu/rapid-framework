@@ -157,7 +157,7 @@ public class GeneratorTestCase extends TestCase{
 				throw new RuntimeException("not match segment:"+segment+" \n\n\n\nstr:\n"+str);
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public static void assertNotContains(String str,String... regexArray) {
