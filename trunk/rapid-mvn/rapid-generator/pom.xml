@@ -26,9 +26,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/1.0/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/1.0/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/1.0/rapid-mvn</url>
 	</scm>
 	<developers>
 		<developer>
@@ -156,10 +156,10 @@
 		</dependency>
   </dependencies>
 
-	<!-- ²å¼þÅäÖÃ -->
+	<!-- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -->
 	<build>
 
-		<!-- ÓÃÓÚ java.netµÄ maven²Ö¿â jar°ü release -->
+		<!-- ï¿½ï¿½ï¿½ï¿½ java.netï¿½ï¿½ mavenï¿½Ö¿ï¿½ jarï¿½ï¿½ release -->
 		<!-- 
 		<extensions>
 		  <extension>
@@ -228,7 +228,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- war²å¼þ-->
+			<!-- warï¿½ï¿½ï¿½-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -240,7 +240,7 @@
 				 -->
 			</plugin>
 
-			<!-- jar²å¼þ -->
+			<!-- jarï¿½ï¿½ï¿½ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -290,42 +290,42 @@
 			  
 			</plugin>				
 
-			<!-- dependency²å¼þ -->
+			<!-- dependencyï¿½ï¿½ï¿½ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.1</version>
 			</plugin>
 
-			<!-- antrun²å¼þ -->
+			<!-- antrunï¿½ï¿½ï¿½ -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.6</version>
 			</plugin>
 
-			<!-- cobertura²å¼þ -->
+			<!-- coberturaï¿½ï¿½ï¿½ -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
 			
-			<!-- clean²å¼þ-->
+			<!-- cleanï¿½ï¿½ï¿½-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.4.1</version>
 			</plugin>
 
-			<!-- install²å¼þ-->
+			<!-- installï¿½ï¿½ï¿½-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
 				<version>2.3.1</version>
 			</plugin>
 
-			<!-- deploy²å¼þ-->
+			<!-- deployï¿½ï¿½ï¿½-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
