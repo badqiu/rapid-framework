@@ -48,8 +48,8 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("surefire.real.class.path") != null;
 	}
 	
-	protected static String testDbType = "h2";
-	public static void runSqlScripts() throws SQLException, IOException {
+	protected String testDbType = "h2";
+	public void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
@@ -65,6 +65,8 @@ public class GeneratorTestCase extends TestCase{
         }else if("sqlserver".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.microsoft.jdbc.sqlserver.SQLServerDriver");           
+        }else {
+        	throw new RuntimeException("请指定数据库类型");
         }
 	    
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
