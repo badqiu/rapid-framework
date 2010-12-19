@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
@@ -133,18 +134,18 @@ public class GeneratorTestCase extends TestCase{
 				for(String line : IOHelper.readLines(new StringReader(segment))) {
 					if(StringHelper.isBlank(line)) continue;
 					if(!noSpaceString.contains(line.replaceAll("\\s*", ""))) {
-						fail("not match on line:\n"+line+" \n\n\n\nstr:\n"+str);
+						throw new RuntimeException("not match on line:\n"+line+" \n\n\n\nstr:\n"+str);
 					}
 				}
-				fail("not match segment:"+segment+" \n\n\n\nstr:\n"+str);
+				throw new RuntimeException("not match segment:"+segment+" \n\n\n\nstr:\n"+str);
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static void assertNotContains(String str,String... regexArray) {
 		for(String regex : regexArray) {
-			assertFalse("not match Regex:"+regex+" str:"+str,isStringMatch(str, regex));
+			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex));
 		}
 	}
 }
