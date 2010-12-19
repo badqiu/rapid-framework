@@ -10,6 +10,13 @@
 	<url>http://maven.apache.org</url>
 	<packaging>pom</packaging>
 
+	<parent>
+		<groupId>com.googlecode.rapid-framework</groupId>
+		<artifactId>rapid-generator-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
