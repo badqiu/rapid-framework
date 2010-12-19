@@ -125,7 +125,7 @@ public class GeneratorTestCase extends TestCase{
 			for(String segment : StringHelper.tokenizeToStringArray(regex, "----")) {
 //				segment = segment.replaceAll("file:.*","");
 				if(!str.replaceAll("\\s*", "").contains(segment.replaceAll("\\s*", ""))) {
-					assertTrue("not match segment:"+segment+" str:"+str,false);
+					assertTrue("not match segment:"+segment+" \n\n\n\nstr:\n"+str,false);
 				}
 			}
 			return true;
