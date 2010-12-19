@@ -6,8 +6,8 @@ import java.util.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.alipay.common.dal.util.PageQuery;
-import com.alipay.common.ibatis.util.PageQueryUtils;
-import com.iwallet.biz.common.util.PageList;
-import com.iwallet.biz.common.util.money.Money;
+import cn.org.rapid_framework.util.page.PageQuery
+import cn.org.rapid_framework.ibatis.util.PageQueryUtils
+import cn.org.rapid_framework.util.page.PageList;
+
 
