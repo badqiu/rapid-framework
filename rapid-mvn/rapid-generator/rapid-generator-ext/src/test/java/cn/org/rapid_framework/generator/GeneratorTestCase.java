@@ -113,13 +113,29 @@ public class GeneratorTestCase extends TestCase{
 	
 	public static void assertContains(String str,String... regexArray) {
 		for(String regex : regexArray) {
-			assertTrue("not match Regex:"+regex+" str:"+str,str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", "")) || StringHelper.indexOfByRegex(str, regex) >= 0);
+			assertTrue("not match Regex:"+regex+" str:"+str,isStringMatch(str, regex));
 		}
+	}
+
+	private static boolean isStringMatch(String str, String regex) {
+		if(str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", ""))) {
+			return true;
+		}
+		if(regex.contains("----")) {
+			for(String segment : StringHelper.tokenizeToStringArray(regex, "----")) {
+//				segment = segment.replaceAll("file:.*","");
+				if(!str.replaceAll("\\s*", "").contains(segment.replaceAll("\\s*", ""))) {
+					assertTrue("not match segment:"+segment+" str:"+str,false);
+				}
+			}
+			return true;
+		}
+		return  StringHelper.indexOfByRegex(str, regex) >= 0;
 	}
 
 	public static void assertNotContains(String str,String... regexArray) {
 		for(String regex : regexArray) {
-			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", "")) || StringHelper.indexOfByRegex(str, regex) >= 0);
+			assertFalse("not match Regex:"+regex+" str:"+str,isStringMatch(str, regex));
 		}
 	}
 }
