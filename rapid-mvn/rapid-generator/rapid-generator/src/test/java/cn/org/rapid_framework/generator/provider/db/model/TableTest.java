@@ -17,7 +17,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 public class TableTest extends TestCase{
 	
 	public void testTable() throws Exception {
-		GeneratorTestCase.runSqlScripts();
+		new GeneratorTestCase().runSqlScripts();
 		
 		Table t = TableFactory.getInstance().getTable("USER_INFO");
 		t.getColumnByName("username").setHasOne("user_info(username)");
