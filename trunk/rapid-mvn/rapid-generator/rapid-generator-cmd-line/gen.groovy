@@ -98,27 +98,27 @@ public class Targets extends HashMap{
 	}
 }
 
-public class GenUtils extends Targets {
-	public static genByTableConfigSet(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet) {
+public class GenUtils {
+	public static void genByTableConfigSet(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet) throws Exception {
 		Map map = new HashMap();
 		map.putAll(BeanHelper.describe(tableConfigSet));
 		map.put("tableConfigSet", tableConfigSet);
 		generatorFacade.generateByMap(map);
 	}
 	
-	public static genByTableConfig(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) {
+	public static void genByTableConfig(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
 		
 		Collection<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			Map map = new HashMap();
-			String[] ignoreProperties = "sqls";
+			String[] ignoreProperties = new String[]{"sqls"};
 	        map.putAll(BeanHelper.describe(tableConfig,ignoreProperties));
 	        map.put("tableConfig", tableConfig);
 			generatorFacade.generateByMap(map);
 		}
 	}
 	
-	public static genByOperation(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) {
+	public static void genByOperation(GeneratorFacade generatorFacade,TableConfigSet tableConfigSet,String tableSqlName) throws Exception {
 		Collection<TableConfig> tableConfigs = Helper.getTableConfigs(tableConfigSet,tableSqlName);
 		for(TableConfig tableConfig : tableConfigs) {
 			for(Sql sql : tableConfig.getSqls()) {
@@ -132,13 +132,13 @@ public class GenUtils extends Targets {
         }
 	}
 	
-	public static genByTable(GeneratorFacade generatorFacade,String tableSqlName) {
+	public static void genByTable(GeneratorFacade generatorFacade,String tableSqlName) throws Exception {
 		generatorFacade.generateByTable(tableSqlName);
 	}
 
 }
 
-public class Helper extends Targets {
+public class Helper {
 	public static Collection<TableConfig> getTableConfigs(TableConfigSet tableConfigSet,String tableSqlName) {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
