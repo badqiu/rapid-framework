@@ -11,6 +11,7 @@ import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 /**
  * 生成器的测试工具类,用于将模板内容生成在某个临时文件夹,
@@ -87,7 +88,11 @@ public class GeneratorTestHelper {
 		String result = FileHelper.readEntireDirectoryContent(tempDir);
 		List<File> files = FileHelper.searchAllNotIgnoreFile(tempDir);
 		for(File f : files) {
-			result = result + "\n"+"file:"+f.getPath().replace('\\', '/');
+			if(f.isDirectory()) continue;
+			String relativePath = FileHelper.getRelativePath(tempDir,f).replace('\\', '/');
+			if(StringHelper.isBlank(relativePath)) continue;
+			
+			result = result + "\n"+"file:"+relativePath;
 		}
 		try {
 			FileHelper.deleteDirectory(tempDir);
