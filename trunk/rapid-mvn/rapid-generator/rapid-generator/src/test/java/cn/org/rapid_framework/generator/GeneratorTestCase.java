@@ -2,10 +2,13 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
@@ -28,7 +31,7 @@ public class GeneratorTestCase extends TestCase{
 	    try {
 	    	runSqlScripts();
 	    }catch(Exception e) {
-	    	throw e;
+	    	e.printStackTrace();
 	    }
 
 //		System.getProperties().list(System.out);
@@ -38,7 +41,7 @@ public class GeneratorTestCase extends TestCase{
 			g.setOutRootDir(tempDir);
 		}else {
 			if(g.getOutRootDir() == null)
-				g.setOutRootDir("target/gen-output/"+getClass().getSimpleName()+"/"+getName());
+				g.setOutRootDir(".");
 		}
 	}
 
@@ -46,8 +49,8 @@ public class GeneratorTestCase extends TestCase{
 		return System.getProperty("surefire.real.class.path") != null;
 	}
 	
-	static String testDbType = "h2";
-	public static void runSqlScripts() throws SQLException, IOException {
+	protected String testDbType = "h2";
+	public void runSqlScripts() throws SQLException, IOException {
 	    if("hsql".equals(testDbType)) {
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
@@ -63,6 +66,8 @@ public class GeneratorTestCase extends TestCase{
         }else if("sqlserver".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.microsoft.jdbc.sqlserver.SQLServerDriver");           
+        }else {
+        	throw new RuntimeException("请指定数据库类型");
         }
 	    
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
@@ -111,4 +116,36 @@ public class GeneratorTestCase extends TestCase{
 		return new File(tempDir,"test_generator_out").getAbsolutePath();
 	}
 	
+	public static void assertContains(String str,String... regexArray) {
+		for(String regex : regexArray) {
+			assertTrue("not match Regex:"+regex+" str:"+str,isStringMatch(str, regex));
+		}
+	}
+
+	private static boolean isStringMatch(String str, String regex) {
+		String noSpaceString = str.replaceAll("\\s*", "");
+		if(str.contains(regex) || noSpaceString.contains(regex.replaceAll("\\s*", ""))) {
+			return true;
+		}
+		for(String segment : StringHelper.tokenizeToStringArray(regex, "----")) {
+//				segment = segment.replaceAll("file:.*","");
+//			List<String> files = getFiles(segment);
+			if(!noSpaceString.contains(segment.replaceAll("\\s*", "").replace("file:.*",""))) {
+				for(String line : IOHelper.readLines(new StringReader(segment))) {
+					if(StringHelper.isBlank(line)) continue;
+					if(!noSpaceString.contains(line.replaceAll("\\s*", ""))) {
+						throw new RuntimeException("not match on line:\n"+line+" \n\n\n\nstr:\n"+str);
+					}
+				}
+				throw new RuntimeException("not match segment:"+segment+" \n\n\n\nstr:\n"+str);
+			}
+		}
+		return false;
+	}
+
+	public static void assertNotContains(String str,String... regexArray) {
+		for(String regex : regexArray) {
+			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex));
+		}
+	}
 }
