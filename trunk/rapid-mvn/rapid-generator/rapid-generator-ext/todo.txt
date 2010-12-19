@@ -41,15 +41,14 @@ project-common-service-facade-impl      common-service-facade实现(是否需要
     * system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。 
                                
 alipay dalgen兼容性
-	1. 继承的PageQuery必须是与包名无关的
+	#1. 继承的PageQuery必须是与包名无关的
 	2. 自动复数转换关闭
-	3. PageList应该支持范型
-	4. 增加 PageQueryUtils的 import
-	3. 删除 Money 相关
-	4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
+	#3. PageList应该支持范型
+	#4. 增加 PageQueryUtils的 import
+	#4. module-sqlmap-config.xml 必须删除Money: <typeHandler javaType="com.iwallet.biz.common.util.money.Money" callback="com.alipay.common.ibatis.typehandler.MoneyTypeHandler"/>
 	5. common-sqlmap-mapping.xml 必须删除Money	
-	6. 提供一个java_imports.include,共享需要引用的import
-	7. dalgen config的DTD必须使用 rapid的DTD: ibatis-table-config-1.0.xml
+	#6. 提供一个java_imports.include,共享需要引用的import
+	#7. dalgen config的DTD必须使用 rapid的DTD: ibatis-table-config-1.0.xml
 	
 ibatis gen的include sql的参数重用功能.
 	1. 得到这条sql重用了几段 segment

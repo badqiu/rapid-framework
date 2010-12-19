@@ -15,6 +15,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<scope>provided</scope>
+		</dependency>	
+		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator</artifactId>
 		</dependency>
