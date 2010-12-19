@@ -16,7 +16,6 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
 
 public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
-	
 	HashMap<String,String> hashMap = new HashMap();
 	IbatisSqlMapConfigParser parser = new IbatisSqlMapConfigParser();
 	public void setUp() throws Exception {

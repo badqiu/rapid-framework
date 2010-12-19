@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
+import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.DBHelper;
@@ -28,6 +29,7 @@ public class GeneratorTestCase extends TestCase{
 		GeneratorProperties.clear();
 		TableFactory.getInstance().clearTableFactoryListener();
 		DataSourceProvider.setDataSource(null);
+		SqlFactory.cache.clear();
 		
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
