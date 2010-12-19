@@ -144,7 +144,7 @@ public class SqlFactory {
         return transaltor.isDataIntegrityViolation(sqlEx);
 	}
 
-	static Map<String,Table> cache = new HashMap<String,Table>();
+	public static Map<String,Table> cache = new HashMap<String,Table>();
     public static Table getTableFromCache(String tableSqlName) {
         if(tableSqlName == null) throw new IllegalArgumentException("tableSqlName must be not null");
         
