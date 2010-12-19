@@ -23,7 +23,7 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
 		 System.out.println(result);
 		 
 		 assertContains(result, "package com.company.project.user_info.operation.userinfo;");
-		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt")));
+		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt","UTF-8")));
 		 
 	}
 	
@@ -42,10 +42,10 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
 	
 		 assertContains(str,"用户ID 		db_column: USER_ID ");
 		 assertContains(str,"private Money sex = new Money(0,0);");
-		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedIbatisDaoImpl.txt")));
-		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoDao.txt")));
-		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoDO.txt")));
-		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoSqlMap.txt")));
+		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedIbatisDaoImpl.txt"),"UTF-8"));
+		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoDao.txt"),"UTF-8"));
+		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoDO.txt"),"UTF-8"));
+		 assertContains(str,IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedUserInfoSqlMap.txt"),"UTF-8"));
 		 
 		 assertContains(str,"src/main/java/com/company/project/user_info/dataobject/UserInfoDO.java");
 		 assertContains(str,"src/main/java/com/company/project/user_info/ibatis/IbatisUserInfoDAO.java");
