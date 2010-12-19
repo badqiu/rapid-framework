@@ -1,17 +1,34 @@
 package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
-import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
+import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.IOHelper;
 import cn.org.rapid_framework.generator.util.test.GeneratorTestHelper;
 
 public class IbatisTableConfigTest extends GeneratorTestCase {
 	
+	static TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML("com.global.pkg", FileHelper.getFile("classpath:cn/org/rapid_framework/generator/ext/tableconfig/"), "user_info.xml");
+	
+	public void test_gen_operation() throws Exception {
+		 g.addTemplateRootDir("classpath:generator/template/rapid/operation/dal");
+		 g.addTemplateRootDir("classpath:generator/template/rapid/share/dal");
+		 
+		 String result = ""; 
+		 TableConfig tableConfig = tableConfigSet.getBySqlName("user_info");
+		 for(Sql sql : tableConfig.getSqls()) {
+			 result = result + "\n" + GeneratorTestHelper.generateBy(g, Helper.newMapFromSql(sql, tableConfig));
+		 }
+		 System.out.println(result);
+		 
+		 assertContains(result, "package com.company.project.user_info.operation.userinfo;");
+		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt")));
+		 
+	}
+	
 	public void test_gen_TableConfig() throws Exception {
 		 
-		 TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML("com.global.pkg", FileHelper.getFile("classpath:cn/org/rapid_framework/generator/ext/tableconfig/"), "user_info.xml");
 		 g.addTemplateRootDir("classpath:generator/template/rapid/table_config/dal");
 		 g.addTemplateRootDir("classpath:generator/template/rapid/share/dal");
 		 
