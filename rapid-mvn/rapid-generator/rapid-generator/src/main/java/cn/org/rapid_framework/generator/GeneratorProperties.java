@@ -33,7 +33,15 @@ public class GeneratorProperties {
 	}
 	
 	public static void load(String... files) throws InvalidPropertiesFormatException, IOException {
-		getProperties().putAll(PropertiesHelper.load(files));
+		putAll(PropertiesHelper.load(files));
+	}
+
+	public static void putAll(Properties props) {
+		GeneratorProperties.getProperties().putAll(resolveProperties(props));
+	}
+	
+	public static void clear() {
+		GeneratorProperties.getProperties().clear();
 	}
 	
 	public static void reload() {
