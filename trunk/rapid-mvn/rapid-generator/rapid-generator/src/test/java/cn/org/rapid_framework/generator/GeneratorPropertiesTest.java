@@ -43,7 +43,7 @@ public class GeneratorPropertiesTest extends TestCase {
 	        GeneratorProperties.getNullIfBlank(key);
 	        GeneratorProperties.getStringArray(key);
 	        try {
-	        GeneratorProperties.getRequiredProperty(key);
+	        GeneratorProperties.getRequiredProperty(GeneratorConstants.USE_INNER_XML_FOR_XML_PARSING);
 	        fail();
 	        }catch(IllegalStateException e) {
 	        }
