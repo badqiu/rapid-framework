@@ -80,7 +80,7 @@
 	 * sql:
 	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE      FROM         USER_INFO             WHERE         USER_ID = ?                              AND                 USERNAME = ?                              AND                 PASSWORD = ?                              AND                 BIRTH_DATE >= ?                              AND                 BIRTH_DATE <= ?                              AND                 SEX = ?                              AND                 AGE = ?                              AND           age in           (             ?                  )                           AND           (             age = ?                  )                                   ORDER BY         ?</pre> 
 	 */
-	public PageList findPage(Long userId,String username,String password,java.sql.Date birthDateBegin,java.sql.Date birthDateEnd,com.iwallet.biz.common.util.money.Money sex,com.iwallet.biz.common.util.money.Money age,java.util.List<com.iwallet.biz.common.util.money.Money> includeAges,java.util.List<com.iwallet.biz.common.util.money.Money> orIncludeAges,String orderBy,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<UserInfoDO> findPage(Long userId,String username,String password,java.sql.Date birthDateBegin,java.sql.Date birthDateEnd,com.iwallet.biz.common.util.money.Money sex,com.iwallet.biz.common.util.money.Money age,java.util.List<com.iwallet.biz.common.util.money.Money> includeAges,java.util.List<com.iwallet.biz.common.util.money.Money> orIncludeAges,String orderBy,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
@@ -115,14 +115,14 @@
 	 * sql:
 	 * <pre>select         *      from         user_info      where         user_id = ?</pre> 
 	 */
-	public PageList testSqlMap(Long userId,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<UserInfoDO> testSqlMap(Long userId,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
 	 * sql:
 	 * <pre>select         *      from         user_info      where         user_id = ?          and password = ?</pre> 
 	 */
-	public PageList testSqlMapWithParamsReplace(Long userId,String password,String sexinsex,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<UserInfoDO> testSqlMapWithParamsReplace(Long userId,String password,String sexinsex,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
@@ -164,42 +164,42 @@
 	 * sql:
 	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id</pre> 
 	 */
-	public PageList testGroupByPaging(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<TestGroupByPagingResult> testGroupByPaging(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
 	 * sql:
 	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r                inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                    UNION     select         r.role_id,sum(r.user_id) sum_user_id      from         role r                   inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                    UNION     ALL      select         r.role_id,sum(r.user_id) sum_user_id      from         role r                   inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id            MINUS       select             r.role_id,sum(r.user_id) sum_user_id          from             role r                       inner join             role_permission rp                  on r.role_id = rp.role_id                left join             blog b                  on b.user_id = r.user_id               where             r.role_id = ?                     and r.role_name = ?                    and b.content like ?                    and r.modified between ? and ?                group by             r.role_id               EXCEPT        select                 r.role_id,sum(r.user_id) sum_user_id              from                 role r                           inner join                 role_permission rp                      on r.role_id = rp.role_id                    left join                 blog b                      on b.user_id = r.user_id                   where                 r.role_id = ?                         and r.role_name = ?                        and b.content like ?                        and r.modified between ? and ?                    group by                 r.role_id               INTERSECT         select                     r.role_id,sum(r.user_id) sum_user_id                  from                     role r                               inner join                     role_permission rp                          on r.role_id = rp.role_id                        left join                     blog b                          on b.user_id = r.user_id                       where                     r.role_id = ?                             and r.role_name = ?                            and b.content like ?                            and r.modified between ? and ?                        group by                     r.role_id</pre> 
 	 */
-	public PageList testSetOperations(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<TestSetOperationsResult> testSetOperations(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
 	 * sql:
 	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                          order by         r.role_id                              order by         sum_user_id                        order by         r.role_id                     order by         r.role_id                     order by         r.role_id</pre> 
 	 */
-	public PageList testMybatisOrderByPagingWithIf(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<TestMybatisOrderByPagingWithIfResult> testMybatisOrderByPagingWithIf(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 根据订单号查询订单
 	 * sql:
 	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?                   and r.role_name in  (             ?         )            group by         r.role_id</pre> 
 	 */
-	public PageList testOpenClose(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,java.util.List<String> roleNames,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<TestOpenCloseResult> testOpenClose(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,java.util.List<String> roleNames,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 测试xml escape
 	 * sql:
 	 * <pre>select         *      from         role r            where         r.role_id < ?                 and r.role_name > ?</pre> 
 	 */
-	public PageList testXmlEscape(Long roleId,String roleName,int pageSize,int pageNum) throws DataAccessException;
+	public PageList<Role> testXmlEscape(Long roleId,String roleName,int pageSize,int pageNum) throws DataAccessException;
 
 	/**
 	 * 测试testIncludeWhere
 	 * sql:
 	 * <pre>select         *      from         user_info r            where         1=1                    and username > ?                and password = ?                             and username > ?                and password = ?                             and username = ?                             and username > ?                and password = ?                   and username = ?                    and username = ?</pre> 
 	 */
-	public PageList testIncludeWhere(TestIncludeWhereQuery param) throws DataAccessException;
+	public PageList<UserInfoDO> testIncludeWhere(TestIncludeWhereQuery param) throws DataAccessException;
 
 	/**
 	 * 测试testIncludeWhere
