@@ -55,10 +55,14 @@ public class GeneratorTestCase extends TestCase{
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB"+StringHelper.randomNumeric(20));
     		GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.hsqldb.jdbcDriver");
 	    }else if("h2".equals(testDbType)) {
+			GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
+			GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:h2:mem:test"+StringHelper.randomNumeric(20)+";DB_CLOSE_DELAY=-1");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "org.h2.Driver");	        
 	    }else if("mysql".equals(testDbType)) {
-            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
+			GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "root");
+			GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "123456");
+            GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8");
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");           
         }else if("oracle".equals(testDbType)) {
             GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:hsqldb:mem:generatorDB");
@@ -70,8 +74,7 @@ public class GeneratorTestCase extends TestCase{
         	throw new RuntimeException("请指定数据库类型");
         }
 	    
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "sa");
-		GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "");
+
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "");
 		GeneratorProperties.setProperty(GeneratorConstants.JDBC_CATALOG, "");
 		
