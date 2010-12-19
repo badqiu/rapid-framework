@@ -30,7 +30,7 @@ public class CountUsernameResult implements java.io.Serializable {
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/CountUsernameResult.java
+
 ----
 public class CountDynimicUsernameResult implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
@@ -64,7 +64,7 @@ public class CountDynimicUsernameResult implements java.io.Serializable {
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/CountDynimicUsernameResult.java
+
 
 ----
 public class TestSelectColumnsWithQueryResult implements java.io.Serializable {
@@ -109,7 +109,7 @@ public class TestSelectColumnsWithQueryResult implements java.io.Serializable {
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestSelectColumnsWithQueryResult.java
+
 ----
 public class TestRoleJoinRolePermissionJoinBlogResult implements java.io.Serializable {
 	private static final long serialVersionUID = -5216457518046898601L;
@@ -302,7 +302,7 @@ public class TestRoleJoinRolePermissionJoinBlogResult implements java.io.Seriali
 	
 }
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestRoleJoinRolePermissionJoinBlogResult.java
+
 
 
 ----
@@ -337,7 +337,7 @@ public class TestRoleJoinRolePermissionJoinBlogWithCustomParamResult implements 
 	
 }
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestRoleJoinRolePermissionJoinBlogWithCustomParamResult.java
+
 
 ----
 public class TestGroupByPagingResult implements java.io.Serializable {
@@ -371,7 +371,7 @@ public class TestGroupByPagingResult implements java.io.Serializable {
 	
 }
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestGroupByPagingResult.java
+
 
 
 ----
@@ -407,7 +407,7 @@ public class TestSetOperationsResult implements java.io.Serializable {
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestSetOperationsResult.java
+
 
 
 ----
@@ -443,7 +443,7 @@ public class TestMybatisOrderByPagingWithIfResult implements java.io.Serializabl
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestMybatisOrderByPagingWithIfResult.java
+
 
 
 ----
@@ -478,7 +478,7 @@ public class TestOpenCloseResult implements java.io.Serializable {
 	
 }
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestOpenCloseResult.java
+
 
 
 ----
@@ -535,7 +535,7 @@ public class TestIncludeWhereQuery  extends PageQuery implements java.io.Seriali
 }
 
 
-file:src/main/java/com/company/project/user_info/operation/userinfo/TestIncludeWhereQuery.java
+
 
 ----
 public class TestIncludeWhereWithNoPagingQuery  implements java.io.Serializable {
