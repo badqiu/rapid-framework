@@ -1,6 +1,5 @@
-${refidClassName}
 <#assign params = sqlSegment.params/> 
-<#assign className = sqlSegment.refidClassName/>
+<#assign className = sqlSegment.className/>
  
 <#list sqlSegment.params as param>
 	/** ${param.columnAlias!} */
