@@ -90,7 +90,7 @@ public class FileHelper {
 		for(File file : files) {
 			if(file.isDirectory()) continue;
 			if(file.isFile() && file.exists()) {
-				result.append(IOHelper.readFile(file));
+				result.append(IOHelper.readFile(file,encoding));
 			}
 		}
 		return result.toString();
