@@ -8,10 +8,12 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.ext.tableconfig.model.TableConfig.OperationConfig;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 
 public class TableConfigSetTest extends GeneratorTestCase {
-    
+
     public void test_setSequence() {
+    	
         TableConfigSet set = new TableConfigSet();
         assertTrue(set.getSequences().isEmpty());
         
@@ -42,13 +44,13 @@ public class TableConfigSetTest extends GeneratorTestCase {
         assertEquals("diy",config2.getPackage());
         assertEquals("com.company.project",config.getPackage());
     }
-    Sql sql;
+    
     public void testListner() throws SQLException, Exception {
 //    	sql = newSql(newOperation("queryUserInfo","select * from user_info"),null);
 //		
 //		assertEquals(sql.getResultClass(),"UserInfo");
 		
-    	sql = newSql(newOperation("queryUserInfo","select * from user_info"),"CustomUserInfo");
+    	Sql sql = newSql(newOperation("queryUserInfo","select * from user_info"),"CustomUserInfo");
 		
 		assertEquals(sql.getResultClass(),"CustomUserInfo");
 		
