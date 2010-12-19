@@ -90,12 +90,14 @@ public class OracleTableConfigTest extends GeneratorTestCase {
         templateModel.putAll(GeneratorProperties.getProperties());
         templateModel.put("sql", sql);
         templateModel.put("tableConfig", t);
+        templateModel.put("basepackage", "com.oracletest");
         setShareVars(templateModel);
         
         Map filePathModel = new HashMap();
         filePathModel.putAll(GeneratorProperties.getProperties());
         filePathModel.putAll(BeanHelper.describe(t));
         filePathModel.putAll(BeanHelper.describe(sql));
+        filePathModel.put("basepackage", "com.oracletest");
         setShareVars(filePathModel);
         GeneratorModel gm = new GeneratorModel(templateModel,filePathModel);
         return gm;
