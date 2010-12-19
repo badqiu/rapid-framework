@@ -47,7 +47,7 @@ public class IOHelper {
 		}
     }
 	
-    public static List readLines(Reader input) {
+    public static List<String> readLines(Reader input) {
     	try {
 	        BufferedReader reader = new BufferedReader(input);
 	        List list = new ArrayList();
