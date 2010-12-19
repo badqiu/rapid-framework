@@ -152,12 +152,12 @@ public class MetaTableTest extends GeneratorTestCase {
     	assertContains(content, "package com.company.project.user_info.operation.userinfo;");
     	assertContains(content, "/** 用户名 */");
     	assertContains(content, "用户信息表");
-    	assertContains(content, "extends.*PageQuery");
+    	assertContains(content, "PageQuery");
     	
     	content = GeneratorTestHelper.generateBy(g,new Helper().getMapBySql(t, "testIncludeWhereWithNoPaging"));
     	assertContains("java/com/company/project/user_info/operation/userinfo/TestIncludeWhereWithNoPagingQuery.java");
     	assertContains(content, "/** 用户名 */");
-    	assertNotContains(content, "extends.*PageQuery");
+    	assertNotContains(content, " PageQuery");
     	System.out.println(content);
     }
     
