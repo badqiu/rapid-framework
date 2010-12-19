@@ -13,4 +13,8 @@
 7.svn tags
 
 1.maven upload and checksum
-2.
+
+
+
+
+https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
