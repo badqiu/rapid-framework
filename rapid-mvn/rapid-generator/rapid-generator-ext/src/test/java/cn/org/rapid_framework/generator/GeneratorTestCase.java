@@ -113,13 +113,13 @@ public class GeneratorTestCase extends TestCase{
 	
 	public static void assertContains(String str,String... regexArray) {
 		for(String regex : regexArray) {
-			assertTrue("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+			assertTrue("not match Regex:"+regex+" str:"+str,str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", "")) || StringHelper.indexOfByRegex(str, regex) >= 0);
 		}
 	}
 
 	public static void assertNotContains(String str,String... regexArray) {
 		for(String regex : regexArray) {
-			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex) || StringHelper.indexOfByRegex(str, regex) >= 0);
+			assertFalse("not match Regex:"+regex+" str:"+str,str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", "")) || StringHelper.indexOfByRegex(str, regex) >= 0);
 		}
 	}
 }

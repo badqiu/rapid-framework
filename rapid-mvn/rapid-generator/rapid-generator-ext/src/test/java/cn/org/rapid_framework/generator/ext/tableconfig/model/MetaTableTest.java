@@ -161,38 +161,6 @@ public class MetaTableTest extends GeneratorTestCase {
     	System.out.println(content);
     }
     
-    public static class Helper {
-		public Map getMapBySql(TableConfig t, String operation) {
-			Sql sql = getSql(t,operation);
-	    	Map map = newMapFromSql(sql,t);
-			return map;
-		}
-	    
-	    public Map newMapFromSql(Sql sql,TableConfig tableConfig) {
-	    	Map map = new HashMap();
-	    	map.putAll(BeanHelper.describe(sql));
-	    	map.put("sql", sql);
-	    	map.put("tableConfig", tableConfig);
-	    	map.put("basepackage", tableConfig.getBasepackage());
-	    	return map;
-	    }
-
-	    public Map newMapFromTableConfigSet(TableConfigSet tableConfigSet) {
-	    	Map map = new HashMap();
-	    	map.putAll(BeanHelper.describe(tableConfigSet));
-	    	map.put("tableConfigSet", tableConfigSet);
-	    	return map;
-	    }
-	    
-	    private Sql getSql(TableConfig t, String name) {
-			for(Sql sql : t.getSqls()) {
-				if(sql.getOperation().equals(name)) {
-					return sql;
-				}
-			}
-			throw new IllegalArgumentException("not found sql with name:"+name);
-		}
-    }
 	public static void setShareVars(Map templateModel) {
     	templateModel.putAll(GeneratorModelUtils.getShareVars());
     	templateModel.put("StringHelper", new StringHelper());
