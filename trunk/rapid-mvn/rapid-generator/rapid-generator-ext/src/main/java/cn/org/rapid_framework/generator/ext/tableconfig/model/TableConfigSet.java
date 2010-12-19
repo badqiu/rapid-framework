@@ -8,6 +8,7 @@ import java.util.Set;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactoryListener;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
+import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListener{
@@ -108,5 +109,12 @@ public class TableConfigSet implements Iterable<TableConfig>,TableFactoryListene
         
         //FIXME 还没有考虑TableConfigSet 的listener清除问题,
         //TODO 增加单元测试
+	}
+	
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		GLogger.warn("没有手工清除TableFactoryListener for TableConfigSet");
+		TableFactory.getInstance().removeTableFactoryListener(this);
 	}
 }
