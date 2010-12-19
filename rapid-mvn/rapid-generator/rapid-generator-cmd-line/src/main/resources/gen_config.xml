@@ -42,7 +42,8 @@
 
 	<!-- dal层模板的输出目录 -->
 	<entry key="dir_dal_output_root">target/generator-output/</entry>
-	<!-- 模板根目录,可以为: 1. c:/some.jar!/subfolder   2. classpath:some_folder -->
+	
+	<!-- 模板根目录,可以为: 1. c:/some.jar!/subfolder   2. classpath:some_folder. 模板文件存放在jar包中 -->
 	<entry key="dir_templates_root">classpath:generator/template/rapid</entry>
 	
 </properties>
