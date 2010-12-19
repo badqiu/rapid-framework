@@ -15,7 +15,7 @@
 	<#if sql.selectSql>
 		<#local resultClassName><#if sql.resultClassName==tableConfig.className>${sql.resultClassName}${suffix}<#else>${sql.resultClassName}</#if></#local>
 		<#if sql.paging>
-			PageList
+			PageList<${resultClassName}>
 		<#elseif sql.multiplicity = 'one'>
 			${resultClassName}
 		<#else>
