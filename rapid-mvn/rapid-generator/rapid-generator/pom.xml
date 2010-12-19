@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>rapid-generator</artifactId>
 	<name>rapid-generator</name>
@@ -24,9 +23,10 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
-	</scm>
+		<connection>http://rapid-framework.googlecode.com/svn/tags/4.0/trunk/rapid-mvn</connection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/4.0/trunk/rapid-mvn</url>
+	  <developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/4.0/rapid-mvn/rapid-generator</developerConnection>
+  </scm>
 	<developers>
 		<developer>
 			<email>badqiu(a)gmail.com</email>
