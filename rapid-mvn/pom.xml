@@ -13,7 +13,7 @@
 	<artifactId>parent</artifactId>
 	<packaging>pom</packaging>
 	<name>rapid-framework parent pom.xml</name>
-	<version>1.0</version>
+	<version>4.1</version>
 	<organization>
 		<name>Rapid-Framework</name>
 		<url>http://www.rapid-framework.org.cn</url>
@@ -26,9 +26,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/4.0</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/4.0</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/4.0</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
 	</scm>
 
 	<properties>
@@ -70,17 +70,17 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-core</artifactId>
-				<version>4.0</version>
+				<version>4.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.0</version>
+				<version>4.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.0</version>
+				<version>4.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
@@ -90,17 +90,17 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.0</version>
+				<version>4.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.0</version>
+				<version>4.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-parent</artifactId>
-				<version>1.0</version>
+				<version>4.1</version>
 			</dependency>			
 			<!--  sub projects END -->
 

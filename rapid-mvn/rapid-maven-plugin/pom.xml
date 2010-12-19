@@ -4,13 +4,13 @@
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
-		<version>1.0</version>
+		<version>4.1</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>rapid-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.0</version>
+	<version>4.1</version>
 	<name>rapid-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
 
