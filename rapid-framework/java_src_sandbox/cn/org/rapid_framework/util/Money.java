@@ -289,7 +289,16 @@ public class Money implements Serializable, Comparable<Object> {
     public long getCent() {
         return cent;
     }
-
+    
+    /**
+     * 设置本货币对象代表的金额数。
+     *
+     * @param cnet 金额数，以分为单位。
+     */
+    public void setCent(long cent) {
+        this.cent = cent;
+    }
+    
     /**
      * 获取本货币对象代表的币种。
      *
@@ -750,18 +759,15 @@ public class Money implements Serializable, Comparable<Object> {
         throw new UnsupportedOperationException();
     }
     
+    /** 
+     * 将Money变为负数 
+     **/
     public Money negate() {
     	return newMoneyWithSameCurrency(-cent);
     }
     
-    public static Money newMoneyWithCent(long cent) {
-        Money m = new Money();
-        m.cent = cent;
-        return m;
-    }
-    
-    public static Long getCent(Money m) {
-        if(m == null) return null;
+    public static long getCent(Money m) {
+        if(m == null) return 0;
         return m.getCent();
     }
     
