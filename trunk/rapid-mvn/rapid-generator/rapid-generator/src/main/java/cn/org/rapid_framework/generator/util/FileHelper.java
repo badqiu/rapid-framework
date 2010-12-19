@@ -84,7 +84,7 @@ public class FileHelper {
 	/**
 	 * 读取整个目录下所有子文件的内容至String中 
 	 **/
-	public static String readEntireDirectoryContent(File dir) {
+	public static String readEntireDirectoryContent(File dir,String encoding) {
 		List<File> files = searchAllNotIgnoreFile(dir);
 		StringBuffer result = new StringBuffer();
 		for(File file : files) {
