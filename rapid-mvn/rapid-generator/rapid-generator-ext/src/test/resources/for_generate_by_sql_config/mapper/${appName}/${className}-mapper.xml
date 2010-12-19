@@ -93,18 +93,18 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     </#if>     
     <#if databaseType == 'oracle'>
         <#if tableConfig.sequence??>
-		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="${tableConfig.pkColumn.columnName}" >
             SELECT ${tableConfig.sequence}.nextval FROM DUAL
         </selectKey>
         </#if>         
     </#if>
     <#if databaseType == 'mysql'>
-		<selectKey resultType="java.lang.Long" type="AFTER" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultType="java.lang.Long" type="AFTER" keyProperty="${tableConfig.pkColumn.columnName}" >
             select last_insert_id()
     	</selectKey>        
     </#if> 
     <#if databaseType == 'sqlserver'>
-		<selectKey resultType="java.lang.Long" type="AFTER" keyProperty="${tableConfig.dummypk}" >
+		<selectKey resultType="java.lang.Long" type="AFTER" keyProperty="${tableConfig.pkColumn.columnName}" >
             SELECT  @@identity  AS  ID
         </selectKey>        
     </#if>                     

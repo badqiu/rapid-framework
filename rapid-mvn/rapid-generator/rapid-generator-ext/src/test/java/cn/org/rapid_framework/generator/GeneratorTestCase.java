@@ -13,6 +13,7 @@ import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
 import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
+import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.provider.db.table.model.Table;
 import cn.org.rapid_framework.generator.util.DBHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
@@ -24,6 +25,9 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
 	public synchronized void setUp()throws Exception {
+		TableFactory.getInstance().clearTableFactoryListener();
+		DataSourceProvider.setDataSource(null);
+		
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
 	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
@@ -45,6 +49,14 @@ public class GeneratorTestCase extends TestCase{
 		}
 	}
 
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		DataSourceProvider.getConnection().close();
+		TableFactory.getInstance().clearTableFactoryListener();
+		DataSourceProvider.setDataSource(null);
+	}
+	
 	public boolean isRuningByMaven() {
 		return System.getProperty("surefire.real.class.path") != null;
 	}
