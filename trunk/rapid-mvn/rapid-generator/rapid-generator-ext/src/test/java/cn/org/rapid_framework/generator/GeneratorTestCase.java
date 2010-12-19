@@ -2,9 +2,11 @@ package cn.org.rapid_framework.generator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
@@ -118,19 +120,24 @@ public class GeneratorTestCase extends TestCase{
 	}
 
 	private static boolean isStringMatch(String str, String regex) {
-		if(str.contains(regex) || str.replaceAll("\\s*", "").contains(regex.replaceAll("\\s*", ""))) {
+		String noSpaceString = str.replaceAll("\\s*", "");
+		if(str.contains(regex) || noSpaceString.contains(regex.replaceAll("\\s*", ""))) {
 			return true;
 		}
-		if(regex.contains("----")) {
-			for(String segment : StringHelper.tokenizeToStringArray(regex, "----")) {
+		for(String segment : StringHelper.tokenizeToStringArray(regex, "----")) {
 //				segment = segment.replaceAll("file:.*","");
-				if(!str.replaceAll("\\s*", "").contains(segment.replaceAll("\\s*", ""))) {
-					assertTrue("not match segment:"+segment+" \n\n\n\nstr:\n"+str,false);
+//			List<String> files = getFiles(segment);
+			if(!noSpaceString.contains(segment.replaceAll("\\s*", "").replace("file:.*",""))) {
+				for(String line : IOHelper.readLines(new StringReader(segment))) {
+					if(StringHelper.isBlank(line)) continue;
+					if(!noSpaceString.contains(line.replaceAll("\\s*", ""))) {
+						fail("not match on line:\n"+line+" \n\n\n\nstr:\n"+str);
+					}
 				}
+				fail("not match segment:"+segment+" \n\n\n\nstr:\n"+str);
 			}
-			return true;
 		}
-		return  StringHelper.indexOfByRegex(str, regex) >= 0;
+		return true;
 	}
 
 	public static void assertNotContains(String str,String... regexArray) {
