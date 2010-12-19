@@ -18,15 +18,16 @@ import cn.org.rapid_framework.generator.util.GLogger;
 public class AirTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
+    	super.setUp();
         GLogger.perfLogLevel = GLogger.DEBUG;
         GLogger.logLevel = GLogger.DEBUG;
         System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
         System.setProperty(GeneratorConstants.GENERATOR_SQL_RESULTCLASS_SUFFIX.code, "DO");
         
-        GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://mypay1.devdb.alipay.net:3306/mcenter?useUnicode=true&characterEncoding=UTF-8");
-        GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");
-        GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "merchant");
-        GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "merchant");
+//        GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://mypay1.devdb.alipay.net:3306/mcenter?useUnicode=true&characterEncoding=UTF-8");
+//        GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");
+//        GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "merchant");
+//        GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "merchant");
         
         GeneratorProperties.setProperty("basepackage", "com.alipay.mquery.common.dal.air");
         GeneratorProperties.setProperty("appName", "rapid");
