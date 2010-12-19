@@ -25,12 +25,13 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
 	public synchronized void setUp()throws Exception {
+		GeneratorProperties.clear();
 		TableFactory.getInstance().clearTableFactoryListener();
 		DataSourceProvider.setDataSource(null);
 		
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
-	    System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
+		GeneratorProperties.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code, "true");
 		
 	    try {
 	    	runSqlScripts();
@@ -55,6 +56,7 @@ public class GeneratorTestCase extends TestCase{
 		DataSourceProvider.getConnection().close();
 		TableFactory.getInstance().clearTableFactoryListener();
 		DataSourceProvider.setDataSource(null);
+		GeneratorProperties.clear();
 	}
 	
 	public boolean isRuningByMaven() {
