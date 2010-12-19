@@ -23,7 +23,7 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
 		 System.out.println(result);
 		 
 		 assertContains(result, "package com.company.project.user_info.operation.userinfo;");
-		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt","UTF-8")));
+		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt"),"UTF-8"));
 		 
 	}
 	
