@@ -202,7 +202,6 @@ public class BeanDefaultValueUtils {
         try {
             return c.newInstance(args);
         }catch(Exception e) {
-            e.printStackTrace();
             //ignore 
             return null;
         }
