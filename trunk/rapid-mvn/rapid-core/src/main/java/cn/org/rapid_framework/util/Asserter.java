@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
  * 与Spring Assert相同功能的类,
  * 不同的是
  * 1. 如果assert fail将抛出指定的异常. 这样在做业务检查时，可以根据该类抛出指定的业务异常。
- * 2. assert完会返回输入值,如  this.username = Assert.notEmpty(username,new IllegalArgumentException("username must be not empty"));
+ * 2. assert完会返回输入值,如  this.username = Asserter.notEmpty(username,new IllegalArgumentException("username must be not empty"));
  * 
  * 如果不想抛出指定的异常,请使用spring提供的Assert
  * 
