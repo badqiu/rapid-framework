@@ -3,7 +3,7 @@
 	<artifactId>rapid-generator</artifactId>
 	<name>rapid-generator</name>
 	<packaging>jar</packaging>
-	<version>4.1-SNAPSHOT</version>	
+	<version>4.1</version>	
 	
 	<description>rapid-generator core engine</description>
 	<url>http://code.google.com/p/rapid-framework</url>

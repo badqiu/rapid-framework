@@ -55,22 +55,22 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.1-SNAPSHOT</version>
+				<version>4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.1-SNAPSHOT</version>
+				<version>4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.1-SNAPSHOT</version>
+				<version>4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.1-SNAPSHOT</version>
+				<version>4.1</version>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
