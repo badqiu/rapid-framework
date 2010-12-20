@@ -85,6 +85,8 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
                 throw (IOException) failed;
             } else if (failed instanceof ServletException) {
                 throw (ServletException) failed;
+            }else {
+            	throw new RuntimeException(failed);
             }
         }
     }
