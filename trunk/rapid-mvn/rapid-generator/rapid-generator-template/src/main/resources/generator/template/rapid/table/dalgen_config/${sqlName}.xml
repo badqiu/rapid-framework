@@ -4,12 +4,15 @@
 <!DOCTYPE table SYSTEM "http://rapid-framework.googlecode.com/svn/trunk/dtd/ibatis-table-config-1.0.dtd">
 
 <table sqlname="${table.sqlName}">
-	<!-- 不需要配置的列请删除,一般只有Money类型的column需要配置: com.iwallet.biz.common.util.money.Money -->
 	<#list table.columns as column>
 	<#if column.sqlName?lower_case?contains('amount') && column.javaType?lower_case?contains('long')>
 	<column name="${column.sqlName}" javatype="com.iwallet.biz.common.util.money.Money" />
 	</#if>
 	</#list>
+	
+	<sql id="${className}.columns">
+		<#list table.columns as column>${column.sqlName}<#if column_has_next>,</#if> </#list>
+	</sql>
 	
 	<operation name="insert" paramtype="object">
 		<sql>
@@ -42,7 +45,7 @@
 	<operation name="queryById" multiplicity="one">
 		<sql>
 	    	SELECT
-		    <#list table.columns as column>${column.sqlName} <#if column_has_next>,</#if></#list>
+		    <include refid="${className}.columns"/>
 	        FROM ${table.sqlName} 
 	        WHERE 
 				<#list table.pkColumns as column>
@@ -57,7 +60,7 @@
     <operation name="queryBy${column.columnName}" paramtype="primitive" multiplicity="one">
     	<sql>
 	    	SELECT 
-	    	<#list table.columns as column>${column.sqlName} <#if column_has_next>,</#if></#list>
+	    	<include refid="${className}.columns"/>
 	        FROM ${table.sqlName} where ${column.sqlName} = ?
 		</sql>
     </operation>	
@@ -67,7 +70,7 @@
 	<operation name="findPage" multiplicity="paging">
 		<sql>
 			SELECT 
-			<#list table.columns as column>${column.sqlName} <#if column_has_next>,</#if></#list>
+			<include refid="${className}.columns"/>
 			FROM ${table.sqlName} 
 		</sql>
 	</operation>
