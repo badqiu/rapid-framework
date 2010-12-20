@@ -11,7 +11,7 @@
 	<artifactId>rapid-core</artifactId>
 	<name>rapid-core</name>
 	<packaging>jar</packaging>
-	<version>4.1-SNAPSHOT</version>	
+	<version>4.1</version>	
 
 	<description>rapid-framework core libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
