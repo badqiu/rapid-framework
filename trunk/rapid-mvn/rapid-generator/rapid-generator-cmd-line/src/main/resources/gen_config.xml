@@ -25,6 +25,8 @@
 	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
 	<entry key="java_typemapping.java.lang.Byte">int</entry>
 	<entry key="java_typemapping.java.lang.Short">int</entry>
+	<entry key="java_typemapping.java.lang.Integer">int</entry>
+	<entry key="java_typemapping.java.lang.Long">long</entry>
 	<entry key="java_typemapping.java.math.BigDecimal">long</entry>
 	<entry key="java_typemapping.java.sql.Clob">String</entry>
 
