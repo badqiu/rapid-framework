@@ -33,10 +33,10 @@ public class EnumBaseUtils {
         return map;
     }
     
-   public static <T extends EnumBase> Object getCode(T kv) {
-       if(kv == null) return null;
-       return kv.getCode();
-   }
+    public static <T extends EnumBase<K>,K> K getCode(T enumValue) {
+        if(enumValue == null) return null;
+        return enumValue.getCode();
+    }
    
    public static <T extends EnumBase> String getDesc(T kv) {
        if(kv == null) return null;
