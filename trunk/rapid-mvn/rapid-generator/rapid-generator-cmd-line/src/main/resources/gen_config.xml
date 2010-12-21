@@ -14,7 +14,7 @@
 	<entry key="namespace">pages</entry>
 	
 	<!-- 模块，用于dal层sqlmap及spring配置文件的划分 -->
-	<entry key="appModule">module</entry>
+	<entry key="appModule">shared</entry>
 	
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
 	<entry key="tableRemovePrefixes"></entry>
