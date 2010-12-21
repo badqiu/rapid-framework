@@ -27,6 +27,10 @@ import org.springframework.beans.BeanUtils;
 import edu.emory.mathcs.backport.java.util.Arrays;
 /**
  * 用于为Bean设置属性设置默认值的工具类.
+ * 示例应用场景: 
+ * 1.BeanUtils.copyProperties()的测试,如我们需要验证某个属性值是否有拷贝正确.
+ * 这时可以为Bean设置属性值,然后copyProperties(),再验证copy完成后的结果.验证还可以工具类:BeanAssert
+ * 
  * 
  * 示例使用:<br />
  * UserBean bean = BeanDefaultValueUtils.setBeanProperties(new UserBean());
