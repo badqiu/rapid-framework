@@ -94,6 +94,7 @@ public class SQLErrorCodesFactory {
 	     * 1217: 无法添加或更新子行，外键约束失败。
 	     * 1218: 无法删除或更新父行，外键约束失败。
 	     * 1062: Duplicate entry '123' for key
+	     * 1048 SQLState:23000 errorCodeTranslatorDataBaaseName:[MySQL] Column 'reason_detail' cannot be null
 	     */
 	    
 	    //PostgreSQL
@@ -114,7 +115,7 @@ public class SQLErrorCodesFactory {
 	    errorCodesMap.put("HSQL", newSQLErrorCodes(false,"HSQL Database Engine","-9"));
 	    errorCodesMap.put("Informix", newSQLErrorCodes(false,"Informix","-692,-11030"));
 	    errorCodesMap.put("MS-SQL", newSQLErrorCodes(false,"Microsoft SQL Server","2627,8114,8115"));
-	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","1217,1218,1452,1453,1062,1406,630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557,1264")); //spring error code定义:630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557
+	    errorCodesMap.put("MySQL", newSQLErrorCodes(false,"MySQL","1217,1218,1452,1453,1062,1406,1048,630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557,1264")); //spring error code定义:630,839,840,893,1169,1215,1216,1217,1218,1451,1452,1453,1557
 	    errorCodesMap.put("Oracle", newSQLErrorCodes(false,"Oracle","2291,2292,1400,1722,12899,1,2290,1461,1438")); // TODO spring定义: 2291,2292,1400,1722
 	    errorCodesMap.put("PostgreSQL", newSQLErrorCodes(true,"PostgreSQL","23001,23503,23514")); //全部约束: "23000,23001,23502,23503,23505,23514"
 	    errorCodesMap.put("Sybase", newSQLErrorCodes(false,"Sybase SQL Server,SQL Server,Adaptive Server Enterprise,ASE,sql server","233,423,511,515,530,547,2615,2714"));
