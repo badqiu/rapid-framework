@@ -10,4 +10,10 @@ public class EnumBaseUtilsTest extends TestCase {
 		assertEquals(values[0],SomeTypeEnum.K1);
 		assertEquals(values[1],SomeTypeEnum.K2);
 	}
+	
+	public void test2() {
+		SomeTypeEnum[] values = SomeTypeEnum.class.getEnumConstants();
+		String str = EnumBaseUtils.getCode(SomeTypeEnum.K1);
+		
+	}
 }
