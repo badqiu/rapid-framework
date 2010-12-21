@@ -40,14 +40,14 @@ public class EnumBaseUtils {
         return enumValue.getCode();
     }
    
-   public static <T extends EnumBase> String getDesc(T kv) {
-       if(kv == null) return null;
-       return kv.getDesc();
+   public static <T extends EnumBase> String getDesc(T enumValue) {
+       if(enumValue == null) return null;
+       return enumValue.getDesc();
    }
 
-   public static <T extends Enum> String getName(T kv) {
-       if(kv == null) return null;
-       return kv.name();
+   public static <T extends Enum> String getName(T enumValue) {
+       if(enumValue == null) return null;
+       return enumValue.name();
    }
 
    /**
@@ -79,17 +79,15 @@ public class EnumBaseUtils {
    }
 
    /**
-    * 根据code查找得到Enum
-    * @param code
-    * @param values
-    * @return
+    * 根据code得到Enum,找不到则抛异常.如果code为null或者是空字符串,则返回null
+    * @throws IllegalArgumentException 根据code得到Enum,找不到则抛异常
     */
    public static <T extends EnumBase> T getRequiredByCode(Object code,Class<? extends EnumBase> enumClass) {
        return (T)getRequiredByCode(code, enumClass.getEnumConstants());
    }
    
    /**
-    * 根据code得到Enum,找不到则抛异常
+    * 根据code得到Enum,找不到则抛异常.如果code为null或者是空字符串,则返回null
     * @param <T>
     * @param code
     * @param values
