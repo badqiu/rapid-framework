@@ -1,6 +1,8 @@
 package cn.org.rapid_framework.lang.enums;
 
 import java.util.LinkedHashMap;
+
+import org.apache.commons.lang.StringUtils;
 /**
  * 枚举工具类
  * 
@@ -66,6 +68,8 @@ public class EnumBaseUtils {
     */
    public static <T extends EnumBase> T getByCode(Object code,T[] values) {
        if(code == null) return null;
+       if(code instanceof String && StringUtils.isBlank((String)code)) return null;
+       
        for (T item : values) {
             if (item.getCode().equals(code)) {
                 return item;
@@ -94,6 +98,8 @@ public class EnumBaseUtils {
     */
    public static <T extends EnumBase> T getRequiredByCode(Object code,T[] values) throws IllegalArgumentException {
        if(code == null) return null;
+       if(code instanceof String && StringUtils.isBlank((String)code)) return null;
+       
        EnumBase v = getByCode(code,values);
        if(v == null) {
            if(values.length > 0) {
