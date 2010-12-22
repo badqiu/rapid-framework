@@ -180,7 +180,12 @@ public class BeanDefaultValueUtils {
             }
             return null;
         }
-        Constructor[] cs = targetType.getConstructors();
+        return newInstanceByConstructors(targetType, defaultValue);
+	}
+
+	private static Object newInstanceByConstructors(Class<?> targetType,
+			int defaultValue) {
+		Constructor[] cs = targetType.getConstructors();
         Arrays.sort(cs,new Comparator<Constructor>() {
             public int compare(Constructor o1, Constructor o2) {
                 return o2.getParameterTypes().length - o1.getParameterTypes().length;
@@ -191,9 +196,6 @@ public class BeanDefaultValueUtils {
             if(obj != null) return obj;
         }
     	return null;
-
-        
-//        throw new IllegalArgumentException("cannot generate default value for targetType:"+targetType);
 	}
 
     private static Object newInstance(Constructor c,int defaultValue) {
