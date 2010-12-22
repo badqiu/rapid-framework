@@ -16,6 +16,10 @@ import org.springframework.util.StringUtils;
  * 
  * 如果不想抛出指定的异常,请使用spring提供的Assert
  * 
+ * 具体使用场景:
+ * 由于spring的Assert是抛IllegalArgumentException,这个异常太过于通用,在需要具体识别各种类型的业务异常时,需要有类似的工具类.
+ * 那么Asserter就是完成这种功能
+ * 
  * @see Assert
  * @author badqiu
  */
