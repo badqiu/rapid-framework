@@ -19,6 +19,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * Properties的操作的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredString(),getInt(),getBoolean()等方法
  * 并可以通过systemPropertiesMode属性指定是否搜索System.getProperty()及System.getenv()来查找值.
@@ -43,22 +45,23 @@ import java.util.Map.Entry;
  * @author badqiu
  */
 public class PropertiesHelper {
-	/** Never check system properties. */
+	/** 
+	 * 不使用系统属性,这个是默认值
+	 **/
 	public static final int SYSTEM_PROPERTIES_MODE_NEVER = 0;
 
 	/**
-	 * Check system properties if not resolvable in the specified properties.
-	 * This is the default.
+	 * 如果在properties中没有找到属性值,则查找系统属性
 	 */
 	public static final int SYSTEM_PROPERTIES_MODE_FALLBACK = 1;
 
 	/**
-	 * Check system properties first, before trying the specified properties.
-	 * This allows system properties to override any other property source.
+	 * 首先查找系统属性,如果没有找到值,再查找properties,这可以用于系统属性覆盖properties中的值
 	 */
 	public static final int SYSTEM_PROPERTIES_MODE_OVERRIDE = 2;
 	
 	private int systemPropertiesMode = SYSTEM_PROPERTIES_MODE_NEVER;
+	
 	private Properties p;
 
 	public PropertiesHelper(Properties p) {
@@ -81,8 +84,11 @@ public class PropertiesHelper {
 		if(props == null) throw new IllegalArgumentException("properties must be not null");
 		this.p = props;
 	}
-	
-	public String getRequiredString(String key) {
+
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/
+	public String getRequiredString(String key) throws IllegalStateException {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
 			throw new IllegalStateException("required property is blank by key="+key);
@@ -142,7 +148,10 @@ public class PropertiesHelper {
 		return Integer.parseInt(getRequiredString(key));
 	}
 	
-	public int getRequiredInt(String key) {
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/
+	public int getRequiredInt(String key) throws IllegalStateException {
 		return Integer.parseInt(getRequiredString(key));
 	}
 	
@@ -160,7 +169,10 @@ public class PropertiesHelper {
 		return Long.parseLong(getRequiredString(key));
 	}
 	
-	public Long getRequiredLong(String key) {
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/
+	public long getRequiredLong(String key) throws IllegalStateException {
 		return Long.parseLong(getRequiredString(key));
 	}
 	
@@ -178,7 +190,10 @@ public class PropertiesHelper {
 		return Boolean.parseBoolean(getRequiredString(key));
 	}
 	
-	public boolean getRequiredBoolean(String key) {
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/
+	public boolean getRequiredBoolean(String key) throws IllegalStateException {
 		return Boolean.parseBoolean(getRequiredString(key));
 	}
 	
@@ -196,7 +211,10 @@ public class PropertiesHelper {
 		return Float.parseFloat(getRequiredString(key));
 	}
 	
-	public Float getRequiredFloat(String key) {
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/	
+	public float getRequiredFloat(String key) throws IllegalStateException {
 		return Float.parseFloat(getRequiredString(key));
 	}
 	
@@ -214,7 +232,10 @@ public class PropertiesHelper {
 		return Double.parseDouble(getRequiredString(key));
 	}
 	
-	public Double getRequiredDouble(String key) {
+	/**
+	 * 必须存在这个key的值,不然抛 IllegalStateException异常
+	 **/
+	public double getRequiredDouble(String key) throws IllegalStateException {
 		return Double.parseDouble(getRequiredString(key));
 	}
 	
@@ -247,6 +268,45 @@ public class PropertiesHelper {
         return (containsKey(key) ? getClassInstance(key) : defaultinstance);
     }
     
+    /**
+     * 将一个property按"逗号,空格,换行符"分隔,并返回一个String[]数组
+     **/
+	public String[] getStringArray(String key) {
+		String v = getProperty(key);
+		if(v == null) {
+			return new String[0];
+		}else {
+		    return org.springframework.util.StringUtils.tokenizeToStringArray(v, ", \t\n\r\f");
+		}
+	}
+    /**
+     * 将一个property按"逗号,空格,换行符"分隔,并返回一个int[]数组
+     **/
+	public int[] getIntArray(String key) {
+		return toIntArray(getStringArray(key));
+	}
+
+	/**
+	 * 得到以某个前缀开始的所有属性,返回的属性值为移除前缀后的属性值.
+	 * 
+	 * @param prefix
+	 * @return
+	 */
+	public Properties getStartsWithProperties(String prefix) {
+		if(prefix == null) throw new IllegalArgumentException("'prefix' must be not null");
+		
+		Properties props = getProperties();
+		
+		Properties result = new Properties();
+		for(Map.Entry<Object, Object> entry : props.entrySet()) {
+			String key = (String)entry.getKey();
+			if(key != null && key.startsWith(prefix)) {
+				result.put(key.substring(prefix.length()), entry.getValue());
+			}
+		}
+		return result;
+	}
+
 	/** setProperty(String key,int value) ... start */
 	
 	public Object setProperty(String key,int value) {
@@ -267,33 +327,6 @@ public class PropertiesHelper {
 	
 	public Object setProperty(String key,boolean value) {
 		return setProperty(key, String.valueOf(value));
-	}
-
-	public String[] getStringArray(String key) {
-		String v = getProperty(key);
-		if(v == null) {
-			return new String[0];
-		}else {
-		    return tokenizeToStringArray(v, ", \t\n\r\f");
-		}
-	}
-
-	public int[] getIntArray(String key) {
-		return toIntArray(getStringArray(key));
-	}
-
-	public Properties getStartsWithProperties(String prefix) {
-		if(prefix == null) throw new IllegalArgumentException("'prefix' must be not null");
-		
-		Properties props = getProperties();
-		Properties result = new Properties();
-		for(Map.Entry<Object, Object> entry : props.entrySet()) {
-			String key = (String)entry.getKey();
-			if(key != null && key.startsWith(prefix)) {
-				result.put(key.substring(prefix.length()), entry.getValue());
-			}
-		}
-		return result;
 	}
 	
 	/** delegate method start */
@@ -440,17 +473,6 @@ public class PropertiesHelper {
 
 	private static boolean isBlankString(String value) {
 		return value == null || "".equals(value.trim());
-	}
-	
-	private static String[] tokenizeToStringArray(String str,String seperators) {
-		StringTokenizer tokenlizer = new StringTokenizer(str,seperators);
-		List result = new ArrayList();
-		
-		while(tokenlizer.hasMoreElements()) {
-			Object s = tokenlizer.nextElement();
-			result.add(s);
-		}
-		return (String[])result.toArray(new String[result.size()]);
 	}
 	
 	private static int[] toIntArray(String[] array) {
