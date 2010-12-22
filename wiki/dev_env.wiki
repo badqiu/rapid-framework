@@ -5,7 +5,7 @@
 现整个项目基于maven构建. 所以在使用项目必须下载maven
 
 
-==maven安装==
+==1.maven安装==
   # 下载maven [http://maven.apache.org/] 并解压至本地目录,如c:/dev/mvn
   # 设置系统环境变量: M2_HOME=c:/dev/mvn
   # 设置Path系统环境变量: path=%M2_HOME%\bin;
@@ -14,10 +14,11 @@
 mvn --version
  }}}
 
-== checkout 项目==
+== 2.checkout 项目==
   # 将源代码从[source] 检出. 注意,要有commit权限必须是 https的URL
 
-== 将项目导入 eclipse ==
+----
+== 3.将项目导入 eclipse ==
   # 然后在项目根目录命令行运行mvn eclipse命令. 请耐心等待下载相关jar包
 {{{ 
 mvn eclipse:eclipse
@@ -43,8 +44,8 @@ M2_REPO就是mvn本地仓库的位置.选择菜单: Window => Perferences => Jav
 注意: C:\.m2\repository是我自己手工修改 M2_HOME/conf/settings.xml的配置。
 
 
-
-==项目构建==
+----
+==4.项目构建==
 进入项目根目录,运行命令就可以构建项目:
 {{{
 mvn install -Dmaven.test.skip=true
