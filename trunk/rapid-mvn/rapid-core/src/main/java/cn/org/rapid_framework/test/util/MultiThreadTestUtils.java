@@ -8,12 +8,11 @@ import java.util.concurrent.CountDownLatch;
  */
 public class MultiThreadTestUtils {
 	
-	private MultiThreadTestUtils() {}
-	
 	/**
+	 * 执行测试并等待执行结束,返回值为消耗时间
 	 * 
-	 * @param threadCount
-	 * @param task
+	 * @param threadCount 线程数
+	 * @param task 任务
 	 * @return costTime
 	 * @throws InterruptedException 
 	 */
@@ -25,6 +24,8 @@ public class MultiThreadTestUtils {
 	}
 	
 	/**
+	 * 执行测试
+	 * 
 	 * @param threadCount
 	 * @param threadDemeon
 	 * @param task
@@ -41,7 +42,7 @@ public class MultiThreadTestUtils {
 					try {
 						startSignal.await();
 					}catch(InterruptedException e) {
-						//ignore
+						return;
 					}
 					
 					try {
