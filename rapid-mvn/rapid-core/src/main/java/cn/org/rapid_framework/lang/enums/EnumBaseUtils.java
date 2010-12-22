@@ -102,7 +102,7 @@ public class EnumBaseUtils {
        if(v == null) {
            if(values.length > 0) {
                String className = values[0].getClass().getName();
-               throw new IllegalArgumentException("not found "+className+" value by code:"+code);
+               throw new IllegalArgumentException("not found Enum:"+className+" value by code:"+code);
            }else {
                throw new IllegalArgumentException("not found Enum by code:"+code);
            }
