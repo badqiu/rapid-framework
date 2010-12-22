@@ -59,9 +59,9 @@
     * RIA
       * [plugin_extjs extjs]
       * [plugin_flex flex]
-  * 开发者文档
-    * [dev_env 开发环境快速开始]
-    * [project_build 项目构建]
+  * 开发者文档(new)
+    * [dev_env 开发环境快速开始(new)]
+    * [project_build 项目构建(new)]
     * [project_modules_overview 项目模块概览]
     * [plugin_dev 插件开发]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
