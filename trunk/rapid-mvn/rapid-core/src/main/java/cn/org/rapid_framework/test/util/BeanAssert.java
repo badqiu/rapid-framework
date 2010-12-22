@@ -7,12 +7,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 /**
  * 
  * 用于批量assert Bean的属性
@@ -92,7 +92,7 @@ public class BeanAssert {
     	private static List<PropertyValue> getPropertyValues(Object bean,String... ignoreProperties) throws Error {
     		PropertyDescriptor[] descriptors = BeanUtils.getPropertyDescriptors(bean.getClass());
     		
-    		List<String> ignoreList = (ignoreProperties != null) ? Arrays.asList(ignoreProperties) : Collections.emptyList();
+    		List<String> ignoreList = (ignoreProperties != null) ? Arrays.asList(ignoreProperties) : new ArrayList(0);
     		
     		List<PropertyValue> propertyValues = new ArrayList();
     		for(int i = 0; i < descriptors.length; i++ ) {
