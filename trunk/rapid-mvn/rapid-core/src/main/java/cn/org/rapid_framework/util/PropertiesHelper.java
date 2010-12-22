@@ -96,6 +96,11 @@ public class PropertiesHelper {
 		return value;
 	}
 	
+	/**
+	 * 返回null,如果查值的属性值是blank
+	 * @param key
+	 * @return
+	 */
 	public String getNullIfBlank(String key) {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
@@ -103,7 +108,11 @@ public class PropertiesHelper {
 		}
 		return value;
 	}
-	
+	/**
+	 * 返回null,如果查值的属性值是empty
+	 * @param key
+	 * @return
+	 */	
 	public String getNullIfEmpty(String key) {
 		String value = getProperty(key);
 		if(value == null || "".equals(value)) {
