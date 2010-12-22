@@ -19,7 +19,7 @@ import cn.org.rapid_framework.util.page.Paginator;
  * 基于1开始的: startRow,endRow 用于oracle分页查询
  * 
  * @author badqiu
- * @version $Id: PageQueryUtils.java,v 0.1 2010-7-28 下午04:45:27 zhongxuan Exp $
+ * @version $Id: PageQueryUtils.java,v 0.1 2010-7-28 下午04:45:27 badqiu Exp $
  */
 @SuppressWarnings("unchecked")
 public class PageQueryUtils {

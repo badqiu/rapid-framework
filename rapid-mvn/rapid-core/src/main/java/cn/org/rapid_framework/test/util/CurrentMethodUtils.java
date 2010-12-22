@@ -15,7 +15,7 @@ import junit.framework.TestCase;
  *  }
  * </pre>
  * @author badqiu
- * @version $Id: CurrentMethodUtils.java,v 0.1 2010-6-9 下午07:21:30 zhongxuan Exp $
+ * @version $Id: CurrentMethodUtils.java,v 0.1 2010-6-9 下午07:21:30 badqiu Exp $
  */
 public class CurrentMethodUtils {
 

@@ -2,7 +2,7 @@ package cn.org.rapid_framework.util.page;
 /**
  * 分页查询对象
  * @author badqiu
- * @version $Id: PageQuery.java,v 0.1 2010-11-29 下午05:34:12 zhongxuan Exp $
+ * @version $Id: PageQuery.java,v 0.1 2010-11-29 下午05:34:12 badqiu Exp $
  */
 public class PageQuery implements java.io.Serializable{
     private static final long serialVersionUID = -8000900575354501298L;
