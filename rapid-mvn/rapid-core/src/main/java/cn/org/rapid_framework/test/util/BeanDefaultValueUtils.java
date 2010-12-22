@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Comparator;
@@ -24,7 +25,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import org.springframework.beans.BeanUtils;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 /**
  * 用于为Bean设置属性设置默认值的工具类.
  * 示例应用场景: 
