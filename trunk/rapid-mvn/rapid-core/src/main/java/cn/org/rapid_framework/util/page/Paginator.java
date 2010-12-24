@@ -12,9 +12,12 @@ public class Paginator implements java.io.Serializable {
 	
 	private static final int DEFAULT_SLIDERS_COUNT = 7;
 	
-	private int page;
-	private int pageSize;
-	private int totalItems;
+    /** 分页大小 */
+    private int               pageSize;
+    /** 页数  */
+    private int               page;
+    /** 总记录数 */
+    private int               totalItems;
 	
 	public Paginator(int page, int pageSize, int totalItems) {
 		super();
