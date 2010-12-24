@@ -99,18 +99,18 @@ public class FileHelper {
 	public static File mkdir(String dir,String file) {
 		if(dir == null) throw new IllegalArgumentException("dir must be not null");
 		File result = new File(dir,file);
-		parnetMkdir(result);
+		parentMkdir(result);
 		return result;
 	}
 
     public static File parentMkdir(String file) {
         if(file == null) throw new IllegalArgumentException("file must be not null");
         File result = new File(file);
-        parnetMkdir(result);
+        parentMkdir(result);
         return result;
     }
 	   
-	public static void parnetMkdir(File outputFile) {
+	public static void parentMkdir(File outputFile) {
 		File parentFile = outputFile.getParentFile();
 		if(parentFile != null && !parentFile.equals(outputFile)) {
 			parentFile.mkdirs();

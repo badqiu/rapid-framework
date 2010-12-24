@@ -290,7 +290,7 @@ public class Generator  {
 				String outputFilepath = proceeForOutputFilepath(filePathModel, templateFile);
 				File outputFile = new File(getOutRootDir(),outputFilepath);
 				GLogger.println("[copy binary file by extention] from:"+srcFile+" => "+outputFile);
-				FileHelper.parnetMkdir(outputFile);
+				FileHelper.parentMkdir(outputFile);
 				IOHelper.copyAndClose(new FileInputStream(srcFile), new FileOutputStream(outputFile));
 				return;
 			}

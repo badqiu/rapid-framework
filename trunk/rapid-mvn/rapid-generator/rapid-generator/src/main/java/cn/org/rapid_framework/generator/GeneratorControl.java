@@ -1,5 +1,7 @@
 package cn.org.rapid_framework.generator;
 
+import static cn.org.rapid_framework.generator.GeneratorConstants.GG_IS_OVERRIDE;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +28,6 @@ import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
 import cn.org.rapid_framework.generator.util.XMLHelper;
 import freemarker.ext.dom.NodeModel;
-import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * gg变量,生成器模板控制器,用于模板中可以控制生成器执行相关控制操作
  * 如: 是否覆盖目标文件
@@ -123,7 +124,7 @@ public class GeneratorControl {
 				new File(realOutputFile).delete();
 			}else {
 				File file = new File(realOutputFile);
-				FileHelper.parnetMkdir(file);
+				FileHelper.parentMkdir(file);
 				GLogger.println("[gg.generateFile()] outputFile:"+realOutputFile+" append:"+append+" by template:"+getSourceFile());
 				IOHelper.saveFile(file, content,getOutputEncoding(),append);
 			}
