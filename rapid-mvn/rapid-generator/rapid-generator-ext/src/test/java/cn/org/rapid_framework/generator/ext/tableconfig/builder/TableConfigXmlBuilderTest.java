@@ -3,6 +3,7 @@ package cn.org.rapid_framework.generator.ext.tableconfig.builder;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,8 @@ public class TableConfigXmlBuilderTest extends TestCase {
 		GeneratorProperties.setProperty("outRoot", "./target/temp/"+getClass().getSimpleName()+"/"+getName());
 		System.setProperty(GeneratorConstants.GG_IS_OVERRIDE.code,"true");
 		basedir = FileHelper.getFileByClassLoader("cn/org/rapid_framework/generator/ext/tableconfig");
+		
+		System.out.println(Arrays.toString(basedir.list()));
 	}
 	
 	public void test() throws IOException, Exception {
