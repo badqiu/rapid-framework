@@ -225,10 +225,11 @@ public class Generator  {
 			}
 			
 			if(new File(templateRootDir).isFile()) {
-				templateRootDir = ZipUtils.unzip2TempDir(new File(templateRootDir),"tmp_generator_template_folder_for_zipfile").getAbsolutePath();
+				File tempDir = ZipUtils.unzip2TempDir(new File(templateRootDir),"tmp_generator_template_folder_for_zipfile");
+				unzipIfTemplateRootDirIsZipFile.add(new File(tempDir,subFolder));
+			}else {
+			    unzipIfTemplateRootDirIsZipFile.add(new File(templateRootDir,subFolder));
 			}
-			
-			unzipIfTemplateRootDirIsZipFile.add(new File(templateRootDir,subFolder));
 		}
 		return unzipIfTemplateRootDirIsZipFile;
 	}
