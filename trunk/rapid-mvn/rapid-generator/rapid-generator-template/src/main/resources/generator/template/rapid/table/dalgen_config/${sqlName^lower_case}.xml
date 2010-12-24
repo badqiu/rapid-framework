@@ -1,7 +1,7 @@
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
 <?xml version="1.0" encoding="GBK"?>
-<!DOCTYPE table SYSTEM "http://sources.alipay.net/svn/dtd/table-config-1.0.dtd">
+<!DOCTYPE table SYSTEM "http://rapid-framework.googlecode.com/svn/trunk/dtd/ibatis-table-config-1.0.dtd">
 
 <table sqlname="${table.sqlName}">
 	<#list table.columns as column>
