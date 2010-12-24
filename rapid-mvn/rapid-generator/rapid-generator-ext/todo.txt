@@ -105,3 +105,7 @@ Cache接口抽象
 将 mapper及sqlmap迁移至 src/main/resources/(mapper|sqlmap)
 
 
+dalgen需要修正返回值为long时，无法自动转换值为long类型: 重现错误: <entry key="java_typemapping.java.lang.Long">long</entry>
+	public long userParameterObject(String tradeNo) throws DataAccessException {
+		return (Number)getSqlMapClientTemplate().queryForObject("project.TradeBase.userParameterObject",tradeNo);
+	}
