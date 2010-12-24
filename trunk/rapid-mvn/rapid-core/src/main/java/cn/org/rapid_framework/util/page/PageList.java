@@ -17,8 +17,11 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 
     private static final long serialVersionUID = 1412759446332294208L;
     
+    /** 分页大小 */
     private int               pageSize;
+    /** 页数  */
     private int               page;
+    /** 总记录数 */
     private int               totalItems;
 
     public PageList() {}
