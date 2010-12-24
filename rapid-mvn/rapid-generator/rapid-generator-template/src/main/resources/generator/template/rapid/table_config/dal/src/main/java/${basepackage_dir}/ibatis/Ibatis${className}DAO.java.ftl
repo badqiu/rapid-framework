@@ -60,7 +60,16 @@ public class Ibatis${tableConfig.className}DAO extends <#if (tableConfig.autoSwi
 		return (<@generateResultClassName sql 'DO'/>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"${ibatisNamespace}${sql.operation}",${paramName},pageNum,pageSize);
 			</#if>
 		<#elseif sql.multiplicity = 'one'>
+			<#local resultClassName><@generateResultClassName sql 'DO'/></#local>
+			<#if resultClassName == 'int' || resultClassName == 'long' || resultClassName == 'float' || resultClassName == 'double'>
+		Number returnObject = (Number)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
+		if(number == null)
+			return 0; 
+		else
+			return returnObject.${resultClassName}Value();
+			<#else>
 		return (<@generateResultClassName sql 'DO'/>)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
+			</#if>
 		<#else>
 		return (<@generateResultClassName sql 'DO'/>)getSqlMapClientTemplate().queryForList("${ibatisNamespace}${sql.operation}",${paramName});
 		</#if>
