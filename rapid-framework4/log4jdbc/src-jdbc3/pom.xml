@@ -33,7 +33,6 @@
 	</dependencies>
 	<!-- 插件配置 -->
 	<build>
-		<sourceDirectory>.</sourceDirectory>
 
 		<plugins>
 			<!-- compiler plugin -->
