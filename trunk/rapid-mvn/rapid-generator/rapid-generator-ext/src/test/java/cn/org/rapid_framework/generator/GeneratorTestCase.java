@@ -6,9 +6,7 @@ import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
 
-import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorModelUtils;
@@ -26,10 +24,7 @@ import cn.org.rapid_framework.generator.util.sqlparse.SqlParseHelper;
 public class GeneratorTestCase extends TestCase{
 	protected Generator g;
 	public synchronized void setUp()throws Exception {
-		GeneratorProperties.clear();
-		TableFactory.getInstance().clearTableFactoryListener();
-		DataSourceProvider.setDataSource(null);
-		SqlFactory.cache.clear();
+		clearGeneratorCache();
 		
 	    g = new Generator();
 		GLogger.logLevel = GLogger.DEBUG;
@@ -52,13 +47,18 @@ public class GeneratorTestCase extends TestCase{
 		}
 	}
 
+    private void clearGeneratorCache() {
+        GeneratorProperties.clear();
+		TableFactory.getInstance().clearTableFactoryListener();
+		DataSourceProvider.setDataSource(null);
+		SqlFactory.cache.clear();
+    }
+
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		DataSourceProvider.getConnection().close();
-		TableFactory.getInstance().clearTableFactoryListener();
-		DataSourceProvider.setDataSource(null);
-		GeneratorProperties.clear();
+		clearGeneratorCache();
 	}
 	
 	public boolean isRuningByMaven() {

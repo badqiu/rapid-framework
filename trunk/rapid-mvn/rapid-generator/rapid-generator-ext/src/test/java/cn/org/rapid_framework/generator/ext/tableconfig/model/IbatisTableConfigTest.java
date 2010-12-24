@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.ext.tableconfig.builder.TableConfigXmlBuilder;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -26,7 +27,7 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
 		 assertContains(result, IOHelper.readFile(FileHelper.getFile("classpath:IbatisTableConfigTest/expectedParameterAndResult.txt"),"UTF-8"));
 		 
 	}
-	
+
 	public void test_gen_TableConfig() throws Exception {
 		 
 		 g.addTemplateRootDir("classpath:generator/template/rapid/table_config/dal");
@@ -53,4 +54,17 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
 		 assertContains(str,"src/main/java/com/company/project/user_info/daointerface/UserInfoDAO.java");
 		 
 	}
+	
+	
+    public void test_gen_TableConfig_for_return_primitive_type() throws Exception {
+         tableConfigSet = new TableConfigXmlBuilder().parseFromXML("com.global.pkg", FileHelper.getFile("classpath:cn/org/rapid_framework/generator/ext/tableconfig/"), "user_info.xml");
+         g.addTemplateRootDir("classpath:generator/template/rapid/table_config/dal");
+         g.addTemplateRootDir("classpath:generator/template/rapid/share/dal");
+         
+         GeneratorProperties.setProperty("java_typemapping.java.lang.Long", "long");
+         String str = GeneratorTestHelper.generateBy(g, Helper.newMapFromTableConfig(tableConfigSet.getBySqlName("user_info")));
+         System.out.println(str);
+         assertContains(str,"   public long countByUserId(Long userId) throws DataAccessException {Number returnObject = (Number)getSqlMapClientTemplate().queryForObject(\"badqiu_test_app.UserInfo.countByUserId\",userId);if(returnObject == null) return 0; elsereturn returnObject.longValue();}");
+         
+    }
 }
