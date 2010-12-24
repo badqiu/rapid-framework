@@ -40,7 +40,7 @@ public class ZipUtils {
 			if (entry.isDirectory()) {
 				path.mkdirs();
 			} else {
-				FileHelper.parentMkdir(path.getAbsolutePath());
+				FileHelper.parentMkdir(path.getAbsoluteFile());
 				IOHelper.saveFile(path, zin);
 			}
 		}
