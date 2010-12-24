@@ -61,7 +61,7 @@ public class Ibatis${tableConfig.className}DAO extends <#if (tableConfig.autoSwi
 			</#if>
 		<#elseif sql.multiplicity = 'one'>
 			<#local resultClassName><@generateResultClassName sql 'DO'/></#local>
-			<#if resultClassName == 'int' || resultClassName == 'long' || resultClassName == 'float' || resultClassName == 'double'>
+			<#if resultClassName=='short' || resultClassName=='byte' || resultClassName == 'int' || resultClassName == 'long' || resultClassName == 'float' || resultClassName == 'double' >
 		Number returnObject = (Number)getSqlMapClientTemplate().queryForObject("${ibatisNamespace}${sql.operation}",${paramName});
 		if(returnObject == null)
 			return 0; 
