@@ -17,6 +17,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 <#include '/java_description.include'/>
  */
 public class ${className}DO implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
 	
 	<#list table.columns as column>
 	/**
