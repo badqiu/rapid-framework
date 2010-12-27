@@ -64,7 +64,7 @@ public class IbatisTableConfigTest extends GeneratorTestCase {
          GeneratorProperties.setProperty("java_typemapping.java.lang.Long", "long");
          String str = GeneratorTestHelper.generateBy(g, Helper.newMapFromTableConfig(tableConfigSet.getBySqlName("user_info")));
          System.out.println(str);
-         assertContains(str,"   public long countByUserId(Long userId) throws DataAccessException {Number returnObject = (Number)getSqlMapClientTemplate().queryForObject(\"badqiu_test_app.UserInfo.countByUserId\",userId);if(returnObject == null) return 0; elsereturn returnObject.longValue();}");
+         assertContains(str,"   public long countByUserId(Long userId) throws DataAccessException {Number returnObject = (Number)getSqlMapClientTemplate().queryForObject(\"badqiu_test_app.UserInfo.countByUserId\",userId);if(returnObject == null) return (long)0; elsereturn returnObject.longValue();}");
          
     }
 }
