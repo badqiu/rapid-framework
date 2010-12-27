@@ -124,14 +124,14 @@ public class Paginator implements java.io.Serializable {
 	}
 	
     /**
-     * offset，计数从0开始，可以用于mysql分页使用
+     * offset，计数从0开始，可以用于mysql分页使用(0-based)
      **/	
 	public int getOffset() {
 		return page > 0 ? (page - 1) * getPageSize() : 0;
 	}
 	
 	/**
-     * limit，可以用于mysql分页使用
+     * limit，可以用于mysql分页使用(0-based)
      **/
     public int getLimit() {
         if (page > 0) {
