@@ -84,7 +84,7 @@ public class PageList<E> extends ArrayList<E> implements Serializable {
 	 * 得到分页器，通过Paginator可以得到总页数等值
 	 * @return
 	 */
-	public Paginator toPaginator() {
+	public Paginator getPaginator() {
 		return new Paginator(page,pageSize,totalItems);
 	}
 	
