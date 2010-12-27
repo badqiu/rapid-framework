@@ -1,4 +1,5 @@
 public class UserInfoDO implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
 	
 	/**
 	 * 用户ID 		db_column: USER_ID 
