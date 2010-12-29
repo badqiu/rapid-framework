@@ -254,6 +254,7 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     public void testMybatisForeachTag() {
     	stringEquals("username in (#list[]#)",parser.parse("username in <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>#{item}</foreach>"));
     	stringEquals("username in ($list[]$)",parser.parse("username in <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>${item}</foreach>"));
+    	stringEquals("username in (#{list[${index}]})",parser.parse("username in <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>#{list[${index}]}</foreach>"));
     }
     
     public void testMybatisTrimTag() {
