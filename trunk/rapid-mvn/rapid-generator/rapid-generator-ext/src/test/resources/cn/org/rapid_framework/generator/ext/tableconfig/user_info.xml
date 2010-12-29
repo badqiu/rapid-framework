@@ -515,6 +515,7 @@
 	    	and b.content like ?
 	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 	    	and r.role_name in <foreach collection="array" open="(" close=")" item="item">#{item}</foreach>
+	    	and r.role_name in <foreach collection="list" open="(" close=")" index="index">#{list[${index}]}</foreach>
 			<if test="orderBy != null">
 	   	    	and b.content = #{contentIf1}
 	   	    </if>
