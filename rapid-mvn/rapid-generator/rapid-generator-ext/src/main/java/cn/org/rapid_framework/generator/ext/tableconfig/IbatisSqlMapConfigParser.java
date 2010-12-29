@@ -51,22 +51,14 @@ public class IbatisSqlMapConfigParser {
                 continue;
             }
             
-            Helper.processForMybatis(sql, xmlTag, attributes);
+            MybatisHelper.processForMybatis(sql, xmlTag, attributes);
             
             String replacement = Helper.getReplacement(attributes.get("open"), attributes.get("prepend"));
             StringHelper.appendReplacement(m, sql, replacement);
             
-            if(openClose != null && openClose.close != null && xmlTag.equals("/"+openClose.xmlTag)) {
-                sql.append(openClose.close);
-                openClose = null;
-            }
-            if(attributes.get("close") != null) {
-	        	openClose = new OpenCloseTag(); // FIXME 未处理多个open close问题
-	        	openClose.xmlTag = xmlTag;
-	        	openClose.close = attributes.get("close");
-            }
+            openClose = processOpenClose(sql, openClose, xmlTag, attributes);
             
-            Helper.processMybatisForeachCloseTag(sql, previousTagAttributes, xmlTag);
+            MybatisHelper.processMybatisForeachCloseTag(sql, previousTagAttributes, xmlTag);
             
             previousTagAttributes = attributes;
         }
@@ -75,6 +67,21 @@ public class IbatisSqlMapConfigParser {
         return resultSql;
 //        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
+
+	private OpenCloseTag processOpenClose(StringBuffer sql,
+			OpenCloseTag openClose, String xmlTag,
+			Map<String, String> attributes) {
+		if(openClose != null && openClose.close != null && xmlTag.equals("/"+openClose.xmlTag)) {
+		    sql.append(openClose.close);
+		    openClose = null;
+		}
+		if(attributes.get("close") != null) {
+			openClose = new OpenCloseTag(); // FIXME 未处理多个open close问题
+			openClose.xmlTag = xmlTag;
+			openClose.close = attributes.get("close");
+		}
+		return openClose;
+	}
 
     public List<SqlSegment> getSqlSegments() {
     	return new ArrayList(usedIncludedSqls.values());
@@ -101,8 +108,7 @@ public class IbatisSqlMapConfigParser {
         }
     }
     
-    static class Helper {
-
+    static class MybatisHelper {
     	private static void processMybatisForeachCloseTag(StringBuffer sql, Map preTagAttributes,
     			String xmlTag) {
     		// mybatis username in <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")">#{item}<foreach>
@@ -141,8 +147,10 @@ public class IbatisSqlMapConfigParser {
                 													// <trim prefix="SET" suffixOverrides=",">
                 													// <trim prefix="WHERE" prefixOverrides="AND |OR ">
             }
-        }
-        
+        }    	
+    }
+    static class Helper {
+
     	private static String getReplacement(String open, String prepend) {
     		String replacement = null;
     		if(prepend != null) {
