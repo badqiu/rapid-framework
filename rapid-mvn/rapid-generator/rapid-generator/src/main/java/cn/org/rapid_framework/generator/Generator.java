@@ -68,9 +68,12 @@ public class Generator  {
 	public void setTemplateRootDir(File templateRootDir) {
 		setTemplateRootDirs(new File[]{templateRootDir});
 	}
-
+	/**
+	 * 设置模板目录，支持用逗号分隔多个模板目录，如 template/rapid,template/company
+	 * @param templateRootDir
+	 */
 	public void setTemplateRootDir(String templateRootDir) {
-	        setTemplateRootDirs(new String[]{templateRootDir});
+	        setTemplateRootDirs(StringHelper.tokenizeToStringArray(templateRootDir,","));
 	}
 	   
 	public void setTemplateRootDirs(File... templateRootDirs) {
