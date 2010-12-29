@@ -744,6 +744,11 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>	
 
 ----	    
+	<resultMap id="RM.TestMybatisForEachResult" type="com.company.project.user_info.operation.userinfo.TestMybatisForEachResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
 	<select id="badqiu_test_app.UserInfo.testMybatisForEach" resultMap="RM.TestMybatisForEachResult" >
     	select  /*badqiu_test_app.UserInfo.testMybatisForEach*/ r.role_id,sum(r.user_id) sum_user_id from role r 
 	    	inner join role_permission rp on r.role_id = rp.role_id
@@ -754,6 +759,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    	and b.content like #content#
 	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 	    	and r.role_name in <foreach close=")" collection="array" item="item" open="(">#{item}</foreach>
+	    	and r.role_name in <foreach close=")" collection="list" index="index" open="(">#{list[${index}]}</foreach>
 			<if test="orderBy != null">
 	   	    	and b.content = #{contentIf1}
 	   	    </if>
@@ -787,6 +793,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    	and b.content like #content#
 	    	and r.modified between #modifiedBegin# and #modifiedEnd#
 	    	and r.role_name in <foreach close=")" collection="array" item="item" open="(">#{item}</foreach>
+	    	and r.role_name in <foreach close=")" collection="list" index="index" open="(">#{list[${index}]}</foreach>
 			<if test="orderBy != null">
 	   	    	and b.content = #{contentIf1}
 	   	    </if>
@@ -808,7 +815,6 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    	group by r.role_id
 	      ) forGroupByCountTable
 	</select>
-	    	
 	
     
 
