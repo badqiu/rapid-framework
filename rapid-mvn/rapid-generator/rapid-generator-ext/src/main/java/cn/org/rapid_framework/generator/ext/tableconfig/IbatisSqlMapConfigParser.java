@@ -105,8 +105,9 @@ public class IbatisSqlMapConfigParser {
 
     	private static void processMybatisForeachCloseTag(StringBuffer sql, Map preTagAttributes,
     			String xmlTag) {
-    		// mybatis <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")">
+    		// mybatis username in <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")">#{item}<foreach>
     		if ("/foreach".equals(xmlTag.trim())) {
+    			// 将 username in (#{item}) 替换为 username in (#collection[]#)
     			String item = (String)preTagAttributes.get("item");
     			String collection = (String)preTagAttributes.get("collection");
     			String tempSql = StringHelper.replace(sql.toString(), "#{"+item+"}", "#"+collection+"[]#");
