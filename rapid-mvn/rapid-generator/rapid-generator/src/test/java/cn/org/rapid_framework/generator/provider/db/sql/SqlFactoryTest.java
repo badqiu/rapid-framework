@@ -101,6 +101,8 @@ public class SqlFactoryTest extends GeneratorTestCase {
         sql = parser.parseSql("select * from user_info where user_id = ? and username = #{usernamesByIndex[${index}]}");
         verifyParameters(sql,"userId","usernamesByIndex");
         
+        sql = parser.parseSql("select * from user_info where user_id = ? and username = #{item}");
+        verifyParameters(sql,"userId","item");
     }
 
    public void test_select_for_ibatis_foreach() throws SQLException, Exception {
