@@ -40,6 +40,7 @@ public class IbatisSqlMapConfigParser {
         Matcher m = xmlTagRegex.matcher(str);
         
         OpenCloseTag openClose = null;
+        Map previousTagAttributes = null;
         while(m.find()) {
             String xmlTag = m.group(1);
             String attributesString = m.group(2);
@@ -64,13 +65,17 @@ public class IbatisSqlMapConfigParser {
 	        	openClose.xmlTag = xmlTag;
 	        	openClose.close = attributes.get("close");
             }
+            
+            Helper.processMybatisForeachCloseTag(sql, previousTagAttributes, xmlTag);
+            
+            previousTagAttributes = attributes;
         }
         //FIXME 不能兼容自动删除分号, 因为还需要测试最终的ibatis sql是否会删除;
         resultSql = StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString())));
         return resultSql;
 //        return StringHelper.unescapeXml(StringHelper.removeXMLCdataTag(SqlParseHelper.replaceWhere(sql.toString()))).replace(";", "");
     }
-    
+
     public List<SqlSegment> getSqlSegments() {
     	return new ArrayList(usedIncludedSqls.values());
     }
@@ -97,28 +102,43 @@ public class IbatisSqlMapConfigParser {
     }
     
     static class Helper {
-        
+
+    	private static void processMybatisForeachCloseTag(StringBuffer sql, Map preTagAttributes,
+    			String xmlTag) {
+    		// mybatis <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")">
+    		if ("/foreach".equals(xmlTag.trim())) {
+    			String item = (String)preTagAttributes.get("item");
+    			String collection = (String)preTagAttributes.get("collection");
+    			String tempSql = StringHelper.replace(sql.toString(), "#{"+item+"}", "#"+collection+"[]#");
+    			tempSql = StringHelper.replace(tempSql.toString(), "${"+item+"}", "$"+collection+"[]$");
+    			sql.setLength(0);
+    			sql.append(tempSql);
+    		}
+    	}
+    	
         private static void processForMybatis(StringBuffer sb, String xmlTag,
                                               Map<String, String> attributes) {
             // mybatis <where>
             if ("where".equals(xmlTag.trim())) {
-                sb.append("where");
+                attributes.put("open", "where");
             }
             // mybatis <set>
             if ("set".equals(xmlTag.trim())) {
-                sb.append("set");
+            	attributes.put("open", "set");
             }
-            // mybatis <foreach collection="usernameList" item="item"
-            // index="index" open="(" separator="," close=")">
+            // mybatis <foreach collection="usernameList" item="item" index="index" open="(" separator="," close=")">
             if ("foreach".equals(xmlTag.trim())) {
                 // m.appendReplacement(sb, "set"); //FIXME for foreach
             }
+
             // mybatis <trim prefix="" suffix="" prefixOverrides=""
             // suffixOverrides=""></trim>
             if ("trim".equals(xmlTag.trim())) {
                 attributes.put("open", attributes.get("prefix"));
                 attributes.put("close", attributes.get("suffix")); // FIXME for
                                                                    // prefixOverrides,suffixOverrides
+                													// <trim prefix="SET" suffixOverrides=",">
+                													// <trim prefix="WHERE" prefixOverrides="AND |OR ">
             }
         }
         

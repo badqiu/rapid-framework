@@ -251,6 +251,19 @@ public class IbatisSqlMapConfigParserTest extends GeneratorTestCase {
     	}
     }
     
+    public void testMybatisForeachTag() {
+    	stringEquals("username in (#list[]#)",parser.parse("username in <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>#{item}</foreach>"));
+    	stringEquals("username in ($list[]$)",parser.parse("username in <foreach item='item' index='index' collection='list' open='(' separator=',' close=')'>${item}</foreach>"));
+    }
+    
+    public void testMybatisTrimTag() {
+    	stringEquals("select * from user where 1=2 and username = ? ",parser.parse("select * from user <where> 1=2 and username = ? </where>"));
+    	stringEquals("select * from user where 1=2 and username = ? ",parser.parse("select * from user <where> 1=2 and username = ? </where>"));
+    	stringEquals("select * from user set 1=2",parser.parse("select * from user <set> 1=2 </set>"));
+    	stringEquals("select * from user trimPrefix 1=2",parser.parse("select * from user <trim prefix='trimPrefix'> 1=2 </trim>"));
+    	stringEquals("select * from user trimPrefix 1=2 trimSuffix",parser.parse("select * from user <trim prefix='trimPrefix' suffix='trimSuffix'> 1=2 </trim>"));
+    }
+    
 	private SqlParameter get(Set<SqlParameter> params, int i) {
 		return new ArrayList<SqlParameter>(params).get(i);
 	}
