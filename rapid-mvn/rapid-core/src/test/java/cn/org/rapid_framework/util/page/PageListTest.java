@@ -19,9 +19,7 @@ public class PageListTest{
     @Test
     public void test_toPaginator() throws Throwable{
         
-        
-        
-        Paginator result = pageList.toPaginator();
+        Paginator result = pageList.getPaginator();
         
         assertNotNull(result);
     }
