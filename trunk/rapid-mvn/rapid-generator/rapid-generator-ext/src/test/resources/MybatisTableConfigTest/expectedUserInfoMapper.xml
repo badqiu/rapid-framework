@@ -743,9 +743,72 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 			where user_id = #userId#
 	</select>	
 
-	    
-	
+----	    
+	<select id="badqiu_test_app.UserInfo.testMybatisForEach" resultMap="RM.TestMybatisForEachResult" >
+    	select  /*badqiu_test_app.UserInfo.testMybatisForEach*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    	<where>
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.role_name in <foreach close=")" collection="array" item="item" open="(">#{item}</foreach>
+			<if test="orderBy != null">
+	   	    	and b.content = #{contentIf1}
+	   	    </if>
+		    <if test="orderBy == null">
+		    	and b.content = #{contentIf2}
+			</if>
+			<choose>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf3}
+				</when>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf4}
+				</when>
+				<otherwise>
+					and b.content = #{contentIf5}
+				</otherwise>
+			</choose>	    	
+	    	</where> 
+	    	group by r.role_id
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testMybatisForEach.count" resultType="long" >
+    	select  /*badqiu_test_app.UserInfo.testMybatisForEach.count*/ count(*)  from (
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    	<where>
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.role_name in <foreach close=")" collection="array" item="item" open="(">#{item}</foreach>
+			<if test="orderBy != null">
+	   	    	and b.content = #{contentIf1}
+	   	    </if>
+		    <if test="orderBy == null">
+		    	and b.content = #{contentIf2}
+			</if>
+			<choose>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf3}
+				</when>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf4}
+				</when>
+				<otherwise>
+					and b.content = #{contentIf5}
+				</otherwise>
+			</choose>	    	
+	    	</where> 
+	    	group by r.role_id
+	      ) forGroupByCountTable
+	</select>
+	    	
 	
     
 
-</mapper>

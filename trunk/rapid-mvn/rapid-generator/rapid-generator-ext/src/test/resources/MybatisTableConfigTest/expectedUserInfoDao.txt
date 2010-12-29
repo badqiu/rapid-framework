@@ -375,4 +375,24 @@ public class UserInfoDao extends BaseMybatisDao {
 	public UserInfoDO testIncludeWhereWithNoPaging(TestIncludeWhereWithNoPagingQuery param) throws DataAccessException {
 		return (UserInfoDO)getSqlSession().selectOne("badqiu_test_app.UserInfo.testIncludeWhereWithNoPaging",param);
 	}
-
+----
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id             where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?                and r.role_name in  (             ?         )                        and b.content = ?                                  and b.content = ?                            and b.content = ?                         and b.content = ?                         and b.content = ?                                   group by         r.role_id</pre>
+	 */
+	public PageList<TestMybatisForEachResult> testMybatisForEach(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,java.util.List<String> array,String contentIf1,String contentIf2,String contentIf3,String contentIf4,String contentIf5,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		param.put("array",array);
+		param.put("contentIf1",contentIf1);
+		param.put("contentIf2",contentIf2);
+		param.put("contentIf3",contentIf3);
+		param.put("contentIf4",contentIf4);
+		param.put("contentIf5",contentIf5);
+		return (PageList<TestMybatisForEachResult>)PageQueryUtils.pageQuery(getSqlSession(),"badqiu_test_app.UserInfo.testMybatisForEach",param,pageNum,pageSize);
+	}

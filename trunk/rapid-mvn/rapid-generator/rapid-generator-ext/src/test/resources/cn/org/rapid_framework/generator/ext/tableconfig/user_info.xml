@@ -502,5 +502,38 @@
 			from user_info
 			where user_id = #userId#
 		</sql>
-	</operation>    
+	</operation>  
+	
+	<operation name="testMybatisForEach"  multiplicity="paging" remarks="根据订单号查询订单">
+    	<sql>
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    	<where>
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	and r.role_name in <foreach collection="array" open="(" close=")" item="item">#{item}</foreach>
+			<if test="orderBy != null">
+	   	    	and b.content = #{contentIf1}
+	   	    </if>
+		    <if test="orderBy == null">
+		    	and b.content = #{contentIf2}
+			</if>
+			<choose>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf3}
+				</when>
+				<when test="orderby == '123'">
+					and b.content = #{contentIf4}
+				</when>
+				<otherwise>
+					and b.content = #{contentIf5}
+				</otherwise>
+			</choose>	    	
+	    	</where> 
+	    	group by r.role_id
+	    </sql>
+    </operation> 	  
 </table>
