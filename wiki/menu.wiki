@@ -61,6 +61,7 @@
       * [plugin_flex flex]
   * 开发者文档(new)
     * [dev_env 开发环境快速开始(new)]
+    * [dev_maven_archetypes maven archetype开发]
     * [project_build 项目构建(new)]
     * [project_modules_overview 项目模块概览]
     * [plugin_dev 插件开发]
