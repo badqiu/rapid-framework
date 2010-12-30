@@ -2,11 +2,15 @@ package com.company.project.tools;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
-
+/**
+ * 开发调试使用的 Jetty Server
+ * @author badqiu
+ *
+ */
 public class JettyServer {
 	
 	public static void main(String[] args) throws Exception {
-		Server server = buildNormalServer(8000, "/");
+		Server server = buildNormalServer(8080, "/");
 		server.start();
 	}
 	
