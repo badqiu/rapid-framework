@@ -227,7 +227,7 @@
 	<dependency>
 		<groupId>commons-dbcp</groupId>
 		<artifactId>commons-dbcp</artifactId>
-		<version>1.4</version>
+		<version>1.3</version>
 	</dependency>
 	<!--  apache-commons END -->
 	
@@ -289,6 +289,11 @@
 			</exclusion>
 		</exclusions>
 	</dependency>
+	<dependency>
+		<groupId>net.sf.log4jdbc</groupId>
+		<artifactId>log4jdbc3</artifactId>
+		<version>1.2.1</version>	
+	</dependency>	
 	<!-- logging end-->
 	
 	<!-- j2ee web spec -->
@@ -506,7 +511,14 @@
 	    <artifactId>junit</artifactId>
 	    <version>4.8.1</version>
 	</dependency>
-	
+	<dependency>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-webapp</artifactId>
+		<scope>compile</scope>
+		<version>7.2.2.v20101205</version>
+		<optional>true</optional>
+	</dependency>
+			
 	<!-- jdbc drivers begin -->			
 	<dependency>
 		<groupId>com.h2database</groupId>
@@ -553,6 +565,7 @@
 	    <artifactId>backport-util-concurrent</artifactId>
 	    <version>3.1</version>
 	</dependency>
+
 			    
   </dependencies>
 
@@ -810,7 +823,15 @@
 					<snapshots>
 						<enabled>false</enabled>
 					</snapshots>
-				</repository>				
+				</repository>
+				<repository>
+					<id>springside</id>
+					<name>http://springside.googlecode.com/svn/repository/</name>
+					<url>http://springside.googlecode.com/svn/repository/</url>
+					<snapshots>
+						<enabled>false</enabled>
+					</snapshots>
+				</repository>								
 			</repositories>
 		</profile>
 		<profile>
