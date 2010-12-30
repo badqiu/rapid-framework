@@ -1,11 +1,11 @@
 = maven archetype 开发说明=
 
-统一确定
+==相关名称==
 groupId : com.company.project
 package : com.company.project
 archetypeId: rapid-springmvc-mybatis ( rapid-struts2-ibatis) 这样的名称
 
-模板文件存放位置:
+==模板文件存放位置==
 项目的模板文件统一存放在 rapid-generator-template项目，通过 classpath:generator/template/rapid的方式进行引用.
 
 预留给客户端自定义的模板则存放在项目内,如:
