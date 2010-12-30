@@ -766,7 +766,8 @@
 				<version>2.0</version>
 				<configuration>
 					<propertyFile>archetype.properties</propertyFile>
-					<archetype.filteredExtensions>java,groovy,csharp,aspectj,include,ftl</archetype.filteredExtensions>
+					<archetypeFilteredExtentions>include,ftl,htm</archetypeFilteredExtentions>
+					<archetypeLanguages>generator_template</archetypeLanguages>
 				</configuration>
 			</plugin>											
 		</plugins>
