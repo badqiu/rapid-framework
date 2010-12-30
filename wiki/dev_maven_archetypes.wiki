@@ -5,6 +5,15 @@
   # package : com.company.project
   # archetypeId: rapid-springmvc-mybatis ( rapid-struts2-ibatis) 这样的名称
 
+==项目目录结构==
+src/main/java
+src/test/java
+src/main/webapp
+src/main/resources/generator/template/project/
+
+==项目common包==
+com.company.project.common 用于存放公共代码
+
 ==模板文件存放位置==
 项目的模板文件统一存放在 rapid-generator-template项目，通过 classpath:generator/template/rapid的方式进行引用.
 
