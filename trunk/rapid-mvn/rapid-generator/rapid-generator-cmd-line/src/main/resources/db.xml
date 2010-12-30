@@ -14,7 +14,7 @@
 	
 	<!-- 切换不同的数据库驱动，可以影响如分页语句的生成. 因为生成器会根据jdbc_driver自动生成一个databaseType=mysql,oracle,postgresql变量 -->
 	<!-- H2 -->
-	<entry key="jdbc_url">jdbc:h2:mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
+	<entry key="jdbc_url">jdbc:h2:mem:test_mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
 	<entry key="jdbc_driver">org.h2.Driver</entry>
 
 	<!-- Mysql -->
