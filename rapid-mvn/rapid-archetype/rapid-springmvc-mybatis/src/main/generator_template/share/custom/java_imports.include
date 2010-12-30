@@ -5,8 +5,8 @@ import java.util.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.company.project.base.*;
-import com.company.project.util.*;
+import com.company.project.common.base.*;
+import com.company.project.common.util.*;
 
 import cn.org.rapid_framework.util.*;
 import cn.org.rapid_framework.web.util.*;
