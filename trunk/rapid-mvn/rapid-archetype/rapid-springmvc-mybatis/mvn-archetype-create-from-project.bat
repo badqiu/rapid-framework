@@ -8,7 +8,6 @@ call mvn install
 cd ../../../
 
 
-
 REM -----------------------------------------------
 REM mvn archetype:generate -DarchetypeCatalog=local
 REM -----------------------------------------------
