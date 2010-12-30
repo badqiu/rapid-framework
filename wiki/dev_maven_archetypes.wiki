@@ -3,7 +3,9 @@
 ==相关名称==
   # groupId : com.company.project
   # package : com.company.project
-  # archetypeId: rapid-springmvc-mybatis ( rapid-struts2-ibatis) 这样的名称
+  # version : 1.0
+  # artifactId : rapid-springmvc-mybatis (rapid-struts2-ibatis) 这样的名称
+  # archetypeId: rapid-springmvc-mybatis-archetype ( rapid-struts2-ibatis-archetype) 这样的名称
 
 ==项目目录结构==
 src/main/java
