@@ -120,7 +120,7 @@ public abstract class BaseMybatisDao<E,PK extends Serializable> extends SqlSessi
 				return page;
 			}
 
-			return new PageList();
+			return new PageList(0,pageSize,0);
 		}
 
 		public static Map attachPageQueryVariable(Object parameter,Paginator p) {
