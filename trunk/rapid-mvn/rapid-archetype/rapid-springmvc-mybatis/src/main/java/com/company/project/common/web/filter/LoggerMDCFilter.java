@@ -4,7 +4,16 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
-import com.sun.xml.internal.ws.util.StringUtils;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.MDC;
+import org.springframework.web.filter.OncePerRequestFilter;
+
 /**
  * 存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来.
  * 

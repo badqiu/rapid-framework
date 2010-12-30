@@ -1,4 +1,4 @@
-package javacommon.util;
+package com.company.project.common.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
