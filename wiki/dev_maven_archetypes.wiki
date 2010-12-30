@@ -4,7 +4,7 @@
   * *groupId* : com.company.project
   * *package* : com.company.project
   * *version* : 1.0
-  * *artifactId* : rapid-springmvc-mybatis (rapid-struts2-ibatis) 这样的名称
+  * *artifactId* : rapid-springmvc-mybatis (rapid-struts2-ibatis) 项目原始的名称，通过 mvn archetype:create-from-project 会创建下面的archetypeId名称
   * *archetypeId* : rapid-springmvc-mybatis-archetype ( rapid-struts2-ibatis-archetype) 这样的名称
 
 ==项目目录结构==
@@ -12,7 +12,7 @@
 src/main/java
 src/test/java
 src/main/webapp
-src/main/resources/generator/template/project/
+src/main/resources/generator/template/project/ : 项目自定义模板存放目录
 }}}
 
 ==项目common包==
