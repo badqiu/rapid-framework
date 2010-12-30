@@ -17,8 +17,8 @@ import org.springframework.beans.factory.InitializingBean;
  * </pre>
  * <pre>
  * spring配置:
- * &lt;bean class="cn.org.rapid_framework.beanvalidation.BeanValidatorHolder">
- * 	 &lt;preperty name="validator" ref="validator"/>
+ * &lt;bean class="cn.org.rapid_framework.util.holder.BeanValidatorHolder">
+ * 	 &lt;property name="validator" ref="validator"/>
  * &lt;/bean>
  * </pre> 
  * @author badqiu
