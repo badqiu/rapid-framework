@@ -6,7 +6,7 @@ PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"
 	<plugins>
 		<!-- 指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,PostgreSQLDialect,MySQLDialect,DerbyDialect,HSQLDialect-->
 		<plugin interceptor="cn.org.rapid_framework.ibatis3.plugin.OffsetLimitInterceptor">
-			<property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
+			<property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.H2Dialect"/>
 		</plugin>
 	</plugins>
 

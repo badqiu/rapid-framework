@@ -34,8 +34,10 @@
 	<entry key="java_typemapping.java.sql.Clob">String</entry>
 	
 	<!-- Mysql -->
+	<!-- 
 	<entry key="jdbc_url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc_driver">com.mysql.jdbc.Driver</entry>
+	 -->
 
 	<!-- Oracle		jdbc:oracle:oci:@tnsname_devdb
 	<entry key="jdbc_url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry>
@@ -82,10 +84,9 @@
 	<entry key="jdbc_driver">org.apache.derby.jdbc.ClientDriver</entry>	
 	-->
 
-	<!-- H2 
-	<entry key="jdbc_url">jdbc:h2:tcp://localhost/~/test</entry>
+	<!-- H2 -->
+	<entry key="jdbc_url">jdbc:h2:mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
 	<entry key="jdbc_driver">org.h2.Driver</entry>
-	-->
 	
 	<!-- 
 		generator_tools_class是一些工具类,这些类可以在模板中当工具方法使用,如: ${StringUtils.isBlank(something)}
