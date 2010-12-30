@@ -524,12 +524,13 @@
 	    <artifactId>mysql-connector-java</artifactId>
 	    <version>5.1.13</version>
 	</dependency>
+	<!-- 
 	<dependency>
 		<groupId>com.oracle</groupId>
 		<artifactId>ojdbc14</artifactId>
-	    <!-- <version>10.2.0.4.0</version> -->
 		<version>10.2.0.2.0</version>
 	</dependency>			
+	 -->
 	<!-- jdbc drivers end -->	
 				
 	<dependency>
@@ -576,7 +577,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.5</version>
+				<version>2.6</version>
 				<configuration>
 					<includes>
 						<include>**/*Test.java</include>
@@ -589,7 +590,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.4.2</version>
+				<version>2.4.3</version>
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
@@ -605,14 +606,24 @@
 						<sourceExclude>**/.svn/</sourceExclude>
 					</sourceExcludes>
 					<downloadSources>true</downloadSources>
+					<additionalConfig>
+					  <file>
+						<name>.settings/org.eclipse.core.resources.prefs</name>
+						<content>
+						  <![CDATA[
+						  encoding/<project>=${project.build.sourceEncoding}
+						  ]]>
+						</content>
+					  </file>
+				    </additionalConfig>
 				</configuration>
 			</plugin>
 
-			<!-- war插件-->
+			<!-- war plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1-beta-1</version>
+				<version>2.1.1</version>
 				<!-- 
 				<configuration>
 					<warName>${project.artifactId}</warName>
@@ -620,11 +631,11 @@
 				 -->
 			</plugin>
 
-			<!-- jar插件 -->
+			<!-- jar plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.3.1</version>
 				<configuration>
 					<archive>
 						<!-- 
@@ -638,7 +649,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.1.1</version>
+				<version>2.1.2</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -653,7 +664,7 @@
 			<plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-javadoc-plugin</artifactId>
-			  <version>2.3</version>
+			  <version>2.7</version>
 			  <executions>
 			    <execution>
 			      <id>attach-javadocs</id>
@@ -664,49 +675,58 @@
 			  </executions>
 			</plugin>				
 
-			<!-- dependency插件 -->
+			<!-- dependency plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.1</version>
 			</plugin>
 
-			<!-- ant插件 -->
+			<!-- ant plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.3</version>
+				<version>1.6</version>
 			</plugin>
 
-			<!-- cobertura插件 -->
+			<!-- cobertura plugin -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
 				<version>2.4</version>
 			</plugin>
 			
-			<!-- clean插件-->
+			<!-- clean plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.4</version>
+				<version>2.4.1</version>
 			</plugin>
 
-			<!-- install插件-->
+			<!-- install plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-install-plugin</artifactId>
-				<version>2.3</version>
+				<version>2.3.1</version>
 			</plugin>
 
-			<!-- deploy插件-->
+			<!-- deploy plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.5</version>
 			</plugin>	
 
-			<!-- jetty插件 -->
+			<!-- site plugin -->
+		   <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+				  <outputEncoding>${project.build.sourceEncoding}</outputEncoding>
+				</configuration>
+		   </plugin>
+		   
+			<!-- jetty plugin -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
@@ -716,7 +736,7 @@
 				</configuration>
 			</plugin>
 			
-			<!-- archetype插件-->
+			<!-- archetype plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-archetype-plugin</artifactId>
