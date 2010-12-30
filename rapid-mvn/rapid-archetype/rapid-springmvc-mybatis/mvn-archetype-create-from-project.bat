@@ -1,0 +1,1 @@
+mvn archetypecreate-from-project
