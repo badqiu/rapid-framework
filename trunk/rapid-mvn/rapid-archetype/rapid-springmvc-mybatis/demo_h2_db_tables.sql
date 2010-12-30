@@ -56,10 +56,10 @@ CREATE TABLE topic (
   modified date NOT NULL,
   PRIMARY KEY(topic_id,topic_type)
 );
-COMMENT ON TABLE user_info IS 'ÓÃ»§ĞÅÏ¢±í';
-COMMENT ON COLUMN user_info.username IS 'ÓÃ»§Ãû';
-COMMENT ON COLUMN user_info.password IS 'ÓÃ»§ÃÜÂë';
-COMMENT ON COLUMN user_info.user_id IS 'ÓÃ»§ID';
-COMMENT ON COLUMN user_info.birth_date IS 'ÉúÈÕ';
-COMMENT ON COLUMN user_info.sex IS 'ĞÔ±ğ';
-COMMENT ON COLUMN user_info.age IS 'ÄêÁä';
+COMMENT ON TABLE user_info IS 'ç”¨æˆ·ä¿¡æ¯è¡¨';
+COMMENT ON COLUMN user_info.username IS 'ç”¨æˆ·å';
+COMMENT ON COLUMN user_info.password IS 'ç”¨æˆ·å¯†ç ';
+COMMENT ON COLUMN user_info.user_id IS 'ç”¨æˆ·ID';
+COMMENT ON COLUMN user_info.birth_date IS 'ç”Ÿæ—¥';
+COMMENT ON COLUMN user_info.sex IS 'æ€§åˆ«';
+COMMENT ON COLUMN user_info.age IS 'å¹´é¾„';
