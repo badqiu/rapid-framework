@@ -476,7 +476,13 @@
 	    <groupId>org.mybatis</groupId>
 	    <artifactId>mybatis</artifactId>
 	    <version>${mybatis.version}</version>
-	</dependency>	
+	</dependency>
+	<dependency>
+		<groupId>org.mybatis</groupId>
+		<artifactId>mybatis-spring</artifactId>
+		<version>1.0.0-RC3</version>
+	</dependency>
+				
 	<dependency>
 	    <groupId>org.apache.ibatis</groupId>
 	    <artifactId>ibatis-sqlmap</artifactId>

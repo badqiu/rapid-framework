@@ -19,6 +19,11 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
     default-autowire="byName"   >
 
+	<mvc:resources location="/images/" mapping="/images/**"/>  
+	<mvc:resources location="/scripts/" mapping="/scripts/**"/>  
+	<mvc:resources location="/styles/" mapping="/styles/**"/>  
+	<mvc:resources location="/widgets/" mapping="/widgets/**"/>  
+	
 	<!-- 开启支持@NumberFormat @DateTimeFormat @Valid标注 ,@DateTimeFormat用于bean 日期属性的格式化,请查看: http://static.springsource.org/spring/docs/3.0.2.RELEASE/spring-framework-reference/htmlsingle/spring-framework-reference.html#mvc-config-->
     <mvc:annotation-driven validator="validator"/>
 
