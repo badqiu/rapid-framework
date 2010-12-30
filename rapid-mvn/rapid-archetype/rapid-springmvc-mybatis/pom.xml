@@ -297,6 +297,7 @@
 	<!-- logging end-->
 	
 	<!-- j2ee web spec -->
+	<!-- 
 	<dependency>
 		<groupId>javax.servlet</groupId>
 		<artifactId>servlet-api</artifactId>
@@ -307,12 +308,15 @@
 		<groupId>javax.servlet</groupId>
 		<artifactId>jstl</artifactId>
 		<version>1.1.2</version>
+		<scope>provided</scope>
 	</dependency>
 	<dependency>
 		<groupId>taglibs</groupId>
 		<artifactId>standard</artifactId>
 		<version>1.1.2</version>
+		<scope>provided</scope>
 	</dependency>
+	 -->
 
 	<!-- email begin -->
 	<dependency>
