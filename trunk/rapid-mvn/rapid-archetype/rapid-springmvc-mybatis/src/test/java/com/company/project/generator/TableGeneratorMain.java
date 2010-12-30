@@ -14,7 +14,7 @@ public class TableGeneratorMain {
 		GeneratorFacade g = new GeneratorFacade();
 		
 		g.getGenerator().setTemplateRootDirs(
-				"src/main/generator_template/share/basic",
+				"src/main/generator_template/share/custom",
 				"classpath:generator/template/rapid/table/dao_mybatis",
 				"classpath:generator/template/rapid/table/dao_share_query_object",
 				"classpath:generator/template/rapid/table/dao_test"
