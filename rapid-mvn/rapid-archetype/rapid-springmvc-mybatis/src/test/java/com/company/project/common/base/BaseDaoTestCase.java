@@ -1,4 +1,4 @@
-package javacommon.base;
+package com.company.project.common.base;
 
 
 import static junit.framework.Assert.assertNotNull;

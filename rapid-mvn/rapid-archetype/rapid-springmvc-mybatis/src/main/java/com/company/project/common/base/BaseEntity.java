@@ -1,4 +1,4 @@
-package javacommon.base;
+package com.company.project.common.base;
 
 
 /**

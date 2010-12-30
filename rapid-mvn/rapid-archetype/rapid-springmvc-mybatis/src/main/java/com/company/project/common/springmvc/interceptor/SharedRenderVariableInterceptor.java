@@ -1,4 +1,4 @@
-package javacommon.springmvc.interceptor;
+package com.company.project.common.springmvc.interceptor;
 
 import java.util.Date;
 import java.util.HashMap;
