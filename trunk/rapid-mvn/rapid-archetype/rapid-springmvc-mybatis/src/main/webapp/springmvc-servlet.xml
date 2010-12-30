@@ -23,12 +23,12 @@
     <mvc:annotation-driven validator="validator"/>
 
 	<!-- 自动搜索@Controller标注的类 -->
-	<context:component-scan base-package="com.**.controller"/>
+	<context:component-scan base-package="com.company.project.controller"/>
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<!-- 拦截器注册 -->
 		<property name="interceptors">
-			<bean class="javacommon.springmvc.interceptor.SharedRenderVariableInterceptor"/>
+			<bean class="com.company.project.springmvc.interceptor.SharedRenderVariableInterceptor"/>
 		</property>
 	</bean>
 
