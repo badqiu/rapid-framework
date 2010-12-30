@@ -45,8 +45,8 @@
 	<!-- 以AspectJ方式 定义 事务 -->
 	<!-- 
 	<aop:config proxy-target-class="true">
-		<aop:advisor pointcut="execution(* javacommon.base.BaseManager.*(..))" advice-ref="txAdvice"/>
-		<aop:advisor pointcut="execution(* com.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* com.company.project.base.BaseManager.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(* com.company.project.*..*.service.*Manager.*(..))" advice-ref="txAdvice"/>
 	</aop:config>
 	 -->
 
