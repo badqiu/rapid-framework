@@ -8,7 +8,7 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 
 public class TableGeneratorMain {
 	/**
-	 * ÇëÖ±½ÓĞŞ¸ÄÒÔÏÂ´úÂëµ÷ÓÃ²»Í¬µÄ·½·¨ÒÔÖ´ĞĞÏà¹ØÉú³ÉÈÎÎñ.
+	 * è¯·ç›´æ¥ä¿®æ”¹ä»¥ä¸‹ä»£ç è°ƒç”¨ä¸åŒçš„æ–¹æ³•ä»¥æ‰§è¡Œç›¸å…³ç”Ÿæˆä»»åŠ¡.
 	 */
 	public static void main(String[] args) throws Exception {
 		GeneratorFacade g = new GeneratorFacade();
@@ -20,18 +20,18 @@ public class TableGeneratorMain {
 				"classpath:generator/template/rapid/table/dao_test"
 				);
 		
-		g.deleteOutRootDir();	//É¾³ıÉú³ÉÆ÷µÄÊä³öÄ¿Â¼
+		g.deleteOutRootDir();	//åˆ é™¤ç”Ÿæˆå™¨çš„è¾“å‡ºç›®å½•
 		while(true) {
-			System.out.println("ÇëÊäÈëÒªÉú³ÉµÄ[±íÃû],ÊäÈë[*ºÅ]ËÑË÷Êı¾İ¿âËùÓĞ±í²¢Éú³É,[»Ø³µ]½áÊøÔËĞĞ:");
+			System.out.println("è¯·è¾“å…¥è¦ç”Ÿæˆçš„[è¡¨å],è¾“å…¥[*å·]æœç´¢æ•°æ®åº“æ‰€æœ‰è¡¨å¹¶ç”Ÿæˆ,[å›è½¦]ç»“æŸè¿è¡Œ:");
 			String nextLine = new Scanner(System.in).nextLine();
 			if("".equals(nextLine.trim())) {
 				break;
 			}else {
-				g.generateByTable(nextLine);	//×Ô¶¯ËÑË÷Êı¾İ¿âÖĞµÄËùÓĞ±í²¢Éú³ÉÎÄ¼ş,templateÎªÄ£°åµÄ¸ùÄ¿Â¼
-				Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot")); //´ò¿ªÎÄ¼ş¼Ğ
+				g.generateByTable(nextLine);	//è‡ªåŠ¨æœç´¢æ•°æ®åº“ä¸­çš„æ‰€æœ‰è¡¨å¹¶ç”Ÿæˆæ–‡ä»¶,templateä¸ºæ¨¡æ¿çš„æ ¹ç›®å½•
+				Runtime.getRuntime().exec("cmd.exe /c start "+GeneratorProperties.getRequiredProperty("outRoot")); //æ‰“å¼€æ–‡ä»¶å¤¹
 			}
 		}
-//		g.deleteByTable("table_name", "template"); //É¾³ıÉú³ÉµÄÎÄ¼ş
+//		g.deleteByTable("table_name", "template"); //åˆ é™¤ç”Ÿæˆçš„æ–‡ä»¶
 		
 	}
 }
