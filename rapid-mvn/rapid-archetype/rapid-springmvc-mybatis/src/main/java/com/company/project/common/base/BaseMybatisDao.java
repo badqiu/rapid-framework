@@ -71,10 +71,6 @@ public abstract class BaseMybatisDao<E,PK extends Serializable> extends SqlSessi
         return getSqlSession();
     }
 
-    public String getCountStatementForPaging(String statementName) {
-		return statementName +".count";
-	}
-    
 	public List findAll() {
 		throw new UnsupportedOperationException();
 	}
