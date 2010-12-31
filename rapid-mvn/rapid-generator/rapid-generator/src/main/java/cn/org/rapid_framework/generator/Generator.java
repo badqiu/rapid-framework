@@ -185,13 +185,13 @@ public class Generator  {
 	private void processTemplateRootDirs(Map templateModel,Map filePathModel,boolean isDelete) throws Exception {
 	    if(StringHelper.isBlank(getOutRootDir())) throw new IllegalStateException("'outRootDir' property must be not empty.");
 		if(templateRootDirs == null || templateRootDirs.size() == 0) throw new IllegalStateException("'templateRootDirs'  must be not empty");
+
+		GLogger.debug("******* Template reference variables *********",templateModel);
+		GLogger.debug("\n\n******* FilePath reference variables *********",filePathModel);
 		
 		//生成 路径值,如 pkg=com.company.project 将生成 pkg_dir=com/company/project的值
 		templateModel.putAll(GeneratorHelper.getDirValuesMap(templateModel));
 		filePathModel.putAll(GeneratorHelper.getDirValuesMap(filePathModel));
-		
-		GLogger.debugMap("******* Template reference variables *********",templateModel);
-		GLogger.debugMap("\n\n******* FilePath reference variables *********",filePathModel);
 		
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
 		List<File> processedTemplateRootDirs = processTemplateRootDirs();

@@ -109,7 +109,7 @@ public class GLogger {
 	    return WARN;
 	}
 	
-    public static void debugMap(String string, Map templateModel) {
+    public static void debug(String string, Map templateModel) {
         if (logLevel <= DEBUG) {
             GLogger.println(string);
             for(Object key : templateModel.keySet()) {
