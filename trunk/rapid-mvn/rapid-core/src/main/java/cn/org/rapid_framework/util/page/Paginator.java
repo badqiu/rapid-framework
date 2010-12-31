@@ -170,6 +170,7 @@ public class Paginator implements java.io.Serializable {
     }
     /**
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
+     * 注意:不可以使用 getSlider(1)方法名称，因为在JSP中会与 getSlider()方法冲突，报exception
      * @return
      */
     public Integer[] slider(int slidersCount) {
