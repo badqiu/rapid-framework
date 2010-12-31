@@ -112,6 +112,7 @@ public class GLogger {
     public static void debug(String string, Map templateModel) {
         if (logLevel <= DEBUG) {
             GLogger.println(string);
+            if(templateModel == null) return;
             for(Object key : templateModel.keySet()) {
                 if(System.getProperties().containsKey(key) || GeneratorProperties.getProperties().containsKey(key)) {
                     continue;

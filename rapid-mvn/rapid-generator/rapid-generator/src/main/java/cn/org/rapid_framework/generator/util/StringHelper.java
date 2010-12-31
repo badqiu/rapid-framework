@@ -222,10 +222,24 @@ public class StringHelper {
 	public static String toJavaVariableName(String str) {
 		return uncapitalize(toJavaClassName(str));
 	}
-
+	/**
+	 * 将一个数据库名称转换为 Java 变量名称,如 user_info => userInfo
+	 * @param sqlName
+	 * @param singularize
+	 * @return
+	 */
 	public static String toJavaClassName(String sqlName) {
+	    return toJavaClassName(sqlName,GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE));
+	}
+	/**
+	 * 将一个数据库名称转换为 Java ClassName,如 user_info => UserInfo
+	 * @param sqlName
+	 * @param singularize 是否将复数转换为单数,如 customers => customer
+	 * @return
+	 */
+	public static String toJavaClassName(String sqlName,boolean singularize) {
 	    String processedSqlName = removeTableSqlNamePrefix(sqlName);
-	    if(GeneratorProperties.getBoolean(GeneratorConstants.TABLE_NAME_SINGULARIZE)) {
+	    if(singularize) {
 	        processedSqlName = singularize(processedSqlName);
 	    }
 		return makeAllWordFirstLetterUpperCase(StringHelper.toUnderscoreName(processedSqlName));
