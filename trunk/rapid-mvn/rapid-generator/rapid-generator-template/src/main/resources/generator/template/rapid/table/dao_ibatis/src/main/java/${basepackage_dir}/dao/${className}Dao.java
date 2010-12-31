@@ -24,13 +24,13 @@ public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn
 	}
 	
 	public Page findPage(${className}Query query) {
-		return pageQuery("${className}.findPage",query);
+		return pageQuery(getSqlMapClientTemplate(),"${className}.findPage",query);
 	}
 	
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
-	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getBy${column.columnName}",v);
+	public ${className} getBy${column.columnName}(${column.javaType} param) {
+		return (${className})getSqlMapClientTemplate().queryForObject("${className}.getBy${column.columnName}",param);
 	}	
 	
 	</#if>
