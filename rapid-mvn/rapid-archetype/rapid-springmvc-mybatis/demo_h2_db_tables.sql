@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS role;
 DROP TABLE IF EXISTS permission;
 DROP TABLE IF EXISTS topic;
 CREATE TABLE USER_INFO (
-  user_id bigint PRIMARY KEY,
+  user_id bigint PRIMARY KEY AUTO_INCREMENT,
   username varchar(50) NOT NULL UNIQUE,
   password varchar(50) DEFAULT NULL,
   birth_date date DEFAULT NULL,
@@ -64,7 +64,7 @@ COMMENT ON COLUMN user_info.birth_date IS '生日';
 COMMENT ON COLUMN user_info.sex IS '性别';
 COMMENT ON COLUMN user_info.age IS '年龄';
 
-insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(1,'badqiu','badqiu(a)gmail.com','1980-10-10 10:10:10',1,23);
-insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(2,'rapid','http://code.google.com/p/rapid-framework','1980-10-10 10:10:10',2,24);
-insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(3,'document','http://code.google.com/p/rapid-framework/wiki/menu','1980-10-10 10:10:10',3,25);
-insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(4,'some one','contributor','1980-10-10 10:10:10',4,26);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(101,'badqiu','badqiu(a)gmail.com','1980-10-10 10:10:10',1,23);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(102,'rapid','http://code.google.com/p/rapid-framework','1980-10-10 10:10:10',2,24);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(103,'document','http://code.google.com/p/rapid-framework/wiki/menu','1980-10-10 10:10:10',3,25);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(104,'some one','contributor','1980-10-10 10:10:10',4,26);
