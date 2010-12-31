@@ -9,7 +9,7 @@
 
   <groupId>com.googlecode.rapid-framework</groupId>
   <artifactId>rapid-generator-template</artifactId>
-  <version>4.1</version>
+  <version>4.0.1</version>
   <name>rapid-generator-template</name>
   <url>http://maven.apache.org</url>
   <packaging>jar</packaging>
