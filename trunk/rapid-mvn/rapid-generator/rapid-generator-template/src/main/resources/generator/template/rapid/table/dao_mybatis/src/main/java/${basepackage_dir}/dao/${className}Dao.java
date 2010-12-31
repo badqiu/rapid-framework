@@ -24,7 +24,7 @@ public class ${className}Dao extends BaseMybatisDao<${className},${table.idColum
 	}
 	
 	public Page findPage(${className}Query query) {
-		return PageQueryUtils.pageQuery(getSqlSession(),"${className}.findPage",query);
+		return pageQuery(getSqlSession(),"${className}.findPage",query);
 	}
 	
 	<#list table.columns as column>
