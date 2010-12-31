@@ -101,6 +101,8 @@ Cache接口抽象
 	CacheHodler cache
 	ValidatorHodler 持有 hibernate validator
 	ConfigHolder 持有系统配置,用于系统参数的动态刷新
+mybaits 不使用Map,应该使用强类型的QueryObject查询
+
 
 将 mapper及sqlmap迁移至 src/main/resources/(mapper|sqlmap)
 
