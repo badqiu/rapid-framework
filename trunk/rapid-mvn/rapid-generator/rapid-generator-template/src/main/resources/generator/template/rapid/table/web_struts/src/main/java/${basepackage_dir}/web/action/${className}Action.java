@@ -15,6 +15,9 @@ import ${basepackage}.web.form.*;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 public class ${className}Action extends BaseStrutsAction {
 	
 	//默认多列排序,example: username desc,createTime asc

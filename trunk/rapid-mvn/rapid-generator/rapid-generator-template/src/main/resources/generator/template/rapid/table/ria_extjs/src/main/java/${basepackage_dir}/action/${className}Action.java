@@ -32,6 +32,9 @@ import static javacommon.util.extjs.Struts2JsonHelper.*;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 public class ${className}Action extends BaseStruts2Action implements Preparable,ModelDriven{
 	//默认多列排序,example: username desc,createTime asc
 	protected static final String DEFAULT_SORT_COLUMNS = null; 

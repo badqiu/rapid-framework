@@ -13,6 +13,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 @Embeddable
 public class ${className}Id extends BaseEntity implements java.io.Serializable{
 	private static final long serialVersionUID = 5454155825314635342L;

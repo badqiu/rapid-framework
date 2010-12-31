@@ -13,6 +13,10 @@ import org.springframework.stereotype.Repository;
 import static cn.org.rapid_framework.util.ObjectUtils.*;
 
 <#include "/java_imports.include">
+
+/**
+<#include "/java_description.include">
+ */
 @Repository
 public class ${className}Dao extends BaseSpringJdbcDao<${className},${table.idColumn.javaType}>{
 	

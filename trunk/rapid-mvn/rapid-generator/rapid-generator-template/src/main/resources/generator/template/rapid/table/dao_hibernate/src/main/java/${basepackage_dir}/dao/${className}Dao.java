@@ -8,6 +8,9 @@ package ${basepackage}.dao;
 import static cn.org.rapid_framework.util.ObjectUtils.*;
 import org.springframework.stereotype.Repository;
 
+/**
+<#include "/java_description.include">
+ */
 @Repository
 public class ${className}Dao extends BaseHibernateDao<${className},${table.idColumn.javaType}>{
 

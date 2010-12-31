@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author badqiu,hunhun 
  * 带有@Service和@@RemotingDestination注解并且装载进Spring的bean则会自动导出为BlazeDS的RemoteObject对象
+<#include "/java_description.include">
  */
 @Service
 @RemotingDestination

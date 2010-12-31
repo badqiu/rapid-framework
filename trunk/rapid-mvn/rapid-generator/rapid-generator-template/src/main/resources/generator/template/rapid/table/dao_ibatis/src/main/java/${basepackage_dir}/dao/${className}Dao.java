@@ -7,7 +7,9 @@ package ${basepackage}.dao;
 
 import org.springframework.stereotype.Repository;
 
-
+/**
+<#include "/java_description.include">
+ */
 @Repository
 public class ${className}Dao extends BaseIbatisDao<${className},${table.idColumn.javaType}>{
 	

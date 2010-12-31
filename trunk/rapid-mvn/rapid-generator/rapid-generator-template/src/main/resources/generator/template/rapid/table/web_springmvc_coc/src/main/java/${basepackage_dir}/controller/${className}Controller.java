@@ -18,6 +18,9 @@ import cn.org.rapid_framework.beanutils.BeanUtils;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 @Controller
 public class ${className}Controller extends BaseSpringController{
 	//默认多列排序,example: username desc,createTime asc
