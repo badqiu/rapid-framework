@@ -190,6 +190,9 @@ public class Generator  {
 		templateModel.putAll(GeneratorHelper.getDirValuesMap(templateModel));
 		filePathModel.putAll(GeneratorHelper.getDirValuesMap(filePathModel));
 		
+		GLogger.debugMap("******* Template reference variables *********",templateModel);
+		GLogger.debugMap("\n\n******* FilePath reference variables *********",filePathModel);
+		
 		GeneratorException ge = new GeneratorException("generator occer error, Generator BeanInfo:"+BeanHelper.describe(this));
 		List<File> processedTemplateRootDirs = processTemplateRootDirs();
 		
@@ -200,7 +203,7 @@ public class Generator  {
 		}
 		if(!ge.exceptions.isEmpty()) throw ge;
 	}
-    
+
     /**
      * 用于子类覆盖,预处理模板目录,如执行文件解压动作 
      **/
