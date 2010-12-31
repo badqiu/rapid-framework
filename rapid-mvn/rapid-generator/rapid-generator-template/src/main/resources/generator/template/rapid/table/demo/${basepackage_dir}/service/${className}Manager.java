@@ -8,6 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 <#include "/java_imports.include">
+
+/**
+<#include "/java_description.include">
+ */
 @Service
 @Transactional
 public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{

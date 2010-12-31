@@ -12,6 +12,7 @@ import cn.org.rapid_framework.util.HibernateBeanSerializer;
 
 /**
  * 名称以FlexService结尾并且装载进Spring则会自动导出为BlazeDS的RemoteObject对象
+<#include "/java_description.include">
  */
 @Component
 public class ${className}FlexService extends BaseRemoteFlexService<${className}>{

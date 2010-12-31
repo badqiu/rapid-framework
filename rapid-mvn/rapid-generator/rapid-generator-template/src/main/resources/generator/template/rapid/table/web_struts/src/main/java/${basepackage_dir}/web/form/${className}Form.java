@@ -14,6 +14,9 @@ import org.apache.struts.action.*;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 public class ${className}Form extends BaseStrutsForm {
 
 <#list table.columns as column>

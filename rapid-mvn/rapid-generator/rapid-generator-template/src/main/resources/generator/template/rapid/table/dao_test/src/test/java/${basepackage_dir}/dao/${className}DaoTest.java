@@ -14,6 +14,9 @@ import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 public class ${className}DaoTest extends BaseDaoTestCase{
 	
 	private ${className}Dao dao;

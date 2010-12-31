@@ -17,6 +17,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 @Entity
 @Table(name = "${table.sqlName}")
 public class ${className} extends BaseEntity implements java.io.Serializable{

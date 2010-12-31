@@ -33,6 +33,22 @@ import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
 
 <#include "/java_imports.include">
+
+/**
+ * 标准的rest方法列表
+ * <pre>
+ * /${classNameLowerCase}                => index()  
+ * /${classNameLowerCase}/new            => _new()  注意: 不使用/userinfo/add => add()的原因是ad会被一些浏览器当做广告URL拦截
+ * /${classNameLowerCase}/{id}           => show()  
+ * /${classNameLowerCase}/{id}/edit      => edit()  
+ * /${classNameLowerCase}        POST    => create()  
+ * /${classNameLowerCase}/{id}   PUT     => update()  
+ * /${classNameLowerCase}/{id}   DELETE  => delete()  
+ * /${classNameLowerCase}        DELETE  => batchDelete()  
+ * </pre>
+<#include "/java_description.include">
+ *
+ */
 @Controller
 @RequestMapping("/${classNameLowerCase}")
 public class ${className}Controller {

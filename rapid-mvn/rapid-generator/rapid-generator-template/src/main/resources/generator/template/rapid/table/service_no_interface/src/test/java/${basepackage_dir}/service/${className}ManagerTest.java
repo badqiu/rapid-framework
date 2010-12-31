@@ -11,6 +11,9 @@ import static junit.framework.Assert.*;
 
 <#include "/java_imports.include">
 
+/**
+<#include "/java_description.include">
+ */
 public class ${className}ManagerTest extends BaseManagerTestCase{
 
 	private ${className}Manager manager;

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 <#include "/java_imports.include">
+
+/**
+<#include "/java_description.include">
+ */
 @Service
 @Transactional
 public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{
