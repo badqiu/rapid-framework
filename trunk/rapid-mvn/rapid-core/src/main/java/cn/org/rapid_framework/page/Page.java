@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
@@ -164,15 +163,15 @@ public class Page<T> implements Serializable,Iterable<T>
      * 得到用于多页跳转的页码
      * @return
      */
-	public List<Integer> getLinkPageNumbers() {
-		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),10);
+	public Integer[] getLinkPageNumbers() {
+		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),7);
 	}
 
     /**
      * 得到用于多页跳转的页码
      * @return
      */
-	public List<Integer> getLinkPageNumbers(int count) {
+	public Integer[] getLinkPageNumbers(int count) {
 		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),count);
 	}
 	
