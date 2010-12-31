@@ -16,7 +16,7 @@ import cn.org.rapid_framework.page.impl.*;
 import ${basepackage}.model.*;
 import ${basepackage}.dao.*;
 import ${basepackage}.service.*;
-import ${basepackage}.vo.query.*;
+import ${basepackage}.query.*;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
