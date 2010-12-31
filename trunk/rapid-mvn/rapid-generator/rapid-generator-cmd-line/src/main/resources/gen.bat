@@ -6,6 +6,7 @@
 @IF DEFINED modeCmdExecuted GOTO START
 @mode con cols=120 lines=3000
 @set modeCmdExecuted="true"
+@title Rapid Generator --- %cd%
 
 :START
-mvn groovy:execute -DexecuteTarget=%1 -DgenInputCmd=%2 -errors
+mvn groovy:execute -DgeneratorConfigFile=gen_config.xml -DexecuteTarget=%1 -DgenInputCmd=%2  -errors
