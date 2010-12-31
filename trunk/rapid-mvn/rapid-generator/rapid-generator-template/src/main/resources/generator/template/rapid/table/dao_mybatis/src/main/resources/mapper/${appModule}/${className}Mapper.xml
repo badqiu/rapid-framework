@@ -29,13 +29,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<insert id="<@namespace/>insert" useGeneratedKeys="true" keyProperty="${table.idColumn.columnNameFirstLower}">
     <![CDATA[
         INSERT INTO ${table.sqlName} (
-        <#list table.columns as column>
-        	${column.sqlName} <#if column_has_next>,</#if>
-        </#list>
+        <#list table.columns as column> ${column.sqlName}<#if column_has_next>,</#if></#list>
         ) VALUES (
-        <#list table.columns as column>
-        	<@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
-        </#list>        
+        <#list table.columns as column> <@mapperEl column.columnNameFirstLower/><#if column_has_next>,</#if></#list>        
         )
     ]]>
 		<!--	
@@ -50,13 +46,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<update id="<@namespace/>update" >
     <![CDATA[
         UPDATE ${table.sqlName} SET
-	        <#list table.notPkColumns as column>
-	        ${column.sqlName} = <@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if>
-	        </#list>
+	        <#list table.notPkColumns as column>${column.sqlName} = <@mapperEl column.columnNameFirstLower/> <#if column_has_next>,</#if> </#list>
         WHERE 
-        	<#list table.compositeIdColumns as column>
-	        ${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next> AND </#if>
-	        </#list>	        
+        	<#list table.compositeIdColumns as column>${column.sqlName} = <@mapperEl column.columnNameLower/> <#if column_has_next> AND </#if> </#list>	        
     ]]>
 	</update>
 
@@ -123,9 +115,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     <#if column.unique && !column.pk>
     <select id="<@namespace/>getBy${column.columnName}" resultMap="RM.${className}" parameterType="${column.javaType}">
 	    SELECT <include refid="<@namespace/>columns"/>
-	    <![CDATA[
-	        FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
-	    ]]>
+	    FROM ${table.sqlName} where ${column.sqlName} = <@mapperEl column.columnNameLower/>
     </select>
     
     </#if>
