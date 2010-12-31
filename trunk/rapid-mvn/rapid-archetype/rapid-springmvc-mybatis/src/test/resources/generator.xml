@@ -7,7 +7,9 @@
 		2.可以引用环境变量: ${env.JAVA_HOME} or System.properties: ${user.home},property之间也可以相互引用
 	</comment>
 	
-	<entry key="basepackage">com.company.project</entry>
+	<!-- 模块,可以影响mybatis mapper.xml 相关资源的存放位置 -->
+	<entry key="appModule">shared</entry>
+	<entry key="basepackage">com.company.project.${appModule}</entry>
 	
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
