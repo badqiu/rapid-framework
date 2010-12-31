@@ -64,7 +64,7 @@ COMMENT ON COLUMN user_info.birth_date IS '生日';
 COMMENT ON COLUMN user_info.sex IS '性别';
 COMMENT ON COLUMN user_info.age IS '年龄';
 
-insert into USER_INFO value(1,'badqiu','badqiu(a)gmail.com','1980-10-10 10:10:10',1,23);
-insert into USER_INFO value(2,'rapid','http://code.google.com/p/rapid-framework','1980-10-10 10:10:10',1,23);
-insert into USER_INFO value(2,'document','http://code.google.com/p/rapid-framework/wiki/menu','1980-10-10 10:10:10',1,23);
-insert into USER_INFO value(2,'some one','contributor','1980-10-10 10:10:10',1,23);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(1,'badqiu','badqiu(a)gmail.com','1980-10-10 10:10:10',1,23);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(2,'rapid','http://code.google.com/p/rapid-framework','1980-10-10 10:10:10',2,24);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(3,'document','http://code.google.com/p/rapid-framework/wiki/menu','1980-10-10 10:10:10',3,25);
+insert into USER_INFO (user_id,username,password,birth_date,sex,age) values(4,'some one','contributor','1980-10-10 10:10:10',4,26);
