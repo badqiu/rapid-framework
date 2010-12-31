@@ -169,6 +169,7 @@ public class Page<T> implements Serializable,Iterable<T>
 
     /**
      * 得到用于多页跳转的页码
+     * 注意:不可以使用 getLinkPageNumbers(10)方法名称，因为在JSP中会与 getLinkPageNumbers()方法冲突，报exception
      * @return
      */
 	public Integer[] linkPageNumbers(int count) {
