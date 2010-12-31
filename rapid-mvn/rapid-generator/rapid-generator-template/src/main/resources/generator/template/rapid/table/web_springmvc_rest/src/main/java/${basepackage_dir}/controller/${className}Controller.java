@@ -35,7 +35,7 @@ import cn.org.rapid_framework.web.scope.Flash;
 <#include "/java_imports.include">
 @Controller
 @RequestMapping("/${classNameLowerCase}")
-public class ${className}Controller extends BaseRestSpringController<${className},${pkJavaType}>{
+public class ${className}Controller {
 	//默认多列排序,example: username desc,createTime asc
 	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
