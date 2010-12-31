@@ -164,14 +164,14 @@ public class Page<T> implements Serializable,Iterable<T>
      * @return
      */
 	public Integer[] getLinkPageNumbers() {
-		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),7);
+		return linkPageNumbers(7);
 	}
 
     /**
      * 得到用于多页跳转的页码
      * @return
      */
-	public Integer[] getLinkPageNumbers(int count) {
+	public Integer[] linkPageNumbers(int count) {
 		return PageUtils.generateLinkPageNumbers(getThisPageNumber(), getLastPageNumber(),count);
 	}
 	
