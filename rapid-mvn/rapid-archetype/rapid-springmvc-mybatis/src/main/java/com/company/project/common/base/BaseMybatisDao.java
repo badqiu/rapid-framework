@@ -1,13 +1,11 @@
 package com.company.project.common.base;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 import org.springframework.util.Assert;
@@ -71,13 +69,20 @@ public abstract class BaseMybatisDao<E,PK extends Serializable> extends SqlSessi
     public String getDeleteStatement() {
     	return getIbatisMapperNamesapce()+".delete";
     }
+    
+    public SqlSession getSqlSessionTemplate() {
+        return getSqlSession();
+    }
 
     public String getCountStatementForPaging(String statementName) {
 		return statementName +".count";
 	}
     
-	protected PageList pageQuery(String statementName, PageRequest pageRequest) {
-		return pageQuery(getSqlSession(),statementName,getCountStatementForPaging(statementName),pageRequest);
+	protected Page pageQuery(String statementName, PageRequest pageRequest) {
+		PageList pageList = pageQuery(getSqlSession(),statementName,getCountStatementForPaging(statementName),pageRequest);
+        Page page = new Page(pageRequest,pageList.getTotalItems());
+        page.setResult(pageList);
+        return page;
 	}
 	
 	public static PageList pageQuery(SqlSession sqlSessionTemplate,String statementName,String countStatementName, PageRequest pageRequest) {

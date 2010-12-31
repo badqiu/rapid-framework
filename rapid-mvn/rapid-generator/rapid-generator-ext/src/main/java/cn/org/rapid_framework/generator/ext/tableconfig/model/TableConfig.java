@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.generator.ext.tableconfig.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -350,6 +349,7 @@ public class TableConfig {
 			for(SqlParameter p : params) {
 				if(p.getParameterClass().endsWith("Money")) {
 					ibatisSql = StringHelper.replace(ibatisSql, "#"+p.getParamName()+"#", "#"+p.getParamName()+".cent"+"#");
+					ibatisSql = StringHelper.replace(ibatisSql, "#{"+p.getParamName()+"}", "#{"+p.getParamName()+".cent"+"}");
 				}
 			}
 			return ibatisSql;
