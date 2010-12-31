@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.util.page;
 
-import java.util.List;
 /**
  * 分页器，根据page,pageSize,totalItem用于页面上分页显示多项内容，计算页码和当前页的偏移量，方便页面分页使用.
  * 
@@ -166,14 +165,14 @@ public class Paginator implements java.io.Serializable {
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
      * @return
      */
-    public List<Integer> getSlider() {
+    public Integer[] getSlider() {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
     }
     /**
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
      * @return
      */
-    public List<Integer> getSlider(int slidersCount) {
+    public Integer[] getSlider(int slidersCount) {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
@@ -198,7 +197,7 @@ public class Paginator implements java.io.Serializable {
         return page;
     }
     
-    private static List<Integer> generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
+    private static Integer[] generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
         int avg = count / 2;
         
         int startPageNumber = currentPageNumber - avg;
@@ -222,7 +221,7 @@ public class Paginator implements java.io.Serializable {
         for(int i = startPageNumber; i <= endPageNumber; i++) {
             result.add(new Integer(i));
         }
-        return result;
+        return result.toArray(new Integer[result.size()]);
     }
     
     public String toString() {
