@@ -1,6 +1,5 @@
 package cn.org.rapid_framework.page;
 
-import java.util.List;
 
 public class PageUtils {
 	
@@ -11,7 +10,7 @@ public class PageUtils {
 		return (pageNumber - 1) * pageSize;
 	}
 	
-	public static List<Integer> generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
+	public static Integer[] generateLinkPageNumbers(int currentPageNumber,int lastPageNumber,int count) {
 		int avg = count / 2;
 		
 		int startPageNumber = currentPageNumber - avg;
@@ -35,7 +34,7 @@ public class PageUtils {
 		for(int i = startPageNumber; i <= endPageNumber; i++) {
 			result.add(new Integer(i));
 		}
-		return result;
+		return result.toArray(new Integer[result.size()]);
 	}
 	
 	
