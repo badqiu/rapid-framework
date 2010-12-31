@@ -244,4 +244,9 @@ public class StringHelperTest extends TestCase {
 	public void testToJavaClassName_with_alipay_dalgen_rule() {
 //	    assertEquals("dalgen是这种规则",StringHelper.toJavaClassName("d_create"),"DCreate"); //TODO dalgen是这种规则
 	}
+	
+	public void test_toJavaClassName() {
+		assertEquals(StringHelper.toJavaClassName("customers",false),"Customers");
+		assertEquals(StringHelper.toJavaClassName("customers",true),"Customer");
+	}
 }
