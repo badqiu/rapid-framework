@@ -166,13 +166,13 @@ public class Paginator implements java.io.Serializable {
      * @return
      */
     public Integer[] getSlider() {
-    	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), DEFAULT_SLIDERS_COUNT);
+    	return slider(DEFAULT_SLIDERS_COUNT);
     }
     /**
      * 页码滑动窗口，并将当前页尽可能地放在滑动窗口的中间部位。
      * @return
      */
-    public Integer[] getSlider(int slidersCount) {
+    public Integer[] slider(int slidersCount) {
     	return generateLinkPageNumbers(getPage(),(int)getTotalPages(), slidersCount);
     }
     
