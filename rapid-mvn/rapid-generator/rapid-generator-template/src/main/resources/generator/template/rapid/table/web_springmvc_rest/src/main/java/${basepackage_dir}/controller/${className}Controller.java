@@ -12,8 +12,6 @@ import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javacommon.base.BaseRestSpringController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

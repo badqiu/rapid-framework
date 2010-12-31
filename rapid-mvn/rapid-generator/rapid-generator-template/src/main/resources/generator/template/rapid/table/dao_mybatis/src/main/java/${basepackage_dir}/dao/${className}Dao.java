@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class ${className}Dao extends BaseIbatis3Dao<${className},${table.idColumn.javaType}>{
+public class ${className}Dao extends BaseMybatisDao<${className},${table.idColumn.javaType}>{
 	
 	@Override
 	public String getIbatisMapperNamesapce() {
