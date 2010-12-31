@@ -38,13 +38,16 @@ def loadDefaultGeneratorProperties() {
 	GeneratorProperties.properties.put("generator_sourceEncoding","UTF-8");
 	GeneratorProperties.properties.put("generator_outputEncoding","UTF-8");
 	GeneratorProperties.properties.put("gg_isOverride","true");
-	//½«±íÃû´Ó¸´Êı×ª»»Îªµ¥Êı 
+	//å°†è¡¨åä»å¤æ•°è½¬æ¢ä¸ºå•æ•° 
 	GeneratorProperties.properties.put("tableNameSingularize","true");
 	if(pom != null) {
-		GeneratorProperties.load("${pom.basedir}/db.xml","${pom.basedir}/gen_config.xml");
+		//åŠ è½½é…ç½®æ–‡ä»¶
+		GeneratorProperties.load("${pom.basedir}/"+System.getProperty("generatorConfigFile")); 
+		GeneratorProperties.properties.put("basedir",pom.basedir);
 		GeneratorProperties.properties.putAll(pom.properties);
 	}else {
 		GeneratorProperties.load("db.xml","gen_config.xml");
+		GeneratorProperties.properties.put("basedir",new File("."));
 	}
 }
 
@@ -70,8 +73,8 @@ public class Targets extends HashMap{
 	}
 	
 	def dal() {
-		println "dal_package:${dal_package}"
-		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
+		println "dal_package:${dal_package} basedir:${basedir} dir_table_configs:${dir_table_configs}";
+		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(new File(basedir,dir_table_configs),dal_package,Helper.getTableConfigFiles(new File(basedir,dir_table_configs)));
 		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/dal","${dir_templates_root}/share/dal"),tableConfigSet); 
 		GenUtils.genByTableConfig(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config/dal","${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
 		GenUtils.genByOperation(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/operation/dal","${dir_templates_root}/share/dal"),tableConfigSet,genInputCmd); 
@@ -82,7 +85,7 @@ public class Targets extends HashMap{
 	}
 	
 	def seq() {
-		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(dal_package,basedir,tableConfigFiles);
+		TableConfigSet tableConfigSet = new TableConfigXmlBuilder().parseFromXML(new File(basedir,dir_table_configs),dal_package,Helper.getTableConfigFiles(new File(basedir,dir_table_configs)));
 		GeneratorProperties.properties.put("basepackage",dal_package);
 		GenUtils.genByTableConfigSet(Helper.createGeneratorFacade(dir_dal_output_root,"${dir_templates_root}/table_config_set/sequence","${dir_templates_root}/share/dal"),tableConfigSet); 
 	}
@@ -139,13 +142,23 @@ public class GenUtils {
 }
 
 public class Helper {
+	public static List<String> getTableConfigFiles(File basedir) {
+		String[] tableConfigFilesArray = basedir.list();
+		List<String> result = new ArrayList();
+		for(String str : tableConfigFilesArray) {
+			if(str.endsWith(".xml")) {
+				result.add(str);
+			}
+		}
+		return result;
+	}
 	public static Collection<TableConfig> getTableConfigs(TableConfigSet tableConfigSet,String tableSqlName) {
 		if("*".equals(tableSqlName)) {
 			return tableConfigSet.getTableConfigs();
 		}else {
 			TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
 			if(tableConfig == null) {
-				throw new RuntimeException("¸ù¾İ±íÃû:${tableSqlName}Ã»ÓĞÕÒµ½ÅäÖÃÎÄ¼ş");
+				throw new RuntimeException("ï¿½ï¿½İ±ï¿½ï¿½ï¿½:${tableSqlName}Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½");
 			}
 			return Arrays.asList(tableConfig);
 		}
