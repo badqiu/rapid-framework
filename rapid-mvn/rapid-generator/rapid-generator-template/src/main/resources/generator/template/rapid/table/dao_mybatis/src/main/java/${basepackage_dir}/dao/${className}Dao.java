@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public class ${className}Dao extends BaseMybatisDao<${className},${table.idColumn.javaType}>{
 	
 	@Override
-	public String getIbatisMapperNamesapce() {
+	public String getMybatisMapperNamesapce() {
 		return "${className}";
 	}
 	
@@ -24,13 +24,13 @@ public class ${className}Dao extends BaseMybatisDao<${className},${table.idColum
 	}
 	
 	public Page findPage(${className}Query query) {
-		return pageQuery("${className}.findPage",query);
+		return PageQueryUtils.pageQuery(getSqlSession(),"${className}.findPage",query);
 	}
 	
 	<#list table.columns as column>
 	<#if column.unique && !column.pk>
 	public ${className} getBy${column.columnName}(${column.javaType} v) {
-		return (${className})getSqlSessionTemplate().selectOne("${className}.getBy${column.columnName}",v);
+		return (${className})getSqlSession().selectOne("${className}.getBy${column.columnName}",v);
 	}	
 	
 	</#if>
