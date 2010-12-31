@@ -39,7 +39,7 @@ public class GeneratorTestCase extends TestCase{
 			g.setOutRootDir(tempDir);
 		}else {
 			if(g.getOutRootDir() == null)
-				g.setOutRootDir(".");
+				g.setOutRootDir("target/generator-output");
 		}
 	}
 
