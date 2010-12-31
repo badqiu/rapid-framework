@@ -1,6 +1,8 @@
 package cn.org.rapid_framework.generator;
 
 
+import static cn.org.rapid_framework.generator.GeneratorConstants.GENERATOR_TOOLS_CLASS;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +24,6 @@ import cn.org.rapid_framework.generator.util.ClassHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
 import cn.org.rapid_framework.generator.util.StringHelper;
-import static cn.org.rapid_framework.generator.GeneratorConstants.*;
 /**
  * 生成器的主要入口类,包装相关方法供外部生成代码使用
  * 
@@ -297,8 +298,8 @@ public class GeneratorFacade  {
 		
 		public static Map getShareVars() {
 			Map templateModel = new HashMap();
-			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.putAll(System.getProperties());
+			templateModel.putAll(GeneratorProperties.getProperties());
 			templateModel.put("env", System.getenv());
 			templateModel.put("now", new Date());
 			templateModel.put(GeneratorConstants.DATABASE_TYPE.code, GeneratorProperties.getDatabaseType(GeneratorConstants.DATABASE_TYPE.code));

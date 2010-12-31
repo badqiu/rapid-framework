@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Map;
 import java.util.Properties;
+
+import cn.org.rapid_framework.generator.GeneratorProperties;
 
 public class GLogger {
 	public static final int TRACE = 60;
@@ -105,6 +108,21 @@ public class GLogger {
         }
 	    return WARN;
 	}
+	
+    public static void debugMap(String string, Map templateModel) {
+        if (logLevel <= DEBUG) {
+            GLogger.println(string);
+            for(Object key : templateModel.keySet()) {
+                if(System.getProperties().containsKey(key) || GeneratorProperties.getProperties().containsKey(key)) {
+                    continue;
+                }
+                if(key.toString().endsWith("_dir")) {
+                    continue;
+                }
+                GLogger.println(key+" = " + templateModel.get(key));
+            }
+        }
+    }
 
     private static Properties loadLog4jProperties()  {
         try {
