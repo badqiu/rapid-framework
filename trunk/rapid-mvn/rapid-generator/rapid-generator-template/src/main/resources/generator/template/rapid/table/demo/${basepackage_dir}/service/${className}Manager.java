@@ -84,6 +84,7 @@ public class ${className}Manager extends BaseManager<${className},${table.idColu
         
         /** 检查到有错误请直接抛异常，不要使用 return errorCode的方式 */
         public void check${className}(${className} v) {
+        	validate(v);
             //各个属性的检查一般需要分开写几个方法，如 checkProperty1(v),checkProperty2(v)
         }
     }
