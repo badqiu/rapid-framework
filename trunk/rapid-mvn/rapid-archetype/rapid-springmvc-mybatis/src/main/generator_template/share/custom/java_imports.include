@@ -23,9 +23,3 @@ import ${basepackage}.dao.*;
 import ${basepackage}.service.*;
 import ${basepackage}.query.*;
 
-/**
- * @author badqiu email:badqiu(a)gmail.com
- * @version 1.0
- * @since 1.0
- */
-
