@@ -46,11 +46,7 @@ public class ${className} extends BaseEntity implements java.io.Serializable {
 <@generateJavaManyToOne/>
 
 	public String toString() {
-		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-		<#list table.columns as column>
-			.append("${column.columnName}",get${column.columnName}())
-		</#list>
-			.toString();
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 	public int hashCode() {
