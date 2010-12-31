@@ -1,6 +1,19 @@
 
-1. ¿ÉÒÔ×Ô¶¨Òå gen.groovy ÒÔ±ãÅäÖÃ²»Í¬µÄÄ£°åÒÔÉú³É´úÂë
-2. db.xml ¼° gen_config.xmlÎªÅäÖÃÎÄ¼ş
-3. Ä£°å×Ô¶¨Òå
-	Ä£°åÎÄ¼ş´æ·ÅÔÚjar°üÖĞ,ÔÚmvn pom.xmlÖĞ¶¨ÒåµÄÄ£°åµÄ jar°ü
-	Èç¹ûÊ¹ÓÃ×Ô¶¨ÒåµÄÄ£°å,¿ÉÒÔÖ¸¶¨×Ô¼ºµÄÄ£°åÄ¿Â¼,½«jar°üÖĞµÄÄ£°å¿½±´³öÀ´,×Ô¼ºÔÙÊÖ¹¤¸Ä¸Ä,ÒÔ·ûºÏ×Ô¼ºµÄÒªÇó
+å‘½ä»¤è¡Œå‘½ä»¤è¿è¡Œè¯´æ˜:
+	gen dal trade_base æ ¹æ®trade_baseè¡¨ç”Ÿæˆdalå±‚çš„ä»£ç 
+	gen table trade_base ç”Ÿæˆtrade_baseçš„dalgené…ç½®æ–‡ä»¶
+	gen seq ç”ŸæˆSeqDaoçš„ä»£ç 
+
+ç¤ºä¾‹ç”Ÿæˆçš„ä»£ç è¾“å‡ºçš„ä½ç½®:
+	target/generator-output
+
+é…ç½®æ–‡ä»¶:
+	gen_config.xml åŒ…å«ç”Ÿæˆå™¨çš„ç›¸å…³é…ç½®
+	gen.groovy ç”Ÿæˆå™¨æœ€ç»ˆè°ƒç”¨çš„groovyæ–‡ä»¶
+
+ç”Ÿæˆçš„ä»£ç éœ€è¦å¼•ç”¨çš„jaråŒ…:
+		<dependency>
+			<groupId>com.alipay.common</groupId>
+			<artifactId>alipay-common-dal-util</artifactId>
+			<version>1.0</version>
+		</dependency>
