@@ -4,8 +4,6 @@
 
 package ${basepackage}.flex.service;
 
-import javacommon.base.BaseRemoteFlexService;
-
 import org.springframework.flex.remoting.RemotingDestination;
 import org.springframework.flex.remoting.RemotingInclude;
 import org.springframework.stereotype.Service;
