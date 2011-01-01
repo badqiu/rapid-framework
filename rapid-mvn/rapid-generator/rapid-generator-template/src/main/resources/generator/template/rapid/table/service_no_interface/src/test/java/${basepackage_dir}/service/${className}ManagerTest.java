@@ -36,21 +36,21 @@ public class ${className}ManagerTest extends BaseManagerTestCase{
 
 		${className} obj = new${className}();
 		manager.save(obj);
-		manager.getEntityDao().flush();
+		//manager.getEntityDao().flush(); //flush for hibernate
 		
 		manager.update(obj);
-		manager.getEntityDao().flush();
+		//manager.getEntityDao().flush(); //flush for hibernate
 		
 	<#if table.compositeId>
 		assertNotNull(manager.getById(obj.getId()));
 		
 		manager.removeById(obj.getId());
-		manager.getEntityDao().flush();
+		//manager.getEntityDao().flush(); //flush for hibernate
 	<#else>
 		assertNotNull(obj.get${table.idColumn.columnName}());
 		
 		manager.removeById(obj.get${table.idColumn.columnName}());
-		manager.getEntityDao().flush();
+		//manager.getEntityDao().flush(); //flush for hibernate
 	</#if>
 	
 	}
