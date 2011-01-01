@@ -47,9 +47,8 @@ com.company.project.common 用于存放公共代码
 
 预留给客户端自定义的模板则存放在项目内,如:
 {{{
-src/main/resources/generator/template/project/table/share/custom
+src/main/generator_template/table/share/custom
   java_copyright.include
   java_description.include
   java_import.include
 }}}
-然后通过classpath: generator/template/project/table/share/custom 引用
