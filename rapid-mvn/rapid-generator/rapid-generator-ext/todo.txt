@@ -111,3 +111,7 @@ dalgen需要修正返回值为long时，无法自动转换值为long类型: 重�
 	public long userParameterObject(String tradeNo) throws DataAccessException {
 		return (Number)getSqlMapClientTemplate().queryForObject("project.TradeBase.userParameterObject",tradeNo);
 	}
+
+	
+	
+springmvc数据绑定时:  Failed to convert property value of type java.lang.String to required type java.lang.Integer for property age; nested exception is org.springframework.core.convert.ConversionFailedException: Unable to convert value "9999999999" from type java.lang.String to type java.lang.Integer; nested exception is java.lang.NumberFormatException: For input string: "9999999999"
