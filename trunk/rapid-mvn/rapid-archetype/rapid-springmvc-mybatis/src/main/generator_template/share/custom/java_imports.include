@@ -6,21 +6,19 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.company.project.common.base.*;
-import com.company.project.common.util.*;
 
 import static com.company.project.common.util.DateFormats.*;
 import static com.company.project.common.util.GlobalMessages.*;
-import static com.company.project.common.util.SpringMVCUtils.*;
+import static com.company.project.common.util.SpringMVCUtils.toModelMap;
 import static com.company.project.common.util.MybatisPageQueryUtils.pageQuery;
 
 import static cn.org.rapid_framework.util.ValidationErrorsUtils.convert;
 import static cn.org.rapid_framework.beanutils.BeanUtils.copyProperties;
 import static cn.org.rapid_framework.util.holder.BeanValidatorHolder.validate;
+import cn.org.rapid_framework.util.DateConvertUtils;
 
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
+import cn.org.rapid_framework.page.PageRequest;
+import cn.org.rapid_framework.page.Page;
 
 import ${basepackage}.model.*;
 import ${basepackage}.dao.*;
