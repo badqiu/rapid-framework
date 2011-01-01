@@ -21,12 +21,15 @@ public class LogTraceUtils {
 	public static final String TRACE_ID_KEY = "traceId";
 
 	/**
-	 * 开始Trace, 默认生成UUID并放入MDC.
+	 * 开始Trace, 如果已经存在该traceId则返回,不存在则生成UUID并放入MDC.
 	 * @return traceId
 	 */
 	public static String beginTrace() {
-		String traceId = UUID.randomUUID().toString().replace("-","");
-		MDC.put(TRACE_ID_KEY, traceId);
+		String traceId = (String)MDC.get(TRACE_ID_KEY);
+		if(traceId == null) {
+			traceId = UUID.randomUUID().toString().replace("-","");
+			MDC.put(TRACE_ID_KEY, traceId);
+		}
 		return traceId;
 	}
 
