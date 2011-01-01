@@ -108,13 +108,10 @@ public class ${className}Controller {
 	/** 保存新增,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
 	@RequestMapping(method=RequestMethod.POST)
 	public String create(ModelMap model,${className} ${classNameFirstLower},BindingResult errors) throws Exception {
-		if(errors.hasErrors()) {
-			return "/${classNameLowerCase}/new";
-		}
 		try {
 			${classNameFirstLower}Manager.save(${classNameFirstLower});
 		}catch(ConstraintViolationException e) {
-			convert(e.getConstraintViolations(), errors);
+			convert(e, errors);
 			return  "/${classNameLowerCase}/new";
 		}
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
@@ -132,13 +129,10 @@ public class ${className}Controller {
 	/** 保存更新,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	public String update(ModelMap model,@PathVariable ${pkJavaType} id,${className} ${classNameFirstLower},BindingResult errors) throws Exception {
-		if(errors.hasErrors()) {
-			return "/${classNameLowerCase}/edit";
-		}
 		try {
 			${classNameFirstLower}Manager.update(${classNameFirstLower});
 		}catch(ConstraintViolationException e) {
-			SpringErrorsUtils.convert(e.getConstraintViolations(), errors);
+			convert(e, errors);
 			return  "/${classNameLowerCase}/edit";
 		}
 		Flash.current().success(UPDATE_SUCCESS);
