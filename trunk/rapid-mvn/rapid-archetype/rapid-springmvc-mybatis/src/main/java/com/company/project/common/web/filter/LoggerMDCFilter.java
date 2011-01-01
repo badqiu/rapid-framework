@@ -14,6 +14,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.MDC;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import cn.org.rapid_framework.util.LogTraceUtils;
+
 /**
  * 存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来.
  * 
@@ -35,8 +37,10 @@ public class LoggerMDCFilter extends OncePerRequestFilter implements Filter{
             MDC.put("req.requestURIWithQueryString", request.getRequestURI() + (request.getQueryString() == null ? "" : "?"+request.getQueryString()));
             MDC.put("req.remoteAddr", StringUtils.defaultString(request.getRemoteAddr()));
             
-            //为每一个请求创建一个ID，方便查找日志时可以根据ID查找出一个http请求所有相关日志
-            MDC.put("traceId", StringUtils.remove(UUID.randomUUID().toString(),"-")); 
+            
+            //为每一个请求创建一个traceId，方便查找日志时可以根据ID查找出一个http请求所有相关日志
+            // LogTraceUtils完成的功能是: MDC.put("traceId",StringUtils.remove(UUID.randomUUID().toString(),"-"))
+            LogTraceUtils.beginTrace();
             chain.doFilter(request, response);
         }finally {
             clearMDC();
