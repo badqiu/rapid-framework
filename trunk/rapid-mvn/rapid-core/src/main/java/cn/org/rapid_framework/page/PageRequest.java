@@ -37,12 +37,11 @@ public class PageRequest<T> implements Serializable {
 	private String sortColumns;
 	
 	public PageRequest() {
-		this(0,0);
 	}
 	
 	@Deprecated
 	public PageRequest(T filters) {
-		this(0,0,filters);
+		setFilters(filters);
 	}
 	
 	public PageRequest(int pageNumber, int pageSize) {
