@@ -31,7 +31,7 @@
 				<!-- 标准配置 -->
 				<value>classpath*:application.properties</value>
 				<!-- 本地开发环境配置 -->
-				<value>classpath*:/application-test.properties</value>
+				<value>classpath*:application-test.properties</value>
 				<!-- 服务器生产环境配置 -->
 				<value>file:${user.home}/application.properties</value>
 			</list>
