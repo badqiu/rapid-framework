@@ -32,21 +32,28 @@ public class PageRequestFactory {
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
     }
 
+    /**
+     * 从request中绑定参数至PageRequest 
+     * @return
+     */
     public static <T extends PageRequest> T bindPageRequest(T pageRequest,HttpServletRequest request){
         return bindPageRequest(pageRequest, request, null);
     }
-    
+    /**
+     * 从request中绑定参数至PageRequest 
+     * @return
+     */    
     public static <T extends PageRequest> T bindPageRequest(T pageRequest,HttpServletRequest request,String defaultSortColumns){
         return bindPageRequest(pageRequest, request, defaultSortColumns, PageQuery.DEFAULT_PAGE_SIZE);
     }
     
     /**
-     * 绑定PageRequest的属性值
+     * 从request绑定PageRequest的属性值
      */
     public static <T extends PageRequest> T bindPageRequest(T pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
 	    	try {
-	    		Map params = WebUtils.getParametersStartingWith(request, "");
-	    		beanUtils.copyProperties(pageRequest, params);
+	    		Map sourceParams = WebUtils.getParametersStartingWith(request, "");
+	    		beanUtils.copyProperties(pageRequest, sourceParams);
 		    } catch (IllegalAccessException e) {
 		    	throw new IllegalArgumentException("beanUtils.copyProperties() error",e);
 			} catch (InvocationTargetException e) {
