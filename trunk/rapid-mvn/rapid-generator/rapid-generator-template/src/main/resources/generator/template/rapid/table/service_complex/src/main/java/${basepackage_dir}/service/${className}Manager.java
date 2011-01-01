@@ -32,6 +32,7 @@ public class ${className}Manager {
 	    this.${classNameLower}Dao.save(${classNameLower});
 	    return ${classNameLower};
 	}
+	
 	/** 
 	 * 更新${className}
 	 **/	
@@ -41,18 +42,21 @@ public class ${className}Manager {
         this.${classNameLower}Dao.update(${classNameLower});
         return ${classNameLower};
     }	
+    
 	/** 
 	 * 删除${className}
 	 **/
     public void removeById(${table.idColumn.javaType} id) {
         this.${classNameLower}Dao.deleteById(id);
     }
+    
 	/** 
 	 * 根据ID得到${className}
 	 **/    
     public ${className} getById(${table.idColumn.javaType} id) {
         return this.${classNameLower}Dao.getById(id);
     }
+    
 	/** 
 	 * 分页查询: ${className}
 	 **/      
