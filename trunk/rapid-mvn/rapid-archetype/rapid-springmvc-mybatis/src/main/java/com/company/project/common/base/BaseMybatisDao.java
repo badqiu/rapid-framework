@@ -21,9 +21,8 @@ import com.company.project.common.util.MybatisPageQueryUtils;
 public abstract class BaseMybatisDao<E,PK extends Serializable> extends SqlSessionDaoSupport  implements EntityDao<E,PK> {
     protected final Log log = LogFactory.getLog(getClass());
 
-    public Object getById(PK primaryKey) {
-        Object object = getSqlSession().selectOne(getFindByPrimaryKeyStatement(), primaryKey);
-        return object;
+    public E getById(PK primaryKey) {
+        return (E)getSqlSession().selectOne(getFindByPrimaryKeyStatement(), primaryKey);
     }
     
 	public void deleteById(PK id) {

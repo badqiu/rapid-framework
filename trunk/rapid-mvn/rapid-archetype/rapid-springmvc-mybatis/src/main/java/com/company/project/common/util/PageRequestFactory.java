@@ -11,8 +11,8 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.util.WebUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
+import cn.org.rapid_framework.util.page.PageQuery;
 
-import com.company.project.common.base.BaseQuery;
 /**
  * 用于分页组件覆盖的类,新的分页组件覆盖此类的bindPageRequest()方法以适合不同的分页创建
  * @author badqiu
@@ -22,25 +22,28 @@ public class PageRequestFactory {
     
     static BeanUtilsBean beanUtils = new BeanUtilsBean();
     static {
-    	//用于注册日期类型的转换
+        //注册全局的converters
+        ConvertRegisterHelper.registerConverters();
+        
+    	//注册专用的BeanUtils用于注册日期类型的转换
     	String[] datePatterns = new String[] {"yyyy-MM-dd","yyyy-MM-dd HH:mm:ss","yyyy-MM-dd HH:mm:ss.SSS","HH:mm:ss"};
     	ConvertRegisterHelper.registerConverters(beanUtils.getConvertUtils(),datePatterns);
     	
         System.out.println("PageRequestFactory.MAX_PAGE_SIZE="+MAX_PAGE_SIZE);
     }
 
-    public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request){
+    public static <T extends PageRequest> T bindPageRequest(T pageRequest,HttpServletRequest request){
         return bindPageRequest(pageRequest, request, null);
     }
     
-    public static PageRequest bindPageRequest(PageRequest pageRequest,HttpServletRequest request,String defaultSortColumns){
-        return bindPageRequest(pageRequest, request, defaultSortColumns, BaseQuery.DEFAULT_PAGE_SIZE);
+    public static <T extends PageRequest> T bindPageRequest(T pageRequest,HttpServletRequest request,String defaultSortColumns){
+        return bindPageRequest(pageRequest, request, defaultSortColumns, PageQuery.DEFAULT_PAGE_SIZE);
     }
     
     /**
      * 绑定PageRequest的属性值
      */
-    public static PageRequest bindPageRequest(PageRequest pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
+    public static <T extends PageRequest> T bindPageRequest(T pageRequest, HttpServletRequest request,String defaultSortColumns, int defaultPageSize) {
 	    	try {
 	    		Map params = WebUtils.getParametersStartingWith(request, "");
 	    		beanUtils.copyProperties(pageRequest, params);

@@ -29,8 +29,6 @@ import cn.org.rapid_framework.beanutils.converter.StringConverter;
  */
 public class ConvertRegisterHelper {
 
-	private ConvertRegisterHelper(){}
-	
 	public static void registerConverters() {
 		ConvertUtils.register(new StringConverter(), String.class);
 		//date 
