@@ -12,16 +12,8 @@
 	
 	<!-- 用于启用Hibernate Validator,并且使用spring MessageSource替换java ResourceBundle -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" >
-		<property name="messageInterpolator" ref="messageInterpolator"/>
+		<property name="validationMessageSource" ref="messageSource"/>
 	</bean>
-
-	<bean id="messageInterpolator" class="org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator" >
-		<constructor-arg ref="resourceBundleLocator"></constructor-arg>
-	</bean>
-	
- 	<bean id="resourceBundleLocator" class="cn.org.rapid_framework.beanvalidation.MessageSourceResourceBundleLocator">
- 		<property name="messageSource" ref="messageSource"/>		
- 	</bean>
     
     <!-- 用于持有Spring Validator,可以将 Validator当做静态方法调用,示例:SpringValidatorHolder.validate(blogBean) -->
     <bean class="cn.org.rapid_framework.util.holder.SpringValidatorHolder">
