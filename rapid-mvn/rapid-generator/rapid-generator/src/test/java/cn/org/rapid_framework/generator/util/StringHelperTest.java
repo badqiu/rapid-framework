@@ -1,9 +1,12 @@
 package cn.org.rapid_framework.generator.util;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
+import freemarker.template.Configuration;
 /**
  * @author badqiu
  */
@@ -248,5 +251,16 @@ public class StringHelperTest extends TestCase {
 	public void test_toJavaClassName() {
 		assertEquals(StringHelper.toJavaClassName("customers",false),"Customers");
 		assertEquals(StringHelper.toJavaClassName("customers",true),"Customer");
+	}
+	
+	public void test_FreemarkerHelper() {
+		Map model = new HashMap();
+		model.put("package", "com/company");
+		model.put("module", "app");
+		assertEquals("src/com/company",FreemarkerHelper.processTemplateString("src/${package}", model, new Configuration()));
+		assertEquals("src/com/company/app",FreemarkerHelper.processTemplateString("src/${package}/${module}", model, new Configuration()));
+		
+		model.put("module", "");
+		assertEquals("src/com/company//username.java",FreemarkerHelper.processTemplateString("src/${package}/${module}/username.java", model, new Configuration()));
 	}
 }
