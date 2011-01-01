@@ -227,6 +227,16 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<optional>true</optional>
+		</dependency>		
+		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
 			<optional>true</optional>
@@ -262,6 +272,45 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- jetty-webapp -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<scope>compile</scope>
+			<version>7.2.2.v20101205</version>
+			<optional>true</optional>
+		</dependency>
+
+		<!--  hessian web service -->
+		<dependency>
+		    <groupId>com.caucho</groupId>
+		    <artifactId>hessian</artifactId>
+		    <version>4.0.7</version>
+		    <optional>true</optional>
+		</dependency>
+		
+		<!-- soap begin -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-ws-security</artifactId>
+			<version>2.3.1</version>
+		</dependency>		
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+		</dependency>
+		<!-- soap end -->
+			
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock</artifactId>
