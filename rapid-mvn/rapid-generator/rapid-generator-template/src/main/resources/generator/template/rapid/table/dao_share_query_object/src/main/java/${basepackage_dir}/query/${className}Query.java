@@ -16,7 +16,7 @@ import java.io.Serializable;
 /**
 <#include "/java_description.include">
  */
-public class ${className}Query extends BaseQuery implements Serializable {
+public class ${className}Query extends PageRequest implements Serializable {
     private static final long serialVersionUID = 3148176768559230877L;
     
 	<@generateFields/>
