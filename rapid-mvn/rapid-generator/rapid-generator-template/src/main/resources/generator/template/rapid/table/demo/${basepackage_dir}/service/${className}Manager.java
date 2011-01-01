@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
  */
 @Service
 @Transactional
-public class ${className}Manager extends BaseManager<${className},${table.idColumn.javaType}>{
+public class ${className}Manager {
 
 	private ${className}Dao ${classNameLower}Dao;
 	/**增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,请注意大小写*/
@@ -22,12 +22,8 @@ public class ${className}Manager extends BaseManager<${className},${table.idColu
 		this.${classNameLower}Dao = dao;
 	}
 	
-	public EntityDao getEntityDao() {
-		return this.${classNameLower}Dao;
-	}
-	
 	/** */
-	public ${className} create${className}(${className} ${classNameLower}) {
+	public ${className} save(${className} ${classNameLower}) {
 	    Assert.notNull(${classNameLower},"'${classNameLower}' must be not null");
 	    initDefaultValuesForCreate(${classNameLower});
 	    new ${className}Checker().checkCreate${className}(${classNameLower});
@@ -35,20 +31,18 @@ public class ${className}Manager extends BaseManager<${className},${table.idColu
 	    return ${classNameLower};
 	}
 	
-    public ${className} update${className}(${className} ${classNameLower}) {
+    public ${className} update(${className} ${classNameLower}) {
         Assert.notNull(${classNameLower},"'${classNameLower}' must be not null");
         new ${className}Checker().checkUpdate${className}(${classNameLower});
         this.${classNameLower}Dao.update(${classNameLower});
         return ${classNameLower};
     }	
 
-    public void delete${className}ById(${table.idColumn.javaType} id) {
-        Assert.notNull(id,"'id' must be not null");
+    public void deleteById(${table.idColumn.javaType} id) {
         this.${classNameLower}Dao.deleteById(id);
     }
     
-    public ${className} get${className}ById(${table.idColumn.javaType} id) {
-        Assert.notNull(id,"'id' must be not null");
+    public ${className} getById(${table.idColumn.javaType} id) {
         return this.${classNameLower}Dao.getById(id);
     }
     
