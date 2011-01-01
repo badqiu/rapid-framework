@@ -16,6 +16,8 @@ import cn.org.rapid_framework.util.page.PageQuery;
  */
 public class PageRequest<T> implements Serializable {
 
+	public static final int DEFAULT_PAGE_SIZE = 10;
+	
 	/**
 	 * 过滤参数
 	 */
@@ -28,7 +30,7 @@ public class PageRequest<T> implements Serializable {
 	/**
 	 * 分页大小
 	 */
-	private int pageSize;
+	private int pageSize = DEFAULT_PAGE_SIZE;
 	/**
 	 * 排序的多个列,如: username desc
 	 */
