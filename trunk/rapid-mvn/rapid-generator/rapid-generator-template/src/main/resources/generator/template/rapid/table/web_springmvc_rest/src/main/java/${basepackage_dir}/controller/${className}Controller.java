@@ -14,6 +14,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -82,7 +83,7 @@ public class ${className}Controller {
 	
 	/** 列表 */
 	@RequestMapping
-	public String index(ModelMap model,${className}Query query,HttpServletRequest request,HttpServletResponse response) {
+	public String index(ModelMap model,${className}Query query,HttpServletRequest request) {
 		Page page = this.${classNameFirstLower}Manager.findPage(query);
 		
 		model.addAllAttributes(toModelMap(page, query));
@@ -99,19 +100,23 @@ public class ${className}Controller {
 
 	/** 进入新增 */
 	@RequestMapping(value="/new")
-	public String _new(ModelMap model,${className} ${classNameFirstLower},HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String _new(ModelMap model,${className} ${classNameFirstLower}) throws Exception {
 		model.addAttribute("${classNameFirstLower}",${classNameFirstLower});
 		return "/${classNameLowerCase}/new";
 	}
 	
 	/** 保存新增,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
 	@RequestMapping(method=RequestMethod.POST)
-	public String create(ModelMap model,@Valid ${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String create(ModelMap model,${className} ${classNameFirstLower},BindingResult errors) throws Exception {
 		if(errors.hasErrors()) {
+			return "/${classNameLowerCase}/new";
+		}
+		try {
+			${classNameFirstLower}Manager.save(${classNameFirstLower});
+		}catch(ConstraintViolationException e) {
+			convert(e.getConstraintViolations(), errors);
 			return  "/${classNameLowerCase}/new";
 		}
-		
-		${classNameFirstLower}Manager.save(${classNameFirstLower});
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;
 	}
@@ -126,12 +131,16 @@ public class ${className}Controller {
 	
 	/** 保存更新,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public String update(ModelMap model,@PathVariable ${pkJavaType} id,@Valid ${className} ${classNameFirstLower},BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
+	public String update(ModelMap model,@PathVariable ${pkJavaType} id,${className} ${classNameFirstLower},BindingResult errors) throws Exception {
 		if(errors.hasErrors()) {
 			return "/${classNameLowerCase}/edit";
 		}
-		
-		${classNameFirstLower}Manager.update(${classNameFirstLower});
+		try {
+			${classNameFirstLower}Manager.update(${classNameFirstLower});
+		}catch(ConstraintViolationException e) {
+			SpringErrorsUtils.convert(e.getConstraintViolations(), errors);
+			return  "/${classNameLowerCase}/edit";
+		}
 		Flash.current().success(UPDATE_SUCCESS);
 		return LIST_ACTION;
 	}
