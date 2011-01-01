@@ -66,10 +66,6 @@ public abstract class BaseMybatisDao<E,PK extends Serializable> extends SqlSessi
     	return getMybatisMapperNamesapce()+".delete";
     }
     
-    public SqlSession getSqlSessionTemplate() {
-        return getSqlSession();
-    }
-
 	public List findAll() {
 		throw new UnsupportedOperationException();
 	}
