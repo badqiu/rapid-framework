@@ -30,6 +30,7 @@ public class FileHelperTest extends TestCase {
     String tempDir = System.getProperty("java.io.tmpdir");
     public void test_getFile() {
         FileHelper.getFile("classpath:cn/org/rapid_framework/generator/util/FileHelperTest.class");
+        FileHelper.getFile("classpath:/cn/org/rapid_framework/generator/util/FileHelperTest.class");
         
         try {
             FileHelper.getFile("classpath:cn/org/rapid_framework/generator/util/FileHelperTest_not_exist.class");

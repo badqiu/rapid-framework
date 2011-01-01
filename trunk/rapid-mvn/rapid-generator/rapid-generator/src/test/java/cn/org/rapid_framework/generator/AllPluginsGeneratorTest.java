@@ -14,6 +14,7 @@ public class AllPluginsGeneratorTest extends GeneratorTestCase {
 		GeneratorContext.clear();
 		GeneratorContext.put("basepackage","com.company.project");
 		GeneratorContext.put("namespace","pages");
+		GeneratorContext.put("appModule","shared");
 		g.addTemplateRootDir("classpath:generator/template/rapid/table");
 		g.addTemplateRootDir("classpath:generator/template/rapid/table/ria_flex_cairngorm");
 		g.addTemplateRootDir("classpath:generator/template/rapid/share/basic");
