@@ -16,6 +16,12 @@
 		<property name="password" value="123456"/>
 	</bean>
 
+	<!-- 
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
+    </bean>
+ 	-->
+ 	
 	<!-- log4jdbc可以将数据源执行的sql将占位符?替换成字符,并以日志打印出来. log4j配置: log4j.logger.jdbc.sqltiming=INFO    详情请看: http://code.google.com/p/rapid-framework/wiki/log4jdbc
 	如oracle示例: 
 		原来的sql: select * from user where birth_date = ? and username = ? and age > ?
@@ -34,13 +40,6 @@
            </list>
        </property>
     </bean>
-
-    	
-	<!-- 
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName"><value>java:comp/env/jdbc/ds</value></property>
-    </bean>
- 	-->
  	
  	<!-- 用于测试或demo的hsql的内存dataSource,可以在创建数据库时运行指定的初始化sql语句,如建表,插入测试数据,sql语句之间使用分号";"分隔 -->
  	<!-- 
