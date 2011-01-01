@@ -55,7 +55,7 @@ public class FileHelper {
     	        return new File(toFilePathIfIsURL(new File(file)));
     	    }
 	    }catch(FileNotFoundException e) {
-	        throw new RuntimeException(e.toString());
+	        throw new RuntimeException(e.toString(),e);
 	    }catch(IOException e) {
 	        throw new RuntimeException("getFile() error,file:"+file,e);
 	    }
@@ -118,15 +118,19 @@ public class FileHelper {
 	}
 	
 	public static File getFileByClassLoader(String resourceName) throws IOException {
-		Enumeration<URL> urls = ClassHelper.getDefaultClassLoader().getResources(resourceName);
+		String pathToUse = resourceName;
+		if (pathToUse.startsWith("/")) {
+			pathToUse = pathToUse.substring(1);
+		}
+		Enumeration<URL> urls = ClassHelper.getDefaultClassLoader().getResources(pathToUse);
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
-		urls = FileHelper.class.getClassLoader().getResources(resourceName);
+		urls = FileHelper.class.getClassLoader().getResources(pathToUse);
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
-		urls = ClassLoader.getSystemResources(resourceName);
+		urls = ClassLoader.getSystemResources(pathToUse);
 		while (urls.hasMoreElements()) {
 			return new File(urls.nextElement().getFile());
 		}
