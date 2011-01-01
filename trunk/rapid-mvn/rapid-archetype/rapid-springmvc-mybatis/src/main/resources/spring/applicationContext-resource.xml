@@ -38,10 +38,9 @@
 		</property>
 	</bean>
 	
-	<!--  激活 @Required @Autowired,JSR 250's @PostConstruct, @PreDestroy and @Resource 等标注 
+	<!--  激活 @Required @Autowired,JSR 250's @PostConstruct, @PreDestroy and @Resource 等标注 -->
 	<context:annotation-config />
-	-->
-		
+	
 	<!-- 支持 @AspectJ 标记
 		<aop:aspectj-autoproxy/>
 	-->
@@ -72,6 +71,6 @@
 	 -->
 	
 	<!-- 用于持有ApplicationContext,可以使用ApplicationContextHolder.getBean('xxxx')的静态方法得到spring bean对象 -->
-	<!-- <bean class="cn.org.rapid_framework.util.holder.ApplicationContextHolder"/> -->
+	<bean class="cn.org.rapid_framework.util.holder.ApplicationContextHolder"/>
 
 </beans>
