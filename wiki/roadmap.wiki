@@ -2,8 +2,8 @@
   # 整个构建工具迁移至maven
   # 删除老的框架集成,struts
   # 集成安全框架
-  # web自动化部署努力
-  # 
+  # 提供sprngmvc-mybatis,flex-hibernate,struts2-ibatis等archetype
+  # 提供 generator.war,用于生成代码使用
 
 =以下为v3.0路线图内容=
 *新增插件*
