@@ -10,8 +10,9 @@ import org.springframework.context.support.MessageSourceResourceBundle;
  * 将ResourceBundleLocator代理为spring的MessageSource
  * 
  * @author badqiu
- *
+ * replace by spring
  */
+@Deprecated
 public class MessageSourceResourceBundleLocator implements ResourceBundleLocator{
 	private MessageSource messageSource;
 
