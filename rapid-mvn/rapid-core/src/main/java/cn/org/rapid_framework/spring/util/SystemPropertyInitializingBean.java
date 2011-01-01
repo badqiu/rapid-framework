@@ -1,7 +1,10 @@
 package cn.org.rapid_framework.spring.util;
 
+import java.io.File;
 import java.util.Properties;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
@@ -51,4 +54,12 @@ public class SystemPropertyInitializingBean implements InitializingBean,Priority
 		}
 	}
 	
+	public static void log4jConfigureAndWatch(File file,long refreshInterval) {
+		if (file.getAbsolutePath().toLowerCase().endsWith(".xml")) {
+			DOMConfigurator.configureAndWatch(file.getAbsolutePath(), refreshInterval);
+		}
+		else {
+			PropertyConfigurator.configureAndWatch(file.getAbsolutePath(), refreshInterval);
+		}
+	}
 }
