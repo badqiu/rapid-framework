@@ -2,7 +2,12 @@ package cn.org.rapid_framework.distributed.threadlocal;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * 分布式 ThreadLocal, 存放在ThreadLocal中的数据可以传输至另外一台机器上
+ * 
+ * @author badqiu
+ *
+ */
 public class DistributedThreadLocal {
 	public static String DISTRIBUTED_THREAD_LOCAL_KEY_PREFIX = "tl_";
 	
