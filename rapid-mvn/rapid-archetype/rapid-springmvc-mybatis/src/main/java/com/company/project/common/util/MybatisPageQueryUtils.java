@@ -11,6 +11,7 @@ import cn.org.rapid_framework.beanutils.PropertyUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 import cn.org.rapid_framework.util.page.PageList;
+import cn.org.rapid_framework.util.page.PageQuery;
 import cn.org.rapid_framework.util.page.Paginator;
 
 public class MybatisPageQueryUtils {
@@ -20,7 +21,7 @@ public class MybatisPageQueryUtils {
 
 			PageList pageList = pageQuery(sqlSession, statement, countStatement, parameter, parameter.getPageNumber(),
 					parameter.getPageSize());
-	        Page page = new Page(parameter,pageList.getTotalItems());
+	        Page page = new Page(parameter.getPageNumber(),parameter.getPageSize(),pageList.getTotalItems());
 	        page.setResult(pageList);
 	        return page;
 		}
