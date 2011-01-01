@@ -10,7 +10,7 @@ package ${basepackage}.vo{
 	
 	[Bindable]
 	[RemoteClass(alias="${basepackage}.model.${className}")]
-	public class ${className} extends BaseEntity
+	public class ${className} 
 	{
 		
 		//alias

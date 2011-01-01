@@ -22,7 +22,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 @Entity
 @Table(name = "${table.sqlName}")
-public class ${className} extends BaseEntity implements java.io.Serializable{
+public class ${className} implements java.io.Serializable{
 	private static final long serialVersionUID = 5454155825314635342L;
 	
 	//alias
