@@ -22,10 +22,9 @@
     	<property name="cacheSeconds" value="60"/>
     </bean>
     
-	<!-- 属性文件读入,使用rapid中的JdbcPlaceholderConfigurer则可以从数据库读取配置信息 -->
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
-		<property name="ignoreResourceNotFound" value="true" />
+    <!-- 应用属性文件读入 -->
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    	<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
 				<!-- 标准配置 -->
@@ -36,6 +35,12 @@
 				<value>file:${user.home}/application.properties</value>
 			</list>
 		</property>
+    </bean>
+    
+	<!-- PropertyPlaceholderConfigurer,用于spring ${placeholder}的解析 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="properties" ref="applicationProperties"/>
 	</bean>
 	
 	<!--  激活 @Required @Autowired,JSR 250's @PostConstruct, @PreDestroy and @Resource 等标注 -->
