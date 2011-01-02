@@ -7,7 +7,7 @@ import java.util.Properties;
 /** 
  * 生成器的上下文，两个功能
  * 1. 存放在context中的变量将可以在模板中直接引用
- * 2. 通过 GeneratorContext.setGeneratorProperties() 可以覆盖GeneratorProperties中的属性设置
+ * 2. 通过 GeneratorContext.setGeneratorProperties() 可以覆盖GeneratorProperties中的属性设置,如果为空,则不覆盖
  *  */
 public class GeneratorContext {
 	/** 
@@ -15,7 +15,7 @@ public class GeneratorContext {
 	 **/
     static ThreadLocal<Map> context = new ThreadLocal<Map>();
     /** 
-	 * GeneratorProperties可以引用的上下文 ,可以覆盖GeneratorProperies的属性,如果为空,则不覆盖
+	 * GeneratorProperties可以引用的上下文 
 	 **/
     static ThreadLocal<Properties> generatorProperties = new ThreadLocal<Properties>();
     
