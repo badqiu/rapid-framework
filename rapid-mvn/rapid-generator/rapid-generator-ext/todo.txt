@@ -115,3 +115,13 @@ dalgen需要修正返回值为long时，无法自动转换值为long类型: 重�
 	
 	
 springmvc数据绑定时:  Failed to convert property value of type java.lang.String to required type java.lang.Integer for property age; nested exception is org.springframework.core.convert.ConversionFailedException: Unable to convert value "9999999999" from type java.lang.String to type java.lang.Integer; nested exception is java.lang.NumberFormatException: For input string: "9999999999"
+
+
+为WebService调用的Request+Result+Exception增加Map extendedData用于存放通用的扩展数据. 这样 traceId就可以通过这个传递.
+	或者可以通过Soap Header, Http Header来传递
+	CXF使用拦截器向SOAPHeader中添加用户自定义信息 http://kingoblog.appspot.com/2009/04/24/cxfsoapheader.html
+
+增加 DistributedThreadLocal(应用场景:分布式MDC traceId,分布式sessionId,分布式安全登陆
+
+
+集成 http://www.jasypt.org/encrypting-configuration.html 用于 spring application.properties的加密
