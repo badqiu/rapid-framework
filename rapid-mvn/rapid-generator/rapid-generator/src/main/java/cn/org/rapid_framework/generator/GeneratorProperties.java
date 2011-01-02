@@ -22,7 +22,6 @@ import cn.org.rapid_framework.generator.util.typemapping.DatabaseTypeUtils;
  * @email badqiu(a)gmail.com
  */
 public class GeneratorProperties {
-	static PropertyPlaceholderHelper helper = new PropertyPlaceholderHelper("${", "}", ":", false);
 	
 	static final String PROPERTIES_FILE_NAMES[] = new String[]{"generator.properties","generator.xml"};
 	
@@ -37,11 +36,11 @@ public class GeneratorProperties {
 	}
 
 	public static void putAll(Properties props) {
-		GeneratorProperties.getProperties().putAll(resolveProperties(props));
+		GeneratorProperties.getHelper().putAll(props);
 	}
 	
 	public static void clear() {
-		GeneratorProperties.getProperties().clear();
+		GeneratorProperties.getHelper().clear();
 	}
 	
 	public static void reload() {
@@ -79,21 +78,6 @@ public class GeneratorProperties {
 		String jdbcDriver = (String)p.get(GeneratorConstants.JDBC_DRIVER.code);
         return DatabaseTypeUtils.getDatabaseTypeByJdbcDriver(jdbcDriver);
 	}
-	
-	// 自动替换所有value从 com.company 替换为 com/company,并设置key = key+"_dir"后缀
-	private static Properties autoReplacePropertiesValue2DirValue(Properties props) {
-        Properties autoReplaceProperties = new Properties();
-        for(Object key : getProperties().keySet()) {
-            String dir_key = key.toString()+"_dir";
-//            if(props.entrySet().contains(dir_key)) {
-//                continue;
-//            }
-            String value = props.getProperty(key.toString());
-            String dir_value = value.toString().replace('.', '/');
-            autoReplaceProperties.put(dir_key, dir_value);           
-        }
-        return autoReplaceProperties;
-    }
 	
 	public static Properties getProperties() {
 		return getHelper().getProperties();
@@ -164,36 +148,12 @@ public class GeneratorProperties {
 	}
 	
 	public static void setProperty(String key,String value) {
-		value = resolveProperty(value,getProperties());
-		key = resolveProperty(key,getProperties());
 		GLogger.debug("[setProperty()] "+key+"="+value);
 		getHelper().setProperty(key, value);
 	}
 
-	private static void assertPropertyKey(String key) {
-	    if(key.indexOf(".") >= 0) {
-	        throw new IllegalArgumentException("property的key不能包含句号'.'，使用下划线'_'代替. key="+key);
-	    }
-    }
-
-    private static Properties resolveProperties(Properties props) {
-		Properties result = new Properties();
-		for(Object s : props.keySet()) {
-			String sourceKey = s.toString();
-			String key  = resolveProperty(sourceKey,props);
-			String value = resolveProperty(props.getProperty(sourceKey),props);
-			result.setProperty(key, value);
-		}
-		return result;
-	}
-	
-	private static String resolveProperty(String v,Properties props) {
-		PropertyPlaceholderConfigurerResolver propertyPlaceholderConfigurerResolver = new PropertyPlaceholderConfigurerResolver(props);
-		return helper.replacePlaceholders(v, propertyPlaceholderConfigurerResolver);
-	}
-	
 	public static void setProperties(Properties inputProps) {
-		props = new PropertiesHelper(resolveProperties(inputProps),true);
+		props = new PropertiesHelper(inputProps,true);
         for(Iterator it = props.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
 //            assertPropertyKey(entry.getKey().toString());

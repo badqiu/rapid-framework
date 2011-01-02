@@ -15,6 +15,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyPlaceholderConfigurerResolver;
+
 public class PropertiesHelper {
 	boolean isSearchSystemProperty = false;
 	Properties p;
@@ -24,7 +26,7 @@ public class PropertiesHelper {
 	}
 
 	public PropertiesHelper(Properties p,boolean isSearchSystemProperty) {
-		this.p = p;
+		this.p = resolveProperties(p);
 		this.isSearchSystemProperty = isSearchSystemProperty;
 	}
 	
@@ -118,7 +120,14 @@ public class PropertiesHelper {
 	}
 	
 	public PropertiesHelper setProperty(String key,String value) {
+		value = resolveProperty(value,getProperties());
+		key = resolveProperty(key,getProperties());
 		p.setProperty(key, value);
+		return this;
+	}
+	
+	public PropertiesHelper putAll(Properties props) {
+		p.putAll(resolveProperties(props));
 		return this;
 	}
 
@@ -180,4 +189,21 @@ public class PropertiesHelper {
 		}
 		return (String[])successLoadProperties.toArray(new String[0]);
 	}
+	
+    private static Properties resolveProperties(Properties props) {
+		Properties result = new Properties();
+		for(Object s : props.keySet()) {
+			String sourceKey = s.toString();
+			String key  = resolveProperty(sourceKey,props);
+			String value = resolveProperty(props.getProperty(sourceKey),props);
+			result.setProperty(key, value);
+		}
+		return result;
+	}
+    
+	private static String resolveProperty(String v,Properties props) {
+		PropertyPlaceholderConfigurerResolver propertyPlaceholderConfigurerResolver = new PropertyPlaceholderConfigurerResolver(props);
+		return propertyPlaceholderHelper.replacePlaceholders(v, propertyPlaceholderConfigurerResolver);
+	}
+	static PropertyPlaceholderHelper propertyPlaceholderHelper = new PropertyPlaceholderHelper("${", "}", ":", false);
 }
