@@ -83,7 +83,7 @@ public class PropertiesHelper {
 	/**
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/
-	public String getRequiredString(String key) throws IllegalStateException {
+	public String getRequiredProperty(String key) throws IllegalStateException {
 		String value = getProperty(key);
 		if(isBlankString(value)) {
 			throw new IllegalStateException("required property is blank by key="+key);
@@ -157,7 +157,7 @@ public class PropertiesHelper {
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/
 	public int getRequiredInt(String key) throws IllegalStateException {
-		return Integer.parseInt(getRequiredString(key));
+		return Integer.parseInt(getRequiredProperty(key));
 	}
 	
 	public Long getLong(String key) {
@@ -180,7 +180,7 @@ public class PropertiesHelper {
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/
 	public long getRequiredLong(String key) throws IllegalStateException {
-		return Long.parseLong(getRequiredString(key));
+		return Long.parseLong(getRequiredProperty(key));
 	}
 	
 	public Boolean getBoolean(String key) {
@@ -203,7 +203,7 @@ public class PropertiesHelper {
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/
 	public boolean getRequiredBoolean(String key) throws IllegalStateException {
-		return Boolean.parseBoolean(getRequiredString(key));
+		return Boolean.parseBoolean(getRequiredProperty(key));
 	}
 	
 	public Float getFloat(String key) {
@@ -226,7 +226,7 @@ public class PropertiesHelper {
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/	
 	public float getRequiredFloat(String key) throws IllegalStateException {
-		return Float.parseFloat(getRequiredString(key));
+		return Float.parseFloat(getRequiredProperty(key));
 	}
 	
 	public Double getDouble(String key) {
@@ -249,7 +249,7 @@ public class PropertiesHelper {
 	 * 必须存在这个key的值,不然抛 IllegalStateException异常
 	 **/
 	public double getRequiredDouble(String key) throws IllegalStateException {
-		return Double.parseDouble(getRequiredString(key));
+		return Double.parseDouble(getRequiredProperty(key));
 	}
 	
 	public URL getURL(String key) throws IllegalArgumentException {
