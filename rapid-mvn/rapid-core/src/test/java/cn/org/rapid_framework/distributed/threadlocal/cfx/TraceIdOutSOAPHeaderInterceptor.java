@@ -27,6 +27,8 @@ public class TraceIdOutSOAPHeaderInterceptor extends AbstractSoapInterceptor {
 	}
 
 	public void handleMessage(SoapMessage message) throws Fault {
+		DistributedThreadLocal.onBeforeRemoteCall();
+		
 		List<Header> headers = message.getHeaders();
 		Map<String,String> threadlocalMap = DistributedThreadLocal.getMap();
 		

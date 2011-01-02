@@ -27,6 +27,8 @@ public class DistributedThreadLocalHessianConnectionFactory implements
 	}
 
 	public HessianConnection open(URL url) throws IOException {
+		DistributedThreadLocal.onBeforeRemoteCall();
+		
 		HessianConnection conn = delegate.open(url);
 		Map<String, String> map = DistributedThreadLocal.getMap();
 		Set<String> keySet = map.keySet();
