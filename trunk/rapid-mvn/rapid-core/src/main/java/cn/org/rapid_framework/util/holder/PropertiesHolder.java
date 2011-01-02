@@ -154,8 +154,8 @@ public class PropertiesHolder implements InitializingBean{
 		return getRequiredHelper().getRequiredLong(key);
 	}
 
-	public static String getRequiredString(String key) throws IllegalStateException {
-		return getRequiredHelper().getRequiredString(key);
+	public static String getRequiredProperty(String key) throws IllegalStateException {
+		return getRequiredHelper().getRequiredProperty(key);
 	}
 
 	public static Properties getStartsWithProperties(String prefix) {
