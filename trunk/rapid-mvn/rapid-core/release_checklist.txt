@@ -1,3 +1,4 @@
+
 1.javaeye news
 2.blogjava news
 3.csdn blog
@@ -15,6 +16,10 @@
 1.maven upload and checksum
 
 
+--- news content ---
+  commiters
+  changelog
+  
 
 
 https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
