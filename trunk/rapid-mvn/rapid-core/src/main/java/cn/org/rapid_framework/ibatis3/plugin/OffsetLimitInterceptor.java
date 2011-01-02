@@ -129,7 +129,7 @@ public class OffsetLimitInterceptor implements Interceptor{
 	}
 
 	public void setProperties(Properties properties) {
-		String dialectClass = new PropertiesHelper(properties).getRequiredString("dialectClass");
+		String dialectClass = new PropertiesHelper(properties).getRequiredProperty("dialectClass");
 		try {
 			dialect = (Dialect)Class.forName(dialectClass).newInstance();
 		} catch (Exception e) {
