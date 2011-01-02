@@ -16,8 +16,8 @@ import cn.org.rapid_framework.util.PropertiesHelper;
  * PropertiesHolder初始化
  * 
  * <b>spring初始化:</b>
- * &lt;bean class="cn.org.rapid_framework.util.holder.PropertiesHolder"/>
- * 		<property name="properties" ref="applicationProperties"/>
+ * &lt;bean class="cn.org.rapid_framework.util.holder.PropertiesHolder">
+ * 		&lt;property name="properties" ref="applicationProperties"/>
  * &lt;/bean>
  * 
  * <b>java API初始化:</b>
@@ -34,7 +34,7 @@ public class PropertiesHolder implements InitializingBean{
 	public static PropertiesHelper properies = null;
 	
 	public void setProperties(Properties properies) {
-		Assert.isNull(properies,"PropertiesHolder alreade hold properties");
+		Assert.isNull(PropertiesHolder.properies,"PropertiesHolder alreade hold properties");
 		PropertiesHolder.properies = new PropertiesHelper(properies);
 	}
 	
