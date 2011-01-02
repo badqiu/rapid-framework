@@ -41,6 +41,12 @@ public class DistributedThreadLocal {
 		threadLocal.set(null);
 	}
 
+	
+	public static void onBeforeRemoteCall() {
+	}
+	
+	public static void onReceivedDistributedThreadLocal(){
+	}
 
 
 }

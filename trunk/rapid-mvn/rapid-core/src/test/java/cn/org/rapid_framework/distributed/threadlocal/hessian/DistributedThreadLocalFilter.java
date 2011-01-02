@@ -24,8 +24,8 @@ public class DistributedThreadLocalFilter extends OncePerRequestFilter {
 			if(key.startsWith(DistributedThreadLocal.DISTRIBUTED_THREAD_LOCAL_KEY_PREFIX)) {
 				DistributedThreadLocal.put(key.substring(DistributedThreadLocal.DISTRIBUTED_THREAD_LOCAL_KEY_PREFIX.length()), request.getHeader(key));
 			}
-			System.out.println(key+"="+request.getHeader(key));
 		}
+		DistributedThreadLocal.onReceivedDistributedThreadLocal();
 		
 		filterChain.doFilter(request, response);
 	}

@@ -39,6 +39,8 @@ public class TraceIdInSOAPHeaderInterceptor extends AbstractSoapInterceptor {
         
         Map<String,String> headers = toHeadersMap(doc);  
 		DistributedThreadLocal.putAll(headers);
+		
+		DistributedThreadLocal.onReceivedDistributedThreadLocal();
 	}
 
 	private Map toHeadersMap(SOAPMessage doc) {
