@@ -37,6 +37,11 @@
 		</property>
     </bean>
     
+    <!-- 用于持有applicationProperties,将properties转变为静态方法使用,PropertiesHolder.getProperty("somekey") -->
+	<bean class="cn.org.rapid_framework.util.holder.PropertiesHolder">
+ 		<property name="properties" ref="applicationProperties"/>
+ 	</bean>
+    
 	<!-- PropertyPlaceholderConfigurer,用于spring ${placeholder}的解析 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
