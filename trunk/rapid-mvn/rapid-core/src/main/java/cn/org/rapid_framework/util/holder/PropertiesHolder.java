@@ -12,20 +12,21 @@ import cn.org.rapid_framework.util.PropertiesHelper;
 
 /**
  * 用于持有Properties,将Propereis变成静态方法使用. PropertiesHolder只能持有一个properties
- * 
+ * <pre>
  * PropertiesHolder初始化
- * spring初始化:
+ * 
+ * <b>spring初始化:</b>
  * &lt;bean class="cn.org.rapid_framework.util.holder.PropertiesHolder"/>
  * 		<property name="properties" ref="applicationProperties"/>
  * &lt;/bean>
  * 
- * java API初始化:
+ * <b>java API初始化:</b>
  * new PropertiesHolder().setProperties(cache)
  * 
- * 如果需要重新初始化Properties,需要
+ * <b>如果需要重新初始化Properties,需要</b>
  * PropertiesHolder.clearHolder();
  * new PropertiesHolder().setProperties(cache)
- * 
+ * </pre>
  */
 public class PropertiesHolder implements InitializingBean{
 	private static Log log = LogFactory.getLog(MessageSourceHolder.class);
