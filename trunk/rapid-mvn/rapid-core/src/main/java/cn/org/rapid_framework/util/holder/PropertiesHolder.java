@@ -182,6 +182,6 @@ public class PropertiesHolder implements InitializingBean{
 
 	public void afterPropertiesSet() throws Exception {
 		assertHolderInited();
-		log.info("PropertiesHolder holded properties:"+getRequiredHelper().getProperties());
+		log.info("PropertiesHolder holded properties, hashCode:"+getRequiredHelper().getProperties().hashCode());
 	}
 }
