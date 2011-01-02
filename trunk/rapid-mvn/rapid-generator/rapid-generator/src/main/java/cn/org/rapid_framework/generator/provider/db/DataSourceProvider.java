@@ -51,10 +51,7 @@ public class DataSourceProvider {
 		if(dataSource == null) {
 			dataSource = lookupJndiDataSource(GeneratorProperties.getProperty(GeneratorConstants.DATA_SOURCE_JNDI_NAME));
 			if(dataSource == null) {
-				dataSource = new DriverManagerDataSource(GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_URL), 
-						GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_USERNAME), 
-						GeneratorProperties.getProperty(GeneratorConstants.JDBC_PASSWORD), 
-						GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_DRIVER));
+				dataSource = new DriverManagerDataSource();
 			}
 		}
 		return dataSource;
@@ -73,10 +70,6 @@ public class DataSourceProvider {
 	}
 	
 	public static class DriverManagerDataSource implements DataSource {
-		private String url;
-		private String username;
-		private String password;
-		private String driverClass;
 		
 		private static void loadJdbcDriver(String driverClass) {
 			try {
@@ -89,20 +82,17 @@ public class DataSourceProvider {
 			}
 		}
 		
-		public DriverManagerDataSource(String url, String username,String password, String driverClass) {
-			this.url = url;
-			this.username = username;
-			this.password = password;
-			this.driverClass = driverClass;
-			loadJdbcDriver(driverClass);
+		public DriverManagerDataSource() {
 		}
 
 		public Connection getConnection() throws SQLException {
-			return DriverManager.getConnection(url,username,password);
+			loadJdbcDriver(getDriverClass());
+			return DriverManager.getConnection(getUrl(),getUsername(),getPassword());
 		}
 
 		public Connection getConnection(String username, String password) throws SQLException {
-			return DriverManager.getConnection(url,username,password);
+			loadJdbcDriver(getDriverClass());
+			return DriverManager.getConnection(getUrl(),username,password);
 		}
 
 		public PrintWriter getLogWriter() throws SQLException {
@@ -133,10 +123,25 @@ public class DataSourceProvider {
 		public boolean isWrapperFor(Class<?> iface) throws SQLException {
 			return DataSource.class.equals(iface);
 		}
-		
-		public String toString() {
-			return "DataSource: "+"url="+url+" username="+username;
+
+		private String getUrl() {
+			return GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_URL);
 		}
 
+		private String getUsername() {
+			return GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_USERNAME);
+		}
+
+		private String getPassword() {
+			return GeneratorProperties.getProperty(GeneratorConstants.JDBC_PASSWORD);
+		}
+
+		private String getDriverClass() {
+			return GeneratorProperties.getRequiredProperty(GeneratorConstants.JDBC_DRIVER);
+		}
+		
+		public String toString() {
+			return "DataSource: "+"url="+getUrl()+" username="+getUsername();
+		}
 	}
 }

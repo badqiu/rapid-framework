@@ -10,8 +10,6 @@ import java.util.Properties;
 
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.PropertiesHelper;
-import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper;
-import cn.org.rapid_framework.generator.util.PropertyPlaceholderHelper.PropertyPlaceholderConfigurerResolver;
 import cn.org.rapid_framework.generator.util.typemapping.DatabaseTypeUtils;
 
 
@@ -25,7 +23,7 @@ public class GeneratorProperties {
 	
 	static final String PROPERTIES_FILE_NAMES[] = new String[]{"generator.properties","generator.xml"};
 	
-	static PropertiesHelper props = new PropertiesHelper(new Properties(),true);
+	static PropertiesHelper propertiesHelper = new PropertiesHelper(new Properties(),true);
 	private GeneratorProperties(){}
 	static {
 		reload();
@@ -68,7 +66,7 @@ public class GeneratorProperties {
 	}
 
 	public static String getDatabaseType(String key) {
-		return getDatabaseType(getProperties(),key);
+		return getDatabaseType(getHelper().getProperties(),key);
 	}
 	
 	public static String getDatabaseType(Map p,String key) {
@@ -84,7 +82,11 @@ public class GeneratorProperties {
 	}
 	
 	private static PropertiesHelper getHelper() {
-		return props;
+		Properties fromContext = GeneratorContext.getGeneratorProperties();
+		if(fromContext != null) {
+			return new PropertiesHelper(fromContext,true);
+		}
+		return propertiesHelper;
 	}
 	
 	public static String getProperty(String key, String defaultValue) {
@@ -153,8 +155,8 @@ public class GeneratorProperties {
 	}
 
 	public static void setProperties(Properties inputProps) {
-		props = new PropertiesHelper(inputProps,true);
-        for(Iterator it = props.entrySet().iterator();it.hasNext();) {
+		propertiesHelper = new PropertiesHelper(inputProps,true);
+        for(Iterator it = propertiesHelper.entrySet().iterator();it.hasNext();) {
             Map.Entry entry = (Map.Entry)it.next();
 //            assertPropertyKey(entry.getKey().toString());
             GLogger.debug("[Property] "+entry.getKey()+"="+entry.getValue());
