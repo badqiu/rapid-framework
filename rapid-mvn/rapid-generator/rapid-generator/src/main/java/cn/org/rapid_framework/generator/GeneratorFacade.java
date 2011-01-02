@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import cn.org.rapid_framework.generator.Generator.GeneratorModel;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
@@ -155,28 +156,6 @@ public class GeneratorFacade  {
     
     public void setGenerator(Generator generator) {
     	this.generator = generator;
-    }
-    
-    /** 生成器的上下文，存放的变量将可以在模板中引用 */
-    public static class GeneratorContext {
-        static ThreadLocal<Map> context = new ThreadLocal<Map>();
-        public static void clear() {
-            Map m = context.get();
-            if(m != null) m.clear();
-        }
-        public static Map getContext() {
-            Map map = context.get();
-            if(map == null) {
-                setContext(new HashMap());
-            }
-            return context.get();
-        }
-        public static void setContext(Map map) {
-            context.set(map);
-        }
-        public static void put(String key,Object value) {
-            getContext().put(key, value);
-        }
     }
     
     public class ProcessUtils {

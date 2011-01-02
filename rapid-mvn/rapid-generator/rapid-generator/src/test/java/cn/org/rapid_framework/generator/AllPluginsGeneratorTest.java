@@ -1,8 +1,5 @@
 package cn.org.rapid_framework.generator;
 
-import java.io.File;
-
-import cn.org.rapid_framework.generator.GeneratorFacade.GeneratorContext;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
 
