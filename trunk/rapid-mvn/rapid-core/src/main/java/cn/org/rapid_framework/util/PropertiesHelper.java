@@ -8,18 +8,13 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.InvalidPropertiesFormatException;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.StringTokenizer;
 import java.util.Map.Entry;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Properties的操作的工具类,为Properties提供一个代理增加相关工具方法如 getRequiredString(),getInt(),getBoolean()等方法
@@ -143,18 +138,19 @@ public class PropertiesHelper {
 	}
 	
 	public Integer getInteger(String key) {
-		String v = getProperty(key);
-		if(v == null){
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Integer.parseInt(v);
+		return Integer.parseInt(value);
 	}
 	
 	public int getInt(String key,int defaultValue) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return defaultValue;
 		}
-		return Integer.parseInt(getRequiredString(key));
+		return Integer.parseInt(value);
 	}
 	
 	/**
@@ -165,17 +161,19 @@ public class PropertiesHelper {
 	}
 	
 	public Long getLong(String key) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Long.parseLong(getRequiredString(key));
+		return Long.parseLong(value);
 	}
 	
 	public long getLong(String key,long defaultValue) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return defaultValue;
 		}
-		return Long.parseLong(getRequiredString(key));
+		return Long.parseLong(value);
 	}
 	
 	/**
@@ -186,17 +184,19 @@ public class PropertiesHelper {
 	}
 	
 	public Boolean getBoolean(String key) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Boolean.parseBoolean(getRequiredString(key));
+		return Boolean.parseBoolean(value);
 	}
 	
 	public boolean getBoolean(String key,boolean defaultValue) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return defaultValue;
 		}
-		return Boolean.parseBoolean(getRequiredString(key));
+		return Boolean.parseBoolean(value);
 	}
 	
 	/**
@@ -207,17 +207,19 @@ public class PropertiesHelper {
 	}
 	
 	public Float getFloat(String key) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Float.parseFloat(getRequiredString(key));
+		return Float.parseFloat(value);
 	}
 	
 	public float getFloat(String key,float defaultValue) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return defaultValue;
 		}
-		return Float.parseFloat(getRequiredString(key));
+		return Float.parseFloat(value);
 	}
 	
 	/**
@@ -228,17 +230,19 @@ public class PropertiesHelper {
 	}
 	
 	public Double getDouble(String key) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return null;
 		}
-		return Double.parseDouble(getRequiredString(key));
+		return Double.parseDouble(value);
 	}
 	
 	public double getDouble(String key,double defaultValue) {
-		if(getProperty(key) == null) {
+		String value = getProperty(key);
+		if(isBlankString(value)) {
 			return defaultValue;
 		}
-		return Double.parseDouble(getRequiredString(key));
+		return Double.parseDouble(value);
 	}
 	
 	/**
