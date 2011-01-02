@@ -35,7 +35,7 @@ public class GeneratorPropertiesTest extends TestCase {
 		}
 	}
 	
-	public void test() {
+	public void test_GeneratorConstants() {
 //	    GeneratorProperties.setProperty(GeneratorConstants.GENERATOR_TOOLS_CLASS, "StringDiy");
         GeneratorProperties.setProperties(new Properties());
 	    for(GeneratorConstants key : GeneratorConstants.values()) {
@@ -67,5 +67,24 @@ public class GeneratorPropertiesTest extends TestCase {
 	    System.out.println(Arrays.toString(stringArray));
         assertEquals("123",stringArray[0]);
         assertEquals("456",stringArray[1]);
+	}
+	
+	public void testResolveProperties() {
+		GeneratorProperties.setProperty("foo_username", "qq");
+		GeneratorProperties.setProperty("root/${foo_username}", "java");
+		GeneratorProperties.setProperty("root", "java${foo_username}");
+		GeneratorProperties.setProperty("root_user_home", "java${user.home}");
+		assertEquals(GeneratorProperties.getProperty("root"),"javaqq");
+		assertEquals(GeneratorProperties.getProperty("root/qq"),"java");
+		assertEquals(GeneratorProperties.getProperty("root_user_home"),"java"+System.getProperty("user.home"));
+		
+		Properties props = new Properties();
+		props.setProperty("foo_username", "qq");
+		props.put("foo_pwd", "${foo_username}+123");
+		props.put("foo_sex${foo_username}", "+123");
+		GeneratorProperties.putAll(props);
+		
+		assertEquals(GeneratorProperties.getProperty("foo_pwd"),"qq+123");
+		assertEquals(GeneratorProperties.getProperty("foo_sexqq"),"+123");
 	}
 }
