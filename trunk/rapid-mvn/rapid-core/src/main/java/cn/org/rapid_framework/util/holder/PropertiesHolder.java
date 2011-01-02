@@ -29,7 +29,7 @@ import cn.org.rapid_framework.util.PropertiesHelper;
  * </pre>
  */
 public class PropertiesHolder implements InitializingBean{
-	private static Log log = LogFactory.getLog(MessageSourceHolder.class);
+	private static Log log = LogFactory.getLog(PropertiesHolder.class);
 	
 	public static PropertiesHelper properies = null;
 	
