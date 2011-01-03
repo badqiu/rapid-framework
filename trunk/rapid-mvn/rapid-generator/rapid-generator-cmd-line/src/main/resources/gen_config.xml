@@ -6,8 +6,7 @@
 		1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
 	</comment>
 	
-	<entry key="basepackage">com.company.project</entry>
-	<entry key="dal_package">${basepackage}.common.dal</entry>
+	<entry key="dal_package">com.company.project.common.dal</entry>
 	<entry key="appName">project</entry>
 	
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
@@ -57,7 +56,16 @@
 	<!-- H2 -->
 	<entry key="jdbc_url">jdbc:h2:mem:test_mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
 	<entry key="jdbc_driver">org.h2.Driver</entry>
-
+	
+	<!-- 增删改查的基本package -->
+	<entry key="crud_basepackage">com.company.project</entry>
+	<!-- 增删改查生成器模板
+		struts2 + hibernate: ${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_hibernate,${dir_templates_root}/table/dao_hibernate_annotation,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_struts2
+		springmvc + mybatis: ${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_mybatis,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_springmvc_rest
+	 -->
+	<entry key="dir_crud_template_root">${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_mybatis,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_springmvc_rest</entry>
+	<entry key="dir_crud_out_root">C:/generator_output</entry>
+	
 	<!-- Mysql -->
 	<!-- 
 	<entry key="jdbc_url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
