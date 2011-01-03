@@ -25,7 +25,7 @@
 	</bean>
 </beans>
 
-<!--	 java simplified encryption begin -->
+<!--	 java simplified encryption begin  jdbc_password=ENC(uVli3tcrh3aN7srWRzLyag==)-->
 <!--    <dependency>-->
 <!--      <groupId>org.jasypt</groupId>-->
 <!--      <artifactId>jasypt</artifactId>-->
