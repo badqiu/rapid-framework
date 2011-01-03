@@ -38,18 +38,21 @@ public class BeanValidatorHolder implements InitializingBean{
 		validator = v;
 	}
 
-	public static Validator getValidator() {
+	private static Validator getRequiredValidator() {
 		if(validator == null)
 			throw new IllegalStateException("'validator' property is null,BeanValidatorHolder not yet init.");
 		return validator;
 	}
 
 	public static final <T> Set<ConstraintViolation<T>> validate(T object, Class<?>... groups) {
-		return getValidator().validate(object, groups);
+		return getRequiredValidator().validate(object, groups);
 	}
-
-	public static final <T> void validate(T object) throws ConstraintViolationException {
-		Set constraintViolations = getValidator().validate(object);
+	
+	/**
+	 * 验证失败将抛出异常
+	 */
+	public static final <T> void validateWithException(T object, Class<?>... groups) throws ConstraintViolationException {
+		Set constraintViolations = getRequiredValidator().validate(object,groups);
 		String msg = "validate failure on object:"+object.getClass().getSimpleName();
 		if(!constraintViolations.isEmpty()) {
 			throw new ConstraintViolationException(msg,constraintViolations);
@@ -57,11 +60,14 @@ public class BeanValidatorHolder implements InitializingBean{
 	}
 	
 	public static final <T> Set<ConstraintViolation<T>> validateProperty(T object, String propertyName, Class<?>... groups) {
-		return getValidator().validateProperty(object, propertyName,groups);
+		return getRequiredValidator().validateProperty(object, propertyName,groups);
 	}
-
-	public static final <T> void validateProperty(T object, String propertyName) throws ConstraintViolationException {
-		Set constraintViolations = getValidator().validateProperty(object, propertyName);
+	
+	/**
+	 * 验证失败将抛出异常
+	 */
+	public static final <T> void validatePropertyWithException(T object, String propertyName, Class<?>... groups) throws ConstraintViolationException {
+		Set constraintViolations = getRequiredValidator().validateProperty(object, propertyName);
 		String msg = "validate property failure on object:"+object.getClass().getSimpleName()+"."+propertyName+"";
 		if(!constraintViolations.isEmpty()) {
 			throw new ConstraintViolationException(msg,constraintViolations);
@@ -69,11 +75,14 @@ public class BeanValidatorHolder implements InitializingBean{
 	}
 	
 	public static final <T> Set<ConstraintViolation<T>> validateValue(Class<T> beanType, String propertyName, Object value, Class<?>... groups) {
-		return getValidator().validateValue(beanType, propertyName,value,groups);
+		return getRequiredValidator().validateValue(beanType, propertyName,value,groups);
 	}
 
-	public static final <T> void validateValue(Class<T> beanType, String propertyName, Object value) throws ConstraintViolationException {
-		Set constraintViolations = getValidator().validateValue(beanType, propertyName,value);
+	/**
+	 * 验证失败将抛出异常
+	 */
+	public static final <T> void validateValueWithException(Class<T> beanType, String propertyName, Object value, Class<?>... groups) throws ConstraintViolationException {
+		Set constraintViolations = getRequiredValidator().validateValue(beanType, propertyName,value);
 		String msg = "validate value failure on object:"+beanType.getSimpleName()+"."+propertyName+" value:"+value;
 		if(!constraintViolations.isEmpty()) {
 			throw new ConstraintViolationException(msg,constraintViolations);
@@ -81,11 +90,11 @@ public class BeanValidatorHolder implements InitializingBean{
 	}
 	
 	public static final BeanDescriptor getConstraintsForClass(Class<?> clazz) {
-		return getValidator().getConstraintsForClass(clazz);
+		return getRequiredValidator().getConstraintsForClass(clazz);
 	}
 	
 	public static final <T> T unwrap(Class<T> type) {
-		return getValidator().unwrap(type);
+		return getRequiredValidator().unwrap(type);
 	}
 	
 	public static void cleanHolder() {
