@@ -26,6 +26,7 @@ def main() {
 	loadDefaultGeneratorProperties()
 	
 	String executeTarget = System.getProperty("executeTarget"); 
+	println "target:" + executeTarget;
 	new Targets(this)."${executeTarget}"();
 	
 	println "---------------------Generator executed SUCCESS---------------------"
@@ -91,13 +92,17 @@ public class Targets extends HashMap{
 	}
 	
 	def crud() {
-		GeneratorFacade gf = Helper.createGeneratorFacade(dir_dal_output_root,
-			"${dir_templates_root}/share/basic",
-			"${dir_templates_root}/table/dao_hibernate",
-			"${dir_templates_root}/table/dao_hibernate_annotation",
-			"${dir_templates_root}/table/service_no_interface",
-			"${dir_templates_root}/table/web_struts2");
-		GenUtils.genByTable(gf,genInputCmd)
+		GeneratorProperties.setProperty("basepackage",crud_basepackage);
+		
+		GeneratorFacade gf = new GeneratorFacade();
+	    gf.getGenerator().setTemplateRootDir("${dir_crud_template_root}");
+	    gf.getGenerator().setOutRootDir(dir_crud_out_root);
+	    
+	    gf.deleteOutRootDir();
+		GenUtils.genByTable(gf,genInputCmd);
+		if(SystemHelper.isWindowsOS) {
+			Runtime.getRuntime().exec("cmd.exe /c start ${dir_crud_out_root}")
+		}
 	}
 }
 
@@ -158,7 +163,7 @@ public class Helper {
 		}else {
 			TableConfig tableConfig = tableConfigSet.getBySqlName(tableSqlName);
 			if(tableConfig == null) {
-				throw new RuntimeException("��ݱ���:${tableSqlName}û���ҵ������ļ�");
+				throw new RuntimeException("根据tableName:${tableSqlName}没有找到相应的配置文件");
 			}
 			return Arrays.asList(tableConfig);
 		}
