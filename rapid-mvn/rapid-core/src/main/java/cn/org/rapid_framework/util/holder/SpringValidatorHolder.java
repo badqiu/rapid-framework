@@ -54,7 +54,12 @@ public class SpringValidatorHolder implements InitializingBean{
 	public static void validate(Object object, Errors errors) {
 		getRequiredValidator().validate(object, errors);
 	}
-
+	
+	/**
+	 * 验证失败将抛出异常
+	 * @param object
+	 * @throws BindException
+	 */
 	public static void validate(Object object) throws BindException {
 		BeanPropertyBindingResult errors = new BeanPropertyBindingResult(object, object.getClass().getSimpleName(), true);
 		getRequiredValidator().validate(object, errors);
