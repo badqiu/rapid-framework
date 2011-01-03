@@ -12,15 +12,16 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>
 	
-		<jetty.version>6.1.24</jetty.version>
+		<jetty.version>7.2.2.v20101205</jetty.version>
 		<h2.version>1.2.135</h2.version>
-		<jackson.version>1.5.2</jackson.version>
-		<slf4j.version>1.6.0</slf4j.version>
+		<jackson.version>1.6.4</jackson.version>
+		<slf4j.version>1.6.1</slf4j.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
+		<shiro.version>1.1.0</shiro.version>
 		
-		<hibernate.version>3.3.2.GA</hibernate.version>
+		<hibernate.version>3.6.0.Final</hibernate.version>
 		<ibatis.version>2.3.4.726</ibatis.version>
-		<mybatis.version>3.0.3</mybatis.version>
+		<mybatis.version>3.0.4</mybatis.version>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -484,7 +485,7 @@
 	<dependency>
 		<groupId>org.mybatis</groupId>
 		<artifactId>mybatis-spring</artifactId>
-		<version>1.0.0-RC3</version>
+		<version>1.0.0</version>
 	</dependency>
 	
 	<!-- ibatis2 -->		
@@ -554,7 +555,25 @@
 	</dependency>			
 	 -->
 	<!-- jdbc drivers end -->	
-				
+
+	<!-- shiro security begin -->
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-core</artifactId>
+		<version>${shiro.version}</version>	
+	</dependency>
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-spring</artifactId>
+		<version>${shiro.version}</version>	
+	</dependency>
+	<dependency>
+		<groupId>org.apache.shiro</groupId>
+		<artifactId>shiro-web</artifactId>
+		<version>${shiro.version}</version>	
+	</dependency>
+	<!-- shiro security end -->
+							
 	<dependency>
 	    <groupId>dwr</groupId>
 	    <artifactId>dwr</artifactId>
@@ -575,7 +594,7 @@
 	    <artifactId>backport-util-concurrent</artifactId>
 	    <version>3.1</version>
 	</dependency>
-			    
+
   </dependencies>
 
 
@@ -766,7 +785,7 @@
 				<configuration>
 					<propertyFile>archetype.properties</propertyFile>
 					<archetypeFilteredExtentions>include,ftl,htm</archetypeFilteredExtentions>
-					<archetypeLanguages>generator_template</archetypeLanguages>
+					<archetypeLanguages>generator</archetypeLanguages>
 				</configuration>
 			</plugin>											
 		</plugins>
