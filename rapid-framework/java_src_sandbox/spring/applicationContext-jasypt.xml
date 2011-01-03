@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-autowire="byName" default-lazy-init="false">
+
+	<description>
+		数据加密,用于jdbc_password=ENC(G6N718UuyPE5bHyWKyuLQSm02auQPUtm)数据解密
+	</description>
+
+	<bean id="PBEConfig" class="org.jasypt.encryption.pbe.config.SimplePBEConfig">
+		<property name="algorithm" value="PBEWithMD5AndDES" />
+		<property name="password" value="fuckgfw" />
+	</bean>
+
+	<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+		<property name="config" ref="PBEConfig" />
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="org.jasypt.spring.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg ref="configurationEncryptor" />
+		<property name="properties" ref="applicationProperties"/>
+	</bean>
+</beans>
+
+<!--	 java simplified encryption begin -->
+<!--    <dependency>-->
+<!--      <groupId>org.jasypt</groupId>-->
+<!--      <artifactId>jasypt</artifactId>-->
+<!--       <version>1.7</version>-->
+<!--    </dependency>-->
+<!--     for jdk 1.5 -->
+<!--    <dependency>-->
+<!--       <groupId>com.ibm.icu</groupId>-->
+<!--       <artifactId>icu4j</artifactId>-->
+<!--       <version>3.8</version>-->
+<!--    </dependency>    		-->
+<!--     java simplified encryption end -->
