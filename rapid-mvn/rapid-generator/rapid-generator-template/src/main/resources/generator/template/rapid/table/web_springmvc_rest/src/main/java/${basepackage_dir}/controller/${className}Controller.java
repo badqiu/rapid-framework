@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import javax.validation.Valid;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -113,6 +114,9 @@ public class ${className}Controller {
 		}catch(ConstraintViolationException e) {
 			convert(e, errors);
 			return  "/${classNameLowerCase}/new";
+		}catch(ValidationException e) {
+			Flash.current().error(e.getMessage());
+			return  "/${classNameLowerCase}/new";
 		}
 		Flash.current().success(CREATED_SUCCESS); //存放在Flash中的数据,在下一次http请求中仍然可以读取数据,error()用于显示错误消息
 		return LIST_ACTION;
@@ -133,6 +137,9 @@ public class ${className}Controller {
 			${classNameFirstLower}Manager.update(${classNameFirstLower});
 		}catch(ConstraintViolationException e) {
 			convert(e, errors);
+			return  "/${classNameLowerCase}/edit";
+		}catch(ValidationException e) {
+			Flash.current().error(e.getMessage());
 			return  "/${classNameLowerCase}/edit";
 		}
 		Flash.current().success(UPDATE_SUCCESS);
