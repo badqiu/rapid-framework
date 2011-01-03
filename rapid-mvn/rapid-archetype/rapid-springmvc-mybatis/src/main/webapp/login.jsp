@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <%@ include file="/commons/messages.jsp" %>
 
-<form action="${ctx}/demo/User/login.do" method="post" >
+<form action="${ctx}/login" method="post" >
 	<table height="100%" width="100%" >
 	<tr valign="middle">
 		<td>
