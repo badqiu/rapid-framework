@@ -1,5 +1,6 @@
 package cn.org.rapid_framework.util;
 
+import java.io.FileNotFoundException;
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
@@ -28,11 +29,20 @@ import org.apache.commons.beanutils.converters.SqlDateConverter;
 import org.apache.commons.beanutils.converters.SqlTimeConverter;
 import org.apache.commons.beanutils.converters.SqlTimestampConverter;
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.views.util.ResourceUtil;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
 
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.beanutils.converter.StringConverter;
 
 public class MiscTest extends TestCase {
+	
+	public void test_getFile() throws FileNotFoundException {
+		assertNotNull(ResourceUtils.getFile("classpath:cn/org"));
+		assertNotNull(new ClassPathResource("cn/org"));
+		assertNotNull(new ClassPathResource("/cn/org"));
+	}
 	
 	public void test_removeString() {
 		assertEquals("abc123456",StringUtils.remove("abc-123-456", "-"));
