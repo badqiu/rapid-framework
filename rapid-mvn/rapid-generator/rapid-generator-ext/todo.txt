@@ -125,3 +125,6 @@ springmvc数据绑定时:  Failed to convert property value of type java.lang.St
 
 
 集成 http://www.jasypt.org/encrypting-configuration.html 用于 spring application.properties的加密
+
+
+抛出: ModelAndViewDefiningException可以直接返回一个 ModelAndView对象
