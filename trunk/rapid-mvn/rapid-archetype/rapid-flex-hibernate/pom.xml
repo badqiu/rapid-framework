@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<spring.version>3.0.3.RELEASE</spring.version>
+		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		<hibernate.version>3.3.2.GA</hibernate.version>
 		<blazeds.version>4.0.0.14931</blazeds.version>
