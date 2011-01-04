@@ -78,7 +78,7 @@ public class ${className}Manager {
         
         /** 检查到有错误请直接抛异常，不要使用 return errorCode的方式 */
         public void check${className}(${className} v) {
-        	validate(v);
+            validateWithException(v);
             //各个属性的检查一般需要分开写几个方法，如 checkProperty1(v),checkProperty2(v)
         }
     }

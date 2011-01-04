@@ -99,7 +99,7 @@ public class ${className}ManagerImpl implements ${className}Manager {
         /** 检查到有错误请直接抛异常，不要使用 return errorCode的方式 */
         public void check${className}(${className} v) {
         	// Bean Validator检查,属性检查失败将抛异常
-        	validate(v);
+        	validateWithException(v);
             
         	//复杂的属性的检查一般需要分开写几个方法，如 checkProperty1(v),checkProperty2(v)
         }
