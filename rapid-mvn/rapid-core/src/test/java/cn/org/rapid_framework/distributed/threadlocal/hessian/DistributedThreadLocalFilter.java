@@ -11,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
-
+/**
+ * 用于从 Http Header 中取回DistributedThreadLocal中的信息,并存放在DistributedThreadLocal中
+ * 
+ * @author badqiu
+ */
 public class DistributedThreadLocalFilter extends OncePerRequestFilter {
 
 	@Override
