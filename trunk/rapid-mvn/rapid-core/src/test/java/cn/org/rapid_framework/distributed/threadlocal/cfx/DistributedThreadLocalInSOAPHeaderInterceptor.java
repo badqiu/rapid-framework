@@ -19,7 +19,7 @@ import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
 
 
 /**
- * 输入(In)拦截器，用于从 WebService SOAP 的Header中取回DistributedThreadLocal中的信息
+ * 输入(In)拦截器，用于从 WebService SOAP 的Header中取回DistributedThreadLocal中的信息,并存放在DistributedThreadLocal中
  * 
  * @author badqiu
  */
