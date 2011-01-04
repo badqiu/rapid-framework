@@ -2,24 +2,22 @@ package cn.org.rapid_framework.distributed.threadlocal.cfx;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
-import org.apache.cxf.binding.soap.SoapHeader;
-import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
-import org.apache.cxf.headers.Header;
-import org.apache.cxf.helpers.DOMUtils;
-import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.phase.Phase;
+import org.jcp.xml.dsig.internal.dom.DOMUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
 
 
-
+/**
+ * 拦截器，用于将DistributedThreadLocal中的信息存放在 WebService的Header中
+ * 
+ * @author zhongxuan
+ * @version $Id: TraceIdOutSOAPHeaderInterceptor.java,v 0.1 2011-1-4 下午02:10:50 zhongxuan Exp $
+ */
 public class TraceIdOutSOAPHeaderInterceptor extends AbstractSoapInterceptor {
 	
 	public TraceIdOutSOAPHeaderInterceptor() {

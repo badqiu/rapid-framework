@@ -2,25 +2,22 @@ package cn.org.rapid_framework.distributed.threadlocal.cfx;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 
-import org.apache.cxf.binding.soap.SoapMessage;
-import org.apache.cxf.binding.soap.interceptor.AbstractSoapInterceptor;
-import org.apache.cxf.binding.soap.saaj.SAAJInInterceptor;
-import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.phase.Phase;
-import org.apache.log4j.MDC;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
 
 
-
+/**
+ * 拦截器，用于将WebService的Header中的信息取回并存放在DistributedThreadLocal
+ * 
+ * @author badqiu
+ */
 public class TraceIdInSOAPHeaderInterceptor extends AbstractSoapInterceptor {
 	
     private SAAJInInterceptor saajIn = new SAAJInInterceptor();  
