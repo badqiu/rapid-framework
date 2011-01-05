@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.ibatis3.plugin;
+package cn.org.rapid_framework.mybatis.plugin;
 
 import org.apache.ibatis.builder.StaticSqlSource;
 import org.apache.ibatis.executor.Executor;
@@ -16,6 +16,7 @@ import cn.org.rapid_framework.jdbc.dialect.Dialect;
 import cn.org.rapid_framework.jdbc.dialect.MySQLDialect;
 import cn.org.rapid_framework.jdbc.dialect.OracleDialect;
 import cn.org.rapid_framework.jdbc.dialect.SQLServerDialect;
+import cn.org.rapid_framework.mybatis.plugin.OffsetLimitInterceptor;
 
 
 
