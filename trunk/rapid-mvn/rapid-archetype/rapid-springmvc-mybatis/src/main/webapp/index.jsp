@@ -146,7 +146,7 @@ $(document).ready(function() {
 
   <div id="nav">
    <ul>
-    <li><a href="left.html" target="leftFrame">菜单</a></li>
+    <li><a href="left.jsp" target="leftFrame">菜单</a></li>
     <li><a href="../doc/guide.html" target="rightFrame">项目搭建</a></li>
     <li><a href="http://www.google.cn/search?q=%E5%90%8E%E5%8F%B0+%E6%A8%A1%E6%9D%BF" target="rightFrame">Google后台模板</a></li>
     <li><a href="http://www.qq.com" target="leftFrame">修改密码</a></li>
