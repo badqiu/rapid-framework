@@ -510,9 +510,18 @@
 						<sourceExclude>**/.svn/</sourceExclude>
 					</sourceExcludes>
 					<downloadSources>true</downloadSources>
+					<additionalConfig>
+						<file>
+							<name>.settings/org.eclipse.core.resources.prefs</name>
+							<content>
+								<![CDATA[
+						  encoding/<project>=${project.build.sourceEncoding}
+						  ]]>
+							</content>
+						</file>
+					</additionalConfig>
 				</configuration>
 			</plugin>
-
 			<!-- war插件-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
