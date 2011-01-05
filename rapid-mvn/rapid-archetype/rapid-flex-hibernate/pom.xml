@@ -22,39 +22,35 @@
 	</properties>
 
 	<dependencies>
-		<!-- rapid begin	-->
-		<!--  rapid-core -->
+		<!-- rapid begn -->
+		<!-- rapid核心框架 -->
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-core</artifactId>
-			<version>4.0</version>
+			<version>4.0.1</version>
 		</dependency>
 
-		<!--  generator-template -->
+		<!-- 代码生成器核心引擎 -->
 		<dependency>
-			<groupId>com.googlecode.rapid-framework</groupId>
-			<artifactId>rapid-generator-template</artifactId>
-			<version>4.0</version>
-		</dependency>
 
-		<!--  generator-engine -->
-		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator</artifactId>
-			<version>4.0</version>
+			<version>4.0.1</version>
 		</dependency>
+
+		<!-- 代码生成器扩展包 -->
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator-ext</artifactId>
-			<version>4.0</version>
-		</dependency>
-		<!--springside log4jdbc	-->
-		<dependency>
-			<groupId>net.sf.log4jdbc</groupId>
-			<artifactId>log4jdbc3</artifactId>
-			<version>1.2.1</version>
+			<version>4.0.1</version>
 		</dependency>
 
+		<!-- 代码生成器模板,模板根目录通过 classpath:generator/template/rapid 可以引用 -->
+		<dependency>
+			<groupId>com.googlecode.rapid-framework</groupId>
+			<artifactId>rapid-generator-template</artifactId>
+			<version>4.0.1</version>
+		</dependency>
 		<!-- rapid end -->
 
 		<!--	flex begin	-->
@@ -244,6 +240,13 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<scope>compile</scope>
+			<version>7.2.2.v20101205</version>
+			<optional>true</optional>
+		</dependency>
 		<!-- test END -->
 
 		<!-- logging BEGIN-->
@@ -284,6 +287,14 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<!--springside log4jdbc	-->
+		<dependency>
+			<groupId>net.sf.log4jdbc</groupId>
+			<artifactId>log4jdbc3</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+
 		<!-- logging end-->
 
 		<!-- j2ee web spec -->
