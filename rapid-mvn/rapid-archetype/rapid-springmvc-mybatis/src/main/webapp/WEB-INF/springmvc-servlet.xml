@@ -19,6 +19,8 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
     default-autowire="byName"   >
 
+	<!-- 相关静态资源映射 -->
+	<mvc:resources location="/favicon.ico" mapping="/favicon.ico"/>  
 	<mvc:resources location="/images/" mapping="/images/**"/>  
 	<mvc:resources location="/scripts/" mapping="/scripts/**"/>  
 	<mvc:resources location="/styles/" mapping="/styles/**"/>  
