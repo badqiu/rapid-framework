@@ -14,7 +14,7 @@ import static com.company.project.common.util.MybatisPageQueryUtils.pageQuery;
 
 import static cn.org.rapid_framework.util.ValidationErrorsUtils.convert;
 import static cn.org.rapid_framework.beanutils.BeanUtils.copyProperties;
-import static cn.org.rapid_framework.util.holder.BeanValidatorHolder.validate;
+import static cn.org.rapid_framework.util.holder.BeanValidatorHolder.validateWithException;
 import cn.org.rapid_framework.util.DateConvertUtils;
 
 import cn.org.rapid_framework.page.PageRequest;
