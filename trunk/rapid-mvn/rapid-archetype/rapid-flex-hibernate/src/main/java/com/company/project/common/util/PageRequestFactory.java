@@ -1,4 +1,4 @@
-package common.util;
+package com.company.project.common.util;
 
 
 import java.lang.reflect.InvocationTargetException;

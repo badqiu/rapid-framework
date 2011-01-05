@@ -1,4 +1,4 @@
-package common.base;
+package com.company.project.common.base;
 
 import java.io.Serializable;
 import java.util.List;
