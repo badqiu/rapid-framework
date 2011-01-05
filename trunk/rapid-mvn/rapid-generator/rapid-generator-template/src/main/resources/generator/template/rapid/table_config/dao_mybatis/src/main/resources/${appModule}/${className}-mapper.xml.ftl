@@ -167,7 +167,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<#return>
 	</#if>
 	<#if databaseType == 'oracle'>
-			) row_ ) where rownum_ &lt;= #endRow# and rownum_ > #startRow#
+			) row_ ) where rownum_ &lt;= #endRow# and rownum_ >= #startRow#
 	</#if>
 	<#if databaseType == 'mysql'>
 			limit #offset#,#limit#
