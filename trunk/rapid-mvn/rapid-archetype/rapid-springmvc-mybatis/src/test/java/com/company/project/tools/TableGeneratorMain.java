@@ -14,11 +14,11 @@ public class TableGeneratorMain {
 		GeneratorFacade g = new GeneratorFacade();
 		
 		g.getGenerator().setTemplateRootDirs(
-				"src/main/generator_template/share/custom",
+				"src/main/generator/template/share/custom",
 				"classpath:generator/template/rapid/table/dao_mybatis",
 				"classpath:generator/template/rapid/table/dao_share_query_object",
 				"classpath:generator/template/rapid/table/dao_test",
-				"classpath:generator/template/rapid/table/service_no_interface",
+				"classpath:generator/template/rapid/table/service_complex",
 				"classpath:generator/template/rapid/table/web_springmvc_rest"
 				);
 		
