@@ -159,7 +159,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<#return>
 	</#if>
 	<#if databaseType == 'oracle'>
-			select * from ( select row_.*, rownum rownum_ from (
+			select * from (select T1.*, rownum linenum from (
 	</#if>
 </#macro>
 <#macro genPageQueryEnd sql>
@@ -167,7 +167,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<#return>
 	</#if>
 	<#if databaseType == 'oracle'>
-			) row_ ) where rownum_ &lt;= #endRow# and rownum_ >= #startRow#
+			) T1 where rownum &lt;= #endRow# ) T2 where linenum &gt;= #startRow#
 	</#if>
 	<#if databaseType == 'mysql'>
 			limit #offset#,#limit#
