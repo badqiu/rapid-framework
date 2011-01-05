@@ -13,6 +13,14 @@ public class HelloImpl implements Hello {
 	}
 	
 	public void exception(){
+		try {
+		throwException();
+		}catch(RuntimeException  e) {
+			throw new UnsupportedOperationException("unsupported",e);
+		}
+	}
+
+	private void throwException() {
 		throw new RuntimeException("server error");
 	}
 }

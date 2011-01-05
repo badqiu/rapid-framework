@@ -1,20 +1,18 @@
 package cn.org.rapid_framework.hessian.HessianTest;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Test;
 
 import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
 import cn.org.rapid_framework.distributed.threadlocal.hessian.DistributedThreadLocalHessianConnectionFactory;
 
-import com.caucho.hessian.client.HessianConnection;
 import com.caucho.hessian.client.HessianProxyFactory;
+import com.caucho.hessian.io.Hessian2Input;
+import com.caucho.hessian.io.Hessian2Output;
+import com.caucho.hessian.io.SerializerFactory;
 
 public class HessianTest {
 
@@ -28,10 +26,31 @@ public class HessianTest {
 		HessianProxyFactory factory = new HessianProxyFactory();
 		factory.setConnectionFactory(new DistributedThreadLocalHessianConnectionFactory(
 						factory.getConnectionFactory()));
-
+		factory.setSerializerFactory(new SerializerFactory(){
+		});
 		Hello hello = (Hello) factory.create(Hello.class, url);
 		hello.say();
-//		hello.exception();
+		try {
+		hello.exception();
+		}catch(UnsupportedOperationException e) {
+			System.out.println("error:"+e);
+			e.printStackTrace();
+			
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			Hessian2Output out = new Hessian2Output(bos);
+			out.startMessage();
+			out.writeObject(e);
+			out.completeMessage();
+			out.close();
+			
+			Hessian2Input in = new Hessian2Input(new ByteArrayInputStream(bos.toByteArray()));
+			in.startMessage();
+			Exception fromInput = (Exception)in.readObject();
+			in.completeMessage();
+			in.close();
+			
+			fromInput.printStackTrace();
+		}
 //		JettyServer.stop();
 	}
 
