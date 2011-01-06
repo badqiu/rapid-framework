@@ -8,7 +8,7 @@
 	<version>4.0</version>
 	<name>rapid-flex-hibernate Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-
+	
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
@@ -23,6 +23,7 @@
 
 	<dependencies>
 		<!-- rapid begn -->
+		
 		<!-- rapid核心框架 -->
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
