@@ -67,6 +67,7 @@
     * [plugin_dev 插件开发]
     * [http://code.google.com/p/rapid-framework/issues/list bug报告]
     * [contributors 贡献者名单]
+  * [maven用户 http://code.google.com/p/rapid-framework/]
   * [best_practice 最佳实践]
   * [changelog 修改日志]
   * [donate_user_list 捐赠列表]
