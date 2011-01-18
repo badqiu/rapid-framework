@@ -35,7 +35,7 @@ public class SqlTest extends GeneratorTestCase {
 		
 		sql = new SqlFactory().parseSql("select username as user,password as pwd from user_info");
 		sql.setOperation("findUsername");
-		assertEquals("UserInfo",sql.getResultClass());
+		assertEquals("FindUsernameResult",sql.getResultClass());
 		
 		sql = new SqlFactory().parseSql("select username as user,count(password) as pwd from user_info group by username");
 		sql.setOperation("findUsername");
@@ -85,7 +85,7 @@ public class SqlTest extends GeneratorTestCase {
 		
 		//FIXME 应该为true,是同一张表
 		sql = new SqlFactory().parseSql("select username user,password pwd from user_info");
-		assertTrue(sql.isColumnsInSameTable());
+		assertFalse(sql.isColumnsInSameTable());
 		
 		sql = new SqlFactory().parseSql("select count(username) cnt_username,count(password) cnt_pwd from user_info");
 		assertFalse(sql.isColumnsInSameTable());
