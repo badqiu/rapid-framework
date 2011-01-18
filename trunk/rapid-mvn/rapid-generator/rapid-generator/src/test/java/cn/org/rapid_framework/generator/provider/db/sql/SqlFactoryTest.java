@@ -170,7 +170,14 @@ public class SqlFactoryTest extends GeneratorTestCase {
 		verifyParameters(sql,"username","password","age","sex");
 		assertEquals("update user_info set username = #username# , password = #password# , age = #age# , sex = #sex#",sql.getIbatisSql());
 	}
-	
+
+   public void test_select_as_alias_h2() {
+        
+        Sql sql = parser.parseSql("SELECT username user,password pwd from user_info");
+        System.out.println("columns:"+sql.getColumns());
+        verifyColumns(sql, "user","pwd");
+    }
+	   
 	public void test_select_as_alias() {
 	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");
 	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "srvctl");
