@@ -177,14 +177,14 @@ public class SqlFactory {
 				if(table == null) {
 					return newColumn(null,m);
 				}
-			    Column column = table.getColumnBySqlName(m.getColumnNameOrLabel());
+			    Column column = table.getColumnBySqlName(m.getColumnLabelOrName());
 			    if(column == null || column.getSqlType() != m.getColumnType()) {
 			        //可以再尝试解析sql得到 column以解决 password as pwd找不到column问题
 			        column = newColumn(table,m);
-			        GLogger.trace("not found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			        GLogger.trace("not found column:"+m.getColumnLabelOrName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
 			        //isInSameTable以此种判断为错误
 			    }else {
-			    	GLogger.trace("found column:"+m.getColumnNameOrLabel()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
+			    	GLogger.trace("found column:"+m.getColumnLabelOrName()+" on table:"+table.getSqlName()+" "+BeanHelper.describe(column));
 			    }
 			    return column;
 			}else {
@@ -194,7 +194,7 @@ public class SqlFactory {
 
 		private Column newColumn(Table table,ResultSetMetaDataHolder m) {
 			//Table table, int sqlType, String sqlTypeName,String sqlName, int size, int decimalDigits, boolean isPk,boolean isNullable, boolean isIndexed, boolean isUnique,String defaultValue,String remarks
-			Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnNameOrLabel(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
+			Column column = new Column(null,m.getColumnType(),m.getColumnTypeName(),m.getColumnLabelOrName(),m.getColumnDisplaySize(),m.getScale(),false,false,false,false,null,null);
 			GLogger.trace("not found on table by table emtpty:"+BeanHelper.describe(column));
 			return column;
 		}

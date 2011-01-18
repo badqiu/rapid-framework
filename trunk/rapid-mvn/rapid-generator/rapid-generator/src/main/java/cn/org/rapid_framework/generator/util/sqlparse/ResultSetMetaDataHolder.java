@@ -72,8 +72,8 @@ public class ResultSetMetaDataHolder {
     public void setColumnLabel(String columnLabel) {
         this.columnLabel = columnLabel;
     }
-    public String getColumnNameOrLabel() {
-    	return StringHelper.isBlank(columnName) ? columnLabel : columnName;
+    public String getColumnLabelOrName() {
+    	return StringHelper.isNotBlank(columnLabel) ? columnLabel : columnName;
     }
     public String getColumnName() {
         return columnName;
