@@ -13,7 +13,6 @@ import flex.messaging.io.PropertyProxyRegistry;
 
 @SuppressWarnings(value="all")
 public class FlexServiceUtil {
-	
 	static {
 	    ConvertRegisterHelper.registerConverters();
 		//注册所有Serializable.class的对象都includeReadOnly bean properties,对只读对象也序列化
