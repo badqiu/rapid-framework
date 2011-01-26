@@ -1,4 +1,4 @@
-package com.company.project.common.util;
+package common.util;
 
 import java.io.Serializable;
 import java.util.ArrayList;

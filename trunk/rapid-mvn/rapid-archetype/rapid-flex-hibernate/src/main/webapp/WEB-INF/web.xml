@@ -56,30 +56,8 @@
 		</init-param>
 	</filter>
 
-	<!-- FlashScope filter,在Flash中存储的数据,在下一次http请求中也可以继续引用,使用方法为Flash.current().error("存在错误"); -->
-	<filter>
-		<filter-name>FlashFilter</filter-name>
-		<filter-class>cn.org.rapid_framework.web.scope.FlashFilter</filter-class>
-	</filter>
-
-	<!-- LoggerMDCFilter,存放在MDC中的数据，log4j可以直接引用并作为日志信息打印出来. -->
-	<filter>
-		<filter-name>LoggerMDCFilter</filter-name>
-		<filter-class>common.filter.LoggerMDCFilter</filter-class>
-	</filter>
-
 	<filter-mapping>
 		<filter-name>CharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter-mapping>
-		<filter-name>FlashFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
-	<filter-mapping>
-		<filter-name>LoggerMDCFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
