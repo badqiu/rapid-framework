@@ -1,4 +1,4 @@
-package com.company.project.common.base;
+package common.base;
 
 import static cn.org.rapid_framework.util.SqlRemoveUtils.removeFetchKeyword;
 import static cn.org.rapid_framework.util.SqlRemoveUtils.removeOrders;
