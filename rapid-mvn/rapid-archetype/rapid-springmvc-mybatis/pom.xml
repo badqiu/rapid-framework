@@ -28,33 +28,33 @@
 	  
   <dependencies>
   	<!-- rapid begn -->
-		<!-- rapid核心框架 -->
-		<dependency>
-		  <groupId>com.googlecode.rapid-framework</groupId>
-		  <artifactId>rapid-core</artifactId>
-		  <version>4.0.1</version>        
-		</dependency>
-		
-		<!-- 代码生成器核心引擎 -->
-		<dependency>
-		  <groupId>com.googlecode.rapid-framework</groupId>
-		  <artifactId>rapid-generator</artifactId>
-		  <version>4.0.1</version>        
-		</dependency>
-		
-		<!-- 代码生成器扩展包 -->
-		<dependency>
-		  <groupId>com.googlecode.rapid-framework</groupId>
-		  <artifactId>rapid-generator-ext</artifactId>
-		  <version>4.0.1</version>        
-		</dependency>
-		
-		<!-- 代码生成器模板,模板根目录通过 classpath:generator/template/rapid 可以引用 -->
-		<dependency>
-		  <groupId>com.googlecode.rapid-framework</groupId>
-		  <artifactId>rapid-generator-template</artifactId>
-		  <version>4.0.1</version>        
-		</dependency>		
+	<!-- rapid核心框架 -->
+	<dependency>
+	  <groupId>com.googlecode.rapid-framework</groupId>
+	  <artifactId>rapid-core</artifactId>
+	  <version>4.0.1</version>        
+	</dependency>
+	
+	<!-- 代码生成器核心引擎 -->
+	<dependency>
+	  <groupId>com.googlecode.rapid-framework</groupId>
+	  <artifactId>rapid-generator</artifactId>
+	  <version>4.0.1</version>        
+	</dependency>
+	
+	<!-- 代码生成器扩展包 -->
+	<dependency>
+	  <groupId>com.googlecode.rapid-framework</groupId>
+	  <artifactId>rapid-generator-ext</artifactId>
+	  <version>4.0.1</version>        
+	</dependency>
+	
+	<!-- 代码生成器模板,模板根目录通过 classpath:generator/template/rapid 可以引用 -->
+	<dependency>
+	  <groupId>com.googlecode.rapid-framework</groupId>
+	  <artifactId>rapid-generator-template</artifactId>
+	  <version>4.0.1</version>        
+	</dependency>		
   	<!-- rapid end -->
   
 	<!-- spring begin -->
