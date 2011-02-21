@@ -134,18 +134,18 @@
     </#if>  
     <#if databaseType == 'oracle'>
         <#if tableConfig.sequence??>
-		<selectKey resultClass="java.lang.Long" type="pre" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
+		<selectKey resultClass="${tableConfig.pkColumn.javaType}" type="pre" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             SELECT ${tableConfig.sequence}.nextval FROM DUAL
         </selectKey>
         </#if>         
     </#if>
     <#if databaseType == 'mysql'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
+		<selectKey resultClass="${tableConfig.pkColumn.javaType}" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             select last_insert_id()
     	</selectKey>        
     </#if> 
     <#if databaseType == 'sqlserver'>
-		<selectKey resultClass="java.lang.Long" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
+		<selectKey resultClass="${tableConfig.pkColumn.javaType}" type="post" keyProperty="${tableConfig.pkColumn.columnNameLower}" >
             SELECT  @@identity  AS  ID
         </selectKey>        
     </#if>                     
