@@ -536,5 +536,15 @@
 	    	</where> 
 	    	group by r.role_id
 	    </sql>
-    </operation> 	  
+    </operation>
+    
+	<operation name="insertWithNoSelectKey" paramtype="object" >
+		<extraparams>
+		    <param name="startRow" javatype="int"/>
+		    <param name="pageSize" javatype="int"/>
+		</extraparams>	
+		<sql>
+			INSERT INTO user_info (user_id,username,password) values (#user_id#,#username#,#password#)
+		</sql>
+	</operation>     	  
 </table>
