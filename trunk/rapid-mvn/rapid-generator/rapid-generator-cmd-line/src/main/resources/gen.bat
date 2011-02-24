@@ -5,7 +5,7 @@
 @title Rapid Generator
 
 :START
-call mvn groovy:execute -DgeneratorConfigFile=gen_config.xml -DexecuteTarget=%1 -DgenInputCmd=%2  -errors
+call mvn groovy:execute -DgeneratorConfigFile=gen_config.xml -DexecuteTarget=%1 -DgenInputCmd=%2  --errors
 
 
 IF errorlevel 1 (
