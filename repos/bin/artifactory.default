@@ -1,9 +1,0 @@
-#!/bin/sh
-
-#Default values
-#export ARTIFACTORY_HOME=/opt/artifactory/current
-#export ARTIFACTORY_USER=artifactory
-#export JAVA_HOME=/opt/java/1.6.0
-#export ARTIFACTORY_CONSOLE=${ARTIFACTORY_HOME}/logs/consoleout.log
-
-export JAVA_OPTIONS="-server -Xms1g -Xmx1g -Xss256k -XX:PermSize=128m -XX:MaxPermSize=128m -XX:NewSize=384m -XX:MaxNewSize=384m"
