@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace name="default">
+        <!--
+            virtual file system of the workspace:
+            class: FQN of class implementing the FileSystem interface
+        -->
+        <FileSystem class="org.apache.jackrabbit.core.fs.local.LocalFileSystem">
+            <param name="path" value="${wsp.home}"/>
+        </FileSystem>
+
+        <!--
+            persistence manager of the workspace:
+            class: FQN of class implementing the PersistenceManager interface
+        -->
+        <!--
+        <PersistenceManager class="org.apache.jackrabbit.core.state.xml.XMLPersistenceManager"/>
+        -->
+        <!--
+        <PersistenceManager class="org.apache.jackrabbit.core.state.mem.InMemPersistenceManager">
+            <param name="initialCapacity" value="100000"/>
+            <param name="loadFactor" value="0.3"/>
+            <param name="persistent" value="true"/>
+        </PersistenceManager>
+        -->
+        <!-- BundleDbPersistenceManager - since JR 1.3 (https://issues.apache.org/jira/browse/JCR-755) -->
+        <PersistenceManager class="org.apache.jackrabbit.core.persistence.pool.DerbyPersistenceManager">
+            <param name="dataSourceName" value="ds"/>
+            <param name="schemaObjectPrefix" value="${wsp.name}_"/>
+            <param name="consistencyFix" value="true"/>
+            <param name="bundleCacheSize" value="16"/>
+            <param name="errorHandling" value="IGN_MISSING_BLOBS"/>
+        </PersistenceManager>
+        <!--<PersistenceManager
+                class="org.apache.jackrabbit.core.persistence.bundle.BundleFsPersistenceManager">
+            <param name="blobFSBlockSize" value="0"/>
+            <param name="minBlobSize" value="512"/>
+            <param name="bundleCacheSize" value="16"/>
+            <param name="errorHandling" value="IGN_MISSING_BLOBS"/>
+        </PersistenceManager>-->
+
+        <!--<PersistenceManager class="org.apache.jackrabbit.core.state.obj.ObjectPersistenceManager"/>-->
+
+        <!--
+            Search index and the file system it uses.
+            class: FQN of class implementing the QueryHandler interface
+
+            If required by the QueryHandler implementation, one may configure
+            a FileSystem that the handler may use.
+
+            Supported parameters for lucene search index:
+            - path: location of the index. This parameter is mandatory!
+            - useCompoundFile: advises lucene to use compound files for the index files
+            - minMergeDocs: minimum number of nodes in an index until segments are merged
+            - volatileIdleTime: idle time in seconds until the volatile index is
+              moved to persistent index even though minMergeDocs is not reached.
+            - maxMergeDocs: maximum number of nodes in segments that will be merged
+            - mergeFactor: determines how often segment indices are merged
+            - maxFieldLength: the number of words that are fulltext indexed at most per property.
+            - bufferSize: maximum number of documents that are held in a pending
+              queue until added to the index
+            - cacheSize: size of the document number cache. This cache maps
+              uuids to lucene document numbers
+            - forceConsistencyCheck: runs a consistency check on every startup. If
+              false, a consistency check is only performed when the search index
+              detects a prior forced shutdown. This parameter only has an effect
+              if 'enableConsistencyCheck' is set to 'true'.
+            - enableConsistencyCheck: if set to 'true' a consistency check is
+              performed depending on the parameter 'forceConsistencyCheck'. If
+              set to 'false' no consistency check is performed on startup, even
+              if a redo log had been applied.
+            - autoRepair: errors detected by a consistency check are automatically
+              repaired. If false, errors are only written to the log.
+            - analyzer: class name of a lucene analyzer to use for fulltext indexing of text.
+            - queryClass: class name that implements the javax.jcr.query.Query interface.
+              this class must extend the class: org.apache.jackrabbit.core.query.AbstractQueryImpl
+            - respectDocumentOrder: If true and the query does not contain an 'order by' clause,
+              result nodes will be in document order. For better performance when queries return
+              a lot of nodes set to 'false'.
+            - resultFetchSize: The number of results the query handler should
+              initially fetch when a query is executed.
+              Default value: Integer.MAX_VALUE (-> all)
+            - extractorPoolSize: defines the maximum number of background threads that are
+              used to extract text from binary properties. If set to zero (default) no
+              background threads are allocated and text extractors run in the current thread.
+            - extractorTimeout: a text extractor is executed using a background thread if it
+              doesn't finish within this timeout defined in milliseconds. This parameter has
+              no effect if extractorPoolSize is zero.
+            - extractorBackLogSize: the size of the extractor pool back log. If all threads in
+              the pool are busy, incoming work is put into a wait queue. If the wait queue
+              reaches the back log size incoming extractor work will not be queued anymore
+              but will be executed with the current thread.
+            - synonymProviderClass: the name of a class that implements
+              org.apache.jackrabbit.core.query.lucene.SynonymProvider. The
+              default value is null (-> not set).
+
+            Note: all parameters (except path) in this SearchIndex config are default
+            values and can be omitted.
+        -->
+        <SearchIndex class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
+            <param name="path" value="${rep.home}/index"/>
+            <param name="useCompoundFile" value="true"/>
+            <!-- Default is 100 -->
+            <param name="minMergeDocs" value="500"/>
+            <param name="maxMergeDocs" value="10000"/>
+            <param name="volatileIdleTime" value="3"/>
+            <!-- Default is 10: more segments quicker the indexing but slower the searching -->
+            <param name="mergeFactor" value="10"/>
+            <param name="maxFieldLength" value="10000"/>
+            <!-- Default is 10 -->
+            <param name="bufferSize" value="100"/>
+            <param name="cacheSize" value="1000"/>
+            <param name="forceConsistencyCheck" value="false"/>
+            <param name="enableConsistencyCheck" value="true"/>
+            <param name="autoRepair" value="true"/>
+            <param name="analyzer" value="org.artifactory.search.lucene.ArtifactoryAnalyzer"/>
+            <param name="queryClass" value="org.apache.jackrabbit.core.query.QueryImpl"/>
+            <param name="respectDocumentOrder" value="false"/>
+            <param name="resultFetchSize" value="700"/>
+            <param name="supportHighlighting" value="true"/>
+            <param name="excerptProviderClass" value="org.artifactory.search.ArchiveEntriesXmlExcerpt"/>
+
+            <!--
+            Use 5 background threads for text extraction that takes more than 100 milliseconds
+            -->
+            <param name="extractorPoolSize" value="5"/>
+            <param name="extractorTimeout" value="100"/>
+            <!-- Default is 100 -->
+            <param name="extractorBackLogSize" value="500"/>
+            <!-- Indexing configuration -->
+            <param name="indexingConfiguration" value="${rep.home}/index/index_config.xml"/>
+            <!-- Workspace inconsistency handler -->
+            <param name="onWorkspaceInconsistency" value="lenient"/>
+        </SearchIndex>
+
+        <!-- http://issues.apache.org/jira/browse/JCR-314 -->
+        <ISMLocking class="org.apache.jackrabbit.core.state.FineGrainedISMLocking"/>
+    </Workspace>
