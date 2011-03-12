@@ -1,0 +1,8 @@
+----------------------------------------------------------------
+Sat Mar 12 10:30:32 CST 2011:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance a816c00e-012e-a7e6-9be9-0000016f6c08 
+on database directory D:\Downloads\artifactory-2.3.2\data\derby  with class loader ContextLoader@artifactory-webapp 
+Loaded from file:/C:/Users/lai/AppData/Local/Temp/Jetty_0_0_0_0_8081_artifactory.war__artifactory__6u9e4o/webapp/WEB-INF/lib/derby-10.7.1.1.jar
+java.vendor=Sun Microsystems Inc.
+java.runtime.version=1.6.0_11-b03
+Database Class Loader started - derby.database.classpath=''

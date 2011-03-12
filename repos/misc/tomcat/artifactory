@@ -1,0 +1,161 @@
+#!/bin/bash
+#
+# Startup script for Tomcat Servlet Engine
+#
+# chkconfig: 345 86 14
+# description: Artifactory Tomcat Servlet Engine
+# processname: artifactory
+# pidfile: /var/run/artifactory/artifactory.pid
+#
+### BEGIN INIT INFO
+# Provides:          artifactory
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Artifactory on Tomcat
+# Description:       Manages the services needed to run Artifactory on a dedicated Tomcat- a Maven Proxy
+### END INIT INFO
+#
+
+# Read default Artifactory environment variables from etc
+. /etc/artifactory/default
+
+if [ -z "$ARTIFACTORY_HOME" ] || [ ! -d "$ARTIFACTORY_HOME" ]; then
+    echo "ERROR: Artifactory home folder not defined or does not exists at $ARTIFACTORY_HOME"
+    exit 1
+fi
+
+if [ -z "$TOMCAT_HOME" ] || [ ! -d "$TOMCAT_HOME" ]; then
+    echo "ERROR: Tomcat Artifactory folder not defined or does not exists at $TOMCAT_HOME"
+    exit 1
+fi
+
+# User under which tomcat will run
+NORMAL_PORT=8015
+LOCK_FILE=/var/lock/subsys/artifactory
+
+if [ -z "$ARTIFACTORY_USER" ]; then
+    # Will run as current user (may be root!!!)
+    ARTIFACTORY_USER=$USER
+fi
+
+RETVAL=0
+
+findShutdownPort() {
+    SHUTDOWN_PORT=`netstat -vatn|grep LISTEN|grep $NORMAL_PORT|wc -l`
+}
+
+# start, debug, stop, and status functions
+start() {
+    # Start Tomcat in normal mode
+    findShutdownPort
+    if [ $SHUTDOWN_PORT -ne 0 ]; then
+        echo "Artifactory Tomcat already started"
+    else
+        echo "Starting tomcat..."
+        su -l $ARTIFACTORY_USER -c "$TOMCAT_HOME/bin/startup.sh"
+        RETVAL=$?
+        if [ $RETVAL -ne 0 ]; then
+            echo "ERROR: Artifactory Tomcat server did not start. Please check the logs"
+            exit 1
+        fi
+        findShutdownPort
+        nbSeconds=1
+        while [ $SHUTDOWN_PORT -eq 0 ] && [ $nbSeconds -lt 45 ]; do
+            sleep 1
+            let "nbSeconds = $nbSeconds + 1"
+            findShutdownPort
+        done
+        if [ $SHUTDOWN_PORT -eq 0 ]; then
+            echo "ERROR: Artifactory Tomcat server did not start in 45 seconds. Please check the logs"
+            exit 1
+        fi
+        echo "Artifactory Tomcat started in normal mode"
+        [ $RETVAL=0 ] && touch $LOCK_FILE
+    fi
+}
+
+stop() {
+    findShutdownPort
+    if [ $SHUTDOWN_PORT -eq 0 ]; then
+        echo "Artifactory Tomcat already stopped"
+        RETVAL=0
+    else
+        echo "Stopping Artifactory Tomcat..."
+        su -l $ARTIFACTORY_USER -c "$TOMCAT_HOME/bin/shutdown.sh"
+        RETVAL=$?
+        killed=false
+        if [ -n "$CATALINA_PID" ] && [ -e "$CATALINA_PID" ]; then
+            pidValue=`cat $CATALINA_PID`
+        fi
+        if [ $RETVAL -ne 0 ]; then
+            echo "WARN: Artifactory Tomcat server shutdown script failed. Sending kill signal to $pidValue"
+            if [ -n "$pidValue" ]; then
+                killed=true
+                kill $pidValue
+                RETVAL=$?
+            fi
+        fi
+        findShutdownPort
+        nbSeconds=1
+        while [ $SHUTDOWN_PORT -ne 0 ] && [ $nbSeconds -lt 30 ]; do
+            if [ $nbSeconds -eq 15 ] && [ -n "$pidValue" ]; then
+                # After 15 seconds try to kill the process
+                echo "WARN: Artifactory Tomcat server shutdown not done after 15 seconds. Sending kill signal"
+                kill $pidValue
+                RETVAL=$?
+            fi
+            if [ $nbSeconds -eq 20 ] && [ -n "$pidValue" ]; then
+                # After 20 seconds try to kill -9 the process
+                echo "WARN: Artifactory Tomcat server shutdown not done after 20 seconds. Sending kill -9 signal"
+                kill -9 $pidValue
+                RETVAL=$?
+            fi
+            sleep 1
+            let "nbSeconds = $nbSeconds + 1"
+            findShutdownPort
+        done
+        if [ $SHUTDOWN_PORT -eq 0 ]; then
+           echo "Artifactory Tomcat stopped"
+        else
+           echo "ERROR: Artifactory Tomcat did not stop"
+           RETVAL=1
+        fi
+    fi
+    [ $RETVAL=0 ] && rm -f "$LOCK_FILE" "$CATALINA_PID"
+}
+
+status() {
+    findShutdownPort
+    if [ $SHUTDOWN_PORT -eq 0 ]; then
+        echo "Artifactory Tomcat stopped"
+    else
+        echo "Artifactory Tomcat running"
+    fi
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        stop
+        start
+        ;;
+  redebug)
+        stop
+        debug
+        ;;
+  status)
+        status
+        ;;
+  *)
+  echo "Usage: $0 {start|stop|restart|redebug|status}"
+  exit 1
+esac
+
+exit $RETVAL
