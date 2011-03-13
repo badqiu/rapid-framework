@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>rapid-flex-hibernate</name>
+      <prefix>rapid-flex-hibernate</prefix>
+      <artifactId>rapid-flex-hibernate</artifactId>
+    </plugin>
+    <plugin>
+      <name>rapid-maven-plugin Maven Mojo</name>
+      <prefix>rapid</prefix>
+      <artifactId>rapid-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</metadata>
