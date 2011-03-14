@@ -15,7 +15,7 @@
 
 	<description>rapid-framework core libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
-	
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -34,8 +34,13 @@
 			<name>badqiu</name>
 			<id>badqiu</id>
 		</developer>
+		<developer>
+			<email>hhlai1990(a)gmail.com</email>
+			<name>hunhun</name>
+			<id>hunhun</id>
+		</developer>
 	</developers>
-		
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -252,20 +257,20 @@
 			<artifactId>urlrewritefilter</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
-	        <groupId>com.thimbleware.jmemcached</groupId>
-	        <artifactId>jmemcached-core</artifactId>
-	        <version>0.9</version>
-	        <optional>true</optional>
-    	</dependency>
-    	
-    	<dependency>
+			<groupId>com.thimbleware.jmemcached</groupId>
+			<artifactId>jmemcached-core</artifactId>
+			<version>0.9</version>
+			<optional>true</optional>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<optional>true</optional>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -283,12 +288,12 @@
 
 		<!--  hessian web service -->
 		<dependency>
-		    <groupId>com.caucho</groupId>
-		    <artifactId>hessian</artifactId>
-		    <version>4.0.7</version>
-		    <optional>true</optional>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+			<version>4.0.7</version>
+			<optional>true</optional>
 		</dependency>
-		
+
 		<!-- soap begin -->
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
@@ -310,7 +315,7 @@
 			<artifactId>activation</artifactId>
 		</dependency>
 		<!-- soap end -->
-			
+
 		<dependency>
 			<groupId>org.jmock</groupId>
 			<artifactId>jmock</artifactId>
@@ -326,7 +331,7 @@
 			<artifactId>jmock-legacy</artifactId>
 			<scope>test</scope>  		
 		</dependency>
-					
+
 	</dependencies>
-	
+
 </project>
