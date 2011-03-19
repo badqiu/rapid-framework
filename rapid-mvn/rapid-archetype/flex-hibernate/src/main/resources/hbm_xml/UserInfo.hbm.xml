@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.fly.domain">
+    <class name="UserInfo" table="USER_INFO">
+
+        <id name="userId" column="USER_ID" type="java.lang.Long">
+            <generator class="increment"/>
+        </id>
+		
+		
+		
+		<property 
+			name="username" 
+			column="USERNAME" 
+			update="true"
+            insert="true"
+            type="java.lang.String"
+			not-null="true" 
+			unique="true" 
+			length="50"/>
+		
+		<property 
+			name="password" 
+			column="PASSWORD" 
+			update="true"
+            insert="true"
+            type="java.lang.String"
+			not-null="false" 
+			unique="false" 
+			length="50"/>
+		
+		<property 
+			name="birthDate" 
+			column="BIRTH_DATE" 
+			update="true"
+            insert="true"
+            type="java.util.Date"
+			not-null="false" 
+			unique="false" 
+			length="8"/>
+		
+		<property 
+			name="sex" 
+			column="SEX" 
+			update="true"
+            insert="true"
+            type="java.lang.Integer"
+			not-null="false" 
+			unique="false" 
+			length="3"/>
+		
+		<property 
+			name="age" 
+			column="AGE" 
+			update="true"
+            insert="true"
+            type="java.lang.Integer"
+			not-null="false" 
+			unique="true" 
+			length="10"/>
+		
+		<!-- One-To-Many attributes -->
+
+		<!-- Many-To-One attributes -->
+
+    </class>
+</hibernate-mapping>
+
