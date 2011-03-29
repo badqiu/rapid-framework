@@ -784,8 +784,6 @@
 				<version>2.0</version>
 				<configuration>
 					<propertyFile>archetype.properties</propertyFile>
-					<archetypeFilteredExtentions>include,ftl,htm</archetypeFilteredExtentions>
-					<archetypeLanguages>generator</archetypeLanguages>
 				</configuration>
 			</plugin>											
 		</plugins>
