@@ -13,7 +13,7 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-parent</artifactId>
 	<name>rapid-generator-parent</name>
-	<version>4.1</version>
+	<version>4.0.2</version>
 	<packaging>pom</packaging>
 
 	<description>rapid-framework generator libs</description>
