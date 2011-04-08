@@ -64,6 +64,13 @@ public class ColumnTest  extends TestCase{
 		assertEquals("BigDecimal",newBigDecimal().getSimpleJavaType());
 	}
 	
+	public void test_getWrappedJavaType() {
+		GeneratorProperties.setProperty("java_typemapping.java.math.BigDecimal", "Long");
+		Column c = new Column(new Table(),1,"int","user_name",1,2,true,true,true,true,"","remarks");
+		assertEquals("long",newBigDecimal().getPrimitiveJavaType());
+		assertEquals("Long",newBigDecimal().getWrappedJavaType());
+	}
+	
 	public void test_getShortJavaType() {
         Column c = new Column(new Table(), 1, "int", "user_name", 1, 2, true,
             true, true, true, "", "remarks");
