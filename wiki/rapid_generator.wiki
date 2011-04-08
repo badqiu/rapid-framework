@@ -160,6 +160,16 @@ public class GeneratoMain {
   * SqlFactory用于创建Sql.java对象,用于GeneratorFacade.generateBySql()使用
   * JavaClass模板变量，用于GeneratorFacade.generateByClass()使用
 
+= 重复生成代码 =
+现rapid自带的模板都不支持重复生成代码的，如果你需要重复生成代码，可以采用继承机制技巧重复生成。
+
+Java代码的重复生成,善用 *"继承机制"* ,示例如下:
+{{{
+UserInfoBaseDao : 自动生成的代码, 不能手工修改,用于重复生成
+UserInfoDao extends UserInfoBaseDao : 存放手工的代码，不能重复生成
+}}}
+页面的重复生成还没有啥好办法。
+
 =参考=
 ==generateByTable()==
 [generator_generate_by_table 通过表(或视图)查询生成代码]
