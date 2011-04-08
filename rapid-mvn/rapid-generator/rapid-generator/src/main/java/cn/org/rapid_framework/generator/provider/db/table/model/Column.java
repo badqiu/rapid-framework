@@ -518,11 +518,18 @@ public class Column implements java.io.Serializable,Cloneable{
 	    return JavaPrimitiveTypeMapping.getWrapperTypeOrNull(getJavaType()) != null;
 	}
     /**
-     * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型,将直接返回getSimpleJavaType()
+     * 得到原生类型的javaType,如java.lang.Integer将返回int,而非原生类型将直接返回getSimpleJavaType()
      * @return
      */	
 	public String getPrimitiveJavaType() {
 		return JavaPrimitiveTypeMapping.getPrimitiveType(getSimpleJavaType());
+	}
+	/**
+     * 得到原生类型的包装类型,如int将返回Integer,而非原生类型将直接返回getSimpleJavaType()
+     * @return
+     */	
+	public String getWrappedJavaType() {
+		return JavaPrimitiveTypeMapping.getWrapperType(getSimpleJavaType());
 	}
 	
 	/** 得到ActionScript的映射类型,用于Flex代码的生成  */
