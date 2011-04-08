@@ -24,13 +24,30 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
+				<scope>provided</scope>
 			</dependency>
 			<dependency>
 			    <groupId>aopalliance</groupId>
 			    <artifactId>aopalliance</artifactId>
 			    <version>1.0</version>
+			    <scope>provided</scope>
 			</dependency>			
 	</dependencies>
+	
+	<!-- deploy path -->
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>Internal Releases</name>
+			<url>http://dev.game.yy.com/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Internal snapshots</name>
+			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+		
 	<!-- 插件配置 -->
 	<build>
 
