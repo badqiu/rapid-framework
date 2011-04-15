@@ -1,6 +1,7 @@
 package cn.org.rapid_framework.generator.provider.db.table.model.util;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
+import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.typemapping.DatabaseDataTypesUtils;
 
 public class ColumnHelper {
@@ -37,6 +38,8 @@ public class ColumnHelper {
 				result += " @Max("+Short.MAX_VALUE+")";
 			}else if(javaType.toLowerCase().indexOf("byte") >= 0) {
 				result += " @Max("+Byte.MAX_VALUE+")";
+			}else if(c.getSize() > 0) {
+				result += " @Max("+StringHelper.repeat("9", c.getSize())+"L)";
 			}
 		}
 		return result.trim();
