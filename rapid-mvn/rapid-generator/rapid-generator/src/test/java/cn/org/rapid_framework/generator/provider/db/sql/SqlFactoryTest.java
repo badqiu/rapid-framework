@@ -178,17 +178,17 @@ public class SqlFactoryTest extends GeneratorTestCase {
         verifyColumns(sql, "user","pwd");
     }
 	   
-	public void test_select_as_alias() {
-	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");
-	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "srvctl");
-	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "ali88");
-	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://mypay1.devdb.alipay.net:3306/srvctldb?useUnicode=true&characterEncoding=gbk");
-	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "srvctldb");
-	    
-	    Sql sql = parser.parseSql("SELECT t1.TABLE_ID,t1.TABLE_SIGN,t2.HOST_NAME,t1.TB_VERSION,t2.VERSION,t1.GMT_MODIFIED as SERVER_DATE,t2.GMT_MODIFIED as CLIENT_DATE,t3.CHECK_TIME,t4.CONFIG_TITLE FROM bc_config_table t1,bc_config_client t2,bc_config_monitor t3,bc_config_schema_view t4 WHERE t1.TABLE_ID=t2.TABLE_ID AND t1.TABLE_ID=t3.TABLE_ID AND t1.TABLE_ID=t4.TABLE_ID AND t1.STATUS='1' AND t1.APP_NAME=?");
-	    System.out.println("columns:"+sql.getColumns());
-	    verifyColumns(sql, "TABLE_ID","TABLE_SIGN","HOST_NAME","TB_VERSION","VERSION","SERVER_DATE","CLIENT_DATE","CHECK_TIME","CONFIG_TITLE");
-	}
+//	public void test_select_as_alias() {
+//	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_DRIVER, "com.mysql.jdbc.Driver");
+//	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_USERNAME, "srvctl");
+//	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_PASSWORD, "ali88");
+//	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_URL, "jdbc:mysql://mypay1.devdb.alipay.net:3306/srvctldb?useUnicode=true&characterEncoding=gbk");
+//	    GeneratorProperties.setProperty(GeneratorConstants.JDBC_SCHEMA, "srvctldb");
+//	    
+//	    Sql sql = parser.parseSql("SELECT t1.TABLE_ID,t1.TABLE_SIGN,t2.HOST_NAME,t1.TB_VERSION,t2.VERSION,t1.GMT_MODIFIED as SERVER_DATE,t2.GMT_MODIFIED as CLIENT_DATE,t3.CHECK_TIME,t4.CONFIG_TITLE FROM bc_config_table t1,bc_config_client t2,bc_config_monitor t3,bc_config_schema_view t4 WHERE t1.TABLE_ID=t2.TABLE_ID AND t1.TABLE_ID=t3.TABLE_ID AND t1.TABLE_ID=t4.TABLE_ID AND t1.STATUS='1' AND t1.APP_NAME=?");
+//	    System.out.println("columns:"+sql.getColumns());
+//	    verifyColumns(sql, "TABLE_ID","TABLE_SIGN","HOST_NAME","TB_VERSION","VERSION","SERVER_DATE","CLIENT_DATE","CHECK_TIME","CONFIG_TITLE");
+//	}
 	
 	private void assertStringEquals(String expected, String str) {
 		if(expected.toLowerCase().replaceAll("\\s", "").equals(str.toLowerCase().replaceAll("\\s", ""))) {
