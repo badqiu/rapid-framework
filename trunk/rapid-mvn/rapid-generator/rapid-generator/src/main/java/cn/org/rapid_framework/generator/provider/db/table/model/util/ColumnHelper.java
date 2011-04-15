@@ -39,7 +39,12 @@ public class ColumnHelper {
 			}else if(javaType.toLowerCase().indexOf("byte") >= 0) {
 				result += " @Max("+Byte.MAX_VALUE+")";
 			}else if(c.getSize() > 0) {
-				result += " @Max("+StringHelper.repeat("9", c.getSize())+"L)";
+				try {
+					long maxValue = Long.parseLong(StringHelper.repeat("9", c.getSize()));
+					result += " @Max("+maxValue+"L)";
+				}catch(NumberFormatException e) {
+					result += " @Max("+Long.MAX_VALUE+"L)";
+				}
 			}
 		}
 		return result.trim();
