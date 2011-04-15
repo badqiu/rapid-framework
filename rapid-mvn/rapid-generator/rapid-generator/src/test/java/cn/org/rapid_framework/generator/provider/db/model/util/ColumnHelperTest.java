@@ -8,6 +8,7 @@ import org.hsqldb.Types;
 
 import cn.org.rapid_framework.generator.provider.db.table.model.Column;
 import cn.org.rapid_framework.generator.provider.db.table.model.util.ColumnHelper;
+import cn.org.rapid_framework.generator.util.StringHelper;
 
 public class ColumnHelperTest extends TestCase {
 	
@@ -43,5 +44,14 @@ public class ColumnHelperTest extends TestCase {
 		
 		c = new Column(null,Types.SMALLINT,"short","email",0,30,false,false,false,false,"default value","remarks");
 		assertEquals(ColumnHelper.getHibernateValidatorExpression(c),"@NotNull @Email  @Max(32767)");
+	}
+	
+	public void test_long_max_value() {
+		try {
+		long maxValue = Long.parseLong(StringHelper.repeat("9", 80));
+		System.out.println(maxValue);
+		}catch(NumberFormatException e) {
+			
+		}
 	}
 }
