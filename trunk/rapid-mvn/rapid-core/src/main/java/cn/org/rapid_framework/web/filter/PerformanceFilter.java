@@ -65,11 +65,11 @@ public class PerformanceFilter  extends OncePerRequestFilter implements Filter {
         } finally {
             long duration = System.currentTimeMillis() - start;
             if (failed != null) {
-                log.error("["+requestString+",F,"+duration+"ms");
+                log.error(requestString+",F,"+duration+"ms");
             } else if (duration > threshold) {
-                log.warn("["+requestString+",Y,"+duration+"ms");
+                log.warn(requestString+",Y,"+duration+"ms");
             } else if (log.isInfoEnabled()) {
-                log.info("["+requestString+",Y,"+duration+"ms");
+                log.info(requestString+",Y,"+duration+"ms");
             }
         }
 
