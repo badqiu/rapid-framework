@@ -1,0 +1,726 @@
+    <resultMap id="RM.BLOG" class="com.company.project.user_info.dataobject.UserInfoDO">
+		<result property="rage" column="rage" javaType="int"   nullValue="0"  />
+		<result property="rsex" column="rsex" javaType="long"   nullValue="0"  />
+		<result property="rdiy" column="rdiy" javaType="Long"   />
+		<result property="abc_content" column="abc_content" javaType="String"   />
+    </resultMap>
+    
+    <resultMap id="RM.UserInfo" class="com.company.project.user_info.dataobject.UserInfoDO">
+		<result property="userId" column="USER_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="username" column="USERNAME" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="password" column="PASSWORD" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="birthDate" column="BIRTH_DATE" javaType="java.sql.Date" jdbcType="DATE"  />
+		<result property="sex.cent" column="SEX" javaType="long" jdbcType="TINYINT" nullValue="0" />
+		<result property="age.cent" column="AGE" javaType="long" jdbcType="INTEGER" nullValue="0" />
+    </resultMap>
+    
+	<sql id="columns">
+		<![CDATA[ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE  ]]>
+	</sql>
+		
+	<sql id="forSetOperationSql">
+		inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = ? 
+	    	and r.role_name = ?
+	    	and b.content like ?
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+	</sql>
+		
+	<sql id="user_info.where">
+		and username > #username#
+	    	and password = #password#
+	</sql>
+		
+	<sql id="roleSecond.where">
+		and username = #secondUsername#
+	</sql>
+		
+	<sql id="duplication.where">
+		and username > #username#
+	    	and password = #password#   
+	    	and username = #secondUsername#    
+	    	and username = #noduplicationUsername#
+	</sql>
+		
+
+	
+	
+    
+	<insert id="badqiu_test_app.UserInfo.insert">
+		INSERT INTO user_info (user_id,username,password) values (#user_id#,#username#,#password#)
+			<selectKey keyProperty="user_id" resultClass="java.lang.Long" type="post">
+            select last_insert_id() from any
+    		</selectKey>
+	</insert>
+	
+	
+    
+	<insert id="badqiu_test_app.UserInfo.insertWithFunction">
+		INSERT INTO user_info (age,username,password,birth_date,sex,user_id) values ('23',#username#,#password#,curdate(),'12','123111')
+			<selectKey keyProperty="user_id" resultClass="java.lang.Long" type="post">
+            select last_insert_id() from any
+    		</selectKey>
+	</insert>
+	
+	<update id="badqiu_test_app.UserInfo.update">
+		UPDATE user_info SET username = #username#,password = #password#
+			WHERE username = #username#
+	</update>
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.queryByUserId" resultMap="RM.UserInfo" >
+    	select  /*badqiu_test_app.UserInfo.queryByUserId*/ USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE 	from user_info
+			where user_id = #userId#
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.CountUsernameResult" class="com.company.project.user_info.operation.userinfo.CountUsernameResult">
+		<result property="usernameCnt" column="USERNAME_CNT" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumAge" column="SUM_AGE" javaType="java.lang.Long" jdbcType="BIGINT"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.countUsername" resultMap="RM.CountUsernameResult" >
+    	<![CDATA[
+			select  /*badqiu_test_app.UserInfo.countUsername*/ count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId# and age = #age.cent# and sex = #sex.cent# and username > #maxUsername# and username &lt; #minUsername#
+		]]>
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.CountDynimicUsernameResult" class="com.company.project.user_info.operation.userinfo.CountDynimicUsernameResult">
+		<result property="usernameCnt" column="USERNAME_CNT" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumAge" column="SUM_AGE" javaType="java.lang.Long" jdbcType="BIGINT"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.countDynimicUsername" resultMap="RM.CountDynimicUsernameResult" >
+    	<![CDATA[
+			select  /*badqiu_test_app.UserInfo.countDynimicUsername*/ count(username) username_cnt,sum(age) sum_age
+			from user_info
+			where user_id = #userId# and age = #age.cent# and sex = #sex.cent# and username > #maxUsername# and username &lt; #minUsername#
+		]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	
+    
+	<insert id="badqiu_test_app.UserInfo.insertWithSelectKey">
+		<![CDATA[
+	        INSERT INTO USER_INFO (
+	        	USER_ID ,
+	        	USERNAME ,
+	        	PASSWORD ,
+	        	BIRTH_DATE ,
+	        	SEX ,
+	        	AGE 
+	        ) VALUES (
+	        	#userId# ,
+	        	#username# ,
+	        	#password# ,
+	        	#birthDate# ,
+	        	#sex.cent# ,
+	        	#age.cent# 
+	        )
+	    ]]>
+		<selectKey resultClass="java.lang.Long" type="post" keyProperty="userId" >
+            select last_insert_id()
+    	</selectKey>        
+	</insert>
+	
+	<update id="badqiu_test_app.UserInfo.update">
+		<![CDATA[
+        UPDATE USER_INFO SET
+	        USERNAME = #username# ,
+	        PASSWORD = #password# ,
+	        BIRTH_DATE = #birthDate# ,
+	        SEX = #sex.cent# ,
+	        AGE = #age.cent# 
+        WHERE 
+	        USER_ID = #userId# 
+    ]]>
+	</update>
+	
+    
+	
+	
+	<delete id="badqiu_test_app.UserInfo.delete">
+		<![CDATA[
+        DELETE FROM USER_INFO WHERE
+        USER_ID = #userId# 
+    ]]>
+    </delete>
+    
+	
+	<select id="badqiu_test_app.UserInfo.getById" resultMap="RM.UserInfo" >
+    	SELECT  /*badqiu_test_app.UserInfo.getById*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	    <![CDATA[
+	        FROM USER_INFO 
+	        WHERE 
+		        USER_ID = #userId# 
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.findPage.count" resultClass="Long" >
+    	<![CDATA[
+        SELECT  /*badqiu_test_app.UserInfo.findPage.count*/ count(*) FROM USER_INFO
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE &gt;= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex.cent#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age.cent#
+		       </isNotEmpty>
+	    </dynamic>
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.findPage" resultMap="RM.UserInfo" >
+    	<![CDATA[
+    	SELECT  /*badqiu_test_app.UserInfo.findPage*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE FROM USER_INFO 
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex.cent#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age.cent#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="includeAges">
+		     		age in	
+		    		<iterate open="(" close=")" conjunction="," property="includeAges">
+	    				#includeAges[]#
+	    			</iterate>
+			   </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orIncludeAges">
+		    		<iterate open="(" close=")" conjunction="OR" property="orIncludeAges">
+	    				age = #orIncludeAges[]#
+	    			</iterate>
+			   </isNotEmpty>			       
+	    </dynamic>
+	    <isNotEmpty prepend="ORDER BY" property="orderBy">
+		      #orderBy#
+		</isNotEmpty>
+		]]>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.findPage.count" resultClass="long" >
+    	<![CDATA[
+    	select  /*badqiu_test_app.UserInfo.findPage.count*/ count(*)  FROM USER_INFO 
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="userId">
+		             USER_ID = #userId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="username">
+		             USERNAME = #username#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="password">
+		             PASSWORD = #password#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             BIRTH_DATE >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             BIRTH_DATE &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="sex">
+		             SEX = #sex.cent#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="age">
+		             AGE = #age.cent#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="includeAges">
+		     		age in	
+		    		<iterate open="(" close=")" conjunction="," property="includeAges">
+	    				#includeAges[]#
+	    			</iterate>
+			   </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orIncludeAges">
+		    		<iterate open="(" close=")" conjunction="OR" property="orIncludeAges">
+	    				age = #orIncludeAges[]#
+	    			</iterate>
+			   </isNotEmpty>			       
+	    </dynamic>
+	    
+		]]>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.getByUsername" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.getByUsername*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE USERNAME = #username#
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.getByAge" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.getByAge*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE AGE = #age.cent#  
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.subSelectNotOrderBy" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.subSelectNotOrderBy*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM USER_INFO WHERE 
+	        AGE in (select age from User_info where username = #username#)
+	        AND sex in (select age from User_info where sex = #sex.cent# and password = #password# and BIRTH_DATE = #birthDate#)
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.fromSubQuery" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.fromSubQuery*/ USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE 
+	        FROM (select * from user_info)
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testSqlMap" resultMap="RM.UserInfo" >
+    	
+	    <![CDATA[
+	    select  /*badqiu_test_app.UserInfo.testSqlMap*/ * from user_info where user_id = 123 /* sqlmap value */
+	    ]]>	    	
+	    
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testSqlMap.count" resultClass="long" >
+    	<![CDATA[
+	    select  /*badqiu_test_app.UserInfo.testSqlMap.count*/ count(*)  from user_info where user_id = 123 /* sqlmap value */
+	    ]]>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testSqlMapWithParamsReplace" resultMap="RM.UserInfo" >
+    	
+	    <![CDATA[
+	    select  /*badqiu_test_app.UserInfo.testSqlMapWithParamsReplace*/ * from user_info where user_id = #userId# and password = #password# or sex = 'sexinsex'
+	    ]]>	    	
+	    
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testSqlMapWithParamsReplace.count" resultClass="long" >
+    	<![CDATA[
+	    select  /*badqiu_test_app.UserInfo.testSqlMapWithParamsReplace.count*/ count(*)  from user_info where user_id = #userId# and password = #password# or sex = 'sexinsex'
+	    ]]>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testNotParameter" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.testNotParameter*/ <include refid="columns"/> FROM USER_INFO 
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testIncludeByRefid" resultMap="RM.UserInfo" >
+    	<![CDATA[
+	    SELECT  /*badqiu_test_app.UserInfo.testIncludeByRefid*/ <include refid="columns"/> 
+	        FROM USER_INFO WHERE AGE = #age.cent#  
+	    ]]>
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.TestSelectColumnsWithQueryResult" class="com.company.project.user_info.operation.userinfo.TestSelectColumnsWithQueryResult">
+		<result property="userId" column="USER_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="username" column="USERNAME" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="pwdFromSelectQuery" column="PWD_FROM_SELECT_QUERY" javaType="java.lang.String" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testSelectColumnsWithQuery" resultMap="RM.TestSelectColumnsWithQueryResult" >
+    	select  /*badqiu_test_app.UserInfo.testSelectColumnsWithQuery*/ USER_ID,USERNAME,(select password from user_info where password = #pwd_in_select_query# ) pwd_from_select_query
+			from user_info
+			where user_id = #userId#
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.TestRoleJoinRolePermissionJoinBlogResult" class="com.company.project.user_info.operation.userinfo.TestRoleJoinRolePermissionJoinBlogResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="roleName" column="ROLE_NAME" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="resourceId" column="RESOURCE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="userId" column="USER_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="roleDesc" column="ROLE_DESC" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="created" column="CREATED" javaType="java.sql.Date" jdbcType="DATE"  />
+		<result property="modified" column="MODIFIED" javaType="java.sql.Date" jdbcType="DATE"  />
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="permissoinId" column="PERMISSOIN_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="blogId" column="BLOG_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="userId" column="USER_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="username" column="USERNAME" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="created" column="CREATED" javaType="java.sql.Date" jdbcType="DATE"  />
+		<result property="modified" column="MODIFIED" javaType="java.sql.Date" jdbcType="DATE"  />
+		<result property="title" column="TITLE" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="content" column="CONTENT" javaType="java.lang.String" jdbcType="VARCHAR"  />
+		<result property="contentLength" column="CONTENT_LENGTH" javaType="java.lang.Integer" jdbcType="INTEGER"  />
+		<result property="status" column="STATUS" javaType="java.lang.String" jdbcType="VARCHAR"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlog" resultMap="RM.TestRoleJoinRolePermissionJoinBlogResult" >
+    	select  /*badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlog*/ ROLE_ID,ROLE_NAME,RESOURCE_ID,USER_ID,ROLE_DESC,CREATED,MODIFIED,ROLE_ID,PERMISSOIN_ID,BLOG_ID,USER_ID,USERNAME,CREATED,MODIFIED,TITLE,CONTENT,CONTENT_LENGTH,STATUS  from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.TestRoleJoinRolePermissionJoinBlogWithCustomParamResult" class="com.company.project.user_info.operation.userinfo.TestRoleJoinRolePermissionJoinBlogWithCustomParamResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlogWithCustomParam" resultMap="RM.TestRoleJoinRolePermissionJoinBlogWithCustomParamResult" >
+    	select  /*badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlogWithCustomParam*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+	</select>	
+
+	    
+	
+	
+    
+	<resultMap id="RM.TestGroupByPagingResult" class="com.company.project.user_info.operation.userinfo.TestGroupByPagingResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testGroupByPaging" resultMap="RM.TestGroupByPagingResult" >
+    	select  /*badqiu_test_app.UserInfo.testGroupByPaging*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testGroupByPaging.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testGroupByPaging.count*/ count(*)  from (
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+	      ) forGroupByCountTable
+	</select>
+	    
+	
+	
+    
+	<resultMap id="RM.TestSetOperationsResult" class="com.company.project.user_info.operation.userinfo.TestSetOperationsResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testSetOperations" resultMap="RM.TestSetOperationsResult" >
+    	select  /*badqiu_test_app.UserInfo.testSetOperations*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+		<include refid="forSetOperationSql"/>
+	    UNION 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    UNION ALL
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+		MINUS 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    EXCEPT  
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT   
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    /* h2不支持集合操作	    *//*
+	    EXCEPT ALL  
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT ALL  
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    */
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testSetOperations.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testSetOperations.count*/ count(*)  from role r 
+		<include refid="forSetOperationSql"/>
+	    UNION 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    UNION ALL
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+		MINUS 
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    EXCEPT  
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT   
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    /* h2不支持集合操作	    *//*
+	    EXCEPT ALL  
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    INTERSECT ALL  
+	    select role_id,sum(user_id) sum_user_id from role r 
+	    <include refid="forSetOperationSql"/>
+	    */
+	</select>
+	    
+	
+	
+    
+	<resultMap id="RM.TestMybatisOrderByPagingWithIfResult" class="com.company.project.user_info.operation.userinfo.TestMybatisOrderByPagingWithIfResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testMybatisOrderByPagingWithIf" resultMap="RM.TestMybatisOrderByPagingWithIfResult" >
+    	select  /*badqiu_test_app.UserInfo.testMybatisOrderByPagingWithIf*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+	   	    <if test="orderBy != null">
+	   	    	order by r.role_id
+	   	    </if>
+		    <if test="orderBy == null">
+		    	order by sum_user_id
+			</if>
+			<choose>
+				<when test="orderby == '123'">
+					order by r.role_id
+				</when>
+				<when test="orderby == '123'">
+					order by r.role_id
+				</when>
+				<otherwise>
+					order by r.role_id
+				</otherwise>
+			</choose>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testMybatisOrderByPagingWithIf.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testMybatisOrderByPagingWithIf.count*/ count(*)  from (
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	    	group by r.role_id
+	   	    
+		    
+			
+	      ) forGroupByCountTable
+	</select>
+	    
+	
+	
+    
+	<resultMap id="RM.TestOpenCloseResult" class="com.company.project.user_info.operation.userinfo.TestOpenCloseResult">
+		<result property="roleId" column="ROLE_ID" javaType="java.lang.Long" jdbcType="BIGINT"  />
+		<result property="sumUserId" column="SUM_USER_ID" javaType="java.math.BigDecimal" jdbcType="DECIMAL"  />
+	</resultMap>
+	
+	<select id="badqiu_test_app.UserInfo.testOpenClose" resultMap="RM.TestOpenCloseResult" >
+    	select  /*badqiu_test_app.UserInfo.testOpenClose*/ r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	   	    and r.role_name in <isNotEmpty close=")" open="("><iterate conjunction="," property="roleNames">#roleNames[]#</iterate></isNotEmpty>
+	    	group by r.role_id
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testOpenClose.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testOpenClose.count*/ count(*)  from (
+	    select r.role_id,sum(r.user_id) sum_user_id from role r 
+	    	inner join role_permission rp on r.role_id = rp.role_id
+	    	left join blog b on b.user_id = r.user_id
+	    where 
+	    	r.role_id = #roleId# 
+	    	and r.role_name = #roleName#
+	    	and b.content like #content#
+	    	and r.modified between #modifiedBegin# and #modifiedEnd#
+	   	    and r.role_name in <isNotEmpty close=")" open="("><iterate conjunction="," property="roleNames">#roleNames[]#</iterate></isNotEmpty>
+	    	group by r.role_id
+	      ) forGroupByCountTable
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testXmlEscape" resultMap="RM.Role" >
+    	select  /*badqiu_test_app.UserInfo.testXmlEscape*/ ROLE_ID,ROLE_NAME,RESOURCE_ID,USER_ID,ROLE_DESC,CREATED,MODIFIED  from role r 
+	    where 
+	    	r.role_id &lt; ? 
+	    	and r.role_name > #roleName#
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testXmlEscape.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testXmlEscape.count*/ count(*)  from role r 
+	    where 
+	    	r.role_id &lt; ? 
+	    	and r.role_name > #roleName#
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testIncludeWhere" resultMap="RM.UserInfo" >
+    	select  /*badqiu_test_app.UserInfo.testIncludeWhere*/ USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE  from user_info r 
+	    where 1=1
+			<include refid="user_info.where"/>
+			<include refid="user_info.where"/>
+			<include refid="roleSecond.where"/>
+			<include refid="duplication.where"/>
+			limit #offset#,#limit#
+	</select>	
+
+	<select id="badqiu_test_app.UserInfo.testIncludeWhere.count" resultClass="long" >
+    	select  /*badqiu_test_app.UserInfo.testIncludeWhere.count*/ count(*)  from user_info r 
+	    where 1=1
+			<include refid="user_info.where"/>
+			<include refid="user_info.where"/>
+			<include refid="roleSecond.where"/>
+			<include refid="duplication.where"/>
+	</select>
+	    
+	
+	
+    
+	
+	<select id="badqiu_test_app.UserInfo.testIncludeWhereWithNoPaging" resultMap="RM.UserInfo" >
+    	select  /*badqiu_test_app.UserInfo.testIncludeWhereWithNoPaging*/ USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE  from user_info r 
+	    where 1=1
+			<include refid="user_info.where"/>
+			<include refid="user_info.where"/>
+			<include refid="roleSecond.where"/>
+			<include refid="duplication.where"/>
+	</select>
