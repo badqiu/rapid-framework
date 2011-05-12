@@ -1,0 +1,8 @@
+
+${basepackage}=com.fly
+${underscoreName}=user_info
+
+
+${classNameFirstLower}=userInfo
+${className}=UserInfo          		
+
