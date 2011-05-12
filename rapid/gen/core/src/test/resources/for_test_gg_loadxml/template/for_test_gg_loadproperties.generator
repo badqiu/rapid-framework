@@ -1,6 +1,0 @@
-<#ftl ns_prefixes={"p":"http://maven.apache.org/POM/4.0.0"} />
-<#assign xml_props=gg.loadProperties('classpath:for_test_gg_loadxml/for_test_loadprops.xml')>
-<#assign props=gg.loadProperties('classpath:for_test_gg_loadxml/for_test_loadprops.properties')>
-
-${props.abc}
-${xml_props.diy}
