@@ -4,14 +4,15 @@
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.1</version>
+		<version>4.0.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
+	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-core</artifactId>
 	<name>rapid-core</name>
 	<packaging>jar</packaging>
-	<version>4.0.1</version>	
+	<version>4.0.3</version>	
 
 	<description>rapid-framework core libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
