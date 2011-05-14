@@ -10,11 +10,14 @@
 	-->
 
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>parent</artifactId>
+	<version>4.0.3</version>
 	<packaging>pom</packaging>
 	<name>rapid-framework parent pom.xml</name>
-	<version>4.1</version>
+
+	
 	<organization>
 		<name>Rapid-Framework</name>
 		<url>http://www.rapid-framework.org.cn</url>
@@ -23,7 +26,7 @@
 	<modules>
 	 <module>rapid-core</module>
 	 <module>rapid-generator</module>
-	 <module>rapid-maven-plugin</module>
+	 <module>rapid-plugins</module>
 	</modules>
 
 	<scm>
@@ -35,6 +38,9 @@
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>
+		<hibernate.version>3.3.2.GA</hibernate.version>
+		<ibatis.version>2.3.4.726</ibatis.version>
+		<mybatis.version>3.0.1</mybatis.version>
 
 		<jetty.version>6.1.24</jetty.version>
 		<h2.version>1.2.135</h2.version>
@@ -42,68 +48,52 @@
 		<slf4j.version>1.6.0</slf4j.version>
 		<hibernate.validator.version>4.1.0.Final</hibernate.validator.version>
 		
-		<hibernate.version>3.3.2.GA</hibernate.version>
-		<ibatis.version>2.3.4.726</ibatis.version>
-		<mybatis.version>3.0.1</mybatis.version>
-		
-		<project.version>4.0</project.version>
-
 		<targetJdk>1.5</targetJdk>
+		<project.version>4.0.3</project.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<sourceEncoding>UTF-8</sourceEncoding>
 	</properties>
 
-	<!-- ???? java.net?? maven??? jar?? release: ?????? ${user.home}/.java.net ????? ????????????? userName=badqiu password=password ???????? -->
-	<!-- 
-	<distributionManagement>
-		<repository>
-			<id>java.net-m2-repository</id>
-			<url>java-net:/maven2-repository/trunk/repository/</url>
-		</repository>
-	</distributionManagement>
-	-->
-
-	<!-- ???????5???version,scope??exclusions,?????????څ??groupId ?? artifactId ???? -->
 	<dependencyManagement>
 		<dependencies>
 			<!--  sub projects BEGIN -->
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-core</artifactId>
-				<version>4.0.1</version>
+				<version>${project.version}</version>
+			</dependency>
+				<dependency>
+				<groupId>com.googlecode.rapid-framework</groupId>
+				<artifactId>rapid-generator-parent</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.0.1</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.0.1</version>
-			</dependency>
-			<dependency>
-				<groupId>com.googlecode.rapid-framework</groupId>
-				<artifactId>rapid-maven-plugin</artifactId>
-				<version>4.0.1</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.0.1</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.0.1</version>
-			</dependency>	
+				<version>${project.version}</version>
+			</dependency>			
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
-				<artifactId>rapid-generator-parent</artifactId>
-				<version>4.1</version>
-			</dependency>			
-			
+				<artifactId>rapid-plugins</artifactId>
+				<version>${project.version}</version>
+			</dependency>	
+					
 			<!--  sub projects END -->
 
 			<!-- spring begin -->
@@ -182,13 +172,12 @@
 				<artifactId>spring-test</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
-			<!-- 
 			<dependency>
 				<groupId>org.springframework</groupId>
-				<artifactId>spring-transaction</artifactId>
+				<artifactId>spring-tx</artifactId>
 				<version>${spring.version}</version>
 			</dependency>			
-			 -->
+			 
 			<dependency>
 			    <groupId>aopalliance</groupId>
 			    <artifactId>aopalliance</artifactId>

@@ -13,7 +13,7 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-parent</artifactId>
 	<name>rapid-generator-parent</name>
-	<version>4.0.2</version>
+	<version>4.0.3</version>
 	<packaging>pom</packaging>
 
 	<description>rapid-framework generator libs</description>
@@ -70,22 +70,22 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.0.2</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.0.2</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.0.2</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.0.2</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
