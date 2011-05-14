@@ -22,7 +22,7 @@
 
 	<modules>
 	 <module>rapid-core</module>
-	 <module>rapid-generator-parent</module>
+	 <module>rapid-generator</module>
 	 <module>rapid-maven-plugin</module>
 	</modules>
 
