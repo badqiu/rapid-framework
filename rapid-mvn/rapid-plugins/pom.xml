@@ -10,10 +10,15 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-plugins</artifactId>
 	<name>rapid-plugins</name>
-	<version>4.0.3</version>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 	<description>rapid-plugins mojos </description>
 	<url>http://maven.apache.org</url>
+	<scm>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
+	</scm>
 	<build>
 		<plugins>
 			<plugin>
@@ -43,7 +48,6 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
 		<!-- rapid generator -->
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
