@@ -11,6 +11,8 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 
 import cn.org.rapid_framework.distributed.threadlocal.DistributedThreadLocal;
 import cn.org.rapid_framework.hessian.HessianTest.Hello;
+
+/**
 @RunWith(SpringJUnit4ClassRunner.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class })
 @ContextConfiguration(locations = { "/cxf_service/applicationContext-ws-client.xml" })
@@ -30,4 +32,4 @@ public class CXFTest {
 		DistributedThreadLocal.put("password", "123");
 		hello.say();
 	}
-}
+}**/
