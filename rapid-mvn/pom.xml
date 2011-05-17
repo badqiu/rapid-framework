@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<!---->
+	
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -30,9 +30,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn/</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</url>
 	</scm>
 
 	<properties>

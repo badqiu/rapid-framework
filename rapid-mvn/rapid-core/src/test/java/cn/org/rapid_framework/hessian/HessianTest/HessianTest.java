@@ -14,6 +14,7 @@ import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
 import com.caucho.hessian.io.SerializerFactory;
 
+/**
 public class HessianTest {
 
 	@Test
@@ -54,4 +55,4 @@ public class HessianTest {
 //		JettyServer.stop();
 	}
 
-}
+}**/

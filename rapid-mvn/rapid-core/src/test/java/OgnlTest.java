@@ -91,11 +91,10 @@ public class OgnlTest extends TestCase {
 		assertFalse(Ognl.isNumber(""));
 		assertFalse(Ognl.isNumber(null));
 		assertFalse(Ognl.isNumber(" "));
-		
-		assertTrue(Ognl.isNumber("1.1"));
+		assertFalse(Ognl.isNumber("1.1"));
 		assertTrue(Ognl.isNumber("1"));
-		assertTrue(Ognl.isNumber("-1"));
-		assertTrue(Ognl.isNumber("234E12"));
+		assertFalse(Ognl.isNumber("-1"));
+		assertFalse(Ognl.isNumber("234E12"));
 		assertTrue(Ognl.isNumber(Double.MAX_VALUE));
 		assertTrue(Ognl.isNumber(Double.MIN_VALUE));
 		assertTrue(Ognl.isNumber(Double.POSITIVE_INFINITY));

@@ -79,7 +79,7 @@ public class AnnotationMethodCacheInterceptorTest extends TestCase {
 		
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(System.currentTimeMillis());
-		assertEquals("Duke's Birthday: 2010",String.format("Duke's Birthday: %1$tY", c));
+		assertEquals("Duke's Birthday: 2011",String.format("Duke's Birthday: %1$tY", c));
 	}
 	
 	public void test_cache_key_prefix() {

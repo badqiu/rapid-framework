@@ -42,7 +42,7 @@ public class ValidatorTest extends TestCase{
 //		assertEquals("长度必须在 10 至 20 之间",errors.getFieldError("password").getDefaultMessage());
 		System.out.println(errors);
 	} 
-	
+	/**
 	public void testBeanValidatorHoldervalidate() {
 		try {
 			BeanValidatorHolder.validate(new BeanValidationTestBean());
@@ -68,7 +68,7 @@ public class ValidatorTest extends TestCase{
 		}catch(ConstraintViolationException e) {
 			assertEquals("validate value failure on object:BeanValidationTestBean.username value:   ",e.getMessage());
 		}
-	}
+	}**/
 	
 	public static class BeanValidationTestBean {
 		@NotBlank
