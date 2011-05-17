@@ -24,7 +24,7 @@
 	</modules>
 	<scm>
 		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</connection>
-		<developerConnection>scm:svn: https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
 		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<properties>
