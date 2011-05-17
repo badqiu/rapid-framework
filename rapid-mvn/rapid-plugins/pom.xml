@@ -14,9 +14,9 @@
 	<description>rapid-plugins mojos </description>
 	<url>http://maven.apache.org</url>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/rapid-mvn</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/rapid-mvn</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/rapid-mvn</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</url>
 	</scm>
 	<build>
 		<plugins>
