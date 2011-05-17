@@ -16,7 +16,7 @@ import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.FileHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.StringHelper;
-
+/**
 public class OracleTableConfigTest extends GeneratorTestCase {
     
     public void setUp() throws Exception {
@@ -123,4 +123,4 @@ public class OracleTableConfigTest extends GeneratorTestCase {
     	templateModel.putAll(GeneratorModelUtils.getShareVars());
     	templateModel.put("StringHelper", new StringHelper());
     }
-}
+}**/

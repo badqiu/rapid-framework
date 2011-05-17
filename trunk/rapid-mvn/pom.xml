@@ -30,9 +30,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</url>
 	</scm>
 
 	<properties>

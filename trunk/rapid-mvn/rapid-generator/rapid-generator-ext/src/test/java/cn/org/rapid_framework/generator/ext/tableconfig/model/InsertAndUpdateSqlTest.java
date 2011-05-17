@@ -5,6 +5,7 @@ import cn.org.rapid_framework.generator.provider.db.DataSourceProvider;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.util.SqlExecutorHelper;
 
+/**
 public class InsertAndUpdateSqlTest extends GeneratorTestCase{
 
 	public InsertAndUpdateSqlTest() {
@@ -60,4 +61,4 @@ public class InsertAndUpdateSqlTest extends GeneratorTestCase{
 			SqlExecutorHelper.execute(DataSourceProvider.getDataSource(), "delete from permission where permissoin_id = 9999");
 		}
 	}
-}
+}**/
