@@ -24,8 +24,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/tags/parent-4.0.3/trunk/rapid-mvn</connection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/tags/parent-4.0.3/trunk/rapid-mvn</url>
+		<connection>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/tags/parent-4.0.3/tags/parent-4.0.3/trunk/rapid-mvn</connection>
+		<url>http://rapid-framework.googlecode.com/svn/tags/rapid parent-4.0.3/tags/parent-4.0.3/tags/parent-4.0.3/trunk/rapid-mvn</url>
 	  <developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn/rapid-generator</developerConnection>
   </scm>
 	<developers>
