@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
@@ -10,7 +11,7 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-parent</artifactId>
 	<name>rapid-generator-parent</name>
-	<version>4.0.4-SNAPSHOT</version>
+	<version>4.0.3</version>
 	<packaging>pom</packaging>
 	<description>rapid-framework generator libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
@@ -61,22 +62,22 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.0.4-SNAPSHOT</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.0.4-SNAPSHOT</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.0.4-SNAPSHOT</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.0.4-SNAPSHOT</version>
+				<version>4.0.3</version>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>

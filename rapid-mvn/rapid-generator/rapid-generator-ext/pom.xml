@@ -4,12 +4,12 @@
 	<artifactId>rapid-generator-ext</artifactId>
 	<name>rapid-generator-ext</name>
 	<packaging>jar</packaging>
-	<version>4.0.4-SNAPSHOT</version>	
+	<version>4.0.3</version>	
 	
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>rapid-generator-parent</artifactId>
-		<version>4.0.4-SNAPSHOT</version>
+		<version>4.0.3</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
