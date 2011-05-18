@@ -4,11 +4,11 @@
 	<parent>
 		<artifactId>rapid-generator-parent</artifactId>
 		<groupId>com.googlecode.rapid-framework</groupId>
-		<version>4.0.3</version>
+		<version>4.0.4-SNAPSHOT</version>
 	</parent>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-template</artifactId>
-	<version>4.0.3</version>
+	<version>4.0.4-SNAPSHOT</version>
 	<name>rapid-generator-template</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
