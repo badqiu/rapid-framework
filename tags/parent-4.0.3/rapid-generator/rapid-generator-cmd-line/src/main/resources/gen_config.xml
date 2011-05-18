@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>
+		代码生成器配置文件: 
+		1.会为所有的property生成property_dir属性,如pkg=com.company => pkg_dir=com/company
+	</comment>
+	
+	<entry key="dal_package">com.company.project.common.dal</entry>
+	<entry key="appName">project</entry>
+	
+	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
+	<entry key="namespace">pages</entry>
+	
+	<!-- 模块，用于dal层sqlmap及spring配置文件的划分 -->
+	<entry key="appModule">shared</entry>
+	
+	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
+	<entry key="tableRemovePrefixes"></entry>
+	
+	<!-- 数据库类型至java类型映射  -->
+	<entry key="java_typemapping.java.sql.Timestamp">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Date">java.util.Date</entry>
+	<entry key="java_typemapping.java.sql.Time">java.util.Date</entry>	
+	<entry key="java_typemapping.java.lang.Byte">int</entry>
+	<entry key="java_typemapping.java.lang.Short">int</entry>
+	<entry key="java_typemapping.java.lang.Integer">int</entry>
+	<entry key="java_typemapping.java.lang.Long">long</entry>
+	<entry key="java_typemapping.java.math.BigDecimal">long</entry>
+	<entry key="java_typemapping.java.sql.Clob">String</entry>
+
+	<!-- 用于存放sequence列表，生成SeqDAO使用,使用空格，换行符分隔，示例值: seq_user seq_blog -->
+	<entry key="sequencesList">
+		seq_demo1 seq_demo2
+	</entry>
+
+	<!-- dalgen的table配置文件目录,不需要一个个列举出来,只要是这个目录下面的xml文件就可以全部扫描出来  -->
+	<entry key="dir_table_configs">tables</entry>
+	
+	<!-- dal层模板的输出目录 -->
+	<entry key="dir_dal_output_root">target/generator-output/</entry>
+	
+	<!-- 模板根目录,可以为: 1. c:/some.jar!/subfolder   2. classpath:some_folder. 模板文件存放在jar包中 -->
+	<entry key="dir_templates_root">classpath:generator/template/rapid</entry>
+
+
+	<!-- 数据库相关配置 -->
+	<entry key="jdbc_username">sa</entry>
+	<entry key="jdbc_password">sa</entry>
+		
+	<!-- oracle需要指定jdbc_schema,并且可能要大写，其它数据库忽略此项配置  -->
+	<entry key="jdbc_schema"></entry>
+	<entry key="jdbc_catalog"></entry>
+	
+	<!-- 切换不同的数据库驱动，可以影响如分页语句的生成. 因为生成器会根据jdbc_driver自动生成一个databaseType=mysql,oracle,postgresql变量 -->
+	<!-- H2 -->
+	<entry key="jdbc_url">jdbc:h2:mem:test_mem;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;INIT=RUNSCRIPT FROM 'demo_h2_db_tables.sql'</entry>
+	<entry key="jdbc_driver">org.h2.Driver</entry>
+	
+	<!-- 增删改查的基本package -->
+	<entry key="crud_basepackage">com.company.project</entry>
+	<!-- 增删改查生成器模板
+		struts2 + hibernate: ${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_hibernate,${dir_templates_root}/table/dao_hibernate_annotation,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_struts2
+		springmvc + mybatis: ${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_mybatis,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_springmvc_rest
+	 -->
+	<entry key="dir_crud_template_root">${dir_templates_root}/share/basic,${dir_templates_root}/table/dao_mybatis,${dir_templates_root}/table/service_complex,${dir_templates_root}/table/web_springmvc_rest</entry>
+	<entry key="dir_crud_out_root">C:/generator_output</entry>
+	
+	<!-- Mysql -->
+	<!-- 
+	<entry key="jdbc_url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc_driver">com.mysql.jdbc.Driver</entry>
+	 -->
+	
+	<!-- oracle使用oci的连接方式需要设置PATH环境变量及ORACLE_HOME环境变量 -->
+	<!-- Oracle		jdbc:oracle:oci:@devdb01
+	<entry key="jdbc_url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry>
+	<entry key="jdbc_driver">oracle.jdbc.driver.OracleDriver</entry>
+	-->
+
+	<!-- SQLServer2000 
+	<entry key="jdbc_url">jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=[database]</entry>
+	<entry key="jdbc_driver">com.microsoft.jdbc.sqlserver.SQLServerDriver</entry>
+	-->
+	
+	<!-- SQLServer2005 
+	<entry key="jdbc_url">jdbc:sqlserver://192.168.0.98:1433;DatabaseName=[database]</entry>
+	<entry key="jdbc_driver">com.microsoft.sqlserver.jdbc.SQLServerDriver</entry>
+	-->
+
+	<!-- JTDs for SQLServer 
+	<entry key="jdbc_url">jdbc:jtds:sqlserver://192.168.0.102:1433/[database];tds=8.0;lastupdatecount=true</entry>
+	<entry key="jdbc_driver">net.sourceforge.jtds.jdbc.Driver</entry>
+	-->
+
+	<!-- PostgreSql
+	<entry key="jdbc_url">jdbc:postgresql://localhost/[database]</entry>
+	<entry key="jdbc_driver">org.postgresql.Driver</entry>
+	 -->
+	
+	<!-- Sybase
+	<entry key="jdbc_url">jdbc:sybase:Tds:localhost:5007/[database]</entry>
+	<entry key="jdbc_driver">com.sybase.jdbc.SybDriver</entry>
+	 -->
+	
+	<!-- DB2 
+	<entry key="jdbc_url">jdbc:db2://localhost:5000/[database]</entry>
+	<entry key="jdbc_driver">com.ibm.db2.jdbc.app.DB2Driver</entry>
+	-->
+	
+	<!-- HsqlDB 
+	<entry key="jdbc_url">jdbc:hsqldb:mem:generatorDB</entry>
+	<entry key="jdbc_driver">org.hsqldb.jdbcDriver</entry>
+	-->
+	
+	<!-- Derby 
+	<entry key="jdbc_url">jdbc:derby://localhost/databaseName</entry>
+	<entry key="jdbc_driver">org.apache.derby.jdbc.ClientDriver</entry>	
+	-->	
+</properties>

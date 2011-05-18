@@ -1,0 +1,14 @@
+<#ftl ns_prefixes={"p":"http://maven.apache.org/POM/4.0.0"} />
+<#assign userinfo=gg.loadXml('classpath:for_test_gg_loadxml/USER_INFO.xml')>
+<#assign book=gg.loadXml('classpath:for_test_gg_loadxml/book.xml')>
+<#assign pom=gg.loadXml('classpath:for_test_gg_loadxml/test_pom.xml')>
+
+<#list pom.project.dependencyManagement.dependencies.dependency as dependency>
+		<#if !dependency.groupId?starts_with('sofa')>
+		<depend>
+			<groupId>${dependency.groupId}</groupId>
+			<artifactId>${dependency.artifactId}</artifactId>
+			<version>${dependency.version}</version>
+		</depend>
+		</#if>
+</#list>
