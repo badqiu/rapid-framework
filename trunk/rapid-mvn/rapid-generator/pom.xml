@@ -22,9 +22,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3/rapid-mvn</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<developers>
 		<developer>
@@ -42,7 +42,7 @@
 		<module>rapid-generator-template</module>
 		<module>rapid-generator-cmd-line</module>
 	</modules>
-	<!-- deploy 
+	<!-- deploy path 
 	<distributionManagement>
 		<repository>
 			<id>releases</id>
@@ -55,7 +55,7 @@
 			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	path -->
+	-->
 	<dependencyManagement>
 		<dependencies>
 			<!-- sub projects BEGIN -->
