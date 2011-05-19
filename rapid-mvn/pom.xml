@@ -22,9 +22,9 @@
 		<module>rapid-plugins</module>
 	</modules>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.3</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -79,7 +79,7 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-plugins</artifactId>
-				<version>1.0</version>
+				<version>1.0-SNAPSHOT</version>
 			</dependency>
 			<!-- sub projects END -->
 			<!-- spring begin -->
