@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first>
+<#assign underscoreName = table.underscoreName/>
+<#assign classNameLowerCase = className?lower_case/>
+
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="init()"
+	implements="appcommon.flex.base.ILoadData"
+	xmlns:${classNameFirstLower}="${basepackage}.${underscoreName}.view.*"
+	xmlns:pagging="com.wai.components.*">
+	<mx:Script>
+		<![CDATA[
+
+			import ${basepackage}.${underscoreName}.${className}ModelLocator;
+			import ${basepackage}.model.*;
+			import ${basepackage}.${underscoreName}.event.*;
+			import ${basepackage}.${underscoreName}.command.*;
+
+			import appcommon.flex.base.*;
+			import appcommon.flex.page.*;
+			import appcommon.flex.util.*;
+			
+			import com.wai.components.events.PaginateEvent;
+			import mx.binding.utils.BindingUtils;
+			import mx.events.ListEvent;
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.utils.ArrayUtil;
+			import mx.collections.IViewCursor;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var model:${className}ModelLocator = ${className}ModelLocator.getInstance();
+
+			private function init():void{
+				//${classNameFirstLower}List.${classNameFirstLower}Grid.addEventListener(ListEvent.CHANGE, ${classNameFirstLower}GridChange);
+			}
+
+			public function loadData(pageRequest : PageRequest) : void{
+				var event : List${className}Event = new List${className}Event(pageRequest);
+				event.dispatch();
+			}
+
+			public function del():void{
+			  	AppCrudUtils.confirmDelete(${classNameFirstLower}Grid.getSelectedList(),function():void {
+	  		    	var ids:ArrayCollection = CollectionUtils.select(${classNameFirstLower}Grid.getSelectedList().createCursor(),'${table.idColumn.columnNameFirstLower}');
+			      	var event :Delete${className}Event = new Delete${className}Event(ids.toArray());
+			      	event.dispatch();
+			  	});
+			}
+
+			private function newRecord(): void{
+				var win : ${className}DetailWindow = ${className}DetailWindow(PopUpManager.createPopUp(this,${className}DetailWindow,true));
+				win.${classNameFirstLower} = new ${className}();
+			}
+
+			private function pageChangeHandler(e : PaginateEvent):void{
+				search(e.index + 1);
+			}
+			
+			private function edit(event : Event) : void {
+				//test for double click column header error
+				if(event.target.data is ${className}) { 
+					var win : ${className}DetailWindow = ${className}DetailWindow(PopUpManager.createPopUp(this,${className}DetailWindow,true));
+					win.${classNameFirstLower} = event.target.data;
+					win.currentState = "edit";
+				}
+			}
+			
+			private function search(pageNumber:Number = 1) : void {
+				if(!${classNameFirstLower}QueryPanel.validate()) {
+					return;
+				}
+				var pr : PageRequest = new PageRequest();
+				pr.filters = ${classNameFirstLower}QueryPanel.get${className}();
+				pr.pageNumber = pageNumber;
+				loadData(pr);
+			}
+		]]>
+	</mx:Script>
+	<mx:VBox width="100%" height="100%" paddingBottom="10" paddingTop="10" paddingLeft="10" paddingRight="10">
+		<mx:Text text="${className}" styleName="moduleTitle"/>
+		<${classNameFirstLower}:${className}QueryPanel id="${classNameFirstLower}QueryPanel"
+			styleName="detailForm" width="100%" enter="search()"/>
+		<mx:HBox height="35" styleName="crudToolBar" width="100%" verticalAlign="middle" horizontalAlign="right">
+			<mx:Spacer/>
+			<mx:Button 
+				id="${classNameFirstLower}_search" 	
+				label="Search" styleName=""
+				click="search()" 
+				fillAlphas="[1.0, 1.0]" fillColors="[#FFEA00, #FFEA00]"/>
+			<mx:Spacer width="100%"/>
+			<mx:Button 
+				id="${classNameFirstLower}_new"
+				label="New Record"  styleName=""
+				click="newRecord()"/>
+			<mx:Button 
+				id="${classNameFirstLower}_delete"
+				label="Delete Record" styleName=""
+				click="del()"/>
+			<mx:Spacer/>
+		</mx:HBox>
+		<${classNameFirstLower}:${className}Grid id="${classNameFirstLower}Grid" 
+			doubleClickEnabled="true" doubleClick="edit(event)"
+			change="model.${classNameFirstLower} = ${classNameFirstLower}Grid.selectedItem as ${className}"
+			dataProvider="{model.page.result}"
+			width="100%" height="100%"/>
+		<mx:HBox>
+			<pagging:WAIPaginator id="paginator"
+				itemsPerPage="{PageRequest.DEFAULT_PAGE_SIZE}"
+				rangeCount="{5}"
+				itemsTotal="{model.page.totalCount}"
+				selectedIndex="1"
+				pageChange="pageChangeHandler(event)" />
+			<mx:Text id="resultsIndicator" text="{'Results: ' + String(model.page.thisPageFirstElementNumber) + ' - ' +
+				String(model.page.thisPageLastElementNumber) + ' of ' + model.page.totalCount}"/>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Canvas>

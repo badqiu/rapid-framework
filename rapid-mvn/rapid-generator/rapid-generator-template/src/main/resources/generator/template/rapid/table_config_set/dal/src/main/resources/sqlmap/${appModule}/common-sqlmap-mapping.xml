@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="GBK" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<!-- ==========================================================  -->
+<!-- Configuration for ibatis sqlmap mapping.                    -->
+<!-- ==========================================================  -->
+
+<sqlMap namespace="${appModule}">
+
+    <!-- ============================================= -->
+    <!-- mapped statements for SEQUENCE                -->
+    <!-- ============================================= -->
+<#list tableConfigSet.sequences as seq>
+
+    <select id="SEQ.${seq}" resultClass="long">
+    <![CDATA[
+        select ${seq}.nextval from dual
+    ]]>
+    </select>
+</#list>
+
+<#list sequencesList?word_list as seq>
+
+    <select id="SEQ.${seq}" resultClass="long">
+    <![CDATA[
+        select ${seq}.nextval from dual
+    ]]>
+    </select>
+</#list>
+</sqlMap>
