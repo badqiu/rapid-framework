@@ -1,0 +1,112 @@
+public class UserInfoDO implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/**
+	 * 用户ID 		db_column: USER_ID 
+	 */
+	private Long userId;
+	/**
+	 * 用户名 		db_column: USERNAME 
+	 */
+	private String username;
+	/**
+	 * 用户密码 		db_column: PASSWORD 
+	 */
+	private String password;
+	/**
+	 * 生日 		db_column: BIRTH_DATE 
+	 */
+	private Date birthDate;
+	/**
+	 * 性别 		db_column: SEX 
+	 */
+	private Money sex = new Money(0,0);
+	/**
+	 * 年龄 		db_column: AGE 
+	 */
+	private Money age = new Money(0,0);
+
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
+	public Long getUserId() {
+		return this.userId;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public String getPassword() {
+		return this.password;
+	}
+	
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+	
+	public Date getBirthDate() {
+		return this.birthDate;
+	}
+	
+	public void setSex(Money sex) {
+		if(sex == null) {
+			this.sex = new Money(0,0);
+		}else {
+			this.sex = sex;
+		}		
+	}
+	
+	public Money getSex() {
+		return this.sex;
+	}
+	
+	public void setAge(Money age) {
+		if(age == null) {
+			this.age = new Money(0,0);
+		}else {
+			this.age = age;
+		}		
+	}
+	
+	public Money getAge() {
+		return this.age;
+	}
+
+	public String toString() {
+		return new ToStringBuilder(this)
+			.append("UserId",getUserId())
+			.append("Username",getUsername())
+			.append("Password",getPassword())
+			.append("BirthDate",getBirthDate())
+			.append("Sex",getSex())
+			.append("Age",getAge())
+			.toString();
+	}
+	
+	public int hashCode() {
+		return new HashCodeBuilder()
+			.append(getUserId())
+			.toHashCode();
+	}
+	
+	public boolean equals(Object obj) {
+		if(obj == null) return false;
+		if(this == obj) return true;
+		if(obj instanceof UserInfoDO == false) return false;
+		UserInfoDO other = (UserInfoDO)obj;
+		return new EqualsBuilder()
+			.append(getUserId(),other.getUserId())
+			.isEquals();
+	}
+}
