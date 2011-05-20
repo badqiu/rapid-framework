@@ -1,0 +1,383 @@
+	/**
+	 * 
+	 * sql: 
+	 * <pre>INSERT      INTO         user_info         (user_id,username,password)      values         (?,?,?)</pre>
+	 */
+	public java.lang.Long insert(UserInfoDO userInfo) throws DataAccessException {
+		if(userInfo == null) {
+			throw new IllegalArgumentException("Can't insert a null data object into db.");
+		}
+		getSqlMapClientTemplate().insert("badqiu_test_app.UserInfo.insert", userInfo);
+		return userInfo.getUserId();
+	}
+
+	/**
+	 * 
+	 * sql: 
+	 * <pre>INSERT      INTO         user_info         (age,username,password,birth_date,sex,user_id)      values         ('23',?,?,curdate(),'12','123111')</pre>
+	 */
+	public java.lang.Long insertWithFunction(UserInfoDO userInfo) throws DataAccessException {
+		if(userInfo == null) {
+			throw new IllegalArgumentException("Can't insert a null data object into db.");
+		}
+		getSqlMapClientTemplate().insert("badqiu_test_app.UserInfo.insertWithFunction", userInfo);
+		return userInfo.getUserId();
+	}
+
+	/**
+	 * 更新一条交易资金单据记录 
+	 * sql: 
+	 * <pre>UPDATE         user_info      SET         username = ?,password = ?         WHERE         username = ?</pre>
+	 */
+	public int update(UserInfoDO userInfo) throws DataAccessException {
+		if(userInfo == null) {
+			throw new IllegalArgumentException("Can't update by a null data object.");
+		}
+		return getSqlMapClientTemplate().update("badqiu_test_app.UserInfo.update", userInfo);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         *         from         user_info         where         user_id = ?</pre>
+	 */
+	public UserInfoDO queryByUserId(Long userId) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.queryByUserId",userId);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         count(username) username_cnt,sum(age) sum_age         from         user_info         where         user_id = ?          and age = ?          and sex = ?          and username > ?          and username < ?</pre>
+	 */
+	public CountUsernameResult countUsername(Long userId ,com.iwallet.biz.common.util.money.Money age ,com.iwallet.biz.common.util.money.Money sex ,String maxUsername ,String minUsername) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("age",age);
+		param.put("sex",sex);
+		param.put("maxUsername",maxUsername);
+		param.put("minUsername",minUsername);
+		return (CountUsernameResult)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.countUsername",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         count(username) username_cnt,sum(age) sum_age         from         user_info         where         user_id = ?          and age = ?          and sex = ?          and username > ?          and username < ?</pre>
+	 */
+	public CountDynimicUsernameResult countDynimicUsername(Long userId ,com.iwallet.biz.common.util.money.Money age ,com.iwallet.biz.common.util.money.Money sex ,String maxUsername ,String minUsername) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("age",age);
+		param.put("sex",sex);
+		param.put("maxUsername",maxUsername);
+		param.put("minUsername",minUsername);
+		return (CountDynimicUsernameResult)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.countDynimicUsername",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>INSERT      INTO         USER_INFO         (           USER_ID ,           USERNAME ,           PASSWORD ,           BIRTH_DATE ,           SEX ,           AGE           )      VALUES         (?,?,?,?,?,?)</pre>
+	 */
+	public int insertWithSelectKey(Long userId ,String username ,String password ,java.sql.Date birthDate ,com.iwallet.biz.common.util.money.Money sex ,com.iwallet.biz.common.util.money.Money age) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("username",username);
+		param.put("password",password);
+		param.put("birthDate",birthDate);
+		param.put("sex",sex);
+		param.put("age",age);
+		return getSqlMapClientTemplate().insert("badqiu_test_app.UserInfo.insertWithSelectKey", param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>UPDATE         USER_INFO      SET         USERNAME = ? ,          PASSWORD = ? ,          BIRTH_DATE = ? ,          SEX = ? ,          AGE = ?               WHERE         USER_ID = ?</pre>
+	 */
+	public int update(String username ,String password ,java.sql.Date birthDate ,com.iwallet.biz.common.util.money.Money sex ,com.iwallet.biz.common.util.money.Money age ,Long userId) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("username",username);
+		param.put("password",password);
+		param.put("birthDate",birthDate);
+		param.put("sex",sex);
+		param.put("age",age);
+		param.put("userId",userId);
+		return getSqlMapClientTemplate().update("badqiu_test_app.UserInfo.update", param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>DELETE      FROM         USER_INFO      WHERE         USER_ID = ?</pre>
+	 */
+	public int delete(Long userId) throws DataAccessException {
+		return getSqlMapClientTemplate().delete("badqiu_test_app.UserInfo.delete", userId);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                      FROM         USER_INFO                WHERE         USER_ID = ?</pre>
+	 */
+	public UserInfoDO getById(Long userId) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.getById",userId);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         count(*)      FROM         USER_INFO            WHERE         USER_ID = ?                              AND                 USERNAME = ?                              AND                 PASSWORD = ?                              AND                 BIRTH_DATE >= ?                              AND                 BIRTH_DATE <= ?                              AND                 SEX = ?                              AND                 AGE = ?</pre>
+	 */
+	public Long findPage.count(Long userId ,String username ,String password ,java.sql.Date birthDateBegin ,java.sql.Date birthDateEnd ,com.iwallet.biz.common.util.money.Money sex ,com.iwallet.biz.common.util.money.Money age) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("username",username);
+		param.put("password",password);
+		param.put("birthDateBegin",birthDateBegin);
+		param.put("birthDateEnd",birthDateEnd);
+		param.put("sex",sex);
+		param.put("age",age);
+		return (Long)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.findPage.count",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE      FROM         USER_INFO             WHERE         USER_ID = ?                              AND                 USERNAME = ?                              AND                 PASSWORD = ?                              AND                 BIRTH_DATE >= ?                              AND                 BIRTH_DATE <= ?                              AND                 SEX = ?                              AND                 AGE = ?                              AND           age in           (             ?                  )                           AND           (             age = ?                  )                                   ORDER BY         ?</pre>
+	 */
+	public PageList<UserInfoDO> findPage(Long userId,String username,String password,java.sql.Date birthDateBegin,java.sql.Date birthDateEnd,com.iwallet.biz.common.util.money.Money sex,com.iwallet.biz.common.util.money.Money age,java.util.List<com.iwallet.biz.common.util.money.Money> includeAges,java.util.List<com.iwallet.biz.common.util.money.Money> orIncludeAges,String orderBy,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("username",username);
+		param.put("password",password);
+		param.put("birthDateBegin",birthDateBegin);
+		param.put("birthDateEnd",birthDateEnd);
+		param.put("sex",sex);
+		param.put("age",age);
+		param.put("includeAges",includeAges);
+		param.put("orIncludeAges",orIncludeAges);
+		param.put("orderBy",orderBy);
+		return (PageList<UserInfoDO>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.findPage",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                FROM         USER_INFO      WHERE         USERNAME = ?</pre>
+	 */
+	public UserInfoDO getByUsername(String username) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.getByUsername",username);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                FROM         USER_INFO      WHERE         AGE = ?</pre>
+	 */
+	public UserInfoDO getByAge(com.iwallet.biz.common.util.money.Money age) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.getByAge",age);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                FROM         USER_INFO      WHERE         AGE in (             select                 age              from                 User_info              where                 username = ?         )                   AND sex in (             select                 age              from                 User_info              where                 sex = ?                  and password = ?                  and BIRTH_DATE = ?         )</pre>
+	 */
+	public UserInfoDO subSelectNotOrderBy(String username ,com.iwallet.biz.common.util.money.Money sex ,String password ,java.sql.Date birthDate) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("username",username);
+		param.put("sex",sex);
+		param.put("password",password);
+		param.put("birthDate",birthDate);
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.subSelectNotOrderBy",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                FROM         (select             *          from             user_info)</pre>
+	 */
+	public UserInfoDO fromSubQuery() throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.fromSubQuery",null);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         *      from         user_info      where         user_id = ?</pre>
+	 */
+	public PageList<UserInfoDO> testSqlMap(Long userId,int pageSize,int pageNum) throws DataAccessException {
+		return (PageList<UserInfoDO>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testSqlMap",userId,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         *      from         user_info      where         user_id = ?          and password = ?</pre>
+	 */
+	public PageList<UserInfoDO> testSqlMapWithParamsReplace(Long userId,String password,String sexinsex,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("userId",userId);
+		param.put("password",password);
+		param.put("sexinsex",sexinsex);
+		return (PageList<UserInfoDO>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testSqlMapWithParamsReplace",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE        FROM         USER_INFO</pre>
+	 */
+	public UserInfoDO testNotParameter() throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testNotParameter",null);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>SELECT         USER_ID ,USERNAME ,PASSWORD ,BIRTH_DATE ,SEX ,AGE                  FROM         USER_INFO      WHERE         AGE = ?</pre>
+	 */
+	public UserInfoDO testIncludeByRefid(com.iwallet.biz.common.util.money.Money age) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testIncludeByRefid",age);
+	}
+
+	/**
+	 * 测试select中还有select
+	 * sql: 
+	 * <pre>select         USER_ID,USERNAME,(select             password          from             user_info          where             password = ? ) pwd_from_select_query         from         user_info         where         user_id = ?</pre>
+	 */
+	public TestSelectColumnsWithQueryResult testSelectColumnsWithQuery(String pwd_in_select_query ,Long userId) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("pwd_in_select_query",pwd_in_select_query);
+		param.put("userId",userId);
+		return (TestSelectColumnsWithQueryResult)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testSelectColumnsWithQuery",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         *      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?</pre>
+	 */
+	public TestRoleJoinRolePermissionJoinBlogResult testRoleJoinRolePermissionJoinBlog(Long roleId ,String roleName) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		return (TestRoleJoinRolePermissionJoinBlogResult)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlog",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id</pre>
+	 */
+	public TestRoleJoinRolePermissionJoinBlogWithCustomParamResult testRoleJoinRolePermissionJoinBlogWithCustomParam(Long roleId ,String roleName ,String content ,java.sql.Date modifiedBegin ,java.sql.Date modifiedEnd) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		return (TestRoleJoinRolePermissionJoinBlogWithCustomParamResult)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testRoleJoinRolePermissionJoinBlogWithCustomParam",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id</pre>
+	 */
+	public PageList<TestGroupByPagingResult> testGroupByPaging(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		return (PageList<TestGroupByPagingResult>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testGroupByPaging",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r                inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                    UNION     select         r.role_id,sum(r.user_id) sum_user_id      from         role r                   inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                    UNION     ALL      select         r.role_id,sum(r.user_id) sum_user_id      from         role r                   inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id            MINUS       select             r.role_id,sum(r.user_id) sum_user_id          from             role r                       inner join             role_permission rp                  on r.role_id = rp.role_id                left join             blog b                  on b.user_id = r.user_id               where             r.role_id = ?                     and r.role_name = ?                    and b.content like ?                    and r.modified between ? and ?                group by             r.role_id               EXCEPT        select                 r.role_id,sum(r.user_id) sum_user_id              from                 role r                           inner join                 role_permission rp                      on r.role_id = rp.role_id                    left join                 blog b                      on b.user_id = r.user_id                   where                 r.role_id = ?                         and r.role_name = ?                        and b.content like ?                        and r.modified between ? and ?                    group by                 r.role_id               INTERSECT         select                     r.role_id,sum(r.user_id) sum_user_id                  from                     role r                               inner join                     role_permission rp                          on r.role_id = rp.role_id                        left join                     blog b                          on b.user_id = r.user_id                       where                     r.role_id = ?                             and r.role_name = ?                            and b.content like ?                            and r.modified between ? and ?                        group by                     r.role_id</pre>
+	 */
+	public PageList<TestSetOperationsResult> testSetOperations(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		return (PageList<TestSetOperationsResult>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testSetOperations",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?            group by         r.role_id                          order by         r.role_id                              order by         sum_user_id                        order by         r.role_id                     order by         r.role_id                     order by         r.role_id</pre>
+	 */
+	public PageList<TestMybatisOrderByPagingWithIfResult> testMybatisOrderByPagingWithIf(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		return (PageList<TestMybatisOrderByPagingWithIfResult>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testMybatisOrderByPagingWithIf",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         r.role_id,sum(r.user_id) sum_user_id      from         role r             inner join         role_permission rp              on r.role_id = rp.role_id            left join         blog b              on b.user_id = r.user_id           where         r.role_id = ?                 and r.role_name = ?                and b.content like ?                and r.modified between ? and ?                   and r.role_name in  (             ?         )            group by         r.role_id</pre>
+	 */
+	public PageList<TestOpenCloseResult> testOpenClose(Long roleId,String roleName,String content,java.sql.Date modifiedBegin,java.sql.Date modifiedEnd,java.util.List<String> roleNames,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		param.put("content",content);
+		param.put("modifiedBegin",modifiedBegin);
+		param.put("modifiedEnd",modifiedEnd);
+		param.put("roleNames",roleNames);
+		return (PageList<TestOpenCloseResult>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testOpenClose",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 测试xml escape
+	 * sql: 
+	 * <pre>select         *      from         role r            where         r.role_id < ?                 and r.role_name > ?</pre>
+	 */
+	public PageList<Role> testXmlEscape(Long roleId,String roleName,int pageSize,int pageNum) throws DataAccessException {
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("roleId",roleId);
+		param.put("roleName",roleName);
+		return (PageList<Role>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testXmlEscape",param,pageNum,pageSize);
+	}
+
+	/**
+	 * 测试testIncludeWhere
+	 * sql: 
+	 * <pre>select         *      from         user_info r            where         1=1                    and username > ?                and password = ?                             and username > ?                and password = ?                             and username = ?                             and username > ?                and password = ?                   and username = ?                    and username = ?</pre>
+	 */
+	public PageList<UserInfoDO> testIncludeWhere(TestIncludeWhereQuery param) throws DataAccessException {
+		return (PageList<UserInfoDO>)PageQueryUtils.pageQuery(getSqlMapClientTemplate(),"badqiu_test_app.UserInfo.testIncludeWhere",param);
+	}
+
+	/**
+	 * 测试testIncludeWhere
+	 * sql: 
+	 * <pre>select         *      from         user_info r            where         1=1                    and username > ?                and password = ?                             and username > ?                and password = ?                             and username = ?                             and username > ?                and password = ?                   and username = ?                    and username = ?</pre>
+	 */
+	public UserInfoDO testIncludeWhereWithNoPaging(TestIncludeWhereWithNoPagingQuery param) throws DataAccessException {
+		return (UserInfoDO)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.testIncludeWhereWithNoPaging",param);
+	}
+
+	/**
+	 * 根据订单号查询订单
+	 * sql: 
+	 * <pre>select         count(*)         from         user_info         where         user_id = ?</pre>
+	 */
+	public Long countByUserId(Long userId) throws DataAccessException {
+		return (Long)getSqlMapClientTemplate().queryForObject("badqiu_test_app.UserInfo.countByUserId",userId);
+	}
