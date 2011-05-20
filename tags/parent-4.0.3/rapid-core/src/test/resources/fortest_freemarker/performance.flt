@@ -1,0 +1,28 @@
+<@override name="body">
+	<div class='content'>
+		Powered By rapid-framework
+	</div>
+	${content}
+	
+	<div>
+	<h1>${name!}</h1>
+	<table border="${border!}">
+	 <tr>
+	  <th>&#160;</th>
+	<#list data as cell>
+	  <th>${cell}</th>
+	</#list>
+	 </tr>
+	<#list data as row>
+	 <tr>
+	  <th>${row}</th>
+	<#list data as cell>
+	  <td>&#x${row}${cell};</td>
+	</#list>
+	 </tr>
+	</#list>
+	</table>
+	</div>
+	
+</@override>
+<@extends name="base.flt"/>
