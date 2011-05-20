@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-cmd-line</artifactId>
-	<version>4.0.4</version>
+	<version>4.0.4-SNAPSHOT</version>
 	<name>rapid-generator-cmd-line</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>rapid-generator-parent</artifactId>
-		<version>4.0.4</version>
+		<version>4.0.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	
