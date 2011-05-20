@@ -3,14 +3,14 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator</artifactId>
 	<name>rapid-generator</name>
-	<version>4.0.5-SNAPSHOT</version>
+	<version>4.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>rapid-generator core engine</description>
 	<url>http://code.google.com/p/rapid-framework</url>
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>rapid-generator-parent</artifactId>
-		<version>4.0.5-SNAPSHOT</version>
+		<version>4.0.4-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<licenses>
