@@ -1,8 +1,0 @@
-		import ${basepackage}.domain.*;
-		import ${basepackage}.model.*;
-		import ${basepackage}.${underscoreName}.query.*;
-		import ${basepackage}.${underscoreName}.event.*;
-		
-		import common.util.*;
-		import common.base.*;
-	   	import common.base.page.*;
