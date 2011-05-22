@@ -1,7 +1,7 @@
 *v4.0 文档更新,v3.9等老文档请查看下载的zip包*
   * [quick_start_guild 快速开始(ssh项目搭建)]
   * [flex4_quick_start_guild flex4快速开始(v3.9)]
-  * rapid maven版本出炉(new)
+  * rapid maven版本4.0.4即将出炉(new)
     * [rapid_mvn_start 快速开始(项目搭建)]
     * [rapid_archetype_detail  rapid构件介绍]
   * demo
