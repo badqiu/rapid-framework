@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<#include "/flex_macro.include"/>
+<#assign className = table.className>   
+<#assign classNameFirstLower = className?uncap_first>
+<#assign underscoreName = table.underscoreName/>
+<#assign classNameLowerCase = className?lower_case/>
+
+<mx:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+				xmlns:s="library://ns.adobe.com/flex/spark"
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:sf="http://www.spicefactory.org/parsley"
+				layout="absolute"
+				creationComplete="centerWindow();"
+				width="800"
+				height="400"
+				close="closeWindow();"
+				currentState="new"
+				showCloseButton="true"
+				xmlns:${className}="${basepackage}.${underscoreName}.view.*"
+				title.new="新增 ${className} 提示"
+				title.edit="编辑 ${className} 提示">
+
+	<mx:states>
+
+		<s:State name="edit"/>
+		<s:State name="new"/>
+	</mx:states>
+
+	<fx:Metadata>
+		[ManagedEvents("save${className}Event")]
+	</fx:Metadata>
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+		<sf:Configure />
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			
+			<#include "/actionscript_imports.include"/>	
+			
+			import mx.managers.PopUpManager;
+						
+			[Inject(id="${classNameFirstLower}Model")]
+			[Bindable]
+			public var ${classNameFirstLower}Model:${className}Model;
+			
+			[Bindable]
+			public var ${classNameFirstLower}:${className};
+
+			public function centerWindow():void
+			{
+				PopUpManager.centerPopUp(this);
+			}
+
+			public function closeWindow():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+
+			
+			public function confirm():void
+			{
+				if (!${classNameFirstLower}Detail.validate())
+				{
+					return;
+				}
+				dispatchEvent(new Save${className}Event(${classNameFirstLower}Detail.${classNameFirstLower}));
+			}
+		]]>
+	</fx:Script>
+	<${className}:${className}Detail id="${classNameFirstLower}Detail"
+						   ${classNameFirstLower}="{${classNameFirstLower}}"
+						   left="10"
+						   right="10"
+						   top="41"
+						   bottom="48"/>
+	<mx:ControlBar verticalAlign="middle"
+				   horizontalAlign="center"
+				   height="52"
+				   width="100%">
+		<mx:Button label="确定"
+				   click="confirm();"/>
+		<mx:Button label="取消"
+				   click="closeWindow();"/>
+	</mx:ControlBar>
+
+</mx:TitleWindow>
