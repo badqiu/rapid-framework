@@ -1,25 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.0.5-SNAPSHOT</version>
+		<version>4.0.5</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-plugins</artifactId>
 	<name>rapid-plugins</name>
-	<version>4.0.5-SNAPSHOT</version>
+	<version>4.0.5</version>
 	<packaging>maven-plugin</packaging>
 	<description>rapid-plugins mojos</description>
 	<url>http://maven.apache.org</url>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn
 		</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn
 		</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
+		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn</url>
 	</scm>
 	<build>
 		<plugins>
@@ -108,7 +107,7 @@
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator</artifactId>
-			<version>4.0.5-SNAPSHOT</version>
+			<version>4.0.5</version>
 		</dependency>
 	</dependencies>
 </project>
