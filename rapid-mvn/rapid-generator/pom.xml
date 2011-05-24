@@ -10,7 +10,7 @@
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-generator-parent</artifactId>
 	<name>rapid-generator-parent</name>
-	<version>4.0.5</version>
+	<version>4.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>rapid-framework generator libs</description>
 	<url>http://code.google.com/p/rapid-framework</url>
@@ -22,9 +22,9 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/parent-4.0.5/rapid-mvn</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<developers>
 		<developer>
@@ -62,22 +62,22 @@
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator</artifactId>
-				<version>4.0.5</version>
+				<version>4.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-ext</artifactId>
-				<version>4.0.5</version>
+				<version>4.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-template</artifactId>
-				<version>4.0.5</version>
+				<version>4.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.googlecode.rapid-framework</groupId>
 				<artifactId>rapid-generator-cmd-line</artifactId>
-				<version>4.0.5</version>
+				<version>4.0.6-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
