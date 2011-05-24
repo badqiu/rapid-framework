@@ -7,7 +7,7 @@ import org.springframework.mail.SimpleMailMessage;
 import cn.org.rapid_framework.mail.AsyncJavaMailSender;
 import cn.org.rapid_framework.util.concurrent.async.AsyncToken;
 import cn.org.rapid_framework.util.concurrent.async.IResponder;
-
+/**
 public class AsyncJavaMailSenderTest extends TestCase {
 	AsyncJavaMailSender asyncMailSender;
 	
@@ -50,4 +50,4 @@ public class AsyncJavaMailSenderTest extends TestCase {
 	}
 	
 
-}
+}**/
