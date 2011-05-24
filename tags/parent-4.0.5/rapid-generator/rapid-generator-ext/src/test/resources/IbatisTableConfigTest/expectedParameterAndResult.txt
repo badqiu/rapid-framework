@@ -1,0 +1,591 @@
+public class CountUsernameResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** usernameCnt */
+	private Long usernameCnt;
+	/** sumAge */
+	private Long sumAge;
+
+	public void setUsernameCnt(Long usernameCnt) {
+		this.usernameCnt = usernameCnt;
+	}
+	
+	public Long getUsernameCnt() {
+		return this.usernameCnt;
+	}
+	
+	public void setSumAge(Long sumAge) {
+		this.sumAge = sumAge;
+	}
+	
+	public Long getSumAge() {
+		return this.sumAge;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+----
+public class CountDynimicUsernameResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** usernameCnt */
+	private Long usernameCnt;
+	/** sumAge */
+	private Long sumAge;
+
+	public void setUsernameCnt(Long usernameCnt) {
+		this.usernameCnt = usernameCnt;
+	}
+	
+	public Long getUsernameCnt() {
+		return this.usernameCnt;
+	}
+	
+	public void setSumAge(Long sumAge) {
+		this.sumAge = sumAge;
+	}
+	
+	public Long getSumAge() {
+		return this.sumAge;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+----
+public class TestSelectColumnsWithQueryResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** 用户ID */
+	private Long userId;
+	/** 用户名 */
+	private String username;
+	/** pwdFromSelectQuery */
+	private String pwdFromSelectQuery;
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
+	public Long getUserId() {
+		return this.userId;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	public void setPwdFromSelectQuery(String pwdFromSelectQuery) {
+		this.pwdFromSelectQuery = pwdFromSelectQuery;
+	}
+	
+	public String getPwdFromSelectQuery() {
+		return this.pwdFromSelectQuery;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+----
+public class TestRoleJoinRolePermissionJoinBlogResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** roleName */
+	private String roleName;
+	/** resourceId */
+	private Long resourceId;
+	/** userId */
+	private Long userId;
+	/** roleDesc */
+	private String roleDesc;
+	/** created */
+	private java.sql.Date created;
+	/** modified */
+	private java.sql.Date modified;
+	/** roleId */
+	private Long roleId;
+	/** permissoinId */
+	private Long permissoinId;
+	/** blogId */
+	private Long blogId;
+	/** userId */
+	private Long userId;
+	/** username */
+	private String username;
+	/** created */
+	private java.sql.Date created;
+	/** modified */
+	private java.sql.Date modified;
+	/** title */
+	private String title;
+	/** content */
+	private String content;
+	/** contentLength */
+	private Integer contentLength;
+	/** status */
+	private String status;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
+	public String getRoleName() {
+		return this.roleName;
+	}
+	
+	public void setResourceId(Long resourceId) {
+		this.resourceId = resourceId;
+	}
+	
+	public Long getResourceId() {
+		return this.resourceId;
+	}
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
+	public Long getUserId() {
+		return this.userId;
+	}
+	
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
+	}
+	
+	public String getRoleDesc() {
+		return this.roleDesc;
+	}
+	
+	public void setCreated(java.sql.Date created) {
+		this.created = created;
+	}
+	
+	public java.sql.Date getCreated() {
+		return this.created;
+	}
+	
+	public void setModified(java.sql.Date modified) {
+		this.modified = modified;
+	}
+	
+	public java.sql.Date getModified() {
+		return this.modified;
+	}
+	
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setPermissoinId(Long permissoinId) {
+		this.permissoinId = permissoinId;
+	}
+	
+	public Long getPermissoinId() {
+		return this.permissoinId;
+	}
+	
+	public void setBlogId(Long blogId) {
+		this.blogId = blogId;
+	}
+	
+	public Long getBlogId() {
+		return this.blogId;
+	}
+	
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	
+	public Long getUserId() {
+		return this.userId;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getUsername() {
+		return this.username;
+	}
+	
+	public void setCreated(java.sql.Date created) {
+		this.created = created;
+	}
+	
+	public java.sql.Date getCreated() {
+		return this.created;
+	}
+	
+	public void setModified(java.sql.Date modified) {
+		this.modified = modified;
+	}
+	
+	public java.sql.Date getModified() {
+		return this.modified;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	public String getTitle() {
+		return this.title;
+	}
+	
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	public String getContent() {
+		return this.content;
+	}
+	
+	public void setContentLength(Integer contentLength) {
+		this.contentLength = contentLength;
+	}
+	
+	public Integer getContentLength() {
+		return this.contentLength;
+	}
+	
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	public String getStatus() {
+		return this.status;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+----
+public class TestRoleJoinRolePermissionJoinBlogWithCustomParamResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** sumUserId */
+	private java.math.BigDecimal sumUserId;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setSumUserId(java.math.BigDecimal sumUserId) {
+		this.sumUserId = sumUserId;
+	}
+	
+	public java.math.BigDecimal getSumUserId() {
+		return this.sumUserId;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+----
+public class TestGroupByPagingResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** sumUserId */
+	private java.math.BigDecimal sumUserId;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setSumUserId(java.math.BigDecimal sumUserId) {
+		this.sumUserId = sumUserId;
+	}
+	
+	public java.math.BigDecimal getSumUserId() {
+		return this.sumUserId;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+----
+public class TestSetOperationsResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** sumUserId */
+	private java.math.BigDecimal sumUserId;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setSumUserId(java.math.BigDecimal sumUserId) {
+		this.sumUserId = sumUserId;
+	}
+	
+	public java.math.BigDecimal getSumUserId() {
+		return this.sumUserId;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+
+----
+public class TestMybatisOrderByPagingWithIfResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** sumUserId */
+	private java.math.BigDecimal sumUserId;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setSumUserId(java.math.BigDecimal sumUserId) {
+		this.sumUserId = sumUserId;
+	}
+	
+	public java.math.BigDecimal getSumUserId() {
+		return this.sumUserId;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+
+----
+public class TestOpenCloseResult implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** roleId */
+	private Long roleId;
+	/** sumUserId */
+	private java.math.BigDecimal sumUserId;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+	
+	public Long getRoleId() {
+		return this.roleId;
+	}
+	
+	public void setSumUserId(java.math.BigDecimal sumUserId) {
+		this.sumUserId = sumUserId;
+	}
+	
+	public java.math.BigDecimal getSumUserId() {
+		return this.sumUserId;
+	}
+	
+
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+	
+}
+
+
+
+
+----
+public class TestIncludeWhereQuery  extends PageQuery implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** 用户名 */
+	private String username;
+	/** 用户密码 */
+	private String password;
+	/** 用户名 */
+	private String secondUsername;
+	/** 用户名 */
+	private String noduplicationUsername;
+	
+	public TestIncludeWhereQuery() {
+	}
+	
+	public TestIncludeWhereQuery(String username ,String password ,String secondUsername ,String noduplicationUsername ) {
+		this.username = username;
+		this.password = password;
+		this.secondUsername = secondUsername;
+		this.noduplicationUsername = noduplicationUsername;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getSecondUsername() {
+		return secondUsername;
+	}
+	public void setSecondUsername(String secondUsername) {
+		this.secondUsername = secondUsername;
+	}
+	public String getNoduplicationUsername() {
+		return noduplicationUsername;
+	}
+	public void setNoduplicationUsername(String noduplicationUsername) {
+		this.noduplicationUsername = noduplicationUsername;
+	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+}
+
+
+
+
+----
+public class TestIncludeWhereWithNoPagingQuery  implements java.io.Serializable {
+	private static final long serialVersionUID = -5216457518046898601L;
+	
+	/** 用户名 */
+	private String username;
+	/** 用户密码 */
+	private String password;
+	/** 用户名 */
+	private String secondUsername;
+	/** 用户名 */
+	private String noduplicationUsername;
+	
+	public TestIncludeWhereWithNoPagingQuery() {
+	}
+	
+	public TestIncludeWhereWithNoPagingQuery(String username ,String password ,String secondUsername ,String noduplicationUsername ) {
+		this.username = username;
+		this.password = password;
+		this.secondUsername = secondUsername;
+		this.noduplicationUsername = noduplicationUsername;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getSecondUsername() {
+		return secondUsername;
+	}
+	public void setSecondUsername(String secondUsername) {
+		this.secondUsername = secondUsername;
+	}
+	public String getNoduplicationUsername() {
+		return noduplicationUsername;
+	}
+	public void setNoduplicationUsername(String noduplicationUsername) {
+		this.noduplicationUsername = noduplicationUsername;
+	}
+	
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
+}
