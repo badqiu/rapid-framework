@@ -3,22 +3,22 @@
 	<parent>
 		<groupId>com.googlecode.rapid-framework</groupId>
 		<artifactId>parent</artifactId>
-		<version>4.0.5</version>
+		<version>4.0.6-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>rapid-plugins</artifactId>
 	<name>rapid-plugins</name>
-	<version>4.0.5</version>
+	<version>4.0.6-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
 	<description>rapid-plugins mojos</description>
 	<url>http://maven.apache.org</url>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/4.0.5/rapid-mvn
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn
 		</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/4.0.5/rapid-mvn
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn
 		</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/4.0.5/rapid-mvn</url>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<developers>
 		<developer>
@@ -119,7 +119,7 @@
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator</artifactId>
-			<version>4.0.5</version>
+			<version>4.0.6-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>
