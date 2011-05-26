@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE table SYSTEM "rapid-ibatis-table-config.dtd">
+
+<table sqlname="mcenter_creditpay"  remarks="帐务信息表">
+	<column name="service_fee" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="TOTAL_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="SERVICE_FEE_RATIO" javatype="double" />
+	
+	<column name="amount" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="bank_amount" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="BANK_AMOUNT" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<column name="return_fee" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="RETURN_FEE" javatype="com.iwallet.biz.common.util.money.Money" />
+	<column name="credit_available_amount" javatype="com.iwallet.biz.common.util.money.Money" />
+	
+	<operation name="findCreditpayDetail" paging="true" remarks="信用支付明细分页查询">
+		<extraparams>
+			<param name="tradeNo" javatype="java.lang.String"/>
+		</extraparams>
+		<sql>
+	    	SELECT 
+		        BILL_NO ,MC.out_trade_no,MC.TRADE_NO ,AMOUNT ,TRANS_DATE ,TRANS_ACCOUNT_OUT ,TRANS_ACCOUNT_IN ,CUSTOMER_ID ,BIZ_NAME ,OPERATOR_ID ,OPERATOR_NAME ,MEMO ,loan_success ,pay_success ,MC.gmt_trade_create,credit_available_amount,
+    			PNR,TICKET_NO_START,TICKET_NO_END,system_partner
+		    FROM mcenter_creditpay MC
+		    	left join mcenter_air_ext MAE on MC.trade_no = MAE.trade_no  AND MAE.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+		    WHERE
+		    	MC.owner IN <iterate property="owner" open="(" close=")" conjunction=",">#owner[]#</iterate>
+
+			  	<isEmpty property="transAccountIn">
+					<isEmpty property="gmtTradeCreateBegin">
+				  		<isEmpty property="gmtTradeCreateEnd">
+				        	query not allowed
+				  		</isEmpty>
+					</isEmpty>
+		  	  	</isEmpty>
+	  	  			    	 
+				<isNotEmpty prepend="and" property="billNo">
+						MC.bill_no = #billNo#
+				</isNotEmpty>		    
+		       <isNotEmpty prepend="AND" property="tradeNo">
+		             MC.TRADE_NO = #tradeNo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="amount">
+		             MC.AMOUNT = #amount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transDate">
+		             MC.TRANS_DATE = #transDate#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountOut">
+		             MC.TRANS_ACCOUNT_OUT = #transAccountOut#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="transAccountIn">
+		             MC.TRANS_ACCOUNT_IN = #transAccountIn#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="customerId">
+		             MC.CUSTOMER_ID = #customerId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bizName">
+		             MC.BIZ_NAME = #bizName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorId">
+		             MC.OPERATOR_ID = #operatorId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="operatorName">
+		             MC.OPERATOR_NAME = #operatorName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="memo">
+		             MC.MEMO = #memo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="recordStamp">
+		             MC.RECORD_STAMP = #recordStamp#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="loanSuccess">
+		             MC.loan_success = #loanSuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paySuccess">
+		             MC.pay_success = #paySuccess#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateBegin">
+		             MC.gmt_trade_create &gt;= #gmtTradeCreateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gmtTradeCreateEnd">
+		             MC.gmt_trade_create &lt;= #gmtTradeCreateEnd#
+		       </isNotEmpty>
+		       
+		       <isNotEmpty prepend="AND" property="outTradeNo">
+		             MC.out_trade_no = #outTradeNo#
+		       </isNotEmpty>
+
+				<isNotEmpty prepend="and" property="pnr">
+					MAE.pnr = #pnr#
+				</isNotEmpty>
+				
+				<isNotEmpty prepend="and" property="ticketNo">
+						MAE.TICKET_NO_END >= #ticketNo#
+						AND MAE.TICKET_NO_START &lt;= #ticketNo#
+						AND length(MAE.TICKET_NO_END) >= length(#ticketNo#)
+						AND length(MAE.TICKET_NO_START) &lt;= length(#ticketNo#)
+				</isNotEmpty>
+				
+	    		order by MC.gmt_trade_create DESC
+		</sql>		
+	</operation>  
+	  			
+</table>
