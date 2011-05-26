@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Objects xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns="http://www.spicefactory.org/parsley">
+	<fx:Script>
+		<![CDATA[
+
+		]]>
+	</fx:Script>
+
+	<!--
+		 This is an MXML configuration file for Parsley. It defines the objects
+		 contained within a Parsley "context". These objects are managed by
+		 Parsley and can participate in all the features of the framework, such
+		 as dependency-injection and messaging.
+
+		 In this example, three simple objects are declared. These will later
+		 be injected into different places, wherever matching [Inject] metadata
+		 is placed. Some of these objects use other tags too, such as [Init]
+		 and [MessageDispatcher]. See their source for more details.
+	-->
+
+	<fx:Declarations>
+
+		<!--整个应用程序使用单例的RemoteObject-->
+		<s:RemoteObject showBusyCursor="true"
+						endpoint="../messagebroker/amf"  id="service"/>
+
+	</fx:Declarations>
+
+</Objects>
