@@ -9,7 +9,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>parent</artifactId>
-	<version>4.0.5</version>
+	<version>4.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>rapid-framework parent pom.xml</name>
 	<organization>
@@ -22,9 +22,9 @@
 		<module>rapid-plugins</module>
 	</modules>
 	<scm>
-		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/tags/4.0.5</connection>
-		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/tags/4.0.5</developerConnection>
-		<url>http://rapid-framework.googlecode.com/svn/tags/4.0.5</url>
+		<connection>scm:svn:http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</connection>
+		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
+		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
 	<developers>
 		<developer>
