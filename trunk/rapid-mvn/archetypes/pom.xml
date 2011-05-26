@@ -16,4 +16,16 @@
 		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
 		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
+	<developers>
+		<developer>
+			<id>1</id>
+			<name>badqiu</name>
+			<email>badqiu@gmail.com</email>
+		</developer>
+		<developer>
+			<id>2</id>
+			<name>hunhun</name>
+			<email>hhlai1990@gmail.com</email>
+		</developer>
+	</developers>
 </project>

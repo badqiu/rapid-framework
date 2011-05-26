@@ -19,7 +19,7 @@
 	<script type="text/javascript" >
 		$(document).ready(function() {
 			// 分页需要依赖的初始化动作
-			window.simpleTable = new SimpleTable('queryForm',<@jspEl 'page.thisPageNumber'/>,<@jspEl 'page.pageSize'/>,'<@jspEl 'pageQuery.sortColumns'/>');
+			window.simpleTable = new SimpleTable('queryForm',<@jspEl 'page.thisPageNumber'/>,<@jspEl 'page.pageSize'/>);
 		});
 	</script>
 </rapid:override>

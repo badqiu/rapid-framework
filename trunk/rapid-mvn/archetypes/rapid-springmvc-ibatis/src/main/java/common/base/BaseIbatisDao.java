@@ -92,7 +92,6 @@ public abstract class BaseIbatisDao<E,PK extends Serializable> extends SqlMapCli
 		otherFilters.put("offset", page.getFirstResult());
 		otherFilters.put("pageSize", page.getPageSize());
 		otherFilters.put("lastRows", page.getFirstResult() + page.getPageSize());
-		otherFilters.put("sortColumns", pageQuery.getSortColumns());
 		
 		//混合两个filters为一个filters,MapAndObject.get()方法将在两个对象取值,Map如果取值为null,则再在Bean中取值
 		Map parameterObject = new MapAndObject(otherFilters,pageQuery);
