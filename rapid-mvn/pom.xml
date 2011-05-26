@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -26,6 +27,18 @@
 		<developerConnection>scm:svn:https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</developerConnection>
 		<url>http://rapid-framework.googlecode.com/svn/trunk/rapid-mvn</url>
 	</scm>
+	<developers>
+		<developer>
+			<id>1</id>
+			<name>badqiu</name>
+			<email>badqiu@gmail.com</email>
+		</developer>
+		<developer>
+			<id>2</id>
+			<name>hunhun</name>
+			<email>hhlai1990@gmail.com</email>
+		</developer>
+	</developers>
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<struts2.version>2.1.8.1</struts2.version>

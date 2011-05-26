@@ -28,7 +28,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<rapid.version>4.0.5</rapid.version>
+		<rapid.version>4.0.6-SNAPSHOT</rapid.version>
 		<h2.version>1.2.135</h2.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.version>3.3.2.GA</hibernate.version>
@@ -386,20 +386,23 @@
 	<!-- maven插件配置 -->
 	<build>
 		<plugins>
-			<!-- archetype plugin -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-archetype-plugin</artifactId>
-			</plugin>
 			<!-- jetty plugin -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
+				<version>${jetty.version}</version>
+				<configuration>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+				</configuration>
 			</plugin>
-			<!-- resources plugin -->
+			<!-- archetype plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
+				<artifactId>maven-archetype-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<propertyFile>archetype.properties</propertyFile>
+				</configuration>
 			</plugin>
 			<!-- rapid-plugins -->
 			<plugin>

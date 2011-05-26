@@ -41,14 +41,12 @@ public class PageQueryFactory {
 			beanUtils.copyProperties(pageQuery, params);
 		} catch (IllegalAccessException e) {
 			throw new IllegalArgumentException("beanUtils.copyProperties() error", e);
-		} catch (InvocationTargetException e) {
+		} catch (InvocationTargetException e) {	
 			throw new IllegalArgumentException("beanUtils.copyProperties() error", e.getTargetException());
 		}
 
 		pageQuery.setPage(getIntParameter(request, "pageNumber", 1));
 		pageQuery.setPageSize(getIntParameter(request, "pageSize", defaultPageSize));
-		pageQuery.setSortColumns(getStringParameter(request, "sortColumns", defaultSortColumns));
-
 		if (pageQuery.getPageSize() > MAX_PAGE_SIZE) {
 			pageQuery.setPageSize(MAX_PAGE_SIZE);
 		}
