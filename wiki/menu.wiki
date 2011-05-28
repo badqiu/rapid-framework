@@ -61,7 +61,6 @@
     * [plugin_rapid_mailer rapid_mailer v3.0]
     * RIA
       * [plugin_extjs extjs]
-      * [plugin_flex flex]
   * 开发者文档(new)
     * [dev_env 开发环境快速开始(new)]
     * [dev_maven_archetypes maven archetype开发]
