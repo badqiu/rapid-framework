@@ -2,12 +2,21 @@
 
 = Introduction =
 
-正在建设中
+rapid核心依赖已经发布，当前稳定版本为4.0.5 。
+http://search.maven.org/#search|ga|1|rapid
 
+可以在工程中使用如下依赖：
+<dependency>
+    <groupId>com.googlecode.rapid-framework</groupId>
+    <artifactId>rapid-core</artifactId>
+    <version>4.0.5</version>
+</dependency>
 
-= Details =
+<dependency>
+    <groupId>com.googlecode.rapid-framework</groupId>
+    <artifactId>rapid-generator</artifactId>
+    <version>4.0.5</version>
+</dependency>
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+rapid achetypes正在测试中，即将发布...
+
