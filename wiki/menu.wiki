@@ -44,7 +44,6 @@
       * [rapid_utils_holders holder模式]
     * flex
       * [flex_cairngorm_overview Flex概述]
-      * [rapid_flex_blazeds Flex BlazeDs与spring集成]
   * 插件说明
     * web mvc 框架
       * [plugin_struts2 web_struts2]
