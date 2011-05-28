@@ -3,7 +3,7 @@
 ==rapid核心依赖已经发布，当前稳定版本为4.0.5== 
 ==详细请见maven官方仓库:==
 http://search.maven.org/#search|ga|1|rapid
-==rapid源码==
+==rapid源码：==
 https://rapid-framework.googlecode.com/svn/trunk/rapid-mvn
 ==可以在工程中引用如下依赖：==
 {{{
