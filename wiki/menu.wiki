@@ -3,7 +3,7 @@
   * [flex4_quick_start_guild flex4快速开始(v3.9)]
   * rapid maven版本即将出炉(new)
     * [rapid_mvn_start 核心依赖介绍]
-    * [rapid_archetype_detail  rapid achetypes介绍]
+    * rapid achetypes介绍
       * [rapid_achetype_springmvc_hibernate rapide-springmvc-hibernate项目搭建] 
   * demo
     * [snapshot html界面预览图]
