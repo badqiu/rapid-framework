@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.googlecode.rapid-framework</groupId>
-		<artifactId>parent</artifactId>
-		<version>4.0.5-SNAPSHOT</version>
-	</parent>
 	<groupId>com.googlecode.rapid-framework</groupId>
 	<artifactId>h2-starts</artifactId>
 	<name>H2 start Script</name>
 	<packaging>pom</packaging>
-
+	<version>1.0</version>
 	<profiles>
 		<profile>
 			<id>startdb</id>
@@ -25,7 +20,8 @@
 								<phase>initialize</phase>
 								<configuration>
 									<tasks>
-										<java classname="org.h2.tools.Console" classpathref="maven.plugin.classpath" fork="true" spawn="true">
+										<java classname="org.h2.tools.Console" classpathref="maven.plugin.classpath"
+											fork="true" spawn="true">
 										</java>
 									</tasks>
 								</configuration>
@@ -36,9 +32,9 @@
 						</executions>
 						<dependencies>
 							<dependency>
-							<groupId>com.h2database</groupId>
-							<artifactId>h2</artifactId>
-							<version>${h2.version}</version>
+								<groupId>com.h2database</groupId>
+								<artifactId>h2</artifactId>
+								<version>1.2.135</version>
 							</dependency>
 						</dependencies>
 					</plugin>
@@ -46,5 +42,4 @@
 			</build>
 		</profile>
 	</profiles>
-
 </project>

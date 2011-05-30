@@ -23,7 +23,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<rapid.version>4.0.6-SNAPSHOT</rapid.version>
+		<rapid.version>4.0.5</rapid.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<ibatis.version>2.3.4.726</ibatis.version>
 		<jetty.version>6.1.24</jetty.version>
@@ -166,6 +166,22 @@
 			<artifactId>jakarta-oro</artifactId>
 			<version>2.0.8</version>
 		</dependency>
+		<!-- json -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-jaxrs</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
 		<!-- ibatis2 -->
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
@@ -306,6 +322,12 @@
 	<!-- maven插件配置 -->
 	<build>
 		<plugins>
+			<!-- rapid-plugins -->
+			<plugin>
+				<groupId>com.googlecode.rapid-framework</groupId>
+				<artifactId>rapid-plugins</artifactId>
+				<version>${rapid.version}</version>
+			</plugin>
 			<!-- jetty plugin -->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -313,6 +335,9 @@
 				<version>${jetty.version}</version>
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<webAppConfig>
+						<defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 			<!-- archetype plugin -->
@@ -324,11 +349,77 @@
 					<propertyFile>archetype.properties</propertyFile>
 				</configuration>
 			</plugin>
-			<!-- rapid-plugins -->
+			<!-- compiler plugin -->
 			<plugin>
-				<groupId>com.googlecode.rapid-framework</groupId>
-				<artifactId>rapid-plugins</artifactId>
-				<version>${rapid.version}</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<!-- test plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<includes>
+						<include>**/*Test.java</include>
+						<include>**/Test*.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<!-- resources plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<!-- eclipse plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<sourceExcludes>
+						<sourceExclude>**/.svn/</sourceExclude>
+					</sourceExcludes>
+					<downloadSources>true</downloadSources>
+					<additionalConfig>
+						<file>
+							<name>.settings/org.eclipse.core.resources.prefs</name>
+							<content>
+						  <![CDATA[
+						  encoding/<project>=${project.build.sourceEncoding}
+						  ]]>
+							</content>
+						</file>
+					</additionalConfig>
+				</configuration>
+			</plugin>
+			<!-- dependency -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
+							<useRepositoryLayout>true</useRepositoryLayout>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -420,7 +511,7 @@
 				</repository>
 				<repository>
 					<id>rapid</id>
-					<url>http://rapid-framework.googlecode.com/svn/trunk/repository
+					<url>https://rapid-framework.googlecode.com/svn/trunk/repository
 					</url>
 				</repository>
 			</repositories>

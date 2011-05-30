@@ -76,7 +76,7 @@
 	       		<column name="${fkColumn}"/>
 	       	</#list>
 	        </key>
-			<one-to-many class="${basepackage}.model.${fkPojoClass}"/>
+			<one-to-many class="${basepackage}.domain.${fkPojoClass}"/>
 		</set> 
 		</#list>
 </#macro>

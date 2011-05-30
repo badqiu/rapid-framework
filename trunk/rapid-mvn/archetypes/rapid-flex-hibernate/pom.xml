@@ -23,7 +23,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<rapid.version>4.0.6-SNAPSHOT</rapid.version>
+		<rapid.version>4.0.5</rapid.version>
 		<h2.version>1.2.135</h2.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<hibernate.version>3.3.2.GA</hibernate.version>
@@ -461,6 +461,25 @@
 					</additionalConfig>
 				</configuration>
 			</plugin>
+			<!--  dependency -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/alternateLocation</outputDirectory>
+							<useRepositoryLayout>true</useRepositoryLayout>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<profiles>
@@ -549,7 +568,7 @@
 				</repository>
 				<repository>
 					<id>rapid</id>
-					<url>http://rapid-framework.googlecode.com/svn/trunk/repository</url>
+					<url>https://rapid-framework.googlecode.com/svn/trunk/repository</url>
 				</repository>
 			</repositories>
 		</profile>
