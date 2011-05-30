@@ -32,9 +32,7 @@ mvn jetty:run
 
 ==导入项目到eclipse以及自定义数据库==
 在springmvc-hibernate-demo目录下执行
-{{{
-mvn eclipse:eclipse
-}}}
+eclipse.bat
 然后将生成的eclipse工程导入到IDE
 ===修改src\main\resources下的generator.xml以及spring/applicationContext-hibernate-dao.xml可以切换其他数据库，template为模板目录。===
 
