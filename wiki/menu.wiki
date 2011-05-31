@@ -5,7 +5,7 @@
     * [rapid_mvn_start 核心依赖介绍]
     * rapid achetypes介绍
       * [rapid_achetype_springmvc_hibernate rapide-springmvc-hibernate项目搭建] 
-      * [more_archetypes,获取更多archetypes]
+      * [more_archetypes 获取更多archetypes]
   * demo
     * [snapshot html界面预览图]
     * [flex_snapshot flex在线demo]
