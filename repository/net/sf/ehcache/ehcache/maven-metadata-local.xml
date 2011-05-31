@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>net.sf.ehcache</groupId>
+  <artifactId>ehcache</artifactId>
+  <version>1.6.2</version>
+  <versioning>
+    <versions>
+      <version>1.6.2</version>
+    </versions>
+    <lastUpdated>20110531130204</lastUpdated>
+  </versioning>
+</metadata>
