@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.googlecode.rapid-framework</groupId>
+	<artifactId>h2-starts</artifactId>
+	<name>H2 start Script</name>
+	<packaging>pom</packaging>
+	<version>1.0</version>
+	<profiles>
+		<profile>
+			<id>startdb</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>startdb</id>
+								<phase>initialize</phase>
+								<configuration>
+									<tasks>
+										<java classname="org.h2.tools.Console" classpathref="maven.plugin.classpath"
+											fork="true" spawn="true">
+										</java>
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>com.h2database</groupId>
+								<artifactId>h2</artifactId>
+								<version>1.2.135</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
