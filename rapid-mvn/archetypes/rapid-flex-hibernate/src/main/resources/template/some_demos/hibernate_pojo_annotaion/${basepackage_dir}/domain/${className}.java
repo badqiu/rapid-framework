@@ -19,7 +19,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
 @Table(name = "${table.sqlName}")
-public class ${className} extends BaseEntity implements java.io.Serializable{
+public class ${className}  implements java.io.Serializable{
 	private static final long serialVersionUID = 5454155825314635342L;
 	
 	//alias
@@ -31,7 +31,7 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	//date formats
 	<#list table.columns as column>
 	<#if column.isDateTimeColumn>
-	public static final String FORMAT_${column.constantName} = DATE_FORMAT;
+	public static final String FORMAT_${column.constantName} =DateFormats.DATE_FORMAT;
 	</#if>
 	</#list>
 	
