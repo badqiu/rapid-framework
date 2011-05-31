@@ -29,11 +29,11 @@
         </property>
         <property name="dataSource" ref="dataSource"/>
         
-        <!-- 指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,PostgreSQLDialect,MySQLDialect,DerbyDialect,HSQLDialect-->
+        <!-- 指定数据库分页方言Dialect, 其它方言:OracleDialect,SQLServerDialect,SybaseDialect,DB2Dialect,PostgreSQLDialect,MySQLDialect,DerbyDialect,HSQLDialect,H2Dialect-->
         <property name="sqlExecutor">
         	<bean class="cn.org.rapid_framework.ibatis.sqlmap.engine.execution.LimitSqlExecutor">
         		<property name="dialect">
-        			<bean class="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
+        			<bean class="cn.org.rapid_framework.jdbc.dialect.H2Dialect"/>
         		</property>
         	</bean>
         </property>
