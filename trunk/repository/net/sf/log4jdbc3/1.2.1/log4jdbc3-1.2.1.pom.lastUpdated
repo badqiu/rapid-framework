@@ -1,0 +1,28 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Tue Apr 26 20:05:13 CST 2011
+http\://repo1.maven.org/maven2/.lastUpdated=1303819471043
+http\://repository.springsource.com/maven/bundles/release/.lastUpdated=1303819497378
+https\://repository.jboss.org/nexus/content/repositories/releases/.lastUpdated=1303819489545
+http\://springside.googlecode.com/svn/repository/.lastUpdated=1303819513193
+http\://rapid-framework.googlecode.com/svn/trunk/repository/.error=
+http\://repository.jboss.com/maven2/.error=
+https\://repository.jboss.org/nexus/content/groups/public/.error=
+http\://repository.jboss.com/maven2/.lastUpdated=1303819478301
+http\://maven.springframework.org/milestone/.lastUpdated=1303819512803
+http\://maven.springframework.org/milestone/.error=
+http\://springside.googlecode.com/svn/repository/.error=
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.lastUpdated=1303819493164
+https\://repository.jboss.org/nexus/content/repositories/public/.error=
+http\://download.java.net/maven/2/.lastUpdated=1303819496679
+https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1303735253989
+http\://download.java.net/maven/2/.error=
+http\://maven.springframework.org/release/.lastUpdated=1303819501063
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.error=
+default-http\://maven.net.cn/content/groups/public/.lastUpdated=1303819470460
+https\://repository.jboss.org/nexus/content/repositories/releases/.error=
+http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact net.sf.log4jdbc\:log4jdbc3\:pom\:1.2.1 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: Access denied to http\://maven.net.cn/content/groups/public/net/sf/log4jdbc/log4jdbc3/1.2.1/log4jdbc3-1.2.1.pom. Error code 403, Forbidden
+http\://rapid-framework.googlecode.com/svn/trunk/repository/.lastUpdated=1303819513818
+https\://repository.jboss.org/nexus/content/repositories/public/.lastUpdated=1303819485721
+http\://repository.springsource.com/maven/bundles/release/.error=
+http\://repo1.maven.org/maven2/.error=
+http\://maven.springframework.org/release/.error=
