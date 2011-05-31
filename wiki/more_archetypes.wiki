@@ -17,4 +17,4 @@ mvn archetype:generate -B -DarchetypeGroupId=com.googlecode.rapid-framework  -Da
 }}}
 
 项目搭建过程参照
-http://code.google.com/p/rapid-framework/wik/rapid_achetype_springmvc_hibernate
+[http://code.google.com/p/rapid-framework/wiki/rapid_achetype_springmvc_hibernate]
