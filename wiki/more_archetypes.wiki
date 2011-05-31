@@ -16,4 +16,5 @@ flex插件新特性：
 mvn archetype:generate -B -DarchetypeGroupId=com.googlecode.rapid-framework  -DarchetypeArtifactId=rapid-springmvc-ibatis  -DarchetypeVersion=1.0 -DgroupId=com.company.project   -DartifactId=springmvc-ibatis-demo  -Dversion=1.0 -DarchetypeRepository=https://rapid-framework.googlecode.com/svn/trunk/repository
 }}}
 
-===项目搭建过程参照http://code.google.com/p/rapid-framework/wiki/rapid_achetype_springmvc_hibernate===
+===项目搭建过程参照
+http://code.google.com/p/rapid-framework/wik/rapid_achetype_springmvc_hibernate===
