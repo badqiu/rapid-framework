@@ -1,9 +1,0 @@
-#NOTE: This is an internal implementation file, its format can be changed without prior notice.
-#Wed May 11 16:33:40 CST 2011
-http\://repository.jboss.com/maven2/.lastUpdated=1305102820135
-default-http\://maven.net.cn/content/groups/public/.lastUpdated=1305102812110
-http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact apache-oro\:jakarta-oro\:jar\:2.0.8 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: connection timed out
-http\://repo1.maven.org/maven2/.error=
-https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1305102771874
-http\://repo1.maven.org/maven2/.lastUpdated=1305102815630
-https\://repository.jboss.org/nexus/content/groups/public/.error=
