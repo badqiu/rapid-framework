@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.googlecode.rapid-framework</groupId>
+  <artifactId>rapid-flex-ibatis</artifactId>
+  <version>1.0</version>
+  <versioning>
+    <latest>1.0</latest>
+    <versions>
+      <version>1.0</version>
+    </versions>
+    <lastUpdated>20110531124635</lastUpdated>
+  </versioning>
+</metadata>
