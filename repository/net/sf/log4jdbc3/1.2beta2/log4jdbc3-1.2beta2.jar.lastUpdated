@@ -1,0 +1,25 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Tue Apr 26 20:28:48 CST 2011
+http\://repo1.maven.org/maven2/.lastUpdated=1303820915986
+http\://repository.springsource.com/maven/bundles/release/.lastUpdated=1303820924751
+https\://repository.jboss.org/nexus/content/repositories/releases/.lastUpdated=1303820922111
+http\://springside.googlecode.com/svn/repository/.lastUpdated=1303820928396
+http\://repository.jboss.com/maven2/.error=
+https\://repository.jboss.org/nexus/content/groups/public/.error=
+http\://repository.jboss.com/maven2/.lastUpdated=1303820919821
+http\://maven.springframework.org/milestone/.lastUpdated=1303820925761
+http\://maven.springframework.org/milestone/.error=
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.lastUpdated=1303820923026
+https\://repository.jboss.org/nexus/content/repositories/public/.error=
+http\://download.java.net/maven/2/.lastUpdated=1303820924256
+https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1303820914941
+http\://download.java.net/maven/2/.error=
+http\://maven.springframework.org/release/.lastUpdated=1303820925276
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.error=
+default-http\://maven.net.cn/content/groups/public/.lastUpdated=1303820915346
+https\://repository.jboss.org/nexus/content/repositories/releases/.error=
+http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact net.sf.log4jdbc\:log4jdbc3\:jar\:1.2beta2 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: Access denied to http\://maven.net.cn/content/groups/public/net/sf/log4jdbc/log4jdbc3/1.2beta2/log4jdbc3-1.2beta2.jar. Error code 403, Forbidden
+http\://repository.springsource.com/maven/bundles/release/.error=
+https\://repository.jboss.org/nexus/content/repositories/public/.lastUpdated=1303820921006
+http\://repo1.maven.org/maven2/.error=
+http\://maven.springframework.org/release/.error=
