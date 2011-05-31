@@ -14,8 +14,8 @@ mvn clean install
 如果是第一次使用rapid的maven版本可能需要下载一段时间，正式发布后我们会开发独立的jar包下载
 
 ==Step3:启动H2数据库，生成代码==
-1: 执行h2/start-db.bat 启动测试数据库
-2：在springmvc-hibernate-demo目录下分别执行如下命令
+  # 1: 执行h2/start-db.bat 启动测试数据库
+  # 2：在springmvc-hibernate-demo目录下分别执行如下命令
 {{{
 mvn rapid:print
 mvn rapid:gen -Dtable=user_info
