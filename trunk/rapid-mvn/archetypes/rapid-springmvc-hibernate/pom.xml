@@ -541,7 +541,7 @@
 				</repository>
 				<repository>
 					<id>rapid</id>
-					<url>https://rapid-framework.googlecode.com/svn/trunk/repository
+					<url>http://rapid-framework.googlecode.com/svn/trunk/repository
 					</url>
 				</repository>
 			</repositories>
