@@ -11,7 +11,7 @@ mvn archetype:generate -B -DarchetypeGroupId=com.googlecode.rapid-framework  -Da
 {{{
 mvn clean install 
 }}}
-如果是第一次使用rapid的maven版本可能需要下载一段时间，正式发布后我们会开发独立的jar包下载
+如果是第一次使用rapid的maven版本可能需要下载一段时间，正式发布后我们会开放独立的jar包下载
 
 ==Step3:启动H2数据库，生成代码==
   # :执行 *h2/start-db.bat* 启动测试数据库
