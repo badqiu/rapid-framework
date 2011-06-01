@@ -3,7 +3,7 @@
 
 ==Step1:从远程仓库创建你的项目==
 {{{
-mvn archetype:generate -B -DarchetypeGroupId=com.googlecode.rapid-framework  -DarchetypeArtifactId=rapid-springmvc-hibernate -DarchetypeVersion=1.0 -DarchetypeRepository=https://rapid-framework.googlecode.com/svn/trunk/repository -DgroupId=com.company.project -DartifactId=springmvc-hibernate-demo -Dversion=1.0
+mvn archetype:generate -B -DarchetypeGroupId=com.googlecode.rapid-framework  -DarchetypeArtifactId=rapid-springmvc-hibernate -DarchetypeVersion=1.0 -DarchetypeRepository=http://rapid-framework.googlecode.com/svn/trunk/repository -DgroupId=com.company.project -DartifactId=springmvc-hibernate-demo -Dversion=1.0
 }}}
 可以修改 groupId,artifactId,version参数来符合你的要求
 
