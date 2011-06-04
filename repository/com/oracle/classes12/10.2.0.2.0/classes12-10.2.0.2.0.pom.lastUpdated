@@ -1,0 +1,7 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Sun Apr 24 20:24:23 CST 2011
+http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact com.oracle\:classes12\:pom\:10.2.0.2.0 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: Access denied to http\://maven.net.cn/content/groups/public/com/oracle/classes12/10.2.0.2.0/classes12-10.2.0.2.0.pom. Error code 403, Forbidden
+default-http\://maven.net.cn/content/groups/public/.lastUpdated=1303647862614
+http\://repo1.maven.org/maven2/.lastUpdated=1303647863524
+https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1303647861999
+https\://repository.jboss.org/nexus/content/groups/public/.error=
