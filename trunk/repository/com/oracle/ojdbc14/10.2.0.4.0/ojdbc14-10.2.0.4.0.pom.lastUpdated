@@ -1,0 +1,7 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Sun Apr 24 20:18:37 CST 2011
+http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact com.oracle\:ojdbc14\:pom\:10.2.0.4.0 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: Access denied to http\://maven.net.cn/content/groups/public/com/oracle/ojdbc14/10.2.0.4.0/ojdbc14-10.2.0.4.0.pom. Error code 403, Forbidden
+default-http\://maven.net.cn/content/groups/public/.lastUpdated=1303647516301
+http\://repo1.maven.org/maven2/.lastUpdated=1303647517286
+https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1303647515681
+https\://repository.jboss.org/nexus/content/groups/public/.error=

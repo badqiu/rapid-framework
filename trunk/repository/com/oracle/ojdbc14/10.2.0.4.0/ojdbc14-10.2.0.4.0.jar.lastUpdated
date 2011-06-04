@@ -1,0 +1,18 @@
+#NOTE: This is an internal implementation file, its format can be changed without prior notice.
+#Sun Apr 24 20:18:45 CST 2011
+https\://repository.jboss.org/nexus/content/repositories/public/.error=
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.error=
+http\://repository.jboss.com/maven2/.lastUpdated=1303647521948
+https\://repository.jboss.org/nexus/content/repositories/public/.lastUpdated=1303647523228
+https\://repository.jboss.org/nexus/content/groups/public/.lastUpdated=1303647519321
+http\://mirrors.ibiblio.org/pub/mirrors/maven2/.lastUpdated=1303647523838
+http\://download.java.net/maven/2/.lastUpdated=1303647524368
+http\://repository.springsource.com/maven/bundles/release/.error=
+http\://repository.jboss.com/maven2/.error=
+http\://maven.net.cn/content/groups/public/.error=Could not transfer artifact com.oracle\:ojdbc14\:jar\:10.2.0.4.0 from/to maven.net.cn (http\://maven.net.cn/content/groups/public/)\: Access denied to http\://maven.net.cn/content/groups/public/com/oracle/ojdbc14/10.2.0.4.0/ojdbc14-10.2.0.4.0.jar. Error code 403, Forbidden
+http\://download.java.net/maven/2/.error=
+http\://repo1.maven.org/maven2/.lastUpdated=1303647520506
+http\://repo1.maven.org/maven2/.error=
+default-http\://maven.net.cn/content/groups/public/.lastUpdated=1303647519936
+http\://repository.springsource.com/maven/bundles/release/.lastUpdated=1303647525773
+https\://repository.jboss.org/nexus/content/groups/public/.error=
