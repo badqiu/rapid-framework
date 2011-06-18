@@ -40,7 +40,7 @@ eclipse.bat
 当前内容属于提前测试内容，我们会陆续发布其他archetype，希望大家积极提交bug。如果您有啥改进意见请mailto:hhlai1990@gmail.com
 
 ===常见问题===
-1.如何切换oracle数据库?
+====1.如何切换oracle数据库?====
 现在的rapid-plugin提供命令行代码生成功能，默认只包含h2和mysql的数据库驱动，若要使用oracle，请在你的工程的pom.xml里修改plugins配置:
 {{{
 <!-- rapid-plugins -->
