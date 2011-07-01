@@ -1,47 +1,22 @@
-/**
- * 
- */
 package cn.org.rapid_framework.plugins.gen;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.List;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
-import cn.org.rapid_framework.generator.GeneratorProperties;
 
 /**
- * 代码生成器插件的主要goal
+ * 打印数据库中的表名称
  * 
- * @author hunhun
- * @goal gen
+ * @goal print
  */
-public class GenMojo extends BaseMojo {
-
-	/**
-	 * -Dtable=* -Dtable=user_info
-	 * 
-	 * @parameter expression="${table}"
-	 * 
-	 */
-	public String table;
+public class PrintTableInfoMojo extends AbstarctGeneratorMojo {
 
 	private GeneratorFacade g;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.apache.maven.plugin.Mojo#execute()
-	 */
 	public void execute() throws MojoExecutionException, MojoFailureException {
-
 		Thread currentThread = Thread.currentThread();
 		ClassLoader oldClassLoader = currentThread.getContextClassLoader();
 
@@ -56,20 +31,24 @@ public class GenMojo extends BaseMojo {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			genByTable(table);
+			printAllTableNames();
 		} finally {
 			currentThread.setContextClassLoader(oldClassLoader);
 		}
 
 	}
 
-	public void genByTable(String... table) {
+	public static void printAllTableNames() {
+
 		try {
-			g.generateByTable(table);
-			Runtime.getRuntime().exec("cmd.exe /c start " + GeneratorProperties.getRequiredProperty("outRoot"));
+			GeneratorFacade.printAllTableNames();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static void main(String[] args) {
+		printAllTableNames();
 	}
 
 }
