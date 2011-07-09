@@ -20,7 +20,7 @@
     * [rapid_ant ant脚本]
     * 代码生成器(new)
       * [rapid_generator 代码生成器rapid-generator(new)]
-      * [ibatis_gen ibatis dal层生成工具(new)]
+      * [rapid_ibatis  ibatis dal层生成工具(new)]
     * view层(new)
       * [rapid_validation 表单验证rapid-validation]
       * [rapid_jsp_extends jsp实现模板继承]
