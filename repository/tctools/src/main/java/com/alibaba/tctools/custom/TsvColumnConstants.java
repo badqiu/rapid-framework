@@ -22,7 +22,7 @@ package com.alibaba.tctools.custom;
  * @date   2011-7-12
  */
 public interface TsvColumnConstants {
-    //约定必须有的column标题
+    //约定必须有的column标题的映射名
    String JAVA_METHOD_NAME="方法名";
    String JAVA_UID_NAME="uid";
 }

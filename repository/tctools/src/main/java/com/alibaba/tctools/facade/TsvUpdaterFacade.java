@@ -28,7 +28,7 @@ import com.alibaba.tctools.util.TsvWriterUtil;
  */
 public class TsvUpdaterFacade {
 
-    public void updateTsvByJava(File javaFile,File tsvFile) throws Exception {
+    public static void updateTsvByJava(File javaFile,File tsvFile) throws Exception {
         TsvWriterUtil.write(tsvFile,
                 JavaReadUtil.parse(javaFile, tsvFile));
     }
