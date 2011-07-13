@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.alibaba.tctools.custom.TsvModel;
+import com.alibaba.tctools.custom.UniqueUIDMap;
+
 /**
  * 转换Map的key值映射
  * TODO Comment of ModelConvertUtil
@@ -14,6 +17,20 @@ import java.util.Map.Entry;
  */
 public class ModelConvertUtil {
 	
+    
+    /**
+     * 处理TsvModel的Map Key映射
+     * @param jmodel
+     * @param configMap
+     * @return
+     */
+    public static TsvModel convert(TsvModel jmodel,Map<String,String> configMap){
+        jmodel.setDataList(convert(jmodel.getDataList(), configMap));
+        return jmodel;
+    }
+    
+    
+    
 	/**
 	 * 处理TsvModel的Map Key映射
 	 * @param list
@@ -29,7 +46,7 @@ public class ModelConvertUtil {
 	}
 	
 	private static Map<String,String> convert(Map<String,String> oldMap,Map<String,String> configMap ){
-		Map<String,String> result=new HashMap<String, String>(); 
+		Map<String,String> result=new UniqueUIDMap<String, String>();
 		for(Entry<String, String> item :oldMap.entrySet()){
 			if(configMap.containsKey(item.getKey())){ //若已经配置key的映射则取映射值作为新key
 				result.put(configMap.get(item.getKey()), item.getValue());

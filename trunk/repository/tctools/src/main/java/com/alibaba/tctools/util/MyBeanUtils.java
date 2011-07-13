@@ -26,6 +26,7 @@ import org.apache.commons.beanutils.BeanUtils;
 public class MyBeanUtils {
 
     public static void  describe(Object bean) {
+        if(bean instanceof String) System.out.println(bean);
         try{
         System.out.println(BeanUtils.describe(bean));
         }catch (Exception e) {

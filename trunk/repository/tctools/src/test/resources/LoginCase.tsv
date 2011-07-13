@@ -1,3 +1,4 @@
 方法名	uid	前置条件	期望结果	步骤
-login	1	"username=""zhoulai"",password=""0000"""	通过	调整服务器IP
-loginWithErrorPassword	2	"username=""zhoulai"""	密码为空！	step1,step2
+login	1	"username=""zhoulai"",password=""0000"""	通过	调整IP
+loginWithErrorPassword1	2	"username=""zhoulai"""	密码错误	step1
+add	3			

@@ -1,41 +1,45 @@
-
 package com.alibaba.tctools.gencode;
 
-
 import org.junit.Test;
-
-import static junit.framework.Assert.*;
-
-
+import org.junit.internal.runners.statements.Fail;
 
 public class LoginCaseTest {
-	
 
-    
     /**
-     * @uid    1
-     * @前置条件 username="zhoulai",password="0000"
-     * @期望结果 通过
-     * @步骤    调整服务器IP     
+     * @step 调整IP
+     * @uid 1
+     * @preCondition username="zhoulai",password="0000"
+     * @methodName login
+     * @expectResult 通过
      */
-      @Test
-      public void login(){
-          
-      }
-        
-        
-    
+    @Test
+    public void login() {
+
+        System.out.println("test");
+    }
+
     /**
-     * @uid    2
-     * @前置条件 username="zhoulai"
-     * @期望结果 密码为空！
-     *   
+     * @step step1
+     * @uid 2
+     * @preCondition username="zhoulai"
+     * @methodName loginWithErrorPassword1
+     * @expectResult 密码错误
      */
-      @Test
-      public void loginWithErrorPassword(){
-          
-      }
-        
-        
-		
+    @Test
+    public void loginWithErrorPassword1() {
+
+    }
+
+    /**
+     * @step
+     * @uid 3
+     * @preCondition
+     * @methodName add
+     * @expectResult
+     */
+    @Test
+    public void add() {
+
+    }
+
 }

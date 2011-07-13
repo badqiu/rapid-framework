@@ -26,17 +26,17 @@ import com.alibaba.tctools.custom.TsvModel;
 
 /**
  * 根据tsv生成java
+ * 
  * @author lai.zhoul
- * @email  hhlai1990@gmail.com
- * @date   2011-7-13
+ * @email hhlai1990@gmail.com
+ * @date 2011-7-13
  */
 public class JavaGeneratorFacade {
-    
+
     private static GeneratorFacade g;
-    
-    public void generatorJavaByTsv(File tsvFile,File configFile) throws Exception{
-        TsvModel model = TsvModelBuilder.getTsvModelByTsv(FileProvider4Test.tsvFile,
-                FileProvider4Test.configFile);
+
+    public static void generatorJavaByTsv(File tsvFile, File configFile) throws Exception {
+        TsvModel model = TsvModelBuilder.getTsvModelByTsv(tsvFile, configFile);
 
         g = new GeneratorFacade();
         g.deleteOutRootDir();

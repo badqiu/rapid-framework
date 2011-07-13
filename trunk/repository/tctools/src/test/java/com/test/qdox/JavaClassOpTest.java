@@ -30,6 +30,7 @@ import org.junit.Test;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
 import com.alibaba.tctools.custom.TsvModel;
+import com.alibaba.tctools.util.MyBeanUtils;
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.IndentBuffer;
@@ -78,6 +79,7 @@ public class JavaClassOpTest {
         JavaMethod[] method = cls.getMethods();
         JavaMethod m = method[0];
         //m.setReturns(new Type("java.lang.String"));
+        MyBeanUtils.describe(m.getCodeBlock());
         System.out.println(src.getCodeBlock());
         FileWriter f=new FileWriter(file);
         f.write(src.getCodeBlock());
@@ -97,10 +99,11 @@ public class JavaClassOpTest {
         
         JavaClass cls=src.getClasses()[0];
         model.setClassName(cls.getName());
-        System.out.println(model.getClassName());
-        
+        System.out.println("src=\n"+src.getCodeBlock());
+        MyBeanUtils.describe(cls.getMethods()[0]);
         for(JavaMethod m:cls.getMethods()){
             System.out.println(m.getName());
+          
             for(DocletTag t:m.getTags()){
                 System.out.println("@"+t.getName()+" "+t.getValue());
             }

@@ -26,6 +26,7 @@ import java.util.Map;
 
 import com.alibaba.tctools.custom.TsvColumnConstants;
 import com.alibaba.tctools.custom.TsvModel;
+import com.alibaba.tctools.custom.UniqueUIDMap;
 import com.thoughtworks.qdox.JavaDocBuilder;
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -79,7 +80,7 @@ public class JavaReadUtil {
         Map<String, String> map=null;
         //这里map代表一个method，对应tsv里的一行
         for(JavaMethod m:value){
-            map=new LinkedHashMap<String, String>();//保证插入顺序
+            map=new UniqueUIDMap<String, String>();//保证插入顺序
             System.out.println("[DEBUG]parsing 方法: "+m.getName());
             map.put(TsvColumnConstants.JAVA_METHOD_NAME, m.getName());
             for(DocletTag t:m.getTags()){
@@ -89,7 +90,8 @@ public class JavaReadUtil {
                 
             }
             //处理完每个方法，对应了每一行，传给自定义Processor检查？JavaMethodProcessor待完善
-           
+            //过滤无UID的JavaMethod
+            if(!map.containsKey(TsvColumnConstants.JAVA_UID_NAME)) continue;
            System.out.println(map);
            result.add(map);
         }
