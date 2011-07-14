@@ -16,8 +16,10 @@
 package com.alibaba.tctools.facade;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +59,9 @@ public class JavaUpdaterFacade {
         JavaClass cls = src.getClasses()[0];
         String newCode = getUpdatedContent(src.getCodeBlock(), cls, tList, jList);
         reader.close();
-        FileWriter writer = new FileWriter(javaFile, false);//覆盖写入新的java content
+        
+        FileOutputStream fo=new FileOutputStream(javaFile, false);
+        OutputStreamWriter writer=new OutputStreamWriter(fo, "UTF-8");//以UTF-8来写入.java
         writer.write(newCode);
         writer.close();
 

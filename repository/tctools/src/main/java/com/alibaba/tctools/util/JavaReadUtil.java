@@ -16,8 +16,10 @@
 package com.alibaba.tctools.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,7 +47,10 @@ import com.thoughtworks.qdox.model.JavaSource;
 public class JavaReadUtil {
     
     public static TsvModel parse(File javafile,File tsvfile) throws IOException {
-        return mergeHeader(parse(new FileReader(javafile)),TsvReadUtil.parseHeader(tsvfile));
+        FileInputStream in=new FileInputStream(javafile);
+        InputStreamReader inReader=new InputStreamReader(in, "UTF-8");//以UTF-8读.java
+        
+        return mergeHeader(parse(inReader),TsvReadUtil.parseHeader(tsvfile));
     }
     
     /**
