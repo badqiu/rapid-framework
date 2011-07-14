@@ -69,22 +69,26 @@ public class MainUpdaterMojo extends AbstarctBaseMojo {
 
                 File configFile = FilePathHelper.getFileByPath("\\case\\config.xml");
 
-                //输入java参数时
-                if (!("".equals(tsv))) {
+                //输入tsv参数时，更新java
+                if (tsv != null && !"".equals(tsv)) {
                     File tsvFile = FilePathHelper.getFileByPath("\\case\\" + tsv + ".tsv");
-                    File javaFile = FilePathHelper.getFileByPath("\\case\\" + tsv + ".java");
+                    File javaFile = FilePathHelper.getDestJavaPath("\\" + tsv + "Test.java");
+                    System.out.println("update java.....");
+                    JavaUpdaterFacade.updateJavaByTsv(tsvFile, configFile, javaFile);
 
-                    System.out.println("update tsv.....");
-                    TsvUpdaterFacade.updateTsvByJava(javaFile, tsvFile);
+                    System.out.println("generated or updated java: " + javaFile.getAbsolutePath());
+
                 }
 
                 //输入参数为tsv时
-                if (!("".equals(java))) {
+                if (java != null && !"".equals(java)) {
                     File tsvFile = FilePathHelper.getFileByPath("\\case\\" + java + ".tsv");
-                    File javaFile = FilePathHelper.getDestJavaPath(java + ".java");
-                    System.out.println("update java.....");
-                    JavaUpdaterFacade.updateJavaByTsv(tsvFile, configFile, javaFile);
-                    System.out.println("generated or updated java: " + javaFile.getAbsolutePath());
+                    File javaFile = FilePathHelper.getDestJavaPath("\\" + java + "Test.java");
+                    System.out.println("update tsv....");
+
+                    TsvUpdaterFacade.updateTsvByJava(javaFile, tsvFile);
+                    System.out.println("generated or updated tsv: " + tsvFile.getAbsolutePath());
+
                 }
 
             } catch (Exception e) {
@@ -95,7 +99,5 @@ public class MainUpdaterMojo extends AbstarctBaseMojo {
         }
 
     }
-    
-    
 
 }
