@@ -9,7 +9,8 @@ import java.util.Enumeration;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
-import cn.org.rapid_framework.generator.GeneratorProperties;
+import com.alibaba.tctools.custom.FilePathHelper;
+import com.alibaba.tctools.facade.JavaGeneratorFacade;
 
 
 
@@ -24,11 +25,12 @@ import cn.org.rapid_framework.generator.GeneratorProperties;
 public class MainGeneratorMojo extends AbstarctGeneratorMojo {
 
     /**
-     * 例如：-Dtsv=testcase
+     * 例如：-Dtsv=LoginCase
      * 
      * @parameter expression="${tsv}"
      */
     public String tsv;
+    
 
     /*
      * (non-Javadoc)
@@ -40,11 +42,15 @@ public class MainGeneratorMojo extends AbstarctGeneratorMojo {
 
         try {
             currentThread.setContextClassLoader(getClassLoader());
+           
             System.out.println("current project to build: " + getProject().getName() + "\n"
                     + getProject().getFile().getParent());
+            
+            System.out.println("project baseDir="+getProject().getBasedir().getAbsolutePath());
+            FilePathHelper.setProjectPath(getProject().getBasedir().getAbsolutePath());
             try {
-//               JavaGeneratorFacade.generatorByTsv(getFileByClassLoader(tsv + ".tsv"),
-//                        getFileByClassLoader("generator.xml"));
+              JavaGeneratorFacade.generatorJavaByTsv(FilePathHelper.getFileByPath("\\case\\"+tsv+".tsv"),FilePathHelper.getFileByPath("\\case\\config.xml"));
+              
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -53,6 +59,7 @@ public class MainGeneratorMojo extends AbstarctGeneratorMojo {
         }
 
     }
+
 
     public static File getFileByClassLoader(String resourceName) throws IOException {
         String pathToUse = resourceName;

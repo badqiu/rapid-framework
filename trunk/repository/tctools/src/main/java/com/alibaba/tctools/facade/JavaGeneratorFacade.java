@@ -19,10 +19,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.org.rapid_framework.generator.GeneratorContext;
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
 
+import com.alibaba.tctools.custom.FilePathHelper;
 import com.alibaba.tctools.custom.TsvModel;
+import com.alibaba.tctools.util.MyBeanUtils;
 
 /**
  * 根据tsv生成java
@@ -40,7 +43,12 @@ public class JavaGeneratorFacade {
 
         g = new GeneratorFacade();
         g.deleteOutRootDir();
-        g.getGenerator().setTemplateRootDirs("classpath:template");//模板目录自定义
+        
+        System.out.println("load:="+FilePathHelper.projectPath+"\\case\\config.xml");
+        GeneratorProperties.load(FilePathHelper.projectPath+"\\case\\config.xml");
+        GeneratorContext.setGeneratorProperties(GeneratorProperties.getProperties());
+     //   g.getGenerator().setTemplateRootDirs("classpath:template");//模板目录自定义
+        g.getGenerator().setTemplateRootDirs(FilePathHelper.projectPath+"\\case\\template");
         Map map = new HashMap();
         map.put("className", model.getClassName());
         map.put("model", model);
