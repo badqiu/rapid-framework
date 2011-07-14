@@ -22,7 +22,7 @@ import com.alibaba.tctools.facade.JavaGeneratorFacade;
  * @goal gen
  * @date 2011-7-7
  */
-public class MainGeneratorMojo extends AbstarctGeneratorMojo {
+public class MainGeneratorMojo extends AbstarctBaseMojo {
 
     /**
      * 例如：-Dtsv=LoginCase
@@ -61,25 +61,6 @@ public class MainGeneratorMojo extends AbstarctGeneratorMojo {
     }
 
 
-    public static File getFileByClassLoader(String resourceName) throws IOException {
-        String pathToUse = resourceName;
-        if (pathToUse.startsWith("/")) {
-            pathToUse = pathToUse.substring(1);
-        }
-        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader()
-                .getResources(pathToUse);
-        while (urls.hasMoreElements()) {
-            return new File(urls.nextElement().getFile());
-        }
-        urls = Thread.currentThread().getContextClassLoader().getResources(pathToUse);
-        while (urls.hasMoreElements()) {
-            return new File(urls.nextElement().getFile());
-        }
-        urls = ClassLoader.getSystemResources(pathToUse);
-        while (urls.hasMoreElements()) {
-            return new File(urls.nextElement().getFile());
-        }
-        throw new FileNotFoundException("classpath:" + resourceName);
-    }
+   
 
 }

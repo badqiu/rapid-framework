@@ -32,7 +32,7 @@ public class GeneratorConfigUtil {
 		for (NodeData item : resultList) {
 			result.put(item.attributes.get("key"), item.nodeValue);
 		}	
-		System.out.println("[DEBUG] parsing generator.xml：key映射="+result);
+		System.out.println("[DEBUG] parsing 配置文件：key映射="+result);
 		in.close();
 		return result;
 	}
