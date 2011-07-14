@@ -35,9 +35,9 @@ public class FileProvider4Test {
 
     static {
         try {
-            tsvFile = new File("D:\\Workplace\\JavaEE\\jee\\alibaba\\alibaba-qa-tc-tools\\src\\test\\resources\\LoginCase.tsv");
-            configFile=new File("D:\\Workplace\\JavaEE\\jee\\alibaba\\alibaba-qa-tc-tools\\src\\test\\resources\\generator.xml");
-            javaFile=new File("D:\\Workplace\\JavaEE\\jee\\alibaba\\alibaba-qa-tc-tools\\src\\test\\java\\com\\alibaba\\tctools\\gencode\\LoginCaseTest.java");
+            tsvFile = new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\case\\LoginCase.tsv");
+            configFile=new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\case\\config.xml");
+            javaFile=new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\src\\test\\java\\com\\alibaba\\tctools\\gencode\\LoginCaseTest.java");
         } catch (Exception e) {
             e.printStackTrace();
         }

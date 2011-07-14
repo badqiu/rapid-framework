@@ -15,19 +15,14 @@
  */
 package com.alibaba.tctools.facade;
 
-import java.awt.print.Printable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.text.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import junit.framework.Test;
-
-import com.alibaba.tctools.custom.TsvColumnConstants;
 import com.alibaba.tctools.custom.TsvModel;
 import com.alibaba.tctools.util.GeneratorConfigUtil;
 import com.alibaba.tctools.util.ModelConvertUtil;
@@ -37,9 +32,6 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaMethod;
 import com.thoughtworks.qdox.model.JavaSource;
-import com.thoughtworks.qdox.model.Type;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * TODO Comment of JavaUpdaterFacade
