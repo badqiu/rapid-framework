@@ -17,24 +17,37 @@ package com.alibaba.tctools.custom;
 
 import java.io.File;
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
+
 /**
  * TODO Comment of FilePathHelper
+ * 
  * @author lai.zhoul
- * @email  hhlai1990@gmail.com
- * @date   2011-7-13
+ * @email hhlai1990@gmail.com
+ * @date 2011-7-13
  */
 public class FilePathHelper {
-    public static String projectPath="C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest";
-    
-    
-    public static  void setProjectPath(String path){
-        projectPath=path;
+    public static String projectPath = "C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest";
+
+    public static void setProjectPath(String path) {
+        projectPath = path;
     }
-    public static File getFileByPath(String path){
-        String realPath=projectPath+path;
+
+    public static File getFileByPath(String path) {
+        String realPath = projectPath + path;
         System.out.println(realPath);
         return new File(realPath);
     }
-    
-    
+
+    public static File getDestJavaPath(String path) {
+
+        String realPath = projectPath
+                + getBasepackageDir(GeneratorProperties.getRequiredProperty("basepackage")) + path;
+        
+        return new File(realPath);
+    }
+
+    public static String getBasepackageDir(String basepackage) {
+        return basepackage.replaceAll("\\.", "\\");
+    }
 }

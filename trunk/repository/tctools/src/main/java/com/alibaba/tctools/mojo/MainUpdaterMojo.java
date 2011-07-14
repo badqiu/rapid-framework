@@ -26,12 +26,12 @@ import com.alibaba.tctools.facade.JavaUpdaterFacade;
 import com.alibaba.tctools.facade.TsvUpdaterFacade;
 
 /**
- * 同步器插件goal 
+ * 同步器插件goal
  * 
  * @author lai.zhoul
  * @email hhlai1990@gmail.com
- * @date 2011-7-14
  * @goal update
+ * @date 2011-7-14
  */
 public class MainUpdaterMojo extends AbstarctBaseMojo {
 
@@ -66,17 +66,25 @@ public class MainUpdaterMojo extends AbstarctBaseMojo {
             System.out.println("project baseDir=" + getProject().getBasedir().getAbsolutePath());
             FilePathHelper.setProjectPath(getProject().getBasedir().getAbsolutePath());
             try {
-                File tsvFile = FilePathHelper.getFileByPath("\\case\\" + tsv + ".tsv");
+
                 File configFile = FilePathHelper.getFileByPath("\\case\\config.xml");
-                File javaFile = FilePathHelper.getFileByPath("\\case\\" + java + ".java");
+
                 //输入java参数时
-                if ("".equals(tsv) && !("".equals(java))) {
+                if (!("".equals(tsv))) {
+                    File tsvFile = FilePathHelper.getFileByPath("\\case\\" + tsv + ".tsv");
+                    File javaFile = FilePathHelper.getFileByPath("\\case\\" + tsv + ".java");
+
+                    System.out.println("update tsv.....");
                     TsvUpdaterFacade.updateTsvByJava(javaFile, tsvFile);
                 }
 
                 //输入参数为tsv时
-                if (!("".equals(tsv)) && "".equals(java)) {
+                if (!("".equals(java))) {
+                    File tsvFile = FilePathHelper.getFileByPath("\\case\\" + java + ".tsv");
+                    File javaFile = FilePathHelper.getDestJavaPath(java + ".java");
+                    System.out.println("update java.....");
                     JavaUpdaterFacade.updateJavaByTsv(tsvFile, configFile, javaFile);
+                    System.out.println("generated or updated java: " + javaFile.getAbsolutePath());
                 }
 
             } catch (Exception e) {
@@ -87,5 +95,7 @@ public class MainUpdaterMojo extends AbstarctBaseMojo {
         }
 
     }
+    
+    
 
 }

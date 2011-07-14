@@ -9,6 +9,8 @@ import java.util.Enumeration;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
+import cn.org.rapid_framework.generator.GeneratorProperties;
+
 import com.alibaba.tctools.custom.FilePathHelper;
 import com.alibaba.tctools.facade.JavaGeneratorFacade;
 
