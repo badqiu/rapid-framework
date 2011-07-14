@@ -20,7 +20,7 @@ public class JavaReadUtilTest {
     @Test
     public void parse() throws IOException {
         TsvModel model=  JavaReadUtil.parse(FileProvider4Test.javaFile,FileProvider4Test.tsvFile);
-        assertEquals(2, model.getDataList().size());
+        assertEquals(3, model.getDataList().size());
         System.out.println(model.getDataList().get(1));
         System.out.println("标题信息："+Arrays.toString(model.getHeader()));
        
