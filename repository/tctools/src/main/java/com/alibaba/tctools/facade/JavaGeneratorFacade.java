@@ -46,7 +46,6 @@ public class JavaGeneratorFacade {
         
         System.out.println("load:="+FilePathHelper.projectPath+"\\case\\config.xml");
       
-     
      //   g.getGenerator().setTemplateRootDirs("classpath:template");//模板目录自定义
         g.getGenerator().setTemplateRootDirs(FilePathHelper.projectPath+"\\case\\template");
         Map map = new HashMap();
