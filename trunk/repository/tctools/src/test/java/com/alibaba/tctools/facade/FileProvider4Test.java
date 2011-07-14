@@ -20,7 +20,7 @@ import java.io.File;
 import cn.org.rapid_framework.generator.util.FileHelper;
 
 /**
- * TODO Comment of FileProvider
+ * 硬编码，便于测试
  * 
  * @author lai.zhoul
  * @email hhlai1990@gmail.com
@@ -31,6 +31,7 @@ public class FileProvider4Test {
     public static File tsvFile;
     public static File configFile;
     public static File javaFile;
+    public static String templateDir;
     
 
     static {
@@ -38,6 +39,7 @@ public class FileProvider4Test {
             tsvFile = new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\case\\LoginCase.tsv");
             configFile=new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\case\\config.xml");
             javaFile=new File("C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\src\\test\\java\\com\\alibaba\\tctools\\gencode\\LoginCaseTest.java");
+            templateDir="C:\\Users\\lai.zhoul\\Desktop\\tctools\\showcase\\project.qatest\\case\\template";
         } catch (Exception e) {
             e.printStackTrace();
         }

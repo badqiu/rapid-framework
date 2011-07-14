@@ -4,10 +4,13 @@
 package com.alibaba.tctools.mojo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
@@ -18,7 +21,7 @@ import org.apache.maven.project.MavenProject;
  * @email  hhlai1990@gmail.com
  * @requiresDependencyResolution  runtime
  */
-public abstract class AbstarctGeneratorMojo extends AbstractMojo {
+public abstract class AbstarctBaseMojo extends AbstractMojo {
 
 	/**
      * <i>Maven Internal</i>: Project to interact with.
@@ -55,11 +58,29 @@ public abstract class AbstarctGeneratorMojo extends AbstractMojo {
 		}
 	}
 
-	/**
-     * @return
-     * @uml.property  name="project"
-     */
+
 	public MavenProject getProject() {
 		return project;
 	}
+	
+	 public static File getFileByClassLoader(String resourceName) throws IOException {
+	        String pathToUse = resourceName;
+	        if (pathToUse.startsWith("/")) {
+	            pathToUse = pathToUse.substring(1);
+	        }
+	        Enumeration<URL> urls = Thread.currentThread().getContextClassLoader()
+	                .getResources(pathToUse);
+	        while (urls.hasMoreElements()) {
+	            return new File(urls.nextElement().getFile());
+	        }
+	        urls = Thread.currentThread().getContextClassLoader().getResources(pathToUse);
+	        while (urls.hasMoreElements()) {
+	            return new File(urls.nextElement().getFile());
+	        }
+	        urls = ClassLoader.getSystemResources(pathToUse);
+	        while (urls.hasMoreElements()) {
+	            return new File(urls.nextElement().getFile());
+	        }
+	        throw new FileNotFoundException("classpath:" + resourceName);
+	    }
 }

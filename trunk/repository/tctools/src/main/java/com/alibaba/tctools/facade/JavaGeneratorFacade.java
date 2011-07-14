@@ -40,13 +40,13 @@ public class JavaGeneratorFacade {
 
     public static void generatorJavaByTsv(File tsvFile, File configFile) throws Exception {
         TsvModel model = TsvModelBuilder.getTsvModelByTsv(tsvFile, configFile);
-
+        GeneratorProperties.load(FilePathHelper.projectPath+"\\case\\config.xml");
         g = new GeneratorFacade();
         g.deleteOutRootDir();
         
         System.out.println("load:="+FilePathHelper.projectPath+"\\case\\config.xml");
-        GeneratorProperties.load(FilePathHelper.projectPath+"\\case\\config.xml");
-        GeneratorContext.setGeneratorProperties(GeneratorProperties.getProperties());
+      
+     
      //   g.getGenerator().setTemplateRootDirs("classpath:template");//模板目录自定义
         g.getGenerator().setTemplateRootDirs(FilePathHelper.projectPath+"\\case\\template");
         Map map = new HashMap();
