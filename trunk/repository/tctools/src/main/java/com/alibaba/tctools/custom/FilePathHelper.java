@@ -39,15 +39,15 @@ public class FilePathHelper {
         return new File(realPath);
     }
 
-    public static File getDestJavaPath(String path) {
-
-        String realPath = projectPath
-                + getBasepackageDir(GeneratorProperties.getRequiredProperty("basepackage")) + path;
-        
+    public static File getDestJavaPath(String path) throws Exception {
+        GeneratorProperties.load(FilePathHelper.projectPath+"\\case\\config.xml");
+        String realPath = projectPath+"\\src\\test\\java\\"
+                + getBasepackageDir(GeneratorProperties.getProperty("basepackage")) + path;
+        System.out.println(realPath);
         return new File(realPath);
     }
 
     public static String getBasepackageDir(String basepackage) {
-        return basepackage.replaceAll("\\.", "\\");
+        return basepackage.replace('.', '\\');
     }
 }
