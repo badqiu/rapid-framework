@@ -76,7 +76,7 @@
   * [donate_user_list 捐赠列表]
   * [roadmap 路线图]
   * [faq 常见问题解答(FAQs)]
-  * [http://groups.google.hk/group/rapid-framework 加入google group参与讨论]
+  * [http://groups.google.com/group/rapid-framework 加入google group参与讨论]
   * [powered_by_rapid powered by rapid]
 ----
   * [http://www.rapid-framework.org.cn/rapid-reference/rapid-framework-v3.5.x/ v3.5.x参考文档]
