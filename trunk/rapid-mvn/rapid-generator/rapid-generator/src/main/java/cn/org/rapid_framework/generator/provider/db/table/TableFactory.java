@@ -196,8 +196,11 @@ public class TableFactory {
 				tableName = rs.getString("TABLE_NAME");
 				String tableType = rs.getString("TABLE_TYPE");
 				String remarks = rs.getString("REMARKS");
-				if(remarks == null && DatabaseMetaDataUtils.isOracleDataBase(connection.getMetaData())) {
+				if(StringHelper.isBlank(remarks) && DatabaseMetaDataUtils.isOracleDataBase(connection.getMetaData())) {
 					remarks = getOracleTableComments(tableName);
+				}
+				if(StringHelper.isBlank(remarks) && DatabaseMetaDataUtils.isMysqlDataBase(connection.getMetaData())) {
+					remarks = getMysqlTableComments(schemaName,tableName);
 				}
 				
 				Table table = new Table();
@@ -428,6 +431,11 @@ public class TableFactory {
 	
 		private String getOracleColumnComments(String table,String column)  {
 			String sql = "SELECT comments FROM user_col_comments WHERE table_name='"+table+"' AND column_name = '"+column+"'";
+			return ExecuteSqlHelper.queryForString(connection,sql);
+		}
+		
+		private String getMysqlTableComments(String schemaName, String tableName) {
+			String sql = "SELECT table_comment FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='"+schemaName+"' AND table_name='"+tableName+"'";
 			return ExecuteSqlHelper.queryForString(connection,sql);
 		}
 	}
