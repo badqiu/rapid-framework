@@ -435,7 +435,7 @@ public class TableFactory {
 		}
 		
 		private String getMysqlTableComments(String schemaName, String tableName) {
-			String sql = "SELECT table_comment FROM INFORMATION_SCHEMA.TABLES WHERE table_schema='"+schemaName+"' AND table_name='"+tableName+"'";
+			String sql = "SELECT table_comment FROM INFORMATION_SCHEMA.TABLES WHERE table_name='"+tableName+"'"; //TODO 需要增加 条件: table_schema='"+schemaName+"',当前schemaName是'',查询条件失败
 			return ExecuteSqlHelper.queryForString(connection,sql);
 		}
 	}
