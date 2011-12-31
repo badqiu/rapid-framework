@@ -173,7 +173,7 @@ public class BeanDefaultValueUtils {
             	return (Queue)new ArrayBlockingQueue(100);
             }
             if(targetType.isAssignableFrom(Iterator.class)) {
-            	return (Iterator)new ArrayList();
+            	return (Iterator)new ArrayList().iterator();
             }
             if(targetType.isAssignableFrom(Iterable.class)) {
             	return (Iterable)new ArrayList();
