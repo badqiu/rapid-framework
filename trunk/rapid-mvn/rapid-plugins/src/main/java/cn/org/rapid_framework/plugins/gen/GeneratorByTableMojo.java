@@ -3,19 +3,12 @@
  */
 package cn.org.rapid_framework.plugins.gen;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.List;
 
-import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.project.MavenProject;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
-import cn.org.rapid_framework.generator.GeneratorProperties;
 
 /**
  * 代码生成器插件的主要goal
@@ -31,7 +24,7 @@ public class GeneratorByTableMojo extends AbstarctGeneratorMojo {
 	 * @parameter expression="${table}"
 	 * 
 	 */
-	public String table;
+	public String tableParameter;
 
 	private GeneratorFacade g;
 
@@ -47,7 +40,8 @@ public class GeneratorByTableMojo extends AbstarctGeneratorMojo {
 
 		try {
 			currentThread.setContextClassLoader(getClassLoader());
-			System.out.println("current project to build: " + getProject().getName() + "\n"
+			System.out.println("current project to build: "
+					+ getProject().getName() + "\n"
 					+ getProject().getFile().getParent());
 			g = new GeneratorFacade();
 			g.getGenerator().setTemplateRootDirs("classpath:template");
@@ -56,7 +50,7 @@ public class GeneratorByTableMojo extends AbstarctGeneratorMojo {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			genByTable(table);
+			genByTable(parseStringArray(tableParameter));
 		} finally {
 			currentThread.setContextClassLoader(oldClassLoader);
 		}
@@ -66,10 +60,9 @@ public class GeneratorByTableMojo extends AbstarctGeneratorMojo {
 	public void genByTable(String... table) {
 		try {
 			g.generateByTable(table);
-			Runtime.getRuntime().exec("cmd.exe /c start " + GeneratorProperties.getRequiredProperty("outRoot"));
+			MojoUtil.openFileIfOnWindows();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }
