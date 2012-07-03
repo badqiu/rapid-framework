@@ -36,7 +36,6 @@
 		<dependency>
 			<groupId>com.googlecode.rapid-framework</groupId>
 			<artifactId>rapid-generator-template</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.freemarker</groupId>
