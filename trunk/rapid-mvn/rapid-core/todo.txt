@@ -1,0 +1,1 @@
+@GeneratedValue 的值不应该在SqlGenerator中生成
