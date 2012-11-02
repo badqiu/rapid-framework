@@ -6,7 +6,7 @@
     * rapid achetypes介绍
       * [rapid_achetype_springmvc_hibernate rapide-springmvc-hibernate项目搭建] 
       * [more_archetypes 获取更多archetypes]
-  * demo
+  * demo展示
     * [snapshot html界面预览图]
     * [flex_snapshot flex在线demo]
     * [generator_template_and_output 生成器模板及输出demo]
