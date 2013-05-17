@@ -2,7 +2,6 @@ package cn.org.rapid_framework.page.impl;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Projections;
-import org.springframework.context.annotation.DependsOn;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
@@ -17,7 +16,7 @@ public class CriteriaPage extends Page{
 		super(pageNumber,pageSize,queryTotalCount(criteria));
 		result = criteria
 			.setFirstResult(getFirstResult())
-			.setMaxResults(this.pageSize).list();
+			.setMaxResults(getPageSize()).list();
 	}
 	
 	public CriteriaPage(Criteria criteria,PageRequest p) {
