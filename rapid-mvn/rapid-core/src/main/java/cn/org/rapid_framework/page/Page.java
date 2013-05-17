@@ -2,18 +2,17 @@ package cn.org.rapid_framework.page;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import cn.org.rapid_framework.util.page.PageQuery;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * <pre>
  * 分页信息
  * 第一页从1开始
  * 
- * 已经过时,使用PageList替代
  * </pre>
  * 
  * @see cn.org.rapid_framework.util.page.PageList
@@ -24,11 +23,7 @@ public class Page<T> implements Serializable, Iterable<T> {
 
 	protected List<T> result;
 
-	protected int pageSize;
-
-	protected int pageNumber;
-
-	protected int totalCount = 0;
+	private Paginator paginator;
 
 	public Page(PageRequest p, int totalCount) {
 		this(p.getPageNumber(), p.getPageSize(), totalCount);
@@ -38,32 +33,45 @@ public class Page<T> implements Serializable, Iterable<T> {
 		this(p.getPage(), p.getPageSize(), totalCount);
 	}
 
+	@Deprecated
 	public Page(int pageNumber, int pageSize, int totalCount) {
 		this(pageNumber, pageSize, totalCount, new ArrayList(0));
 	}
 
+	@Deprecated
 	public Page(int pageNumber, int pageSize, int totalCount, List<T> result) {
 		if (pageSize <= 0)
 			throw new IllegalArgumentException("[pageSize] must great than zero");
-		this.pageSize = pageSize;
-		this.pageNumber = PageUtils.computePageNumber(pageNumber, pageSize, totalCount);
-		this.totalCount = totalCount;
+		this.paginator = new Paginator(pageNumber,pageSize,totalCount);
 		setResult(result);
 	}
 
+	public Page(Paginator paginator) {
+		setPaginator(paginator);
+	}
+	
+	public Page(List<T> itemList, Paginator paginator) {
+		setItemList(itemList);
+		setPaginator(paginator);
+	}
+	
+	/**
+	 * 用setItemList() 替换
+	 */
+	@Deprecated
 	public void setResult(List<T> elements) {
-		if (elements == null)
-			throw new IllegalArgumentException("'result' must be not null");
-		this.result = elements;
+		setItemList(elements);
 	}
 
 	/**
 	 * 当前页包含的数据
-	 *
+	 * 用 getItemList() 替换
+	 * 
 	 * @return 当前页数据源
 	 */
+	@Deprecated
 	public List<T> getResult() {
-		return result;
+		return getItemList();
 	}
 
 	/**
@@ -108,7 +116,7 @@ public class Page<T> implements Serializable, Iterable<T> {
 	 * @return 最后一页页码
 	 */
 	public int getLastPageNumber() {
-		return PageUtils.computeLastPageNumber(totalCount, pageSize);
+		return PageUtils.computeLastPageNumber(getTotalCount(), getPageSize());
 	}
 
 	/**
@@ -117,7 +125,7 @@ public class Page<T> implements Serializable, Iterable<T> {
 	 * @return 总数量
 	 */
 	public int getTotalCount() {
-		return totalCount;
+		return paginator.getTotalItems();
 	}
 
 	/**
@@ -163,7 +171,7 @@ public class Page<T> implements Serializable, Iterable<T> {
 	 * @return 每一页显示的条目数
 	 */
 	public int getPageSize() {
-		return pageSize;
+		return paginator.getPageSize();
 	}
 
 	/**
@@ -172,7 +180,7 @@ public class Page<T> implements Serializable, Iterable<T> {
 	 * @return 当前页的页码
 	 */
 	public int getThisPageNumber() {
-		return pageNumber;
+		return paginator.getPage();
 	}
 
 	/**
@@ -197,10 +205,30 @@ public class Page<T> implements Serializable, Iterable<T> {
 	 * @return
 	 */
 	public int getFirstResult() {
-		return PageUtils.getFirstResult(pageNumber, pageSize);
+		return PageUtils.getFirstResult(getThisPageNumber(), getPageSize());
+	}
+	
+	public List<T> getItemList() {
+		return result;
+	}
+
+	public void setItemList(List<T> itemList) {
+		if(itemList == null) 
+			throw new IllegalArgumentException("'itemList' must be not null");
+		this.result = itemList;
+	}
+
+	public Paginator getPaginator() {
+		return paginator;
+	}
+
+	public void setPaginator(Paginator paginator) {
+		if(paginator == null) 
+			throw new IllegalArgumentException("'paginator' must be not null");
+		this.paginator = paginator;
 	}
 
 	public Iterator<T> iterator() {
-		return result == null ? Collections.emptyList().iterator() : result.iterator();
+		return result == null ? (Iterator<T>)Collections.emptyList().iterator() : result.iterator();
 	}
 }
