@@ -16,22 +16,27 @@ public class MultiThreadTestUtils {
 	 * @return costTime
 	 * @throws InterruptedException 
 	 */
+	@Deprecated
 	public static long executeAndWait(int threadCount,final Runnable task) throws InterruptedException {
-		CountDownLatch doneSignal = execute(threadCount, task);
+		return execute(threadCount,task);
+	}
+	
+	/**
+	 * 执行测试并等待执行结束,返回值为消耗时间
+	 * 
+	 * @param threadCount 线程数
+	 * @param task 任务
+	 * @return costTime
+	 * @throws InterruptedException 
+	 */
+	public static long execute(int threadCount,final Runnable task) throws InterruptedException {
+		CountDownLatch doneSignal = execute0(threadCount, task);
 		long startTime = System.currentTimeMillis();
 		doneSignal.await();
 		return System.currentTimeMillis() - startTime;
 	}
-	
-	/**
-	 * 执行测试
-	 * 
-	 * @param threadCount
-	 * @param threadDemeon
-	 * @param task
-	 * @return 返回doneSignal
-	 */
-	public static CountDownLatch execute(int threadCount,final Runnable task) {
+
+	private static CountDownLatch execute0(int threadCount,final Runnable task) {
 		final CountDownLatch startSignal = new CountDownLatch(1);
 		final CountDownLatch startedSignal = new CountDownLatch(threadCount);
 		final CountDownLatch doneSignal = new CountDownLatch(threadCount);
@@ -65,5 +70,5 @@ public class MultiThreadTestUtils {
 		startSignal.countDown();
 		return doneSignal;
 	}
-
+	
 }
