@@ -12,19 +12,17 @@ public class MultiThreadTestUtilsTest extends TestCase {
 	private AtomicInteger executedCount = new AtomicInteger();
 	int expectedCount = 2000;
 	public void testExecute() throws InterruptedException {
-		CountDownLatch doneSignel = MultiThreadTestUtils.execute(expectedCount, new Runnable() {
+		MultiThreadTestUtils.execute(expectedCount, new Runnable() {
 			public void run() {
 				executedCount.getAndIncrement();
 			}
 		});
 		
-		doneSignel.await();
-		
 		assertEquals(expectedCount,executedCount.intValue());
 	}
 	
 	public void testExecuteFail() throws InterruptedException {
-		CountDownLatch doneSignel = MultiThreadTestUtils.execute(expectedCount, new Runnable() {
+		MultiThreadTestUtils.execute(expectedCount, new Runnable() {
 			public void run() {
 				executedCount.getAndIncrement();
 			}
