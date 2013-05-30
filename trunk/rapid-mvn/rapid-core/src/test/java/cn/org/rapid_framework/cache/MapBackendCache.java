@@ -1,19 +1,22 @@
 package cn.org.rapid_framework.cache;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MapBackendCache implements Cache {
-	private Map map = new HashMap();
+	private Map map = new LRUMap(100,10000);
+	
 	public class Value {
 		long gmtCreate = System.currentTimeMillis();
-		int expiration;
+		long expiration;
 		Object value;
 		public Value(Object value, int expiration) {
 			this.value = value;
 			this.expiration = expiration * 1000;
 		}
 	}
+	
 	public void add(String key, Object value, int expiration) {
 		map.put(key, new Value(value,expiration));
 	}
@@ -23,7 +26,7 @@ public class MapBackendCache implements Cache {
 	}
 
 	public long decr(String key, int by) {
-		Long v = (Long)map.get(key);
+		Long v = (Long)get(key);
 		if(v == null) {
 			v = -(long)by;
 		}else {
@@ -45,6 +48,7 @@ public class MapBackendCache implements Cache {
 			delete(key);
 			return null;
 		}else {
+			value.gmtCreate = System.currentTimeMillis();
 			return value.value;
 		}
 	}
@@ -59,7 +63,7 @@ public class MapBackendCache implements Cache {
 	}
 
 	public long incr(String key, int by) {
-		Long v = (Long)map.get(key);
+		Long v = (Long)get(key);
 		if(v == null) {
 			v = (long)by;
 		}else {
@@ -98,6 +102,24 @@ public class MapBackendCache implements Cache {
 
 	public void stop() {
 		map.clear();
+	}
+	
+	public class LRUMap<K,V> extends LinkedHashMap<K,V>
+	{
+	    protected final int _maxEntries;
+	    
+	    public LRUMap(int initialEntries, int maxEntries)
+	    {
+	        super(initialEntries, 0.8f, true);
+	        _maxEntries = maxEntries;
+	    }
+
+	    @Override
+	    protected boolean removeEldestEntry(Map.Entry<K,V> eldest)
+	    {
+	        return size() > _maxEntries;
+	    }
+
 	}
 
 }
