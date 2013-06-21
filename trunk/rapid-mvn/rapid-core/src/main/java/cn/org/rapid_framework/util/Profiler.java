@@ -134,33 +134,47 @@ public final class Profiler {
     
     /**
      * 结束最近的一个step，记录结束时间。
+     * @return 耗时
      */
-    public static void release() {
-    	release(0);
+    public static long release() {
+    	return release(0);
     }
 
     /**
      * 结束最近的一个step，记录结束时间。
      * @param loopCount   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
+     * @return 耗时
      */
-    public static void release(long loopCount) {
-    	release(null,loopCount,0);
+    public static long release(long loopCount) {
+    	return release(null,loopCount,0);
     }
     
     /**
      * 结束最近的一个step，记录结束时间。
      * @param loopCount   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
+     * @return 耗时
      */
-    public static void release(long loopCount,int resultSize) {
-    	release(null,loopCount,resultSize);
+    public static long release(long loopCount,int resultSize) {
+    	return release(null,loopCount,resultSize);
     }
 
     /**
      * 结束最近的一个step，记录结束时间。
      * @param e 异常，得到方法执行的异常
+     * @return 耗时
      */
-    public static void release(Throwable e) {
-    	release(e,0,0);
+    public static long release(Throwable e) {
+    	return release(e,0,0);
+    }
+    
+    /**
+     * 结束最近的一个step，记录结束时间。
+     * @param loopCount   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
+     * @param e 异常，得到方法执行的异常
+     * @return 耗时
+     */
+    public static long release(Throwable e,long loopCount) {
+    	return release(e,loopCount,0);
     }
     
     /**
@@ -168,21 +182,13 @@ public final class Profiler {
      * @param loopCount   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
      * @param e 异常，得到方法执行的异常
      */
-    public static void release(Throwable e,long loopCount) {
-    	release(e,loopCount,0);
-    }
-    
-    /**
-     * 结束最近的一个step，记录结束时间。
-     * @param loopCount   循环变量,用于计算TPS(每秒事务处理量Transaction Per Second)
-     * @param e 异常，得到方法执行的异常
-     */
-    public static void release(Throwable e,long loopCount,int resultSize) {
+    public static long release(Throwable e,long loopCount,int resultSize) {
         Step currentStep = getCurrentStep();
 
         if (currentStep != null) {
-            currentStep.release(e,loopCount,resultSize);
+            return currentStep.release(e,loopCount,resultSize);
         }
+        return 0;
     }
     
     /**
@@ -496,7 +502,7 @@ public final class Profiler {
 		/**
          * 结束当前step，并记录结束时间。
          */
-        private void release(Throwable e,long loopCount,int resultSize) {
+        private long release(Throwable e,long loopCount,int resultSize) {
         	if(loopCount > 0) {
         		this.loopCount = loopCount;
         	}
@@ -507,6 +513,7 @@ public final class Profiler {
         		this.resultSize = resultSize;
         	}
         	endTime = System.currentTimeMillis();
+        	return getDuration();
 		}
         
         /**
