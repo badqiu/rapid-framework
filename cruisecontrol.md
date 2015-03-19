@@ -1,0 +1,23 @@
+# 持续集成 #
+公司推荐使用[hudson](http://hudson-ci.org/)作为持续集成工具. 现rapid使用cruisecontrol是由于没有更新至hudson
+
+请下载预先为rapid配置好的cruisecontrol
+
+**下载地址:**
+
+http://rapid-framework.googlecode.com/files/cruisecontrol-bin-2.8.2-for-rapidframework.zip
+
+**压缩包包含:**
+  * cruisecontrol
+  * subversion
+
+56MB大小为cruisecontrol大小,未包含rapid-framework
+
+
+## 运行说明 ##
+
+1. 运行svn-checkout-rapidframework.bat将rapid-framework从svn checkout至projetcs/rapid-framework
+
+2. 设置好JAVA\_HOME并运行cruisecontrol.bat以启动持续集成服务器
+
+3. 打开浏览器访问 http://localhost:6060/dashboard,即可下载构建出来的产品

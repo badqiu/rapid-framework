@@ -1,0 +1,81 @@
+#holder pattern
+
+# Holder模式 #
+
+(本方法属于作者经验总结出该模式)
+
+Holder模式的主要功能是将一些Bean可以转为静态方法调用.方便使用.
+
+适用于一些系统只存在单例(singleton)并且 **十分常用** 的基础服务对象.这些基础服务如果每次使用spring注入,只会增加无谓的代码及一些不确定性.
+
+**示例如下:**
+```
+BeanValidatorHolder.validate(bean) // HibernateValidator一般系统只有一个
+CacheHolder.get("key") //如Memcached,应用系统也只有一个对象
+ApplicationContextHolder.getBean("userInfoService");
+```
+
+**与singleton相比特点**
+  * 一个Holder只能持有一个对象
+  * Holder一般是持有接口,所以你可以方便的改变实现
+  * 配合spring完成Holder初始化
+
+## 示例1.CacheHolder ##
+用于持有Cache对象
+
+**1.1在spring中初始化**
+```
+<bean class="cn.org.rapid_framework.util.holder.CacheHolder">
+    <property name="cache" ref="memcacheCacheImpl"/>
+</bean>
+```
+
+**1.2使用**
+CacheHolder使用
+```
+CacheHolder.add("key","cache_value","1h");
+//do something
+```
+
+**1.3实现**
+```
+public class CacheHolder implements InitializingBean{
+    private static Cache cache;
+    
+    public void afterPropertiesSet() throws Exception {
+        if(cache == null) throw new IllegalStateException("not found 'cache' for CacheHolder ");
+    }
+	
+    public void setCache(Cache c) {
+    	if(this.cache != null) 
+	   throw new IllegalStateException("CacheHolder already holded 'cache'");
+    	cache = c;
+    }
+    
+    public static Cache getCache(){
+    	return cache;
+    }
+    
+    public static void add(String key, Object value, String expiration) {
+        cache.add(key, value, parseDuration(expiration));
+    }
+
+    public static void cleanHolder() {
+        cache = null;
+    }
+	
+}
+```
+
+## 其它可以存在的Holder ##
+| **holder** | **功能** |
+|:-----------|:-----------|
+| **BeanValidatorHolder** | 用于持有Hibernate Validator |
+| **SpringValidatorHolder** | 用于持有Spring Validator |
+| **ApplicationContextHolder** | 用于持有Spring ApplicationContext |
+| **CacheHolder** | 用于持有Cache |
+| **MessagePublisherHodler** | 用于持有类似JMS消息中心的消息发送|
+| **MessageSourceHolder** | 持用MessageSource,用于国际化 |
+| **MailerHolder** | 用于邮件发送的Mailer |
+| **ConfigHolder** | 用于持有配置,需要动态刷新的参数使用,请查看文章[保持类的无状态](http://badqiu.javaeye.com/blog/674321) |
+| **SecurityManagerHolder** | 用于权限控制的SecurityManager |

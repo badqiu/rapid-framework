@@ -1,0 +1,105 @@
+
+
+# 一.目的 #
+  1. 使jsp可以实现类似"类"的继承关系,并不限继承层次
+  1. **页面布局**,父jsp页面定义好布局,子jsp可以重定义布局中的部分内容
+
+# 二.介绍 #
+使用过python django模板的应该清楚，django里面有一个激动人心的功能就是模板可以使用类的继承关系。 即模板是可以继承的，并且不限继承的层次。
+
+如:
+  1. child.jsp extends base.jsp
+  1. grandchild.jsp extends child.jsp
+
+这样，我们在base.jsp中定义好html布局,然后在“子jsp”（我们这样称呼吧）重定义部分父页面的内容即可
+
+# 三.jsp继承概览 #
+现在我们来看jsp中如何实现此功能(django与下面的声明类似)。
+
+**父页面: base.jsp,定义布局**
+```
+<%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
+<html>  
+<haed>
+   <rapid:block name="head">
+        base_head_content
+   </rapid:block>
+</head>  
+<body>  
+   <br />  
+   <rapid:block name="content">
+      base_body_content
+   </rapid:block>  
+</body>  
+</html>
+```
+**子页面: child.jsp**
+```
+<%@ taglib uri="http://www.rapid-framework.org.cn/rapid" prefix="rapid" %>  
+<% //重定义父页面name=content的内容 %>  
+<rapid:override name="content">  
+     <div>
+        <h2>Entry one</h2>
+        <p>This is my first entry.</p>
+    </div>
+</rapid:override>  
+   
+<!-- extends from base.jsp -->  
+<%@ include file="base.jsp" %> 
+```
+
+## 输出 ##
+
+**访问child.jsp输出:**
+```
+<html>
+<haed>  
+ base_head_content
+</haed>  
+<body>  
+ <br />  
+     <div>
+        <h2>Entry one</h2>
+        <p>This is my first entry.</p>
+    </div>
+</body>  
+</html> 
+```
+
+可以看到，child.jsp的的body输出内容被`<rapid:override/>`重定义了,而head部分还是base.jsp的内容.
+
+总共我们使用了两个jsp tag: block,override，还有@include指令.
+# 四.jsp tag介绍 #
+
+  * **`block tag:`**
+    * 定义块，可以被子模板用override tag覆盖显示,没有被override则显示自身的内容
+  * **`override tag:`**
+    * 重定义block tag显示的内容
+  * **@include指令(或者是**
+
+&lt;jsp:include&gt;
+
+):*** 通过该指令来实现继承(extends)的功能（只能使用这个技巧），该指令必须放置在页面的**最后面
+
+**rapid v3.5以后版本将支持**
+
+&lt;jsp:include/&gt;
+
+**```
+<jsp:include page="base.jsp">
+   <jsp:param name="fitstParamer" value="firstValue">
+   <jsp:param name="secondParamer" value="secondValue">
+</jsp:include>
+```**
+
+# 五.动态继承(extends) #
+可以通过参数动态的include,示例:
+```
+<jsp:include page="${someIncludePage}"/>
+```
+这样就可动态的继承某页面,改变布局
+
+# 六.源代码 #
+只用两个主要的类即实现的整个功能.
+
+http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/web/tags/

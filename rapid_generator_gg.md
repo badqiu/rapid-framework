@@ -1,0 +1,34 @@
+# 生成器模板 GG 控制变量 #
+
+gg变量可以让每一个模板自己控制一些事情,如输出目录,输出encoding,或者还可以通过gg变量生成其它文件.
+
+## 示例使用 ##
+${gg.setIgnoreOutput(true)}
+
+## 相关控制方法,示例使用:${gg.setIgnoreOutput(true)} ##
+  * boolean ignoreOutput : 不生成输出文件
+  * String outputFile : 控制文件生成的地方,没有指定则根据模板位置自动计算.
+  * String outputFiles : 同时生成几份拷贝在在几个地方
+  * String sourceEncoding : 指定模板文件的编码
+  * String outputEncoding : 控制模板生成的文件编码
+  * boolean isOverride : 是否覆盖目标文件,如果存在,默认true
+  * String outRoot : 设置输出文件的根目录
+
+## 相关只读属性,示例使用:${gg.getSourceDir()} ##
+  * String sourceFile; 模板源文件file
+  * String sourceDir; 模板源文件所在的目录
+  * String sourceFileName; 模板源文件名
+
+## 生成其它文件 ##
+${gg.generateFile(outputFile,content,encoding)}
+
+## 装载其它资源 ##
+${gg.loadXml(xmlFile,ignoreError)}
+
+## 得到property配置 ##
+  * ${gg.getProperty(key,defaultValue)}: 得到proproty,如果没有找到，则返回默认值
+  * ${gg.getInputProperty(key,message)}: 会弹出一个输入框，提示用户输入值，提示消息为message.
+  * ${gg.getInputProperty(key)}: 会弹出一个输入框，提示用户输入值，提示消息为please input value for key.
+## GG ##
+
+[GeneratorControl.java参考，请使用IE查看](http://rapid-demo.googlecode.com/svn/trunk/rapid-generator/javadoc/v3.9/cn/org/rapid_framework/generator/GeneratorControl.html)

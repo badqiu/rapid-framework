@@ -1,0 +1,137 @@
+
+
+# 介绍 #
+
+以下将详细描述flex+hibernate的项目搭建方法
+
+# 环境介绍 #
+  * IDE: MyEclipse 6.5
+  * 数据库: Mysql 5
+  * JDK: 1.5
+  * flex builder3 eclipse插件版本
+  * flex sdk 3.5
+
+# flex+hibernate详细搭建介绍 #
+
+## 一.初始项目配置 ##
+### 1.1 创建名称为flexdemo的web project ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/1.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/1.jpg)
+### 1.2 拷贝rapid-framework至项目根目录 ###
+将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝完效果如下.
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/2.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/2.jpg)
+### 1.3 设置项目的编码为utf-8 ###
+右键点击项目,修改项目属性
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/3.jpg)
+### 1.4 设置源码路径 ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/4.jpg)
+### 1.5 将generator/lib的jars加入classpath ###
+点击"Add jars"按钮将生成器依赖的jar包需要加入classpath
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/5.jpg)
+
+### 1.6 安装插件 hibernate及flex\_cairngorm ###
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
+
+打开plugins/build.xml,并打开eclipse的 Outline 视图
+
+现运行 install\_flex\_cairngorm及 install\_dao\_hibernate 任务
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/6.jpg)
+
+### 1.7 在mysql数据库中创建表user\_info ###
+在test数据库创建表,运行如下sql
+```
+CREATE TABLE user_info (
+  user_id bigint  PRIMARY KEY AUTO_INCREMENT,
+  username varchar(50) not null,
+  password varchar(50),
+  birth_date date,
+  sex int,
+  age int  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+### 1.8 修改生成器配置文件generator.properties的jdbc数据库连接信息 其它属性暂不修改 ###
+
+```
+jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8 
+jdbc.driver=com.mysql.jdbc.Driver 
+jdbc.username=root 
+jdbc.password=abc123
+```
+
+### 1.9 运行代码生成器`GeneratorMain.java` ###
+以application的方式运行cn.org.rapid\_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表.
+```
+public class GeneratorMain {
+	/**
+	 * 请直接修改以下代码调用不同的方法以执行相关生成任务.
+	 */
+	public static void main(String[] args) throws Exception {
+		GeneratorFacade g = new GeneratorFacade();
+//		g.printAllTableNames();				//打印数据库中的表名称
+		
+		g.clean();							//删除生成器的输出目录
+		g.generateByTable("user_info");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
+
+		//打开文件夹
+		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+	}
+}
+```
+
+
+### 1.10 拷贝生成的代码至项目根目录,并刷新项目 ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/7.jpg)
+
+
+---
+
+## 二.flex相关操作 ##
+### 2.1 增加Flex Project Nature(1) ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_1.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_1.jpg)
+### 2.2 增加Flex Project Nature(2) ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_2.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_2.jpg)
+### 2.3 增加Flex Project Nature(3) ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_3.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_3.jpg)
+### 2.4 设置Flex Build Path ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_4.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_4.jpg)
+### 2.5 设置Flex Applications ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/flex_5.jpg)
+### 2.6 flex源代码的相关配置修改 ###
+根据生成器生成的flex\_src/readme.txt执行如下相关操作.
+```
+	//copy follow code to appcommon.flex.GlobalControler.as: cairngorm中event与command的映射
+
+			import com.company.project.user_info.UserInfoRegister;
+	
+			// UserInfo event and command mapping
+			UserInfoRegister.initialiseCommands(this)
+
+	//copy follow code to appcommon.flex.Services.mxml
+
+	<!--userInfoFlexService-->
+	<mx:RemoteObject endpoint="../messagebroker/amf"
+					 id="userInfoFlexService"
+					 destination="userInfoFlexService"
+					 showBusyCursor="true"/>
+```
+
+
+---
+
+## 三.部署 ##
+### 3.1 修改src/resources/jdbc.properties的数据库连接信息 ###
+该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与第1.8步的数据库连接配置相同即可
+```
+jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8 
+jdbc.driver=com.mysql.jdbc.Driver 
+jdbc.username=root 
+jdbc.password=abc123
+```
+### 3.2 部署应用flexdemo至tomcat ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/deploy_to_tomcat.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/deploy_to_tomcat.jpg)
+### 3.3 启动tomcat,访问URL: http://localhost:8080/flexdemo/flex/UserInfoIndex.swf ###
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/last.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex_step_by_step/last.jpg)

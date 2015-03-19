@@ -1,0 +1,158 @@
+
+
+# 通过SQL语句生成代码 #
+可以通过一条sql语句(select,insert,update,delete)生成相关代码,如为ibatis生成参数及查询结果.
+或者直接根据sql语句生成html界面.
+
+# 应用场景 #
+  1. 适用于ibatis2,mybatis,生成dao及dao parameterObject,dao queryResultObject
+  1. 如果是信息管理系统,你甚至可以通过一个SQL语句生成Service,Action至html查询页面
+注意: 生成的代码配合手工编辑提升开发效率,不要完全依赖代码生成. 因为一定无法满足所有需求
+只满足大部分需求.
+
+# 实际的例子 #
+我们通过一个实际的例子来演示使用,通过一个Sql查询生成ibatis的SqlMap及Dao.java
+API使用:
+```
+public void test_generate_by_sql() throws Exception {
+	Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");  //同时支持 #param# $param$ #{param} ${param} :param 几种占位符
+	sql.setTableSqlName("user_info");
+	sql.setMultiplicity("many");  //many or one,用于控制查询结果是one,many
+	sql.setOperation("findByUsernameAndPassword"); 
+	sql.setRemarks("根据用户名及密码进行查询");
+	new GeneratorFacade().generateBySql(sql, "generator/test/for_test_select_sql");
+}
+```
+
+可以根据以上提供的API封装出各种使用方法,如 **eclipse插件** , **swing查询界面**
+
+**占位符风格:**
+  * iBatis3占位符风格: #{param} ${param}
+  * iBatis2占位符风格: #param# $param$
+  * hibernate及spring\_jdbc占位符风格: :param
+
+## 生成的代码 ##
+### UserInfoDAO ###
+```
+/**
+* 根据用户名及密码进行查询
+* sql: select * from user_info where username=? and password=?
+*/
+@SuppressWarnings("unchecked")
+public List<UserInfo> findByUsernameAndPassword(String username ,String password ) {
+	Map<String,Object> param = new HashMap<String,Object>();
+	param.put("username",username);
+	param.put("password",password);
+	return (List<UserInfo>)getSqlMapClientTemplate().queryForList("findByUsernameAndPassword",param);
+}
+```
+### UserInfoSqlMap.xml ###
+```
+<select id="UserInfo.findByUsernameAndPassword" resultMap="RM-UserInfo" >
+    <![CDATA[
+	select USER_ID,USERNAME,PASSWORD,BIRTH_DATE,SEX,AGE 
+	from user_info 
+	where username=#username# and password=#password#
+    ]]>
+</select>
+```
+
+## 相对应的生成器模板 ##
+### ${tableClassName}Dao.java ###
+```
+	/**
+	 * ${sql.remarks!}
+	 * sql: ${sql.executeSql}
+	 */
+	@SuppressWarnings("unchecked")
+	public <@generateResultClassName/> ${sql.operation}(<#list sql.params as param>${param.preferredParameterJavaType} ${param.paramName} <#if param_has_next>,</#if></#list>) {
+		Map<String,Object> param = new HashMap<String,Object>();
+		<#list sql.params as param>
+		param.put("${param.paramName}",${param.paramName});
+		</#list>
+	<#if sql.selectSql>
+		<#if sql.multiplicity = 'one'>
+		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForObject("${sql.operation}",param);
+		<#else>
+		return (<@generateResultClassName/>)getSqlMapClientTemplate().queryForList("${sql.operation}",param);
+		</#if>
+	</#if>
+	<#if sql.deleteSql>
+		return getSqlMapClientTemplate().delete("${sql.operation}", param);
+	</#if>
+	<#if sql.insertSql>
+		return getSqlMapClientTemplate().insert("${sql.operation}", param);    
+	</#if>
+	<#if sql.updateSql>
+		return getSqlMapClientTemplate().update("${sql.operation}", param);
+	</#if>	
+	}
+
+<#macro generateResultClassName>
+	<#compress>
+	<#if sql.selectSql>
+		<#if sql.multiplicity = 'one'>
+			${sql.resultClassName}
+		<#else>
+			List<${sql.resultClassName}>
+		</#if>
+	<#else>
+		int
+	</#if>
+	</#compress>
+</#macro>
+```
+### ${tableClassName}SqlMap.xml ###
+```
+<#macro namespace>${sql.tableClassName}.</#macro>
+	
+<#if sql.selectSql>
+	<#if sql.columnsCount == 1>
+	<select id="<@namespace/>${sql.operation}" resultMap="${sql.resultClassName}" >
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</select>	
+	<#else>
+	
+	<#if !sql.columnsInSameTable>
+	<resultMap id="RM-${sql.resultClassName}" class="${sql.resultClassName}">
+    <#list sql.columns as column>
+		<result property="${column.columnNameFirstLower}" column="${column.sqlName}"/>
+    </#list>
+	</resultMap>
+	</#if>
+	
+	<select id="<@namespace/>${sql.operation}" resultMap="RM-${sql.resultClassName}" >
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</select>	  	
+	</#if>
+    
+</#if>
+	
+<#if sql.updateSql>
+	<update id="UserInfo.update">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</update>
+</#if>
+	
+<#if sql.deleteSql>
+	<delete id="UserInfo.delete">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+    </delete>
+</#if>
+
+<#if sql.insertSql>
+	<insert id="UserInfo.insert">
+    <![CDATA[
+	${sql.ibatisSql}
+    ]]>
+	</insert>
+</#if>
+```

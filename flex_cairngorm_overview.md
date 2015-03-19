@@ -1,0 +1,85 @@
+
+
+# 1.概述 #
+
+现使用abode的[Cairngorm](http://opensource.adobe.com/wiki/display/cairngorm/Cairngorm)作为flex mvc框架.
+flex与后台的通讯方式使用[BlazeDS](http://opensource.adobe.com/wiki/display/blazeds/BlazeDS/)的RemoteObject进行通讯。通讯协议为AMF3.
+通过扩展BlazeDS，flex前台可以直接调用后台spring容器里面的bean方法。
+
+# 2.BlazeDS扩展 #
+
+BlazeDS本身提供一个[AbstractBootstrapService](http://livedocs.adobe.com/livecycle/es/sdkHelp/programmer/lcdsjavadoc/flex/messaging/services/AbstractBootstrapService.html)的类用于扩展,该类主要是在BlazeDS初始化时用于动态创建 services, destinations, and adapters. 通过扩展该类,用于将spring applicationContext的bean自动导出为destination,以供flex客户端调用.你也可以将JavaBean,EJB bean,其它IOC框架如Guice Bean全部导出为flex remote destinations. 比spring框架本身的[Spring BlazeDS Intergration](http://www.springsource.org/spring-flex)更加灵活，不需要依赖于spring
+
+具体实现请查看[与Spring BlazeDS Integration相比，更简单的实现来调用spring bean](rapid_flex_blazeds.md)
+
+# 3.Caringorm扩展 #
+
+
+## 3.1原生的Cairngorm MVC 概览 ##
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex/cairngorm_overview.png](http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex/cairngorm_overview.png)
+
+**存在的问题:**
+
+在上面的模型中，存在一个问题，即command在处理响应(Respond)时只能更新model的值来刷新界面的显示。但如下面这个案例会比较难以解决。
+**弹出窗口新增一个对象**
+  1. 弹出一个窗口，并点击'确定'按钮保存新增对象
+  1. 通过后台保存新增对象，保存成功则关闭窗口，保存失败则不关闭窗口
+
+在上面的需求中，如果直接使用Cairngorm 的ModelLocator会比较难以解决。因为在command中是没有持有UI对象的，所以不能关闭窗口。
+
+**解决办法：**
+
+解决办法是在 CairngormEvent中增加一属性callback : IResponder,用于回调：
+```
+public class CairngormCallbackEvent extends CairngormEvent{
+      public var callback : IResponder;
+
+      public function CairngormCallbackEvent( type : String,callback : IResponder = null,bubbles : Boolean = false, cancelable : Boolean = false)
+      {
+         super( type, bubbles, cancelable );
+         this.callback = callback;
+      }
+
+}
+```
+
+增加callback属性后，我们的程序结构如下：
+创建CairngormEvent并设置callback => 通过Delegate调用服务端方法 => 调用callback处理server的响应
+代码如下:
+```
+public function doSave() : void
+{
+	//...
+	var event: SaveUserInfoEvent = new SaveUserInfoEvent(userInfo);
+	event.callback = new Callback(saveSuccess,saveFailure); //Callback是工具类,代理了IResponder接口的result,fault方法
+	event.dispatch();
+}
+public function saveSuccess(event : Object) : void {
+      PopUpManager.removePopUp(this);
+}
+public function saveFailure(event : Object) : void {
+}
+```
+
+
+# 4. flex权限控制 #
+
+**快速开始**
+
+1)下载并添加flex\_security.swf在你的flex libs中
+
+2)启动权限控制
+```
+//启动权限控制,permissions为用户拥有的权限字符串列表
+SecurityControler.start(permissions,'visible');
+```
+
+3)通过增加styleName=security(permission,controlBy)为你的按钮增加权限控制
+```
+<mx:Button label="new user" styleName="security(user_new)" />
+<mx:Button label="update user" styleName="security(user_update)"/>
+```
+如上，如果用户拥有这两个权限(permissions):user\_new,user\_update,则可以见到这两个按钮,然后执行相关操作
+
+其它具体详情，请查看: **[flex-security](http://code.google.com/p/flex-security/)**

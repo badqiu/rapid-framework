@@ -1,0 +1,65 @@
+以下为代码生成器的模板可以引用的table变量的参考.
+
+# Table.java 参考,引用变量名为:table #
+Table对象为对应的数据库表
+
+| **属性** | **描述** | **示例值** |
+|:-----------|:-----------|:--------------|
+| **sqlName** | 数据库的列名称,很多其它值都是通过此列派生 |USER\_INFO|
+| **className** | 通过sqlName生成的类名称 |UserInfo|
+| **classNameFirstLower** | 类名称第一个字母小写 |userInfo|
+| **classNameLowerCase** | className并全部小写 |userinfo|
+| **underscoreName** | 下划线类名称 |user\_info|
+| **columns** |数据库全部column |请查阅Column.java|
+| **remarks** | 数据库的注释 |null|
+| **notPkColumns** | 非主键的column对象 |  |
+| **pkCount** | 主键数 |1 |
+| **singleId** | pkCount = 1时为true |true|
+| **compositeId** | pkCount >= 2时为true |false|
+| **idColumn** | 表的主键 |USER\_ID(已经废弃)|
+| **pkColumns** | 所有的主键列,column对象 |  |
+| **compositeIdColumns** | 等价于pkColumns,该属性已经过时|  |
+| **tableAlias** | 表的别名,值为 remarks == null ? className : remarks |UserInfo|
+| **notCompositeId** | pkCount < 2 时为true|true|
+| **primaryKeyColumns** | 所有主键列 |  |
+| **ownerSynonymName** |  |  |
+| **constantName** | 常量名,等于sqlName.toUpperCase() |USER\_INFO|
+| **importedKeys** |  |  |
+| **exportedKeys** |  |  |
+
+# Column.java 参考 #
+Column为数据库表(table)对应的列
+
+| **属性** | **描述** | **示例值** |
+|:-----------|:-----------|:--------------|
+| **sqlName** | 数据库原生列名 |USER\_ID|
+| **sqlTypeName** | 数据库原生列类型 |BIGINT|
+| **sqlType** | 数据库原生列类型 |-5|
+| **defaultValue** | 数据库原生默认值 |null|
+| **remarks** | 数据库原生番注 |用户ID|
+| **columnName** | 将sqlName删除下划线，并首字母大写 |UserId|
+| **underscoreName** | 下划列名称 |user\_id|
+| **columnNameLower** | 已经过时，使用columNameFirstLower替代 |userId|
+| **columnNameFirstLower** | columnName的第一个字母小写 |userId|
+| **columnNameLowerCase** | 等于columnName.toLowerCase() |userid|
+| **columnAlias** | 列的别名,值为 remarks == null ? columnName: remarks |userId|
+| **constantName** | 常量名称，等于sqlName.toUpperCase() |USER\_ID|
+| **validateString** | 用于rapid-validation的验证表达式 |required validate-integer |
+| **noRequiredValidateString** | 用于rapid-validation的验证表达式 |validate-integer |
+| **decimalDigits** |  |0 |
+| **indexed** | 是否索引列 |true|
+| **nullable** | 是否允许为空 |false|
+| **unique** | 是否唯一 |true|
+| **fk** | 是否外键 |false|
+| **pk** | 是否主键 |true|
+| **isNumberColumn** | 是否是number类型的列 |true|
+| **isStringColumn** | 是否是String类型的列 |false|
+| **isDateTimeColumn** | 是否是日期类型的列 |false|
+| **isNotIdOrVersionField** | 不是主键并且不等于version时为true |false|
+| **htmlHidden** | 是否需要html隐藏 |true|
+| **jdbcSqlTypeName** | 数据库列类型 |BIGINT|
+| **testData** | 该列生成的测试数据 |173|
+| **size** |  |64|
+| **javaType** | 与列相对应的java类型 |java.lang.Long|
+| **asType** | 与列相对应的ActionScript类型|Number|
+| **table** | 列相对应的table对象 |  |

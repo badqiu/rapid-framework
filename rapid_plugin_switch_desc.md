@@ -1,0 +1,77 @@
+# 介绍 #
+
+现rapid是典型的三层结构, dao,service,web controller三层.
+其中dao层及web controller层只需安装不同的插件再修改相关配置即可以切换的.
+
+
+# dao层切换 (安插插件时选择安装一种即可) #
+dao层的修改主要**包含两点**:
+  * **数据库方言的修改**,方言的主要作用是可以为jdbc,ibatis,ibatis3提供分页功能,默认是MysqlDialect
+  * **主键生成策略的修改**,默认是Mysql的auto\_increment
+另spring applicationContext-dao.xml的context:component-scan节点默认加载com..dao.
+
+```
+hibernate dao
+	1.方言(Dialect)修改: src/resource/spring/applicationContext-hibernate-dao.xml
+		默认为:MysqlDialect
+	2.主键生成策略修改:简单主键修改generator.properties的hibernate_id_generator即可,复杂主键如sequence请直接修改${className}.java,默认为increment
+
+
+ibatis dao
+	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-ibatis-dao.xml
+		 默认值为:MySQLDialect,(注:用于支持不同的数据库分页查询,该项为rapid的扩展)
+	3.主键生成策略修改:修改${className}SqlMap.xml中的<selectKey>节点,默认是使用mysql 的auto_increment
+
+
+ibatis3 dao
+	1.分页方言(Dialect)修改: src/resource/configuration.xml
+		默认值为:MySQLDialect,(注:用于支持不同的数据库分页查询,该项为rapid的扩展)
+	3.主键生成策略修改:修改${className}Mapper.xml中的insert节点,默认是适用mysql 的auto_increment(sqlserver的identity也适用)
+
+	
+spring jdbc dao
+	1.分页方言(Dialect)修改: src/resource/spring/applicationContext-jdbc-dao.xml
+		默认值为:MySQLDialect,(注:用于支持不同的数据库分页查询,该项为rapid的扩展)
+	2.主键生成策略修改
+		2.1修改模板${className}Dao.java中的save()方法; 默认适用mysql auto_increment及sqlserver identity
+		2.2其它生成策略为
+			sqlserver identity: insertWithIdentity(entity,sql);
+			oracle sequence: insertWithOracleSequence(entity,sequenceName,insertSql);
+			db2 sequence: insertWithDB2Sequence(entity,sequenceName,insertSql);
+			uuid: insertWithUUID(entity,insertSql);
+			手工分配: insertWithAssigned(entity,insertSql)
+
+```
+
+# web 框架切换 (安插插件时选择安装一种即可) #
+如果只是试用rapid-framework,默认值generator.properties的namespace=pages可不进行修改.
+```
+strust
+    配置文件web/WEB-INF/struts-config.xml
+    修改说明:
+          根据你的包结构修改struts的通配符配置
+    URL访问规则为: 
+         /namespace/Entity/method.do, 如/pages/User/list.do,
+         完整URL示例: http://localhost:8080/${context_path}/pages/User/list.do 
+
+struts2
+    配置文件src/resources/struts.xml
+    修改说明:
+     1.修改pakcage的namespace属性,因为URL访问规则是: /namesapce/Entity/method.do,默认值是pages
+     2.根据你的包结构修改action节点的class属性 
+    URL访问规则为: 
+         /namespace/Entity/method.do, 如/pages/User/list.do,
+         完整URL示例: http://localhost:8080/${context_path}/pages/User/list.do 
+
+springmvc
+    配置文件:web/WEB-INF/springmvc-servlet.xml
+    修改说明:
+	1.修改class=ControllerClassNameHandlerMapping节点的pathPrefix以确定URL生成的前缀,默认值是pages
+    URL访问规则为: 
+         /pathPrefix/Entity/method.do, 如/pages/User/list.do,
+         完整URL示例: http://localhost:8080/${context_path}/pages/User/list.do 
+
+springmvc_rest
+    不用修改配置文件.
+    URL访问规则为: http://localhost:8080/${context_path}/userinfo
+```

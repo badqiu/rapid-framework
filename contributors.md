@@ -1,0 +1,4 @@
+# 贡献者名单 #
+  * **米米饭**: 贡献ext插件,QQ:582197
+  * **随变混混**: 贡献flex4\_spring\_cairngorm插件,QQ:104104702 个人介绍: 学生，热衷于Java，flex领域的web开发，hhlai1990@gmail.com
+  * **C.jiaguo** ： ext bug修复

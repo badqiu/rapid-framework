@@ -1,0 +1,47 @@
+# v4.0路线图 #
+  1. 整个构建工具迁移至maven
+  1. 删除老的框架集成,struts
+  1. 集成安全框架
+  1. 提供sprngmvc-mybatis,flex-hibernate,struts2-ibatis等archetype
+  1. 提供 generator.war,用于生成代码使用
+
+# 以下为v3.0路线图内容 #
+**新增插件**
+  1. springmvc3.0 RESTful URL : 现struts2与springmvc的RESTful相比较,springmvc对rest支持的更好. 而struts2已经重现struts1老态龙钟的问题,灵活性不如springmvc.
+  1. ibatis3 : 竟然这么多用户,当然需要跟进ibatis3. 不过仍然推荐使用一下rapid的spring\_jdbc插件.
+  1. rapid\_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
+
+**rapid-generator代码生成器**
+  1. 将以api的方式提供rapid-generator.jar作为一个生成器引擎,以为生成器更加标准,利于模板的开发,让大家开发的模板都可以在生成器上面运行.
+  1. 增加g.generateByTable('sql\_table\_name','className')可以指定要生成的className;
+
+**其它**
+  1. 迁移至junit4
+  1. jdbc分页方言(Dialect)提供占位符的方式
+
+
+# 以下为v2.x路线图内容 #
+## 采用插件体系 ##
+> 将发布插件开发文档,便于开发插件.
+
+## 整合其它显示层技术 ##
+### Flex+BlazeDS+RemoteObject+Spring ###
+(BlazeDS其实就是精简的免费版本的LiveCycle ES,完全没有必要购买昂贵的LiveCycle.还有现在网上spring集成的方式只有一个SpringFactory例子,而框架将改造成BlazeDS+Spring零配置的方式)
+
+## Ext2的CRUD页面 ##
+
+## WEB框架 ##
+> SpringMVC
+## 增加列表组件 ##
+> Jmesa,简单的纯jsp List
+## 整合安全框架 ##
+> 基于RBAC的SpringSecurity权限管理 or 重复发明轮子rapid-security(SpringSecurity虽然很强大,但感觉真的很复杂.而普通的项目可能根本就没有必要拥有SpringSecurity那种灵活性.而框架自带的将是非常mini的安全管理.并且包含直接可用的JSP页面)
+
+## 数据访问层 ##
+
+> Ibatis,SpringJDBC,JPA
+## 其它 ##
+
+> 提供复杂模板，完成多表关联操作
+## 生成器改进 ##
+> 支持从javaclass生成代码

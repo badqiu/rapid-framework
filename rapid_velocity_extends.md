@@ -1,0 +1,91 @@
+
+
+为velocity新增加四个指令：block,override,extends,super
+
+<font color='red'>super为v3.9.3新增加指令</font>
+
+# 一.目的： #
+
+  * 父模板页面定义好布局,子模板可以重定义布局中的部分内容
+  * 使模板可以实现类似"类"的继承关系,并不限继承层次
+# 二.继承概榄： #
+
+**父模板：base.vm**
+```
+<html>  
+<head>  
+    #block("head")   
+        base_head_content   
+    #end   
+</head>  
+<body>   
+    #block("body")   
+        base_body_content   
+    #end  
+</body>  
+</html>  
+```
+
+**子模板: child.vm**
+```
+#override("body")  
+    <div class='content'>  
+        Powered By rapid-framework  
+    </div>
+    #super   
+#end  
+#extends("base.vm") 
+```
+
+**子模板child.vm**<font color='red'>输出</font>
+
+```
+<html>  
+    <head>  
+        base_head_content   
+    </head>  
+<body>   
+    <div class='content'>  
+        Powered By rapid-framework  
+    </div>
+    base_body_content   
+</body>  
+</html>  
+```
+
+
+可以看到，输出中body部分被子模板重定义(override)了，而head部分则还是显示父模板(block)中的内容。#super指令用于显示父模板的内容
+
+
+# 三.指令介绍: #
+
+  * **#block :** 定义块，可以被子模板用#override指令覆盖显示
+  * **#override :**  覆盖#block指令显示的内容
+  * **#super :** 用于在override中显示父模板的内容,与java的super关键字功能类似.<font color='red'>super为v3.9.3新增加指令</font>
+  * **#extends :** 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#parse指令，只是为了提供统一的语义，即extends比parse更好理解）
+
+# 四.使用说明: #
+
+在velocity的properties中可以设置:
+```
+userdirective=cn.org.rapid_framework.velocity.directive.BlockDirective,cn.org.rapid_framework.velocity.directive.OverrideDirective,cn.org.rapid_framework.velocity.directive.ExtendsDirective,cn.org.rapid_framework.velocity.directive.SuperDirective
+```
+
+
+然后再初始化，即可使用自定义指令：
+
+
+```
+velocityEngine.init(properties);  
+```
+<font color='red'>使用注意(性能优化):</font>**> 必须为velocity的ResourceLoader开启cache,因为 engine.getTemplate(name) 默认是没有使用cache的,而#extends是需要经常调用该函数,所以必须为ResourceLoader指定开启cache,如FileResourceLoader**
+
+
+```
+file.resource.loader.cache = true  
+```
+
+# 五.源代码 #
+只用主要的三个类即实现整个功能.
+
+http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/velocity/directive/

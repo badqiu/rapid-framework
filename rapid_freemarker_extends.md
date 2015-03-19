@@ -1,0 +1,118 @@
+
+
+现扩展freemarker，新增加四个指令： @extends,@block,@override,@super
+
+<font color='red'>@super为v3.9.3新增加指令</font>
+
+# 一.目的 #
+  1. 父模板页面定义好布局,子模板可以重定义布局中的部分内容
+  1. 使模板可以实现类似"类"的继承关系,并不限继承层次
+
+# 二.继承概榄 #
+
+**父模板: base.ftl**
+
+```
+<html>  
+    <head>  
+        <@block name="head">base_head_content</@block>  
+    </head>  
+    <body>  
+        <@block name="body">base_body_content</@block>  
+    </body>  
+</html>  
+```
+
+**子模板child.ftl**
+
+```
+<@override name="body">  
+    <div class='content'>  
+        Powered By rapid-framework  
+    </div>
+    <@super/>  
+</@override>  
+<@extends name="base.flt"/>  
+```
+
+**子模板child.ftl**<font color='red'>输出</font>
+
+```
+<html>  
+    <head>  
+        base_head_content  
+    </head>  
+    <body>  
+        <div class='content'>  
+            Powered By rapid-framework  
+        </div> 
+        base_body_content 
+    </body>  
+</html>  
+```
+
+> 可以看到，body部分被重定义了，而head部分则还是显示父模板的内容。
+
+# 三.指令介绍 #
+
+  * @block : 定义块，可以被子模板用@override指令覆盖显示,没有被override则显示自身的内容
+  * @override :  重定义@block指令显示的内容
+  * @super : 在override中显示 super block的内容,类似java的 super关键字 <font color='red'>v3.9.3新增加指令</font>
+  * @extends : 继承其它模板，必须放在模板的最后面（注：该指令完全等价于#include指令，只是为了提供统一的语义，即extends比include更好理解）
+
+**@extends使用通配符**
+
+如你有一个模板: /foo/bar/template.ftl
+```
+<@extends "*/footer.ftl">
+```
+freemarker模板引擎将自动查找:
+  * /foo/bar/footer.ftl
+  * /foo/footer.ftl
+  * /footer.ftl
+
+完全参考请查看freemarker指令：
+
+http://freemarker.sourceforge.net/docs/ref_directive_include.html
+
+# 四.使用说明 #
+
+要使用如上自定义指令，必须在freeemarker的Configuration中注册。
+使用如下代码：
+
+```
+configuration.setSharedVariable("block", new BlockDirective());  
+configuration.setSharedVariable("override", new OverrideDirective());  
+configuration.setSharedVariable("extends", new ExtendsDirective());  
+configuration.setSharedVariable("super", new SuperDirective())
+```
+
+如果你是使用springmvc,那么可以使用如下配置:
+```
+<bean id="blockDirective" class="cn.org.rapid_framework.freemarker.directive.BlockDirective"/>
+<bean id="extendsDirective" class="cn.org.rapid_framework.freemarker.directive.ExtendsDirective"/>
+<bean id="overrideDirective" class="cn.org.rapid_framework.freemarker.directive.OverrideDirective"/>
+<bean id="superDirective" class="cn.org.rapid_framework.freemarker.directive.SuperDirective"/>
+
+<!-- freemarker config for FreeMarkerViewResolver -->
+<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	<property name="templateLoaderPath" value="/freemarker/"/>
+	<property name="defaultEncoding" value="UTF-8"/>
+	<property name="freemarkerVariables">
+		<map>
+			<entry key="extends" value-ref="extendsDirective"></entry>
+			<entry key="override" value-ref="overrideDirective"></entry>
+			<entry key="block" value-ref="blockDirective"></entry>
+			<entry key="super" value-ref="superDirective"></entry>
+		</map>
+	</property>
+</bean>
+```
+
+
+# 五.源代码 #
+
+http://rapid-framework.googlecode.com/svn/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/freemarker/directive/
+
+# 六.性能测试 #
+由SeanHe提供的sitemesh,rapid性能测试比较 http://www.javaeye.com/topic/715100

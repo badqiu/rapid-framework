@@ -1,0 +1,88 @@
+
+
+# log4jdbc日志框架介绍 #
+
+
+现大家使用的ibatis,hibernate,spring jdbc的sql日志信息，有一点个缺点是占位符与参数是分开打印的,如果想要拷贝sql至PLSQL Developer客户端直接执行，需要自己拼凑sql。而log4jdbc是在jdbc层的一个日志框架，可以将占位符与参数全部合并在一起显示，方便直接拷贝sql在PLSQL Developer等客户端直接执行，加快调试速度。
+
+
+# 一.简单介绍 #
+## 1.没有使用log4jdbc前sql显示: ##
+```
+select username,password from bitth_date > ? and age < ? and username = ?  
+```
+
+## 2.使用log4jdbc后sql显示: ##
+```
+select username,password from bitth_date > to_date(‘2010-11-11’,’yyyy-mm-dd’) and age < 20 and username = ‘qq2008’ {executed in 2 msec} 
+```
+
+这样就可以直接拷贝上面的sql在PLSQL直接执行. 最后的 {executed in 2 msec} 为SQL执行时间.而如果mysql,日志信息将不会出现 to\_date()
+
+# 二.log4jdbc使用 #
+## 1.spring xml配置（拦截需要处理的dataSource连接） ##
+```
+<bean id="log4jdbcInterceptor" class="net.sf.log4jdbc.DataSourceSpyInterceptor" />  
+  
+<bean id="dataSourceLog4jdbcAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">  
+   <property name="interceptorNames">  
+       <list>  
+          <value>log4jdbcInterceptor</value>          
+       </list>  
+   </property>  
+   <property name="beanNames">  
+       <list>  
+          <value>dataSource</value>  
+       </list>  
+   </property>  
+</bean>  
+```
+
+## 2.log4j.properties配置 ##
+```
+log4j.logger.jdbc.sqlonly=OFF  
+log4j.logger.jdbc.sqltiming=INFO  
+log4j.logger.jdbc.audit=OFF  
+log4j.logger.jdbc.resultset=OFF  
+log4j.logger.jdbc.connection=OFF  
+```
+(日志信息如果全部为off,log4jdbc将不会生效,因此对性能没有任何影响)
+
+## 3.下载slf4j ##
+> log4jdbc需要依赖slf4j日志框架. http://www.slf4j.org/
+
+# 三.扩展说明 #
+DataSourceSpyInterceptor为我自己扩展的一个拦截器类,扩展主要是使用AOP的方式，因为log4jdbc原来的方式不适合我的项目.具体源码为:
+```
+import org.aopalliance.intercept.MethodInterceptor;  
+import org.aopalliance.intercept.MethodInvocation;  
+  
+public class DataSourceSpyInterceptor implements MethodInterceptor {  
+  
+    private RdbmsSpecifics rdbmsSpecifics = null;  
+      
+    private RdbmsSpecifics getRdbmsSpecifics(Connection conn) {  
+        if(rdbmsSpecifics == null) {  
+            rdbmsSpecifics = DriverSpy.getRdbmsSpecifics(conn);  
+        }  
+        return rdbmsSpecifics;  
+    }  
+      
+    public Object invoke(MethodInvocation invocation) throws Throwable {  
+        Object result = invocation.proceed();  
+        if(SpyLogFactory.getSpyLogDelegator().isJdbcLoggingEnabled()) {  
+            if(result instanceof Connection) {  
+                Connection conn = (Connection)result;  
+                return new ConnectionSpy(conn,getRdbmsSpecifics(conn));  
+            }  
+        }  
+        return result;  
+    }  
+  
+}  
+```
+
+# 四.相关链接 #
+
+  * log4jdbc:   http://code.google.com/p/log4jdbc/
+  * 另外一个对log4jdbc的扩展:  http://code.google.com/p/log4jdbc-remix/

@@ -1,0 +1,137 @@
+#修改日志
+## rapid-framework v3.9.2 20100923 ##
+**生成器改进:**
+  * generateBySql()语法解析能力加强.
+  * generateByClass()完善JavaClass相关属性.
+  * 实现[gg.setOutputFile()](rapid_generator_gg.md)功能
+**其它:**
+  * 集成[log4jdbc日志框架](log4jdbc.md),可以替换现在的hibernate,ibatis,mybatis,spring jdbc日志
+  * velocity及freemarker模板继承增加 [@super](rapid_freemarker_extends.md)指令用于显示父页面的内容.
+  * 模板中小的bug fixed
+
+## rapid-framework v3.9.2 20100720 ##
+本版本主要是生成器改进
+  * 增加 `gg.queryForList("select * from user",limit)` 方法
+  * 表名移除前缀: tableRemovePrefixes
+  * 为表配置文件增加 hasOne="ref\_table(ref\_key)" hasMany="ref\_table(ref\_key)",用于没有外键的情况手工指定,生成one-to-many及many-to-one
+  * 增加databaseType=mysql,sqlserver,oracle,db2属性用于dao层的生成
+  * generatorBySql()sql解析能力加强
+  * table自定义配置文件的格式修改
+
+## rapid-framework v3.9.0 ##
+**脚手架相关修改**
+  * 使用rapid的[jsp继承](http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends)用于网页的布局
+  * 集成hibernate validator
+  * 引用Flash Scope,用于显示消息
+  * 将extremetable替换为更简单的simpletable列表分页.
+  * dao层查询代码修改,让用户选择是否需要使用xsqlbuilder
+  * 加入SharedRenderVariableInterceptor,用于存放所有视图需要的共享变量
+  * 增加HttpInclude功能,便freemarker,velocity可以完成jsp:include功能
+  * PageRequest现在使用强类型的TableNameQuery
+  * dbunit测试改进
+  * flex插件更新至flex4(由随便混混贡献)
+**生成器相关修改**
+  * Generator包提供jar包,不直接在项目中使用源代码,以便提供一个统一的生成器引擎,大家编写的模板都可以在生成器上面运行.
+  * table变量现在可以通过配置文件自定义配置,具体请查看[rapid\_generator](http://code.google.com/p/rapid-framework/wiki/rapid_generator)
+  * 增加table变量枚举的生成
+  * log4j配置文件优化及使用Log4j MDC
+  * 生成器配置文件 generator.properties 改名为 generator.xml
+  * 生成的代码优化
+
+## rapid-framework v3.5.1 ##
+  * spring\_jdbc插件的${className}.java模板增加@Transnit标注
+  * flex模板修正
+  * 生成器忽略生成错误
+  * 生成器忽略表名的大小写
+
+## rapid-framework v3.5 ##
+**更新内容:**
+  1. jsp,freemarker,velocity的模板实现继承关系,即模板之间可以继承.
+  1. freemarker,velocity实现管道操作来进行布局
+  1. 新增分页方言: SQLServer2005Dialect
+  1. spring事务配置采用@Transactional替换xml配置
+  1. session框架,可以将session存储在数据库,cache
+  1. jdbc增加了sql生成工具类,构建最简单orm,用于进一步封装spring jdbc操作
+
+**新增插件**
+  1. **flex\_cairngorm:**  基于cairngorm mvc的flex插件,代码生成器生成的在线demo
+  1. **freemarker\_html\_view:** 基于freemarker的html视图,用于不喜欢jsp的同学使用
+
+**文档:**
+  1. 通过工具http://code.google.com/p/google-code-wiki-to-html/, 现rapid压缩包包含离线文档
+
+**其它修改:**
+  1. 目录结构进行调整.
+
+
+---
+
+## rapid-framework v3.0 ##
+
+**新增插件**
+  1. springmvc\_rest : spring restful插件,现基于springmvc3.0 rc1版本，并且rc1还有一个bug,现rapid自带一个类手工修复
+  1. ibatis3 : 现在跟随ibatis3 beta5版本，扩展实现了基于dialect的分页
+  1. rapid\_mailer : 基于spring mail的邮件发送插件,向ruby on rails的mailer靠拢
+
+**rapid-generator代码生成器**
+
+增加g.generateByTable(’sql\_table\_name’,'className’)可以指定要生成的className;
+
+**其它**
+  1. jdbc分页方言(Dialect)提供占位符的方式
+  1. 升级struts2 jars => 2.1.8
+
+
+---
+
+## rapid-framework v2.5.0 ##
+```
+	提升:
+	XsqlBuilder支持Object作为filters
+	PageRequest.filters使用范型
+	
+	新特性:
+	支持Ibatis的分页Dialect
+	新增其它数据库的jdbc分页Dialect
+	
+	生成器:
+	支持从数据库中读取注释作为alias
+	
+	生成器模板:
+	删除subpackage,使用namespace变量替换,但只作用于jsp
+	list.jsp现在包含查询
+	
+	新增插件:
+	simpletable 简单的列表分页
+	extjs		ext模板
+	
+	其它一些bugfixed及大量整理及重构
+```
+
+
+---
+
+## rapid-framework v2.0.1 ##
+  * jdbc Dialect:删除Oracle9Dialect并修正分页错误
+  * 修正flex模板错误
+  * generator的oracle数据库驱动升级为ojdbc14.jar
+  * 增加javadoc 文档
+  * 修正DBUnitUtils与dbunit2.2的编译兼容问题
+  * 修正BaseSpringJdbcDao的import编译问题
+  * 修改hibernate ${className}Dao.java模板，将"/~ order by #sortColumns# ~/"改为"/~ order by $sortColumns$ ~/"
+
+
+---
+
+## rapid-framework v1.0.2 ##
+
+jar升级
+  * rapid-xsqlbuilder升级至v1.0.1,中括号[.md](.md)默认自动进行toString()
+modules/struts2修改
+  * struts/javacommon目录调整
+  * 增加ant任务文件build.xml,install-struts2命令可以快速将web框架切换至struts2
+模板修改
+  * template/other/java\_hibernate\_xml调整目录,增加${subpackage}
+  * struts2 的${className}Action.java实现Preparable接口
+其它
+  * 关键位置增加文档说明及目录增加相关readme说明

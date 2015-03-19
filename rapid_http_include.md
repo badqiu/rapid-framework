@@ -1,0 +1,63 @@
+# 为velocity,freemarker提供jsp:include功能 #
+
+## 一.介绍 ##
+
+使用JSP的都知道jsp:include指令，可以使用如下功能，动态的加载其它请求。
+```
+<jsp:include page="/header.jsp" />  
+<jsp:include page="/servlet/header" />  
+<jsp:include page="/header.do" />  
+```
+
+而如果你不是使用JSP，而是使用模板引擎如Freemarker,Velocity。有该功能也将十分方便。
+Freemarker提供了[<@include\_page path="/servlet/header"/>](http://freemarker.sourceforge.net/docs/pgui_misc_servlet.html#pgui_misc_servlet_include)指令，使freemarker可以完成jsp:include功能，但velocity则没有提供该功能。
+
+## 二.扩展 ##
+
+现扩展实现一个比Freemarker更加通用的HttpInclude对象，可以适用于Freemarker及Velocity。
+
+
+**Freemarker及Velocity示例使用:**
+```
+${httpInclude.include("/servlet/head?p1=v1&p2=v2")};
+${httpInclude.include("/head.jsp")};
+${httpInclude.include("http://www.google.com")};
+```
+
+**与jsp:include相比:**
+  1. 与jsp:include完成相同的功能
+  1. 可以include远程的http内容.并且会将session\_id等cookie传递至该请求,如: http://www.google.com
+
+
+## 三.使用 ##
+
+以springmvc为例,笔者编写了一个拦截器.用于拦截所有的controller方法.( struts2可以编写类似拦截器)
+
+```
+import freemarker.ext.servlet.IncludePage;  
+import cn.org.rapid_framework.web.httpinclude.HttpInclude;  
+  
+public class ShareRenderArgsVariableInterceptor extends HandlerInterceptorAdapter {  
+    static Log log = LogFactory.getLog(ShareRenderArgsVariableInterceptor.class);  
+      
+    @Override  
+    public void postHandle(HttpServletRequest request,  
+            HttpServletResponse response, Object handler,  
+            ModelAndView modelAndView) throws Exception {  
+        String viewName = modelAndView.getViewName();  
+        if(viewName != null && !viewName.startsWith("redirect:")) {  
+            //笔者扩展的httpInclude  
+            modelAndView.addObject("httpInclude", new HttpInclude(request, response));  
+              
+            //freemarker 原生的IncludePage指令  
+            modelAndView.addObject("include_page", new IncludePage(request, response));  
+        }  
+    }  
+  
+}  
+```
+
+然后在freemarker或者是velocity中，就可使用: ${httpInclude.include("/head.jsp")};
+
+
+点击此处，查看[HttpInclude](http://code.google.com/p/rapid-framework/source/browse/trunk/rapid-framework/src/rapid_framework_common/cn/org/rapid_framework/web/httpinclude/HttpInclude.java)源码

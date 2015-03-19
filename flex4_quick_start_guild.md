@@ -1,0 +1,182 @@
+
+
+# 介绍 #
+
+以下将详细描述flex4+hibernate的项目搭建方法(本插件由 [\*随变混混\*](http://code.google.com/u/hhlai1990/) 贡献)
+
+# 环境介绍 #
+  * IDE: MyEclipse 8.5(flex4插件版安装需至少Myeclipse7.0以上)
+  * 数据库: Mysql 5
+  * JDK: 1.6
+  * flash builder4 eclipse插件版本
+  * flex sdk 4.0
+# flex4+hibernate详细搭建介绍 #
+优酷视频教程http://v.youku.com/v_show/id_XMTk5NTYwODcy.html
+
+## 一.初始项目配置 ##
+### 1.1 创建名称为flex4demo的web project ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/1.PNG
+
+### 1.2 拷贝rapid-framework至项目根目录 ###
+将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝文件如下.
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/2.PNG
+
+### 1.3 设置项目的编码为utf-8 ###
+右键点击项目,修改项目属性
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/3.PNG
+
+### 1.4 设置源码路径 ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/4.PNG
+
+### 1.5 将generator/lib的jars加入classpath ###
+点击"Add jars"按钮将生成器依赖的jar包需要加入classpath
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/5.PNG
+
+项目文件结构
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/6.PNG
+
+### 1.6 安装插件flex4\_cairngorm及dao\_hibernate ###
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
+
+打开plugins/build.xml,并打开MyEclipse的 Outline 视图
+
+现运行 install\_flex4\_cairngorm及 install\_dao\_hibernate 任务
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/7.PNG
+
+### 1.7 在mysql数据库中创建表user\_info ###
+在test数据库创建表,运行如下sql
+```
+CREATE TABLE user_info (
+  user_id bigint  PRIMARY KEY AUTO_INCREMENT,
+  username varchar(50) not null,
+  password varchar(50),
+  birth_date date,
+  sex int,
+  age int  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+### 1.8 修改生成器配置文件generator.properties的jdbc数据库连接信息 其它属性暂不修改 ###
+
+```
+jdbc.url=jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8 
+jdbc.driver=com.mysql.jdbc.Driver 
+jdbc.username=root 
+jdbc.password=0000
+```
+
+### 1.9 运行代码生成器`GeneratorMain.java` ###
+以application的方式运行cn.org.rapid\_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表.
+```
+public class GeneratorMain {
+	/**
+	 * 请直接修改以下代码调用不同的方法以执行相关生成任务.
+	 */
+	public static void main(String[] args) throws Exception {
+		GeneratorFacade g = new GeneratorFacade();
+//		g.printAllTableNames();				//打印数据库中的表名称
+		
+		g.clean();							//删除生成器的输出目录
+		g.generateByTable("user_info","template");	//通过数据库表生成文件,注意: oracle 需要指定schema及注意表名的大小写.
+
+		//打开文件夹
+		Runtime.getRuntime().exec("cmd.exe /c start D:\\webapp-generator-output");
+	}
+}
+```
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/9.PNG
+
+### 1.10 拷贝生成的代码至项目根目录,并刷新项目 ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/10.PNG
+
+最好删除不需要的文件夹
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/11.PNG
+
+
+
+---
+
+## 二.flex相关操作 ##
+### 2.1 增加Flex Project Nature(1) ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/12.PNG
+
+### 2.2 增加Flex Project Nature(2) ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/13.PNG
+
+### 2.3 增加Flex Project Nature(3) ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/14.PNG
+
+### 2.4 设置Flex Build Path ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/15.PNG
+改变flex4的主题为Halo,以便兼容flex3的组件特性
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/16.PNG
+
+### 2.5 设置Flex Applications ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/17.PNG
+
+### 2.6 flex源代码的相关配置修改 ###
+根据生成器生成的flex\_src/readme.txt执行如下相关操作.
+```
+	//copy follow code to appcommon.flex.GlobalControler.as: cairngorm中event与command的映射
+
+			import com.company.project.user_info.UserInfoRegister;
+	
+			// UserInfo event and command mapping
+			UserInfoRegister.initialiseCommands(this)；
+
+	//copy follow code to appcommon.flex.Services.mxml
+
+	<!--userInfoService-->
+	<mx:RemoteObject endpoint="../messagebroker/amf"
+					 id="userInfoService"
+					 destination="userInfoService"
+					 showBusyCursor="true"/>
+```
+
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/18.PNG
+
+
+---
+
+## 三.部署 ##
+### 3.1 修改java\_src/spring/applicationContext-datasource.xml的数据库连接信息 ###
+该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与第1.8步的数据库连接配置相同即可
+```
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+</bean>
+```
+
+### 3.2 部署应用flex4demo至tomcat ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/20.PNG
+
+### 3.3 启动tomcat,访问URL: http://localhost:8899/flex4demo/flex/UserInfoIndex.html ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/21.PNG
+
+### 3.49（附加）改动main.mxml的源码，再部署,访问URL:http://localhost:8899/flex4demo/flex/main.html ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/22.PNG
+
+
+---
+
+## 四.flex4强大的功能介绍，IDE内置代码生成器 ##
+### 选择数据服务 ###
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/23.PNG
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/24.PNG
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/25.PNG
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/26.PNG
+http://rapid-framework.googlecode.com/svn/trunk/images/doc/flex4_step_by_step/27.PNG
+
+### Tips: ###
+1.由于官方的Blazeds4.0会出现Nan=>0的错误，rapid修改了blazeds的flex-core.jar包,修正为Nan=>null.
+
+2.若需要将flex4与spring的结合开发,建议不要使用IDE自动生成代码功能,此功能有BUG，官方正在修复中.

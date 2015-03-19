@@ -1,0 +1,106 @@
+
+
+# 介绍 #
+
+以下将详细描述struts2+hibernate的项目搭建方法,其它的项目组合如(springmvc+iBatis,struts2+jdbc)可以参考如下步骤.
+
+
+注意: 请使用firefox或是IE7阅读本wiki,**IE6显示有问题**
+
+# 环境介绍 #
+  * IDE: MyEclipse 6.5
+  * 数据库: Mysql 5
+  * JDK: 1.5
+
+# struts2+spring+hibernate详细搭建介绍 #
+
+## 1.创建一个 struts2\_demo的 web project ##
+注意:Web root foler的值为<font color='red'><b>web</b></font>
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/1.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/1.jpg)
+
+## 2.拷贝rapid-framework至项目根目录 ##
+将rapidframework.zip解压出来的内容全部拷贝至项目根目录,拷贝完效果如下.
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/2.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/2.jpg)
+
+
+## 3.设置项目的编码为utf-8 ##
+右键点击项目,修改项目属性
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_resource_encoding.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/set_resource_encoding.jpg)
+
+## 4.设置源码路径 ##
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/4.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/v3.5/4.jpg)
+
+## 5.将generator/lib的jars加入classpath ##
+点击"Add jars"按钮将生成器依赖的jar包需要加入classpath
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_generator_jars_to_classpath.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/add_generator_jars_to_classpath.jpg)
+
+注：如果使用Eclipse，需要将web/WEB-INF/lib下jars和Tomcat的servlet-api.jar加入。
+
+## 6.安装插件 hibernate及struts2 ##
+项目为插件结构,web框架及dao层需要安装(可以安装不同的web框架或是dao层)
+
+打开plugins/build.xml,并打开eclipse的 **Outline** 视图
+
+现运行 **install\_dao\_hibernate** 及 **install\_web\_struts2** 任务,请注意安装顺序
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_plugin_installer.jpg)
+
+## 7.在mysql数据库中创建表user\_info ##
+在test数据库创建表,运行如下sql
+```
+CREATE TABLE user_info (
+  user_id bigint  PRIMARY KEY AUTO_INCREMENT,
+  username varchar(50) not null,
+  password varchar(50),
+  birth_date date,
+  sex int,
+  age int  
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+注：需要自行将数据库中插入相应的数据。
+
+## 8.修改生成器配置文件`generator.xml`的jdbc数据库连接信息 其它属性暂不修改 ##
+```
+<entry key="jdbc.username">root</entry>
+<entry key="jdbc.password">123456</entry>
+<entry key="jdbc.url">jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>	
+```
+
+## `9.运行代码生成器 GeneratorMain.java` ##
+以application的方式运行cn.org.rapid\_framework.generator.GeneratorMain,直接修改源码,在便生成不同的表.
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_generator.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/run_generator.jpg)
+
+## 10.拷贝生成的代码至项目根目录,并刷新项目 ##
+生成器生成的文件默认会输出在d:/webapp-generator-output
+
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/copy_generate_output_to_project.jpg)
+
+注：缺省Hibernate生成代码为注解方式，可以手工选择other目录下生成的XML方式代码进行替换。
+
+## 11.修改java\_src/spring/applicationContext-datasource.xml的数据库连接信息 ##
+该配置是应用需要连接的数据库,与生成器的数据库连接是分开配置的,与**第8步**的数据库连接配置相同即可
+```
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+	<property name="url" value="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8"/>
+	<property name="username" value="root"/>
+	<property name="password" value="123456"/>
+</bean>
+```
+
+注：如果生成代码缺省包不是以com开头，需要修改spring下相关的XML文件。
+
+## 12.部署应用struts2\_demo至tomcat ##
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/deploy_app_to_tomcat.jpg)
+
+## 13.启动tomcat,访问URL: http://localhost:8080/struts2_demo/pages/UserInfo/list.do ##
+![http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/view_jsp_list.jpg](http://rapid-framework.googlecode.com/svn/trunk/images/doc/struts2_hibernate_step_by_step/view_jsp_list.jpg)
+
+### 如果需要查看不同的组合，请查看[dao及web插件切换指南](rapid_plugin_switch_desc.md) ###
