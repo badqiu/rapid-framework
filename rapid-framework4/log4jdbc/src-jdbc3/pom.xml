@@ -39,12 +39,12 @@
 		<repository>
 			<id>releases</id>
 			<name>Internal Releases</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/releases/</url>
+			<url>http://10.20.122.91/nexus/content/repositories/releases/</url>
 		</repository>
 		<snapshotRepository>
 			<id>snapshots</id>
 			<name>Internal snapshots</name>
-			<url>http://dev.game.yy.com/nexus/content/repositories/snapshots/</url>
+			<url>http://10.20.122.91/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 		

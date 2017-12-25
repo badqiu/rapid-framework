@@ -1,0 +1,14 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*/.svn/*
+.svn
+.classpath
+.project
+.settings
+target
+test-output/*
+bin
