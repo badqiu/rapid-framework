@@ -56,7 +56,7 @@ import flex.messaging.services.ServiceException;
  * </pre>
  * @author Jeff Vroom
  */
-public class SpringFactory implements FlexFactory
+public class SpringFlexFactory implements FlexFactory
 {
     private static final String SOURCE = "source";
 
@@ -105,7 +105,7 @@ public class SpringFactory implements FlexFactory
 
     static class SpringFactoryInstance extends FactoryInstance
     {
-        SpringFactoryInstance(SpringFactory factory, String id, ConfigMap properties)
+        SpringFactoryInstance(SpringFlexFactory factory, String id, ConfigMap properties)
         {
             super(factory, id, properties);
         }
