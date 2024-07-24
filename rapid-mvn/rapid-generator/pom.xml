@@ -238,6 +238,7 @@
 				<configuration>
 					<charset>${project.reporting.outputEncoding}</charset>
 				</configuration>
+				<!--
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -246,6 +247,7 @@
 						</goals>
 					</execution>
 				</executions>
+				-->
 			</plugin>
 			<!-- dependency��� -->
 			<plugin>

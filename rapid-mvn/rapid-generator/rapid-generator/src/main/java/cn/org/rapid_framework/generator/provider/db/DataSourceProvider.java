@@ -9,6 +9,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import cn.org.rapid_framework.generator.GeneratorConstants;
 import cn.org.rapid_framework.generator.GeneratorProperties;
@@ -143,5 +145,9 @@ public class DataSourceProvider {
 		public String toString() {
 			return "DataSource: "+"url="+getUrl()+" username="+getUsername();
 		}
+		
+		public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+			return null;
+		}		
 	}
 }
